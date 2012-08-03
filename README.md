@@ -10,10 +10,10 @@ Outline of repository
 
 ```text
 /
-+ index.php - URL Router basen on klein.php
++ index.php					URL Router basen on klein.php
 |
-+ api
-| + index.php 
++ api						GizurCloud REST API. Built in Yii.
+| 
 |
 +- lib
 |  +- phpMyAdmin-3.5.2-all-languages
@@ -24,7 +24,7 @@ Outline of repository
 |
 +- applications 
 |  +- clab
-|     +- trailer-app
+|     +- trailer-app-portal			Portal for Trailer Claims Management Portal. Built in Yii.
 |
 +- tests
 
