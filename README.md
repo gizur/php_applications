@@ -23,8 +23,9 @@ Outline of repository
 |  +- klein.php
 |
 +- applications 
-   +- clab
-      +- trailer-app
+|  +- clab
+|     +- trailer-app
+|
++- tests
 
-
-``
+```
