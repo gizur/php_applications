@@ -1,7 +1,7 @@
 <?php
 
 require 'lib/klein.php';
-respond(function () {
-    echo 'hello world!';
+respond('gizurcloud/gizurrest/*', function () {
+    $response->render('./api/index.php');
 });
 dispatch();

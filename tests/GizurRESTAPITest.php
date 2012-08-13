@@ -21,27 +21,40 @@ require_once 'PHPUnit/Autoload.php';
 
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
-    protected $url = "http://localhost/gizurrest/index.php/api/";
+    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
    
     public function testLogin()
     {
-        $model = 'login';
+        $model = 'Authenticate';
+        $action = 'login';
         
         //set credentials
         $credentials = Array(
             'user1' => 'password1',
             'user2' => 'password2',
             'user3' => 'password3',
-            'user4' => 'password4'
+            'user4' => 'password4',
+            'anil-singh@essindia.co.in' => 'anil',
+            'test@test.com' => '123456'
         );
+        
+        $valid_credentials = Array(
+            'user1' => 'false',
+            'user2' => 'false',
+            'user3' => 'false',
+            'user4' => 'false',
+            'anil-singh@essindia.co.in' => 'true',
+            'test@test.com' => 'true'
+        );        
 
         //login using each credentials
         foreach($credentials as $username => $password){
             
             //prepare request to be sent
             $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model);
-            curl_setopt($ch, CURLOPT_HTTPGET, 1);
+            curl_setopt($ch, CURLOPT_URL, $this->url.$model."/".$action);
+	    curl_setopt($ch, CURLOPT_POST, 0);
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, array());
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 "X_USERNAME: $username",
@@ -50,13 +63,14 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
   
             //send request
             $response_json = curl_exec($ch);
+            $response = new stdClass();
             $response = json_decode($response_json);
 
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
+                $this->assertEquals($response->success,$valid_credentials[$username], " Checking validity of response");
             } else {
-                $this->assertFalse(TRUE);
+                $this->assertObjectHasAttribute('success', $response);
             }
         }
 
@@ -65,11 +79,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     }
     
     public function testGetAssetList(){
-        $model = 'asset';
-        $id = 12;
+        $model = 'Assets';
+
         //set credentials
         $credentials = Array(
-            'user1' => 'password1',
+            'anil-singh@essindia.co.in' => 'anil'
         );
 
         //login using each credentials
@@ -77,7 +91,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             
             //prepare request to be sent
             $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model."/".$id);
+            curl_setopt($ch, CURLOPT_URL, $this->url.$model."/");
             curl_setopt($ch, CURLOPT_HTTPGET, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -91,16 +105,16 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
+                $this->assertEquals($response->success,true);
             } else {
-                $this->assertFalse(TRUE);
+                 $this->assertObjectHasAttribute('success', $response);
             }
         }
 
 	//close connection
 	curl_close($ch);
     }
-    
+    /*
     public function testGetSurveyList(){
         $model = 'helpdesk';
         $category = 'survey';
@@ -405,7 +419,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
 	//close connection
 	curl_close($ch);
-    }    
+    }    */
 }
 ?>
 
