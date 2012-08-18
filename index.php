@@ -1,6 +1,6 @@
 <?php
-
-echo "Hellow World,";
+$path = getcwd();
+echo "Hellow World,".$path;
 echo phpinfo();
 
 die;
