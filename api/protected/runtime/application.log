@@ -818,3 +818,361 @@ Stack trace:
 REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/cf_637
 in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (167)
 in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 09:59:59 [error] [php] Invalid argument supplied for foreach() (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:167)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (167)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 10:01:19 [error] [php] Invalid argument supplied for foreach() (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:167)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (167)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 10:01:57 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "HelpDesk".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('HelpDesk')
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('HelpDesk')
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/HelpDesk/su...')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/survey
+---
+2012/08/16 10:27:58 [error] [php] Invalid argument supplied for foreach() (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:167)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (167)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 10:28:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "HelpDesk".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('HelpDesk')
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('HelpDesk')
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/HelpDesk/su...')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/survey
+---
+2012/08/16 13:40:18 [error] [php] Invalid argument supplied for foreach() (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:167)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (167)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:47:06 [error] [php] Object of class stdClass could not be converted to string (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:430)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (430)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:47:50 [error] [php] move_uploaded_file(./data/): failed to open stream: Is a directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:48:46 [error] [php] move_uploaded_file(./data/): failed to open stream: Is a directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:49:51 [error] [php] move_uploaded_file(./data/): failed to open stream: Is a directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:50:32 [error] [php] move_uploaded_file(./data/4751_95750180799_4282298_n.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:53:13 [error] [php] move_uploaded_file(../data/4751_95750180799_4282298_n.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:54:14 [error] [php] move_uploaded_file(../data/4751_95750180799_4282298_n.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:57:03 [error] [php] move_uploaded_file(../data/4751_95750180799_4282298_n.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 13:57:30 [error] [php] move_uploaded_file(../data/4751_95750180799_4282298_n.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 14:05:43 [error] [php] move_uploaded_file(): The second argument to copy() function cannot be a directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 14:27:58 [error] [php] move_uploaded_file(): The second argument to copy() function cannot be a directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:397)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (397)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 16:12:57 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "HelpDesk".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('HelpDesk')
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('HelpDesk')
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/HelpDesk/9x...')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+---
+2012/08/16 16:44:29 [error] [php] Invalid argument supplied for foreach() (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:167)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (167)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 16:58:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "HelpDesk".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('HelpDesk')
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('HelpDesk')
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/HelpDesk/9x...')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+---
+2012/08/16 16:58:42 [error] [php] Attempt to assign property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:325)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (325)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 16:59:42 [error] [php] Attempt to assign property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:325)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (325)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 17:29:44 [error] [php] Attempt to assign property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:345)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (345)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 17:30:41 [error] [php] Attempt to assign property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:345)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (345)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 17:31:54 [error] [php] Attempt to assign property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:346)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (346)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 17:34:19 [error] [php] Attempt to modify property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:344)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (344)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 17:34:52 [error] [php] Attempt to modify property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:344)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (344)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 17:37:22 [error] [php] get_class() expects parameter 1 to be object, string given (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:345)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (345)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/16 18:28:05 [error] [php] implode(): Invalid arguments passed (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:330)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (330)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/17 09:37:26 [error] [php] Invalid argument supplied for foreach() (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:163)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (163)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/17 09:37:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "HelpDesk".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('HelpDesk')
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('HelpDesk')
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/HelpDesk/su...')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/survey
+---
+2012/08/17 09:54:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "HelpDesk".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('HelpDesk')
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('HelpDesk')
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/HelpDesk/su...')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/survey
+---
