@@ -8,12 +8,18 @@ Outline of repository
 ---------------------
 
 
-```text
+``` text
+
 /
-+ index.php					URL Router basen on klein.php
++- index.php					URL Router based on klein.php
 |
-+ api						GizurCloud REST API. Built in Yii.
++- api						GizurCloud REST API. Built in Yii.
 | 
++- instance-configuration
+|  +- gc3-<ec2 region>
+|  +- gc4-ireland
+|  +- gc1-ireland
+|  +- gc1-<ec2 region>
 |
 +- lib
 |  +- phpMyAdmin-3.5.2-all-languages
@@ -27,16 +33,35 @@ Outline of repository
 +- applications 
 |  +- clab
 |  |  +- trailer-app-portal			Portal for Trailer Claims Management Portal. Built in Yii.
-|  |     +- config.inc.php
 |  +- sample-client
 |     +- sample-app
-|        +- config.inc.php 
 |
 +- tests
 |
 +- errors
 
+
 ```
+
+Files that have configuration specific for the EC2 instance reside in the directory 
+
+* instance-configuration/gc<gizur cloud number>-<ec2 region>
+
+
+Each instance configuration consists of the following folders and files:
+
+
+``` text
+
+...
+|
++- gc3-ireland
+|     +- vtiger
+|        +- config.inc.php
+
+
+```
+
 
 
 URL Routing
@@ -79,6 +104,7 @@ Each gizur.com account will have the following:
 * Name
 * Phone number
 * Postal adress (street, zip, city, country ect.)
+* Client id - unique client identifier. All applications for the client are located at gizur.com/<clientid>/<application id>
 * API Key 1 - radnom string of 20 characters, digits, upper case only, exmaple AKIAJVRED4VYJS43ELWQ
 * API Secret 1  - random string of 40 characters, digits, upper and lower case
 * API Key 2 - radnom string of 20 characters, digits, upper case only, exmaple AKIAJVRED4VYJS43ELWQ
