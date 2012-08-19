@@ -142,7 +142,7 @@ class CURL extends CComponent
 		// If its an array (instead of a query string) then format it correctly
 		if (is_array($params))
 		{
-			$params = http_build_query($params, NULL, '&');
+			//$params = http_build_query($params, NULL, '&');
 		}
 
 		// Add in the specific options provided

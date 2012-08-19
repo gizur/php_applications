@@ -11,7 +11,7 @@ class ApiController extends Controller {
      * Key which has to be in HTTP USERNAME and PASSWORD headers 
      */
 
-    Const VT_REST_URL = "http://localhost/vtigercrm/webservice.php";
+    Const VT_REST_URL = "http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php";
 
     /**
      * Default response format
@@ -56,10 +56,9 @@ class ApiController extends Controller {
                     $rest->set_header('Content-Type', 
                             'application/x-www-form-urlencoded');
                     $response = $rest->post(self::VT_REST_URL.
-                            "?operation=logincustomer", array(
-                        'username'=>$customerportal_username,
-                        'password'=>$customerportal_password
-                    ));
+                            "?operation=logincustomer", 
+                            "username=$customerportal_username&password=$customerportal_password");
+                    
                     $response = json_decode($response);
                     if ($response->success==false)
                         throw new Exception("Invalid Username and Password");
@@ -77,10 +76,7 @@ class ApiController extends Controller {
                     $generatedKey = md5($challengeToken.$userAccessKey);
                     
                     $response = $rest->post(self::VT_REST_URL."?operation=login", 
-                            array(
-                                'username'=> $username, 
-                                'accessKey' => $generatedKey
-                                ));
+                            "username=$username&accessKey=$generatedKey");
                     $response = json_decode($response); 
                     if ($response->success==false)
                         throw new Exception("Invalid generated key");                    
@@ -250,7 +246,7 @@ class ApiController extends Controller {
                 $rest = new RESTClient();
                 $rest->format('json');                    
                 echo $response = $rest->get(self::VT_REST_URL."?$params");               
-                break;      
+                break;                  
             
             default :
                 $response = new stdClass();
@@ -282,6 +278,76 @@ class ApiController extends Controller {
              *******************************************************************
              */                
             case 'HelpDesk':
+                //Get $customerportal_username and $customerportal_password 
+                //from header
+                $customerportal_username = $_SERVER['HTTP_X_USERNAME'];
+                $customerportal_password = $_SERVER['HTTP_X_PASSWORD']; 
+
+                //Get the Session ID from cache
+                $cache_key = json_encode(array(
+                    'username'=>$customerportal_username,
+                    'password'=>$customerportal_password
+                ));                     
+                $sessioninfo = json_decode(Yii::app()->cache->get($cache_key));
+                $sessionId = $sessioninfo->sessionName;
+                
+                //Send request to vtiger REST service
+                //cf_633 => Trouble Ticket Type
+                $query = "select * from " . $_GET['model'] . 
+                        " where id = " . $_GET['id'] . ";";
+
+                //urlencode to as its sent over http.
+                $queryParam = urlencode($query);
+
+                //creating query string
+                $params = "sessionName=$sessionId&operation=query&query=$queryParam";
+
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                $response = $rest->get(self::VT_REST_URL."?$params"); 
+                
+                //Get Documents Ids
+
+                //urlencode to as its sent over http.
+                $queryParam = urlencode($query);
+
+                //creating query string
+                $params = "sessionName=$sessionId&operation=getrelatedtroubleticketdocument&crmid=" . $_GET['id'];
+
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                $documentids = $rest->get(self::VT_REST_URL."?$params"); 
+                $documentids = json_decode($documentids, true);
+                $documentids = $documentids['result'];
+                
+                //Get Documents
+                
+                $query = "select * from Documents" . 
+                        " where id in (7x" . implode(", 7x", $documentids) . ");";
+
+                //urlencode to as its sent over http.
+                $queryParam = urlencode($query);
+
+                //creating query string
+                $params = "sessionName=$sessionId&operation=query&query=$queryParam";
+
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                $documents = $rest->get(self::VT_REST_URL."?$params");
+                $documents = json_decode($documents, true);
+                
+                $response = json_decode($response);
+                $response->result[0]->documents = $documents['result'];
+                
+                echo json_encode($response);
+                break;
+            
             /*
              *******************************************************************
              *******************************************************************
@@ -314,6 +380,42 @@ class ApiController extends Controller {
 
                 //creating query string
                 $params = "sessionName=$sessionId&operation=query&query=$queryParam";
+
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                echo $response = $rest->get(self::VT_REST_URL."?$params");               
+                break;
+            
+            /*
+             *******************************************************************
+             *******************************************************************
+             ** DocumentAttachments MODEL
+             ** Accepts notesid
+             *******************************************************************
+             *******************************************************************
+             */             
+            case 'DocumentAttachments':
+                //Get $customerportal_username and $customerportal_password 
+                //from header
+                $customerportal_username = $_SERVER['HTTP_X_USERNAME'];
+                $customerportal_password = $_SERVER['HTTP_X_PASSWORD']; 
+
+                //Get the Session ID from cache
+                $cache_key = json_encode(array(
+                    'username'=>$customerportal_username,
+                    'password'=>$customerportal_password
+                ));                     
+                $sessioninfo = json_decode(Yii::app()->cache->get($cache_key));
+                $sessionId = $sessioninfo->sessionName;
+                
+
+                //urlencode to as its sent over http.
+                $queryParam = urlencode($query);
+
+                //creating query string
+                $params = "sessionName=$sessionId&operation=gettroubleticketdocumentfile&notesid=".$_GET['id'];
 
                 //Receive response from vtiger REST service
                 //Return response to client  
@@ -356,7 +458,7 @@ class ApiController extends Controller {
                 //from header
                 $customerportal_username = $_SERVER['HTTP_X_USERNAME'];
                 $customerportal_password = $_SERVER['HTTP_X_PASSWORD']; 
-
+                
                 //Get the Session ID from cache
                 $cache_key = json_encode(array(
                     'username'=>$customerportal_username,
@@ -364,23 +466,81 @@ class ApiController extends Controller {
                 ));                     
                 $sessioninfo = json_decode(Yii::app()->cache->get($cache_key));
                 $sessionId = $sessioninfo->sessionName;
+                $userId = $sessioninfo->userId;
+                           
+                /** Creating Touble Ticket**/
                 
                 //get data json 
-                $dataJson = json_encode($_POST+array('assigned_user_id' => $sessioninfo->userId, 'ticketstatus' => 'Open'));
-
-                //creating query string
-                $params = "sessionName=$sessionId&operation=create&element=$dataJson&elementType=" . $_GET['model'];
+                $dataJson = json_encode($_POST+array('parent_id' => $sessioninfo->accountId,'assigned_user_id' => $sessioninfo->userId, 'ticketstatus' => 'Open'));
 
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                echo $response = $rest->post(self::VT_REST_URL, array(
+                $response = $rest->post(self::VT_REST_URL, array(
                     'sessionName' => $sessionId,
                     'operation' => 'create',
                     'element' => $dataJson,
                     'elementType' => $_GET['model']
-                ));               
+                ));  
+                
+                $globalresponse = json_decode($response);
+                /**Creating Document**/
+                
+                //Create Documents if any is attached
+                $crmid = $globalresponse->result->id;
+                $globalresponse->result->file = Array();
+                $dataJson = array(
+                    'notes_title'=>'Attachement', 
+                    'assigned_user_id'=>$userId,
+                    'notecontent' => 'Attachement',
+                    'filelocationtype' => 'I',
+                    'filedownloadcount' => null,
+                    'filestatus' => 1,
+                    'fileversion' => '',
+                    'folderid' => "22x1",
+                    );
+                if (!empty($_FILES) && $globalresponse->success){
+                    foreach ($_FILES as $key => $file){
+                        $target_path = YiiBase::getPathOfAlias('application') . "/data/" . basename($file['name']);
+                        move_uploaded_file($file['tmp_name'], $target_path);
+                        
+                        $rest = new RESTClient();
+                        $rest->format('json'); 
+                        $dataJson['filename'] = $file['name'];
+                        $dataJson['filesize'] = $file['size'];
+                        $dataJson['filetype'] = 'image/jpeg';
+                        $response = $rest->post(self::VT_REST_URL, array(
+                                            'sessionName' => $sessionId,
+                                            'operation' => 'create',
+                                            'element' => json_encode($dataJson),
+                                            'elementType' => 'Documents',
+                                            'filename' => "@" . $target_path
+                                        ));
+                        
+                        $response = json_decode($response);
+                        $notesid = $response->result->id;
+                        
+                        $rest = new RESTClient();
+                        $rest->format('json'); 
+                        $response = $rest->post(self::VT_REST_URL, array(
+                                            'sessionName' => $sessionId,
+                                            'operation' => 'relatetroubleticketdocument',
+                                            'crmid' => $crmid,
+                                            'notesid' => $notesid
+                                        ));
+                        $response = json_decode($response);
+                        if ($response->success) {
+                            $globalresponse->result->file[$file['name']] = 'uploaded';
+                        } else {
+                            $globalresponse->result->file[$file['name']] = 'not uploaded';
+                        }
+                        
+                    }
+                }
+                
+                
+                echo json_encode($globalresponse);
                 break;
             
             default :

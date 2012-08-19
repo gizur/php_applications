@@ -54,8 +54,8 @@ return array(
                         // REST patterns
                         array('api/list', 'pattern'=>'api/<model:\w+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:\w+>/<category:(survey|damagereport)>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:\w+>/<fieldname:\w+>', 'verb'=>'GET'),                        
                         array('api/view', 'pattern'=>'api/<model:\w+>/<id:[0-9x]+>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'api/<model:\w+>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:\w+>/<action:(login|logout)>', 'verb'=>'POST'),
                         array('api/update', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'PUT'),
                         array('api/delete', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'DELETE'),
