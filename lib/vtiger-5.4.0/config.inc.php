@@ -44,11 +44,11 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
       db_name
 */
 
-$dbconfig['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
+$dbconfig['db_server'] = 'gc4-mysql1.cipx3vwfyph7.eu-west-1.rds.amazonaws.com';
 $dbconfig['db_port'] = ':3306';
-$dbconfig['db_username'] = 'gizurdbuser';
-$dbconfig['db_password'] = 'La$12^#ers';
-$dbconfig['db_name'] = 'vtiger';
+$dbconfig['db_username'] = 'vtiger-test1';
+$dbconfig['db_password'] = 'q9Hu9UzBrbj2YPNX';
+$dbconfig['db_name'] = 'vtiger-test1';
 $dbconfig['db_type'] = 'mysql';
 $dbconfig['db_status'] = 'true';
 
@@ -79,7 +79,7 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0';
+$site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
 $root_directory = '/var/www/html/lib/vtiger-5.4.0/';
