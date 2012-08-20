@@ -41,7 +41,7 @@ return array(
                     'class'=>'CMemCache',
                     'servers'=>array(
                         array(
-                            'host'=>'localhost',
+                            'host'=>'gizurcloud.i4vamf.0001.euw1.cache.amazonaws.com',
                             'port'=>11211,
                             'weight'=>100,
                         ),
