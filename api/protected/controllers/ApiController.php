@@ -4,6 +4,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+spl_autoload_unregister(array('YiiBase','autoload'));
+Yii::import('application.vendors.*');
+require_once('aws-php-sdk/sdk.class.php');
+spl_autoload_register(array('YiiBase','autoload'));
 
 class ApiController extends Controller {
     // Members
@@ -11,8 +15,9 @@ class ApiController extends Controller {
      * Key which has to be in HTTP USERNAME and PASSWORD headers 
      */
 
-    Const VT_REST_URL = "http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php";
-
+    //Const VT_REST_URL = "http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php";
+    Const VT_REST_URL = "http://localhost/vtigercrm/webservice.php";
+    Const AWS_S3_BUCKET = "gizurcloud";
     /**
      * Default response format
      * either 'json' or 'xml'
@@ -494,33 +499,33 @@ class ApiController extends Controller {
                     'notes_title'=>'Attachement', 
                     'assigned_user_id'=>$userId,
                     'notecontent' => 'Attachement',
-                    'filelocationtype' => 'I',
+                    'filelocationtype' => 'E',
                     'filedownloadcount' => null,
                     'filestatus' => 1,
                     'fileversion' => '',
-                    'folderid' => "22x1",
                     );
                 if (!empty($_FILES) && $globalresponse->success){
                     foreach ($_FILES as $key => $file){
-                        $target_path = YiiBase::getPathOfAlias('application') . "/data/" . basename($file['name']);
-                        move_uploaded_file($file['tmp_name'], $target_path);
+                        //$target_path = YiiBase::getPathOfAlias('application') . "/data/" . basename($file['name']);
+                        //move_uploaded_file($file['tmp_name'], $target_path);
                         
+                        //Create document
                         $rest = new RESTClient();
                         $rest->format('json'); 
-                        $dataJson['filename'] = $file['name'];
-                        $dataJson['filesize'] = $file['size'];
-                        $dataJson['filetype'] = 'image/jpeg';
+                        $dataJson['filename'] = $crmid . "_" . $file['name'];
+                        //$dataJson['filesize'] = $file['size'];
+                        //$dataJson['filetype'] = 'image/jpeg';
                         $response = $rest->post(self::VT_REST_URL, array(
                                             'sessionName' => $sessionId,
                                             'operation' => 'create',
                                             'element' => json_encode($dataJson),
-                                            'elementType' => 'Documents',
-                                            'filename' => "@" . $target_path
+                                            'elementType' => 'Documents'
                                         ));
                         
                         $response = json_decode($response);
                         $notesid = $response->result->id;
                         
+                        //Relate Document with Trouble Ticket
                         $rest = new RESTClient();
                         $rest->format('json'); 
                         $response = $rest->post(self::VT_REST_URL, array(
@@ -530,7 +535,23 @@ class ApiController extends Controller {
                                             'notesid' => $notesid
                                         ));
                         $response = json_decode($response);
-                        if ($response->success) {
+                        
+                        //Upload file to Amazon S3
+                        $s3 = new AmazonS3();
+                        
+                        $response = $s3->create_object(self::AWS_S3_BUCKET, $crmid . '_' . $notesid . '_' . $file['name'], array(
+                            'fileUpload' => $file['tmp_name'],
+                            'contentType' => $file['type'],
+                            'storage' => AmazonS3::STORAGE_REDUCED,
+                            'headers' => array(
+                                'Cache-Control'    => 'max-age',
+                                'Content-Encoding' => 'gzip',
+                                'Content-Language' => 'en-US',
+                                'Expires'          => 'Thu, 01 Dec 1994 16:00:00 GMT',
+                            )
+                        ));                        
+                        
+                        if ($response->isOK()) {
                             $globalresponse->result->file[$file['name']] = 'uploaded';
                         } else {
                             $globalresponse->result->file[$file['name']] = 'not uploaded';
