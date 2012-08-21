@@ -15,8 +15,8 @@ class ApiController extends Controller {
      * Key which has to be in HTTP USERNAME and PASSWORD headers 
      */
 
-    //Const VT_REST_URL = "http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php";
-    Const VT_REST_URL = "http://localhost/vtigercrm/webservice.php";
+    Const VT_REST_URL = "http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php";
+    //Const VT_REST_URL = "http://localhost/vtigercrm/webservice.php";
     Const AWS_S3_BUCKET = "gizurcloud";
     /**
      * Default response format
