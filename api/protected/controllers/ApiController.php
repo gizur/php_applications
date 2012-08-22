@@ -1,9 +1,20 @@
 <?php
+/**
+ * Yii Controller to handel REST queries
+ *
+ * Works with remote vtiger REST service
+ *
+ * @package        	GizurCloud
+ * @subpackage    	Controller
+ * @category    	Controller
+ * @author        	Anshuk Kumar
+ **/
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 spl_autoload_unregister(array('YiiBase','autoload'));
 Yii::import('application.vendors.*');
 require_once('aws-php-sdk/sdk.class.php');
@@ -11,24 +22,36 @@ spl_autoload_register(array('YiiBase','autoload'));
 
 class ApiController extends Controller {
     // Members
-    /**
-     * Key which has to be in HTTP USERNAME and PASSWORD headers 
-     */
 
-    Const VT_REST_URL = "http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php";
-    //Const VT_REST_URL = "http://localhost/vtigercrm/webservice.php";
-    Const AWS_S3_BUCKET = "gizurcloud";
     /**
      * Default response format
      * either 'json' or 'xml'
      */
+    
     private $format = 'json';
 
+    /**
+     * Aliasing custom fields
+     */
 
+    private $custom_fields = Array(
+        'HelpDesk' => Array(
+            'tickettype' => 'cf_641',
+            'trailerid' => 'cf_642',
+            'damagereportlocation' => 'cf_643',
+            'sealed' => 'cf_644',
+            'plates' => 'cf_645',
+            'straps'  => 'cf_646',
+            'reportdamage' => 'cf_647',
+            'damagetype' => 'cf_648',
+            'damageposition' => 'cf_649'
+        )
+    );    
 
     /**
      * @return array action filters
      */
+    
     public function filters() {
         return array();
     }
@@ -60,10 +83,10 @@ class ApiController extends Controller {
                     
                     $rest->set_header('Content-Type', 
                             'application/x-www-form-urlencoded');
-                    $response = $rest->post(self::VT_REST_URL.
+                    $response = $rest->post(Yii::app()->params->vtRestUrl.
                             "?operation=logincustomer", 
                             "username=$customerportal_username&password=$customerportal_password");
-                    
+                     
                     $response = json_decode($response);
                     if ($response->success==false)
                         throw new Exception("Invalid Username and Password");
@@ -72,7 +95,7 @@ class ApiController extends Controller {
                     $accountId = $response->result->accountId;
                     
                     //Login using $username and $userAccessKey
-                    $response = $rest->get(self::VT_REST_URL.
+                    $response = $rest->get(Yii::app()->params->vtRestUrl.
                             "?operation=getchallenge&username=$username");
                     $response = json_decode($response);
                     if ($response->success==false)
@@ -80,7 +103,7 @@ class ApiController extends Controller {
                     $challengeToken = $response->result->token;
                     $generatedKey = md5($challengeToken.$userAccessKey);
                     
-                    $response = $rest->post(self::VT_REST_URL."?operation=login", 
+                    $response = $rest->post(Yii::app()->params->vtRestUrl."?operation=login", 
                             "username=$username&accessKey=$generatedKey");
                     $response = json_decode($response); 
                     if ($response->success==false)
@@ -119,7 +142,7 @@ class ApiController extends Controller {
                     //Logout using $sessionId
                     $rest = new RESTClient();
                     $rest->format('json');                    
-                    $response = $rest->get(self::VT_REST_URL.
+                    $response = $rest->get(Yii::app()->params->vtRestUrl.
                             "?operation=logout&sessionName=$sessionId");
                     $response = json_decode($response); 
                     if ($response->success==false)
@@ -161,7 +184,7 @@ class ApiController extends Controller {
                     
                     $rest = new RESTClient();
                     $rest->format('json');                    
-                    $response = $rest->get(self::VT_REST_URL."?$params"); 
+                    $response = $rest->get(Yii::app()->params->vtRestUrl."?$params"); 
                     
                     $response = json_decode($response, true);
                     //print_r($response);die;
@@ -198,6 +221,7 @@ class ApiController extends Controller {
                     $query = "select * from " . $_GET['model'] . 
                             " where cf_633 = '" . $_GET['category'] . "'" .
                             " and parent_id = " . $accountId . ";";
+                    //--to do-- add filters for dates and category
                     
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -209,7 +233,7 @@ class ApiController extends Controller {
                     //Return response to client  
                     $rest = new RESTClient();
                     $rest->format('json');                    
-                    echo $response = $rest->get(self::VT_REST_URL."?$params");
+                    echo $response = $rest->get(Yii::app()->params->vtRestUrl."?$params");
                 }
                 break;
             /*
@@ -250,7 +274,7 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                echo $response = $rest->get(self::VT_REST_URL."?$params");               
+                echo $response = $rest->get(Yii::app()->params->vtRestUrl."?$params");               
                 break;                  
             
             default :
@@ -311,7 +335,7 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                $response = $rest->get(self::VT_REST_URL."?$params"); 
+                $response = $rest->get(Yii::app()->params->vtRestUrl."?$params"); 
                 
                 //Get Documents Ids
 
@@ -325,9 +349,11 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                $documentids = $rest->get(self::VT_REST_URL."?$params"); 
+                $documentids = $rest->get(Yii::app()->params->vtRestUrl."?$params"); 
                 $documentids = json_decode($documentids, true);
                 $documentids = $documentids['result'];
+                
+                //--to do-- get contact details
                 
                 //Get Documents
                 
@@ -344,7 +370,7 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                $documents = $rest->get(self::VT_REST_URL."?$params");
+                $documents = $rest->get(Yii::app()->params->vtRestUrl."?$params");
                 $documents = json_decode($documents, true);
                 
                 $response = json_decode($response);
@@ -390,7 +416,7 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                echo $response = $rest->get(self::VT_REST_URL."?$params");               
+                echo $response = $rest->get(Yii::app()->params->vtRestUrl."?$params");               
                 break;
             
             /*
@@ -421,12 +447,12 @@ class ApiController extends Controller {
 
                 //creating query string
                 $params = "sessionName=$sessionId&operation=gettroubleticketdocumentfile&notesid=".$_GET['id'];
-
+                    //--to do-- get file from 
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                echo $response = $rest->get(self::VT_REST_URL."?$params");               
+                echo $response = $rest->get(Yii::app()->params->vtRestUrl."?$params");               
                 break;
             
             default :
@@ -482,7 +508,7 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                $response = $rest->post(self::VT_REST_URL, array(
+                $response = $rest->post(Yii::app()->params->vtRestUrl, array(
                     'sessionName' => $sessionId,
                     'operation' => 'create',
                     'element' => $dataJson,
@@ -515,7 +541,7 @@ class ApiController extends Controller {
                         $dataJson['filename'] = $crmid . "_" . $file['name'];
                         //$dataJson['filesize'] = $file['size'];
                         //$dataJson['filetype'] = 'image/jpeg';
-                        $response = $rest->post(self::VT_REST_URL, array(
+                        $response = $rest->post(Yii::app()->params->vtRestUrl, array(
                                             'sessionName' => $sessionId,
                                             'operation' => 'create',
                                             'element' => json_encode($dataJson),
@@ -528,7 +554,7 @@ class ApiController extends Controller {
                         //Relate Document with Trouble Ticket
                         $rest = new RESTClient();
                         $rest->format('json'); 
-                        $response = $rest->post(self::VT_REST_URL, array(
+                        $response = $rest->post(Yii::app()->params->vtRestUrl, array(
                                             'sessionName' => $sessionId,
                                             'operation' => 'relatetroubleticketdocument',
                                             'crmid' => $crmid,
@@ -539,7 +565,7 @@ class ApiController extends Controller {
                         //Upload file to Amazon S3
                         $s3 = new AmazonS3();
                         
-                        $response = $s3->create_object(self::AWS_S3_BUCKET, $crmid . '_' . $notesid . '_' . $file['name'], array(
+                        $response = $s3->create_object(Yii::app()->params->awsS3Bucket, $crmid . '_' . $notesid . '_' . $file['name'], array(
                             'fileUpload' => $file['tmp_name'],
                             'contentType' => $file['type'],
                             'storage' => AmazonS3::STORAGE_REDUCED,
