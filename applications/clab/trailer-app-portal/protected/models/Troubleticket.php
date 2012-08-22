@@ -10,13 +10,13 @@
       "Title" => 'ticket_title',
       "Category" => 'ticketcategories',
 	  "TrailerID" => 'cf_628',
-	  "Damagereport" => 'cf_634',
-	  "Sealed" => 'cf_637' ,
+	  "Damagereport" => 'cf_647',
+	  "Sealed" => 'cf_644' ,
 	  "Plates" => 'cf_631',
 	  "Straps" => 'cf_632',
-	  "TroubleTicketType"  => 'cf_633',
-	  "Typeofdamage" => 'cf_635',
-	  "Damageposition" => 'cf_636'
+	  "TroubleTicketType"  => 'cf_641',
+	  "Typeofdamage" => 'cf_648',
+	  "Damageposition" => 'cf_649'
   );
 class Troubleticket extends CFormModel
 {
