@@ -9,10 +9,20 @@
  *************************************************************************************/
 	
 	function vtws_logincustomer($username,$pwd){
+                global $adb;
+
                 $userId = vtws_verifyActiveCustomerPortalUser($username, $pwd);
                 if ($userId != null) {
                     $accountId = vtws_getCustomerPortalUserAccount($userId);
                     $accessKeyAndUsername = vtws_getAccessKeyAndUsernameFromAccount($accountId);
+                      
+		    //Get Object Id for contacts
+                    $sql = "SELECT id FROM `vtiger_ws_entity` WHERE name=?";
+		    $result = $adb->pquery($sql,array('Contacts'));
+		    if($result != null && isset($result)){
+                        $objectTypeId = $adb->query_result($result, 0, 'id');
+                    }                
+                    $accessKeyAndUsername['contactId'] = $objectTypeId . "x" . $userId;		
                     return $accessKeyAndUsername;
                 } else {
                     throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"Invalid username or password");

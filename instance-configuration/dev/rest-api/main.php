@@ -41,7 +41,7 @@ return array(
                     'class'=>'CMemCache',
                     'servers'=>array(
                         array(
-                            'host'=>'gizurcloud.i4vamf.0001.euw1.cache.amazonaws.com',
+                            'host'=>'localhost',
                             'port'=>11211,
                             'weight'=>100,
                         ),
@@ -53,7 +53,8 @@ return array(
                     'rules'=>array(
                         // REST patterns
                         array('api/list', 'pattern'=>'api/<model:\w+>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:\w+>/<category:(survey|damagereport)>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'api/<model:\w+>/<category:(inoperation|damaged)>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'api/<model:\w+>/<category:(inoperation|damaged)>/<year:\d{4}>/<month:[a-z]{3}>/<trailerid:\w+>', 'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:\w+>/<id:[0-9x]+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:\w+>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:\w+>/<action:(login|logout)>', 'verb'=>'POST'),
@@ -100,6 +101,8 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		'adminEmail'  => 'webmaster@example.com',
+                'vtRestUrl'   => 'http://localhost/gizurcloud/lib/vtiger-5.4.0/webservice.php',
+                'awsS3Bucket' => 'gizurcloud'
 	),
 );

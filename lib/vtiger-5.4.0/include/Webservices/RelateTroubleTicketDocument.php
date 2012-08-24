@@ -53,30 +53,14 @@
                 
                 $id = explode("x",$notesid);
                 $id = $id[1];
-                $query="SELECT filetype FROM vtiger_notes WHERE notesid =?";
+                $query="select * from vtiger_notes WHERE notesid =?";
 		$res = $adb->pquery($query, array($id));
-		$filetype = $adb->query_result($res, 0, "filetype");
+                $output = Array();
+                $output['fileid'] = $notesid;
+                $output['filename'] = $adb->query_result($res, 0, 'filename');
+                $output['filetype'] = $adb->query_result($res, 0, "filetype");
+                $output['filesize'] = $adb->query_result($res, 0, "filesize");
 		updateDownloadCount($id);
-
-		$fileidQuery = 'select attachmentsid from vtiger_seattachmentsrel where crmid = ?';
-		$fileres = $adb->pquery($fileidQuery,array($id));
-		$fileid = $adb->query_result($fileres,0,'attachmentsid');
-
-		$filepathQuery = 'select path,name from vtiger_attachments where attachmentsid = ?';
-		$fileres = $adb->pquery($filepathQuery,array($fileid));
-		$filepath = $adb->query_result($fileres,0,'path');
-		$filename = $adb->query_result($fileres,0,'name');
-		$filename= decode_html($filename);
-
-		$saved_filename =  $fileid."_".$filename;
-		$filenamewithpath = $filepath.$saved_filename;
-		$filesize = filesize($filenamewithpath);
-                
-                $output[0]['fileid'] = $fileid;
-                $output[0]['filename'] = $filename;
-                $output[0]['filetype'] = $filetype;
-                $output[0]['filesize'] = $filesize;
-                $output[0]['filecontents']=base64_encode(file_get_contents($filenamewithpath));
 
                 return $output;                
         }

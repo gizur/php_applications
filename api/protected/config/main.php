@@ -41,7 +41,7 @@ return array(
                     'class'=>'CMemCache',
                     'servers'=>array(
                         array(
-                            'host'=>'gizurcloud.i4vamf.0001.euw1.cache.amazonaws.com',
+                            'host'=>'localhost',
                             'port'=>11211,
                             'weight'=>100,
                         ),
@@ -54,11 +54,11 @@ return array(
                         // REST patterns
                         array('api/list', 'pattern'=>'api/<model:\w+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:\w+>/<category:(inoperation|damaged)>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:\w+>/<category:(inoperation|damaged)>/<year:\d{4}>/<month:[a-z]{3}>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'api/<model:\w+>/<category:(inoperation|damaged)>/<year:\d{4}>/<month:[a-z]{3}>/<trailerid:\w+>', 'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:\w+>/<id:[0-9x]+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:\w+>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:\w+>/<action:(login|logout)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'api/<model:\w+>/<id:[0-9x]+>', 'verb'=>'PUT'),
                         array('api/delete', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'DELETE'),
                         array('api/create', 'pattern'=>'api/<model:\w+>', 'verb'=>'POST'),
                     ),
@@ -102,7 +102,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'  => 'webmaster@example.com',
-                'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
+                'vtRestUrl'   => 'http://localhost/gizurcloud/lib/vtiger-5.4.0/webservice.php',
                 'awsS3Bucket' => 'gizurcloud'
 	),
 );
