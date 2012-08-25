@@ -9,3 +9,4 @@
 cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0
 cp $1/phpMyAdmin/config.inc.php ../lib/phpMyAdmin-3.5.2-all-languages
 cp $1/rest-api/main.php ../api/protected/config
+cp $1/.htaccess ../.htaccess
