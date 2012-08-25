@@ -105,9 +105,9 @@ Each gizur.com account will have the following:
 * Phone number
 * Postal adress (street, zip, city, country ect.)
 * Client id - unique client identifier. All applications for the client are located at gizur.com/<clientid>/<application id>
-* API Key 1 - radnom string of 20 characters, digits, upper case only, exmaple AKIAJVRED4VYJS43ELWQ
+* API Key 1 - radnom string of 20 characters, digits, upper case only, example AKIAJVRED4VYJS43ELWQ
 * API Secret 1  - random string of 40 characters, digits, upper and lower case
-* API Key 2 - radnom string of 20 characters, digits, upper case only, exmaple AKIAJVRED4VYJS43ELWQ
+* API Key 2 - radnom string of 20 characters, digits, upper case only, example AKIAJVRED4VYJS43ELWQ
 * API Secret 2  - random string of 40 characters, digits, upper and lower case
 * MySQL database credentials - server, port, username, password, database name
 
