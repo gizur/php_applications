@@ -13,7 +13,10 @@
  * @license         http://philsturgeon.co.uk/code/dbad-license
  * @link			http://getsparks.org/packages/restclient/show
  */
-class RESTClient extends CComponent
+
+require "CURL.php";
+
+class RESTClient
 {
 	public $supported_formats = array(
 		'xml' 				=> 'application/xml',
@@ -53,7 +56,7 @@ class RESTClient extends CComponent
      */
     public static function log($message, $level='error')
     {
-        Yii::log($message, $level, __CLASS__);
+        //Yii::log($message, $level, __CLASS__);
     }
 
     /**
@@ -72,7 +75,7 @@ class RESTClient extends CComponent
 	
 	function __construct($config = array())
     {
-        Yii::log('REST Class Initialized');
+        //Yii::log('REST Class Initialized');
 		$this->_curl = new CURL();
 		empty($config) OR $this->initialize($config);
     }

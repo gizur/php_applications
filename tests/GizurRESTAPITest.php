@@ -18,10 +18,16 @@
  * > phpunit --verbrose Gizur_REST_API_Test
  */
 require_once 'PHPUnit/Autoload.php';
+require_once 'lib/RESTClient.php';
 
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
-    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+
+    Const GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
+    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+    Const API_VERSION = "0.1";
+
+    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
    
     public function testLogin()
     {
@@ -34,7 +40,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'user2' => 'password2',
             'user3' => 'password3',
             'user4' => 'password4',
-            'anil-singh@essindia.co.in' => 'anil',
+            'cloud3@gizur.com' => 'rksh2jjf',
             'test@test.com' => '123456'
         );
         
@@ -43,41 +49,52 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'user2' => 'false',
             'user3' => 'false',
             'user4' => 'false',
-            'anil-singh@essindia.co.in' => 'true',
-            'test@test.com' => 'true'
+            'cloud3@gizur.com' => 'true',
+            'test@test.com' => 'false'
         );        
 
+        $params = array(
+                    'Verb'          => 'POST',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
+        );
+
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //echo json_encode(get_class_methods('PHPUnit_Framework_TestCase'));
         //login using each credentials
         foreach($credentials as $username => $password){
             
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model."/".$action);
-	    curl_setopt($ch, CURLOPT_POST, 0);
-	    curl_setopt($ch, CURLOPT_POSTFIELDS, array());
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = new stdClass();
-            $response = json_decode($response_json);
-
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->post($this->url.$model."/".$action);
+            $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
                 $this->assertEquals($response->success,$valid_credentials[$username], " Checking validity of response");
             } else {
-                $this->assertObjectHasAttribute('success', $response);
+                $this->assertInstanceOf('stdClass', $response);
             }
-        }
-
-	//close connection
-	curl_close($ch);
+            unset($rest);
+       }
     }
-    
+/*    
     public function testGetAssetList(){
         $model = 'Assets';
 
