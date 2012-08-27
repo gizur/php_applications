@@ -17,18 +17,23 @@ class TroubleticketController extends Controller
 	
 	public function actionindex()
 	{
-		$model=new Troubleticket;
-		if(isset($_POST['submit']))
-		{
-		 $model->Save($_POST['Troubleticket']);
-		 }
-		$pickList_sealed=$model->getpickList('cf_637');
-		$pickList_category=$model->getpickList('ticketcategories');
-		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category));
+		 $module="HelpDesk";
+	     $tickettype="Survey";
+		 $model=new Troubleticket;
+		 $records=$model->findAll($module,$tickettype);
+		 $this->render('surveylist',array('model'=>$model,'result'=>$records));
 		
 	}
 	
-	
+	public function actionsurveylist()
+	{
+	     $module="HelpDesk";
+	     $tickettype="Survey";
+		 $model=new Troubleticket;
+		 $records=$model->findAll($module,$tickettype);
+		 $this->render('surveylist',array('model'=>$model,'result'=>$records));
+		
+	}
 	
 	public function actionsurvey()
 	{
@@ -37,9 +42,11 @@ class TroubleticketController extends Controller
 		{
 		 $model->Save($_POST['Troubleticket']);
 		 }
-		$pickList_sealed=$model->getpickList('cf_637');
+		//$pickList_sealed=$model->getpickList('cf_637');
 		$pickList_category=$model->getpickList('ticketcategories');
-		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category));
+		$pickList_damagetype=$model->getpickList('cf_648');
+		$pickList_damagepostion=$model->getpickList('cf_649');
+		$this->render('survey',array('model'=>$model,'category'=>$pickList_category,'damagetype' => $pickList_damagetype , 'damagepos' => $pickList_damagepostion));
 		
 	} 
 	

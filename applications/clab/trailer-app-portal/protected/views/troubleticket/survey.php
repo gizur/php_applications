@@ -1,10 +1,15 @@
 <!-- 
- * vtigerCRM YiiPortal - web based vtiger CRM Customer Portal
- * Copyright (C) 2012 Gizur.
- *
- * This file is part of YiiPortal.
- * Create a new trouble tickets (Survey)
- -->
+/**
+	 * 
+	 * 
+	 * Created date : 04/07/2012
+	 * Created By : Anil Singh
+	 * @author Anil Singh <anil-singh@essindia.co.in>
+	 * Flow : The basic flow of this page is Create of Trouble tickets (Survey).
+	 * Modify date : 05/08/2012
+	*/
+
+-->
 <?php
 $this->pageTitle=Yii::app()->name . ' - New Ticket for Survey ';
 
@@ -52,52 +57,60 @@ $this->breadcrumbs=array(
 <tr>
  <td>
 
-   <?php echo $form->labelEx($model,'Trailer ID'); ?>
+   <?php echo $form->labelEx($model,'Trailer ID'); ?>&nbsp;<span style="color:red">*</span>
    </td><td>
     <?php echo $form->textField($model,'TrailerID'); ?>
     <?php echo $form->error($model,'TrailerID'); ?>
    
   </td>
   <td>
-  <?php echo $form->labelEx($model,'Location for damage report'); ?>
+  <?php echo $form->labelEx($model,'Location for damage report'); ?>&nbsp;<span style="color:red">*</span>
   </td><td>
     <?php echo $form->textField($model,'Damagereport'); ?>
     <?php echo $form->error($model,'Damagereport'); ?>
   
   </td>
   </tr>
-    
+
   <tr>
    <td>
-  <?php echo $form->labelEx($model,'Sealed trailer'); ?>
+  <?php echo $form->labelEx($model,'Type of damage'); ?>
   </td><td>
-  <?php echo $form->dropDownList($model,'Sealed',$Sealed);?>
+    <?php echo $form->dropDownList($model,'Typeofdamage',$damagetype);?>
+      <?php echo $form->error($model,'Typeofdamage'); ?>
   </td>
-   
-    <td>
-   <?php echo $form->labelEx($model,'Plates'); ?>
+  
+  <td>
+  <?php echo $form->labelEx($model,'Position on trailer for damage'); ?>
   </td><td>
-   <?php echo $form->textField($model,'Plates'); ?>
-    <?php echo $form->error($model,'Plates'); ?>
-    </td> 
-    
-   
-</tr>
-
-<tr>
-   <td>
-  <?php echo $form->labelEx($model,'Number of straps'); ?>
-  </td><td>
-   <?php echo $form->textField($model,'Straps'); ?>
-    <?php echo $form->error($model,'Straps'); ?>
+     <?php echo $form->dropDownList($model,'Damageposition',$damagepos);?>
+        <?php //echo $form->hiddenField($model,'Damageposition',array('type'=>"hidden",'size'=>2,'maxlength'=>60 ,'value'=>'Höger sida (Right side)')); ?>
+    <?php echo $form->error($model,'Damageposition'); ?>
+  
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <?php echo $form->labelEx($model,'Upload Pictures'); ?>
   </td>
   <td>
+  <?php
+    echo $form->fileField($model, 'image');
+  ?>
+  <?php echo $form->error($model,'image'); ?>
+
+  </td>
+<td>
   <?php echo $form->labelEx($model,'Create Date'); ?>
   </td><td>
    <?php echo date('Y-m-d'); ?>
    <?php echo $form->hiddenField($model,'TroubleTicketType',array('type'=>"hidden",'size'=>2,'maxlength'=>2, 'value'=>'survey')); ?>
   </td>
 </tr>
+
+
+
+
 
 </table>
  <?php echo CHtml::submitButton('Save', array('id'=>'submit','name'=>'submit')); ?>

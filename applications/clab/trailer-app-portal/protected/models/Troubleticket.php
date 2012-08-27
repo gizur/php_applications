@@ -20,7 +20,13 @@
   );
 class Troubleticket extends CFormModel
 {
-	
+	Const GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
+    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+    Const API_VERSION = "0.1";
+	 protected $credentials = Array(
+            'cloud3@gizur.com' => 'rksh2jjf',
+    );
+    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
 
 	/**
 	 * Declares the validation rules.
@@ -74,19 +80,52 @@ public function attributeLabels()
   
   function getpickList($fieldname)
   {
-	$rest = new RESTClient();
-    $rest->format('json');
-    $rest->set_header('X_USERNAME',Yii::app()->session['username']);
-	$rest->set_header('X_PASSWORD',Yii::app()->session['password']); 
-    $response = $rest->get(VT_REST_URL."HelpDesk/".$fieldname);
-	$result= json_decode($response,true);
-	
-	$picklistarr=array();
-	foreach($result['result'] as $val)
-	{
-		$picklistarr[$val['value']]=$val['label'];
-	 }
-	 return $picklistarr;
+	    $model = 'HelpDesk';
+        $fieldname = 'ticketpriorities';
+
+        echo " Getting Picklist" . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'GET',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
+        );
+
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->get($this->url.$model."/".$fieldname);
+            $response = json_decode($response);
+            //check if response is valid
+            if (isset($response->success)){
+                $message = '';
+                if (isset($response->error->message)) $message = $response->error->message;
+                $this->assertEquals($response->success,true, $message);
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+            unset($rest);
+        } 
+   
   }
   
   function Save($data)
@@ -117,5 +156,31 @@ public function attributeLabels()
 	  
   }
 
+
+function findAll($module,$tickettype)
+  {
+	$rest = new RESTClient();
+    $rest->format('json');
+    $rest->set_header('X_USERNAME',Yii::app()->session['username']);
+	$rest->set_header('X_PASSWORD',Yii::app()->session['password']);
+	$response = $rest->get(VT_REST_URL.$module."/".$tickettype);
+	return $result= json_decode($response,true);
+		  
+  }
+
+/*
+ *  Data Fetch particuller records
+ */ 
+ 
+  function findById($module,$ID)
+  {
+	$rest = new RESTClient();
+    $rest->format('json');
+    $rest->set_header('X_USERNAME',Yii::app()->session['username']);
+	$rest->set_header('X_PASSWORD',Yii::app()->session['password']); 
+	$response = $rest->get(VT_REST_URL.$module."/".$ID);
+	return $result= json_decode($response,true);  
+	  
+  }
 	
 }

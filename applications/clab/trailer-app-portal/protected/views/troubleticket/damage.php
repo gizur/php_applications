@@ -36,14 +36,12 @@ $this->breadcrumbs=array(
 <table style="width:100%">
 <tr>
  <td>
-
    <?php echo $form->labelEx($model,'Title'); ?>
-   </td><td>
+   </td>
+   <td>
     <?php echo $form->textField($model,'Title'); ?>
     <?php echo $form->error($model,'Title'); ?>
-   
-  </td>
-
+   </td>
   <td>
   <?php echo $form->labelEx($model,'Ticket Category'); ?>
   </td><td>
@@ -71,7 +69,6 @@ $this->breadcrumbs=array(
   
   </td>
   </tr>
-    
   <tr>
    <td>
   <?php echo $form->labelEx($model,'Upload Pictures'); ?>
@@ -90,7 +87,6 @@ $this->breadcrumbs=array(
    <?php echo date('Y-m-d'); ?>
    <?php echo $form->hiddenField($model,'TroubleTicketType',array('type'=>"hidden",'size'=>2,'maxlength'=>2 ,'value'=>'damagereport')); ?>
   </td>
-       
 </tr>
 
 </table>

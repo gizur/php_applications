@@ -2124,3 +2124,52 @@ Stack trace:
 REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/damage
 HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/damage
 ---
+2012/08/27 14:08:40 [error] [exception.CException] exception 'CException' with message 'Property "Troubleticket.credentials" is not defined.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
+Stack trace:
+#0 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php(105): CComponent->__get('credentials')
+#1 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(46): Troubleticket->getpickList('ticketcategorie...')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurvey()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('survey')
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/s...')
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#10 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/08/27 14:10:41 [error] [exception.CException] exception 'CException' with message 'Property "Troubleticket.url" is not defined.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
+Stack trace:
+#0 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php(115): CComponent->__get('url')
+#1 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(46): Troubleticket->getpickList('ticketcategorie...')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurvey()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('survey')
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/s...')
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#10 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/08/27 14:11:33 [error] [exception.CException] exception 'CException' with message 'Troubleticket and its behaviors do not have a method or closure named "assertInstanceOf".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:266
+Stack trace:
+#0 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php(124): CComponent->__call('assertInstanceO...', Array)
+#1 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php(124): Troubleticket->assertInstanceOf('stdClass', NULL)
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(46): Troubleticket->getpickList('ticketcategorie...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurvey()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('survey')
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/s...')
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#11 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
