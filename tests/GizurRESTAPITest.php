@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version 0.1
+ * @version 0.2
  * @package gizur
  * @copyright &copy; gizur
  * @author Anshuk Kumar <anshuk-kumar@essindia.co.in>
@@ -12,13 +12,14 @@
  * vtiger REST API )
  * Contains methods which test  
  * Login / authentication, view details of an asset, list category based
- * trouble tickets (Damage Report, Survey) and create a trouble ticket
+ * trouble tickets and create a trouble ticket
  * 
  * Testing method:
  * > phpunit --verbrose Gizur_REST_API_Test
  */
 require_once 'PHPUnit/Autoload.php';
 require_once 'lib/RESTClient.php';
+require_once('../lib/aws-php-sdk/sdk.class.php');
 
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
@@ -27,20 +28,25 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
     Const API_VERSION = "0.1";
 
+    protected $credentials = Array(
+            'cloud3@gizur.com' => 'rksh2jjf',
+    );
+
     protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
-   
+ 
     public function testLogin()
     {
         $model = 'Authenticate';
         $action = 'login';
-        
+           
+        echo " Authenticating Login " . PHP_EOL;        
+  
         //set credentials
-        $credentials = Array(
+        $this->credentials += Array(
             'user1' => 'password1',
             'user2' => 'password2',
             'user3' => 'password3',
             'user4' => 'password4',
-            'cloud3@gizur.com' => 'rksh2jjf',
             'test@test.com' => '123456'
         );
         
@@ -72,10 +78,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-        //echo json_encode(get_class_methods('PHPUnit_Framework_TestCase'));
         //login using each credentials
-        foreach($credentials as $username => $password){
-            
+        foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
             $rest->format('json'); 
             $rest->set_header('X_USERNAME', $username);
@@ -94,349 +98,300 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             unset($rest);
        }
     }
-/*    
+
     public function testGetAssetList(){
         $model = 'Assets';
 
-        //set credentials
-        $credentials = Array(
-            'anil-singh@essindia.co.in' => 'anil'
+        echo " Getting Asset List " . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'GET',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
         );
 
-        //login using each credentials
-        foreach($credentials as $username => $password){
-            
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model."/");
-            curl_setopt($ch, CURLOPT_HTTPGET, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = json_decode($response_json);
+        // Sorg arguments
+        ksort($params);
 
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->get($this->url.$model);
+            $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,true);
+                $this->assertEquals($response->success,true, " Checking validity of response");
             } else {
-                 $this->assertObjectHasAttribute('success', $response);
+                $this->assertInstanceOf('stdClass', $response);
             }
-        }
-
-	//close connection
-	curl_close($ch);
+            unset($rest);
+        } 
     }
-    /*
-    public function testGetSurveyList(){
-        $model = 'helpdesk';
-        $category = 'survey';
-        //set credentials
-        $credentials = Array(
-            'user1' => 'password1',
+ 
+    public function testGetTroubleTicketInoperationList(){
+        $model = 'HelpDesk';
+        $category = 'inoperation';
+
+        echo " Getting Ticket Inoperation " . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'GET',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
         );
 
-        //login using each credentials
-        foreach($credentials as $username => $password){
-            
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model."?category=$category");
-            curl_setopt($ch, CURLOPT_HTTPGET, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = json_decode($response_json);
+        // Sorg arguments
+        ksort($params);
 
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->get($this->url.$model."/$category");
+            $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
+                $this->assertEquals($response->success,true, " Checking validity of response");
             } else {
-                $this->assertFalse(TRUE);
+                $this->assertInstanceOf('stdClass', $response);
             }
-        }
-
-	//close connection
-	curl_close($ch);
+            unset($rest);
+        } 
     }
-    
-    public function testGetDamageReportList(){
-        $model = 'helpdesk';
-        $category = 'damagereport';
-        //set credentials
-        $credentials = Array(
-            'user1' => 'password1',
+ 
+   public function testGetTroubleTicketDamagedList(){
+        $model = 'HelpDesk';
+        $category = 'damaged';
+
+        echo " Getting Ticket Damaged " . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'GET',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
         );
 
-        //login using each credentials
-        foreach($credentials as $username => $password){
-            
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model."?category=$category");
-            curl_setopt($ch, CURLOPT_HTTPGET, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = json_decode($response_json);
+        // Sorg arguments
+        ksort($params);
 
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->get($this->url.$model."/$category");
+            $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
+                $this->assertEquals($response->success,true, " Checking validity of response");
             } else {
-                $this->assertFalse(TRUE);
+                $this->assertInstanceOf('stdClass', $response);
             }
-        }
-
-	//close connection
-	curl_close($ch);
+            unset($rest);
+        } 
     }
-    
+   
+   
     public function testCreateTroubleTicket(){
-        $model = 'helpdesk';
-        $category = 'damagereport';
-        $fields_string = '';
+        $model = 'HelpDesk';
 
-        //set credentials
-        $credentials = Array(
-            'user1' => 'password1',
-        );
+        echo " Creating Trouble Ticket " . PHP_EOL;        
 
         //set fields to to posted
 	$fields = array(
-		    'lname'=>urlencode('test'),
-		    'fname'=>urlencode('test'),
-		    'title'=>urlencode('test'),
-		    'company'=>urlencode('test'),
-		    'age'=>urlencode('test'),
-		    'email'=>urlencode('test'),
-		    'phone'=>urlencode('test')
+		    'ticket_title'=>urlencode('Testing Using PHPUnit'),
 		);
 
-	//url-ify the data for the POST
-	foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-	rtrim($fields_string,'&');
 
-        //login using each credentials
-        foreach($credentials as $username => $password){
-            
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model."?category=$category");
-	    curl_setopt($ch, CURLOPT_POST, count($fields));
-	    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = json_decode($response_json);
-
-            //check if response is valid
-            if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
-            } else {
-                $this->assertFalse(TRUE);
-            }
-        }
-
-	//close connection
-	curl_close($ch);
-    }
-    
-    public function testCreateAndListTroubleTicketDamageReport(){
-        $model = 'helpdesk';
-        $category = 'damagereport';
-        $fields_string = '';
-
-        //set credentials
-        $credentials = Array(
-            'user1' => 'password1',
+        $params = array(
+                    'Verb'          => 'POST',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
         );
 
-        //set fields to to posted
-	$fields = array('ticket_title'=>'Battery backup low4', 
-            'cf_641'=>$category, //fieldname for Trouble Ticket Type
-            'ticketstatus' => 'Open');
+        // Sorg arguments
+        ksort($params);
 
-	//url-ify the data for the POST
-	foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-	rtrim($fields_string,'&');
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
 
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        foreach($credentials as $username => $password){
-            
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model);
-	    curl_setopt($ch, CURLOPT_POST, count($fields));
-	    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = json_decode($response_json);
-
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->post($this->url.$model, $fields);
+            $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
-                //check if newly created exist in list
-                //prepare request to be sent
-                $ch2 = curl_init(); 
-                curl_setopt($ch2, CURLOPT_URL, $this->url.$model."/".$response->id);
-                curl_setopt($ch2, CURLOPT_HTTPGET, 1);
-                curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch2, CURLOPT_HTTPHEADER, array(
-                    "X_USERNAME: $username",
-                    "X_PASSWORD: $password"
-                ));
-
-                //send request
-                $response_json_list = curl_exec($ch2);
-                $response_list = json_decode($response_json);                
-                if (isset($response_list->id)){
-                    $this->assertEquals($response->id, $response_list->id);
-                }else{
-                    $this->assertFalse(TRUE);
-                }
+                $message = '';
+                if (isset($response->error->message)) $message = $response->error->message;
+                $this->assertEquals($response->success,true, $message);
             } else {
-                $this->assertFalse(TRUE);
+                $this->assertInstanceOf('stdClass', $response);
             }
-
-        }
-
-	//close connection
-	curl_close($ch);
+            unset($rest);
+        } 
     }
-    
-    public function testCreateAndListTroubleTicketSurvey(){
-        $model = 'helpdesk';
-        $category = 'damagereport';
-        $fields_string = '';
 
-        //set credentials
-        $credentials = Array(
-            'user1' => 'password1',
+    public function testCreateTroubleTicketWithDocument(){
+        $model = 'HelpDesk';
+
+        echo " Creating Trouble Ticket with Document " . PHP_EOL;        
+
+        //set fields to to posted
+	$fields = array(
+		    'ticket_title'=>urlencode('Testing Using PHPUnit with Image Upload'),
+                    'filename'=>'@'.getcwd().'/image-to-upload.jpg'
+		);
+
+    
+        $params = array(
+                    'Verb'          => 'POST',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
         );
 
-        //set fields to to posted
-	$fields = array('ticket_title'=>'Battery backup low Survey', 
-            'cf_641'=>$category, //fieldname for Trouble Ticket Type
-            'ticketstatus' => 'Open');
+        // Sorg arguments
+        ksort($params);
 
-	//url-ify the data for the POST
-	foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-	rtrim($fields_string,'&');
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
 
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        foreach($credentials as $username => $password){
-            
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model);
-	    curl_setopt($ch, CURLOPT_POST, count($fields));
-	    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = json_decode($response_json);
-
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->post($this->url.$model, $fields);
+            $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
-                //check if newly created exist in list
-                //prepare request to be sent
-                $ch2 = curl_init(); 
-                curl_setopt($ch2, CURLOPT_URL, $this->url.$model."/".$response->id);
-                curl_setopt($ch2, CURLOPT_HTTPGET, 1);
-                curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch2, CURLOPT_HTTPHEADER, array(
-                    "X_USERNAME: $username",
-                    "X_PASSWORD: $password"
-                ));
-
-                //send request
-                $response_json_list = curl_exec($ch2);
-                $response_list = json_decode($response_json);                
-                if (isset($response_list->id)){
-                    $this->assertEquals($response->id, $response_list->id);
-                }else{
-                    $this->assertFalse(TRUE);
-                }
+                $message = '';
+                if (isset($response->error->message)) $message = $response->error->message;
+                $this->assertEquals($response->success,true, $message);
+                $this->assertNotEmpty($response->result->file);
             } else {
-                $this->assertFalse(TRUE);
+                $this->assertInstanceOf('stdClass', $response);
             }
+            unset($rest);
+        } 
+ 
 
-        }
+    }
 
-	//close connection
-	curl_close($ch);
-    }   
-    
     public function testGetPicklist(){
-        $model = 'picklist';
-        $module = 'helpdesk';
+        $model = 'HelpDesk';
         $fieldname = 'ticketpriorities';
-        
-        //set credentials
-        $credentials = Array(
-            'user1' => 'password1',
+
+        echo " Getting Picklist" . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'GET',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
         );
 
-        //login using each credentials
-        foreach($credentials as $username => $password){
-            
-            //prepare request to be sent
-            $ch = curl_init(); 
-            curl_setopt($ch, CURLOPT_URL, $this->url.$model."?fieldname=$fieldname&module=$module");
-            curl_setopt($ch, CURLOPT_HTTPGET, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "X_USERNAME: $username",
-                "X_PASSWORD: $password"
-            ));
-  
-            //send request
-            $response_json = curl_exec($ch);
-            $response = json_decode($response_json, true);
+        // Sorg arguments
+        ksort($params);
 
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->get($this->url.$model."/".$fieldname);
+            $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
-                $this->assertEquals($response->success,"true");
+                $message = '';
+                if (isset($response->error->message)) $message = $response->error->message;
+                $this->assertEquals($response->success,true, $message);
             } else {
-                $this->assertFalse(TRUE);
+                $this->assertInstanceOf('stdClass', $response);
             }
-        }
-
-	//close connection
-	curl_close($ch);
-    }    */
+            unset($rest);
+        } 
+    }
 }
-?>
-
