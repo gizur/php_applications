@@ -28,7 +28,7 @@ class TroubleticketController extends Controller
 	public function actionsurveylist()
 	{
 	     $module="HelpDesk";
-	     $tickettype="Survey";
+	     $tickettype="inoperation";
 		 $model=new Troubleticket;
 		 $records=$model->findAll($module,$tickettype);
 		 $this->render('surveylist',array('model'=>$model,'result'=>$records));
