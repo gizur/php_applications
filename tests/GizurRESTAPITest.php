@@ -349,7 +349,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testGetPicklist(){
         $model = 'HelpDesk';
-        $fieldname = 'ticketpriorities';
+        $fieldname = 'damagetype';
 
         echo " Getting Picklist" . PHP_EOL;        
 
