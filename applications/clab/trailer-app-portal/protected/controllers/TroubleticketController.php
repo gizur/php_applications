@@ -46,7 +46,8 @@ class TroubleticketController extends Controller
 		$pickList_category=$model->getpickList('ticketcategories');
 		$pickList_damagetype=$model->getpickList('damagetype');
 		$pickList_damagepostion=$model->getpickList('damageposition');
-		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category,'damagetype' => $pickList_damagetype , 'damagepos' => $pickList_damagepostion));
+		$picklist_drivercauseddamage=$model->getpickList('drivercauseddamage');
+		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category,'damagetype' => $pickList_damagetype ,'damagepos'=> $pickList_damagepostion,'drivercauseddamageList'=>$picklist_drivercauseddamage));
 		
 	} 
 	

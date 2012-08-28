@@ -22,9 +22,10 @@ $this->breadcrumbs=array(
 ?>
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'troubleticketsurvey',
+	'htmlOptions' => array('enctype' => 'multipart/form-data'),
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
+	'validateOnSubmit'=>true,
 	
 	),
 )); ?>
@@ -125,6 +126,12 @@ $this->breadcrumbs=array(
   </td>
   </tr>
   <tr>
+	  <td>
+  <?php echo $form->labelEx($model,'Driver Caused Damage '); ?>
+  </td><td>
+	 
+   <?php echo $form->dropDownList($model,'drivercauseddamage',$drivercauseddamageList);?>
+     </td>	  
 <td>
   <?php echo $form->labelEx($model,'Create Date'); ?>
   </td><td>
