@@ -495,8 +495,8 @@ class ApiController extends Controller {
                 //Get Documents
                 if (count($documentids)!=0) {
                     $query = "select * from Documents" . 
-                            " where id in (7x" . 
-                            implode(", 7x", $documentids) . ");";
+                            " where id in (15x" . 
+                            implode(", 15x", $documentids) . ");";
 
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
