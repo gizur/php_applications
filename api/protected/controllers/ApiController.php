@@ -57,7 +57,8 @@ class ApiController extends Controller {
             'straps'  => 'cf_646',
             'reportdamage' => 'cf_647',
             'damagetype' => 'cf_648',
-            'damageposition' => 'cf_649'
+            'damageposition' => 'cf_649',
+            'drivercauseddamage' => 'cf_650'
         ),
         'Assets' => Array(
             'trailertype' => 'cf_640'
@@ -208,6 +209,15 @@ class ApiController extends Controller {
         //Tasks include Listing of Troubleticket, Picklists, Assets
         try {
         switch($_GET['model']) {
+            case 'About':
+                echo 'This mobile app was built using';
+                echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
+                echo 'In case of invalid API Key and signature:';
+                echo ' "An account needs to setup in order to use';
+                echo 'this service. Please contact';
+                echo '<a href="mailto://sales@gizur.com">sales@gizur.com</a>';
+                echo 'in order to setup an account.';
+                break;
             /*
              *******************************************************************
              *******************************************************************
@@ -243,6 +253,7 @@ class ApiController extends Controller {
                     $response->success = "true";
                     echo json_encode($response);                    
                 }
+                break;
             /*
              *******************************************************************
              *******************************************************************
@@ -256,7 +267,7 @@ class ApiController extends Controller {
                 if (isset($_GET['fieldname'])){
                     $sessionId = $this->session->sessionName; 
                     if (in_array($_GET['fieldname'],array_flip($this->custom_fields['HelpDesk']))){
-                        $fieldname = $this->custom_fields[$_GET['fieldname']];
+                        $fieldname = $this->custom_fields[$_GET['model']][$_GET['fieldname']];
                     } else {
                         $fieldname = $_GET['fieldname'];
                     }
@@ -668,7 +679,7 @@ class ApiController extends Controller {
                     $key_to_replace = array_search($k, $custom_fields);
                     if ($key_to_replace){
                         unset ($post[$k]);
-                        $post[$custom_fields[$k]] = $v;
+                        $post[$key_to_replace] = $v;
                     }
                 }
                 //get data json 
