@@ -5,7 +5,7 @@
 # Deploy the configuration files for a specific AWS account. The parameter
 # specifies the folder for the configuration files to use
 #
-if [ -n "$1"]
+if [ -n "$1" ]
 then
     echo Usage: ./deploy-configuaration [[region]] [[memcache-location]]
 fi
