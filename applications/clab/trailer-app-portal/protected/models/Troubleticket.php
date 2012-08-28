@@ -16,7 +16,8 @@
 	  "Straps" => 'straps',
 	  "TroubleTicketType"  => 'cf_641',
 	  "Typeofdamage" => 'damagetype',
-	  "Damageposition" => 'damageposition'
+	  "Damageposition" => 'damageposition',
+	  "Drivercauseddamage" => 'drivercauseddamage'
   );
 class Troubleticket extends CFormModel
 {
@@ -44,6 +45,7 @@ class Troubleticket extends CFormModel
 	public $Damageposition;
 	public $image;
 	public $TroubleTicketType;
+	public $drivercauseddamage;
 
 
 public function rules()
@@ -136,8 +138,22 @@ public function attributeLabels()
 		  $data[$custom_fields[$key]] = $data[$key];
 		  unset($data[$key]);
 		  }
-	    
 	    }
+	    if(!empty($_FILES))
+	    {
+		  $directorypath= YiiBase::getPathOfAlias('application')."/data/";
+		  $rendomdirectory=uniqid(Yii::app()->session['username']) ;	
+		  $creadetnewdirectory=mkdir($directorypath.$rendomdirectory,0777);
+		  //$creadetnewdirectory=$directorypath;
+		  $files=array();
+		  foreach ($_FILES['Troubleticket']['name'] as $key => $filename) {
+		  $tmp_name = $_FILES['Troubleticket']["tmp_name"][$key];
+		  $name = $_FILES['Troubleticket']["name"][$key]; 
+         move_uploaded_file($tmp_name, "{$creadetnewdirectory}{$name}");
+        $data[$key]="@{$creadetnewdirectory}{$name}";
+   
+        }
+	}
 	 $params = array(
                     'Verb'          => 'POST',
                     'Model'	        => 'HelpDesk',
@@ -168,8 +184,7 @@ public function attributeLabels()
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY); 
     $response = $rest->post(Yii::app()->params->URL."HelpDesk",$data);
    	$response = json_decode($response);
-	
-	if($response->success==true){
+  	if($response->success==true){
 		$TicketID=$response->result->ticket_no;
 	echo Yii::app()->user->setFlash('success', "Your Ticket ID : ". $TicketID); 
      } else

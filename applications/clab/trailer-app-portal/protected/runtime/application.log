@@ -2371,3 +2371,142 @@ Stack trace:
 REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
 HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
 ---
+2012/08/28 16:16:28 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:119)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (119)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (45)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/08/28 16:17:04 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:119)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (119)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (45)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/08/28 16:18:47 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:119)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (119)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (45)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/08/28 16:18:52 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:119)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (119)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (45)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/08/28 16:21:20 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:119)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (119)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (45)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/08/28 16:25:39 [error] [exception.CException] exception 'CException' with message 'Property "Troubleticket.drivercauseddamage" is not defined.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/helpers/CHtml.php(2044): CComponent->__get('drivercauseddam...')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/helpers/CHtml.php(1402): CHtml::resolveValue(Object(Troubleticket), 'drivercauseddam...')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/widgets/CActiveForm.php(681): CHtml::activeDropDownList(Object(Troubleticket), 'drivercauseddam...', Array, Array)
+#3 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/survey.php(131): CActiveForm->dropDownList(Object(Troubleticket), 'drivercauseddam...', Array)
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(127): require('/var/www/gizurc...')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): CBaseController->renderInternal('/var/www/gizurc...', Array, true)
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): CBaseController->renderFile('/var/www/gizurc...', Array, true)
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): CController->renderPartial('survey', Array, true)
+#8 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(50): CController->render('survey', Array)
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurvey()
+#10 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#11 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#12 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('survey')
+#14 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/s...')
+#15 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#16 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#17 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket
+---
+2012/08/28 16:31:42 [error] [exception.CException] exception 'CException' with message 'Property "Troubleticket.drivercauseddamage" is not defined.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/helpers/CHtml.php(2044): CComponent->__get('drivercauseddam...')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/helpers/CHtml.php(1402): CHtml::resolveValue(Object(Troubleticket), 'drivercauseddam...')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/widgets/CActiveForm.php(681): CHtml::activeDropDownList(Object(Troubleticket), 'drivercauseddam...', Array, Array)
+#3 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/survey.php(132): CActiveForm->dropDownList(Object(Troubleticket), 'drivercauseddam...', Array)
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(127): require('/var/www/gizurc...')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): CBaseController->renderInternal('/var/www/gizurc...', Array, true)
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): CBaseController->renderFile('/var/www/gizurc...', Array, true)
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): CController->renderPartial('survey', Array, true)
+#8 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(50): CController->render('survey', Array)
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurvey()
+#10 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#11 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#12 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('survey')
+#14 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/s...')
+#15 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#16 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#17 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket
+---
+2012/08/28 17:30:32 [error] [php] chmod() [<a href='function.chmod'>function.chmod</a>]: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:147)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurvey()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#7 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (147)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (43)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/08/28 18:22:11 [error] [php] move_uploaded_file(1/AddField at 2012-02-16 10:57:19.png) [<a href='function.move-uploaded-file'>function.move-uploaded-file</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:154)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurvey()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#7 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (154)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (43)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)

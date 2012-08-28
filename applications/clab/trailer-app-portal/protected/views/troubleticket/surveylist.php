@@ -19,9 +19,52 @@ $this->breadcrumbs=array(
         'Trouble Ticket / Trouble Ticket List',
 );
 ?>
-<div style="float:right; margin-bottom:10px">
+<div style="float:right; margin-bottom:10px; width:140px">
 <a href="index.php?r=troubleticket/survey/">Create Trouble Ticket</a></div>
+<div style="float:left;width:740px">
+<table>
+<tr>
+	<?php 
+	for($i=1980;$i<=2020;$i++)
+	{
+		$currentyear=date('Y'); 
+		$selected = $i==$currentyear ? "selected" : "";
+		$options.= "<option value=".$i." ".$selected." >".$i."</option>"; 
+		} 
+		
+	
+ $curr_month = date("m"); 
+ $month = array (1=>"January", "February", "March", "April", "May", "June", "July", "August", "September", "October" ,"November" ,"December");
+	foreach($month as $key => $val)
+	{
+	 $selected=$key==$curr_month ? "selected" : "";	
+	 $Months.="<option value=".$key." ".$selected." >".$val."</option>";
+	 }
+	
+	$TrailerIDS = array (1=>"AXT009", "AXT0010", "AXT0011", "AXT0012", "AXT0013", "XYZ010", "XYZ011");
+	foreach($TrailerIDS as $key => $val)
+	{
+		 $TID.="<option value=".$key.">".$val."</option>";
+	 }	
+		?>
+<td><select name='year'><?php echo $options; ?></select></td>
+<td><select name='month'><?php echo $Months; ?></select></td>
+<td>
+<fieldset style="border:1px solid #000">
+   
+    <span>Trailer</span>&nbsp;&nbsp;&nbsp;&nbsp;
+	<select name='TID'><?php echo $TID; ?></select>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="radio" name="optration" value="inperation">&nbsp;&nbsp;In operation
+	;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="radio" name="optration" value="damaged">&nbsp;&nbsp;Damaged
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	</fieldset>
+	</td>
+</tr>
+</table>
 
+</div>
 <?php
 $columnsArray = array('id','Date.','Time','Account (Tronspoter)','Contact (Driver)','Place',
 'Type of Damage','Position on trailer');

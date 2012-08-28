@@ -52,8 +52,7 @@
 		<?php
 		if($user!='Guest' && !empty($user)){ $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Survey', 'url'=>array('/troubleticket/')),
-				array('label'=>'Damage Report', 'url'=>array('/troubleticket/damage/')),
+				array('label'=>'Survey', 'url'=>array('/troubleticket/surveylist')),
 				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>$loginstatus),
 				array('label'=>'Logout' , 'url'=>array('/site/logout'), 'visible'=>!$loginstatus)
