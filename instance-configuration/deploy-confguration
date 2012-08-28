@@ -7,14 +7,16 @@
 #
 if [ -n "$1" ]
 then
+    echo All Good
+else
     echo Usage: ./deploy-configuaration [[region]] [[memcache-location]]
 fi
 cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0
 cp $1/phpMyAdmin/config.inc.php ../lib/phpMyAdmin-3.5.2-all-languages
 if [ -n "$2" ]
 then
-    cp $1/rest-api/main.php ../api/protected/config
+    cp $1/rest-api/main-$2memcache.php ../api/protected/config/main.php 
 else
-    cp $1/rest-api/main-$2memcache.php /api/protected/config/main.php 
+    cp $1/rest-api/main.php ../api/protected/config
 fi
 cp $1/.htaccess ../.htaccess
