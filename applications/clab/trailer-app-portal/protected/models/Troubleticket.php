@@ -139,6 +139,7 @@ public function attributeLabels()
 		  unset($data[$key]);
 		  }
 	    }
+	    /*
 	    if(!empty($_FILES))
 	    {
 		  $directorypath= YiiBase::getPathOfAlias('application')."/data/";
@@ -154,6 +155,7 @@ public function attributeLabels()
    
         }
 	}
+	*/ 
 	 $params = array(
                     'Verb'          => 'POST',
                     'Model'	        => 'HelpDesk',
@@ -199,7 +201,7 @@ function findAll($module,$tickettype)
   {
 	$params = array(
                     'Verb'          => 'GET',
-                    'Model'	    => $model,
+                    'Model'	        => $module,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
                     'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
@@ -225,7 +227,7 @@ function findAll($module,$tickettype)
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-	        $response = $rest->get(VT_REST_URL.$module."/".$tickettype);
+	        $response = $rest->get(Yii::app()->params->URL.$module."/".$tickettype);
 	       return $result= json_decode($response,true);
 		  
   }

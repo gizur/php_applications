@@ -56,7 +56,7 @@ $this->breadcrumbs=array(
 	<select name='TID'><?php echo $TID; ?></select>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="radio" name="optration" value="inperation">&nbsp;&nbsp;In operation
-	;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="radio" name="optration" value="damaged">&nbsp;&nbsp;Damaged
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	</fieldset>
@@ -66,20 +66,20 @@ $this->breadcrumbs=array(
 
 </div>
 <?php
-$columnsArray = array('id','Date.','Time','Account (Tronspoter)','Contact (Driver)','Place',
+$columnsArray = array('id','Date.','Time','Account (Tronspoter)','Contact (Driver)','Place', 'Damage Reported',
 'Type of Damage','Position on trailer');
 $rowsArray = array();
 $i=1;
-$result['result']=array(1,2,3,4,5);
+//$result['result']=array(1,2,3,4,5);
 foreach($result['result'] as $data)
 { 
 	
 	$date=date('y-m-d',strtotime($data['createdtime']));
 	$time=date('h:i',strtotime($data['createdtime']));
-	$viewdteails='<a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'">'.$data['account'].'</a>';
+	$viewdteails='<a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'">Exceed99</a>';
 	$ticketNo = '<a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'">'.$data['date'].'</a>';
-	$rowsArray[] = array($i,$date,$time,$viewdteails,$data['contact'],
-	$data['cf_634'],$data['cf_635'],$data['cf_636']);
+	$rowsArray[] = array($i,$date,$time,$viewdteails,'Markus jane',
+	$data['damagereportlocation'],'Yes',$data['damagetype'],$data['damageposition']);
 	$i++;
 }
 
