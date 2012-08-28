@@ -330,7 +330,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->post($this->url.$model, $fields);
+            echo $response = $rest->post($this->url.$model, $fields);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
@@ -347,9 +347,63 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testGetDocumentAttachment(){
+        $model = 'DocumentAttachments';
+        $notesid = '17x169';
+
+        echo " Downloading Ticket Attachement " . PHP_EOL;        
+    
+        $params = array(
+                    'Verb'          => 'GET',
+                    'Model'	    => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
+        );
+
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $response = $rest->get($this->url.$model."/".$notesid);
+            $response = json_decode($response);
+            //print_r($response);
+            //check if response is valid
+            if (isset($response->success)){
+                $message = '';
+                if (isset($response->error->message)) $message = $response->error->message;
+                $this->assertEquals($response->success,true, $message);
+                $this->assertNotEmpty($response->result->file);
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+            unset($rest);
+        } 
+ 
+
+    }
+
+
+
     public function testGetPicklist(){
         $model = 'HelpDesk';
-        $fieldname = 'damagetype';
+        $fieldname = 'drivercauseddamage';
 
         echo " Getting Picklist" . PHP_EOL;        
 
