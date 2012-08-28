@@ -66,30 +66,53 @@ $this->breadcrumbs=array(
   <td>
   <?php echo $form->labelEx($model,'Location for damage report'); ?>&nbsp;<span style="color:red">*</span>
   </td><td>
-    <?php echo $form->textField($model,'Damagereport'); ?>
-    <?php echo $form->error($model,'Damagereport'); ?>
+    <?php echo $form->textField($model,'Damagereportlocation'); ?>
+    <?php echo $form->error($model,'Damagereportlocation'); ?>
   
   </td>
   </tr>
+<tr>
+   <td>
+  <?php echo $form->labelEx($model,'Sealed trailer'); ?>
+  </td><td>
+  <?php echo $form->dropDownList($model,'Sealed',$Sealed);?>
+  </td>
+   
+    <td>
+   <?php echo $form->labelEx($model,'Plates'); ?>
+  </td><td>
+   <?php echo $form->textField($model,'Plates'); ?>
+    <?php echo $form->error($model,'Plates'); ?>
+    </td> 
+   
+</tr>
+
 
   <tr>
+<td>
+  <?php echo $form->labelEx($model,'Number of straps'); ?>&nbsp;<span style="color:red">*</span>
+  </td><td>
+   <?php echo $form->textField($model,'Straps'); ?>
+    <?php echo $form->error($model,'Straps'); ?>
+  </td>	  
+	  
    <td>
   <?php echo $form->labelEx($model,'Type of damage'); ?>
   </td><td>
     <?php echo $form->dropDownList($model,'Typeofdamage',$damagetype);?>
       <?php echo $form->error($model,'Typeofdamage'); ?>
   </td>
-  
-  <td>
+ 
+  </tr>
+  <tr>
+ <td>
   <?php echo $form->labelEx($model,'Position on trailer for damage'); ?>
   </td><td>
      <?php echo $form->dropDownList($model,'Damageposition',$damagepos);?>
         <?php //echo $form->hiddenField($model,'Damageposition',array('type'=>"hidden",'size'=>2,'maxlength'=>60 ,'value'=>'Höger sida (Right side)')); ?>
     <?php echo $form->error($model,'Damageposition'); ?>
   
-  </td>
-  </tr>
-  <tr>
+  </td>	  
   <td>
   <?php echo $form->labelEx($model,'Upload Pictures'); ?>
   </td>
@@ -100,6 +123,8 @@ $this->breadcrumbs=array(
   <?php echo $form->error($model,'image'); ?>
 
   </td>
+  </tr>
+  <tr>
 <td>
   <?php echo $form->labelEx($model,'Create Date'); ?>
   </td><td>

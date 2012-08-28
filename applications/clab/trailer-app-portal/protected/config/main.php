@@ -92,6 +92,10 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		'GIZURCLOUD_SECRET_KEY' => '9b45e67513cb3377b0b18958c4de55be',
+		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
+		'API_VERSION' => '0.1',
+		'URL' => 'http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/'
 	),
 	// Default vtentity behaviour
 	

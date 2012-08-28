@@ -9,14 +9,14 @@
  $custom_fields=array(
       "Title" => 'ticket_title',
       "Category" => 'ticketcategories',
-	  "TrailerID" => 'cf_628',
-	  "Damagereport" => 'cf_647',
-	  "Sealed" => 'cf_644' ,
-	  "Plates" => 'cf_631',
-	  "Straps" => 'cf_632',
+	  "TrailerID" => 'trailerid',
+	  "Damagereportlocation" => 'damagereportlocation',
+	  "Sealed" => 'sealed' ,
+	  "Plates" => 'plates',
+	  "Straps" => 'straps',
 	  "TroubleTicketType"  => 'cf_641',
-	  "Typeofdamage" => 'cf_648',
-	  "Damageposition" => 'cf_649'
+	  "Typeofdamage" => 'damagetype',
+	  "Damageposition" => 'damageposition'
   );
 class Troubleticket extends CFormModel
 {
@@ -36,7 +36,7 @@ class Troubleticket extends CFormModel
 	public $Title; 
 	public $Category;
 	public $TrailerID;
-	public $Damagereport;
+	public $Damagereportlocation;
 	public $Plates;
 	public $Straps;
 	public $Sealed;
@@ -81,16 +81,14 @@ public function attributeLabels()
   function getpickList($fieldname)
   {
 	    $model = 'HelpDesk';
-        $fieldname = 'ticketpriorities';
-
         //echo " Getting Picklist" . PHP_EOL;        
 
         $params = array(
                     'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
+                    'Model'	        => $model,
+                    'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
         );
 
         // Sorg arguments
@@ -103,7 +101,7 @@ public function attributeLabels()
 
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+                    $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         //foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
@@ -112,13 +110,13 @@ public function attributeLabels()
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
             $response = $rest->get($this->url.$model."/".$fieldname);
-            $response = json_decode($response);
+            $response = json_decode($response,true);
             //check if response is valid
-            	$picklistarr=array();
-				$result['result']=array('1','2','3','4');
-				foreach($result['result'] as $val)
+            $picklistarr=array();
+				//$result['result']=array('1','2','3','4');
+				foreach($response['result'] as $val)
 				{
 					$picklistarr[$val['value']]=$val['label'];
 				 }
@@ -141,11 +139,11 @@ public function attributeLabels()
 	    
 	    }
 	 $params = array(
-                    'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
+                    'Verb'          => 'POST',
+                    'Model'	        => 'HelpDesk',
+                    'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
         );
 
         // Sorg arguments
@@ -158,7 +156,7 @@ public function attributeLabels()
 
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+                    $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         //foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
@@ -167,9 +165,10 @@ public function attributeLabels()
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY); 
-    $response = $rest->post(VT_REST_URL."HelpDesk",$data);
-	$response = json_decode($response);
+            $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY); 
+    $response = $rest->post(Yii::app()->params->URL."HelpDesk",$data);
+   	$response = json_decode($response);
+	
 	if($response->success==true){
 		$TicketID=$response->result->ticket_no;
 	echo Yii::app()->user->setFlash('success', "Your Ticket ID : ". $TicketID); 
@@ -186,9 +185,9 @@ function findAll($module,$tickettype)
 	$params = array(
                     'Verb'          => 'GET',
                     'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
+                    'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
         );
 
         // Sorg arguments
@@ -201,7 +200,7 @@ function findAll($module,$tickettype)
 
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+                    $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         //foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
@@ -210,7 +209,7 @@ function findAll($module,$tickettype)
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
 	        $response = $rest->get(VT_REST_URL.$module."/".$tickettype);
 	       return $result= json_decode($response,true);
 		  
@@ -225,9 +224,9 @@ function findAll($module,$tickettype)
 	$params = array(
                     'Verb'          => 'GET',
                     'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
+                    'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
         );
 
         // Sorg arguments
@@ -240,7 +239,7 @@ function findAll($module,$tickettype)
 
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+                    $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         //foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
@@ -249,7 +248,7 @@ function findAll($module,$tickettype)
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
 	$response = $rest->get(VT_REST_URL.$module."/".$ID);
 	return $result= json_decode($response,true);  
 	  

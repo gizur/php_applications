@@ -42,11 +42,11 @@ class TroubleticketController extends Controller
 		{
 		 $model->Save($_POST['Troubleticket']);
 		 }
-		//$pickList_sealed=$model->getpickList('cf_637');
+		$pickList_sealed=$model->getpickList('sealed');
 		$pickList_category=$model->getpickList('ticketcategories');
-		$pickList_damagetype=$model->getpickList('cf_648');
-		$pickList_damagepostion=$model->getpickList('cf_649');
-		$this->render('survey',array('model'=>$model,'category'=>$pickList_category,'damagetype' => $pickList_damagetype , 'damagepos' => $pickList_damagepostion));
+		$pickList_damagetype=$model->getpickList('damagetype');
+		$pickList_damagepostion=$model->getpickList('damageposition');
+		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category,'damagetype' => $pickList_damagetype , 'damagepos' => $pickList_damagepostion));
 		
 	} 
 	
