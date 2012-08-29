@@ -313,7 +313,7 @@ class ApiController extends Controller {
                     //creating where clause based on parameters
                     $where_clause = Array();
                     if ($_GET['category']=='inoperation') {
-                        $where_clause[] = "ticketstatus = 'Close'";
+                        $where_clause[] = "ticketstatus = 'Closed'";
                     }
                     if ($_GET['category']=='damaged') {
                         $where_clause[] = "ticketstatus = 'Open'";
