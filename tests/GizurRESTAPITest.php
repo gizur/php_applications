@@ -32,8 +32,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'cloud3@gizur.com' => 'rksh2jjf',
     );
 
-    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
- 
+    //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
+    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    
     public function testLogin()
     {
         $model = 'Authenticate';
@@ -235,8 +236,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             unset($rest);
         } 
     }
-   
-   
+    
+    
     public function testCreateTroubleTicket(){
         $model = 'HelpDesk';
 
@@ -289,7 +290,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             unset($rest);
         } 
     }
-
+    
     public function testCreateTroubleTicketWithDocument(){
         $model = 'HelpDesk';
 
@@ -297,8 +298,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
         //set fields to to posted
 	$fields = array(
-		    'ticket_title'=>urlencode('Testing Using PHPUnit with Image Upload'),
-                    'filename'=>'@'.getcwd().'/image-to-upload.jpg'
+		    'ticket_title'=>'Testing Using PHPUnit with Image Upload',
+                    'filename'=>'@'.getcwd().'/image-to-upload.jpg',
+                    'drivercauseddamage' => 'No',
+                    
 		);
 
     
@@ -330,7 +333,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->post($this->url.$model, $fields);
+            echo $response = $rest->post($this->url.$model, $fields);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
@@ -342,11 +345,44 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                 $this->assertInstanceOf('stdClass', $response);
             }
             unset($rest);
-        } 
- 
+        }  
 
     }
 
+    public function testSignatureHash() {
+        echo PHP_EOL . "  HMAC --> " . $signature = hash_hmac('SHA256','KeyIDGZCLDFC4B35BModelAuthenticateTimestamp2012-08-29 07:46:54 +0000VerbPOSTVersion0.1',
+        self::GIZURCLOUD_SECRET_KEY, 1);
+        echo PHP_EOL . "  BASE64 --> " . $signature = base64_encode($signature);
+        $signature_generated = '1206f25c0554ff8313ef681fb990217b';
+        $this->assertEquals($signature, $signature_generated);
+    }
+
+    public function testUploadToAmazonS3() {
+                        $s3 = new AmazonS3();
+                        
+                        $file = Array(
+                            'name' => getcwd().'/image-to-upload.jpg'
+                        );
+
+                        $response = $s3->create_object(
+                                'gizurcloud', 
+                                'image-to-upload.jpg', 
+                                array(
+                            //'acl' => AmazonS3::ACL_PUBLIC,
+                            'fileUpload' => $file['name'],
+                            'contentType' => 'image/jpeg',
+                            //'storage' => AmazonS3::STORAGE_REDUCED,
+                            'headers' => array(
+                                'Cache-Control'    => 'max-age',
+                                //'Content-Encoding' => 'gzip',
+                                'Content-Language' => 'en-US',
+                                'Expires'          => 
+                                'Thu, 01 Dec 1994 16:00:00 GMT',
+                            )
+                        ));                        
+                        $this->assertEquals($response->isOK(), true);
+    }
+    
     public function testGetDocumentAttachment(){
         $model = 'DocumentAttachments';
         $notesid = '17x169';
@@ -448,4 +484,5 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             unset($rest);
         } 
     }
+    
 }
