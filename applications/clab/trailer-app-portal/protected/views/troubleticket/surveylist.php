@@ -16,11 +16,11 @@ $this->pageTitle=Yii::app()->name . ' - Trouble Ticket List ';
 echo CHtml::metaTag($content='My page description', $name='decription');
 
 $this->breadcrumbs=array(
-        'Trouble Ticket / Trouble Ticket List',
+        getTranslatedString('Trouble ticket').' /'. getTranslatedString('Trouble ticket List'),
 );
 ?>
 <div style="float:right; margin-bottom:10px; width:140px">
-<a href="index.php?r=troubleticket/survey/">Create Trouble Ticket</a></div>
+<a href="index.php?r=troubleticket/survey/"><?php echo getTranslatedString('Create new Trouble ticket');?></a></div>
 <div style="float:left;width:740px">
 <table>
 <tr>
@@ -55,9 +55,9 @@ $this->breadcrumbs=array(
     <span>Trailer</span>&nbsp;&nbsp;&nbsp;&nbsp;
 	<select name='TID'><?php echo $TID; ?></select>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="radio" name="optration" value="inperation">&nbsp;&nbsp;In operation
+	<input type="radio" name="optration" value="inperation">&nbsp;&nbsp;<?php echo getTranslatedString('In operation'); ?>
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="radio" name="optration" value="damaged">&nbsp;&nbsp;Damaged
+	<input type="radio" name="optration" value="damaged">&nbsp;&nbsp;<?php echo getTranslatedString('Damaged'); ?>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	</fieldset>
 	</td>
@@ -66,8 +66,8 @@ $this->breadcrumbs=array(
 
 </div>
 <?php
-$columnsArray = array('id','Date.','Time','Account (Tronspoter)','Contact (Driver)','Place', 'Damage Reported',
-'Type of Damage','Position on trailer');
+$columnsArray = array(getTranslatedString('ID'),getTranslatedString('Date'),getTranslatedString('Time'),getTranslatedString('Account'),getTranslatedString('Contact'),getTranslatedString('Place'), getTranslatedString('Damage Reported'),
+getTranslatedString('Type of damage'),getTranslatedString('Position on trailer'));
 $rowsArray = array();
 $i=1;
 //$result['result']=array(1,2,3,4,5);
@@ -91,11 +91,11 @@ $this->widget('ext.htmltableui.htmlTableUi',array(
     'cssFile'=>'',
     'editable'=>false,
     'enableSort'=>true,
-    'footer'=>'Total rows: '.count($rowsArray),
+    'footer'=> getTranslatedString('Total rows').': '.count($rowsArray),
     'formTitle'=>'Form Title',
     'rows'=>$rowsArray,
     'sortColumn'=>1,
     'sortOrder'=>'desc',
-    'title'=>'List of Trouble Ticket',
+    'title'=> getTranslatedString('Trouble ticket List'),
 ));
 ?>

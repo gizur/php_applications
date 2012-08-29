@@ -1,5 +1,7 @@
+<?php 
+include_once 'protected/extensions/langauge/sw.php';
+?>
 <?php
-
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 

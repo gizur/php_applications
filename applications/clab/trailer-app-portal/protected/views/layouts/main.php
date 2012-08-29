@@ -28,21 +28,24 @@
 		 if(!empty($user))
 		 {
 		 ?>
-   <div style="float:right"> Welcome &nbsp;
+   <div style="float:right"> <?php echo getTranslatedString('Welcome'); ?> &nbsp;
 	<?php echo CHtml::encode($user); ?></div>
    <?php } ?>
 	</div><!-- header -->
 
 	<div id="mainmenu">
 		<?php
-		 /*
-		 if(empty($user))
+		$querystring=$_SERVER['QUERY_STRING'];
+		$strTemp1 = trim($user);
+
+/*
+		 if($user==null);
 		 {
 		  $returnUrl=Yii::app()->homeUrl;
-		  $this->redirect($returnUrl);
-		  exit;
+		  //$this->redirect($returnUrl);
+		  //exit;
 		  }
-		  */ 
+*/		  
 		if(!empty($user))
 		{
 		 $loginstatus=0;
@@ -52,10 +55,10 @@
 		<?php
 		if($user!='Guest' && !empty($user)){ $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Survey', 'url'=>array('/troubleticket/surveylist')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>$loginstatus),
-				array('label'=>'Logout' , 'url'=>array('/site/logout'), 'visible'=>!$loginstatus)
+				array('label'=> getTranslatedString('Survey'), 'url'=>array('/troubleticket/surveylist')),
+				array('label'=> getTranslatedString('About'), 'url'=>array('/site/page', 'view'=>'about')),
+				array('label'=> getTranslatedString('Login'), 'url'=>array('/site/login'), 'visible'=>$loginstatus),
+				array('label'=> getTranslatedString('Logout') , 'url'=>array('/site/logout'), 'visible'=>!$loginstatus)
 			),
 		)); }?>
 	</div><!-- mainmenu -->
