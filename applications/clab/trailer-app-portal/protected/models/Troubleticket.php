@@ -52,7 +52,7 @@ public function rules()
 	{
 		return array(
 			// username and password are required
-			array('Title,TrailerID, Damagereport,Straps', 'required'),
+			array('Title,TrailerID, Damagereportlocation,Straps', 'required'),
 			
 		);
 	}
