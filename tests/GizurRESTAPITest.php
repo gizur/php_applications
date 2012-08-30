@@ -92,7 +92,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
-                echo json_encode($response) . PHP_EOL;
+                //echo json_encode($response) . PHP_EOL;
                 $this->assertEquals($response->success,$valid_credentials[$username], " Checking validity of response");
             } else {
                 $this->assertInstanceOf('stdClass', $response);
@@ -230,7 +230,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->get($this->url.$model."/$category"."/".
+            echo $response = $rest->get($this->url.$model."/$category"."/".
                                                   $filter['year']."/".
                                                   $filter['month']."/".
                                                   $filter['trailerid']);
@@ -279,7 +279,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo PHP_EOL . $response = $rest->get($this->url.$model."/$category");
+            $response = $rest->get($this->url.$model."/$category");
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
