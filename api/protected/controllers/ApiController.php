@@ -415,11 +415,11 @@ class ApiController extends Controller {
                     //Return response to client  
                     $rest = new RESTClient();
                     $rest->format('json');                    
-                    echo $response = $rest->get(Yii::app()->params->vtRestUrl . 
+                    $response = $rest->get(Yii::app()->params->vtRestUrl . 
                             "?$params");
                     $response = json_decode($response, true);
                     $custom_fields = $this->custom_fields['HelpDesk'];
-                    die; 
+                    
                     foreach($response['result'] as &$troubleticket){
                         unset($troubleticket['update_log']);
                         unset($troubleticket['hours']);
