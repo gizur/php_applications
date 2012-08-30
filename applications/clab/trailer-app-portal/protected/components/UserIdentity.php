@@ -49,7 +49,7 @@ class UserIdentity extends CUserIdentity
                       
                    ));
 		          $response=json_decode($response);
-		          /*
+		         /*
 		           * Check Response if the responce is true then set the 
 		           * session other wise return error message.
 		           */ 
@@ -57,6 +57,8 @@ class UserIdentity extends CUserIdentity
 		  if($response->success=='true'){
 			Yii::app()->session['username'] = $this->username;
 			Yii::app()->session['password'] = $this->password;
+			Yii::app()->session['account']= $response->contactname;
+			Yii::app()->session['contactname']= $response->accountname;
 			$this->errorCode=self::ERROR_NONE;
 			return true;
              } else {

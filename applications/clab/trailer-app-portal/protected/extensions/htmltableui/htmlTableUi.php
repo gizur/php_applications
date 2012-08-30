@@ -104,7 +104,7 @@ class HtmlTableUi extends CWidget
 	 * This parameter determines if the table will 
 	 * be paged.
 	 */
-	public $enablePager = false;
+	public $enablePager = true;
 	
 	/* exportUrl
 	 * (Optional)
@@ -141,7 +141,7 @@ class HtmlTableUi extends CWidget
 	 * (Not in Use)
 	 * 
 	 * This parameter is the size of the pager
-	 */
+	 */ 
 	public $pageSize = 10;
 
 	/* rowsArrray
@@ -165,7 +165,7 @@ class HtmlTableUi extends CWidget
 	 * This parameter indicates the default
 	 * sorting direction (ascending or descending)
 	 */
-	public $sortOrder = 'asc';
+	public $sortOrder = 'desc';
 
 	/* subtitle
 	 * (optional)
@@ -366,7 +366,7 @@ class HtmlTableUi extends CWidget
 			$cs->registerScript($this->getId().'-sortTable',$sortScript,CClientScript::POS_READY);
 		}
 		
-		/*
+		
 		// Pager script
 		$pagerScript = '
 			htmltablePager(\''.$this->getId().'\','.$this->pageSize.');
@@ -375,7 +375,7 @@ class HtmlTableUi extends CWidget
 		if($this->enableSort&&$this->enablePager){
 			$cs->registerScript($this->getId().'-pagerTable',$pagerScript,CClientScript::POS_READY);
 		}
-		*/
+		
 		
 		$formPositionScript = '
 			$( "#edit-form" ).bind( "dragstop", function(event, ui) {
@@ -429,7 +429,7 @@ class HtmlTableUi extends CWidget
 			echo CHtml::openTag('div',array('class'=>'header ui-widget-header ui-corner-top '.$uicornerbottom,'style'=>'cursor:pointer;',));
 				echo "<table class='header-table'><tbody>";
 				echo CHtml::openTag('tr',array());
-					echo CHtml::openTag('td',array('onclick'=>'htmltableUiToggleDiv("'.$this->getId().'");'));
+					//echo CHtml::openTag('td',array('onclick'=>'htmltableUiToggleDiv("'.$this->getId().'");'));
 						echo CHtml::openTag('div',array('class'=>'header-container',));
 							/*
 							 * The header of the table has four elements:
@@ -583,15 +583,17 @@ class HtmlTableUi extends CWidget
 							
 							/* <-- Not in Use -->
 							// To continue if TableSorter pager doesn't work
+							*/ 
 							if($this->enablePager){
-								if($pagesize>0){
-									//$rowClass .= ' visiblerow';
-									//$pagesize--;
+								$pageSize=10;
+								if($pageSize > 0 ){
+									$rowClass .= ' visiblerow';
+									$pagesize--;
 								}else{
-									//$rowClass .= ' hiddenrow';
+									$rowClass .= ' hiddenrow';
 								}
 							}
-							*/
+							
 							
 							// Create the row of data
 							$rowOptions = array('class'=> $rowClass,'onclick'=>'htmltableShowUiForm("'.$this->getId().'",this,"'.$this->formTitle.'");');
@@ -610,8 +612,8 @@ class HtmlTableUi extends CWidget
 					echo CHtml::closeTag('tbody',array());
 				echo CHtml::closeTag('table',array());
 				
-				/* <--Not in Use-->
-				 * 
+				/* <--Not in Use -->
+				 */ 
 				// Pager
 				if($this->enablePager){
 					echo CHtml::openTag('div',array('id'=>$this->getId().'-pager','class'=>'pager'));
@@ -621,8 +623,7 @@ class HtmlTableUi extends CWidget
 						echo "<div class='last'>Last</div>";
 					echo CHtml::closeTag('div');
 				}
-				 * 
-				 */
+				 
 				
 			echo CHtml::closeTag('div');
 		echo CHtml::closeTag('div');
