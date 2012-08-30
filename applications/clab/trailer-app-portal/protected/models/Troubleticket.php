@@ -21,14 +21,7 @@
   );
 class Troubleticket extends CFormModel
 {
-	Const GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
-    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
-    Const API_VERSION = "0.1";
-	 protected $credentials = Array(
-            'cloud3@gizur.com' => 'rksh2jjf',
-    );
-    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
-
+	
 	/**
 	 * Declares the validation rules.
 	 * The rules state that username and password are required,
@@ -113,7 +106,7 @@ public function attributeLabels()
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-            $response = $rest->get($this->url.$model."/".$fieldname);
+            $response = $rest->get(Yii::app()->params->URL.$model."/".$fieldname);
             $response = json_decode($response,true);
             //check if response is valid
             $picklistarr=array();
@@ -197,8 +190,9 @@ public function attributeLabels()
   }
 
 
-function findAll($module,$tickettype)
+function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
   {
+
 	$params = array(
                     'Verb'          => 'GET',
                     'Model'	        => $module,
@@ -219,7 +213,28 @@ function findAll($module,$tickettype)
         $signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        //foreach($this->credentials as $username => $password){            
+        
+        
+        // Check Filter Parameter
+        $FilterParameter=array();
+        if($year!="")
+        {
+			$FilterParameter[]=$year;
+		}
+		if($month!="")
+        {
+			$FilterParameter[]=$month;
+		}
+		if($trailer!="")
+        {
+			$FilterParameter[]=$trailer;
+		}
+		$extraparameter=implode('/',$FilterParameter);
+		if(!empty($extraparameter))
+		{
+		 $extraparameter="/".$extraparameter;
+		 }
+		 //foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
             $rest->format('json'); 
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
@@ -227,8 +242,8 @@ function findAll($module,$tickettype)
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-	        $response = $rest->get(Yii::app()->params->URL.$module."/".$tickettype);
-	       return $result= json_decode($response,true);
+            $response = $rest->get(Yii::app()->params->URL.$module."/".$tickettype.$extraparameter);
+           return $result= json_decode($response,true);
 		  
   }
 

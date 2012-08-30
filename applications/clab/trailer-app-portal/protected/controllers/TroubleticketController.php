@@ -50,6 +50,20 @@ class TroubleticketController extends Controller
 		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category,'damagetype' => $pickList_damagetype ,'damagepos'=> $pickList_damagepostion,'drivercauseddamageList'=>$picklist_drivercauseddamage));
 		
 	} 
+
+/* This Action are Filter Ajax base Record */	
+	public function actionsurveysearch()
+	{
+		 $module="HelpDesk";
+		 $tickettype=$_POST['tickettype'];  
+         $year=$_POST['year'];
+	     $month=$_POST['month'];
+	     $trailer=$_POST['trailer'];
+	     $model=new Troubleticket;
+		 $records=$model->findAll($module,$tickettype,$year,$month,$trailer);
+		 $this->renderPartial('ajaxrequest', array('result'=>$records));
+		 
+	} 
 	
 	public function actiondamage()
 	{
