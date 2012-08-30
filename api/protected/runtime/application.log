@@ -1522,3 +1522,39 @@ Stack trace:
 REQUEST_URI=/gizurcloud/api/index.php/api/Assets/28x4
 in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (568)
 in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/29 13:30:23 [error] [php] move_uploaded_file(/home/anshuk/public_html/gizurcloud/api../data/image-to-upload.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:757)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (757)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/29 13:31:24 [error] [php] move_uploaded_file(/home/anshuk/public_html/gizurcloud/api/../data/image-to-upload.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:757)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (757)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/08/29 13:32:15 [error] [php] move_uploaded_file(/home/anshuk/public_html/gizurcloud/api/data/image-to-upload.jpg): failed to open stream: No such file or directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:757)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (757)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)

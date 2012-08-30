@@ -763,10 +763,8 @@ class ApiController extends Controller {
                                 array(
                             'fileUpload' => $file['tmp_name'],
                             'contentType' => $file['type'],
-                            'storage' => AmazonS3::STORAGE_REDUCED,
                             'headers' => array(
                                 'Cache-Control'    => 'max-age',
-                                'Content-Encoding' => 'gzip',
                                 'Content-Language' => 'en-US',
                                 'Expires'          => 
                                 'Thu, 01 Dec 1994 16:00:00 GMT',
@@ -775,7 +773,7 @@ class ApiController extends Controller {
                         
                         if ($response->isOK()) {
                             $globalresponse->result->file[$file['name']] = 
-                                    'uploaded';
+                                    'uploaded'. json_encode($file);
                         } else {
                             $globalresponse->result->file[$file['name']] = 
                                     'not uploaded';
