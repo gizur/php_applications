@@ -32,8 +32,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'cloud3@gizur.com' => 'rksh2jjf',
     );
 
-    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
-    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
+    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
     
     public function testLogin()
     {
@@ -491,7 +491,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     
     public function testGetDocumentAttachment(){
         $model = 'DocumentAttachments';
-        $notesid = '17x249';
+        $notesid = '15x268';
 
         echo " Downloading Ticket Attachement " . PHP_EOL;        
     
@@ -531,7 +531,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                 $message = '';
                 if (isset($response->error->message)) $message = $response->error->message;
                 $this->assertEquals($response->success,true, $message);
-                $this->assertNotEmpty($response->result->file);
+                $this->assertNotEmpty($response->result->filecontent);
+                $fp = fopen('downloaded_'.$response->result->filename, 'w');
+                fwrite($fp, base64_decode($response->result->filecontent));
+                fclose($fp);
+                $this->assertFileEquals('downloaded_'.$response->result->filename,$response->result->filename);
+
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
