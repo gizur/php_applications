@@ -42,6 +42,16 @@ class ApiController extends Controller {
      */
     
     private $session;    
+
+     /**
+     * Default response format
+     * either 'json' or 'xml'
+     */
+    
+    private $ws_entities = Array(
+        'Documents' => 15,
+        'Contacts' => 12
+    );    
     
     /**
      * Aliasing custom fields
@@ -80,7 +90,8 @@ class ApiController extends Controller {
     public function beforeAction() {
         
         try {
-            
+            if ($_GET['model'] == 'About')
+                return true;            
             //check if public key exists
             if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
                 throw new Exception('Public Key Not Found in request');
@@ -102,7 +113,7 @@ class ApiController extends Controller {
             else
                 $signature = $_SERVER['HTTP_X_SIGNATURE'];
 
-                // Build query arguments list
+            // Build query arguments list
             $params = array(
                     'Verb'          => Yii::App()->request->getRequestType(),
                     'Model'	    => $_GET['model'],
@@ -141,7 +152,6 @@ class ApiController extends Controller {
             ));            
             
             $cache_value = Yii::app()->cache->get($cache_key);            
-            
             if ($cache_value===false) {
                 //Get the Access Key and the Username from vtiger REST 
                 //service of the customer portal user's vtiger account
@@ -154,7 +164,7 @@ class ApiController extends Controller {
                         "?operation=logincustomer", 
                         "username=$customerportal_username" . 
                         "&password=$customerportal_password");
-
+                
                 $response = json_decode($response);
                 if ($response->success==false)
                     throw new Exception("Invalid Username and Password");
@@ -178,19 +188,63 @@ class ApiController extends Controller {
                 $response = json_decode($response); 
                 if ($response->success==false)
                     throw new Exception("Invalid generated key");                    
-
+                $sessionId = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
+
+                /* Get Contact and Account Name */
+
+                $query = "select * from Contacts" . 
+                            " where id = " . $contactId . ";";
+
+                //urlencode to as its sent over http.
+                $queryParam = urlencode($query);
+
+                //creating query string
+                $params = "sessionName=$sessionId" . 
+                            "&operation=query&query=$queryParam";
+
+                //sending request to vtiger REST Service 
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                $contact = $rest->get(Yii::app()->params->vtRestUrl . 
+                            "?$params");
+                $contact = json_decode($contact, true);
+                if (!$contact['success'])
+                    throw new Exception($contact['error']['message']);
+                $response->result->contactname = $contact['result'][0]['firstname'] . 
+                         " " . $contact['result'][0]['lastname'];
+
+                $query = "select accountname from Accounts" . 
+                          " where id = " . $contact['result'][0]['account_id'] . ";";
+
+                //urlencode to as its sent over http.
+                $queryParam = urlencode($query);
+
+                //creating query string
+                $params = "sessionName=$sessionId" . 
+                          "&operation=query&query=$queryParam";
+
+                //sending request to vtiger REST Service 
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                $account = $rest->get(Yii::app()->params->vtRestUrl . 
+                            "?$params");
+                $account = json_decode($account, true);
+                if (!$account['success'])
+                        throw new Exception($account['error']['message']);
+                $response->result->accountname = $account['result'][0]['accountname'];
 
                 $cache_value = json_encode($response->result);
 
                 //Save userid and session id against customerportal 
                 //credentials
-                Yii::app()->cache->set($cache_key, $cache_value);            
+                Yii::app()->cache->set($cache_key, $cache_value);
+                $valueFrom = 'database';            
             } 
             
             $this->session = json_decode($cache_value);
-            
+              
             return true;
         } catch (Exception $e){
             $response = new stdClass();
@@ -212,8 +266,8 @@ class ApiController extends Controller {
             case 'About':
                 echo 'This mobile app was built using';
                 echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
-                echo 'In case of invalid API Key and signature:';
-                echo ' "An account needs to setup in order to use';
+                echo 'In case of invalid API Key and signature,';
+                echo ' an account needs to setup in order to use ';
                 echo 'this service. Please contact';
                 echo '<a href="mailto://sales@gizur.com">sales@gizur.com</a>';
                 echo 'in order to setup an account.';
@@ -232,6 +286,9 @@ class ApiController extends Controller {
                     //Return response to client
                     $response = new stdClass();
                     $response->success = "true";
+                    $response->contactname = $this->session->contactname;
+                    $response->accountname = $this->session->accountname;
+                    $response->valueFrom = $this->session->valueFrom;
                     echo json_encode($response);
                 }
                 
@@ -307,7 +364,6 @@ class ApiController extends Controller {
                     $contactId = $this->session->contactId;
 
                     //Send request to vtiger REST service
-                    //cf_633 => Trouble Ticket Type
                     $query = "select * from " . $_GET['model']; 
 
                     //creating where clause based on parameters
@@ -321,14 +377,27 @@ class ApiController extends Controller {
 
                     $where_clause[] = "parent_id = " . $contactId;
                     if (isset($_GET['year']) && isset($_GET['month'])) {
-                        $where_clause[] = "created >= " . 
-                                $_GET['year'] . "-" . $_GET['month'] . "-01";
-                        $where_clause[] = "created >= " . 
-                                $_GET['year'] . "-" . $_GET['month'] . "-31";
+                        if ($_GET['year'] != '0000') {
+                            if ($_GET['month'] == '00') {
+                                $startmonth = '01';
+                                $endmonth = '12';
+                            } else {
+                                $startmonth = $_GET['month'];
+                                $endmonth = $_GET['month'];
+                            }
+                            if (!checkdate($startmonth, "01", $_GET['year'])) 
+                                throw new Exception("Invalid month specified in list criteria");
+                            $where_clause[] = "createdtime >= '" . 
+                                $_GET['year'] . "-" . $startmonth . "-01'";
+                            $where_clause[] = "createdtime <= '" . 
+                                $_GET['year'] . "-" . $endmonth . "-31'";
+                        }
                     }
+
                     if (isset($_GET['trailerid'])){
-                        $where_clause[] = $this->custom_fields['trailerid'] . 
-                                " = '" . $_GET['trailerid'] . "'";
+                        if ($_GET['trailerid']!='0')
+                            $where_clause[] = $this->custom_fields['HelpDesk']['trailerid'] . 
+                                    " = '" . $_GET['trailerid'] . "'";
                     }
                        
                     $query = $query . " where " . 
@@ -451,9 +520,10 @@ class ApiController extends Controller {
              */                
             case 'HelpDesk':
                 $sessionId = $this->session->sessionName;
-                
-                //Send request to vtiger REST service
-                //cf_633 => Trouble Ticket Type
+               
+                /*Get HelpDesk details*/                
+ 
+                //Creating vTiger Query
                 $query = "select * from " . $_GET['model'] . 
                         " where id = " . $_GET['id'] . ";";
 
@@ -464,14 +534,18 @@ class ApiController extends Controller {
                 $params = "sessionName=$sessionId" . 
                         "&operation=query&query=$queryParam";
 
-                //Receive response from vtiger REST service
-                //Return response to client  
+                //sending Request vtiger REST service
                 $rest = new RESTClient();
                 $rest->format('json');                    
                 $response = $rest->get(Yii::app()->params->vtRestUrl . 
                         "?$params"); 
-                
-                //Get Documents Ids
+                $response = json_decode($response, true);
+                $response['result'] = $response['result'][0]; 
+ 
+                if (!$response['success']) 
+                    throw new Exception($response['error']['message']);
+
+                /*Get Documents Ids*/
 
                 //urlencode to as its sent over http.
                 $queryParam = urlencode($query);
@@ -481,8 +555,7 @@ class ApiController extends Controller {
                         "&operation=getrelatedtroubleticketdocument" . 
                         "&crmid=" . $_GET['id'];
 
-                //Receive response from vtiger REST service
-                //Return response to client  
+                //sending request vtiger REST service
                 $rest = new RESTClient();
                 $rest->format('json');                    
                 $documentids = $rest->get(Yii::app()->params->vtRestUrl . 
@@ -490,13 +563,11 @@ class ApiController extends Controller {
                 $documentids = json_decode($documentids, true);
                 $documentids = $documentids['result'];
                 
-                //--to do-- get contact details
-                $response = json_decode($response);
-                //Get Documents
+                /*Get Document Details*/
                 if (count($documentids)!=0) {
                     $query = "select * from Documents" . 
-                            " where id in (15x" . 
-                            implode(", 15x", $documentids) . ");";
+                            " where id in (" . $this->ws_entities['Documents'] . "x" . 
+                            implode(", " . $this->ws_entities['Documents'] . "x", $documentids) . ");";
 
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -505,22 +576,61 @@ class ApiController extends Controller {
                     $params = "sessionName=$sessionId" . 
                             "&operation=query&query=$queryParam";
 
-                    //Receive response from vtiger REST service
-                    //Return response to client  
+                    //sending request to vtiger REST Service 
                     $rest = new RESTClient();
                     $rest->format('json');                    
                     $documents = $rest->get(Yii::app()->params->vtRestUrl . 
                             "?$params");
                     $documents = json_decode($documents, true);
-
-                    
-                    $response->result[0]->documents = $documents['result'];
+                    if (!$documents['success'])
+                        throw new Exception($documents['error']['message']);
+                    $response['result']['documents'] = $documents['result'];
                 }
                 
-                $response = json_encode($response);
-                $response = json_decode($response, true);
-                $response['result'] = $response['result'][0]; 
-                
+                /*Get Contact's Name*/ 
+                 if ($response['result']['parent_id']!='') {
+                    $query = "select * from Contacts" . 
+                            " where id = " . $response['result']['parent_id'] . ";";
+
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName=$sessionId" . 
+                            "&operation=query&query=$queryParam";
+
+                    //sending request to vtiger REST Service 
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $contact = $rest->get(Yii::app()->params->vtRestUrl . 
+                            "?$params");
+                    $contact = json_decode($contact, true);
+                    if (!$contact['success'])
+                        throw new Exception($contact['error']['message']);
+                    $response['result']['contactname'] = $contact['result'][0];
+
+                    $query = "select accountname from Accounts" . 
+                            " where id = " . $contact['result'][0]['account_id'] . ";";
+
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName=$sessionId" . 
+                            "&operation=query&query=$queryParam";
+
+                    //sending request to vtiger REST Service 
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $account = $rest->get(Yii::app()->params->vtRestUrl . 
+                            "?$params");
+                    $account = json_decode($account, true);
+                    if (!$account['success'])
+                        throw new Exception($account['error']['message']);
+                    $response['result']['accountname'] = $account['result'][0]['accountname'];
+
+                }
+                               
                 $custom_fields = $this->custom_fields['HelpDesk'];
 
                 unset($response['result']['update_log']);
@@ -533,7 +643,6 @@ class ApiController extends Controller {
                     if ($key_to_replace) {
                         unset($response['result'][$fieldname]);
                         $response['result'][$key_to_replace] = $value;
-                        //unset($custom_fields[$key_to_replace]);                                
                     }
                 }                                
                 
@@ -552,7 +661,6 @@ class ApiController extends Controller {
                 $sessionId = $this->session->sessionName;
                 
                 //Send request to vtiger REST service
-                //cf_633 => Trouble Ticket Type
                 $query = "select * from " . $_GET['model'] . 
                         " where id = " . $_GET['id'] . ";";
 
@@ -611,7 +719,7 @@ class ApiController extends Controller {
                 $rest = new RESTClient();
                 $rest->format('json');                    
                 $response = $rest->get(Yii::app()->params->vtRestUrl . 
-                        "?$params");               
+                        "?$params");              
                 $response = json_decode($response);
                       
                 $s3 = new AmazonS3();
@@ -772,10 +880,10 @@ class ApiController extends Controller {
                         ));                        
                         
                         if ($response->isOK()) {
-                            $globalresponse->result->file[$file['name']] = 
+                            $globalresponse->result->documents[$file['name']] = 
                                     'uploaded'. json_encode($file);
                         } else {
-                            $globalresponse->result->file[$file['name']] = 
+                            $globalresponse->result->documents[$file['name']] = 
                                     'not uploaded';
                         }
                         
@@ -822,15 +930,16 @@ class ApiController extends Controller {
                 echo json_encode($response);            
         }
     }
-    
-    public function actionDelete() {
+
+    public function actionError() {
         $response = new stdClass();
         $response->success = "false";
-        $response->error->code = "ACCESS_DENIED";
-        $response->error->message = "Permission to perform the" . 
-                " operation is denied for " . $_GET['model'];
+        $response->error->code = "PATTERN_NOT_FOUND";
+        $response->error->message = "Such a service is not provided by" . 
+                " this REST service";
         echo json_encode($response);
     }  
+ 
     
     public function actionUpdate() {
         //Tasks include detail updating Troubleticket

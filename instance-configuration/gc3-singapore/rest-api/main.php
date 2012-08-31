@@ -52,15 +52,19 @@ return array(
                     'urlFormat'=>'path',
                     'rules'=>array(
                         // REST patterns
-                        array('api/list', 'pattern'=>'api/<model:\w+>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:\w+>/<category:(inoperation|damaged)>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:\w+>/<category:(inoperation|damaged)>/<year:\d{4}>/<month:[a-z]{3}>/<trailerid:\w+>', 'verb'=>'GET'),
-                        array('api/view', 'pattern'=>'api/<model:\w+>/<id:[0-9x]+>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:\w+>/<fieldname:\w+>', 'verb'=>'GET'), 
-                        array('api/list', 'pattern'=>'api/<model:\w+>/<action:(login|logout)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'PUT'),
-                        array('api/delete', 'pattern'=>'api/<model:\w+>/<id:\d+>', 'verb'=>'DELETE'),
-                        array('api/create', 'pattern'=>'api/<model:\w+>', 'verb'=>'POST'),
+                        array('api/list', 'pattern'=>'api/<model:(HelpDesk|Assets|About)>', 'verb'=>'GET'),
+                        array('api/list', 
+                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 
+                                   'verb'=>'GET'),
+                        array('api/list', 
+                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>', 
+                                   'verb'=>'GET'),
+                        array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
+                        array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+                        array('api/create', 'pattern'=>'api/<model:(HelpDesk)>', 'verb'=>'POST'),
+                        array('api/error', 'pattern'=>'.*?')
                     ),
 		),
 		'db'=>array(
