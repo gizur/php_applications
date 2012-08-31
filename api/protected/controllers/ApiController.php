@@ -152,7 +152,6 @@ class ApiController extends Controller {
             ));            
             
             $cache_value = Yii::app()->cache->get($cache_key);            
-            $valueFrom = 'cache';
             if ($cache_value===false) {
                 //Get the Access Key and the Username from vtiger REST 
                 //service of the customer portal user's vtiger account
@@ -213,7 +212,8 @@ class ApiController extends Controller {
                 $contact = json_decode($contact, true);
                 if (!$contact['success'])
                     throw new Exception($contact['error']['message']);
-                $response->result->contactname = $contact['result'][0]['firstname'] . " " . $contact['result'][0]['lastname'];
+                $response->result->contactname = $contact['result'][0]['firstname'] . 
+                         " " . $contact['result'][0]['lastname'];
 
                 $query = "select accountname from Accounts" . 
                           " where id = " . $contact['result'][0]['account_id'] . ";";
@@ -244,7 +244,6 @@ class ApiController extends Controller {
             } 
             
             $this->session = json_decode($cache_value);
-            $this->session->valueFrom = $valueFrom;
               
             return true;
         } catch (Exception $e){
@@ -662,7 +661,6 @@ class ApiController extends Controller {
                 $sessionId = $this->session->sessionName;
                 
                 //Send request to vtiger REST service
-                //cf_633 => Trouble Ticket Type
                 $query = "select * from " . $_GET['model'] . 
                         " where id = " . $_GET['id'] . ";";
 
@@ -721,7 +719,7 @@ class ApiController extends Controller {
                 $rest = new RESTClient();
                 $rest->format('json');                    
                 $response = $rest->get(Yii::app()->params->vtRestUrl . 
-                        "?$params");               
+                        "?$params");              
                 $response = json_decode($response);
                       
                 $s3 = new AmazonS3();
