@@ -18,8 +18,9 @@ class TroubleticketController extends Controller
 	public function actionindex()
 	{
 		 $module="HelpDesk";
-	     $tickettype="Survey";
+		 $tickettype="Survey";
 		 $model=new Troubleticket;
+		 $this->LoginCheck();
 		 $records=$model->findAll($module,$tickettype);
 		 $this->render('surveylist',array('model'=>$model,'result'=>$records));
 		
@@ -30,6 +31,7 @@ class TroubleticketController extends Controller
 	     $module="HelpDesk";
 	     $tickettype="inoperation";
 		 $model=new Troubleticket;
+		 $this->LoginCheck();
 		 $records=$model->findAll($module,$tickettype);
 		 $this->render('surveylist',array('model'=>$model,'result'=>$records));
 		
@@ -38,6 +40,7 @@ class TroubleticketController extends Controller
 	public function actionsurvey()
 	{
 		 $model=new Troubleticket;
+		 $this->LoginCheck();
 		if(isset($_POST['submit']))
 		{
 		 $model->Save($_POST['Troubleticket']);
@@ -60,43 +63,42 @@ class TroubleticketController extends Controller
 	     $month=$_POST['month'];
 	     $trailer=$_POST['trailer'];
 	     $model=new Troubleticket;
+	     $this->LoginCheck();
 		 $records=$model->findAll($module,$tickettype,$year,$month,$trailer);
 		 $this->renderPartial('ajaxrequest', array('result'=>$records));
 		 
 	} 
-	
-	public function actiondamage()
+			
+	public function actionsurveydetails()
 	{
 		 $model=new Troubleticket;
-		 if(isset($_POST['submit']))
-		{
-		 $model->Save($_POST['Troubleticket']);
-		// echo "<pre>";
-		 //print_r($_POST['Troubleticket']);
-		 }
-		$pickList_damagetype=$model->getpickList('cf_635');
-		$pickList_damagepostion=$model->getpickList('cf_636');
-		$pickList_category=$model->getpickList('ticketcategories');
-	 	$this->render('damage',array('model' => $model,'damagetype' => $pickList_damagetype , 'damagepos' => $pickList_damagepostion,'category'=>$pickList_category));
-
-	} 
-		
-		
-		
-	public function actionview()
-	{
-		 $model=new Troubleticket;
-		 $customerid=Yii::app()->session['customerid'];
-		 $sessionid=Yii::app()->session['sessionid'];
+		 $this->LoginCheck();
 		 $module="HelpDesk";
-		 $ticketId=112;
-		 $onlymine="";
-		
-		 $params = Array('x_ticketid' => $ticketId,'x_block'=>$module,'x_id'=>"$customerid", 'x_sessionid'=>"$sessionid");
-		$storedata=$model->view($params);
-		 $this->render('view',array('result'=>$storedata));
+		 $urlquerystring=$_SERVER['QUERY_STRING'];
+		 $paraArr=explode("/",$urlquerystring);
+		 $ticketId=$paraArr['2'];
+		 $storedata=$model->findById($module,$ticketId);
+		 $this->render('surveydetails',array('result'=>$storedata));
 		
 	}
+	
+	/**
+	 * This is the action to handle images.
+	 */
+	public function actionimages()
+	{
+		 $module="DocumentAttachments";
+		 $urlquerystring=$_SERVER['QUERY_STRING'];
+		 $paraArr=explode("/",$urlquerystring);
+		 $ticketId=$paraArr['2'];
+		 $model=new Troubleticket;
+		 $imagedata=$model->getimage($module,$ticketId);
+		// print_r($imagedata);
+		 //header("Content-Type: image/jpeg");
+		// header("Content-Disposition: inline;filename=".$imagedata->filename);
+		 //echo base64_decode($imagedata->filecontent); die;
+	}
+	
 	
 	
 	/**
@@ -112,6 +114,17 @@ class TroubleticketController extends Controller
 	        	$this->render('error', $error);
 	    }
 	}
+	
+	public function LoginCheck()
+	{
+		$user=Yii::app()->session['username'];
+		if(empty($user))
+		{
+		 $returnUrl=Yii::app()->homeUrl;
+		 $this->redirect($returnUrl);
+		 }
+		
+	 }
 	
 	
 }

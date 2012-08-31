@@ -10,6 +10,17 @@
 	*/
 
 -->
+<style>
+body{ margin:0px; padding:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px;}
+.warrper{ width:900px; margin:20px auto; border:#F00 solid 1px;}
+.toppanel{ width:600px; height:auto; padding:10px 0 0px 0; background:#e3f0f7;border:#589fc8 solid 1px;}
+.Survey{width:300px; height:auto; float:left; }
+.Survey h2{ font-size:18px;  font-weight: normal; color:#2a7fae; margin:0px 0px 10px 0px; padding:0px;}
+.Damage{width:850px; height:auto; float:right;}
+.Damage h2{ font-size:18px;  font-weight: normal; color:#2a7fae; margin:0px 0px 10px 0px; padding:0px;}
+.button{ background:#507aaa; border:#173d68 solid 1px; font-weight:bold; color:#fff; padding:2px 5px; margin-left:123px} 
+.button a { font-weight:bold; color:#fff; padding:2px 5px 10px; text-decoration:none; } 
+</style>
 <?php
 $this->pageTitle=Yii::app()->name . ' - New Ticket for Survey ';
 
@@ -19,13 +30,21 @@ $this->breadcrumbs=array(
         'Trouble Ticket / Survey Details',
 );
 ?>
-<div style="float:right; margin-bottom:10px" class="button">
+<!--
+<div style="float:right; margin-bottom:10px">
 <a href="index.php?r=troubleticket/surveylist/">List of Survey Ticket</a></div>
-
-<div style="background:#E5E5E5; width:550px"><strong>Ticket Information : <?php echo $result['result']['ticket_title']; ?></strong></div>	
+-->
+<div style="background:#E5E5E5"><strong>Ticket Information : <?php echo $result['result']['ticket_title']; ?></strong></div>	
 <div class="Survey">
 
 <h2>Survey</h2>
+<?php 
+/*
+echo "<pre>";
+print_r($result);
+//die;
+*/
+?>
 <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
 <tr>
     <td width="26%" bgcolor="e3f0f7"><strong>Tikect ID</strong></td>
@@ -92,7 +111,7 @@ $this->breadcrumbs=array(
     <td colspan="2" bgcolor="7eb6d5"  valign="top"><strong>Pictures</strong></td>
     </tr>
    <tr>
-    <td width="50%" bgcolor="e3f0f7" align="center"><img src="http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/images/15x267" ></td>
+    <td width="50%" bgcolor="e3f0f7" align="center"><img src="img.jpg" ></td>
     <td width="50%" bgcolor="e3f0f7" align="center"><img src="img.jpg" ></td>
   </tr>
      <tr>

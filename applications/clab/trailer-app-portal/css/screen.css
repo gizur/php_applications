@@ -243,3 +243,12 @@ color:#FFF;
 width:680px;
 text-align:center;
 }
+
+.waitprocessdetails
+{
+position:absolute;
+background-color:red;
+color:#FFF;
+width:100px;
+text-align:center;
+}
