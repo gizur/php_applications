@@ -15,9 +15,7 @@ include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php'
 ?>
 <?php
 $this->pageTitle=Yii::app()->name . ' - Trouble Ticket List ';
-
 echo CHtml::metaTag($content='My page description', $name='decription');
-
 $this->breadcrumbs=array(
         getTranslatedString('Trouble ticket').' /'. getTranslatedString('Trouble ticket List'),
 );

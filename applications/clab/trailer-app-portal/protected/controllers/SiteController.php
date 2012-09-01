@@ -132,6 +132,8 @@ class SiteController extends Controller
 		  if($response->success){
 			Yii::app()->session['username'] = "";
 			Yii::app()->session['password'] = "";
+			Yii::app()->session['Lang'] = "";
+			
 			$this->redirect(Yii::app()->user->returnUrl);
 			} else {
 				 return false;

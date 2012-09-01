@@ -97,7 +97,7 @@ return array(
 		'URL' => 'http://localhost/api/index.php/api/',
 		'Langauge' => array(
 	                 'en' => 'English',
-	                 'sw' => 'Swedish'
+	                 'sv' => 'Swedish'
 		)
 	),
 	// Default vtentity behaviour

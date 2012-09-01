@@ -38,12 +38,12 @@ $this->breadcrumbs=array(
         echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
     }
 ?>
+
 <div style="background:#E5E5E5"><strong><?php echo getTranslatedString('Create new Trouble ticket');?></strong></div>	
 <div align="center">
 <table style="width:100%">
 <tr>
  <td>
-
    <?php echo $form->labelEx($model,getTranslatedString('Title')); ?>
    </td><td>
     <?php echo $form->textField($model,'Title'); ?>
@@ -64,7 +64,7 @@ $this->breadcrumbs=array(
 
    <?php echo $form->labelEx($model,getTranslatedString('Trailer ID')); ?>&nbsp;<span style="color:red">*</span>
    </td><td>
-    <?php echo $form->textField($model,'TrailerID'); ?>
+   <?php echo $form->dropDownList($model,'TrailerID', $Assets); ?>
     <?php echo $form->error($model,'TrailerID'); ?>
    
   </td>
