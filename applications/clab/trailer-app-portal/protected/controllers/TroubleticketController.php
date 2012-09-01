@@ -35,7 +35,8 @@ class TroubleticketController extends Controller
 		 $model=new Troubleticket;
 		 $this->LoginCheck();
 		 $records=$model->findAll($module,$tickettype);
-		 $this->render('surveylist',array('model'=>$model,'result'=>$records));
+		 $Asset_List=$model->findAssets('Assets');
+		 $this->render('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List));
 		
 	}
 	

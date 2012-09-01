@@ -38,8 +38,7 @@ $this->breadcrumbs=array(
 	 $Months.="<option value=".$key." ".$selected." >".$val."</option>";
 	 }
 	
-	 $TrailerIDS = array ('0' => "AXT009", '1' => "AXT0010", '2' => "AXT0011", '3' =>  "AXT0012", '4' => "AXT0013",'5' => "XYZ010", '6' => "XYZ011");
-	 foreach($TrailerIDS as $key => $val)
+	 foreach($Assets as $key => $val)
 	 {
 		 $TID.="<option value=".$key.">".$val."</option>";
 	 }	

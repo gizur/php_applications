@@ -99,7 +99,7 @@ $this->breadcrumbs=array(
   if(count($result['result']['documents'])>0){
    foreach($result['result']['documents'] as $image)
    {
-       echo '<td width="50%" bgcolor="e3f0f7" align="center"><img src="http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/images/'.$image['id'].'" width="100px" height="100px"></td>';  
+       echo '<td width="50%" bgcolor="e3f0f7" align="center"><img src="'.Yii::app()->request->baseUrl.'/index.php?r=troubleticket/images/'.$image['id'].'" width="100px" height="100px"></td>';  
          if($i%2==0)
          {
 		  echo "</tr><tr>";

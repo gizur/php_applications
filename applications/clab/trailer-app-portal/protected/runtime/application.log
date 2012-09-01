@@ -3675,3 +3675,16 @@ Stack trace:
 REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/survey/
 HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
 ---
+2012/09/01 16:16:57 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:288)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (288)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (38)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
