@@ -1,3 +1,4 @@
+
 <!-- 
 /**
 	 * 
@@ -10,6 +11,9 @@
 	*/
 
 -->
+<?php 
+include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
+?>
 <?php
 $this->pageTitle=Yii::app()->name . ' - New Ticket for Survey ';
 
@@ -115,6 +119,22 @@ $this->breadcrumbs=array(
   
   </td>	  
   <td>
+  <?php echo $form->labelEx($model,getTranslatedString('Driver caused damage')); ?>
+  </td><td>
+	 
+   <?php echo $form->dropDownList($model,'drivercauseddamage',$drivercauseddamageList);?>
+     </td>	
+  </tr>
+  <tr>
+	    
+<td>
+  <?php echo $form->labelEx($model,getTranslatedString('Create Date')); ?>
+  </td><td>
+   <?php echo date('Y-m-d'); ?>
+   <?php echo $form->hiddenField($model,'TroubleTicketType',array('type'=>"hidden",'size'=>2,'maxlength'=>2, 'value'=>'survey')); ?>
+  </td>
+  
+<td>
   <?php echo $form->labelEx($model,getTranslatedString('Upload Pictures')); ?>
   </td>
   <td>
@@ -122,30 +142,29 @@ $this->breadcrumbs=array(
     echo $form->fileField($model, 'image');
   ?>
   <?php echo $form->error($model,'image'); ?>
-
-  </td>
-  </tr>
-  <tr>
-	  <td>
-  <?php echo $form->labelEx($model,getTranslatedString('Driver caused damage')); ?>
-  </td><td>
-	 
-   <?php echo $form->dropDownList($model,'drivercauseddamage',$drivercauseddamageList);?>
-     </td>	  
-<td>
-  <?php echo $form->labelEx($model,getTranslatedString('Create Date')); ?>
-  </td><td>
-   <?php echo date('Y-m-d'); ?>
-   <?php echo $form->hiddenField($model,'TroubleTicketType',array('type'=>"hidden",'size'=>2,'maxlength'=>2, 'value'=>'survey')); ?>
+  <span id="addmorepic"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/001_01.png" title="Add More Pictures" /></span>
+  <p id="morepic"></p> 
   </td>
 </tr>
-
-
-
-
-
 </table>
  <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id'=>'submit','name'=>'submit')); ?>
-
 <?php echo CHtml::endForm(); ?>
 <?php $this->endWidget(); ?>
+
+<script>
+var data ="<div><input type='file' name='Troubleticket[image";
+var data2 = "]' id='file";
+var data3 ="' />&nbsp;<span style='cursor:pointer'><img src='<?php echo Yii::app()->request->baseUrl; ?>/images/buttons_21.png' title='Remove Picurest'  onclick='removefiles(this)'/></span></div>";
+$("#addmorepic").click(function() {
+var counter=$('input[type=file]').length;
+$('#morepic').append(data+counter+data2+counter+data3);
+});
+
+function removefiles(obj) 
+{
+   $(obj).parents("div:first").remove();
+ 
+}
+
+</script>
+

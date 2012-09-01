@@ -25,7 +25,9 @@ class TroubleticketController extends Controller
 		 $this->render('surveylist',array('model'=>$model,'result'=>$records));
 		
 	}
-	
+	/**
+	 * This Action are display all Trouble Ticket base Record 
+	 */
 	public function actionsurveylist()
 	{
 	     $module="HelpDesk";
@@ -37,6 +39,9 @@ class TroubleticketController extends Controller
 		
 	}
 	
+	/**
+	 * This Action are create new Trouble Ticket 
+	 */
 	public function actionsurvey()
 	{
 		 $model=new Troubleticket;
@@ -68,7 +73,9 @@ class TroubleticketController extends Controller
 		 $this->renderPartial('ajaxrequest', array('result'=>$records));
 		 
 	} 
-			
+	/**
+	 * This Action are display releted Trouble Ticket details depand on trouble ticket ID 
+	 */		
 	public function actionsurveydetails()
 	{
 		 $model=new Troubleticket;
@@ -93,10 +100,9 @@ class TroubleticketController extends Controller
 		 $ticketId=$paraArr['2'];
 		 $model=new Troubleticket;
 		 $imagedata=$model->getimage($module,$ticketId);
-		// print_r($imagedata);
-		 //header("Content-Type: image/jpeg");
-		// header("Content-Disposition: inline;filename=".$imagedata->filename);
-		 //echo base64_decode($imagedata->filecontent); die;
+		 header("Content-Type: image/jpeg");
+		 header("Content-Disposition: inline;filename=".$imagedata['result']['filename']);
+		 echo base64_decode($imagedata['result'][filecontent]); die;
 	}
 	
 	
@@ -115,6 +121,10 @@ class TroubleticketController extends Controller
 	    }
 	}
 	
+	/**
+	 * This Action are check logged user. otherwise redirect to login poage  
+	 */
+	 
 	public function LoginCheck()
 	{
 		$user=Yii::app()->session['username'];

@@ -10,6 +10,9 @@
 	*/
 
 -->
+<?php 
+include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
+?>
 <?php
 $this->pageTitle=Yii::app()->name . ' - Trouble Ticket List ';
 

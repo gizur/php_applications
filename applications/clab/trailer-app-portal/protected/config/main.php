@@ -1,6 +1,3 @@
-<?php 
-include_once 'protected/extensions/langauge/sw.php';
-?>
 <?php
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -97,7 +94,11 @@ return array(
 		'GIZURCLOUD_SECRET_KEY' => '9b45e67513cb3377b0b18958c4de55be',
 		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
 		'API_VERSION' => '0.1',
-		'URL' => 'http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/'
+		'URL' => 'http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/',
+		'Langauge' => array(
+	                 'en' => 'English',
+	                 'sw' => 'Swedish'
+		)
 	),
 	// Default vtentity behaviour
 	//http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/
