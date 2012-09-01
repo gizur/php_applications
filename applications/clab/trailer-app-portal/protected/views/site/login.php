@@ -31,6 +31,11 @@ $this->breadcrumbs=array(
 		<?php echo $form->error($model,'password'); ?>
 		</div>
 
+   <div class="row">
+		<?php echo $form->labelEx($model,'langauge'); ?>
+		<?php echo $form->dropDownList($model,'langauge' ,Yii::app()->params['Langauge']); ?>
+		<?php echo $form->error($model,'langauge'); ?>
+		</div>
 	<div class="row rememberMe">
 		<?php echo $form->checkBox($model,'rememberMe'); ?>
 		<?php echo $form->label($model,'rememberMe'); ?>

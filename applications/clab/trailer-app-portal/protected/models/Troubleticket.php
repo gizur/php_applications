@@ -132,23 +132,24 @@ public function attributeLabels()
 		  unset($data[$key]);
 		  }
 	    }
-	    /*
+	    
 	    if(!empty($_FILES))
 	    {
 		  $directorypath= YiiBase::getPathOfAlias('application')."/data/";
 		  $rendomdirectory=uniqid(Yii::app()->session['username']) ;	
-		  $creadetnewdirectory=mkdir($directorypath.$rendomdirectory,0777);
+		  //$creadetnewdirectory=mkdir($directorypath.$rendomdirectory,0777);
 		  //$creadetnewdirectory=$directorypath;
 		  $files=array();
 		  foreach ($_FILES['Troubleticket']['name'] as $key => $filename) {
 		  $tmp_name = $_FILES['Troubleticket']["tmp_name"][$key];
 		  $name = $_FILES['Troubleticket']["name"][$key]; 
-         move_uploaded_file($tmp_name, "{$creadetnewdirectory}{$name}");
-        $data[$key]="@{$creadetnewdirectory}{$name}";
+         //move_uploaded_file($tmp_name, "{$creadetnewdirectory}{$name}");
+        //$data[$key]="@{$creadetnewdirectory}{$name}";
+        $data[$key]="@{$tmp_name}";
    
         }
 	}
-	*/ 
+	
 	 $params = array(
                     'Verb'          => 'POST',
                     'Model'	        => 'HelpDesk',

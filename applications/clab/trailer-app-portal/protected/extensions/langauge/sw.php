@@ -52,7 +52,10 @@ $langaugeArr = array (
 'Login' => 'inloggning',
 'Logout' => 'Logga',
 'About' => 'om',
-'Welcome' => 'Välkommen'
+'Welcome' => 'Välkommen',
+'Status of damage' => 'Status för skador',
+'Damage' => 'skada'
+
 );
 function getTranslatedString($str)
 {

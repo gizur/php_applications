@@ -16,7 +16,9 @@
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
-
+<?php 
+include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
+?>
 <body>
 <div class="container" id="page">
 
