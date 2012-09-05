@@ -11,7 +11,7 @@
  **/
 
 /*
- * Including Amazon s3 classes
+ * Including Amazon classes
  */
 
 spl_autoload_unregister(array('YiiBase','autoload'));
@@ -90,7 +90,7 @@ class ApiController extends Controller {
     public function beforeAction() {
         
         try {
-            if ($_GET['model'] == 'About')
+            if ($_GET['model'] == 'About' || $_GET['model'] == 'User')
                 return true;            
             //check if public key exists
             if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
@@ -285,7 +285,7 @@ class ApiController extends Controller {
 
                     //Return response to client
                     $response = new stdClass();
-                    $response->success = "true";
+                    $response->success = true;
                     $response->contactname = $this->session->contactname;
                     $response->accountname = $this->session->accountname;
                     $response->valueFrom = $this->session->valueFrom;
@@ -307,7 +307,7 @@ class ApiController extends Controller {
                     
                     //send response to client
                     $response = new stdClass();
-                    $response->success = "true";
+                    $response->success = true;
                     echo json_encode($response);                    
                 }
                 break;
@@ -323,7 +323,8 @@ class ApiController extends Controller {
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])){
                     $sessionId = $this->session->sessionName; 
-                    if (in_array($_GET['fieldname'],array_flip($this->custom_fields['HelpDesk']))){
+                    $flipped_custom_fields = array_flip($this->custom_fields['HelpDesk']);
+                    if (in_array($_GET['fieldname'],$flipped_custom_fields)){
                         $fieldname = $this->custom_fields[$_GET['model']][$_GET['fieldname']];
                     } else {
                         $fieldname = $_GET['fieldname'];
@@ -345,6 +346,16 @@ class ApiController extends Controller {
                     foreach ($response['result']['fields'] as $field){
                         if ($fieldname == $field['name']) {
                             if ($field['type']['name'] == 'picklist'){
+                                if (isset($field['type']['picklistValues']['dependency'])) {
+                                    foreach ($field['type']['picklistValues']['dependency'] as $dep_fieldname => $dependency) {
+                                       if (in_array($dep_fieldname, $this->custom_fields['HelpDesk'])){
+                                           $new_fieldname = $flipped_custom_fields[$_GET['fieldname']];
+                                           $field['type']['picklistValues']['dependency'][$new_fieldname] = 
+                                                       $field['type']['picklistValues']['dependency'][$dep_fieldname];
+                                           unset($field['type']['picklistValues']['dependency'][$dep_fieldname]);
+                                       } 
+                                    }
+                                }
                                 echo json_encode(array(
                                     'success' => true, 
                                     'result' => $field['type']['picklistValues']
@@ -450,7 +461,6 @@ class ApiController extends Controller {
                 $accountId = $this->session->accountId;
                 
                 //Send request to vtiger REST service
-                //cf_633 => Trouble Ticket Type
                 $query = "select * from " . $_GET['model'] . 
                         " where account = " . $accountId . ";";
 
@@ -510,6 +520,55 @@ class ApiController extends Controller {
         //Tasks include detail view of a specific Troubleticket and Assets
         try {
         switch($_GET['model']) {
+            /*
+             *******************************************************************
+             *******************************************************************
+             ** User MODEL
+             ** Accepts id
+             *******************************************************************
+             *******************************************************************
+             */                
+            case 'User':
+                $sessionId = $this->session->sessionName;
+                
+		// Instantiate the class
+		$dynamodb = new AmazonDynamoDB();
+		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+		$table_name = 'GIZUR_ACCOUNTS';
+
+		####################################################################
+		# Create a new DynamoDB table
+		/* 
+		$response = $dynamodb->create_table(array(
+		    'TableName' => $table_name,
+		    'KeySchema' => array(
+			'HashKeyElement' => array(
+			    'AttributeName' => 'id',
+			    'AttributeType' => AmazonDynamoDB::TYPE_STRING
+			),
+		    ),
+		    'ProvisionedThroughput' => array(
+			'ReadCapacityUnits' => 50,
+			'WriteCapacityUnits' => 50
+		    )
+		));
+		 
+		// Check for success...
+		if ($response->isOK())
+		{
+		    $response->message =  '# Kicked off the creation of the DynamoDB table...';
+		}
+		else
+		{
+		    print_r($response);
+		}
+                */
+                $response->success = true;
+                $response->result->email = 'cloud3@gizur.com';
+                $response->result->addressline1 = 'B-65, Sector 63';
+                $response->result->addressline2 = 'Near Fortis Hospital';
+                echo json_encode($response);
+            break;
             /*
              *******************************************************************
              *******************************************************************
@@ -770,6 +829,32 @@ class ApiController extends Controller {
             /*
              *******************************************************************
              *******************************************************************
+             ** User MODEL
+             ** Accepts id
+             *******************************************************************
+             *******************************************************************
+             */                
+            case 'User':
+                $sessionId = $this->session->sessionName;
+                $post = json_decode(file_get_contents('php://input'), true);
+                
+		// Instantiate the class
+		$dynamodb = new AmazonDynamoDB();
+		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+		$table_name = 'GIZUR_ACCOUNTS';
+                $response = $dynamodb->put_item(array(
+                    'TableName' => $table_name,
+                    'Item' => $dynamodb->attributes($post)
+                ));
+                if ($response->isOK()) {
+                    echo "data created successfully";
+                } else {
+                    echo "data creation failed";
+                }
+            break; 
+            /*
+             *******************************************************************
+             *******************************************************************
              ** HelpDesk MODEL
              ** Accepts id
              *******************************************************************
@@ -815,7 +900,7 @@ class ApiController extends Controller {
                 
                 //Create Documents if any is attached
                 $crmid = $globalresponse->result->id;
-                $globalresponse->result->file = Array();
+                $globalresponse->result->documents = Array();
                 $dataJson = array(
                     'notes_title'=>'Attachement', 
                     'assigned_user_id'=>$userId,

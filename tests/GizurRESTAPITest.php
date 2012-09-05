@@ -230,7 +230,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo $response = $rest->get($this->url.$model."/$category"."/".
+            $response = $rest->get($this->url.$model."/$category"."/".
                                                   $filter['year']."/".
                                                   $filter['month']."/".
                                                   $filter['trailerid']);
@@ -551,7 +551,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     public function testGetPicklist(){
         $model = 'HelpDesk';
         $fieldname = 'drivercauseddamage';
-
+        //$fieldname = 'damagereportlocation';
         echo " Getting Picklist" . PHP_EOL;        
 
         $params = array(
