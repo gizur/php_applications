@@ -100,7 +100,8 @@ class ApiController extends Controller {
             $GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
             $GIZURCLOUD_API_KEY = "GZCLDFC4B35B";            
             
-            if ($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] != $GIZURCLOUD_API_KEY) 
+            if ($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] 
+                                                     != $GIZURCLOUD_API_KEY) 
                 throw new Exception('Could not identify public key');
             
             if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
@@ -212,11 +213,13 @@ class ApiController extends Controller {
                 $contact = json_decode($contact, true);
                 if (!$contact['success'])
                     throw new Exception($contact['error']['message']);
-                $response->result->contactname = $contact['result'][0]['firstname'] . 
+                $response->result->contactname = 
+                         $contact['result'][0]['firstname'] . 
                          " " . $contact['result'][0]['lastname'];
 
                 $query = "select accountname from Accounts" . 
-                          " where id = " . $contact['result'][0]['account_id'] . ";";
+                          " where id = " . 
+                          $contact['result'][0]['account_id'] . ";";
 
                 //urlencode to as its sent over http.
                 $queryParam = urlencode($query);
@@ -233,7 +236,8 @@ class ApiController extends Controller {
                 $account = json_decode($account, true);
                 if (!$account['success'])
                         throw new Exception($account['error']['message']);
-                $response->result->accountname = $account['result'][0]['accountname'];
+                $response->result->accountname = 
+                                         $account['result'][0]['accountname'];
 
                 $cache_value = json_encode($response->result);
 
@@ -248,7 +252,7 @@ class ApiController extends Controller {
             return true;
         } catch (Exception $e){
             $response = new stdClass();
-            $response->success = "false";
+            $response->success = false;
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
             
@@ -323,9 +327,12 @@ class ApiController extends Controller {
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])){
                     $sessionId = $this->session->sessionName; 
-                    $flipped_custom_fields = array_flip($this->custom_fields['HelpDesk']);
-                    if (in_array($_GET['fieldname'],$flipped_custom_fields)){
-                        $fieldname = $this->custom_fields[$_GET['model']][$_GET['fieldname']];
+                    $flipped_custom_fields = 
+                                  array_flip($this->custom_fields['HelpDesk']);
+                    if (in_array($_GET['fieldname'], 
+                                                    $flipped_custom_fields)){
+                        $fieldname = 
+                    $this->custom_fields[$_GET['model']][$_GET['fieldname']];
                     } else {
                         $fieldname = $_GET['fieldname'];
                     }
@@ -346,19 +353,29 @@ class ApiController extends Controller {
                     foreach ($response['result']['fields'] as $field){
                         if ($fieldname == $field['name']) {
                             if ($field['type']['name'] == 'picklist'){
-                                if (isset($field['type']['picklistValues']['dependency'])) {
-                                    foreach ($field['type']['picklistValues']['dependency'] as $dep_fieldname => $dependency) {
-                                       if (in_array($dep_fieldname, $this->custom_fields['HelpDesk'])){
-                                           $new_fieldname = $flipped_custom_fields[$_GET['fieldname']];
-                                           $field['type']['picklistValues']['dependency'][$new_fieldname] = 
-                                                       $field['type']['picklistValues']['dependency'][$dep_fieldname];
-                                           unset($field['type']['picklistValues']['dependency'][$dep_fieldname]);
+                                foreach ($field['type']['picklistValues'] 
+                                                          as $key => &$option)
+                                if (isset($option['dependency'])) {
+                                    foreach ($option['dependency'] 
+                                         as $dep_fieldname => $dependency) {
+                                       if(in_array($dep_fieldname, 
+                                            $this->custom_fields['HelpDesk'])){
+                                           $new_fieldname = 
+                                                       $flipped_custom_fields
+                                                             [$dep_fieldname];
+                                           $option['dependency']
+                                                            [$new_fieldname] = 
+                                                          $option['dependency']
+                                                             [$dep_fieldname];
+                                           unset($option
+                                              ['dependency'][$dep_fieldname]);
                                        } 
                                     }
                                 }
                                 echo json_encode(array(
                                     'success' => true, 
-                                    'result' => $field['type']['picklistValues']
+                                    'result' => 
+                                               $field['type']['picklistValues']
                                     ));
                                 break 2;
                             }
@@ -397,7 +414,8 @@ class ApiController extends Controller {
                                 $endmonth = $_GET['month'];
                             }
                             if (!checkdate($startmonth, "01", $_GET['year'])) 
-                                throw new Exception("Invalid month specified in list criteria");
+                                throw new Exception(
+                                    "Invalid month specified in list criteria");
                             $where_clause[] = "createdtime >= '" . 
                                 $_GET['year'] . "-" . $startmonth . "-01'";
                             $where_clause[] = "createdtime <= '" . 
@@ -407,8 +425,9 @@ class ApiController extends Controller {
 
                     if (isset($_GET['trailerid'])){
                         if ($_GET['trailerid']!='0')
-                            $where_clause[] = $this->custom_fields['HelpDesk']['trailerid'] . 
-                                    " = '" . $_GET['trailerid'] . "'";
+                            $where_clause[] = $this->custom_fields
+                                                    ['HelpDesk']['trailerid'] . 
+                                             " = '" . $_GET['trailerid'] . "'";
                     }
                        
                     $query = $query . " where " . 
@@ -437,7 +456,8 @@ class ApiController extends Controller {
                         unset($troubleticket['modifiedtime']);
                         unset($troubleticket['from_portal']);
                         foreach($troubleticket as $fieldname => $value){
-                            $key_to_replace = array_search($fieldname, $custom_fields);
+                            $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
                             if ($key_to_replace) {
                                unset($troubleticket[$fieldname]);
                                $troubleticket[$key_to_replace] = $value;
@@ -487,7 +507,8 @@ class ApiController extends Controller {
                     unset($asset['modifiedtime']);
                     unset($asset['from_portal']);
                     foreach($asset as $fieldname => $value){
-                        $key_to_replace = array_search($fieldname, $custom_fields);
+                        $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
                         if ($key_to_replace) {
                             unset($asset[$fieldname]);
                             $asset[$key_to_replace] = $value;
@@ -500,7 +521,7 @@ class ApiController extends Controller {
             
             default :
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ACCESS_DENIED";
                 $response->error->message = "Permission to perform the" . 
                         " operation is denied for " . $_GET['model'];
@@ -509,7 +530,7 @@ class ApiController extends Controller {
         }
         } catch (Exception $e) {
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ERROR";
                 $response->error->message = $e->getMessage();
                 echo json_encode($response);
@@ -536,7 +557,7 @@ class ApiController extends Controller {
 		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
 		$table_name = 'GIZUR_ACCOUNTS';
 
-		####################################################################
+		################################################################
 		# Create a new DynamoDB table
 		/* 
 		$response = $dynamodb->create_table(array(
@@ -556,7 +577,8 @@ class ApiController extends Controller {
 		// Check for success...
 		if ($response->isOK())
 		{
-		    $response->message =  '# Kicked off the creation of the DynamoDB table...';
+		    $response->message =  '# Kicked off the creation of
+                                                         the DynamoDB table...';
 		}
 		else
 		{
@@ -625,8 +647,10 @@ class ApiController extends Controller {
                 /*Get Document Details*/
                 if (count($documentids)!=0) {
                     $query = "select * from Documents" . 
-                            " where id in (" . $this->ws_entities['Documents'] . "x" . 
-                            implode(", " . $this->ws_entities['Documents'] . "x", $documentids) . ");";
+                            " where id in (" . $this->ws_entities['Documents'] 
+                                                                         . "x" . 
+                                 implode(", " . $this->ws_entities['Documents']
+                                                  . "x", $documentids) . ");";
 
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -649,7 +673,8 @@ class ApiController extends Controller {
                 /*Get Contact's Name*/ 
                  if ($response['result']['parent_id']!='') {
                     $query = "select * from Contacts" . 
-                            " where id = " . $response['result']['parent_id'] . ";";
+                            " where id = " . 
+                                       $response['result']['parent_id'] . ";";
 
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -666,10 +691,12 @@ class ApiController extends Controller {
                     $contact = json_decode($contact, true);
                     if (!$contact['success'])
                         throw new Exception($contact['error']['message']);
-                    $response['result']['contactname'] = $contact['result'][0];
+                    $response['result']['contactname'] = 
+                                                        $contact['result'][0];
 
                     $query = "select accountname from Accounts" . 
-                            " where id = " . $contact['result'][0]['account_id'] . ";";
+                            " where id = " . 
+                                    $contact['result'][0]['account_id'] . ";";
 
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -686,7 +713,8 @@ class ApiController extends Controller {
                     $account = json_decode($account, true);
                     if (!$account['success'])
                         throw new Exception($account['error']['message']);
-                    $response['result']['accountname'] = $account['result'][0]['accountname'];
+                    $response['result']['accountname'] = 
+                                         $account['result'][0]['accountname'];
 
                 }
                                
@@ -698,7 +726,8 @@ class ApiController extends Controller {
                 unset($response['result']['modifiedtime']);
                 unset($response['result']['from_portal']);
                 foreach($response['result'] as $fieldname => $value){
-                    $key_to_replace = array_search($fieldname, $custom_fields);
+                    $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
                     if ($key_to_replace) {
                         unset($response['result'][$fieldname]);
                         $response['result'][$key_to_replace] = $value;
@@ -743,7 +772,8 @@ class ApiController extends Controller {
                 $custom_fields = $this->custom_fields['Assets'];
 
                 foreach($response['result'] as $fieldname => $value){
-                    $key_to_replace = array_search($fieldname, $custom_fields);
+                    $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
                     if ($key_to_replace) {
                         unset($response['result'][$fieldname]);
                         $response['result'][$key_to_replace] = $value;
@@ -798,15 +828,17 @@ class ApiController extends Controller {
                                         $response->result->filename));
                 unlink('protected/data/' . $response->result->filename); 
  
-                $filename_sanitizer = explode("_",$response->result->filename);               
+                $filename_sanitizer = explode("_",
+                                                 $response->result->filename);               
                 unset($filename_sanitizer[0]);               
-                $response->result->filename = implode('_', $filename_sanitizer); 
+                $response->result->filename = implode('_', 
+                                                        $filename_sanitizer); 
                 echo json_encode($response); 
                 break;
             
             default :
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ACCESS_DENIED";
                 $response->error->message = "Permission to perform the" . 
                         " operation is denied for " . $_GET['model'];
@@ -815,7 +847,7 @@ class ApiController extends Controller {
         }
         } catch (Exception $e) {
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ERROR";
                 $response->error->message = $e->getMessage();
                 echo json_encode($response);            
@@ -866,7 +898,8 @@ class ApiController extends Controller {
                            
                 /** Creating Touble Ticket**/
                 $post = $_POST;
-                $custom_fields = array_flip($this->custom_fields['HelpDesk']);
+                $custom_fields = array_flip(
+                                             $this->custom_fields['HelpDesk']);
                 
                 foreach ($post as $k => $v) {
                     $key_to_replace = array_search($k, $custom_fields);
@@ -927,7 +960,8 @@ class ApiController extends Controller {
                                 array(
                                             'sessionName' => $sessionId,
                                             'operation' => 'create',
-                                            'element' => json_encode($dataJson),
+                                            'element' => 
+                                                        json_encode($dataJson),
                                             'elementType' => 'Documents'
                                         ));
                         
@@ -965,11 +999,11 @@ class ApiController extends Controller {
                         ));                        
                         
                         if ($response->isOK()) {
-                            $globalresponse->result->documents[$file['name']] = 
-                                    'uploaded'. json_encode($file);
+                            $globalresponse->result->documents[$file['name']]
+                                     = 'uploaded'. json_encode($file);
                         } else {
-                            $globalresponse->result->documents[$file['name']] = 
-                                    'not uploaded';
+                            $globalresponse->result->documents[$file['name']]
+                                     = 'not uploaded';
                         }
                         
                     }
@@ -986,11 +1020,14 @@ class ApiController extends Controller {
                 unset($globalresponse['result']['days']);
                 unset($globalresponse['result']['modifiedtime']);
                 unset($globalresponse['result']['from_portal']);
-                foreach($globalresponse['result'] as $fieldname => $value){
-                    $key_to_replace = array_search($fieldname, $custom_fields);
+                foreach($globalresponse['result'] as $fieldname => 
+                                                                       $value){
+                    $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
                     if ($key_to_replace) {
                         unset($globalresponse['result'][$fieldname]);
-                        $globalresponse['result'][$key_to_replace] = $value;
+                        $globalresponse['result'][$key_to_replace] = 
+                                                                        $value;
                         //unset($custom_fields[$key_to_replace]);                                
                     }
                 }
@@ -1000,7 +1037,7 @@ class ApiController extends Controller {
             
             default :
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ACCESS_DENIED";
                 $response->error->message = "Permission to perform the" . 
                         "operation is denied for " . $_GET['model'];
@@ -1009,7 +1046,7 @@ class ApiController extends Controller {
         }
         } catch (Exception $e) {
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ERROR";
                 $response->error->message = $e->getMessage();
                 echo json_encode($response);            
@@ -1018,7 +1055,7 @@ class ApiController extends Controller {
 
     public function actionError() {
         $response = new stdClass();
-        $response->success = "false";
+        $response->success = false;
         $response->error->code = "PATTERN_NOT_FOUND";
         $response->error->message = "Such a service is not provided by" . 
                 " this REST service";
@@ -1079,7 +1116,8 @@ class ApiController extends Controller {
                 unset($response['result']['modifiedtime']);
                 unset($response['result']['from_portal']);
                 foreach($response['result'] as $fieldname => $value){
-                    $key_to_replace = array_search($fieldname, $custom_fields);
+                    $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
                     if ($key_to_replace) {
                         unset($response['result'][$fieldname]);
                         $response['result'][$key_to_replace] = $value;
@@ -1093,7 +1131,7 @@ class ApiController extends Controller {
             
             default :
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ACCESS_DENIED";
                 $response->error->message = "Permission to perform the" . 
                         " operation is denied for " . $_GET['model'];
@@ -1102,7 +1140,7 @@ class ApiController extends Controller {
         }
         } catch (Exception $e) {
                 $response = new stdClass();
-                $response->success = "false";
+                $response->success = false;
                 $response->error->code = "ERROR";
                 $response->error->message = $e->getMessage();
                 echo json_encode($response);            
