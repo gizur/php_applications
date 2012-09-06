@@ -32,8 +32,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'cloud3@gizur.com' => 'rksh2jjf',
     );
 
-    //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
-    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
     
     public function testLogin()
     {
@@ -347,6 +347,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //set fields to to posted
 	$fields = array(
 		    'ticket_title'=>urlencode('Testing Using PHPUnit'),
+                    'drivercauseddamage'=>'No',
+                    'sealed'=>'Yes',
+                    'plates'=>'3',
+                    'straps'=>'2',
+                    'damagetype'=> 'Aggregatkåpa',
+                    'damageposition' => 'Vänster sida (Left side)',
 		);
 
 
@@ -378,7 +384,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->post($this->url.$model, $fields);
+            echo $response = $rest->post($this->url.$model, $fields);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
