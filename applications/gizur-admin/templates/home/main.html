@@ -1,6 +1,6 @@
     <div>
-	Enter Email Address : <input id="element_1" name="element_1" class="element text medium" type="text" maxlength="255" value=""/> 
-        <input type="button" class="create-account" value="Create Account"/>
+	Enter Email Address : <input id="email" name="email" class="element text medium" type="text" maxlength="255" value="<%=account.id%>"/> 
+        
     </div>
 <table>
 	<tr>
@@ -12,51 +12,51 @@
 			<ul >
 			
 		<li id="li_5" >
-		<label class="description" for="element_5">Password</label>
+		<label class="description" for="password">Password</label>
 		<div>
-			<input id="element_5" name="element_5" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="password" name="password" class="element text medium" type="text" maxlength="255" value="<%=account.password%>"/> 
 		</div> 
 		</li>		<li id="li_2" >
-		<label class="description" for="element_2">Name </label>
+		<label class="description" for="name">Name </label>
 		<span>
-			<input id="element_2_1" name= "element_2_1" class="element text" maxlength="255" size="8" value=""/>
+			<input id="name_1" name= "name_1" class="element text" maxlength="255" size="8" value="<%=account.name_1%>"/>
 			<label>First</label>
 		</span>
 		<span>
-			<input id="element_2_2" name= "element_2_2" class="element text" maxlength="255" size="14" value=""/>
+			<input id="name_2" name= "name_2" class="element text" maxlength="255" size="14" value="<%=account.name_2%>"/>
 			<label>Last</label>
 		</span> 
 		</li>		<li id="li_3" >
-		<label class="description" for="element_3">Address </label>
+		<label class="description" for="address">Address </label>
 		
 		<div>
-			<input id="element_3_1" name="element_3_1" class="element text large" value="<%=account.addressline1%>" type="text">
-			<label for="element_3_1">Street Address</label>
+			<input id="address_1" name="address_1" class="element text large" value="<%=account.address_1%>" type="text">
+			<label for="address_1">Street Address</label>
 		</div>
 	
 		<div>
-			<input id="element_3_2" name="element_3_2" class="element text large" value="" type="text">
-			<label for="element_3_2">Address Line 2</label>
+			<input id="address_2" name="address_2" class="element text large" value="<%=account.address_2%>" type="text">
+			<label for="address_2">Address Line 2</label>
 		</div>
 	
 		<div class="left">
-			<input id="element_3_3" name="element_3_3" class="element text medium" value="" type="text">
-			<label for="element_3_3">City</label>
+			<input id="city" name="city" class="element text medium" value="<%=account.city%>" type="text">
+			<label for="city">City</label>
 		</div>
 	
 		<div class="right">
-			<input id="element_3_4" name="element_3_4" class="element text medium" value="" type="text">
-			<label for="element_3_4">State / Province / Region</label>
+			<input id="state" name="state" class="element text medium" value="<%=account.state%>" type="text">
+			<label for="state">State / Province / Region</label>
 		</div>
 	
 		<div class="left">
-			<input id="element_3_5" name="element_3_5" class="element text medium" maxlength="15" value="" type="text">
-			<label for="element_3_5">Postal / Zip Code</label>
+			<input id="postalcode" name="postalcode" class="element text medium" maxlength="15" value="<%=account.postalcode%>" type="text">
+			<label for="postalcode">Postal / Zip Code</label>
 		</div>
 	
 		<div class="right">
-			<select class="element select medium" id="element_3_6" name="element_3_6"> 
-			<option value="" selected="selected"></option>
+			<select class="element select medium" id="country" name="country"> 
+			<option value="<%=account.password%>" selected="selected"></option>
 <option value="Afghanistan" >Afghanistan</option>
 <option value="Albania" >Albania</option>
 <option value="Algeria" >Algeria</option>
@@ -253,21 +253,21 @@
 <option value="Zimbabwe" >Zimbabwe</option>
 	
 			</select>
-		<label for="element_3_6">Country</label>
+		<label for="country">Country</label>
 	</div> 
 		</li>		<li id="li_4" >
-		<label class="description" for="element_4">Phone </label>
+		<label class="description" for="phone">Phone </label>
 		<span>
-			<input id="element_4_1" name="element_4_1" class="element text" size="3" maxlength="3" value="" type="text"> -
-			<label for="element_4_1">(###)</label>
+			<input id="phone_1" name="phone_1" class="element text" size="3" maxlength="3" value="<%=account.phone_1%>" type="text"> -
+			<label for="phone_1">(###)</label>
 		</span>
 		<span>
-			<input id="element_4_2" name="element_4_2" class="element text" size="3" maxlength="3" value="" type="text"> -
-			<label for="element_4_2">###</label>
+			<input id="phone_2" name="phone_2" class="element text" size="3" maxlength="3" value="<%=account.phone_2%>" type="text"> -
+			<label for="phone_2">###</label>
 		</span>
 		<span>
-	 		<input id="element_4_3" name="element_4_3" class="element text" size="4" maxlength="4" value="" type="text">
-			<label for="element_4_3">####</label>
+	 		<input id="phone_3" name="phone_3" class="element text" size="4" maxlength="4" value="<%=account.phone_3%>" type="text">
+			<label for="phone_3">####</label>
 		</span>
 		 
 		</li>
@@ -283,21 +283,34 @@
 			<ul >
 			
 					<li id="li_1" >
-		<label class="description" for="element_1">Client ID </label>
+		<label class="description" for="clientid">Client ID </label>
 		<div>
-			<input id="element_1" name="element_1" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="clientid" name="clientid" class="element text medium" type="text" maxlength="255" value="<%=account.clientid%>"/> 
 		</div> 
 		</li>		<li id="li_2" >
-		<label class="description" for="element_2">API Key </label>
+		<label class="description" for="apikey_1">API Key 1</label>
+		<label class="description" for="apikey_1">(Active)</label>
 		<div>
-			<input id="element_2" name="element_2" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="apikey_1" name="apikey_1" class="element text medium" type="text" maxlength="255" value="<%=account.apikey_1%>"/>
+                        <input id="secretkey_1" name="secretkey_1" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey_1%>"/>  
+                        <input id="active_1" name="active_1" class="element text medium" type="hidden" maxlength="255" value="<%=account.active_1%>"/>
+                        <a href="#" id="showSecretKey_1">Show Secret Key</a>
+                        <a href="#" id="makeInactive_1">Make Inactive</a>
 		</div> 
 		</li>
+		<li id="li_3" >
+		<label class="description" for="apikey_2">API Key 2</label>
+                <label class="description" for="apikey_2">(Active)</label>
+		<div>
+			<input id="apikey_2" name="apikey_2" class="element text medium" type="text" maxlength="255" value="<%=account.apikey_2%>"/>
+                        <input id="secretkey_2" name="secretkey_2" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey_2%>"/>  
+                        <input id="active_2" name="active_2" class="element text medium" type="hidden" maxlength="255" value="<%=account.active_2%>"/>
+                        <a href="#" id="showSecretKey_2">Show Secret Key</a>
+                        <a href="#" id="makeInactive_2">Make Inactive</a>
+		</div> 
+		</li>
+                <li class="buttons">
 			
-					<li class="buttons">
-			    <input type="hidden" name="form_id" value="474944" />
-			    
-				<input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
 		</li>
 			</ul>
 		</form>
@@ -310,29 +323,29 @@
 			<ul>
 			
 					<li id="li_1" >
-		<label class="description" for="element_1">Server </label>
+		<label class="description" for="server">Server </label>
 		<div>
-			<input id="element_1" name="element_1" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="server" name="server" class="element text medium" type="text" maxlength="255" value="<%=account.server%>"/> 
 		</div> 
 		</li>		<li id="li_2" >
-		<label class="description" for="element_2">Port </label>
+		<label class="description" for="port">Port </label>
 		<div>
-			<input id="element_2" name="element_2" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="port" name="port" class="element text medium" type="text" maxlength="255" value="<%=account.port%>"/> 
 		</div> 
 		</li>		<li id="li_3" >
-		<label class="description" for="element_3">Username </label>
+		<label class="description" for="username">Username </label>
 		<div>
-			<input id="element_3" name="element_3" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="username" name="username" class="element text medium" type="text" maxlength="255" value="<%=account.username%>"/> 
 		</div> 
 		</li>		<li id="li_4" >
-		<label class="description" for="element_4">Password </label>
+		<label class="description" for="dbpassword">Password </label>
 		<div>
-			<input id="element_4" name="element_4" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="dbpassword" name="dbpassword" class="element text medium" type="text" maxlength="255" value="<%=account.dbpassword%>"/> 
 		</div> 
 		</li>		<li id="li_5" >
-		<label class="description" for="element_5">Database Name </label>
+		<label class="description" for="databasename">Database Name </label>
 		<div>
-			<input id="element_5" name="element_5" class="element text medium" type="text" maxlength="255" value=""/> 
+			<input id="databasename" name="databasename" class="element text medium" type="text" maxlength="255" value="<%=account.databasename%>"/> 
 		</div> 
 		</li>
 			</ul>

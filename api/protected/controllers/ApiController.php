@@ -84,12 +84,12 @@ class ApiController extends Controller {
     }
 
     /**
-     * @returs wether any action should run
+     * @returns wether any action should run
      */
     
     public function beforeAction() {
         
-        try {
+        try { 
             if ($_GET['model'] == 'About' || $_GET['model'] == 'User')
                 return true;            
             //check if public key exists
@@ -557,38 +557,22 @@ class ApiController extends Controller {
 		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
 		$table_name = 'GIZUR_ACCOUNTS';
 
-		################################################################
-		# Create a new DynamoDB table
-		/* 
-		$response = $dynamodb->create_table(array(
+		// Get an item
+		$ddb_response = $dynamodb->get_item(array(
 		    'TableName' => $table_name,
-		    'KeySchema' => array(
-			'HashKeyElement' => array(
-			    'AttributeName' => 'id',
-			    'AttributeType' => AmazonDynamoDB::TYPE_STRING
-			),
-		    ),
-		    'ProvisionedThroughput' => array(
-			'ReadCapacityUnits' => 50,
-			'WriteCapacityUnits' => 50
-		    )
+		    'Key' => $dynamodb->attributes(array(
+			'HashKeyElement'  => $_GET['email'],             // "id" column
+		    )),
+		    'ConsistentRead' => 'true'
 		));
-		 
-		// Check for success...
-		if ($response->isOK())
-		{
-		    $response->message =  '# Kicked off the creation of
-                                                         the DynamoDB table...';
-		}
-		else
-		{
-		    print_r($response);
-		}
-                */
-                $response->success = true;
-                $response->result->email = 'cloud3@gizur.com';
-                $response->result->addressline1 = 'B-65, Sector 63';
-                $response->result->addressline2 = 'Near Fortis Hospital';
+ 
+                foreach($ddb_response->body->Item->children() as $key => $item) {
+                   $result->{$key} = (string)$item->{AmazonDynamoDB::TYPE_STRING};
+                }
+
+                if ($response->success = $ddb_response->isOK())
+                    $response->result = $result;
+                
                 echo json_encode($response);
             break;
             /*
@@ -874,15 +858,13 @@ class ApiController extends Controller {
 		$dynamodb = new AmazonDynamoDB();
 		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
 		$table_name = 'GIZUR_ACCOUNTS';
-                $response = $dynamodb->put_item(array(
+                $ddb_response = $dynamodb->put_item(array(
                     'TableName' => $table_name,
                     'Item' => $dynamodb->attributes($post)
                 ));
-                if ($response->isOK()) {
-                    echo "data created successfully";
-                } else {
-                    echo "data creation failed";
-                }
+                $response = new stdClass();
+                $response->success = $ddb_response->isOK();
+                echo json_encode($response);
             break; 
             /*
              *******************************************************************
@@ -914,7 +896,7 @@ class ApiController extends Controller {
                         array(
                             'parent_id' => $this->session->contactId,
                             'assigned_user_id' => $this->session->userId,
-                            'ticketstatus' => 'Closed'
+                            'ticketstatus' => (isset($post['ticketstatus']) && !empty($post['ticketstatus']))?$post['ticketstatus']:'Closed',
                         )));
                 
                 //Receive response from vtiger REST service
@@ -956,7 +938,7 @@ class ApiController extends Controller {
                         $dataJson['filename'] = $crmid . "_" . $file['name'];
                         $dataJson['filesize'] = $file['size'];
                         $dataJson['filetype'] = $file['type'];
-                        $response = $rest->post(Yii::app()->params->vtRestUrl, 
+                        $document = $rest->post(Yii::app()->params->vtRestUrl, 
                                 array(
                                             'sessionName' => $sessionId,
                                             'operation' => 'create',
@@ -965,8 +947,8 @@ class ApiController extends Controller {
                                             'elementType' => 'Documents'
                                         ));
                         
-                        $response = json_decode($response);
-                        $notesid = $response->result->id;
+                        $document = json_decode($document);
+                        $notesid = $document->result->id;
                         
                         //Relate Document with Trouble Ticket
                         $rest = new RESTClient();
@@ -999,11 +981,11 @@ class ApiController extends Controller {
                         ));                        
                         
                         if ($response->isOK()) {
-                            $globalresponse->result->documents[$file['name']]
-                                     = 'uploaded'. json_encode($file);
+                            $globalresponse->result->documents[]
+                                    = $document->result;
                         } else {
-                            $globalresponse->result->documents[$file['name']]
-                                     = 'not uploaded';
+                            $globalresponse->result->documents[]
+                                     = 'not uploaded' . $file['name'];
                         }
                         
                     }

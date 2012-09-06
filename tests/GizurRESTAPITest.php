@@ -582,7 +582,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo $response = $rest->get($this->url.$model."/".$fieldname);
+            $response = $rest->get($this->url.$model."/".$fieldname);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){

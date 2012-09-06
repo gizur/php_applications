@@ -60,7 +60,7 @@ return array(
                                    'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>', 
                                    'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
-                        array('api/view', 'pattern'=>'api/<model:(User)>/<email:\w+>', 'verb'=>'GET'),
+                        array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
                         array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
