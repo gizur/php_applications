@@ -287,17 +287,26 @@
 		<div>
 			<input id="clientid" name="clientid" class="element text medium" type="text" maxlength="255" value="<%=account.clientid%>"/> 
 		</div> 
-		</li>		
-                <li id="li_2" >
-		<label class="description" for="apikey">API Key </label>
+		</li>		<li id="li_2" >
+		<label class="description" for="apikey">API Key 1</label>
 		<div>
-			<input id="apikey" name="apikey" class="element text medium" type="text" maxlength="255" value="<%=account.apikey%>"/> 
+			<input id="apikey_1" name="apikey_1" class="element text medium" type="text" maxlength="255" value="<%=account.apikey%>"/>
+                        <input id="secretkey_1" name="secretkey_1" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey%>"/>  
+                        <a href="#" id="showSecretKey_1">Show Secret Key</a>
+                        <a href="#" id="makeInactive_1">Make Inactive</a>
 		</div> 
 		</li>
+		<li id="li_3" >
+		<label class="description" for="apikey">API Key 2</label>
+		<div>
+			<input id="apikey_2" name="apikey_2" class="element text medium" type="text" maxlength="255" value="<%=account.apikey%>"/>
+                        <input id="secretkey_2" name="secretkey_2" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey%>"/>  
+                        <a href="#" id="showSecretKey_2">Show Secret Key</a>
+                        <a href="#" id="makeInactive_2">Make Inactive</a>
+		</div> 
+		</li>
+                <li class="buttons">
 			
-					<li class="buttons">
-			    <input type="hidden" name="form_id" value="474944" />
-			    
 		</li>
 			</ul>
 		</form>

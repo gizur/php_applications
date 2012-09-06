@@ -14,7 +14,12 @@ define([
     },
     events: {
         'click .save-account': 'saveAccount',
-        'blur #email': 'searchAccount'
+        'blur #email': 'searchAccount',
+        'click #showSecretKey_1, #showSecretKey_2': 'showSecretKey'
+    },
+    showSecretKey: function(e) {
+        var id = $(e.currentTarget).attr('id').split("_")[1];
+        alert("Secret Key : " + $('#secretkey_' + id).val());
     },
     searchAccount: function() {
         var that = this;

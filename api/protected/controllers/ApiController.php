@@ -896,7 +896,7 @@ class ApiController extends Controller {
                         array(
                             'parent_id' => $this->session->contactId,
                             'assigned_user_id' => $this->session->userId,
-                            'ticketstatus' => 'Closed'
+                            //'ticketstatus' => 'Closed'
                         )));
                 
                 //Receive response from vtiger REST service
@@ -938,7 +938,7 @@ class ApiController extends Controller {
                         $dataJson['filename'] = $crmid . "_" . $file['name'];
                         $dataJson['filesize'] = $file['size'];
                         $dataJson['filetype'] = $file['type'];
-                        $response = $rest->post(Yii::app()->params->vtRestUrl, 
+                        $document = $rest->post(Yii::app()->params->vtRestUrl, 
                                 array(
                                             'sessionName' => $sessionId,
                                             'operation' => 'create',
@@ -947,8 +947,8 @@ class ApiController extends Controller {
                                             'elementType' => 'Documents'
                                         ));
                         
-                        $response = json_decode($response);
-                        $notesid = $response->result->id;
+                        $document = json_decode($document);
+                        $notesid = $document->result->id;
                         
                         //Relate Document with Trouble Ticket
                         $rest = new RESTClient();
@@ -981,11 +981,11 @@ class ApiController extends Controller {
                         ));                        
                         
                         if ($response->isOK()) {
-                            $globalresponse->result->documents[$file['name']]
-                                     = 'uploaded'. json_encode($file);
+                            $globalresponse->result->documents[]
+                                    = $document->result;
                         } else {
-                            $globalresponse->result->documents[$file['name']]
-                                     = 'not uploaded';
+                            $globalresponse->result->documents[]
+                                     = 'not uploaded' . $file['name'];
                         }
                         
                     }
