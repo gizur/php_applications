@@ -17,8 +17,8 @@
 	  "TroubleTicketType"  => 'cf_641',
 	  "Typeofdamage" => 'damagetype',
 	  "Damageposition" => 'damageposition',
-	  "Drivercauseddamage" => 'drivercauseddamage',
-	  "reportdamage" =>'reportdamage'
+	  "Drivercauseddamage" => 'drivercauseddamage'
+
   );
 class Troubleticket extends CFormModel
 {
@@ -134,7 +134,7 @@ public function attributeLabels()
 		  unset($data[$key]);
 		  }
 	    }
-	    
+	   
 	    if(!empty($_FILES))
 	    {
 		  //$directorypath= YiiBase::getPathOfAlias('application')."/data/";
@@ -143,12 +143,13 @@ public function attributeLabels()
 		  //$creadetnewdirectory=$directorypath;
 		  $files=array();
 		  foreach ($_FILES['Troubleticket']['name'] as $key => $filename) {
+		 if(!empty($_FILES['Troubleticket']["name"][$key])){	  
 		  $tmp_name = $_FILES['Troubleticket']["tmp_name"][$key];
 		  $name = $_FILES['Troubleticket']["name"][$key]; 
           //move_uploaded_file($tmp_name, "{$creadetnewdirectory}{$name}");
          //$data[$key]="@{$creadetnewdirectory}{$name}";
-         $data[$key]="@{$tmp_name}";
-   
+          $data[$key]="@{$tmp_name}";
+	      }
         }
 	}
 	

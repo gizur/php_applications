@@ -126,8 +126,8 @@ $this->breadcrumbs=array(
      </td>	
   </tr>
   <tr>
-	    
-	    <td>
+
+<td>
   <?php echo $form->labelEx($model,getTranslatedString('Damage Reported')); ?>
   </td>
   <td>
