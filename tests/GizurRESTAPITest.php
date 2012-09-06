@@ -52,12 +52,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         );
         
         $valid_credentials = Array(
-            'user1' => 'false',
-            'user2' => 'false',
-            'user3' => 'false',
-            'user4' => 'false',
-            'cloud3@gizur.com' => 'true',
-            'test@test.com' => 'false'
+            'user1' => false,
+            'user2' => false,
+            'user3' => false,
+            'user4' => false,
+            'cloud3@gizur.com' => true,
+            'test@test.com' => false
         );        
 
         $params = array(
@@ -230,7 +230,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo $response = $rest->get($this->url.$model."/$category"."/".
+            $response = $rest->get($this->url.$model."/$category"."/".
                                                   $filter['year']."/".
                                                   $filter['month']."/".
                                                   $filter['trailerid']);
@@ -550,8 +550,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testGetPicklist(){
         $model = 'HelpDesk';
-        $fieldname = 'drivercauseddamage';
-
+        $fieldname = 'damagetype';
+        //$fieldname = 'damagereportlocation';
         echo " Getting Picklist" . PHP_EOL;        
 
         $params = array(
@@ -582,7 +582,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->get($this->url.$model."/".$fieldname);
+            echo $response = $rest->get($this->url.$model."/".$fieldname);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){

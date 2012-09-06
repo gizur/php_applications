@@ -1,3 +1,6 @@
 /api/nbproject/private/.elasticbeanstalk/
 /nbproject/
 /instance-configuration/dev/
+*~
+*.swp
+*.swo

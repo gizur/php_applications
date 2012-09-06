@@ -382,6 +382,17 @@ class WebserviceField{
 				if($moduleName == 'Events') $moduleName = 'Calendar';
 				$elem["label"] = getTranslatedString($picklistValue,$moduleName);
 				$elem["value"] = $picklistValue;
+                                $sql = "select targetvalues, targetfield from vtiger_picklist_dependency where sourcefield =? and sourcevalue =?;";
+                                $result = $this->pearDB->pquery($sql, array($fieldName, decode_html($picklistValue)));
+                                $numRows = $this->pearDB->num_rows($result);
+                                if ($numRows!=0) {
+                                    $targetValues = json_decode($this->pearDB->query_result($result,0));
+                                    $targetField = $this->pearDB->query_result($result,0,1);
+                                    foreach($targetValues as $targetValue)
+                                    $elem["dependency"][$targetField][] = array(
+                                                           "label" => getTranslatedString(htmlentities(utf8_decode($targetValue))),
+                                                           "value" => htmlentities(utf8_decode($targetValue)));
+                                }
 				array_push($options,$elem);
 			}
 		}
