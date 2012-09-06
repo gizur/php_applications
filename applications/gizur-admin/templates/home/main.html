@@ -1,6 +1,6 @@
     <div>
 	Enter Email Address : <input id="email" name="email" class="element text medium" type="text" maxlength="255" value="<%=account.id%>"/> 
-        <input type="button" class="save-account" value="Create Account"/>
+        
     </div>
 <table>
 	<tr>
@@ -288,19 +288,23 @@
 			<input id="clientid" name="clientid" class="element text medium" type="text" maxlength="255" value="<%=account.clientid%>"/> 
 		</div> 
 		</li>		<li id="li_2" >
-		<label class="description" for="apikey">API Key 1</label>
+		<label class="description" for="apikey_1">API Key 1</label>
+		<label class="description" for="apikey_1">(Active)</label>
 		<div>
-			<input id="apikey_1" name="apikey_1" class="element text medium" type="text" maxlength="255" value="<%=account.apikey%>"/>
-                        <input id="secretkey_1" name="secretkey_1" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey%>"/>  
+			<input id="apikey_1" name="apikey_1" class="element text medium" type="text" maxlength="255" value="<%=account.apikey_1%>"/>
+                        <input id="secretkey_1" name="secretkey_1" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey_1%>"/>  
+                        <input id="active_1" name="active_1" class="element text medium" type="hidden" maxlength="255" value="<%=account.active_1%>"/>
                         <a href="#" id="showSecretKey_1">Show Secret Key</a>
                         <a href="#" id="makeInactive_1">Make Inactive</a>
 		</div> 
 		</li>
 		<li id="li_3" >
-		<label class="description" for="apikey">API Key 2</label>
+		<label class="description" for="apikey_2">API Key 2</label>
+                <label class="description" for="apikey_2">(Active)</label>
 		<div>
-			<input id="apikey_2" name="apikey_2" class="element text medium" type="text" maxlength="255" value="<%=account.apikey%>"/>
-                        <input id="secretkey_2" name="secretkey_2" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey%>"/>  
+			<input id="apikey_2" name="apikey_2" class="element text medium" type="text" maxlength="255" value="<%=account.apikey_2%>"/>
+                        <input id="secretkey_2" name="secretkey_2" class="element text medium" type="hidden" maxlength="255" value="<%=account.secretkey_2%>"/>  
+                        <input id="active_2" name="active_2" class="element text medium" type="hidden" maxlength="255" value="<%=account.active_2%>"/>
                         <a href="#" id="showSecretKey_2">Show Secret Key</a>
                         <a href="#" id="makeInactive_2">Make Inactive</a>
 		</div> 

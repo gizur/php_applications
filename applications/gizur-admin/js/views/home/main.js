@@ -15,7 +15,26 @@ define([
     events: {
         'click .save-account': 'saveAccount',
         'blur #email': 'searchAccount',
-        'click #showSecretKey_1, #showSecretKey_2': 'showSecretKey'
+        'click #showSecretKey_1, #showSecretKey_2': 'showSecretKey',
+        'click #makeInactive_1, #makeInactive_2': 'makeInactive',
+        'change input[id!=email]': 'saveAccount'
+    },
+    makeInactive: function(e) {
+        var id = $(e.currentTarget).attr('id').split("_")[1];
+            if ($('label[for=apikey_'+id+']:contains((Active))').length == 1) {
+                r = confirm("Are you sure the key should be inactivated, all clients using this key need to be updated with a new API Key and secret");
+                if (r == true) {
+                    $('label[for=apikey_'+id+']:contains((Active))').html('(Inactive)');
+                    $(e.currentTarget).html('Make Active');
+                    $('#active_' + id).val('No');
+                    this.saveAccount();
+                }
+            } else {
+                $('label[for=apikey_'+id+']:contains((Inactive))').html('(Active)');
+                $(e.currentTarget).html('Make Inactive');
+                $('#active_' + id).val('Yes');
+                this.saveAccount();
+            }
     },
     showSecretKey: function(e) {
         var id = $(e.currentTarget).attr('id').split("_")[1];
@@ -30,6 +49,14 @@ define([
 		  type: 'GET',
 		  success: function(account) {
 		      $(that.el).html(_.template(mainHomeTemplate, {account: account.attributes.result, _:_}));
+                      if ($('#active_1').val() == 'No') {
+                          $('label[for=apikey_1]:contains((Active))').html('(Inactive)');
+                          $('#makeInactive_1').html('Make Active');
+                      }
+                      if ($('#active_2').val() == 'No') {
+                          $('label[for=apikey_2]:contains((Active))').html('(Inactive)');
+                          $('#makeInactive_2').html('Make Active');
+                      }
 		  }
 	      });
         }
@@ -44,12 +71,10 @@ define([
         for (index in fields_pnc) {
             attributes[fields_pnc[index]['name']] = fields_pnc[index]['value']; 
         }
-
         for (index in fields_apikeys) {
             attributes[fields_apikeys[index]['name']] = fields_apikeys[index]['value']; 
         }
-
-         for (index in fields_dbcredentials) {
+        for (index in fields_dbcredentials) {
             attributes[fields_dbcredentials[index]['name']] = fields_dbcredentials[index]['value']; 
         }
  
@@ -58,7 +83,7 @@ define([
         Account.save(null,{
             type: 'POST',
             success: function (data) {
-                console.log(data);
+                //console.log(data);
             }
         });
     }
