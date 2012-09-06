@@ -896,7 +896,7 @@ class ApiController extends Controller {
                         array(
                             'parent_id' => $this->session->contactId,
                             'assigned_user_id' => $this->session->userId,
-                            //'ticketstatus' => 'Closed'
+                            'ticketstatus' => (isset($post['ticketstatus']) && !empty($post['ticketstatus']))?$post['ticketstatus']:'Closed',
                         )));
                 
                 //Receive response from vtiger REST service
