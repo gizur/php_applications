@@ -10,30 +10,44 @@ define([
     el: $("#page"),
     render: function(){
       var that = this;
-      if ($('#element_1').val()!='' && $('#element_1').val()!=undefined) {
-	      var Account = new accountsModel;
-	      Account.url = Account.url + $('#element_1').val();
+      $(that.el).html(_.template(mainHomeTemplate, {account: {}, _:_}));
+    },
+    events: {
+        'click .save-account': 'saveAccount',
+        'blur #email': 'searchAccount'
+    },
+    searchAccount: function() {
+        var that = this;
+	var Account = new accountsModel;
+        if ($.trim($('#email').val())!='') {
+	      Account.url = Account.url + encodeURIComponent($('#email').val());
 	      Account.fetch({
 		  type: 'GET',
 		  success: function(account) {
 		      $(that.el).html(_.template(mainHomeTemplate, {account: account.attributes.result, _:_}));
 		  }
 	      });
-      } else {
-	      $(that.el).html(mainHomeTemplate);
-      }
-    },
-    events: {
-        'click .create-account': 'createAccount'
-    },
-    createAccount: function() {
+        }
+    }, 
+    saveAccount: function() {
         var Account = new accountsModel;
         var attributes = new Object();
-        var fields = $('#form_pnc').serializeArray();
-        attributes['id'] = $('#element_1').val(); 
-        for (index in fields) {
-            attributes[fields[index]['name']] = fields[index]['value']; 
+        var fields_pnc = $('#form_pnc').serializeArray();
+        var fields_apikeys = $('#form_apikeys').serializeArray();
+        var fields_dbcredentials = $('#form_dbcredentials').serializeArray(); 
+        attributes['id'] = $('#email').val(); 
+        for (index in fields_pnc) {
+            attributes[fields_pnc[index]['name']] = fields_pnc[index]['value']; 
         }
+
+        for (index in fields_apikeys) {
+            attributes[fields_apikeys[index]['name']] = fields_apikeys[index]['value']; 
+        }
+
+         for (index in fields_dbcredentials) {
+            attributes[fields_dbcredentials[index]['name']] = fields_dbcredentials[index]['value']; 
+        }
+ 
  
         Account.set(attributes);
         Account.save(null,{
