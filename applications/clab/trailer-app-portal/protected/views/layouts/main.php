@@ -17,7 +17,14 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 <?php 
-include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
+if(Yii::app()->session['Lang']=="")
+{
+ $lang='en';
+ } else
+ {
+ $lang=Yii::app()->session['Lang'];
+ }
+include_once 'protected/extensions/langauge/'.$lang.'.php';
 ?>
 <body>
 <div class="container" id="page">

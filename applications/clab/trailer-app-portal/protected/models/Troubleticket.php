@@ -11,13 +11,14 @@
       "Category" => 'ticketcategories',
 	  "TrailerID" => 'trailerid',
 	  "Damagereportlocation" => 'damagereportlocation',
-	  "Sealed" => 'sealed' ,
+	  "Sealed" => 'sealed',
 	  "Plates" => 'plates',
 	  "Straps" => 'straps',
 	  "TroubleTicketType"  => 'cf_641',
 	  "Typeofdamage" => 'damagetype',
 	  "Damageposition" => 'damageposition',
-	  "Drivercauseddamage" => 'drivercauseddamage'
+	  "Drivercauseddamage" => 'drivercauseddamage',
+	  "reportdamage" =>'reportdamage'
   );
 class Troubleticket extends CFormModel
 {
@@ -39,6 +40,7 @@ class Troubleticket extends CFormModel
 	public $image;
 	public $TroubleTicketType;
 	public $drivercauseddamage;
+	public $reportdamage;
 
 
 public function rules()
@@ -135,17 +137,17 @@ public function attributeLabels()
 	    
 	    if(!empty($_FILES))
 	    {
-		  $directorypath= YiiBase::getPathOfAlias('application')."/data/";
-		  $rendomdirectory=uniqid(Yii::app()->session['username']) ;	
+		  //$directorypath= YiiBase::getPathOfAlias('application')."/data/";
+		  //$rendomdirectory=uniqid(Yii::app()->session['username']) ;	
 		  //$creadetnewdirectory=mkdir($directorypath.$rendomdirectory,0777);
 		  //$creadetnewdirectory=$directorypath;
 		  $files=array();
 		  foreach ($_FILES['Troubleticket']['name'] as $key => $filename) {
 		  $tmp_name = $_FILES['Troubleticket']["tmp_name"][$key];
 		  $name = $_FILES['Troubleticket']["name"][$key]; 
-         //move_uploaded_file($tmp_name, "{$creadetnewdirectory}{$name}");
-        //$data[$key]="@{$creadetnewdirectory}{$name}";
-        $data[$key]="@{$tmp_name}";
+          //move_uploaded_file($tmp_name, "{$creadetnewdirectory}{$name}");
+         //$data[$key]="@{$creadetnewdirectory}{$name}";
+         $data[$key]="@{$tmp_name}";
    
         }
 	}
@@ -180,7 +182,7 @@ public function attributeLabels()
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY); 
     $response = $rest->post(Yii::app()->params->URL."HelpDesk",$data);
    	$response = json_decode($response);
-  	if($response->success==true){
+   	if($response->success==true){
 		$TicketID=$response->result->ticket_no;
 	echo Yii::app()->user->setFlash('success', "Your Ticket ID : ". $TicketID); 
      } else
@@ -273,7 +275,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
 
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
+         $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
            
             $rest = new RESTClient();
             $rest->format('json'); 

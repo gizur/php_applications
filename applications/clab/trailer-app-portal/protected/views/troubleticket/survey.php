@@ -127,16 +127,25 @@ $this->breadcrumbs=array(
   </tr>
   <tr>
 	    
+	    <td>
+  <?php echo $form->labelEx($model,getTranslatedString('Damage Reported')); ?>
+  </td>
+  <td>
+     <?php echo $form->dropDownList($model,'reportdamage',$reportdamage);?>
+  </td>
 <td>
   <?php echo $form->labelEx($model,getTranslatedString('Create Date')); ?>
-  </td><td>
+  </td>
+  <td>
    <?php echo date('Y-m-d'); ?>
    <?php echo $form->hiddenField($model,'TroubleTicketType',array('type'=>"hidden",'size'=>2,'maxlength'=>2, 'value'=>'survey')); ?>
   </td>
-  
+  </tr>
+  <tr>
 <td>
   <?php echo $form->labelEx($model,getTranslatedString('Upload Pictures')); ?>
   </td>
+ 
   <td>
   <?php
     echo $form->fileField($model, 'image');
