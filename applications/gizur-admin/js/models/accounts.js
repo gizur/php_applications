@@ -3,7 +3,7 @@ define([
   'Backbone'
 ], function(_, Backbone) {
   var accountsModel = Backbone.Model.extend({
-     url: 'http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/User/',
+     url: 'http://localhost/gizurcloud/api/index.php/api/User/',
   });
   return accountsModel;
 
