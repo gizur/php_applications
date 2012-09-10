@@ -13,6 +13,11 @@
 <?php 
 include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
 ?>
+<?php  
+  $baseUrl = Yii::app()->baseUrl; 
+  $cs = Yii::app()->getClientScript();
+  $cs->registerScriptFile($baseUrl.'/assets/a719a609/jquery.js');
+?>
 <?php
 $this->pageTitle=Yii::app()->name . ' - New Ticket for Survey ';
 
@@ -80,13 +85,13 @@ $this->breadcrumbs=array(
   </tr>
      <tr>
     <td bgcolor="e3f0f7"><?php echo getTranslatedString('Status of damage');?></td>
-    <td bgcolor="e3f0f7"><?php echo $result['result']['ticketstatus']; ?></td>
+    <td bgcolor="e3f0f7" id="markdamagebutton"><?php echo $result['result']['ticketstatus']; ?></td>
   </tr>
  
 </table>
 
 <br>
-<input type="button" class="button" value="<?php echo getTranslatedString('Mark damage repaired');?>" />
+<input type="button"  onclick="AjaxMarkDamage('<?php echo $result['result']['id']; ?>')" class="button" value="<?php echo getTranslatedString('Mark damage repaired');?>" />
 
 
 </td>
@@ -115,5 +120,21 @@ $this->breadcrumbs=array(
 </table>
 </div>
 
+<script>
+
+function AjaxMarkDamage(id)
+{
+$('#markdamagebutton').html('Please wait...');
+$("#markdamagebutton").addClass("waitprocess2");
+$.post('index.php?r=troubleticket/markdamagestatus/',{ticketid: id},
+ function(data) 
+{
+$("#markdamagebutton").removeClass("waitprocess2");
+$('#markdamagebutton').html(data);
+});
+	
+}
+
+</script>
 
 
