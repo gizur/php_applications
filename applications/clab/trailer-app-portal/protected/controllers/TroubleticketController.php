@@ -92,6 +92,21 @@ class TroubleticketController extends Controller
 		
 	}
 	
+	/*
+	 *  Change Mark damage required function
+	 */
+	 
+	 public function actionmarkdamagestatus()
+	 {
+		$model=new Troubleticket;
+		 $this->LoginCheck();
+		 $module="HelpDesk";
+		 $ticketID=$_POST['ticketid'];
+		 $storedata=$model->Markdamagerequired($module,$ticketID);
+         echo $storedata['result']['ticketstatus'];
+		 //$this->render('surveydetails',array('result'=>$storedata));  
+	
+      }
 	/**
 	 * This is the action to handle images.
 	 */
