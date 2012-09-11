@@ -101,6 +101,56 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        }
     }
 
+    public function testLogout()
+    {
+        $model = 'Authenticate';
+        $action = 'logout';
+           
+        echo " Authenticating Logout " . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'POST',
+                    'Model'         => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY
+        );
+
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', $username);
+            $rest->set_header('X_PASSWORD', $password);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            echo $response = $rest->post($this->url.$model."/".$action);
+            $response = json_decode($response);
+            //check if response is valid
+            if (isset($response->success)){
+                //echo json_encode($response) . PHP_EOL;
+                $this->assertEquals($response->success, true, " Checking validity of response");
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+            unset($rest);
+       }
+    }
+
+
+
     public function testGetAssetList(){
         $model = 'Assets';
 
@@ -345,14 +395,22 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo " Creating Trouble Ticket " . PHP_EOL;        
 
         //set fields to to posted
-	$fields = array(
-		    'ticket_title'=>urlencode('Testing Using PHPUnit'),
+	    $fields = array(
+		    'ticket_title'=> 'Testing Using PHPUnit',
+                    'drivercauseddamage'=>'No',
+                    'sealed'=>'Yes',
+                    'plates'=>'3',
+                    'straps'=>'2',
+                    'damagetype'=> 'Aggregatkåpa',
+                    'damageposition' => 'Vänster sida (Left side)',
+                    'ticketstatus' => 'Open',      
+                    'reportdamage' => 'No',
+                    'trailerid'=>'ASVVSD001'              
 		);
-
 
         $params = array(
                     'Verb'          => 'POST',
-                    'Model'	    => $model,
+                    'Model'         => $model,
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => date("c"),
                     'KeyID'         => self::GIZURCLOUD_API_KEY
@@ -398,7 +456,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo " Creating Trouble Ticket with Document "; // . PHP_EOL;        
 
         //set fields to to posted
-	$fields = array(
+	    $fields = array(
 		    'ticket_title'=>'Testing Using PHPUnit with Image Upload',
                     'filename'=>'@'.getcwd().'/image-to-upload.jpg',
                     'drivercauseddamage' => 'No',
@@ -551,6 +609,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     public function testGetPicklist(){
         $model = 'HelpDesk';
         $fieldname = 'damagetype';
+        //$fieldname = 'damageposition';
         //$fieldname = 'damagereportlocation';
         echo " Getting Picklist" . PHP_EOL;        
 

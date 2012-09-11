@@ -1876,3 +1876,131 @@ Stack trace:
 REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
 in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (950)
 in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/07 09:40:06 [error] [exception.CException] exception 'CException' with message 'ApiController and its behaviors do not have a method or closure named "_sendResponse".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:266
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php(259): CComponent->__call('_sendResponse', Array)
+#1 /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php(259): ApiController->_sendResponse(403, '{"success":fals...')
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(307): ApiController->beforeAction(Object(CInlineAction))
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('view')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/view')
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+---
+2012/09/07 10:35:10 [error] [exception.CException] exception 'CException' with message 'ApiController and its behaviors do not have a method or closure named "_getStatusCodeMessage".' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:266
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php(107): CComponent->__call('_getStatusCodeM...', Array)
+#1 /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php(107): ApiController->_getStatusCodeMessage(403)
+#2 /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php(330): ApiController->_sendResponse(403, '{"success":fals...')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(307): ApiController->beforeAction(Object(CInlineAction))
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('view')
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/view')
+#8 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#10 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/9x243
+---
+2012/09/07 17:17:19 [error] [exception.CException] exception 'CException' with message 'The URL pattern "api/<model:(User)>/<field:(keypair1|keypair2)/<email:.+>" for route "api/update" is not a valid regular expression.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php:700
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(268): CUrlRule->__construct(Array, 8)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(227): CUrlManager->createUrlRule(Array, 8)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#7 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/User/keypair1/cloud3@gizur.com
+---
+2012/09/07 17:36:22 [error] [php] substr() expects parameter 1 to be string, array given (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:1208)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/User/keypair1/cloud3%40gizur.com
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1208)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/07 17:37:10 [error] [php] substr() expects parameter 1 to be string, array given (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:1208)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/User/keypair1/cloud3%40gizur.com
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1208)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/07 17:40:03 [error] [php] substr() expects parameter 1 to be string, array given (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:1210)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/User/keypair1/cloud3%40gizur.com
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1210)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/07 18:03:11 [error] [php] openssl_csr_new(): dn: Timestamp is not a recognized name (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:1191)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/User/keypair1/cloud3%40gizur.com
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1191)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/10 09:51:01 [error] [php] SimpleXMLIterator::rewind(): Node no longer exists (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:661)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/User/cloud4%40gizur.com
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (661)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/10 10:09:38 [error] [php] SimpleXMLIterator::rewind(): Node no longer exists (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:662)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/User/cloud4%40gizur.com
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (662)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/10 15:31:31 [error] [exception.CException] exception 'CException' with message 'Property "ApiController.errors" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php(1199): CComponent->__get('errors')
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): ApiController->actionCreate()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('create')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('api/create')
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+---

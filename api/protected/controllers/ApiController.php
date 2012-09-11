@@ -37,21 +37,59 @@ class ApiController extends Controller {
     private $format = 'json';
 
     /**
-     * Default response format
-     * either 'json' or 'xml'
+     * Session between Gizur REST API and vTiger REST API
      */
     
     private $session;    
 
      /**
-     * Default response format
-     * either 'json' or 'xml'
+     * The Error Codes
+     */
+    
+    private $errors = Array(
+        0 => "ERROR",
+        1001 => "MANDATORY_FIELDS_MISSING",
+        1002 => "INVALID_FIELD_VALUE",
+    );    
+
+     /**
+     * The vTiger REST Web Services Entities
      */
     
     private $ws_entities = Array(
         'Documents' => 15,
         'Contacts' => 12
     );    
+
+    /**
+     * List of valid models
+     */
+
+    private $valid_models = Array(
+        'User',
+        'HelpDesk',
+        'Assets',
+        'About',
+        'DocumentAttachements',
+        'Authenticate'
+    );
+
+     /**
+     * Status Codes
+     */
+
+    private $codes = Array(
+        200 => 'OK',
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        402 => 'Payment Required',
+        403 => 'Forbidden',
+        404 => 'Not Found',
+        500 => 'Internal Server Error',
+        501 => 'Not Implemented',
+    );
+
+
     
     /**
      * Aliasing custom fields
@@ -83,6 +121,67 @@ class ApiController extends Controller {
         return array();
     }
 
+    private function _sendResponse($status = 200, $body = '', 
+                                                  $content_type = 'text/json')
+    {
+        // set the status
+        $status_header = 'HTTP/1.1 ' . $status . ' ' 
+                 . ((isset($this->codes[$status])) ? $codes[$status] : '');
+        header($status_header);
+
+        // and the content type
+        header('Content-type: ' . $content_type);
+     
+        // pages with body are easy
+        if($body != '') {
+            // send the body
+            echo $body;
+        } else {
+            $message = '';
+            switch($status) {
+                case 401:
+                $message = 'You must be authorized to view this page.';
+                break;
+                case 404:
+                $message = 'The requested URL ' . $_SERVER['REQUEST_URI'] 
+                                                            . ' was not found.';
+                break;
+                case 500:
+                $message = 
+                     'The server encountered an error processing your request.';
+                break;
+                case 501:
+                $message = 'The requested method is not implemented.';
+                break;
+            }
+         
+            $signature = ($_SERVER['SERVER_SIGNATURE'] == '') ? 
+		$_SERVER['SERVER_SOFTWARE'] . ' Server at ' . 
+		$_SERVER['SERVER_NAME'] . ' Port ' . 
+		$_SERVER['SERVER_PORT'] : $_SERVER['SERVER_SIGNATURE'];
+         
+            // this should be templated in a real-world solution
+            $body = '
+            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+            <html>
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+                <title>' . $status . ' ' . ((isset($this->codes[$status])) ? 
+                                            $codes[$status] : '')  . '</title>
+            </head>
+            <body>
+                <h1>' . ((isset($this->codes[$status])) ? $codes[$status] : '') . '</h1>
+                <p>' . $message . '</p>
+                <hr />
+                <address>' . $signature . '</address>
+            </body>
+            </html>';
+         
+            echo $body;
+        }
+        Yii::app()->end();
+    }
+
     /**
      * @returns wether any action should run
      */
@@ -91,7 +190,8 @@ class ApiController extends Controller {
         
         try { 
             if ($_GET['model'] == 'About' || $_GET['model'] == 'User')
-                return true;            
+                return true;
+            
             //check if public key exists
             if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
                 throw new Exception('Public Key Not Found in request');
@@ -108,6 +208,15 @@ class ApiController extends Controller {
                 throw new Exception('Timestamp not found in request');
             else
                 $timestamp = $_SERVER['HTTP_X_TIMESTAMP'];
+            
+            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) < 
+                    strtotime(date("c")) - Yii::app()->params->acceptableTimestampError)
+		throw new Exception('Stale request. Current server time ' 
+                                                                   . date('c'));
+
+            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) > strtotime(date("c")))
+		throw new Exception('Oh, Oh, Oh, request from the FUTURE!' . 
+                                        '. Current server time ' . date('c'));
             
             if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
@@ -256,7 +365,7 @@ class ApiController extends Controller {
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
             
-            echo json_encode($response);
+            $this->_sendResponse(403, json_encode($response));
             
             return false;
         }
@@ -293,7 +402,7 @@ class ApiController extends Controller {
                     $response->contactname = $this->session->contactname;
                     $response->accountname = $this->session->accountname;
                     $response->valueFrom = $this->session->valueFrom;
-                    echo json_encode($response);
+                    $this->_sendResponse(200, json_encode($response));
                 }
                 
                 if ($_GET['action'] == 'logout') {
@@ -312,7 +421,7 @@ class ApiController extends Controller {
                     //send response to client
                     $response = new stdClass();
                     $response->success = true;
-                    echo json_encode($response);                    
+                    $this->_sendResponse(200, json_encode($response));
                 }
                 break;
             /*
@@ -349,6 +458,9 @@ class ApiController extends Controller {
                             "?$params"); 
                     
                     $response = json_decode($response, true);
+
+                    if ($response['success']==false)
+                        throw new Exception('Fetching details failed');
                     
                     foreach ($response['result']['fields'] as $field){
                         if ($fieldname == $field['name']) {
@@ -372,11 +484,11 @@ class ApiController extends Controller {
                                        } 
                                     }
                                 }
-                                echo json_encode(array(
+                                $this->_sendResponse(200, json_encode(array(
                                     'success' => true, 
                                     'result' => 
                                                $field['type']['picklistValues']
-                                    ));
+                                    )));
                                 break 2;
                             }
                             throw new Exception("Not an picklist field");
@@ -447,6 +559,10 @@ class ApiController extends Controller {
                     $response = $rest->get(Yii::app()->params->vtRestUrl . 
                             "?$params");
                     $response = json_decode($response, true);
+
+                    if ($response['success']==false)
+                        throw new Exception('Fetching details failed');
+
                     $custom_fields = $this->custom_fields['HelpDesk'];
                     
                     foreach($response['result'] as &$troubleticket){
@@ -465,7 +581,8 @@ class ApiController extends Controller {
                             }
                         }
                     }
-                    echo json_encode($response);
+                    
+                    $this->_sendResponse(200, json_encode($response));
                 }
                 break;
             /*
@@ -516,16 +633,18 @@ class ApiController extends Controller {
                         }
                     }
                 }
-                echo json_encode($response);
+                $this->_sendResponse(200, json_encode($response));
                 break;                  
             
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "ACCESS_DENIED";
-                $response->error->message = "Permission to perform the" . 
-                        " operation is denied for " . $_GET['model'];
-                echo json_encode($response);
+
+                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->message = "Not a valid method" . 
+                        " for model "  . $_GET['model'];
+                $this->_sendResponse(405, json_encode($response));
+
                 break;
         }
         } catch (Exception $e) {
@@ -533,7 +652,7 @@ class ApiController extends Controller {
                 $response->success = false;
                 $response->error->code = "ERROR";
                 $response->error->message = $e->getMessage();
-                echo json_encode($response);
+                $this->_sendResponse(400, json_encode($response));
         }
     }
 
@@ -550,8 +669,6 @@ class ApiController extends Controller {
              *******************************************************************
              */                
             case 'User':
-                $sessionId = $this->session->sessionName;
-                
 		// Instantiate the class
 		$dynamodb = new AmazonDynamoDB();
 		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
@@ -561,19 +678,29 @@ class ApiController extends Controller {
 		$ddb_response = $dynamodb->get_item(array(
 		    'TableName' => $table_name,
 		    'Key' => $dynamodb->attributes(array(
-			'HashKeyElement'  => $_GET['email'],             // "id" column
+			'HashKeyElement'  => $_GET['email'],
 		    )),
 		    'ConsistentRead' => 'true'
 		));
- 
-                foreach($ddb_response->body->Item->children() as $key => $item) {
-                   $result->{$key} = (string)$item->{AmazonDynamoDB::TYPE_STRING};
-                }
-
-                if ($response->success = $ddb_response->isOK())
-                    $response->result = $result;
                 
-                echo json_encode($response);
+                if (isset($ddb_response->body->Item)) {
+		        foreach($ddb_response->body->Item->children() 
+		                                           as $key => $item) {
+		           $result->{$key} = 
+		                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
+		        }
+
+		        $response->success = true;
+		        $response->result = $result;
+			$this->_sendResponse(200, json_encode($response));
+                } else {
+		        $response->success = false;
+		        $response->error->code = "NOT_FOUND";
+			$response->error->message = $_GET['email'] . " was " .
+                                                                   " not found";
+			$this->_sendResponse(404, json_encode($response));                        
+                }
+                
             break;
             /*
              *******************************************************************
@@ -718,7 +845,7 @@ class ApiController extends Controller {
                     }
                 }                                
                 
-                echo json_encode($response);
+                $this->_sendResponse(200, json_encode($response));
                 break;
             
             /*
@@ -765,7 +892,7 @@ class ApiController extends Controller {
                     }
                 }                                
                 
-                echo json_encode($response);
+                $this->_sendResponse(200, json_encode($response));
                 break;
             
             /*
@@ -817,16 +944,17 @@ class ApiController extends Controller {
                 unset($filename_sanitizer[0]);               
                 $response->result->filename = implode('_', 
                                                         $filename_sanitizer); 
-                echo json_encode($response); 
+                $this->_sendResponse(200, json_encode($response)); 
                 break;
             
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "ACCESS_DENIED";
-                $response->error->message = "Permission to perform the" . 
-                        " operation is denied for " . $_GET['model'];
-                echo json_encode($response);
+
+                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->message = "Not a valid method" . 
+                        " for model "  . $_GET['model'];
+                $this->_sendResponse(405, json_encode($response));
                 break;            
         }
         } catch (Exception $e) {
@@ -834,7 +962,7 @@ class ApiController extends Controller {
                 $response->success = false;
                 $response->error->code = "ERROR";
                 $response->error->message = $e->getMessage();
-                echo json_encode($response);            
+                $this->_sendResponse(400, json_encode($response));            
         }
     }
 
@@ -854,6 +982,12 @@ class ApiController extends Controller {
                 $sessionId = $this->session->sessionName;
                 $post = json_decode(file_get_contents('php://input'), true);
                 
+		$post['secretkey_1'] = uniqid("", true) . uniqid("", true);
+		$post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
+
+		$post['secretkey_2'] = uniqid("", true) . uniqid("", true);
+		$post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
+
 		// Instantiate the class
 		$dynamodb = new AmazonDynamoDB();
 		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
@@ -862,9 +996,33 @@ class ApiController extends Controller {
                     'TableName' => $table_name,
                     'Item' => $dynamodb->attributes($post)
                 ));
-                $response = new stdClass();
-                $response->success = $ddb_response->isOK();
-                echo json_encode($response);
+                
+		// Get an item
+		$ddb_response = $dynamodb->get_item(array(
+		    'TableName' => $table_name,
+		    'Key' => $dynamodb->attributes(array(
+			'HashKeyElement'  => $post['id'],
+		    )),
+		    'ConsistentRead' => 'true'
+		));
+                
+                if (isset($ddb_response->body->Item)) {
+		        foreach($ddb_response->body->Item->children() 
+		                                           as $key => $item) {
+		           $result->{$key} = 
+		                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
+		        }
+
+		        $response->success = true;
+		        $response->result = $result;
+			$this->_sendResponse(200, json_encode($response));
+                } else {
+		        $response->success = false;
+		        $response->error->code = "NOT_CREATED";
+			$response->error->message = $_GET['email'] . " could "
+                                                            . " not be created";
+			$this->_sendResponse(400, json_encode($response));                        
+                }
             break; 
             /*
              *******************************************************************
@@ -875,6 +1033,31 @@ class ApiController extends Controller {
              *******************************************************************
              */                
             case 'HelpDesk':
+                if (!isset($_POST['ticketstatus']) || 
+                                               empty($_POST['ticketstatus']))
+                    throw new Exception("ticketstatus does not have a value"
+                                                                         ,1001);
+
+                if (!isset($_POST['reportdamage']) || 
+                                              empty($_POST['reportdamage']))
+                    throw new Exception("reportdamage does not have a value"
+                                                                         ,1001);
+
+                if (!isset($_POST['trailerid']) || 
+                                              empty($_POST['trailerid']))
+                    throw new Exception("trailerid does not have a value"
+                                                                         ,1001);
+
+                if (!isset($_POST['ticket_title']) || 
+                                              empty($_POST['ticket_title']))
+                    throw new Exception("ticket_title does not have a value"
+                                                                         ,1001);
+
+                if ($_POST['ticketstatus']=='Open' &&
+                                                  $_POST['reportdamage']=='No')
+                    throw new Exception("Ticket can be opened for damaged trailers only"
+                                                                         ,1002);
+
                 $sessionId = $this->session->sessionName;
                 $userId = $this->session->userId;
                            
@@ -896,7 +1079,8 @@ class ApiController extends Controller {
                         array(
                             'parent_id' => $this->session->contactId,
                             'assigned_user_id' => $this->session->userId,
-                            'ticketstatus' => (isset($post['ticketstatus']) && !empty($post['ticketstatus']))?$post['ticketstatus']:'Closed',
+                            'ticketstatus' => (isset($post['ticketstatus']) 
+             && !empty($post['ticketstatus']))?$post['ticketstatus']:'Closed',
                         )));
                 
                 //Receive response from vtiger REST service
@@ -1014,34 +1198,41 @@ class ApiController extends Controller {
                     }
                 }
                 
-                echo json_encode($globalresponse);
+                $this->_sendResponse(200, json_encode($globalresponse));
                 break;
             
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "ACCESS_DENIED";
-                $response->error->message = "Permission to perform the" . 
-                        "operation is denied for " . $_GET['model'];
-                echo json_encode($response);
+                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->message = "Not a valid method" . 
+                        " for model "  . $_GET['model'];
+                $this->_sendResponse(405, json_encode($response));
                 break;            
         }
         } catch (Exception $e) {
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "ERROR";
+                $response->error->code = $this->errors[$e->getCode()];
                 $response->error->message = $e->getMessage();
-                echo json_encode($response);            
+                $this->_sendResponse(400, json_encode($response));            
         }
     }
 
     public function actionError() {
         $response = new stdClass();
         $response->success = false;
-        $response->error->code = "PATTERN_NOT_FOUND";
-        $response->error->message = "Such a service is not provided by" . 
+        if (isset($this->valid_models[$_GET['model']])) {
+            $response->error->code = "METHOD_NOT_ALLOWED";
+            $response->error->message = "Not a valid method" . 
+                        " for model "  . $_GET['model'];
+            $this->_sendResponse(405, json_encode($response));
+        } else {
+            $response->error->code = "NOT_FOUND";
+            $response->error->message = "Such a service is not provided by" . 
                 " this REST service";
-        echo json_encode($response);
+            $this->_sendResponse(404, json_encode($response));
+        }
     }  
  
     
@@ -1049,6 +1240,72 @@ class ApiController extends Controller {
         //Tasks include detail updating Troubleticket
         try {
         switch($_GET['model']) {
+            /*
+             *******************************************************************
+             *******************************************************************
+             ** User MODEL
+             ** Accepts id
+             *******************************************************************
+             *******************************************************************
+             */                
+            case 'User':
+                if (isset($_GET['field'])) {
+		        $keyid = str_replace('keypair','',$_GET['field']);
+		        
+			// Instantiate the class
+			$dynamodb = new AmazonDynamoDB();
+			$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+			$table_name = 'GIZUR_ACCOUNTS';
+
+			// Get an item
+			$ddb_response = $dynamodb->get_item(array(
+			    'TableName' => $table_name,
+			    'Key' => $dynamodb->attributes(array(
+				'HashKeyElement'  => $_GET['email'],
+			    )),
+			    'ConsistentRead' => 'true'
+			));
+	 
+		        foreach($ddb_response->body->Item->children() 
+		                                           as $key => $item) {
+		           $result[$key] = 
+		                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
+		        }
+
+
+			/* Create the private and public key */
+			$result['secretkey_' . $keyid] = uniqid("", true) . 
+		                                               uniqid("", true);
+			$result['apikey_' . $keyid] = strtoupper(uniqid("GZCLD" 
+		                                                  . uniqid()));
+
+		        $ddb_response = $dynamodb->put_item(array(
+		            'TableName' => $table_name,
+		            'Item' => $dynamodb->attributes($result)
+		        ));
+
+
+		        if ($response->success = $ddb_response->isOK())
+		            $response->result = $result;
+		        
+		        $this->_sendResponse(200, json_encode($response));
+		} else {
+		        $post = json_decode(file_get_contents('php://input'),
+                                                                         true);
+		        
+			// Instantiate the class
+			$dynamodb = new AmazonDynamoDB();
+			$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+			$table_name = 'GIZUR_ACCOUNTS';
+		        $ddb_response = $dynamodb->put_item(array(
+		            'TableName' => $table_name,
+		            'Item' => $dynamodb->attributes($post)
+		        ));
+		        $response = new stdClass();
+		        $response->success = $ddb_response->isOK();
+		        $this->_sendResponse(200, json_encode($response));
+                }
+            break;
             /*
              *******************************************************************
              *******************************************************************
@@ -1087,7 +1344,7 @@ class ApiController extends Controller {
                     'element' => json_encode($retrivedObject)
                 ));  
 
-               $response = json_decode($response, true);
+                $response = json_decode($response, true);
                 
                 $custom_fields = $this->custom_fields['HelpDesk'];
 
@@ -1107,17 +1364,17 @@ class ApiController extends Controller {
                     }
                 }
                 
-                echo json_encode($response);                
+                $this->_sendResponse(200, json_encode($response));                
                 
                 break;
             
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "ACCESS_DENIED";
-                $response->error->message = "Permission to perform the" . 
-                        " operation is denied for " . $_GET['model'];
-                echo json_encode($response);
+                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->message = "Not a valid method" . 
+                        " for model "  . $_GET['model'];
+                $this->_sendResponse(405, json_encode($response));
                 break;            
         }
         } catch (Exception $e) {
@@ -1125,7 +1382,7 @@ class ApiController extends Controller {
                 $response->success = false;
                 $response->error->code = "ERROR";
                 $response->error->message = $e->getMessage();
-                echo json_encode($response);            
+                $this->_sendResponse(400, json_encode($response));            
         }
     }     
 }

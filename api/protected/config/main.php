@@ -64,6 +64,8 @@ return array(
                         array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
                         array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+			array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
                         array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
@@ -108,6 +110,7 @@ return array(
 		// this is used in contact page
 		'adminEmail'  => 'webmaster@example.com',
                 'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
-                'awsS3Bucket' => 'gizurcloud'
+                'awsS3Bucket' => 'gizurcloud',
+                'acceptableTimestampError' => 10
 	),
 );
