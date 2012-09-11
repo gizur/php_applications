@@ -24,10 +24,10 @@ foreach($result['result'] as $data)
 	
 	$date=date('y-m-d',strtotime($data['createdtime']));
 	$time=date('h:i',strtotime($data['createdtime']));
-	$viewdteails='<a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'">Exceed99</a>';
-	$ticketNo = '<a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'">'.$data['date'].'</a>';
-	$rowsArray[] = array($i,$date,$time,$viewdteails,'Markus jane',
-	$data['damagereportlocation'],'Yes',$data['damagetype'],$data['damageposition']);
+	$viewdteails='<span id='.$data['id'].'></span><a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'" onclick=waitprocess("'.$data['id'].'")>'.Yii::app()->session['account'].'</a>';
+	$ticketNo = '<span id='.$data['id'].'-1></span><a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'" onclick=waitprocess("'.$data['id'].'-1")>'.$data['date'].'</a>';
+	$rowsArray[] = array($data['ticket_no'],$date,$time,$viewdteails,Yii::app()->session['contactname'],
+	$data['damagereportlocation'],$data['reportdamage'],$data['damagetype'],$data['damageposition']);
 	$i++;
 }
 $this->widget('ext.htmltableui.htmlTableUi',array(
