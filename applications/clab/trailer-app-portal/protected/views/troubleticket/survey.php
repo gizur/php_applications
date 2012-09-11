@@ -38,7 +38,6 @@ $this->breadcrumbs=array(
         echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
     }
 ?>
-
 <div style="background:#E5E5E5"><strong><?php echo getTranslatedString('Create new Trouble ticket');?></strong></div>	
 <div align="center">
 <table style="width:100%">
@@ -46,7 +45,7 @@ $this->breadcrumbs=array(
  <td>
    <?php echo $form->labelEx($model,getTranslatedString('Title')); ?>
    </td><td>
-    <?php echo $form->textField($model,'Title'); ?>
+    <?php echo $form->textField($model,'Title',array('value'=> $postdata['Title'])); ?>
     <?php echo $form->error($model,'Title'); ?>
    
   </td>
@@ -71,7 +70,7 @@ $this->breadcrumbs=array(
   <td>
   <?php echo $form->labelEx($model,getTranslatedString('Location for damage report')); ?>&nbsp;<span style="color:red">*</span>
   </td><td>
-    <?php echo $form->textField($model,getTranslatedString('Damagereportlocation')); ?>
+    <?php echo $form->textField($model,'Damagereportlocation',array('value'=> $postdata['Damagereportlocation'])); ?>
     <?php echo $form->error($model,'Damagereportlocation'); ?>
   
   </td>
@@ -86,7 +85,7 @@ $this->breadcrumbs=array(
     <td>
    <?php echo $form->labelEx($model,getTranslatedString('Plates')); ?>
   </td><td>
-   <?php echo $form->textField($model,'Plates'); ?>
+   <?php echo $form->textField($model,'Plates',array('value'=> $postdata['Plates'])); ?>
     <?php echo $form->error($model,'Plates'); ?>
     </td> 
    
@@ -97,7 +96,7 @@ $this->breadcrumbs=array(
 <td>
   <?php echo $form->labelEx($model,getTranslatedString('Straps')); ?>&nbsp;<span style="color:red">*</span>
   </td><td>
-   <?php echo $form->textField($model,'Straps'); ?>
+   <?php echo $form->textField($model,'Straps',array('value'=> $postdata['Straps'])); ?>
     <?php echo $form->error($model,'Straps'); ?>
   </td>	  
 	  
@@ -133,14 +132,20 @@ $this->breadcrumbs=array(
   <td>
      <?php echo $form->dropDownList($model,'reportdamage',$reportdamage);?>
   </td>
-<td>
-  <?php echo $form->labelEx($model,getTranslatedString('Create Date')); ?>
-  </td>
-  <td>
-   <?php echo date('Y-m-d'); ?>
-   <?php echo $form->hiddenField($model,'TroubleTicketType',array('type'=>"hidden",'size'=>2,'maxlength'=>2, 'value'=>'survey')); ?>
-  </td>
-  </tr>
+  
+  <td><?php echo $form->labelEx($model,getTranslatedString('Ticket Status')); ?></td>
+  <td><?php 
+  $ticketstatus2=array();
+  foreach($ticketstatus as $status){
+
+  if($status=='Open' || $status=='Closed')
+  {
+   $ticketstatus2[$status]=$status;
+   }
+  
+  }
+    echo $form->dropDownList($model,'ticketstatus',$ticketstatus2);?></td>
+    </tr>
   <tr>
 <td>
   <?php echo $form->labelEx($model,getTranslatedString('Upload Pictures')); ?>
@@ -153,6 +158,13 @@ $this->breadcrumbs=array(
   <?php echo $form->error($model,'image'); ?>
   <span id="addmorepic"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/001_01.png" title="Add More Pictures" /></span>
   <p id="morepic"></p> 
+  </td>
+  <td>
+  <?php echo $form->labelEx($model,getTranslatedString('Create Date')); ?>
+  </td>
+  <td>
+   <?php echo date('Y-m-d'); ?>
+   <?php echo $form->hiddenField($model,'TroubleTicketType',array('type'=>"hidden",'size'=>2,'maxlength'=>2, 'value'=>'survey')); ?>
   </td>
 </tr>
 </table>

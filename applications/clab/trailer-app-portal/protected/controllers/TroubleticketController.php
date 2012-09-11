@@ -43,6 +43,7 @@ class TroubleticketController extends Controller
 	/**
 	 * This Action are create new Trouble Ticket 
 	 */
+	 
 	public function actionsurvey()
 	{
 		 $model=new Troubleticket;
@@ -57,8 +58,14 @@ class TroubleticketController extends Controller
 		$pickList_damagepostion=$model->getpickList('damageposition');
 		$picklist_drivercauseddamage=$model->getpickList('drivercauseddamage');
 		$picklist_reportdamage=$model->getpickList('reportdamage');
+		$picklist_ticketstatus=$model->getpickList('ticketstatus');
 		$Asset_List=$model->findAssets('Assets');
-		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category,'damagetype' => $pickList_damagetype ,'damagepos'=> $pickList_damagepostion,'drivercauseddamageList'=>$picklist_drivercauseddamage,'reportdamage'=>$picklist_reportdamage,'Assets'=>$Asset_List));
+		$postdata=@$_POST['Troubleticket'];
+		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category,
+		                             'damagetype' => $pickList_damagetype ,'damagepos'=> $pickList_damagepostion,
+		                             'drivercauseddamageList'=>$picklist_drivercauseddamage,
+		                             'reportdamage'=>$picklist_reportdamage,'Assets'=>$Asset_List,
+		                             'ticketstatus'=>$picklist_ticketstatus, 'postdata'=>$postdata));
 		
 	} 
 

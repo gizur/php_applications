@@ -17,8 +17,8 @@
 	  "TroubleTicketType"  => 'cf_641',
 	  "Typeofdamage" => 'damagetype',
 	  "Damageposition" => 'damageposition',
-	  "Drivercauseddamage" => 'drivercauseddamage'
-
+	  "Drivercauseddamage" => 'drivercauseddamage',
+	 
   );
 class Troubleticket extends CFormModel
 {
@@ -41,6 +41,7 @@ class Troubleticket extends CFormModel
 	public $TroubleTicketType;
 	public $drivercauseddamage;
 	public $reportdamage;
+	public $ticketstatus;
 
 
 public function rules()
@@ -100,7 +101,7 @@ public function attributeLabels()
         $signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        //foreach($this->credentials as $username => $password){            
+           $response['result']=array();           
             $rest = new RESTClient();
             $rest->format('json'); 
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
@@ -137,17 +138,11 @@ public function attributeLabels()
 	   
 	    if(!empty($_FILES))
 	    {
-		  //$directorypath= YiiBase::getPathOfAlias('application')."/data/";
-		  //$rendomdirectory=uniqid(Yii::app()->session['username']) ;	
-		  //$creadetnewdirectory=mkdir($directorypath.$rendomdirectory,0777);
-		  //$creadetnewdirectory=$directorypath;
-		  $files=array();
-		  foreach ($_FILES['Troubleticket']['name'] as $key => $filename) {
+	     $files=array();
+		 foreach ($_FILES['Troubleticket']['name'] as $key => $filename) {
 		 if(!empty($_FILES['Troubleticket']["name"][$key])){	  
 		  $tmp_name = $_FILES['Troubleticket']["tmp_name"][$key];
 		  $name = $_FILES['Troubleticket']["name"][$key]; 
-          //move_uploaded_file($tmp_name, "{$creadetnewdirectory}{$name}");
-         //$data[$key]="@{$creadetnewdirectory}{$name}";
           $data[$key]="@{$tmp_name}";
 	      }
         }
@@ -173,7 +168,6 @@ public function attributeLabels()
         $signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        //foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
             $rest->format('json'); 
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
@@ -183,12 +177,13 @@ public function attributeLabels()
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY); 
     $response = $rest->post(Yii::app()->params->URL."HelpDesk",$data);
    	$response = json_decode($response);
+
    	if($response->success==true){
-		$TicketID=$response->result->ticket_no;
+	$TicketID=$response->result->ticket_no;
 	echo Yii::app()->user->setFlash('success', "Your Ticket ID : ". $TicketID); 
      } else
      {
-	  echo Yii::app()->user->setFlash('error', "Some Isssue in process."); 
+	  echo Yii::app()->user->setFlash('error', $response->error->message); 
 	  }
 	  
   }
