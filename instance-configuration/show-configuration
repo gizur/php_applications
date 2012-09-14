@@ -3,14 +3,18 @@
 
 if [ -n "$1" ]
 then
-    echo All Good
+    echo "=== php_apps configuraton for $1 ==="
 else
     echo Usage: ./deploy-configuaration [[region]] [[memcache-location]]
 fi
 
 echo "vtiger configuration...."
-grep "db_server"   $1/vtiger/config.inc.php
-grep "db_port"     $1/vtiger/config.inc.php
-grep "db_username" $1/vtiger/config.inc.php
-grep "db_password" $1/vtiger/config.inc.php
-grep "db_name"     $1/vtiger/config.inc.php
+grep "'db_server'"   $1/vtiger/config.inc.php
+grep "'db_port'"     $1/vtiger/config.inc.php
+grep "'db_username'" $1/vtiger/config.inc.php
+grep "'db_password'" $1/vtiger/config.inc.php
+grep "'db_name'"     $1/vtiger/config.inc.php
+
+echo "REST API config..."
+grep "'key'"        $1/aws-php-sdk/config.inc.php
+grep "'secret'"     $1/aws-php-sdk/config.inc.php
