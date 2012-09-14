@@ -50,6 +50,7 @@ class ApiController extends Controller {
         0 => "ERROR",
         1001 => "MANDATORY_FIELDS_MISSING",
         1002 => "INVALID_FIELD_VALUE",
+        1003 => "TIME_NOT_IN_SYNC",
     );    
 
      /**
@@ -211,12 +212,11 @@ class ApiController extends Controller {
             
             if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) < 
                     strtotime(date("c")) - Yii::app()->params->acceptableTimestampError)
-		throw new Exception('Stale request. Current server time ' 
-                                                                   . date('c'));
-
-            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) > strtotime(date("c")))
-		throw new Exception('Oh, Oh, Oh, request from the FUTURE!' . 
-                                        '. Current server time ' . date('c'));
+		throw new Exception('Stale request', 1003);
+            
+            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) > strtotime("now"))
+		throw new Exception('Oh, Oh, Oh, request from the FUTURE!',
+                                                                          1003);
             
             if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
@@ -362,9 +362,11 @@ class ApiController extends Controller {
         } catch (Exception $e){
             $response = new stdClass();
             $response->success = false;
-            $response->error->code = "ERROR";
+            $response->error->code = $this->errors[$e->getCode()];
             $response->error->message = $e->getMessage();
-            
+            if (isset($_SERVER['HTTP_X_TIMESTAMP']))
+                $response->error->time_difference = strtotime("now") - 
+                                      strtotime($_SERVER['HTTP_X_TIMESTAMP']);
             $this->_sendResponse(403, json_encode($response));
             
             return false;
