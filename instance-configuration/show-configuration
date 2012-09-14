@@ -15,6 +15,23 @@ grep "'db_username'" $1/vtiger/config.inc.php
 grep "'db_password'" $1/vtiger/config.inc.php
 grep "'db_name'"     $1/vtiger/config.inc.php
 
-echo "REST API config..."
+echo "AWS API config..."
 grep "'key'"        $1/aws-php-sdk/config.inc.php
 grep "'secret'"     $1/aws-php-sdk/config.inc.php
+
+
+echo "phpMyAdmin config..."
+grep "'host'"        $1/phpMyAdmin/config.inc.php
+
+
+
+echo "REST API config..."
+grep "'adminEmail'"        $1/rest-api//main.php
+grep "'vtRestUrl' "        $1/rest-api//main.php
+grep "'awsS3Bucket'"       $1/rest-api//main.php
+grep "'host'"              $1/rest-api//main.php
+grep "'port'"              $1/rest-api/main.php
+grep "'weight'"            $1/rest-api/main.php
+
+
+
