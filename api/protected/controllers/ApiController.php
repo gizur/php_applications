@@ -210,13 +210,13 @@ class ApiController extends Controller {
             else
                 $timestamp = $_SERVER['HTTP_X_TIMESTAMP'];
             
-            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) < 
-                    strtotime(date("c")) - Yii::app()->params->acceptableTimestampError)
-		throw new Exception('Stale request', 1003);
+            if ( $_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > 
+                    strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+		    throw new Exception('Stale request', 1003);
             
-            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) > strtotime("now"))
-		throw new Exception('Oh, Oh, Oh, request from the FUTURE!',
-                                                                          1003);
+            if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError <
+                    strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+		    throw new Exception('Oh, Oh, Oh, request from the FUTURE! ' . $_SERVER['REQUEST_TIME'] . ' ' . strtotime($_SERVER['HTTP_X_TIMESTAMP']), 1003);
             
             if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
@@ -231,7 +231,7 @@ class ApiController extends Controller {
                     'Timestamp'     => $timestamp,
                     'KeyID'         => $GIZURCLOUD_API_KEY
             );
-
+            
             // Sorg arguments
             ksort($params);
 
@@ -291,13 +291,14 @@ class ApiController extends Controller {
                     throw new Exception("Unable to get challenge token");                    
                 $challengeToken = $response->result->token;
                 $generatedKey = md5($challengeToken.$userAccessKey);
-
+		
                 $response = $rest->post(Yii::app()->params->vtRestUrl . 
                         "?operation=login", 
                         "username=$username&accessKey=$generatedKey");
                 $response = json_decode($response); 
                 if ($response->success==false)
-                    throw new Exception("Invalid generated key");                    
+                    throw new Exception("Invalid generated key " . $challengeToken.$userAccessKey . " " .
+$response->error->message);                    
                 $sessionId = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
@@ -357,18 +358,22 @@ class ApiController extends Controller {
             } 
             
             $this->session = json_decode($cache_value);
-              
+            $this->session->challengeToken = $challengeToken;
             return true;
         } catch (Exception $e){
             $response = new stdClass();
             $response->success = false;
             $response->error->code = $this->errors[$e->getCode()];
             $response->error->message = $e->getMessage();
-            if (isset($_SERVER['HTTP_X_TIMESTAMP']))
-                $response->error->time_difference = strtotime("now") - 
-                                      strtotime($_SERVER['HTTP_X_TIMESTAMP']);
-            $this->_sendResponse(403, json_encode($response));
-            
+            if ($e->getCode() == 1003) {
+		    if (isset($_SERVER['HTTP_X_TIMESTAMP']))
+		        $response->error->time_difference = $_SERVER['REQUEST_TIME'] - 
+		                              strtotime($_SERVER['HTTP_X_TIMESTAMP']);
+                    $response->error->time_request_arrived = date("c",$_SERVER['REQUEST_TIME']);
+		    $response->error->time_request_sent = date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
+                    $response->error->time_server = date("c");
+            }
+		    $this->_sendResponse(403, json_encode($response));
             return false;
         }
     }    
@@ -403,7 +408,7 @@ class ApiController extends Controller {
                     $response->success = true;
                     $response->contactname = $this->session->contactname;
                     $response->accountname = $this->session->accountname;
-                    $response->valueFrom = $this->session->valueFrom;
+                    //$response->valueFrom = $this->session->valueFrom;
                     $this->_sendResponse(200, json_encode($response));
                 }
                 
@@ -488,6 +493,7 @@ class ApiController extends Controller {
                                 }
                                 $this->_sendResponse(200, json_encode(array(
                                     'success' => true, 
+                                    //'challengeToken' => $this->session->challengeToken,
                                     'result' => 
                                                $field['type']['picklistValues']
                                     )));

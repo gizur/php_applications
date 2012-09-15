@@ -2004,3 +2004,717 @@ Stack trace:
 #9 {main}
 REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
 ---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:24:46 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:24:46 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:24:46 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:25:02 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:25:02 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:25:02 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:25:42 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:25:42 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:25:42 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:26:08 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:26:08 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:26:08 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:27:18 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.severs" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('severs', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:27:19 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.severs" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('severs', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:27:19 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.severs" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('severs', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:31:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:31:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:31:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:31:56 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:31:56 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:31:56 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:41 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:41 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:41 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:54 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:55 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:55 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:59 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:59 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:59 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:39:01 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:39:01 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:39:01 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:43:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:43:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:43:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 11:09:27 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 11:09:27 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 11:09:27 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 11:09:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 11:09:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 11:09:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
