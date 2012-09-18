@@ -13,8 +13,8 @@
 		$user = new Users();
 		$userId = $user->retrieve_user_id($username);
 		
-		$token = vtws_getActiveToken($userId);
-		if($token == null){
+		$tokens = vtws_getActiveToken($userId);
+		if($tokens == null){
 			throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN,"Specified token is invalid or expired");
 		}
 		
@@ -23,10 +23,16 @@
 			throw new WebServiceException(WebServiceErrorCode::$ACCESSKEYUNDEFINED,"Access key for the user is undefined");
 		}
 		
-		$accessCrypt = md5($token.$accessKey);
-		if(strcmp($accessCrypt,$pwd)!==0){
-			throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"Invalid username or password");
-		}
+        $validTokenFound = false;
+        foreach($tokens as $token) {
+            $accessCrypt = md5($token.$accessKey);
+            $validTokenFound = (strcmp($accessCrypt,$pwd)!==0) || $validTokenFound;
+        }
+
+        if (!$validTokenFound) {
+                throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"Invalid username or password");
+        }
+
 		$user = $user->retrieveCurrentUserInfoFromFile($userId);
 		if($user->status != 'Inactive'){
 			return $user;
@@ -40,8 +46,12 @@
 		$sql = "select * from vtiger_ws_userauthtoken where userid=? and expiretime >= ?";
 		$result = $adb->pquery($sql,array($userId,time()));
 		if($result != null && isset($result)){
-			if($adb->num_rows($result)>0){
-				return $adb->query_result($result,0,"token");
+            $tokens = array();
+            $rowcount = $adb->num_rows($result);
+			if($rowcount>0){
+                for ($i=0;$i<$rowcount;$i++)
+				    $tokens[] = $adb->query_result($result,$i,"token");
+                return $tokens;
 			}
 		}
 		return null;
