@@ -368,9 +368,14 @@ class ApiController extends Controller {
 		    if (isset($_SERVER['HTTP_X_TIMESTAMP']))
 		        $response->error->time_difference = $_SERVER['REQUEST_TIME'] - 
 		                              strtotime($_SERVER['HTTP_X_TIMESTAMP']);
-                    $response->error->time_request_arrived = date("c",$_SERVER['REQUEST_TIME']);
-		    $response->error->time_request_sent = date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
-                    $response->error->time_server = date("c");
+                $response->error->time_request_arrived = date("c",$_SERVER['REQUEST_TIME']);
+                $response->error->time_request_sent = date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
+                $response->error->time_server = date("c");
+                if (strpos($_SERVER['USER_AGENT'],'Darwin')) {
+                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
+                   Yii::trace(json_encode($response),'Darwin - Request');
+                }
+
             }
 		    $this->_sendResponse(403, json_encode($response));
             return false;
@@ -1265,10 +1270,33 @@ class ApiController extends Controller {
              */                
             case 'Authenticate':
                 if ($_GET['action'] == 'reset') {
-
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $response = $rest->post(Yii::app()->params->vtRestUrl, array(
+                        'sessionName' => $sessionId,
+                        'operation' => 'resetpassword',
+                        'username' => $_SERVER['HTTP_X_USERNAME'],
+                    ));  
+                    $this->_sendResponse(200, json_encode($response));            
                 }
 
                 if ($_GET['action'] == 'changepw') {
+                    if (!isset($_PUT['newpassword'])) 
+                        throw new Exception('New Password not provided.');
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $response = $rest->post(Yii::app()->params->vtRestUrl, array(
+                        'sessionName' => $sessionId,
+                        'operation' => 'changepassword',
+                        'username' => $_SERVER['HTTP_X_USERNAME'],
+                        'oldpassword' => $_SERVER['HTTP_X_PASSWORD'],
+                        'newpassword' => $_PUT['newpassword']
+                    ));  
+                    $this->_sendResponse(200, json_encode($response));            
                 }
             /*
              *******************************************************************
