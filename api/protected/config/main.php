@@ -112,6 +112,6 @@ return array(
 		'adminEmail'  => 'webmaster@example.com',
                 'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
                 'awsS3Bucket' => 'gizurcloud',
-                'acceptableTimestampError' => 10
+                'acceptableTimestampError' => 60
 	),
 );

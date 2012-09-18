@@ -27,6 +27,10 @@
         foreach($tokens as $token) {
             $accessCrypt = md5($token.$accessKey);
             $validTokenFound = (strcmp($accessCrypt,$pwd)!==0) || $validTokenFound;
+            if ($validTokenFound) {
+                vtws_removeToken($userId, $token);
+                break;
+            }
         }
 
         if (!$validTokenFound) {
@@ -40,6 +44,13 @@
 		throw new WebServiceException(WebServiceErrorCode::$AUTHREQUIRED,'Given user is inactive');
 	}
 	
+	function vtws_removeToken($userId, $token){
+		global $adb;
+		
+		$sql = "delete from vtiger_ws_userauthtoken where userid=? and  token=?";
+		$adb->pquery($sql,array($userId,$token));
+		return true;
+	}
 	function vtws_getActiveToken($userId){
 		global $adb;
 		
