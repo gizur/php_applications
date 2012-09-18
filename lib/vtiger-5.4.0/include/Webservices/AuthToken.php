@@ -19,8 +19,8 @@
 		$servertime = time();
 		$expireTime = time()+(60*5);
 		
-		//$sql = "delete from vtiger_ws_userauthtoken where userid=? and expireTime<?";
-		//$adb->pquery($sql,array($userid, time()));
+		$sql = "delete from vtiger_ws_userauthtoken where userid=? and expireTime<?";
+		$adb->pquery($sql,array($userid, time()));
 		
 		$sql = "insert into vtiger_ws_userauthtoken(userid,token,expireTime) values (?,?,?)";
 		$adb->pquery($sql,array($userid,$authToken,$expireTime));
