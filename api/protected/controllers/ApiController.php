@@ -376,6 +376,14 @@ class ApiController extends Controller {
                    Yii::trace(json_encode($response),'Darwin - Request');
                 }
 
+                if (strpos($_SERVER['USER_AGENT'],'Apache-HttpClient')) {
+                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
+                   Yii::trace(json_encode($response),'Darwin - Request');
+                }
+                if (strpos($_SERVER['USER_AGENT'],'PHPUnit')) {
+                   Yii::trace(json_encode($_SERVER),'PHPUnit - Response');
+                   Yii::trace(json_encode($response),'PHPUnit - Request');
+                }
             }
 		    $this->_sendResponse(403, json_encode($response));
             return false;
