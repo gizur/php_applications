@@ -293,6 +293,10 @@ class CURL
 		{
 			$this->options[CURLOPT_TIMEOUT] = 60;
 		}
+		if ( ! isset($this->options[CURLOPT_USERAGENT]))
+		{
+			$this->options[CURLOPT_USERAGENT] = 'PHPUnit';
+		}
 		if ( ! isset($this->options[CURLOPT_RETURNTRANSFER]))
 		{
 			$this->options[CURLOPT_RETURNTRANSFER] = TRUE;
