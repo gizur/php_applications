@@ -210,13 +210,13 @@ class ApiController extends Controller {
             else
                 $timestamp = $_SERVER['HTTP_X_TIMESTAMP'];
             
-            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) < 
-                    strtotime(date("c")) - Yii::app()->params->acceptableTimestampError)
-		throw new Exception('Stale request', 1003);
+            if ( $_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > 
+                    strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+		    throw new Exception('Stale request', 1003);
             
-            if (strtotime($_SERVER['HTTP_X_TIMESTAMP']) > strtotime("now"))
-		throw new Exception('Oh, Oh, Oh, request from the FUTURE!',
-                                                                          1003);
+            if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError <
+                    strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+		    throw new Exception('Oh, Oh, Oh, request from the FUTURE! ' . $_SERVER['REQUEST_TIME'] . ' ' . strtotime($_SERVER['HTTP_X_TIMESTAMP']), 1003);
             
             if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
@@ -226,12 +226,12 @@ class ApiController extends Controller {
             // Build query arguments list
             $params = array(
                     'Verb'          => Yii::App()->request->getRequestType(),
-                    'Model'	    => $_GET['model'],
+                    'Model'         => $_GET['model'],
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => $timestamp,
                     'KeyID'         => $GIZURCLOUD_API_KEY
             );
-
+            
             // Sorg arguments
             ksort($params);
 
@@ -291,13 +291,13 @@ class ApiController extends Controller {
                     throw new Exception("Unable to get challenge token");                    
                 $challengeToken = $response->result->token;
                 $generatedKey = md5($challengeToken.$userAccessKey);
-
+		
                 $response = $rest->post(Yii::app()->params->vtRestUrl . 
                         "?operation=login", 
                         "username=$username&accessKey=$generatedKey");
                 $response = json_decode($response); 
                 if ($response->success==false)
-                    throw new Exception("Invalid generated key");                    
+                    throw new Exception("Invalid generated key ");                    
                 $sessionId = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
@@ -357,18 +357,35 @@ class ApiController extends Controller {
             } 
             
             $this->session = json_decode($cache_value);
-              
+            $this->session->challengeToken = $challengeToken;
             return true;
         } catch (Exception $e){
             $response = new stdClass();
             $response->success = false;
             $response->error->code = $this->errors[$e->getCode()];
             $response->error->message = $e->getMessage();
-            if (isset($_SERVER['HTTP_X_TIMESTAMP']))
-                $response->error->time_difference = strtotime("now") - 
-                                      strtotime($_SERVER['HTTP_X_TIMESTAMP']);
-            $this->_sendResponse(403, json_encode($response));
-            
+            if ($e->getCode() == 1003) {
+		    if (isset($_SERVER['HTTP_X_TIMESTAMP']))
+		        $response->error->time_difference = $_SERVER['REQUEST_TIME'] - 
+		                              strtotime($_SERVER['HTTP_X_TIMESTAMP']);
+                $response->error->time_request_arrived = date("c",$_SERVER['REQUEST_TIME']);
+                $response->error->time_request_sent = date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
+                $response->error->time_server = date("c");
+                if (strpos($_SERVER['USER_AGENT'],'Darwin')) {
+                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
+                   Yii::trace(json_encode($response),'Darwin - Request');
+                }
+
+                if (strpos($_SERVER['USER_AGENT'],'Apache-HttpClient')) {
+                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
+                   Yii::trace(json_encode($response),'Darwin - Request');
+                }
+                if (strpos($_SERVER['USER_AGENT'],'PHPUnit')) {
+                   Yii::trace(json_encode($_SERVER),'PHPUnit - Response');
+                   Yii::trace(json_encode($response),'PHPUnit - Request');
+                }
+            }
+		    $this->_sendResponse(403, json_encode($response));
             return false;
         }
     }    
@@ -403,7 +420,7 @@ class ApiController extends Controller {
                     $response->success = true;
                     $response->contactname = $this->session->contactname;
                     $response->accountname = $this->session->accountname;
-                    $response->valueFrom = $this->session->valueFrom;
+                    //$response->valueFrom = $this->session->valueFrom;
                     $this->_sendResponse(200, json_encode($response));
                 }
                 
@@ -488,6 +505,7 @@ class ApiController extends Controller {
                                 }
                                 $this->_sendResponse(200, json_encode(array(
                                     'success' => true, 
+                                    'challengeToken' => $this->session->challengeToken,
                                     'result' => 
                                                $field['type']['picklistValues']
                                     )));
@@ -984,46 +1002,46 @@ class ApiController extends Controller {
                 $sessionId = $this->session->sessionName;
                 $post = json_decode(file_get_contents('php://input'), true);
                 
-		$post['secretkey_1'] = uniqid("", true) . uniqid("", true);
-		$post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
+                $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
+                $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
 
-		$post['secretkey_2'] = uniqid("", true) . uniqid("", true);
-		$post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
+                $post['secretkey_2'] = uniqid("", true) . uniqid("", true);
+                $post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
 
-		// Instantiate the class
-		$dynamodb = new AmazonDynamoDB();
-		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-		$table_name = 'GIZUR_ACCOUNTS';
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+                $table_name = 'GIZUR_ACCOUNTS';
                 $ddb_response = $dynamodb->put_item(array(
                     'TableName' => $table_name,
                     'Item' => $dynamodb->attributes($post)
                 ));
                 
-		// Get an item
-		$ddb_response = $dynamodb->get_item(array(
-		    'TableName' => $table_name,
-		    'Key' => $dynamodb->attributes(array(
-			'HashKeyElement'  => $post['id'],
-		    )),
-		    'ConsistentRead' => 'true'
-		));
+                // Get an item
+                $ddb_response = $dynamodb->get_item(array(
+                    'TableName' => $table_name,
+                    'Key' => $dynamodb->attributes(array(
+                    'HashKeyElement'  => $post['id'],
+                    )),
+                    'ConsistentRead' => 'true'
+                ));
                 
                 if (isset($ddb_response->body->Item)) {
-		        foreach($ddb_response->body->Item->children() 
-		                                           as $key => $item) {
-		           $result->{$key} = 
-		                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
-		        }
+                    foreach($ddb_response->body->Item->children() 
+                                                       as $key => $item) {
+                       $result->{$key} = 
+                              (string)$item->{AmazonDynamoDB::TYPE_STRING};
+                    }
 
-		        $response->success = true;
-		        $response->result = $result;
-			$this->_sendResponse(200, json_encode($response));
+                    $response->success = true;
+                    $response->result = $result;
+                    $this->_sendResponse(200, json_encode($response));
                 } else {
-		        $response->success = false;
-		        $response->error->code = "NOT_CREATED";
-			$response->error->message = $_GET['email'] . " could "
-                                                            . " not be created";
-			$this->_sendResponse(400, json_encode($response));                        
+                    $response->success = false;
+                    $response->error->code = "NOT_CREATED";
+                    $response->error->message = $_GET['email'] . " could "
+                                                                . " not be created";
+                    $this->_sendResponse(400, json_encode($response));                        
                 }
             break; 
             /*
@@ -1035,6 +1053,7 @@ class ApiController extends Controller {
              *******************************************************************
              */                
             case 'HelpDesk':
+                $script_started = date("c"); 
                 if (!isset($_POST['ticketstatus']) || 
                                                empty($_POST['ticketstatus']))
                     throw new Exception("ticketstatus does not have a value"
@@ -1111,13 +1130,12 @@ class ApiController extends Controller {
                     'filestatus' => 1,
                     'fileversion' => '',
                     );
-
+                Yii::trace("starting file block", "debug"); 
                 if (!empty($_FILES) && $globalresponse->success){
                     foreach ($_FILES as $key => $file){
                         //$target_path = YiiBase::getPathOfAlias('application')
                         // . "/data/" . basename($file['name']);
                         //move_uploaded_file($file['tmp_name'], $target_path);
-                        
                         //Create document
                         $rest = new RESTClient();
                         $rest->format('json'); 
@@ -1132,7 +1150,7 @@ class ApiController extends Controller {
                                                         json_encode($dataJson),
                                             'elementType' => 'Documents'
                                         ));
-                        
+                        Yii::trace($document, "debug"); 
                         $document = json_decode($document);
                         $notesid = $document->result->id;
                         
@@ -1176,6 +1194,8 @@ class ApiController extends Controller {
                         
                     }
                 }
+                
+                Yii::trace("Ending of FIle Upload to S3", "debug"); 
 
                 $globalresponse = json_encode($globalresponse);
                 $globalresponse = json_decode($globalresponse, true);
@@ -1199,8 +1219,13 @@ class ApiController extends Controller {
                         //unset($custom_fields[$key_to_replace]);                                
                     }
                 }
-                
+                $globalresponse['debug']['request_sent'] = $_SERVER['HTTP_X_TIMESTAMP']; 
+                $globalresponse['debug']['request_arrived'] = date("c", $_SERVER['REQUEST_TIME']); 
+                $globalresponse['debug']['script_ended'] = date("c"); 
+                $globalresponse['debug']['script_started'] = $script_started; 
+
                 $this->_sendResponse(200, json_encode($globalresponse));
+                Yii::trace(json_encode($globalresponse), "debug"); 
                 break;
             
             default :
@@ -1242,6 +1267,45 @@ class ApiController extends Controller {
         //Tasks include detail updating Troubleticket
         try {
         switch($_GET['model']) {
+
+            /*
+             *******************************************************************
+             *******************************************************************
+             ** Authenticate MODEL
+             ** Accepts reset / changepw
+             *******************************************************************
+             *******************************************************************
+             */                
+            case 'Authenticate':
+                if ($_GET['action'] == 'reset') {
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $response = $rest->post(Yii::app()->params->vtRestUrl, array(
+                        'sessionName' => $sessionId,
+                        'operation' => 'resetpassword',
+                        'username' => $_SERVER['HTTP_X_USERNAME'],
+                    ));  
+                    $this->_sendResponse(200, json_encode($response));            
+                }
+
+                if ($_GET['action'] == 'changepw') {
+                    if (!isset($_PUT['newpassword'])) 
+                        throw new Exception('New Password not provided.');
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $response = $rest->post(Yii::app()->params->vtRestUrl, array(
+                        'sessionName' => $sessionId,
+                        'operation' => 'changepassword',
+                        'username' => $_SERVER['HTTP_X_USERNAME'],
+                        'oldpassword' => $_SERVER['HTTP_X_PASSWORD'],
+                        'newpassword' => $_PUT['newpassword']
+                    ));  
+                    $this->_sendResponse(200, json_encode($response));            
+                }
             /*
              *******************************************************************
              *******************************************************************

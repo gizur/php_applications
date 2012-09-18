@@ -1,0 +1,23 @@
+- Cloud 1 -
+
+
+- Cloud 2 -
+gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com
+instance: gc2-mysql1
+root / mRpvEpVT2lMEwr1o
+
+- Cloud 3 -
+instance: gc3-mysql1
+root / tUrUTebraw9EC6JE
+
+- Cloud 4 -
+instance: gc4-mysql1
+root / c5e7pESPehUj9dap
+
+user:admin
+testdb1 / s9ES3UtREst4phAD
+ / PhaswA8ru2WuWefr
+ / bRus5zutruPhuJet
+ / wren3S4ekAsweSt6
+
+

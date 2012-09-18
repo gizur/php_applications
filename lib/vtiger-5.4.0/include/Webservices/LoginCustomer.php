@@ -81,5 +81,33 @@
 			}
 		}
 		return null;
-	}        
+	} 
+    
+    function vtws_changepassword($username, $oldpassword, $newpassword) {
+		global $adb;
+
+        $sql = "update vtiger_portalinfo set user_password = ? where user_name=? and user_password=?";
+		$result = $adb->pquery($sql,array($newpassword, $username, $oldpassword));
+
+        if($result != null && isset($result)){
+			if($adb->getAffectedRowsCount($result)>0){
+				return array('message' => 'Password Changed');
+			}
+		}
+		return null;
+    }
+
+    function vtws_resetpassword($username) {
+		global $adb;
+        $newpassword = uniqid();
+        $sql = "update vtiger_portalinfo set user_password = ? where user_name=?";
+		$result = $adb->pquery($sql,array($newpassword, $username));
+
+        if($result != null && isset($result)){
+			if($adb->getAffectedRowsCount($result)>0){
+				return array('message' => 'Password has been reset');
+			}
+		}
+		return null;
+    }
 ?>

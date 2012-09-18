@@ -2004,3 +2004,1068 @@ Stack trace:
 #9 {main}
 REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
 ---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:22:43 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:24:46 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:24:46 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:24:46 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:25:02 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:25:02 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:25:02 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:25:42 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:25:42 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:25:42 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:26:08 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:26:08 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:26:08 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:27:18 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.severs" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('severs', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:27:19 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.severs" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('severs', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:27:19 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.severs" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('severs', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:31:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:31:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:31:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:31:56 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:31:56 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:31:56 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:16 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:41 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:41 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:41 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:54 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:55 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:55 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:38:59 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:38:59 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:38:59 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:39:01 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:39:01 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:39:01 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 10:43:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 10:43:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 10:43:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 11:09:27 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 11:09:27 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 11:09:27 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/13 11:09:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/ticketstatus
+---
+2012/09/13 11:09:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/sealed
+---
+2012/09/13 11:09:29 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/reportdamage
+---
+2012/09/17 11:43:22 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:43:22 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:43:22 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:43:22 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:43:22 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:43:22 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:43:26 [trace] [application] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:13:28","modifiedtime":"2012-09-17 06:13:28","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC227","modifiedby":"19x1","id":"15x602"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:43:52 [trace] [application] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:13:53","modifiedtime":"2012-09-17 06:13:53","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC228","modifiedby":"19x1","id":"15x603"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:10 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:10 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:10 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:10 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:10 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:10 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:13 [trace] [application] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:14 [trace] [application] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:15:15","modifiedtime":"2012-09-17 06:15:15","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC229","modifiedby":"19x1","id":"15x605"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:45:39 [trace] [application] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:15:40","modifiedtime":"2012-09-17 06:15:40","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC230","modifiedby":"19x1","id":"15x606"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:09 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:09 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:09 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:09 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:09 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:09 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:13 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:14 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:21:15","modifiedtime":"2012-09-17 06:21:15","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC231","modifiedby":"19x1","id":"15x608"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:51:39 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:21:41","modifiedtime":"2012-09-17 06:21:41","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC232","modifiedby":"19x1","id":"15x610"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:02 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:02 [trace] [debug] {"success":true,"result":{"ticket_no":"TT370","assigned_user_id":"19x1","parent_id":"12x5","ticketpriorities":"","product_id":"","ticketseverities":"","ticketstatus":"Open","ticketcategories":"","update_log":"","hours":"0","days":"0","createdtime":"2012-09-17 06:21:14","modifiedtime":"2012-09-17 06:21:14","from_portal":"0","modifiedby":"19x1","ticket_title":"Testing Using PHPUnit","description":"","solution":"","cf_641":"","cf_642":"ASVVSD001","cf_643":"","cf_644":"Yes","cf_645":"3","cf_646":"2","cf_647":"Yes","cf_648":"Aggregatk\u00e5pa","cf_649":"V\u00e4nster sida (Left side)","cf_650":"No","id":"17x607","documents":[{"notes_title":"Attachement","createdtime":"2012-09-17 06:21:15","modifiedtime":"2012-09-17 06:21:15","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC231","modifiedby":"19x1","id":"15x608"},{"notes_title":"Attachement","createdtime":"2012-09-17 06:21:41","modifiedtime":"2012-09-17 06:21:41","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC232","modifiedby":"19x1","id":"15x610"}]}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1188)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:47 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:47 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:47 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:47 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:47 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:47 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:52:59 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:53:00 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:23:01","modifiedtime":"2012-09-17 06:23:01","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC233","modifiedby":"19x1","id":"15x612"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:53:26 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:23:27","modifiedtime":"2012-09-17 06:23:27","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC234","modifiedby":"19x1","id":"15x613"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:53:49 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:53:49 [trace] [debug] {"success":true,"result":{"ticket_no":"TT372","assigned_user_id":"19x1","parent_id":"12x5","ticketpriorities":"","product_id":"","ticketseverities":"","ticketstatus":"Open","ticketcategories":"","update_log":"","hours":"0","days":"0","createdtime":"2012-09-17 06:23:00","modifiedtime":"2012-09-17 06:23:00","from_portal":"0","modifiedby":"19x1","ticket_title":"Testing Using PHPUnit","description":"","solution":"","cf_641":"","cf_642":"ASVVSD001","cf_643":"","cf_644":"Yes","cf_645":"3","cf_646":"2","cf_647":"Yes","cf_648":"Aggregatk\u00e5pa","cf_649":"V\u00e4nster sida (Left side)","cf_650":"No","id":"17x611","documents":[{"notes_title":"Attachement","createdtime":"2012-09-17 06:23:01","modifiedtime":"2012-09-17 06:23:01","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC233","modifiedby":"19x1","id":"15x612"},{"notes_title":"Attachement","createdtime":"2012-09-17 06:23:27","modifiedtime":"2012-09-17 06:23:27","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC234","modifiedby":"19x1","id":"15x613"}]}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1188)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:39 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:39 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:39 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:39 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:40 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:40 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:42 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:58:43 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:28:45","modifiedtime":"2012-09-17 06:28:45","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC242","modifiedby":"19x1","id":"15x625"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:59:08 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:29:09","modifiedtime":"2012-09-17 06:29:09","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC243","modifiedby":"19x1","id":"15x626"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:59:31 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 11:59:31 [trace] [debug] {"success":true,"result":{"ticket_no":"TT376","assigned_user_id":"19x1","parent_id":"12x5","ticketpriorities":"","product_id":"","ticketseverities":"","ticketstatus":"Open","ticketcategories":"","createdtime":"2012-09-17 06:28:43","modifiedby":"19x1","ticket_title":"Testing Using PHPUnit","description":"","solution":"","id":"17x624","documents":[{"notes_title":"Attachement","createdtime":"2012-09-17 06:28:45","modifiedtime":"2012-09-17 06:28:45","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC242","modifiedby":"19x1","id":"15x625"},{"notes_title":"Attachement","createdtime":"2012-09-17 06:29:09","modifiedtime":"2012-09-17 06:29:09","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC243","modifiedby":"19x1","id":"15x626"}],"tickettype":"","trailerid":"ASVVSD001","damagereportlocation":"","sealed":"Yes","plates":"3","straps":"2","reportdamage":"Yes","damagetype":"Aggregatk\u00e5pa","damageposition":"V\u00e4nster sida (Left side)","drivercauseddamage":"No"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1210)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:06:56 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:06:56 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:06:56 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:06:56 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:06:56 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:06:56 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:06:59 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:07:00 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:37:01","modifiedtime":"2012-09-17 06:37:01","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC244","modifiedby":"19x1","id":"15x629"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:07:25 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:37:27","modifiedtime":"2012-09-17 06:37:27","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC245","modifiedby":"19x1","id":"15x630"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:07:48 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:07:48 [trace] [debug] {"success":true,"result":{"ticket_no":"TT378","assigned_user_id":"19x1","parent_id":"12x5","ticketpriorities":"","product_id":"","ticketseverities":"","ticketstatus":"Open","ticketcategories":"","createdtime":"2012-09-17 06:37:00","modifiedby":"19x1","ticket_title":"Testing Using PHPUnit","description":"","solution":"","id":"17x628","documents":[{"notes_title":"Attachement","createdtime":"2012-09-17 06:37:01","modifiedtime":"2012-09-17 06:37:01","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC244","modifiedby":"19x1","id":"15x629"},{"notes_title":"Attachement","createdtime":"2012-09-17 06:37:27","modifiedtime":"2012-09-17 06:37:27","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC245","modifiedby":"19x1","id":"15x630"}],"tickettype":"","trailerid":"ASVVSD001","damagereportlocation":"","sealed":"Yes","plates":"3","straps":"2","reportdamage":"Yes","damagetype":"Aggregatk\u00e5pa","damageposition":"V\u00e4nster sida (Left side)","drivercauseddamage":"No"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1210)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:33 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:33 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:33 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:33 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:33 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:33 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:36 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:09:37 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:39:38","modifiedtime":"2012-09-17 06:39:38","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC246","modifiedby":"19x1","id":"15x632"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:10:02 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:40:03","modifiedtime":"2012-09-17 06:40:03","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC247","modifiedby":"19x1","id":"15x633"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:10:25 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:10:25 [trace] [debug] {"success":true,"result":{"ticket_no":"TT379","assigned_user_id":"19x1","parent_id":"12x5","ticketpriorities":"","product_id":"","ticketseverities":"","ticketstatus":"Open","ticketcategories":"","createdtime":"2012-09-17 06:39:37","modifiedby":"19x1","ticket_title":"Testing Using PHPUnit","description":"","solution":"","id":"17x631","documents":[{"notes_title":"Attachement","createdtime":"2012-09-17 06:39:38","modifiedtime":"2012-09-17 06:39:38","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC246","modifiedby":"19x1","id":"15x632"},{"notes_title":"Attachement","createdtime":"2012-09-17 06:40:03","modifiedtime":"2012-09-17 06:40:03","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC247","modifiedby":"19x1","id":"15x633"}],"tickettype":"","trailerid":"ASVVSD001","damagereportlocation":"","sealed":"Yes","plates":"3","straps":"2","reportdamage":"Yes","damagetype":"Aggregatk\u00e5pa","damageposition":"V\u00e4nster sida (Left side)","drivercauseddamage":"No"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1210)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:24 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:24 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:24 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:24 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:24 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:24 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:27 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:29 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:41:30","modifiedtime":"2012-09-17 06:41:30","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC248","modifiedby":"19x1","id":"15x636"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:11:56 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:41:57","modifiedtime":"2012-09-17 06:41:57","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC249","modifiedby":"19x1","id":"15x637"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:12:19 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:12:19 [trace] [debug] {"success":true,"result":{"ticket_no":"TT381","assigned_user_id":"19x1","parent_id":"12x5","ticketpriorities":"","product_id":"","ticketseverities":"","ticketstatus":"Open","ticketcategories":"","createdtime":"2012-09-17 06:41:29","modifiedby":"19x1","ticket_title":"Testing Using PHPUnit","description":"","solution":"","id":"17x635","documents":[{"notes_title":"Attachement","createdtime":"2012-09-17 06:41:30","modifiedtime":"2012-09-17 06:41:30","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC248","modifiedby":"19x1","id":"15x636"},{"notes_title":"Attachement","createdtime":"2012-09-17 06:41:57","modifiedtime":"2012-09-17 06:41:57","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC249","modifiedby":"19x1","id":"15x637"}],"tickettype":"","trailerid":"ASVVSD001","damagereportlocation":"","sealed":"Yes","plates":"3","straps":"2","reportdamage":"Yes","damagetype":"Aggregatk\u00e5pa","damageposition":"V\u00e4nster sida (Left side)","drivercauseddamage":"No"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1210)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:17 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:17 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:17 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:17 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:17 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:17 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:21 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:22 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:47:23","modifiedtime":"2012-09-17 06:47:23","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC250","modifiedby":"19x1","id":"15x639"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:17:49 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:47:50","modifiedtime":"2012-09-17 06:47:50","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC251","modifiedby":"19x1","id":"15x640"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:18:14 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:18:14 [trace] [debug] {"success":true,"result":{"ticket_no":"TT382","assigned_user_id":"19x1","parent_id":"12x5","ticketpriorities":"","product_id":"","ticketseverities":"","ticketstatus":"Open","ticketcategories":"","createdtime":"2012-09-17 06:47:22","modifiedby":"19x1","ticket_title":"Testing Using PHPUnit","description":"","solution":"","id":"17x638","documents":[{"notes_title":"Attachement","createdtime":"2012-09-17 06:47:23","modifiedtime":"2012-09-17 06:47:23","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC250","modifiedby":"19x1","id":"15x639"},{"notes_title":"Attachement","createdtime":"2012-09-17 06:47:50","modifiedtime":"2012-09-17 06:47:50","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC251","modifiedby":"19x1","id":"15x640"}],"tickettype":"","trailerid":"ASVVSD001","damagereportlocation":"","sealed":"Yes","plates":"3","straps":"2","reportdamage":"Yes","damagetype":"Aggregatk\u00e5pa","damageposition":"V\u00e4nster sida (Left side)","drivercauseddamage":"No"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1210)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:14 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:14 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:14 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:14 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:14 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:14 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:17 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:18 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:52:19","modifiedtime":"2012-09-17 06:52:19","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC252","modifiedby":"19x1","id":"15x643"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:22:42 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 06:52:44","modifiedtime":"2012-09-17 06:52:44","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC253","modifiedby":"19x1","id":"15x644"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:23:06 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:29:56 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:29:56 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:29:56 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:29:56 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:29:56 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:29:56 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:29:59 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1119)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:30:00 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 07:00:01","modifiedtime":"2012-09-17 07:00:01","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC254","modifiedby":"19x1","id":"15x646"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:30:26 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 07:00:27","modifiedtime":"2012-09-17 07:00:27","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC255","modifiedby":"19x1","id":"15x648"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:30:49 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:04 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:04 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:04 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:04 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:04 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:04 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:07 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1120)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:08 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 07:18:10","modifiedtime":"2012-09-17 07:18:10","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC256","modifiedby":"19x1","id":"15x650"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:48:38 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 07:18:40","modifiedtime":"2012-09-17 07:18:40","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC257","modifiedby":"19x1","id":"15x651"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:49:01 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:49:01 [error] [php] Attempt to modify property of non-object (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:1209)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#5 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1209)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:49:01 [trace] [system.CModule] Loading "errorHandler" application component
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1209)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:09 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:09 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:09 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:09 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:09 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:09 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (264)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:11 [trace] [debug] starting file block
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1120)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:12 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 07:21:14","modifiedtime":"2012-09-17 07:21:14","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC258","modifiedby":"19x1","id":"15x653"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:51:40 [trace] [debug] {"success":true,"result":{"notes_title":"Attachement","createdtime":"2012-09-17 07:21:42","modifiedtime":"2012-09-17 07:21:42","assigned_user_id":"19x1","notecontent":"Attachement","filetype":"application\/octet-stream","filesize":"1163488","filelocationtype":"I","fileversion":"","filestatus":"1","filedownloadcount":"0","folderid":"22x1","note_no":"DOC259","modifiedby":"19x1","id":"15x654"}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1140)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/17 12:52:05 [trace] [debug] Ending of FIle Upload to S3
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
