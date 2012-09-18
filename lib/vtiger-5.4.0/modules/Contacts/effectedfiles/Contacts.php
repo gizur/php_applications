@@ -1437,16 +1437,6 @@ function get_contactsforol($user_name)
 		}
 		return $list_buttons;
 	}
-	
-	// Portal user Reset Password.
-	function ResetPortalPassword($userid,$password)
-	{
-	$adb = PearDatabase::getInstance();
-	$sql="UPDATE vtiger_portalinfo SET user_password = '".$password."' WHERE user_name = ?"; 
-	$adb->pquery($sql, array($userid));
-	return true;
-	}
-	
 }
 
 ?>

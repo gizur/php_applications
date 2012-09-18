@@ -44,13 +44,6 @@ $image_name_val=$image_upload_array['imagename'];
 $image_error="false";
 $errormessage=$image_upload_array['errormessage'];
 $saveimage=$image_upload_array['saveimage'];
-// Addedd By Anil Singh Purpose of this code Reset Portal User Password
-if(!empty($_POST['cf_651']))
-{
-$newpassword=trim($_POST['cf_651']);
-$username=trim($_POST['email']);
-$focus->ResetPortalPassword($username,$newpassword);	
-}
 
 //code added for returning back to the current view after edit from list view
 if($_REQUEST['return_viewname'] == '') $return_viewname='0';
