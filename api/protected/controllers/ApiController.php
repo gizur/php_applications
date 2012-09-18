@@ -505,7 +505,7 @@ class ApiController extends Controller {
                                 }
                                 $this->_sendResponse(200, json_encode(array(
                                     'success' => true, 
-                                    //'challengeToken' => $this->session->challengeToken,
+                                    'challengeToken' => $this->session->challengeToken,
                                     'result' => 
                                                $field['type']['picklistValues']
                                     )));
