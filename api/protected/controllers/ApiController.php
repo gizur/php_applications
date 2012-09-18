@@ -226,7 +226,7 @@ class ApiController extends Controller {
             // Build query arguments list
             $params = array(
                     'Verb'          => Yii::App()->request->getRequestType(),
-                    'Model'	    => $_GET['model'],
+                    'Model'         => $_GET['model'],
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => $timestamp,
                     'KeyID'         => $GIZURCLOUD_API_KEY
@@ -297,8 +297,7 @@ class ApiController extends Controller {
                         "username=$username&accessKey=$generatedKey");
                 $response = json_decode($response); 
                 if ($response->success==false)
-                    throw new Exception("Invalid generated key " . $challengeToken.$userAccessKey . " " .
-$response->error->message);                    
+                    throw new Exception("Invalid generated key ");                    
                 $sessionId = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
@@ -990,46 +989,46 @@ $response->error->message);
                 $sessionId = $this->session->sessionName;
                 $post = json_decode(file_get_contents('php://input'), true);
                 
-		$post['secretkey_1'] = uniqid("", true) . uniqid("", true);
-		$post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
+                $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
+                $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
 
-		$post['secretkey_2'] = uniqid("", true) . uniqid("", true);
-		$post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
+                $post['secretkey_2'] = uniqid("", true) . uniqid("", true);
+                $post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
 
-		// Instantiate the class
-		$dynamodb = new AmazonDynamoDB();
-		$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-		$table_name = 'GIZUR_ACCOUNTS';
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+                $table_name = 'GIZUR_ACCOUNTS';
                 $ddb_response = $dynamodb->put_item(array(
                     'TableName' => $table_name,
                     'Item' => $dynamodb->attributes($post)
                 ));
                 
-		// Get an item
-		$ddb_response = $dynamodb->get_item(array(
-		    'TableName' => $table_name,
-		    'Key' => $dynamodb->attributes(array(
-			'HashKeyElement'  => $post['id'],
-		    )),
-		    'ConsistentRead' => 'true'
-		));
+                // Get an item
+                $ddb_response = $dynamodb->get_item(array(
+                    'TableName' => $table_name,
+                    'Key' => $dynamodb->attributes(array(
+                    'HashKeyElement'  => $post['id'],
+                    )),
+                    'ConsistentRead' => 'true'
+                ));
                 
                 if (isset($ddb_response->body->Item)) {
-		        foreach($ddb_response->body->Item->children() 
-		                                           as $key => $item) {
-		           $result->{$key} = 
-		                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
-		        }
+                    foreach($ddb_response->body->Item->children() 
+                                                       as $key => $item) {
+                       $result->{$key} = 
+                              (string)$item->{AmazonDynamoDB::TYPE_STRING};
+                    }
 
-		        $response->success = true;
-		        $response->result = $result;
-			$this->_sendResponse(200, json_encode($response));
+                    $response->success = true;
+                    $response->result = $result;
+                    $this->_sendResponse(200, json_encode($response));
                 } else {
-		        $response->success = false;
-		        $response->error->code = "NOT_CREATED";
-			$response->error->message = $_GET['email'] . " could "
-                                                            . " not be created";
-			$this->_sendResponse(400, json_encode($response));                        
+                    $response->success = false;
+                    $response->error->code = "NOT_CREATED";
+                    $response->error->message = $_GET['email'] . " could "
+                                                                . " not be created";
+                    $this->_sendResponse(400, json_encode($response));                        
                 }
             break; 
             /*
@@ -1041,6 +1040,7 @@ $response->error->message);
              *******************************************************************
              */                
             case 'HelpDesk':
+                $script_started = date("c"); 
                 if (!isset($_POST['ticketstatus']) || 
                                                empty($_POST['ticketstatus']))
                     throw new Exception("ticketstatus does not have a value"
@@ -1117,13 +1117,12 @@ $response->error->message);
                     'filestatus' => 1,
                     'fileversion' => '',
                     );
-
+                Yii::trace("starting file block", "debug"); 
                 if (!empty($_FILES) && $globalresponse->success){
                     foreach ($_FILES as $key => $file){
                         //$target_path = YiiBase::getPathOfAlias('application')
                         // . "/data/" . basename($file['name']);
                         //move_uploaded_file($file['tmp_name'], $target_path);
-                        
                         //Create document
                         $rest = new RESTClient();
                         $rest->format('json'); 
@@ -1138,7 +1137,7 @@ $response->error->message);
                                                         json_encode($dataJson),
                                             'elementType' => 'Documents'
                                         ));
-                        
+                        Yii::trace($document, "debug"); 
                         $document = json_decode($document);
                         $notesid = $document->result->id;
                         
@@ -1182,6 +1181,8 @@ $response->error->message);
                         
                     }
                 }
+                
+                Yii::trace("Ending of FIle Upload to S3", "debug"); 
 
                 $globalresponse = json_encode($globalresponse);
                 $globalresponse = json_decode($globalresponse, true);
@@ -1205,8 +1206,13 @@ $response->error->message);
                         //unset($custom_fields[$key_to_replace]);                                
                     }
                 }
-                
+                $globalresponse['debug']['request_sent'] = $_SERVER['HTTP_X_TIMESTAMP']; 
+                $globalresponse['debug']['request_arrived'] = date("c", $_SERVER['REQUEST_TIME']); 
+                $globalresponse['debug']['script_ended'] = date("c"); 
+                $globalresponse['debug']['script_started'] = $script_started; 
+
                 $this->_sendResponse(200, json_encode($globalresponse));
+                Yii::trace(json_encode($globalresponse), "debug"); 
                 break;
             
             default :
@@ -1248,6 +1254,22 @@ $response->error->message);
         //Tasks include detail updating Troubleticket
         try {
         switch($_GET['model']) {
+
+            /*
+             *******************************************************************
+             *******************************************************************
+             ** Authenticate MODEL
+             ** Accepts reset / changepw
+             *******************************************************************
+             *******************************************************************
+             */                
+            case 'Authenticate':
+                if ($_GET['action'] == 'reset') {
+
+                }
+
+                if ($_GET['action'] == 'changepw') {
+                }
             /*
              *******************************************************************
              *******************************************************************

@@ -32,18 +32,18 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'cloud3@gizur.com' => 'rksh2jjf',
     );
 
-    //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
-    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
     
     public function testLogin()
     {
         $model = 'Authenticate';
         $action = 'login';
-           
+        $delta = 0;
         echo " Authenticating Login " . PHP_EOL;        
   
         //set credentials
-        $this->credentials = Array(
+        $this->credentials += Array(
             'user1' => 'password1',
             'user2' => 'password2',
             'user3' => 'password3',
@@ -59,12 +59,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'cloud3@gizur.com' => true,
             'test@test.com' => false
         );        
-
+        generateSignature:
         $params = array(
                     'Verb'          => 'POST',
                     'Model'	    => $model,
                     'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
+                    'Timestamp'     => date("c", strtotime("+2 minutes") + $delta),
                     'KeyID'         => self::GIZURCLOUD_API_KEY
         );
 
@@ -88,8 +88,19 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->post($this->url.$model."/".$action);
+            echo PHP_EOL . "  " . $response = $rest->post($this->url.$model."/".$action);
             $response = json_decode($response);
+            if ($response->success == false) {
+                if ($delta == 0) {
+                    if ($response->error->code == 'TIME_NOT_IN_SYNC') {
+                        $delta = $response->error->time_difference;
+                        goto generateSignature;
+                    } 
+                } else {
+                    echo PHP_EOL . " Delta Used " . $delta;
+                }
+            }
+
             //check if response is valid
             if (isset($response->success)){
                 //echo json_encode($response) . PHP_EOL;
@@ -99,6 +110,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             }
             unset($rest);
        }
+       echo PHP_EOL . PHP_EOL;
     }
 
     public function testLogout()
@@ -136,7 +148,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->post($this->url.$model."/".$action);
+            echo PHP_EOL . "  " . $response = $rest->post($this->url.$model."/".$action);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
@@ -147,6 +159,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             }
             unset($rest);
        }
+       echo PHP_EOL . PHP_EOL;
     }
 
 
@@ -184,7 +197,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->get($this->url.$model);
+            echo PHP_EOL . "  " . $response = $rest->get($this->url.$model);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
@@ -452,18 +465,18 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     
     public function testCreateTroubleTicketWithDocument(){
         $model = 'HelpDesk';
-
-        echo " Creating Trouble Ticket with Document "; // . PHP_EOL;        
+        set_time_limit(0);
+        echo " Creating Trouble Ticket with Document " . PHP_EOL;        
 
         //set fields to to posted
 	    $fields = array(
 		    'ticket_title'=>'Testing Using PHPUnit with Image Upload',
-                    'filename'=>'@'.getcwd().'/image-to-upload.jpg',
-                    'filename-1'=>'@'.getcwd().'/image-to-upload-1.jpg',
-                    'filename-2'=>'@'.getcwd().'/image-to-upload-2.jpg',
-                    'filename-3'=>'@'.getcwd().'/image-to-upload-3.jpg',
-                    'filename-4'=>'@'.getcwd().'/image-to-upload-4.jpg',
-                    'filename-5'=>'@'.getcwd().'/image-to-upload-5.jpg',
+                    'filename'=>'@'.getcwd().'/image-to-upload.png',
+                    'filename-1'=>'@'.getcwd().'/image-to-upload-1.png',
+                    //'filename-2'=>'@'.getcwd().'/image-to-upload-2.png',
+                    //'filename-3'=>'@'.getcwd().'/image-to-upload-3.png',
+                    //'filename-4'=>'@'.getcwd().'/image-to-upload-4.png',
+                    //'filename-5'=>'@'.getcwd().'/image-to-upload-5.png',
 		            'ticket_title'=> 'Testing Using PHPUnit',
                     'drivercauseddamage'=>'No',
                     'sealed'=>'Yes',
@@ -505,7 +518,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->post($this->url.$model, $fields);
+            echo PHP_EOL . $response = $rest->post($this->url.$model, $fields);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
@@ -519,7 +532,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             }
             unset($rest);
         }  
-
+        echo PHP_EOL . PHP_EOL;
     }
 
     public function testSignatureHash() {

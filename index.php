@@ -1,4 +1,5 @@
 <?php
+die;
 require 'lib/klein.php';
 $baseURL = '/gizurcloud';
 

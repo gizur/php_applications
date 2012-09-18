@@ -63,6 +63,7 @@ return array(
                         array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
 			array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
@@ -92,7 +93,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'trace, error, warning',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
