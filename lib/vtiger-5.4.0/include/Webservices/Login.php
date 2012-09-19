@@ -26,7 +26,7 @@
         $validTokenFound = false;
         foreach($tokens as $token) {
             $accessCrypt = md5($token.$accessKey);
-            $validTokenFound = (strcmp($accessCrypt,$pwd)!==0) || $validTokenFound;
+            $validTokenFound = (strcmp($accessCrypt,$pwd)===0);
             if ($validTokenFound) {
                 vtws_removeToken($userId, $token);
                 break;

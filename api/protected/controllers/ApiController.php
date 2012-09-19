@@ -455,67 +455,75 @@ class ApiController extends Controller {
             case 'HelpDesk':
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])){
-                    $sessionId = $this->session->sessionName; 
-                    $flipped_custom_fields = 
-                                  array_flip($this->custom_fields['HelpDesk']);
-                    if (in_array($_GET['fieldname'], 
-                                                    $flipped_custom_fields)){
-                        $fieldname = 
-                    $this->custom_fields[$_GET['model']][$_GET['fieldname']];
-                    } else {
-                        $fieldname = $_GET['fieldname'];
-                    }
-                    //Receive response from vtiger REST service
-                    //Return response to client 
-                    
-                    $params = "sessionName=$sessionId" . 
-                            "&operation=describe". 
-                            "&elementType=" . $_GET['model'];                    
-                    
-                    $rest = new RESTClient();
-                    $rest->format('json');                    
-                    $response = $rest->get(Yii::app()->params->vtRestUrl . 
-                            "?$params"); 
-                    
-                    $response = json_decode($response, true);
 
-                    if ($response['success']==false)
-                        throw new Exception('Fetching details failed');
-                    
-                    foreach ($response['result']['fields'] as $field){
-                        if ($fieldname == $field['name']) {
-                            if ($field['type']['name'] == 'picklist'){
-                                foreach ($field['type']['picklistValues'] 
-                                                          as $key => &$option)
-                                if (isset($option['dependency'])) {
-                                    foreach ($option['dependency'] 
-                                         as $dep_fieldname => $dependency) {
-                                       if(in_array($dep_fieldname, 
-                                            $this->custom_fields['HelpDesk'])){
-                                           $new_fieldname = 
-                                                       $flipped_custom_fields
-                                                             [$dep_fieldname];
-                                           $option['dependency']
-                                                            [$new_fieldname] = 
-                                                          $option['dependency']
-                                                             [$dep_fieldname];
-                                           unset($option
-                                              ['dependency'][$dep_fieldname]);
-                                       } 
-                                    }
-                                }
-                                $this->_sendResponse(200, json_encode(array(
-                                    'success' => true, 
-                                    //'challengeToken' => $this->session->challengeToken,
-                                    'result' => 
-                                               $field['type']['picklistValues']
-                                    )));
-                                break 2;
-                            }
-                            throw new Exception("Not an picklist field");
+                    $cached_value = Yii::app()->cache->get('picklist_' . $_GET['model'] . '_' . $_GET['fieldname']);
+
+                    if ($cached_value === false) {
+                        $sessionId = $this->session->sessionName; 
+                        $flipped_custom_fields = 
+                                      array_flip($this->custom_fields['HelpDesk']);
+                        if (in_array($_GET['fieldname'], 
+                                                        $flipped_custom_fields)){
+                            $fieldname = 
+                        $this->custom_fields[$_GET['model']][$_GET['fieldname']];
+                        } else {
+                            $fieldname = $_GET['fieldname'];
                         }
+                        //Receive response from vtiger REST service
+                        //Return response to client 
+                        
+                        $params = "sessionName=$sessionId" . 
+                                "&operation=describe". 
+                                "&elementType=" . $_GET['model'];                    
+                        
+                        $rest = new RESTClient();
+                        $rest->format('json');                    
+                        $response = $rest->get(Yii::app()->params->vtRestUrl . 
+                                "?$params"); 
+                        
+                        $response = json_decode($response, true);
+
+                        if ($response['success']==false)
+                            throw new Exception('Fetching details failed');
+                        
+                        foreach ($response['result']['fields'] as $field){
+                            if ($fieldname == $field['name']) {
+                                if ($field['type']['name'] == 'picklist'){
+                                    foreach ($field['type']['picklistValues'] 
+                                                              as $key => &$option)
+                                    if (isset($option['dependency'])) {
+                                        foreach ($option['dependency'] 
+                                             as $dep_fieldname => $dependency) {
+                                           if(in_array($dep_fieldname, 
+                                                $this->custom_fields['HelpDesk'])){
+                                               $new_fieldname = 
+                                                           $flipped_custom_fields
+                                                                 [$dep_fieldname];
+                                               $option['dependency']
+                                                                [$new_fieldname] = 
+                                                              $option['dependency']
+                                                                 [$dep_fieldname];
+                                               unset($option
+                                                  ['dependency'][$dep_fieldname]);
+                                           } 
+                                        }
+                                    }
+                                    $content = json_encode(array(
+                                        'success' => true, 
+                                        'result' => 
+                                                   $field['type']['picklistValues']
+                                        ));
+                                    Yii::app()->cache->set('picklist_' . $_GET['model'] . '_' . $_GET['fieldname'], $content, 3600);
+                                    $this->_sendResponse(200, $content);
+                                    break 2;
+                                }
+                                throw new Exception("Not an picklist field");
+                            }
+                        }
+                        throw new Exception("Fieldname not found"); 
+                    } else {
+                        $this->_sendResponse(200, $cached_value);
                     }
-                    throw new Exception("Fieldname not found"); 
                 } 
                 
                 //Is this a request for listing categories
