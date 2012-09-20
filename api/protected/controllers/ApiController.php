@@ -207,29 +207,29 @@ class ApiController extends Controller {
             
             if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Timestamp not found in request');
-            else
-                $timestamp = $_SERVER['HTTP_X_TIMESTAMP'];
             
             if ( $_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > 
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
-		    throw new Exception('Stale request', 1003);
+		        throw new Exception('Stale request', 1003);
             
             if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError <
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
-		    throw new Exception('Oh, Oh, Oh, request from the FUTURE! ' . $_SERVER['REQUEST_TIME'] . ' ' . strtotime($_SERVER['HTTP_X_TIMESTAMP']), 1003);
+		        throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
             
             if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
-            else
-                $signature = $_SERVER['HTTP_X_SIGNATURE'];
+
+            if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
+                throw new Exception('Unique Salt not found');
 
             // Build query arguments list
             $params = array(
                     'Verb'          => Yii::App()->request->getRequestType(),
                     'Model'         => $_GET['model'],
                     'Version'       => self::API_VERSION,
-                    'Timestamp'     => $timestamp,
-                    'KeyID'         => $GIZURCLOUD_API_KEY
+                    'Timestamp'     => $_SERVER['HTTP_X_TIMESTAMP'],
+                    'KeyID'         => $GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => $_SERVER['HTTP_X_UNIQUE_SALT']
             );
             
             // Sorg arguments
@@ -244,9 +244,14 @@ class ApiController extends Controller {
             $verify_signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, $GIZURCLOUD_SECRET_KEY, 1));
             
-            if($signature!=$verify_signature) 
+            if($_SERVER['HTTP_X_SIGNATURE']!=$verify_signature) 
                 throw new Exception('Could not verify signature');
             
+            if(Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE'])!==false) {
+                throw new Exception('Used signature');
+
+            Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
+           
             if(!isset($_SERVER['HTTP_X_USERNAME']) 
                     || !isset($_SERVER['HTTP_X_PASSWORD'])) 
                 throw new Exception('Could not find enough credentials');

@@ -65,7 +65,7 @@ return array(
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
                         array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
-			array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
+			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
                         array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
                         array('api/error', 'pattern'=>'.*?')
