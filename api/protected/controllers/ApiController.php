@@ -207,29 +207,29 @@ class ApiController extends Controller {
             
             if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Timestamp not found in request');
-            else
-                $timestamp = $_SERVER['HTTP_X_TIMESTAMP'];
             
             if ( $_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > 
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
-		    throw new Exception('Stale request', 1003);
+		        throw new Exception('Stale request', 1003);
             
             if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError <
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
-		    throw new Exception('Oh, Oh, Oh, request from the FUTURE! ' . $_SERVER['REQUEST_TIME'] . ' ' . strtotime($_SERVER['HTTP_X_TIMESTAMP']), 1003);
+		        throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
             
             if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
-            else
-                $signature = $_SERVER['HTTP_X_SIGNATURE'];
+
+            if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
+                throw new Exception('Unique Salt not found');
 
             // Build query arguments list
             $params = array(
                     'Verb'          => Yii::App()->request->getRequestType(),
                     'Model'         => $_GET['model'],
                     'Version'       => self::API_VERSION,
-                    'Timestamp'     => $timestamp,
-                    'KeyID'         => $GIZURCLOUD_API_KEY
+                    'Timestamp'     => $_SERVER['HTTP_X_TIMESTAMP'],
+                    'KeyID'         => $GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => $_SERVER['HTTP_X_UNIQUE_SALT']
             );
             
             // Sorg arguments
@@ -244,9 +244,14 @@ class ApiController extends Controller {
             $verify_signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, $GIZURCLOUD_SECRET_KEY, 1));
             
-            if($signature!=$verify_signature) 
+            if($_SERVER['HTTP_X_SIGNATURE']!=$verify_signature) 
                 throw new Exception('Could not verify signature');
             
+            if(Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE'])!==false) {
+                throw new Exception('Used signature');
+
+            Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
+           
             if(!isset($_SERVER['HTTP_X_USERNAME']) 
                     || !isset($_SERVER['HTTP_X_PASSWORD'])) 
                 throw new Exception('Could not find enough credentials');
@@ -380,6 +385,7 @@ class ApiController extends Controller {
                    Yii::trace(json_encode($_SERVER),'Darwin - Response');
                    Yii::trace(json_encode($response),'Darwin - Request');
                 }
+
                 if (strpos($_SERVER['USER_AGENT'],'PHPUnit')) {
                    Yii::trace(json_encode($_SERVER),'PHPUnit - Response');
                    Yii::trace(json_encode($response),'PHPUnit - Request');
@@ -454,67 +460,75 @@ class ApiController extends Controller {
             case 'HelpDesk':
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])){
-                    $sessionId = $this->session->sessionName; 
-                    $flipped_custom_fields = 
-                                  array_flip($this->custom_fields['HelpDesk']);
-                    if (in_array($_GET['fieldname'], 
-                                                    $flipped_custom_fields)){
-                        $fieldname = 
-                    $this->custom_fields[$_GET['model']][$_GET['fieldname']];
-                    } else {
-                        $fieldname = $_GET['fieldname'];
-                    }
-                    //Receive response from vtiger REST service
-                    //Return response to client 
-                    
-                    $params = "sessionName=$sessionId" . 
-                            "&operation=describe". 
-                            "&elementType=" . $_GET['model'];                    
-                    
-                    $rest = new RESTClient();
-                    $rest->format('json');                    
-                    $response = $rest->get(Yii::app()->params->vtRestUrl . 
-                            "?$params"); 
-                    
-                    $response = json_decode($response, true);
 
-                    if ($response['success']==false)
-                        throw new Exception('Fetching details failed');
-                    
-                    foreach ($response['result']['fields'] as $field){
-                        if ($fieldname == $field['name']) {
-                            if ($field['type']['name'] == 'picklist'){
-                                foreach ($field['type']['picklistValues'] 
-                                                          as $key => &$option)
-                                if (isset($option['dependency'])) {
-                                    foreach ($option['dependency'] 
-                                         as $dep_fieldname => $dependency) {
-                                       if(in_array($dep_fieldname, 
-                                            $this->custom_fields['HelpDesk'])){
-                                           $new_fieldname = 
-                                                       $flipped_custom_fields
-                                                             [$dep_fieldname];
-                                           $option['dependency']
-                                                            [$new_fieldname] = 
-                                                          $option['dependency']
-                                                             [$dep_fieldname];
-                                           unset($option
-                                              ['dependency'][$dep_fieldname]);
-                                       } 
-                                    }
-                                }
-                                $this->_sendResponse(200, json_encode(array(
-                                    'success' => true, 
-                                    'challengeToken' => $this->session->challengeToken,
-                                    'result' => 
-                                               $field['type']['picklistValues']
-                                    )));
-                                break 2;
-                            }
-                            throw new Exception("Not an picklist field");
+                    $cached_value = Yii::app()->cache->get('picklist_' . $_GET['model'] . '_' . $_GET['fieldname']);
+
+                    if ($cached_value === false) {
+                        $sessionId = $this->session->sessionName; 
+                        $flipped_custom_fields = 
+                                      array_flip($this->custom_fields['HelpDesk']);
+                        if (in_array($_GET['fieldname'], 
+                                                        $flipped_custom_fields)){
+                            $fieldname = 
+                        $this->custom_fields[$_GET['model']][$_GET['fieldname']];
+                        } else {
+                            $fieldname = $_GET['fieldname'];
                         }
+                        //Receive response from vtiger REST service
+                        //Return response to client 
+                        
+                        $params = "sessionName=$sessionId" . 
+                                "&operation=describe". 
+                                "&elementType=" . $_GET['model'];                    
+                        
+                        $rest = new RESTClient();
+                        $rest->format('json');                    
+                        $response = $rest->get(Yii::app()->params->vtRestUrl . 
+                                "?$params"); 
+                        
+                        $response = json_decode($response, true);
+
+                        if ($response['success']==false)
+                            throw new Exception('Fetching details failed');
+                        
+                        foreach ($response['result']['fields'] as $field){
+                            if ($fieldname == $field['name']) {
+                                if ($field['type']['name'] == 'picklist'){
+                                    foreach ($field['type']['picklistValues'] 
+                                                              as $key => &$option)
+                                    if (isset($option['dependency'])) {
+                                        foreach ($option['dependency'] 
+                                             as $dep_fieldname => $dependency) {
+                                           if(in_array($dep_fieldname, 
+                                                $this->custom_fields['HelpDesk'])){
+                                               $new_fieldname = 
+                                                           $flipped_custom_fields
+                                                                 [$dep_fieldname];
+                                               $option['dependency']
+                                                                [$new_fieldname] = 
+                                                              $option['dependency']
+                                                                 [$dep_fieldname];
+                                               unset($option
+                                                  ['dependency'][$dep_fieldname]);
+                                           } 
+                                        }
+                                    }
+                                    $content = json_encode(array(
+                                        'success' => true, 
+                                        'result' => 
+                                                   $field['type']['picklistValues']
+                                        ));
+                                    Yii::app()->cache->set('picklist_' . $_GET['model'] . '_' . $_GET['fieldname'], $content, 3600);
+                                    $this->_sendResponse(200, $content);
+                                    break 2;
+                                }
+                                throw new Exception("Not an picklist field");
+                            }
+                        }
+                        throw new Exception("Fieldname not found"); 
+                    } else {
+                        $this->_sendResponse(200, $cached_value);
                     }
-                    throw new Exception("Fieldname not found"); 
                 } 
                 
                 //Is this a request for listing categories
