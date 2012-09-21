@@ -105,7 +105,10 @@
 
         if($result != null && isset($result)){
 			if($adb->getAffectedRowsCount($result)>0){
-				return array('message' => 'Password has been reset');
+				return array(
+                                       'message' => 'Password has been reset',
+                                       'newpassword' => $newpassword
+                                );
 			}
 		}
 		return null;

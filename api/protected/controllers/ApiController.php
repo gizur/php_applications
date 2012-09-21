@@ -51,6 +51,7 @@ class ApiController extends Controller {
         1001 => "MANDATORY_FIELDS_MISSING",
         1002 => "INVALID_FIELD_VALUE",
         1003 => "TIME_NOT_IN_SYNC",
+        1004 => "METHOD_NOT_ALLOWED",
     );    
 
      /**
@@ -71,7 +72,7 @@ class ApiController extends Controller {
         'HelpDesk',
         'Assets',
         'About',
-        'DocumentAttachements',
+        'DocumentAttachments',
         'Authenticate'
     );
 
@@ -193,20 +194,18 @@ class ApiController extends Controller {
             if ($_GET['model'] == 'About' || $_GET['model'] == 'User')
                 return true;
             
+            if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
+                throw new Exception('Timestamp not found in request');
+            
+            if (!isset($_SERVER['HTTP_X_SIGNATURE']))
+                throw new Exception('Signature not found');
+
+            if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
+                throw new Exception('Unique Salt not found');
+            
             //check if public key exists
             if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
                 throw new Exception('Public Key Not Found in request');
-            
-            // Retreive Key pair from Amazon Dynamodb
-            $GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
-            $GIZURCLOUD_API_KEY = "GZCLDFC4B35B";            
-            
-            if ($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] 
-                                                     != $GIZURCLOUD_API_KEY) 
-                throw new Exception('Could not identify public key');
-            
-            if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
-                throw new Exception('Timestamp not found in request');
             
             if ( $_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > 
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
@@ -216,11 +215,12 @@ class ApiController extends Controller {
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
 		        throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
             
-            if (!isset($_SERVER['HTTP_X_SIGNATURE']))
-                throw new Exception('Signature not found');
+            // Retreive Key pair from Amazon Dynamodb
+            $GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
+            $GIZURCLOUD_API_KEY = "GZCLDFC4B35B";    
 
-            if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
-                throw new Exception('Unique Salt not found');
+            if ($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']!= $GIZURCLOUD_API_KEY) 
+                throw new Exception('Could not identify public key');        
 
             // Build query arguments list
             $params = array(
@@ -247,26 +247,27 @@ class ApiController extends Controller {
             if($_SERVER['HTTP_X_SIGNATURE']!=$verify_signature) 
                 throw new Exception('Could not verify signature');
             
-            if(Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE'])!==false) {
+            if(Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE'])!==false)
                 throw new Exception('Used signature');
 
             Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
            
-            if(!isset($_SERVER['HTTP_X_USERNAME']) 
-                    || !isset($_SERVER['HTTP_X_PASSWORD'])) 
+            if(!isset($_SERVER['HTTP_X_USERNAME'])) 
                 throw new Exception('Could not find enough credentials');
 
-            //Get $customerportal_username and $customerportal_password 
-            //from header
-            $customerportal_username = $_SERVER['HTTP_X_USERNAME'];
-            $customerportal_password = $_SERVER['HTTP_X_PASSWORD'];            
+            if ($_GET['model'] == 'Authenticate' && $_GET['action'] == 'reset')
+                return true;
+
+            if(!isset($_SERVER['HTTP_X_PASSWORD'])) 
+                throw new Exception('Could not find enough credentials');         
             
             $cache_key = json_encode(array(
-                'username'=>$customerportal_username,
-                'password'=>$customerportal_password
+                'username'=>$_SERVER['HTTP_X_USERNAME'],
+                'password'=>$_SERVER['HTTP_X_PASSWORD']
             ));            
             
-            $cache_value = Yii::app()->cache->get($cache_key);            
+            $cache_value = Yii::app()->cache->get($cache_key); 
+           
             if ($cache_value===false) {
                 //Get the Access Key and the Username from vtiger REST 
                 //service of the customer portal user's vtiger account
@@ -277,12 +278,13 @@ class ApiController extends Controller {
                         'application/x-www-form-urlencoded');
                 $response = $rest->post(Yii::app()->params->vtRestUrl.
                         "?operation=logincustomer", 
-                        "username=$customerportal_username" . 
-                        "&password=$customerportal_password");
+                        "username=" . $_SERVER['HTTP_X_USERNAME'] .
+                        "&password=" . $_SERVER['HTTP_X_PASSWORD']);
                 
                 $response = json_decode($response);
                 if ($response->success==false)
                     throw new Exception("Invalid Username and Password");
+
                 $username = $response->result->user_name;
                 $userAccessKey = $response->result->accesskey;
                 $accountId = $response->result->accountId;
@@ -370,28 +372,16 @@ class ApiController extends Controller {
             $response->error->code = $this->errors[$e->getCode()];
             $response->error->message = $e->getMessage();
             if ($e->getCode() == 1003) {
-		    if (isset($_SERVER['HTTP_X_TIMESTAMP']))
-		        $response->error->time_difference = $_SERVER['REQUEST_TIME'] - 
-		                              strtotime($_SERVER['HTTP_X_TIMESTAMP']);
-                $response->error->time_request_arrived = date("c",$_SERVER['REQUEST_TIME']);
-                $response->error->time_request_sent = date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
+		if (isset($_SERVER['HTTP_X_TIMESTAMP']))
+		        $response->error->time_difference = 
+          $_SERVER['REQUEST_TIME'] - strtotime($_SERVER['HTTP_X_TIMESTAMP']);
+                $response->error->time_request_arrived = 
+                                           date("c",$_SERVER['REQUEST_TIME']);
+                $response->error->time_request_sent = 
+                            date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
                 $response->error->time_server = date("c");
-                if (strpos($_SERVER['USER_AGENT'],'Darwin')) {
-                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
-                   Yii::trace(json_encode($response),'Darwin - Request');
-                }
-
-                if (strpos($_SERVER['USER_AGENT'],'Apache-HttpClient')) {
-                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
-                   Yii::trace(json_encode($response),'Darwin - Request');
-                }
-
-                if (strpos($_SERVER['USER_AGENT'],'PHPUnit')) {
-                   Yii::trace(json_encode($_SERVER),'PHPUnit - Response');
-                   Yii::trace(json_encode($response),'PHPUnit - Request');
-                }
             }
-		    $this->_sendResponse(403, json_encode($response));
+            $this->_sendResponse(403, json_encode($response));
             return false;
         }
     }    
@@ -461,16 +451,18 @@ class ApiController extends Controller {
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])){
 
-                    $cached_value = Yii::app()->cache->get('picklist_' . $_GET['model'] . '_' . $_GET['fieldname']);
+                    $cached_value = Yii::app()->cache->get('picklist_' 
+                                                         . $_GET['model'] . '_' 
+                                                         . $_GET['fieldname']);
 
                     if ($cached_value === false) {
                         $sessionId = $this->session->sessionName; 
                         $flipped_custom_fields = 
-                                      array_flip($this->custom_fields['HelpDesk']);
+                                  array_flip($this->custom_fields['HelpDesk']);
                         if (in_array($_GET['fieldname'], 
-                                                        $flipped_custom_fields)){
+                                                    $flipped_custom_fields)){
                             $fieldname = 
-                        $this->custom_fields[$_GET['model']][$_GET['fieldname']];
+                    $this->custom_fields[$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
@@ -495,30 +487,34 @@ class ApiController extends Controller {
                             if ($fieldname == $field['name']) {
                                 if ($field['type']['name'] == 'picklist'){
                                     foreach ($field['type']['picklistValues'] 
-                                                              as $key => &$option)
+                                                          as $key => &$option)
                                     if (isset($option['dependency'])) {
                                         foreach ($option['dependency'] 
-                                             as $dep_fieldname => $dependency) {
-                                           if(in_array($dep_fieldname, 
-                                                $this->custom_fields['HelpDesk'])){
-                                               $new_fieldname = 
-                                                           $flipped_custom_fields
-                                                                 [$dep_fieldname];
-                                               $option['dependency']
-                                                                [$new_fieldname] = 
-                                                              $option['dependency']
-                                                                 [$dep_fieldname];
+                                         as $dep_fieldname => $dependency) {
+                                            if(in_array($dep_fieldname, 
+                                            $this->custom_fields['HelpDesk'])){
+                                                $new_fieldname = 
+                                                       $flipped_custom_fields
+                                                             [$dep_fieldname];
+                                                $option['dependency']
+                                                            [$new_fieldname] = 
+                                                          $option['dependency']
+                                                             [$dep_fieldname];
                                                unset($option
-                                                  ['dependency'][$dep_fieldname]);
+                                              ['dependency'][$dep_fieldname]);
                                            } 
                                         }
                                     }
                                     $content = json_encode(array(
                                         'success' => true, 
                                         'result' => 
-                                                   $field['type']['picklistValues']
+                                              $field['type']['picklistValues']
                                         ));
-                                    Yii::app()->cache->set('picklist_' . $_GET['model'] . '_' . $_GET['fieldname'], $content, 3600);
+                                    Yii::app()->cache->set('picklist_' 
+                                                               . $_GET['model'] 
+                                                                           . '_' 
+                                                          . $_GET['fieldname'], 
+                                                               $content, 3600);
                                     $this->_sendResponse(200, $content);
                                     break 2;
                                 }
@@ -674,7 +670,7 @@ class ApiController extends Controller {
                 $response = new stdClass();
                 $response->success = false;
 
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));
@@ -978,14 +974,14 @@ class ApiController extends Controller {
                 unset($filename_sanitizer[0]);               
                 $response->result->filename = implode('_', 
                                                         $filename_sanitizer); 
+                Yii::trace($response->result->filename,'DOCUMENT_ATTACHEMENT');
                 $this->_sendResponse(200, json_encode($response)); 
                 break;
             
             default :
                 $response = new stdClass();
                 $response->success = false;
-
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));
@@ -1233,10 +1229,6 @@ class ApiController extends Controller {
                         //unset($custom_fields[$key_to_replace]);                                
                     }
                 }
-                $globalresponse['debug']['request_sent'] = $_SERVER['HTTP_X_TIMESTAMP']; 
-                $globalresponse['debug']['request_arrived'] = date("c", $_SERVER['REQUEST_TIME']); 
-                $globalresponse['debug']['script_ended'] = date("c"); 
-                $globalresponse['debug']['script_started'] = $script_started; 
 
                 $this->_sendResponse(200, json_encode($globalresponse));
                 Yii::trace(json_encode($globalresponse), "debug"); 
@@ -1245,7 +1237,7 @@ class ApiController extends Controller {
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));
@@ -1264,7 +1256,7 @@ class ApiController extends Controller {
         $response = new stdClass();
         $response->success = false;
         if (isset($this->valid_models[$_GET['model']])) {
-            $response->error->code = "METHOD_NOT_ALLOWED";
+            $response->error->code = $this->errors[1004];
             $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
             $this->_sendResponse(405, json_encode($response));
@@ -1451,7 +1443,7 @@ class ApiController extends Controller {
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));

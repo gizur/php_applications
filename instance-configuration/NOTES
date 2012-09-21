@@ -1,23 +1,24 @@
-- Cloud 1 -
+This document contains the credentials used for the different clouds used for
+gizur.com. 
 
+URL and IP adresses are documented here: 
+https://github.com/gizur/gizurcloud/wiki/System_Documentation%23AWS%23Cloud1%23Elastic_IPs_and_URLs
+
+
+- Cloud 1 -
+RDS instance: gc1-mysql1
+root / s0C55vtKKNcV
 
 - Cloud 2 -
-gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com
-instance: gc2-mysql1
+RDS instance: gc2-mysql1
 root / mRpvEpVT2lMEwr1o
 
 - Cloud 3 -
-instance: gc3-mysql1
+RDS instance: gc3-mysql1
 root / tUrUTebraw9EC6JE
 
 - Cloud 4 -
-instance: gc4-mysql1
+RDS instance: gc4-mysql1
 root / c5e7pESPehUj9dap
-
-user:admin
-testdb1 / s9ES3UtREst4phAD
- / PhaswA8ru2WuWefr
- / bRus5zutruPhuJet
- / wren3S4ekAsweSt6
 
 
