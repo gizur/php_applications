@@ -4327,3 +4327,80 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=trouble
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (117)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (55)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/12 12:51:44 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/db/CDbConnection.php:382
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/db/CDbConnection.php(331): CDbConnection->open()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/db/CDbConnection.php(309): CDbConnection->setActive(true)
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CDbConnection->init()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(104): CModule->getComponent('db')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/gii/generators/crud/CrudCode.php(44): CModule->__get('db')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CFormModel.php(40): CrudCode->init()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/gii/CCodeGenerator.php(152): CFormModel->__construct()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/gii/CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#10 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#11 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('')
+#13 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('gii/crud')
+#14 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#15 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#16 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=gii/crud
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=gii/controller
+---
+2012/09/12 12:51:49 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: could not find driver' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/db/CDbConnection.php:382
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/db/CDbConnection.php(331): CDbConnection->open()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/db/CDbConnection.php(309): CDbConnection->setActive(true)
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CDbConnection->init()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(104): CModule->getComponent('db')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/gii/generators/model/ModelCode.php(54): CModule->__get('db')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CFormModel.php(40): ModelCode->init()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/gii/CCodeGenerator.php(152): CFormModel->__construct()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/gii/CCodeGenerator.php(64): CCodeGenerator->prepare()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): CCodeGenerator->actionIndex()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#10 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#11 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('')
+#13 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('gii/model')
+#14 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#15 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#16 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=gii/model
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=gii/form
+---
+2012/09/12 16:43:54 [error] [php] include(PHPUnit_Extensions_SeleniumTestCase.php): failed to open stream: No such file or directory (/var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php:418)
+Stack trace:
+#0 unknown(0): spl_autoload_call()
+#1 /usr/share/php/PHPUnit/TextUI/Command.php(666): class_exists()
+#2 /usr/share/php/PHPUnit/TextUI/Command.php(139): PHPUnit_TextUI_Command->handleArguments()
+#3 /usr/share/php/PHPUnit/TextUI/Command.php(130): PHPUnit_TextUI_Command->run()
+#4 /usr/bin/phpunit(46): main()
+
+2012/09/17 16:52:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php:280
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('gii')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=gii
+---
+2012/09/20 12:58:09 [error] [php] Object of class CClientScript could not be converted to string (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/site/login.php:8)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): SiteController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): SiteController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/SiteController.php(49): SiteController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): SiteController->actionIndex()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): SiteController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): SiteController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): SiteController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/site/login.php (8)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/SiteController.php (49)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)

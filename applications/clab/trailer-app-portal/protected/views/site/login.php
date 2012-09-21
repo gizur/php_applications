@@ -4,14 +4,13 @@ $this->breadcrumbs=array(
 	'Login',
 );
 ?>
-
 <center>
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
+	'validateOnSubmit'=>true,
 	),
 )); ?>
    <?php
@@ -43,9 +42,8 @@ $this->breadcrumbs=array(
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
-	</div>
+<?php echo CHtml::submitButton('Login'); ?> &nbsp;&nbsp;<a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=site/resetpassword/" id="resetp">Reset Password
+</a>	</div>  
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->
-</center>
