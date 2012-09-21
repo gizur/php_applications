@@ -13,8 +13,8 @@
 
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	
+<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 <?php 
 if(Yii::app()->session['Lang']=="")
@@ -23,7 +23,7 @@ if(Yii::app()->session['Lang']=="")
  } else
  {
  $lang=Yii::app()->session['Lang'];
- }
+}
 include_once 'protected/extensions/langauge/'.$lang.'.php';
 ?>
 <body>

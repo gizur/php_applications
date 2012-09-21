@@ -86,7 +86,8 @@ public function attributeLabels()
                     'Model'	        => $model,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -107,6 +108,7 @@ public function attributeLabels()
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
             $response = $rest->get(Yii::app()->params->URL.$model."/".$fieldname);
@@ -153,7 +155,8 @@ public function attributeLabels()
                     'Model'	        => 'HelpDesk',
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -173,6 +176,7 @@ public function attributeLabels()
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY); 
     $response = $rest->post(Yii::app()->params->URL."HelpDesk",$data);
@@ -197,7 +201,8 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
                     'Model'	        => $module,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -239,6 +244,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
             $response = $rest->get(Yii::app()->params->URL.$module."/".$tickettype.$extraparameter);
@@ -258,7 +264,8 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
                     'Model'	        => $module,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -278,6 +285,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
             $response = $rest->get(Yii::app()->params->URL.$module);
@@ -305,7 +313,8 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
                     'Model'	        => $model,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -326,6 +335,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
 	$response = $rest->get(Yii::app()->params->URL.$model."/".$ID);
@@ -340,7 +350,8 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
                     'Model'	        => $module,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -361,6 +372,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
       $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
 	  $response = $rest->get(Yii::app()->params->URL.$module."/".$tid);
@@ -380,7 +392,8 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
                     'Model'	        => $model,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -401,6 +414,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
       $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
 	  $response = $rest->put(Yii::app()->params->URL.$model."/".$ticketID);

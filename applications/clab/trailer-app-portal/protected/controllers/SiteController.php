@@ -123,7 +123,8 @@ class SiteController extends Controller
                     'Model'	        => $model,
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -144,6 +145,7 @@ class SiteController extends Controller
             $rest->set_header('X_USERNAME', Yii::app()->session['username']);
             $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
             $response = $rest->post(Yii::app()->params->URL.$model."/logout");
@@ -163,4 +165,12 @@ class SiteController extends Controller
 			 }
 	
 	}
+	
+	
+	function actionresetpassword()
+	{
+		$model=new LoginForm;
+		$this->render('resetpassword',array('model'=>$model));
+	}
+	
 }

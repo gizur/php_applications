@@ -24,7 +24,8 @@ class UserIdentity extends CUserIdentity
                     'Model'	        => 'Authenticate',
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -42,6 +43,7 @@ class UserIdentity extends CUserIdentity
             $rest->set_header('X_USERNAME', $this->username);
             $rest->set_header('X_PASSWORD', $this->password);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
             $response = $rest->post(Yii::app()->params->URL .

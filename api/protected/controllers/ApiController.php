@@ -194,20 +194,18 @@ class ApiController extends Controller {
             if ($_GET['model'] == 'About' || $_GET['model'] == 'User')
                 return true;
             
+            if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
+                throw new Exception('Timestamp not found in request');
+            
+            if (!isset($_SERVER['HTTP_X_SIGNATURE']))
+                throw new Exception('Signature not found');
+
+            if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
+                throw new Exception('Unique Salt not found');
+            
             //check if public key exists
             if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
                 throw new Exception('Public Key Not Found in request');
-            
-            // Retreive Key pair from Amazon Dynamodb
-            $GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
-            $GIZURCLOUD_API_KEY = "GZCLDFC4B35B";            
-            
-            if ($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] 
-                                                     != $GIZURCLOUD_API_KEY) 
-                throw new Exception('Could not identify public key');
-            
-            if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
-                throw new Exception('Timestamp not found in request');
             
             if ( $_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > 
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
@@ -217,11 +215,12 @@ class ApiController extends Controller {
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
 		        throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
             
-            if (!isset($_SERVER['HTTP_X_SIGNATURE']))
-                throw new Exception('Signature not found');
+            // Retreive Key pair from Amazon Dynamodb
+            $GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
+            $GIZURCLOUD_API_KEY = "GZCLDFC4B35B";    
 
-            if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
-                throw new Exception('Unique Salt not found');
+            if ($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']!= $GIZURCLOUD_API_KEY) 
+                throw new Exception('Could not identify public key');        
 
             // Build query arguments list
             $params = array(
@@ -253,21 +252,22 @@ class ApiController extends Controller {
 
             Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
            
-            if(!isset($_SERVER['HTTP_X_USERNAME']) 
-                    || !isset($_SERVER['HTTP_X_PASSWORD'])) 
+            if(!isset($_SERVER['HTTP_X_USERNAME'])) 
                 throw new Exception('Could not find enough credentials');
 
-            //Get $customerportal_username and $customerportal_password 
-            //from header
-            $customerportal_username = $_SERVER['HTTP_X_USERNAME'];
-            $customerportal_password = $_SERVER['HTTP_X_PASSWORD'];            
+            if ($_GET['model'] == 'Authenticate' && $_GET['action'] == 'reset')
+                return true;
+
+            if(!isset($_SERVER['HTTP_X_PASSWORD'])) 
+                throw new Exception('Could not find enough credentials');         
             
             $cache_key = json_encode(array(
-                'username'=>$customerportal_username,
-                'password'=>$customerportal_password
+                'username'=>$_SERVER['HTTP_X_USERNAME'],
+                'password'=>$_SERVER['HTTP_X_PASSWORD']
             ));            
             
-            $cache_value = Yii::app()->cache->get($cache_key);            
+            $cache_value = Yii::app()->cache->get($cache_key); 
+           
             if ($cache_value===false) {
                 //Get the Access Key and the Username from vtiger REST 
                 //service of the customer portal user's vtiger account
@@ -278,12 +278,13 @@ class ApiController extends Controller {
                         'application/x-www-form-urlencoded');
                 $response = $rest->post(Yii::app()->params->vtRestUrl.
                         "?operation=logincustomer", 
-                        "username=$customerportal_username" . 
-                        "&password=$customerportal_password");
+                        "username=" . $_SERVER['HTTP_X_USERNAME'] .
+                        "&password=" . $_SERVER['HTTP_X_PASSWORD']);
                 
                 $response = json_decode($response);
                 if ($response->success==false)
                     throw new Exception("Invalid Username and Password");
+
                 $username = $response->result->user_name;
                 $userAccessKey = $response->result->accesskey;
                 $accountId = $response->result->accountId;
@@ -1228,10 +1229,6 @@ class ApiController extends Controller {
                         //unset($custom_fields[$key_to_replace]);                                
                     }
                 }
-                $globalresponse['debug']['request_sent'] = $_SERVER['HTTP_X_TIMESTAMP']; 
-                $globalresponse['debug']['request_arrived'] = date("c", $_SERVER['REQUEST_TIME']); 
-                $globalresponse['debug']['script_ended'] = date("c"); 
-                $globalresponse['debug']['script_started'] = $script_started; 
 
                 $this->_sendResponse(200, json_encode($globalresponse));
                 Yii::trace(json_encode($globalresponse), "debug"); 
