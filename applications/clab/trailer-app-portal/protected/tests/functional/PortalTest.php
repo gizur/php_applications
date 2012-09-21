@@ -76,7 +76,7 @@ class PortalTest extends PHPUnit_Framework_TestCase
 
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
@@ -111,7 +111,8 @@ class PortalTest extends PHPUnit_Framework_TestCase
                     'Model'         => $model,
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => self::GIZURCLOUD_API_KEY,
+                     'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -132,6 +133,7 @@ class PortalTest extends PHPUnit_Framework_TestCase
             $rest->set_header('X_USERNAME', $username);
             $rest->set_header('X_PASSWORD', $password);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
             echo $response = $rest->post($this->url.$model."/".$action);
@@ -414,7 +416,8 @@ class PortalTest extends PHPUnit_Framework_TestCase
                     'Model'         => $model,
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => self::GIZURCLOUD_API_KEY,
+                     'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -435,6 +438,7 @@ class PortalTest extends PHPUnit_Framework_TestCase
             $rest->set_header('X_USERNAME', $username);
             $rest->set_header('X_PASSWORD', $password);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
             $response = $rest->post($this->url.$model, $fields);
@@ -526,12 +530,12 @@ class PortalTest extends PHPUnit_Framework_TestCase
                         $s3 = new AmazonS3();
                         
                         $file = Array(
-                            'name' => getcwd().'/image-to-upload.jpg'
+                            'name' => getcwd().'/img1.jpeg'
                         );
 
                         $response = $s3->create_object(
                                 'gizurcloud', 
-                                'image-to-upload.jpg', 
+                                'img1.jpeg', 
                                 array(
                             //'acl' => AmazonS3::ACL_PUBLIC,
                             'fileUpload' => $file['name'],
@@ -604,8 +608,6 @@ class PortalTest extends PHPUnit_Framework_TestCase
  
 
     }
-
-
 
     public function testGetPicklist(){
         $model = 'HelpDesk';
