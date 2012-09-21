@@ -51,6 +51,7 @@ class ApiController extends Controller {
         1001 => "MANDATORY_FIELDS_MISSING",
         1002 => "INVALID_FIELD_VALUE",
         1003 => "TIME_NOT_IN_SYNC",
+        1004 => "METHOD_NOT_ALLOWED",
     );    
 
      /**
@@ -71,7 +72,7 @@ class ApiController extends Controller {
         'HelpDesk',
         'Assets',
         'About',
-        'DocumentAttachements',
+        'DocumentAttachments',
         'Authenticate'
     );
 
@@ -247,7 +248,7 @@ class ApiController extends Controller {
             if($_SERVER['HTTP_X_SIGNATURE']!=$verify_signature) 
                 throw new Exception('Could not verify signature');
             
-            if(Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE'])!==false) {
+            if(Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE'])!==false)
                 throw new Exception('Used signature');
 
             Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
@@ -370,28 +371,16 @@ class ApiController extends Controller {
             $response->error->code = $this->errors[$e->getCode()];
             $response->error->message = $e->getMessage();
             if ($e->getCode() == 1003) {
-		    if (isset($_SERVER['HTTP_X_TIMESTAMP']))
-		        $response->error->time_difference = $_SERVER['REQUEST_TIME'] - 
-		                              strtotime($_SERVER['HTTP_X_TIMESTAMP']);
-                $response->error->time_request_arrived = date("c",$_SERVER['REQUEST_TIME']);
-                $response->error->time_request_sent = date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
+		if (isset($_SERVER['HTTP_X_TIMESTAMP']))
+		        $response->error->time_difference = 
+          $_SERVER['REQUEST_TIME'] - strtotime($_SERVER['HTTP_X_TIMESTAMP']);
+                $response->error->time_request_arrived = 
+                                           date("c",$_SERVER['REQUEST_TIME']);
+                $response->error->time_request_sent = 
+                            date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
                 $response->error->time_server = date("c");
-                if (strpos($_SERVER['USER_AGENT'],'Darwin')) {
-                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
-                   Yii::trace(json_encode($response),'Darwin - Request');
-                }
-
-                if (strpos($_SERVER['USER_AGENT'],'Apache-HttpClient')) {
-                   Yii::trace(json_encode($_SERVER),'Darwin - Response');
-                   Yii::trace(json_encode($response),'Darwin - Request');
-                }
-
-                if (strpos($_SERVER['USER_AGENT'],'PHPUnit')) {
-                   Yii::trace(json_encode($_SERVER),'PHPUnit - Response');
-                   Yii::trace(json_encode($response),'PHPUnit - Request');
-                }
             }
-		    $this->_sendResponse(403, json_encode($response));
+            $this->_sendResponse(403, json_encode($response));
             return false;
         }
     }    
@@ -461,16 +450,18 @@ class ApiController extends Controller {
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])){
 
-                    $cached_value = Yii::app()->cache->get('picklist_' . $_GET['model'] . '_' . $_GET['fieldname']);
+                    $cached_value = Yii::app()->cache->get('picklist_' 
+                                                         . $_GET['model'] . '_' 
+                                                         . $_GET['fieldname']);
 
                     if ($cached_value === false) {
                         $sessionId = $this->session->sessionName; 
                         $flipped_custom_fields = 
-                                      array_flip($this->custom_fields['HelpDesk']);
+                                  array_flip($this->custom_fields['HelpDesk']);
                         if (in_array($_GET['fieldname'], 
-                                                        $flipped_custom_fields)){
+                                                    $flipped_custom_fields)){
                             $fieldname = 
-                        $this->custom_fields[$_GET['model']][$_GET['fieldname']];
+                    $this->custom_fields[$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
@@ -495,30 +486,34 @@ class ApiController extends Controller {
                             if ($fieldname == $field['name']) {
                                 if ($field['type']['name'] == 'picklist'){
                                     foreach ($field['type']['picklistValues'] 
-                                                              as $key => &$option)
+                                                          as $key => &$option)
                                     if (isset($option['dependency'])) {
                                         foreach ($option['dependency'] 
-                                             as $dep_fieldname => $dependency) {
-                                           if(in_array($dep_fieldname, 
-                                                $this->custom_fields['HelpDesk'])){
-                                               $new_fieldname = 
-                                                           $flipped_custom_fields
-                                                                 [$dep_fieldname];
-                                               $option['dependency']
-                                                                [$new_fieldname] = 
-                                                              $option['dependency']
-                                                                 [$dep_fieldname];
+                                         as $dep_fieldname => $dependency) {
+                                            if(in_array($dep_fieldname, 
+                                            $this->custom_fields['HelpDesk'])){
+                                                $new_fieldname = 
+                                                       $flipped_custom_fields
+                                                             [$dep_fieldname];
+                                                $option['dependency']
+                                                            [$new_fieldname] = 
+                                                          $option['dependency']
+                                                             [$dep_fieldname];
                                                unset($option
-                                                  ['dependency'][$dep_fieldname]);
+                                              ['dependency'][$dep_fieldname]);
                                            } 
                                         }
                                     }
                                     $content = json_encode(array(
                                         'success' => true, 
                                         'result' => 
-                                                   $field['type']['picklistValues']
+                                              $field['type']['picklistValues']
                                         ));
-                                    Yii::app()->cache->set('picklist_' . $_GET['model'] . '_' . $_GET['fieldname'], $content, 3600);
+                                    Yii::app()->cache->set('picklist_' 
+                                                               . $_GET['model'] 
+                                                                           . '_' 
+                                                          . $_GET['fieldname'], 
+                                                               $content, 3600);
                                     $this->_sendResponse(200, $content);
                                     break 2;
                                 }
@@ -674,7 +669,7 @@ class ApiController extends Controller {
                 $response = new stdClass();
                 $response->success = false;
 
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));
@@ -978,14 +973,14 @@ class ApiController extends Controller {
                 unset($filename_sanitizer[0]);               
                 $response->result->filename = implode('_', 
                                                         $filename_sanitizer); 
+                Yii::trace($response->result->filename,'DOCUMENT_ATTACHEMENT');
                 $this->_sendResponse(200, json_encode($response)); 
                 break;
             
             default :
                 $response = new stdClass();
                 $response->success = false;
-
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));
@@ -1245,7 +1240,7 @@ class ApiController extends Controller {
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));
@@ -1264,7 +1259,7 @@ class ApiController extends Controller {
         $response = new stdClass();
         $response->success = false;
         if (isset($this->valid_models[$_GET['model']])) {
-            $response->error->code = "METHOD_NOT_ALLOWED";
+            $response->error->code = $this->errors[1004];
             $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
             $this->_sendResponse(405, json_encode($response));
@@ -1451,7 +1446,7 @@ class ApiController extends Controller {
             default :
                 $response = new stdClass();
                 $response->success = false;
-                $response->error->code = "METHOD_NOT_ALLOWED";
+                $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
                         " for model "  . $_GET['model'];
                 $this->_sendResponse(405, json_encode($response));
