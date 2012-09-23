@@ -235,7 +235,7 @@ EOT;
      * Create user
      */
    $query = <<<EOT
-       CREATE USER `$username` . @ . $dbconfig['db_server'] . $dbconfig['db_port']  IDENTIFIED BY `$password`;
+       CREATE USER `$username`  @  $dbconfig['db_server']  $dbconfig['db_port']  IDENTIFIED BY `$password`;
 EOT;
 
     // Execute the query
