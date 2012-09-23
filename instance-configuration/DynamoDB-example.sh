@@ -22,7 +22,7 @@ require_once('../lib/aws-php-sdk/sdk.class.php');
 
 
 // JUST TESTING
-$_GET['email'] = clab@gizur.com;
+$_GET['email'] = 'clab@gizur.com';
 
 // Instantiate the class
 $dynamodb = new AmazonDynamoDB();
