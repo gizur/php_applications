@@ -1,3 +1,5 @@
+<?php
+
 /**
  * Yii Controller to handel REST queries
  *
@@ -24,3 +26,5 @@ $dbconfig['db_port']       = ':3306';
 $dbconfig['db_username']   = 'root';
 $dbconfig['db_password']   = 's0C55vtKKNcV';
 $dbconfig['db_name']       = 'mysql';
+
+?>
