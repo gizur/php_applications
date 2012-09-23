@@ -60,7 +60,7 @@ if (isset($ddb_response->body->Item)) {
 
 
 
-include("gc1-irelan/rest-api/config.inc.php");
+include("gc1-ireland/rest-api/config.inc.php");
 require_once 'MDB2.php';
 
 /**
