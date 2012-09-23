@@ -235,6 +235,7 @@ EOT;
     /**
      * Create user
      */
+    global $dbconfig;
     $tmp = $username  . "@" . $dbconfig['db_server'] . $dbconfig['db_port'];
 
    $query = <<<EOT
