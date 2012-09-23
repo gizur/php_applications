@@ -46,7 +46,7 @@ if (isset($ddb_response->body->Item)) {
 
 	//$this->_sendResponse(200, json_encode($response));
 	// printing, just for testing purposes
-	print json_encode($response));
+	print json_encode($response);
 
 } else {
     $response->success = false;
