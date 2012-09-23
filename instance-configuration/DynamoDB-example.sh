@@ -38,8 +38,7 @@ $ddb_response = $dynamodb->get_item(array(
         
 if (isset($ddb_response->body->Item)) {
     foreach($ddb_response->body->Item->children() as $key => $item) {
-        $result->{$key} = 
-                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
+        $result->{$key} = (string)$item->{AmazonDynamoDB::TYPE_STRING};
     }
 
     $response->success = true;
@@ -47,7 +46,7 @@ if (isset($ddb_response->body->Item)) {
 
 	//$this->_sendResponse(200, json_encode($response));
 	// printing, just for testing purposes
-	print $response;
+	print json_encode($response));
 
 } else {
     $response->success = false;
@@ -56,7 +55,7 @@ if (isset($ddb_response->body->Item)) {
 
 	//$this->_sendResponse(404, json_encode($response));      
 	// printing, just for testing purposes
-	print $response;
+	print json_encode($response));
 }
 
 
