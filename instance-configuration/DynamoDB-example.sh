@@ -1,3 +1,5 @@
+#!/usr/bin/php
+
 <?php
 /**
  * Yii Controller to handel REST queries
