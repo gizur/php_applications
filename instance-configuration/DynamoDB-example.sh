@@ -239,7 +239,7 @@ EOT;
     $tmp = "`" . $username ."`@`" . $dbconfig['db_server'] . $dbconfig['db_port'] . "`";
 
    $query = <<<EOT
-       CREATE USER $tmp IDENTIFIED BY $password;
+       CREATE USER $tmp IDENTIFIED BY `$password`;
 EOT;
 
     // Execute the query
