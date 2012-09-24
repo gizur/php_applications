@@ -598,32 +598,34 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     
     public function testGetDocumentAttachment(){
         $model = 'DocumentAttachments';
-        $notesid = '15x480';
+        $notesid = '15x501';
+        $notesid = '15x507';
+        $notesid = '15x508';
 
         echo " Downloading Ticket Attachement " . PHP_EOL;        
     
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         foreach($this->credentials as $username => $password){            
+            $params = array(
+                        'Verb'          => 'GET',
+                        'Model'	    => $model,
+                        'Version'       => self::API_VERSION,
+                        'Timestamp'     => date("c"),
+                        'KeyID'         => self::GIZURCLOUD_API_KEY,
+                        'UniqueSalt'    => uniqid()
+            );
+
+            // Sorg arguments
+            ksort($params);
+
+            // Generate string for sign
+            $string_to_sign = "";
+            foreach ($params as $k => $v)
+                $string_to_sign .= "{$k}{$v}";
+
+            // Generate signature
+            $signature = base64_encode(hash_hmac('SHA256', 
+                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
             $rest = new RESTClient();
             $rest->format('json'); 
             $rest->set_header('X_USERNAME', $username);
@@ -632,6 +634,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
             $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+
             echo $response = $rest->get($this->url.$model."/".$notesid);
             $response = json_decode($response);
             //print_r($response);
@@ -645,7 +648,6 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                 fwrite($fp, base64_decode($response->result->filecontent));
                 fclose($fp);
                 $this->assertFileEquals('downloaded_'.$response->result->filename,$response->result->filename);
-
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }

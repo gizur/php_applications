@@ -993,20 +993,22 @@ class ApiController extends Controller {
                       
                 $s3 = new AmazonS3();
                 $bucket = Yii::app()->params->awsS3Bucket;
- 
-                $file_resource = fopen('protected/data/'. 
+                
+                $unique_id = uniqid();
+                 
+                $file_resource = fopen('protected/data/'. $unique_id .
                         $response->result->filename,'x');
                 $s3response = $s3->get_object($bucket, 
-                        $response->result->filename, 
+                        $unique_id . $response->result->filename, 
                         array(
                     'fileDownload' => $file_resource
                 ));
                
                 $response->result->filecontent = 
                         base64_encode(
-                                file_get_contents('protected/data/' . 
+                                file_get_contents('protected/data/' . $unique_id .
                                         $response->result->filename));
-                unlink('protected/data/' . $response->result->filename); 
+                unlink('protected/data/' . $unique_id .  $response->result->filename); 
  
                 $filename_sanitizer = explode("_",
                                                  $response->result->filename);               
