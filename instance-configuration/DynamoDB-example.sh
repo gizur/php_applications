@@ -123,7 +123,7 @@ function createUser($mdb2, $username, $password) {
 
 
     $query = <<<EOT
-        CREATE USER '$username'@'%' IDENTIFIED BY '$password';CREATE DATABASE IF NOT EXISTS `$username`;
+        CREATE USER '$username'@'%' IDENTIFIED BY '$password';
 EOT;
 
     // Execute the query
@@ -134,7 +134,20 @@ EOT;
         echo ($result->getMessage().' - '.$result->getUserinfo());
         exit();
     }
-    
+
+    $query = <<<EOT    
+        CREATE DATABASE IF NOT EXISTS `$username`;
+EOT;
+
+    // Execute the query
+    $result = $mdb2->exec($query);
+
+    // check if the query was executed properly
+    if (PEAR::isError($result)) {
+        echo ($result->getMessage().' - '.$result->getUserinfo());
+        exit();
+    }
+
 
     // Disconnect from the database
     $mdb2->disconnect();
