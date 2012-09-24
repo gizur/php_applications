@@ -270,7 +270,7 @@ $mdb2->disconnect();
 
 
 /*
- * mysql -uclabgizurcom -pil2xiTtjKG30 -hgc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com clabgizurcom < vtiger-5.4.0-database.sql
+ * mysql -uclabgizurcom -pxxxxxxxxxxx -hgc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com clabgizurcom < vtiger-5.4.0-database.sql
  */
 
 $exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < vtiger-5.4.0-database.sql";
