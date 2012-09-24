@@ -60,7 +60,7 @@ if (isset($ddb_response->body->Item)) {
 
 
 
-include("rest-api/config.inc.php");
+include("gc1-ireland/rest-api/config.inc.php");
 require_once 'MDB2.php';
 
 /**
@@ -231,11 +231,15 @@ EOT;
         exit();
     }
     
+
     /**
      * Create user
      */
+    global $dbconfig;
+    $tmp = "`" . $username ."`@`" . $dbconfig['db_server'] . $dbconfig['db_port'] . "`";
+
    $query = <<<EOT
-       CREATE USER `$username` . @ . `$dbconfig['db_server'] . $dbconfig['db_port']`  IDENTIFIED BY `$password`;
+       CREATE USER $tmp IDENTIFIED BY `$password`;
 EOT;
 
     // Execute the query
