@@ -13,7 +13,7 @@
  **/
 
 
-include("r../api/protected/config/config.inc.php");
+include("../api/protected/config/config.inc.php");
 require_once 'MDB2.php';
 
 
