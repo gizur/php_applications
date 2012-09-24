@@ -34,12 +34,19 @@ require_once 'MDB2.php';
  * Including Amazon classes
  */
 
-
 require_once('aws-php-sdk/sdk.class.php');
 
 
-// JUST TESTING
-//$_GET['email'] = 'clab@gizur.com';
+/*
+ * VAriables for MySQL credentials  
+ *
+ */
+
+$dbconfig2['db_server']     = '';
+$dbconfig2['db_port']       = '';
+$dbconfig2['db_username']   = '';
+$dbconfig2['db_password']   = '';
+$dbconfig2['db_name']       = '';
 
 // Instantiate the class
 $dynamodb = new AmazonDynamoDB();
@@ -60,6 +67,13 @@ if (isset($ddb_response->body->Item)) {
 
     $response->success = true;
     $response->result = $result;
+
+    $dbconfig2['db_server']     = '';
+    $dbconfig2['db_port']       = '';
+    $dbconfig2['db_username']   = '';
+    $dbconfig2['db_password']   = '';
+    $dbconfig2['db_name']       = '';
+
 
 	//$this->_sendResponse(200, json_encode($response));
 	// printing, just for testing purposes
