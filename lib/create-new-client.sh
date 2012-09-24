@@ -96,6 +96,7 @@ $mdb2 =& MDB2::factory($dsn, $options);
 
 if (PEAR::isError($mdb2)) {
     echo ($mdb2->getMessage().' - '.$mdb2->getUserinfo());
+    exit();
 }
 
 
@@ -144,7 +145,7 @@ function createUser($mdb2, $username, $password) {
         CREATE USER '$username'@'%' IDENTIFIED BY '$password';
 EOT;
 
-    execSQLStatement($mdb2, $query);
+    //execSQLStatement($mdb2, $query);
 
 
     /*
