@@ -97,6 +97,19 @@ if (PEAR::isError($mdb2)) {
 }
 
 
+function execSQLStatement($mdb2, $stmt) {
+
+    // Execute the query
+    $result = $mdb2->exec($stmt);
+
+    // check if the query was executed properly
+    if (PEAR::isError($result)) {
+        echo ($result->getMessage().' - '.$result->getUserinfo());
+        exit();
+    }
+
+    return 0;
+}
 
 /**
  * Create database and user 
@@ -121,33 +134,27 @@ function createUser($mdb2, $username, $password) {
     *  GRANT ALL PRIVILEGES ON `test3`.* TO 'test3'@'%';
     */
 
+    /*
+     * CREATE USER
+     */
 
     $query = <<<EOT
         CREATE USER '$username'@'%' IDENTIFIED BY '$password';
 EOT;
 
-    // Execute the query
-    $result = $mdb2->exec($query);
+    execSQLStatement($mdb2, $query);
 
-    // check if the query was executed properly
-    if (PEAR::isError($result)) {
-        echo ($result->getMessage().' - '.$result->getUserinfo());
-        exit();
-    }
+   /*
+     * CREATE DATABASE
+     */
 
     $query = <<<EOT
         CREATE DATABASE IF NOT EXISTS `$username`;
 EOT;
 
-    // Execute the query
-    $result = $mdb2->exec($query);
+    execSQLStatement($mdb2, $query);
 
-    // check if the query was executed properly
-    if (PEAR::isError($result)) {
-        echo ($result->getMessage().' - '.$result->getUserinfo());
-        exit();
-    }
-
+ 
 
     // Disconnect from the database
     $mdb2->disconnect();
