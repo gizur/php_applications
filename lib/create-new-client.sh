@@ -21,7 +21,8 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 
 if( ! isset($_GET['email']) ) {
-    print "./create-new-client email=name@exampole.com";
+    print "USAGE:";
+    print "./create-new-client email=name@exampole.com\n";
     exit();
 }
 
