@@ -106,7 +106,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'  => 'webmaster@example.com',
-                'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
+                'vtRestUrl'   => 'http://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
                 'awsS3Bucket' => 'gizurcloud'
 	),
 );

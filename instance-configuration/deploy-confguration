@@ -7,16 +7,46 @@
 #
 if [ -n "$1" ]
 then
-    echo All Good
+    echo Deploying $1
 else
+
+	# Show usage and exit
+
     echo Usage: ./deploy-configuaration [[region]] [[memcache-location]]
+    exit 0
 fi
+
+
+#
+# Copy misc files
+#
+
+echo "cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0"
 cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0
+
+echo "cp $1/phpMyAdmin/config.inc.php ../lib/phpMyAdmin-3.5.2-all-languages"
 cp $1/phpMyAdmin/config.inc.php ../lib/phpMyAdmin-3.5.2-all-languages
+
+echo "cp $1/.htaccess ../.htaccess"
+cp $1/.htaccess ../.htaccess
+
+echo "cp $1/aws-php-sdk/config.inc.php ../config.inc.php"
+cp $1/aws-php-sdk/config.inc.php ../config.inc.php
+
+echo "cp $1/applications/clab/trailer-app-portal/protected/config/main.php ../applications/clab/trailer-app-portal/protected/config/main.php"
+cp $1/applications/clab/trailer-app-portal/protected/config/main.php ../applications/clab/trailer-app-portal/protected/config/main.php
+
+echo "$1/applications/gizur-admin/js/config.js ../applications/gizur-admin/js/config.js"
+cp $1/applications/gizur-admin/js/config.js ../applications/gizur-admin/js/config.js
+
+
+#
+# Memacaced setup
+#
+
 if [ -n "$2" ]
 then
     cp $1/rest-api/main-$2memcache.php ../api/protected/config/main.php 
 else
     cp $1/rest-api/main.php ../api/protected/config
 fi
-cp $1/.htaccess ../.htaccess
