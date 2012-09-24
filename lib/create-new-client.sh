@@ -271,30 +271,17 @@ $mdb2->disconnect();
  *
  */
 
+
 /*
- * Connect with the user just created
- *
+ * mysql -uclabgizurcom -pil2xiTtjKG30 -hgc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com clabgizurcom < vtiger-5.4.0-database.sql
  */
-$dsn = "mysql://" . $db_username  . ":" . $db_password . "@" . $db_server . ":" . $db_port . "/" . $db_name;
 
+$exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < vtiger-5.4.0-database.sql";
 
-/**
- * Database MDB2 connection object 
- * @global mixed $mdb2
- */
-$mdb2 =& MDB2::factory($dsn, $options);
+$output = shell_exec($exec_stmt);
+print "\nImported tables into User: $db_username in database:$db_name!\n";
+print $output . "\n";
 
-if (PEAR::isError($mdb2)) {
-    echo ($mdb2->getMessage().' - '.$mdb2->getUserinfo());
-    exit();
-}
-
-$result = importTables($mdb2);
-print "\nImport tables into  database:$db_name on $db_server:$db_port !\n";
-
-
-// Disconnect from the database
-$mdb2->disconnect();
 
 ?>
 

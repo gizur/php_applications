@@ -1,8 +1,3 @@
-<?php
-
-$create_tables_query = <<<EOT
- 
-
 -- phpMyAdmin SQL Dump
 -- version 3.4.9
 -- http://www.phpmyadmin.net
@@ -18149,7 +18144,3 @@ ALTER TABLE `vtiger_ws_referencetype`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-EOT;
-
-?>
