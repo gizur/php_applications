@@ -15,6 +15,13 @@ root / s0C55vtKKNcV
 clabgizurcom vTiger
 admin / st4vaDas3ecE
 
+Server Name:                        email-smtp.us-east-1.amazonaws.com
+Port:	                            25, 465 or 587
+Use Transport Layer Security (TLS): Yes
+User:                               ses-smtp-user
+Password:                           MkCKWS1jbH}a
+
+
 - Cloud 2 -
 API KEY / Secret
 AKIAIYLH2M3IM5CZIL6Q / slanC493SYCuxg+hyC7Bn2GNBMhvnJfJ9hxElSG0
