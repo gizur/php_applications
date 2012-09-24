@@ -1,28 +1,69 @@
 #!/usr/bin/php
 
 <?php
-
 /**
- * This file contains common functions used throughout the Integration package.
+ * Yii Controller to handel REST queries
  *
- * @package    php_applications
- * @subpackage setup
- * @author     Jonas Colmsjö <jonas.colmsjo@gizur.com>
- * @version    SVN: $Id$
+ * Works with remote vtiger REST service
  *
- * @license    Commercial license
- * @copyright  Copyright (c) 2012, Gizur AB, <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
- *
- * Coding standards:
- * http://pear.php.net/manual/en/standards.php
- *
- * PHP version 5
- *
+ * @package        	GizurCloud
+ * @subpackage    	Instance-configuration
+ * @category    	Shell Script
+ * @author        	Jonas Colmsjö
+ **/
+
+
+include("rest-api/config.inc.php");
+require_once 'MDB2.php';
+
+
+/*
+ * Including Amazon classes
  */
 
 
-include("vtiger-5.4.0/config.inc.php");
-require_once 'MDB2.php';
+require_once('aws-php-sdk/sdk.class.php');
+
+
+// JUST TESTING
+$_GET['email'] = 'clab@gizur.com';
+
+// Instantiate the class
+$dynamodb = new AmazonDynamoDB();
+$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+$table_name = 'GIZUR_ACCOUNTS';
+
+// Get an item
+$ddb_response = $dynamodb->get_item(array(
+    'TableName' => $table_name,
+    'Key' => $dynamodb->attributes(array('HashKeyElement'  => $_GET['email'], )),
+    'ConsistentRead' => 'true'
+));
+        
+if (isset($ddb_response->body->Item)) {
+    foreach($ddb_response->body->Item->children() as $key => $item) {
+        $result->{$key} = (string)$item->{AmazonDynamoDB::TYPE_STRING};
+    }
+
+    $response->success = true;
+    $response->result = $result;
+
+	//$this->_sendResponse(200, json_encode($response));
+	// printing, just for testing purposes
+	print json_encode($response);
+
+} else {
+    $response->success = false;
+    $response->error->code = "NOT_FOUND";
+	$response->error->message = $_GET['email'] . " was " . " not found";
+
+	//$this->_sendResponse(404, json_encode($response));      
+	// printing, just for testing purposes
+	print json_encode($response);
+}
+
+
+
 
 /**
  *  The Pear PHP dagtabase API MDB2 will is used
@@ -58,102 +99,87 @@ if (PEAR::isError($mdb2)) {
 }
 
 
+function execSQLStatement($mdb2, $stmt) {
+
+    // Execute the query
+    $result = $mdb2->exec($stmt);
+
+    // check if the query was executed properly
+    if (PEAR::isError($result)) {
+        echo ($result->getMessage().' - '.$result->getUserinfo());
+        exit();
+    }
+
+    return 0;
+}
+
 /**
- * Create the saleorder_interface table 
+ * Create database and user 
  *
  * @param mixed $mdb2
+ * @param mixed $username
+ * @param mixed $password
  * @return int
  */
-function createTable($mdb2) {
+function createUser($mdb2, $username, $password) {
 
    /**
-    * First drop the table if it exists
+    * Create database
+    *
+    * Example SQL from myPhpAdmin:
+    *
+    *  CREATE USER 'test3'@'%' IDENTIFIED BY '***';
+    *  GRANT USAGE ON *.* TO 'test3'@'%' IDENTIFIED BY '***' 
+    *  WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+    *  
+    *  CREATE DATABASE IF NOT EXISTS `test3`;
+    *  GRANT ALL PRIVILEGES ON `test3`.* TO 'test3'@'%';
     */
+
+    /*
+     * CREATE USER
+     */
+
     $query = <<<EOT
-        DROP TABLE IF EXISTS `salesorder_interface` ;
+        CREATE USER '$username'@'%' IDENTIFIED BY '$password';
 EOT;
 
-    // Execute the query
-    $result = $mdb2->exec($query);
+    execSQLStatement($mdb2, $query);
 
-    // check if the query was executed properly
-    if (PEAR::isError($result)) {
-        echo ($result->getMessage().' - '.$result->getUserinfo());
-        exit();
-    }
-    
-    /**
-    * First drop the table if it exists
-    */
-    
-    $query2 = <<<EOT
-        DROP TABLE IF EXISTS `saleorder_msg_que` ;
-EOT;
 
-    // Execute the query
-    $result = $mdb2->exec($query2);
+    /*
+     * GRANT USAGE
+     */
 
-    // check if the query was executed properly
-    if (PEAR::isError($result)) {
-        echo ($result->getMessage().' - '.$result->getUserinfo());
-        exit();
-    }
-
-   /**
-    * Then create the table
-    */
     $query = <<<EOT
-        CREATE TABLE `salesorder_interface` (
-                     `id` int(19) NOT NULL AUTO_INCREMENT,
-                     `salesorderid` int(19) NOT NULL DEFAULT '0',
-                     `salesorder_no` varchar(100) DEFAULT NULL,
-                     `contactid` int(19) DEFAULT NULL,
-                     `productname` varchar(100) DEFAULT NULL,
-                     `productid` int(11) DEFAULT NULL,
-                     `productquantity` int(5) DEFAULT NULL,
-                     `duedate` date DEFAULT NULL,
-                     `featurdate` date DEFAULT NULL,
-                     `accountname` varchar(100) DEFAULT NULL,
-                     `accountid` int(19) DEFAULT NULL,
-                     `sostatus` varchar(200) DEFAULT NULL,
-                     `batchno` varchar(20) NOT NULL,
-                     `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+        GRANT USAGE ON *.* TO '$username'@'%' IDENTIFIED BY '$password' 
+        WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 EOT;
 
-    // Execute the query
-    $result = $mdb2->exec($query);
+    execSQLStatement($mdb2, $query);
 
-    // check if the query was executed properly
-    if (PEAR::isError($result)) {
-        echo ($result->getMessage().' - '.$result->getUserinfo());
-        exit();
-    }
-    
-    /**
-    * Then create the table saleorder_msg_que
-    */
-    $query2 = <<<EOT
-        CREATE TABLE `saleorder_msg_que` (
-                     `id` int(19) NOT NULL AUTO_INCREMENT,
-                     `accountname` varchar(100) DEFAULT NULL,
-                     `ftpfilename` varchar (200) DEFAULT NULL,
-                     `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                     `status` int(1) DEFAULT '0',
-        PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+    /*
+     * CREATE DATABASE
+     */
+
+    $query = <<<EOT
+        CREATE DATABASE IF NOT EXISTS `$username`;
 EOT;
 
-    // Execute the query
-    $result = $mdb2->exec($query2);
+    execSQLStatement($mdb2, $query);
 
-    // check if the query was executed properly
-    if (PEAR::isError($result)) {
-        echo ($result->getMessage().' - '.$result->getUserinfo());
-        exit();
-    }
-   
+
+    /*
+     * GRANT PRIVILEGES TO DATABASE
+     */
+
+    $query = <<<EOT
+        GRANT ALL PRIVILEGES ON `$username`.* TO '$username'@'%';
+EOT;
+
+    execSQLStatement($mdb2, $query);
+
 
     // Disconnect from the database
     $mdb2->disconnect();
@@ -161,10 +187,10 @@ EOT;
     return 0;
 }
 
+// create user
+$result = createUser($mdb2, 'test2', 'test2');
+print "\nMySQL User and database created successfully!\n";
 
-// Run the query
-$result = createTable($mdb2);
-
-print "Table created successfully!\n";
 
 ?>
+
