@@ -3640,3 +3640,81 @@ in /home/anshuk/public_html/gizurcloud/api/index.php (13)
 2012/09/24 12:31:20 [trace] [system.caching.CMemCache] Serving "F5prbFj4kmR2WskIqmL1SHXSeBeVoe2XLPuoPGJyVbs=" from cache
 in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (291)
 in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:23 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:23 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:23 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:23 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:23 [trace] [system.caching.CMemCache] Saving "Yii.CUrlManager.rules" to cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:27 [trace] [system.caching.CMemCache] Saving "GZCLDFC4B35B" to cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (263)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:27 [trace] [system.caching.CMemCache] Saving "av+SRcYyBRkf+ZyaxjgRRUPP7ras8s4hWcXSUxnfpgI=" to cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (294)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:31 [trace] [system.caching.CMemCache] Saving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" to cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (403)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:46:56 [trace] [DOCUMENT_ATTACHEMENT] image.jpg
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1016)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.caching.CMemCache] Serving "GZCLDFC4B35B" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (218)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.caching.CMemCache] Saving "rUdr9OoYfvD5GBTZTGobJ7Tv0+b+i09C/FdmJhMJgWc=" to cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (294)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:32 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (310)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:33 [error] [php] fopen(protected/data/): failed to open stream: Is a directory (/home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php:998)
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): ApiController->runAction()
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): ApiController->runActionWithFilters()
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): ApiController->run()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /home/anshuk/public_html/gizurcloud/api/index.php(13): CWebApplication->run()
+REQUEST_URI=/gizurcloud/api/index.php/api/DocumentAttachments/15x508
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (998)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:50:33 [trace] [system.CModule] Loading "errorHandler" application component
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (998)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.caching.CMemCache] Serving "GZCLDFC4B35B" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (218)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.caching.CMemCache] Saving "z57Pf0jyS/6EvDRpOtWrQRuhDoAusrqGtuzGjSApbfM=" to cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (294)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:46 [trace] [system.caching.CMemCache] Serving "{"username":"cloud3@gizur.com","password":"rksh2jjf"}" from cache
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (310)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 14:55:54 [trace] [DOCUMENT_ATTACHEMENT] 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1018)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
