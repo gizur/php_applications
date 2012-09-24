@@ -3069,3 +3069,23 @@ in /home/anshuk/public_html/gizurcloud/api/index.php (13)
 2012/09/17 12:52:05 [trace] [debug] Ending of FIle Upload to S3
 in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1185)
 in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:17:53 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:17:53 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:17:53 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:17:53 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:17:53 [trace] [system.caching.CMemCache] Saving "Yii.CUrlManager.rules" to cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:18:15 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:18:15 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:18:15 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:18:15 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/09/24 10:18:15 [trace] [system.caching.CMemCache] Serving "Yii.CUrlManager.rules" from cache
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
