@@ -144,6 +144,7 @@ EOT;
 
     execSQLStatement($mdb2, $query);
 
+
    /*
      * CREATE DATABASE
      */
@@ -154,7 +155,17 @@ EOT;
 
     execSQLStatement($mdb2, $query);
 
- 
+
+    /*
+     * GRANT PRIVILEGES TO DATABASE
+     */
+
+    $query = <<<EOT
+        GRANT ALL PRIVILEGES ON `$username`.* TO '$username'@'%';
+EOT;
+
+    execSQLStatement($mdb2, $query);
+
 
     // Disconnect from the database
     $mdb2->disconnect();
@@ -164,11 +175,8 @@ EOT;
 
 // create user
 $result = createUser($mdb2, 'test2', 'test2');
-print "User created successfully!\n";
+print "\nMySQL User and database created successfully!\n";
 
-// create table
-// $result = createTable($mdb2);
-//print "Table created successfully!\n";
 
 ?>
 
