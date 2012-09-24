@@ -128,7 +128,7 @@ function createUser($mdb2, $username, $password) {
 //    
 //        CREATE DATABASE IF NOT EXISTS `$username`;
 //        GRANT ALL PRIVILEGES ON `$username`.* TO '$username'@'%';
-//EOT; 
+// EOT; 
 
 
     $query = <<<EOT
