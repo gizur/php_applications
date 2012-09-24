@@ -22,9 +22,6 @@
 include("../api/protected/config/config.inc.php");
 require_once 'MDB2.php';
 
-// The script for creating tables
-include("vtiger-5.4.0-database.sql.php");
-
 /*
  * Including Amazon classes
  */
