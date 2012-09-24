@@ -1333,7 +1333,25 @@ class ApiController extends Controller {
                         'sessionName' => $sessionId,
                         'operation' => 'resetpassword',
                         'username' => $_SERVER['HTTP_X_USERNAME'],
-                    ));  
+                    )); 
+                    
+                    if ($response->success==false)
+                        throw new Exception($response->error->message); 
+
+                    $email = new AmazonSES();
+             
+                    $response = $email->send_email(
+                        'admin@gizur.com', // Source (aka From)
+                         array('ToAddresses' => array( // Destination (aka To)
+                                 'nobody@amazon.com'
+                         )),
+                         array( // Message (short form)
+                             'Subject.Data' => 'Your Gizur Account password has been reset',
+                             'Body.Text.Data' => 'Dear Gizur Account Holder, <br/><br/>Your password has been reset to ' . $response->result->newpassword .
+                                                 '<br/>-- Gizur Admin'
+                         )
+                         );        
+                     
                     $this->_sendResponse(200, json_encode($response));            
                 }
 
@@ -1479,6 +1497,69 @@ class ApiController extends Controller {
                 
                 $this->_sendResponse(200, json_encode($response));                
                 
+                break;
+            /*
+             *******************************************************************
+             *******************************************************************
+             ** HelpDesk MODEL
+             ** Accepts id
+             *******************************************************************
+             *******************************************************************
+             */                
+            case 'Assets':
+                $sessionId = $this->session->sessionName;
+                
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');     
+                
+                
+                $response = $rest->get(Yii::app()->params->vtRestUrl, array(
+                    'sessionName' => $sessionId,
+                    'operation' => 'retrieve',
+                    'id' => $_GET['id']
+                ));                
+                
+                $response = json_decode($response, true);
+                
+                //get data json 
+                $retrivedObject = $response['result'];
+                if ($_PUT['assetstatus']=='In Service')
+                    $retrivedObject['assetstatus'] = 'In Service';
+                else
+                    $retrivedObject['assetstatus'] = 'Out-of-service';
+
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                $response = $rest->post(Yii::app()->params->vtRestUrl, array(
+                    'sessionName' => $sessionId,
+                    'operation' => 'update',
+                    'element' => json_encode($retrivedObject)
+                ));  
+
+                $response = json_decode($response, true);
+                
+                $custom_fields = $this->custom_fields['Assets'];
+
+                
+                unset($response['result']['update_log']);
+                unset($response['result']['hours']);
+                unset($response['result']['days']);
+                unset($response['result']['modifiedtime']);
+                unset($response['result']['from_portal']);
+                foreach($response['result'] as $fieldname => $value){
+                    $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
+                    if ($key_to_replace) {
+                        unset($response['result'][$fieldname]);
+                        $response['result'][$key_to_replace] = $value;
+                    }
+                }
+                
+                $this->_sendResponse(200, json_encode($response));                
                 break;
             
             default :
