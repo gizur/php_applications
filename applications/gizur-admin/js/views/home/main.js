@@ -86,10 +86,11 @@ define([
                   error: function() {
                       if (arguments[1].status == 404) {
                         response = $.parseJSON(arguments[1].responseText);
-			r = confirm(response.error.message + ". Would you like to create it?");
-			if (r == true) {
-			    that.createAccount();
-			}                      
+                            r = confirm(response.error.message + ". Would you like to create it?");
+                            if (r == true) {
+                                $('input[id!=email]').val('');
+                                that.createAccount();
+                            }                      
                       }
                   }
 	      });

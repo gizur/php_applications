@@ -215,18 +215,33 @@ class ApiController extends Controller {
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
 		        throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
 
-            if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))===false) {
-                // Retreive Key pair from Amazon Dynamodb
-                $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-                $table_name = 'GIZUR_ACCOUNTS';
+
+            // Retreive Key pair from Amazon Dynamodb
+            $dynamodb = new AmazonDynamoDB();
+            $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+            $table_name = 'GIZUR_ACCOUNTS';
+            
+            //Scan for API KEYS
+            $ddb_response = $dynamodb->scan(array(
+                'TableName'       => $table_name,
+                    'AttributesToGet' => array('id', 'apikey_1','secretkey_1'),
+                    'ScanFilter'      => array(
+                        'apikey_1' => array(
+                            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                            'AttributeValueList' => array(
+                                array( AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] )
+                            )
+                        )
+                    )
+            ));
                 
+            if ($publicKeyNotFound = ($ddb_reponse->body->count==0)) {
                 //Scan for API KEYS
                 $ddb_response = $dynamodb->scan(array(
                     'TableName'       => $table_name,
-                        'AttributesToGet' => array('id', 'apikey_1','secretkey_1'),
+                        'AttributesToGet' => array('id', 'apikey_2','secretkey_2'),
                         'ScanFilter'      => array(
-                            'apikey_1' => array(
+                            'apikey_2' => array(
                                 'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
                                 'AttributeValueList' => array(
                                     array( AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] )
@@ -234,34 +249,19 @@ class ApiController extends Controller {
                             )
                         )
                 ));
-                if ($publicKeyNotFound = ($ddb_response->body->Count==0)) {
-                    //Scan for API KEYS
-                    $ddb_response = $dynamodb->scan(array(
-                        'TableName'       => $table_name,
-                            'AttributesToGet' => array('id', 'apikey_2','secretkey_2'),
-                            'ScanFilter'      => array(
-                                'apikey_2' => array(
-                                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-                                    'AttributeValueList' => array(
-                                        array( AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] )
-                                    )
-                                )
-                            )
-                    ));
-                    if (!($publicKeyNotFound = ($ddb_response->body->Count==0)))  
-                        $GIZURCLOUD_SECRET_KEY = (string)$ddb_response->body->Items->secretkey_2->{AmazonDynamoDB::TYPE_STRING};
-                } else {
-                    $GIZURCLOUD_SECRET_KEY = (string)$ddb_response->body->Items->secretkey_1->{AmazonDynamoDB::TYPE_STRING};
-                }
-
-                //$GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
-                //$GIZURCLOUD_API_KEY = "GZCLDFC4B35B";    
-
-                if ($publicKeyNotFound) 
-                    throw new Exception('Could not identify public key');        
-
-                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
+                if (!($publicKeyNotFound = ($ddb_reponse->body->count==0)))  
+                    $GIZURCLOUD_SECRET_KEY = (string)$ddb_response->body->Items->apikey_2->{AmazonDynamoDB::TYPE_STRING};
+            } else {
+                $GIZURCLOUD_SECRET_KEY = (string)$ddb_response->body->Items->apikey_1->{AmazonDynamoDB::TYPE_STRING};
             }
+
+            //$GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
+            //$GIZURCLOUD_API_KEY = "GZCLDFC4B35B";    
+
+            if ($publicKeyNotFound) 
+                throw new Exception('Could not identify public key');        
+            else
+                $GIZURCLOUD_SECRET_KEY = (string)$ddb_response->body->Items->apikey_1->{AmazonDynamoDB::TYPE_STRING};
 
             // Build query arguments list
             $params = array(
@@ -269,7 +269,7 @@ class ApiController extends Controller {
                     'Model'         => $_GET['model'],
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => $_SERVER['HTTP_X_TIMESTAMP'],
-                    'KeyID'         => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'],
+                    'KeyID'         => $GIZURCLOUD_API_KEY,
                     'UniqueSalt'    => $_SERVER['HTTP_X_UNIQUE_SALT']
             );
             

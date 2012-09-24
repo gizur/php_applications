@@ -32,8 +32,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'cloud3@gizur.com' => 'rksh2jjf',
     );
 
-    protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
-    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
+    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
     
     public function testLogin()
     {
