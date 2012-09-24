@@ -123,8 +123,7 @@ function createUser($mdb2, $username, $password) {
 
 
     $query = <<<EOT
-        CREATE USER '$username'@'%' IDENTIFIED BY '$password';
-        CREATE DATABASE IF NOT EXISTS $username;
+        CREATE DATABASE IF NOT EXISTS `$username`;
 EOT;
 
     // Execute the query
