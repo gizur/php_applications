@@ -42,11 +42,11 @@ require_once('aws-php-sdk/sdk.class.php');
  *
  */
 
-$dbconfig2['db_server']     = '';
-$dbconfig2['db_port']       = '';
-$dbconfig2['db_username']   = '';
-$dbconfig2['db_password']   = '';
-$dbconfig2['db_name']       = '';
+$db_server     = '';
+$db_port       = '';
+$db_username   = '';
+$db_password   = '';
+$db_name       = '';
 
 // Instantiate the class
 $dynamodb = new AmazonDynamoDB();
@@ -68,11 +68,11 @@ if (isset($ddb_response->body->Item)) {
     $response->success = true;
     $response->result = $result;
 
-    $dbconfig2['db_server']     = '';
-    $dbconfig2['db_port']       = '';
-    $dbconfig2['db_username']   = '';
-    $dbconfig2['db_password']   = '';
-    $dbconfig2['db_name']       = '';
+    $db_server     = $result->{'server'};
+    $db_port       = $result->{'port'};;
+    $db_username   = $result->{'username'};;
+    $db_password   = $result->{'dbpassword'};;
+    $db_name       = $result->{'databasename'};;
 
 
 	//$this->_sendResponse(200, json_encode($response));
@@ -106,7 +106,7 @@ if (isset($ddb_response->body->Item)) {
  *
  * Example 'mysql://root:mysecret@localhost/mysql'
  */
-$dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $dbconfig['db_server'] . $dbconfig['db_port'] . "/" . $dbconfig['db_name'];
+$dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . db_server . db_port . "/" . $dbconfig['db_name'];
 
 
 /**
@@ -151,7 +151,7 @@ function execSQLStatement($mdb2, $stmt) {
  * @param mixed $password
  * @return int
  */
-function createUser($mdb2, $username, $password) {
+function createUser($mdb2) {
 
    /**
     * Create database
@@ -184,8 +184,9 @@ function createUser($mdb2, $username, $password) {
      * execSQLStatement($mdb2, $query);
      */
 
+
     $query = <<<EOT
-        GRANT USAGE ON *.* TO '$username'@'%' IDENTIFIED BY '$password' 
+        GRANT USAGE ON *.* TO '$db_username'@'%' IDENTIFIED BY '$db_password' 
         WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 EOT;
 
@@ -197,7 +198,7 @@ EOT;
      */
 
     $query = <<<EOT
-        CREATE DATABASE IF NOT EXISTS `$username`;
+        CREATE DATABASE IF NOT EXISTS `$db_name`;
 EOT;
 
     execSQLStatement($mdb2, $query);
@@ -208,7 +209,7 @@ EOT;
      */
 
     $query = <<<EOT
-        GRANT ALL PRIVILEGES ON `$username`.* TO '$username'@'%';
+        GRANT ALL PRIVILEGES ON `$db_username`.* TO '$db_name'@'%';
 EOT;
 
     execSQLStatement($mdb2, $query);
@@ -221,8 +222,8 @@ EOT;
 }
 
 // create user
-$result = createUser($mdb2, 'test2', 'test2');
-print "\nMySQL User and database created successfully!\n";
+$result = createUser($mdb2);
+print "\nMySQL User: $db_username ($db_password ) and $db_name created successfully on $db_server$db_port !\n";
 
 
 ?>
