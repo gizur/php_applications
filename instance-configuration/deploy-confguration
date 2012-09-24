@@ -33,8 +33,8 @@ cp $1/.htaccess ../.htaccess
 echo "cp $1/aws-php-sdk/config.inc.php ../config.inc.php"
 cp $1/aws-php-sdk/config.inc.php ../config.inc.php
 
-echo "cp $1/rest-api/main.php ../api/protected/config/main.php"
-cp cp $1/rest-api/main.php ../api/protected/config/main.php
+echo "cp $1/rest-api/main.php ../api/protected/config/"
+cp cp $1/rest-api/main.php ../api/protected/config/
 
 echo "cp $1/rest-api/config.inc.php ../api/protected/config/config.inc.php"
 cp $1/rest-api/config.inc.php ../api/protected/config/config.inc.php
