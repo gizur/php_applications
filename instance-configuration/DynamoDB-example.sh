@@ -135,7 +135,7 @@ EOT;
         exit();
     }
 
-    $query = <<<EOT    
+    $query1 = <<<EOT    
         CREATE DATABASE IF NOT EXISTS `$username`;
 EOT;
 
