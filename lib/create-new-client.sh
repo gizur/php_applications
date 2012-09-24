@@ -153,6 +153,8 @@ function execSQLStatement($mdb2, $stmt) {
  */
 function createUser($mdb2) {
 
+   global $db_username, $db_password, $db_name;
+
    /**
     * Create database
     *
