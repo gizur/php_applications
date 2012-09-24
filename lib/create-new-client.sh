@@ -77,7 +77,7 @@ if (isset($ddb_response->body->Item)) {
 	// printing, just for testing purposes
 	print json_encode($response) . "\n";
 
-    exit 0;
+    exit();
 }
 
 
