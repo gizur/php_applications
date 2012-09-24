@@ -106,7 +106,7 @@ if (isset($ddb_response->body->Item)) {
  *
  * Example 'mysql://root:mysecret@localhost/mysql'
  */
-$dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $db_server . $db_port . "/" . $dbconfig['db_name'];
+$dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $db_server . ":" . $db_port . "/" . $dbconfig['db_name'];
 
 
 /**
