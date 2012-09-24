@@ -1,14 +1,5 @@
 #!/usr/bin/php
 
-if [ -n "$2" ]
-then
-    echo "Creating MySQL user and databse for $1..."
-else
-    # Show usage and exit
-    echo Usage: ./create-new-client email=mail_adress
-    exit 0
-fi
-
 <?php
 /**
  * Yii Controller to handel REST queries
@@ -28,6 +19,11 @@ fi
  **/
 
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
+
+if( ! $_GET['email'] ) {
+    print "./create-new-client email=name@exampole.com";
+    exit();
+}
 
 include("../api/protected/config/config.inc.php");
 require_once 'MDB2.php';
