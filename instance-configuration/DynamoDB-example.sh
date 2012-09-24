@@ -123,9 +123,10 @@ function createUser($mdb2, $username, $password) {
 
     $query = <<<EOT
         CREATE USER '$username'@'%' IDENTIFIED BY '$password';
-        GRANT USAGE ON *.* TO '$username'@'%' IDENTIFIED BY '$password' 
-        WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 EOT;
+
+//        GRANT USAGE ON *.* TO '$username'@'%' IDENTIFIED BY '$password' 
+//        WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 
      
 //        CREATE DATABASE IF NOT EXISTS `$username`;
