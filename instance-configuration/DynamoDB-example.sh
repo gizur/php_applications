@@ -121,17 +121,20 @@ function createUser($mdb2, $username, $password) {
     *  GRANT ALL PRIVILEGES ON `test3`.* TO 'test3'@'%';
     */
 
-    $query = <<<EOT
-        CREATE USER '$username'@'%' IDENTIFIED BY '$password';
-EOT;
-
+//    $query = <<<EOT
+//        CREATE USER '$username'@'%' IDENTIFIED BY '$password';
 //        GRANT USAGE ON *.* TO '$username'@'%' IDENTIFIED BY '$password' 
 //        WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
-
-     
+//    
 //        CREATE DATABASE IF NOT EXISTS `$username`;
 //        GRANT ALL PRIVILEGES ON `$username`.* TO '$username'@'%';
 //EOT; 
+
+
+    $query = <<<EOT
+        CREATE USER '$username'@'%' IDENTIFIED BY '$password';     
+        CREATE DATABASE IF NOT EXISTS `$username`;
+EOT; 
 
     // Execute the query
     $result = $mdb2->exec($query);
@@ -150,7 +153,7 @@ EOT;
 }
 
 // create user
-$result = createUser($mdb2, 'test2', 'test1');
+$result = createUser($mdb2, 'test2', 'test2');
 print "User created successfully!\n";
 
 // create table
