@@ -156,9 +156,6 @@ function importTables($mdb2) {
 }
 
 
-
-}
-
 /*
  * Parse arguments
  */
