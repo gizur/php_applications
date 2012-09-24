@@ -1,5 +1,14 @@
 #!/usr/bin/php
 
+if [ -n "$2" ]
+then
+    echo "Creating MySQL user and databse for $1..."
+else
+    # Show usage and exit
+    echo Usage: ./create-new-client email=mail_adress
+    exit 0
+fi
+
 <?php
 /**
  * Yii Controller to handel REST queries
@@ -10,8 +19,15 @@
  * @subpackage    	Instance-configuration
  * @category    	Shell Script
  * @author        	Jonas Colmsjö
+ *
+ *
+ * parse_str(implode('&', array_slice($argv, 1)), $_GET);
+ * $ php -f somefile.php a=1 b[]=2 b[]=3
+ * This will set $_GET['a'] to '1' and $_GET['b'] to array('2', '3').
+ *
  **/
 
+parse_str(implode('&', array_slice($argv, 1)), $_GET);
 
 include("../api/protected/config/config.inc.php");
 require_once 'MDB2.php';
@@ -26,7 +42,7 @@ require_once('aws-php-sdk/sdk.class.php');
 
 
 // JUST TESTING
-$_GET['email'] = 'clab@gizur.com';
+//$_GET['email'] = 'clab@gizur.com';
 
 // Instantiate the class
 $dynamodb = new AmazonDynamoDB();
@@ -60,6 +76,8 @@ if (isset($ddb_response->body->Item)) {
 	//$this->_sendResponse(404, json_encode($response));      
 	// printing, just for testing purposes
 	print json_encode($response);
+
+    exit 0;
 }
 
 
@@ -137,19 +155,22 @@ function createUser($mdb2, $username, $password) {
     *  GRANT ALL PRIVILEGES ON `test3`.* TO 'test3'@'%';
     */
 
+
     /*
-     * CREATE USER
+     * CREATE USER AND GRANT USAGE
      */
 
-    $query = <<<EOT
-        CREATE USER '$username'@'%' IDENTIFIED BY '$password';
-EOT;
-
-    //execSQLStatement($mdb2, $query);
-
 
     /*
-     * GRANT USAGE
+     * NOTE:
+     *
+     * 'CREAT USER IF NOT EXISTS' is not supported by MySQL
+     * The GRANT statement below will create the user if it does not exist though!!
+     *
+     *    $query = <<<EOT
+     *   CREATE USER '$username'@'%' IDENTIFIED BY '$password';
+     * EOT;
+     * execSQLStatement($mdb2, $query);
      */
 
     $query = <<<EOT
