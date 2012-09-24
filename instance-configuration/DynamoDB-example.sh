@@ -129,7 +129,7 @@ function createUser($mdb2, $username, $password) {
     
         CREATE DATABASE IF NOT EXISTS `$username`;
         GRANT ALL PRIVILEGES ON `$username`.* TO '$username'@'%';
-EOT; 
+EOT;
 
     // Execute the query
     $result = $mdb2->exec($query);
