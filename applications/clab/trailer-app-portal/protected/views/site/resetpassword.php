@@ -26,7 +26,7 @@ $this->breadcrumbs=array(
 
 	
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Reset Password'); ?> &nbsp;&nbsp;<a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php" id="resetp"> << Back >>
+		<?php echo CHtml::submitButton('Reset Password', array('id'=>'submit','name'=>'submit')); ?> &nbsp;&nbsp;<a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php" id="resetp"> << Back >>
 </a>	</div>  
 
 <?php $this->endWidget(); ?>

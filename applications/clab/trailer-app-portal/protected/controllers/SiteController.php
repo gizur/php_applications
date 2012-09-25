@@ -170,6 +170,12 @@ class SiteController extends Controller
 	function actionresetpassword()
 	{
 		$model=new LoginForm;
+		if(isset($_POST['submit']))
+		{
+			 echo "<pre>";
+			//print_r($_POST); die;
+		$model->resetpassword($_POST['LoginForm']['username']);
+	    }
 		$this->render('resetpassword',array('model'=>$model));
 	}
 	
