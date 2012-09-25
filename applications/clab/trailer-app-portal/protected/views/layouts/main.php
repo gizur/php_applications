@@ -30,7 +30,8 @@ include_once 'protected/extensions/langauge/'.$lang.'.php';
 <div class="container" id="page">
 
 	<div id="header">
-<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+		
+<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?> <span style="float:right"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/gizur_green_logo.jpg" width="60px"></span></div>
 		<?php
 		 $user = Yii::app()->session['username'];
 		 
@@ -66,27 +67,20 @@ include_once 'protected/extensions/langauge/'.$lang.'.php';
 			'items'=>array(
 				array('label'=> getTranslatedString('Survey'), 'url'=>array('/troubleticket/surveylist')),
 				array('label'=> getTranslatedString('About'), 'url'=>array('/site/page', 'view'=>'about')),
+				array('label'=> getTranslatedString('Change Password '), 'url'=>array('/site/changepassword')),
 				array('label'=> getTranslatedString('Login'), 'url'=>array('/site/login'), 'visible'=>$loginstatus),
 				array('label'=> getTranslatedString('Logout') , 'url'=>array('/site/logout'), 'visible'=>!$loginstatus)
 			),
 		)); }?>
 	</div><!-- mainmenu -->
 	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
+		<?php $this->widget('zii.widgets.CBreadcrumbs', array('links'=>$this->breadcrumbs,)); ?><!-- breadcrumbs -->
+	    <?php endif?>
 
 	<?php echo $content; ?>
 
 	<div class="clear"></div>
-
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
-
+	<!-- footer -->
 </div><!-- page -->
 
 </body>
