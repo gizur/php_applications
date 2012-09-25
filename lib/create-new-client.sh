@@ -18,103 +18,35 @@
  *
  **/
 
-parse_str(implode('&', array_slice($argv, 1)), $_GET);
-
-if( ! isset($_GET['email']) ) {
-    print "USAGE:";
-    print "./create-new-client email=name@exampole.com\n";
-    exit();
-}
 
 include("../api/protected/config/config.inc.php");
 require_once 'MDB2.php';
-
 
 /*
  * Including Amazon classes
  */
 
-
 require_once('aws-php-sdk/sdk.class.php');
 
 
-// JUST TESTING
-//$_GET['email'] = 'clab@gizur.com';
-
-// Instantiate the class
-$dynamodb = new AmazonDynamoDB();
-$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-$table_name = 'GIZUR_ACCOUNTS';
-
-// Get an item
-$ddb_response = $dynamodb->get_item(array(
-    'TableName' => $table_name,
-    'Key' => $dynamodb->attributes(array('HashKeyElement'  => $_GET['email'], )),
-    'ConsistentRead' => 'true'
-));
-        
-if (isset($ddb_response->body->Item)) {
-    foreach($ddb_response->body->Item->children() as $key => $item) {
-        $result->{$key} = (string)$item->{AmazonDynamoDB::TYPE_STRING};
-    }
-
-    $response->success = true;
-    $response->result = $result;
-
-	//$this->_sendResponse(200, json_encode($response));
-	// printing, just for testing purposes
-	print json_encode($response) . "\n";
-
-} else {
-    $response->success = false;
-    $response->error->code = "NOT_FOUND";
-	$response->error->message = $_GET['email'] . " was " . " not found";
-
-	//$this->_sendResponse(404, json_encode($response));      
-	// printing, just for testing purposes
-	print json_encode($response) . "\n";
-
-    exit();
-}
-
-
-
-
-/**
- *  The Pear PHP dagtabase API MDB2 will is used
- *  http://pear.php.net/manual/en/package.database.mdb2.php
- */
-
-
-/**
- * Database connection string
- * @global string $dsn
+/*
+ * Global variables for MySQL credentials  
  *
- * Example 'mysql://root:mysecret@localhost/mysql'
  */
-$dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $dbconfig['db_server'] . $dbconfig['db_port'] . "/" . $dbconfig['db_name'];
+
+$db_server     = '';
+$db_port       = '';
+$db_username   = '';
+$db_password   = '';
+$db_name       = '';
 
 
 /**
- * Database connection options
- * @global string $options
+ * Execute SQL Statement 
+ *
+ * @param mixed $mdb2
+ * @param string $stmt
  */
-$options = array(
-    'persistent' => true,
-);
-
-/**
- * Database MDB2 connection object 
- * @global mixed $mdb2
- */
-$mdb2 =& MDB2::factory($dsn, $options);
-
-if (PEAR::isError($mdb2)) {
-    echo ($mdb2->getMessage().' - '.$mdb2->getUserinfo());
-    exit();
-}
-
-
 function execSQLStatement($mdb2, $stmt) {
 
     // Execute the query
@@ -137,7 +69,9 @@ function execSQLStatement($mdb2, $stmt) {
  * @param mixed $password
  * @return int
  */
-function createUser($mdb2, $username, $password) {
+function createUser($mdb2) {
+
+   global $db_username, $db_password, $db_name;
 
    /**
     * Create database
@@ -170,8 +104,9 @@ function createUser($mdb2, $username, $password) {
      * execSQLStatement($mdb2, $query);
      */
 
+
     $query = <<<EOT
-        GRANT USAGE ON *.* TO '$username'@'%' IDENTIFIED BY '$password' 
+        GRANT USAGE ON *.* TO '$db_username'@'%' IDENTIFIED BY '$db_password' 
         WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 EOT;
 
@@ -183,7 +118,7 @@ EOT;
      */
 
     $query = <<<EOT
-        CREATE DATABASE IF NOT EXISTS `$username`;
+        CREATE DATABASE IF NOT EXISTS `$db_name`;
 EOT;
 
     execSQLStatement($mdb2, $query);
@@ -194,21 +129,155 @@ EOT;
      */
 
     $query = <<<EOT
-        GRANT ALL PRIVILEGES ON `$username`.* TO '$username'@'%';
+        GRANT ALL PRIVILEGES ON `$db_username`.* TO '$db_name'@'%';
 EOT;
 
     execSQLStatement($mdb2, $query);
 
+    return 0;
+}
 
-    // Disconnect from the database
-    $mdb2->disconnect();
+/**
+ * Import tables into database
+ *
+ * @param mixed $mdb2
+ * @return int
+ */
+function importTables($mdb2) {
+
+    global $create_tables_query;
+
+    execSQLStatement($mdb2, $create_tables_query);
 
     return 0;
 }
 
-// create user
-$result = createUser($mdb2, 'test2', 'test2');
-print "\nMySQL User and database created successfully!\n";
+
+/*
+ * Parse arguments
+ */
+parse_str(implode('&', array_slice($argv, 1)), $_GET);
+
+if( ! isset($_GET['email']) ) {
+    print "USAGE:";
+    print "./create-new-client email=name@exampole.com\n";
+    exit();
+}
+
+
+/*
+ * Fetch credentials for the user to create from the AmazonDynamoDB
+ */
+
+// Instantiate the class
+$dynamodb = new AmazonDynamoDB();
+$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+$table_name = 'GIZUR_ACCOUNTS';
+
+// Get an item
+$ddb_response = $dynamodb->get_item(array(
+    'TableName' => $table_name,
+    'Key' => $dynamodb->attributes(array('HashKeyElement'  => $_GET['email'], )),
+    'ConsistentRead' => 'true'
+));
+        
+if (isset($ddb_response->body->Item)) {
+    foreach($ddb_response->body->Item->children() as $key => $item) {
+        $result->{$key} = (string)$item->{AmazonDynamoDB::TYPE_STRING};
+    }
+
+    $response->success = true;
+    $response->result = $result;
+
+    $db_server     = $result->{'server'};
+    $db_port       = $result->{'port'};;
+    $db_username   = $result->{'username'};;
+    $db_password   = $result->{'dbpassword'};;
+    $db_name       = $result->{'databasename'};;
+
+
+    // TODO: make REST service out of this script
+	//$this->_sendResponse(200, json_encode($response));
+
+} else {
+    $response->success = false;
+    $response->error->code = "NOT_FOUND";
+	$response->error->message = $_GET['email'] . " was " . " not found";
+
+    // TODO: make REST service out of this script
+	//$this->_sendResponse(404, json_encode($response));      
+	print json_encode($response) . "\n";
+
+    exit();
+}
+
+
+/* ---------------------------------------------------------------
+ * 
+ * Create user and database
+ *
+ */
+
+
+
+/**
+ *  The Pear PHP dagtabase API MDB2 will is used
+ *  http://pear.php.net/manual/en/package.database.mdb2.php
+ */
+
+
+/**
+ * Database connection string
+ * @global string $dsn
+ *
+ * Example 'mysql://root:mysecret@localhost/mysql'
+ */
+$dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $db_server . ":" . $db_port . "/" . $dbconfig['db_name'];
+
+
+/**
+ * Database connection options
+ * @global string $options
+ */
+$options = array(
+    'persistent' => true,
+);
+
+/**
+ * Database MDB2 connection object 
+ * @global mixed $mdb2
+ */
+$mdb2 =& MDB2::factory($dsn, $options);
+
+if (PEAR::isError($mdb2)) {
+    echo ($mdb2->getMessage().' - '.$mdb2->getUserinfo());
+    exit();
+}
+
+
+$result = createUser($mdb2);
+print "\nMySQL User: $db_username ($db_password ) and database:$db_name created successfully on $db_server:$db_port !\n";
+
+// Disconnect from the database
+$mdb2->disconnect();
+
+
+/* ---------------------------------------------------------------
+ * 
+ * Import tabels into the new database
+ *
+ */
+
+
+/*
+ * mysql -uclabgizurcom -pxxxxxxxxxxx -hgc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com clabgizurcom < vtiger-5.4.0-database.sql
+ */
+
+$exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < vtiger-5.4.0-database.sql";
+
+$output = shell_exec($exec_stmt);
+print "\nImported tables into User: $db_username in database:$db_name!\n";
+print $output . "\n";
 
 
 ?>

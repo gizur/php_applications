@@ -44,13 +44,13 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
       db_name
 */
 
-$dbconfig['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
-$dbconfig['db_port'] = ':3306';
-$dbconfig['db_username'] = 'vtiger-test1';
-$dbconfig['db_password'] = 'q9Hu9UzBrbj2YPNX';
-$dbconfig['db_name'] = 'vtiger-test1';
-$dbconfig['db_type'] = 'mysql';
-$dbconfig['db_status'] = 'true';
+$dbconfig['db_server']   = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+$dbconfig['db_port']     = ':3306';
+$dbconfig['db_username'] = 'clabgizurcom';
+$dbconfig['db_password'] = 'il2xiTtjKG30';
+$dbconfig['db_name']     = 'clabgizurcom';
+$dbconfig['db_type']     = 'mysql';
+$dbconfig['db_status']   = 'true';
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
