@@ -1328,9 +1328,10 @@ class ApiController extends Controller {
                     $response = $email->list_verified_email_addresses();
 
                     if ($response->isOK()) {
-                        $verifiedEmailAddresses = $response->ListVerifiedEmailAddressesResult->VerifiedEmailAddresses->member; 
-                        if (!in_array(Yii::app()->params->awsSESFromEmailAddress, $verifiedEmailAddresses)) {
-                            $response->verify_email_address(Yii::app()->params->awsSESFromEmailAddress);
+                        $verifiedEmailAddresses = (Array)$response->ListVerifiedEmailAddressesResult->VerifiedEmailAddresses;
+                        $verifiedEmailAddresses = $verifiedEmailAddresses['member']; 
+                        if (in_array(Yii::app()->params->awsSESFromEmailAddress, $verifiedEmailAddresses) == false) {
+                            $email->verify_email_address(Yii::app()->params->awsSESFromEmailAddress);
                             throw new Exception('From Email Address not verified. Contact Gizur Admin.');
                         }
                     }
