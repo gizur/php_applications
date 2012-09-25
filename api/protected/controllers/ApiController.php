@@ -997,10 +997,13 @@ class ApiController extends Controller {
                 $file_resource = fopen('protected/data/'. $unique_id .
                         $response->result->filename,'x');
                 $s3response = $s3->get_object($bucket, 
-                        $unique_id . $response->result->filename, 
+                        $response->result->filename, 
                         array(
                     'fileDownload' => $file_resource
                 ));
+              
+                if (!$s3response->isOK())
+                   throw new Exception("File not found.");
                
                 $response->result->filecontent = 
                         base64_encode(
@@ -1328,9 +1331,10 @@ class ApiController extends Controller {
                     $response = $email->list_verified_email_addresses();
 
                     if ($response->isOK()) {
-                        $verifiedEmailAddresses = $response->ListVerifiedEmailAddressesResult->VerifiedEmailAddresses->member; 
-                        if (!in_array(Yii::app()->params->awsSESFromEmailAddress, $verifiedEmailAddresses)) {
-                            $response->verify_email_address(Yii::app()->params->awsSESFromEmailAddress);
+                        $verifiedEmailAddresses = (Array)$response->body->ListVerifiedEmailAddressesResult->VerifiedEmailAddresses;
+                        $verifiedEmailAddresses = $verifiedEmailAddresses['member']; 
+                        if (in_array(Yii::app()->params->awsSESFromEmailAddress, $verifiedEmailAddresses) == false) {
+                            $email->verify_email_address(Yii::app()->params->awsSESFromEmailAddress);
                             throw new Exception('From Email Address not verified. Contact Gizur Admin.');
                         }
                     }
