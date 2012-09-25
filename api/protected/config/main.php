@@ -113,7 +113,7 @@ return array(
                 'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
                 'awsS3Bucket' => 'gizurcloud',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
-                'awsSESFromEmailAddress' => 'admin@gizur.com'
+                'awsSESFromEmailAddress' => 'admin@gizur.com',
                 'acceptableTimestampError' => 60
 	),
 );
