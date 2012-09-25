@@ -111,6 +111,6 @@
                                 );
 			}
 		}
-		return null;
+		throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"Unable to reset password");
     }
 ?>
