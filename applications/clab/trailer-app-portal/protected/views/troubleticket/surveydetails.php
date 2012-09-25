@@ -76,8 +76,8 @@ $this->breadcrumbs=array(
   <tr>
     <td width="50%" valign="top"><table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
   <tr>
-    <td width="50%" bgcolor="7eb6d5"><strong><?php echo getTranslatedString('Type of damage');?></strong></td>
-    <td width="50%" bgcolor="7eb6d5">  <strong><?php echo getTranslatedString('Doors');?></strong></td>
+    <td width="50%" bgcolor="7eb6d5"><?php echo getTranslatedString('Type of damage');?></td>
+    <td width="50%" bgcolor="7eb6d5">  <?php echo $result['result']['damagetype']; ?></td>
   </tr>
    <tr>
     <td bgcolor="e3f0f7"><?php echo getTranslatedString('Position on trailer');?></td>

@@ -78,11 +78,10 @@ class LoginForm extends CFormModel
 			return false;
 	}
 	
-	public function resetpassword()
+	public function resetpassword($username)
 	{
 		 $model = 'Authenticate';
         //echo " Getting Picklist" . PHP_EOL;        
-
         $params = array(
                     'Verb'          => 'PUT',
                     'Model'	        => $model,
@@ -107,16 +106,20 @@ class LoginForm extends CFormModel
            $response['result']=array();           
             $rest = new RESTClient();
             $rest->format('json'); 
-            $rest->set_header('X_USERNAME', Yii::app()->session['username']);
-            $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
+            $rest->set_header('X_USERNAME', $username);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-            $response = $rest->get(Yii::app()->params->URL.$model."/reset");
+            $response = $rest->put(Yii::app()->params->URL.$model."/reset");
             $response = json_decode($response,true);
             //check if response is valid
-            
+        if($response->success==true){
+		echo Yii::app()->user->setFlash('success', "Your Password Successfully Changed "); 
+       } else
+       {
+	   echo Yii::app()->user->setFlash('error', $response->error->message); 
+	   }
             //unset($rest);
         //} 
 		
