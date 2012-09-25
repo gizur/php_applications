@@ -90,27 +90,27 @@
 		$result = $adb->pquery($sql,array($newpassword, $username, $oldpassword));
 
         if($result != null && isset($result)){
-			if($adb->getAffectedRowsCount($result)>0){
+			if($adb->getAffectedRowCount($result)>0){
 				return array('message' => 'Password Changed');
 			}
 		}
-		return null;
+	    throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"Unable to change password");
     }
 
     function vtws_resetpassword($username) {
-		global $adb;
+	    global $adb;
         $newpassword = uniqid();
         $sql = "update vtiger_portalinfo set user_password = ? where user_name=?";
 		$result = $adb->pquery($sql,array($newpassword, $username));
 
         if($result != null && isset($result)){
-			if($adb->getAffectedRowsCount($result)>0){
+			if($adb->getAffectedRowCount($result)>0){
 				return array(
                                        'message' => 'Password has been reset',
                                        'newpassword' => $newpassword
                                 );
 			}
-		}
-		throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"Unable to reset password");
+        }
+	    throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"Unable to reset password");
     }
 ?>
