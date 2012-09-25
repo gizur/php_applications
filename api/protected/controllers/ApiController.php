@@ -219,11 +219,10 @@ class ApiController extends Controller {
                 // Retreive Key pair from Amazon Dynamodb
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-                $table_name = 'GIZUR_ACCOUNTS';
                 
                 //Scan for API KEYS
                 $ddb_response = $dynamodb->scan(array(
-                    'TableName'       => $table_name,
+                    'TableName'       => Yii::app()->params->awsDynamoDBTableName,
                         'AttributesToGet' => array('id', 'apikey_1','secretkey_1'),
                         'ScanFilter'      => array(
                             'apikey_1' => array(
@@ -237,7 +236,7 @@ class ApiController extends Controller {
                 if ($publicKeyNotFound = ($ddb_response->body->Count==0)) {
                     //Scan for API KEYS
                     $ddb_response = $dynamodb->scan(array(
-                        'TableName'       => $table_name,
+                        'TableName'       => Yii::app()->params->awsDynamoDBTableName,
                             'AttributesToGet' => array('id', 'apikey_2','secretkey_2'),
                             'ScanFilter'      => array(
                                 'apikey_2' => array(
@@ -743,11 +742,10 @@ class ApiController extends Controller {
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-                $table_name = 'GIZUR_ACCOUNTS';
 
                 // Get an item
                 $ddb_response = $dynamodb->get_item(array(
-                    'TableName' => $table_name,
+                    'TableName' => Yii::app()->params->awsDynamoDBTableName,
                     'Key' => $dynamodb->attributes(array(
                     'HashKeyElement'  => $_GET['email'],
                     )),
@@ -1062,15 +1060,14 @@ class ApiController extends Controller {
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-                $table_name = 'GIZUR_ACCOUNTS';
                 $ddb_response = $dynamodb->put_item(array(
-                    'TableName' => $table_name,
+                    'TableName' => Yii::app()->params->awsDynamoDBTableName,
                     'Item' => $dynamodb->attributes($post)
                 ));
                 
                 // Get an item
                 $ddb_response = $dynamodb->get_item(array(
-                    'TableName' => $table_name,
+                    'TableName' => Yii::app()->params->awsDynamoDBTableName,
                     'Key' => $dynamodb->attributes(array(
                     'HashKeyElement'  => $post['id'],
                     )),
@@ -1325,6 +1322,19 @@ class ApiController extends Controller {
              */                
             case 'Authenticate':
                 if ($_GET['action'] == 'reset') {
+
+                    $email = new AmazonSES();
+             
+                    $response = $email->list_verified_email_addresses();
+
+                    if ($response->isOK()) {
+                        $verifiedEmailAddresses = $response->ListVerifiedEmailAddressesResult->VerifiedEmailAddresses->member; 
+                        if (!in_array(Yii::app()->params->awsSESFromEmailAddress, $verifiedEmailAddresses)) {
+                            $response->verify_email_address(Yii::app()->params->awsSESFromEmailAddress);
+                            throw new Exception('From Email Address not verified. Contact Gizur Admin.');
+                        }
+                    }
+
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
@@ -1333,7 +1343,23 @@ class ApiController extends Controller {
                         'sessionName' => $sessionId,
                         'operation' => 'resetpassword',
                         'username' => $_SERVER['HTTP_X_USERNAME'],
-                    ));  
+                    )); 
+                    
+                    if ($response->success==false)
+                        throw new Exception($response->error->message); 
+
+                    $response = $email->send_email(
+                         Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
+                         array('ToAddresses' => array( // Destination (aka To)
+                                 $_SERVER['HTTP_X_USERNAME']
+                         )),
+                         array( // Message (short form)
+                             'Subject.Data' => 'Your Gizur Account password has been reset',
+                             'Body.Text.Data' => 'Dear Gizur Account Holder, <br/><br/>Your password has been reset to ' . $response->result->newpassword .
+                                                 '<br/>-- Gizur Admin'
+                         )
+                         );        
+                     
                     $this->_sendResponse(200, json_encode($response));            
                 }
 
@@ -1368,11 +1394,10 @@ class ApiController extends Controller {
 			// Instantiate the class
 			$dynamodb = new AmazonDynamoDB();
 			$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-			$table_name = 'GIZUR_ACCOUNTS';
 
 			// Get an item
 			$ddb_response = $dynamodb->get_item(array(
-			    'TableName' => $table_name,
+			    'TableName' => Yii::app()->params->awsDynamoDBTableName,
 			    'Key' => $dynamodb->attributes(array(
 				'HashKeyElement'  => $_GET['email'],
 			    )),
@@ -1393,7 +1418,7 @@ class ApiController extends Controller {
 		                                                  . uniqid()));
 
 		        $ddb_response = $dynamodb->put_item(array(
-		            'TableName' => $table_name,
+		            'TableName' => Yii::app()->params->awsDynamoDBTableName,
 		            'Item' => $dynamodb->attributes($result)
 		        ));
 
@@ -1409,9 +1434,8 @@ class ApiController extends Controller {
 			// Instantiate the class
 			$dynamodb = new AmazonDynamoDB();
 			$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
-			$table_name = 'GIZUR_ACCOUNTS';
 		        $ddb_response = $dynamodb->put_item(array(
-		            'TableName' => $table_name,
+		            'TableName' => Yii::app()->params->awsDynamoDBTableName,
 		            'Item' => $dynamodb->attributes($post)
 		        ));
 		        $response = new stdClass();
@@ -1479,6 +1503,69 @@ class ApiController extends Controller {
                 
                 $this->_sendResponse(200, json_encode($response));                
                 
+                break;
+            /*
+             *******************************************************************
+             *******************************************************************
+             ** HelpDesk MODEL
+             ** Accepts id
+             *******************************************************************
+             *******************************************************************
+             */                
+            case 'Assets':
+                $sessionId = $this->session->sessionName;
+                
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');     
+                
+                
+                $response = $rest->get(Yii::app()->params->vtRestUrl, array(
+                    'sessionName' => $sessionId,
+                    'operation' => 'retrieve',
+                    'id' => $_GET['id']
+                ));                
+                
+                $response = json_decode($response, true);
+                
+                //get data json 
+                $retrivedObject = $response['result'];
+                if ($_PUT['assetstatus']=='In Service')
+                    $retrivedObject['assetstatus'] = 'In Service';
+                else
+                    $retrivedObject['assetstatus'] = 'Out-of-service';
+
+                //Receive response from vtiger REST service
+                //Return response to client  
+                $rest = new RESTClient();
+                $rest->format('json');                    
+                $response = $rest->post(Yii::app()->params->vtRestUrl, array(
+                    'sessionName' => $sessionId,
+                    'operation' => 'update',
+                    'element' => json_encode($retrivedObject)
+                ));  
+
+                $response = json_decode($response, true);
+                
+                $custom_fields = $this->custom_fields['Assets'];
+
+                
+                unset($response['result']['update_log']);
+                unset($response['result']['hours']);
+                unset($response['result']['days']);
+                unset($response['result']['modifiedtime']);
+                unset($response['result']['from_portal']);
+                foreach($response['result'] as $fieldname => $value){
+                    $key_to_replace = array_search($fieldname, 
+                                                              $custom_fields);
+                    if ($key_to_replace) {
+                        unset($response['result'][$fieldname]);
+                        $response['result'][$key_to_replace] = $value;
+                    }
+                }
+                
+                $this->_sendResponse(200, json_encode($response));                
                 break;
             
             default :
