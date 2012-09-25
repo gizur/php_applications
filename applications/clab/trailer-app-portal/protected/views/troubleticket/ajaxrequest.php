@@ -10,12 +10,12 @@
 	*/
 
 -->
-<?php 
+<?php
 include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
 ?>
 <?php
 $columnsArray = array(getTranslatedString('ID'),getTranslatedString('Date'),getTranslatedString('Time'),getTranslatedString('Account'),getTranslatedString('Contact'),getTranslatedString('Place'), getTranslatedString('Damage Reported'),
-getTranslatedString('Type of damage'),getTranslatedString('Position on trailer'));
+getTranslatedString('Type of damage'),getTranslatedString('Position on trailer'),getTranslatedString('Driver caused damage'));
 $rowsArray = array();
 $i=1;
 //$result['result']=array(1,2,3,4,5);
@@ -27,7 +27,7 @@ foreach($result['result'] as $data)
 	$viewdteails='<span id='.$data['id'].'></span><a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'" onclick=waitprocess("'.$data['id'].'")>'.Yii::app()->session['account'].'</a>';
 	$ticketNo = '<span id='.$data['id'].'-1></span><a href="index.php?r=troubleticket/surveydetails/'.$data['id'].'" onclick=waitprocess("'.$data['id'].'-1")>'.$data['date'].'</a>';
 	$rowsArray[] = array($data['ticket_no'],$date,$time,$viewdteails,Yii::app()->session['contactname'],
-	$data['damagereportlocation'],$data['reportdamage'],$data['damagetype'],$data['damageposition']);
+	$data['damagereportlocation'],$data['reportdamage'],$data['damagetype'],$data['damageposition'],$data['drivercauseddamage']);
 	$i++;
 }
 $this->widget('ext.htmltableui.htmlTableUi',array(
