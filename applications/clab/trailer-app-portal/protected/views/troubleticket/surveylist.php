@@ -43,22 +43,35 @@ $this->breadcrumbs=array(
 		 $TID.="<option value=".$key.">".$val."</option>";
 	 }	
      ?>
-
+<div id="wrap">
 <div style="float:right; width:208px" class="button">
 <a href="index.php?r=troubleticket/survey/"><?php echo getTranslatedString('Create new Trouble ticket');?></a></div>
 
 <div class="toppanel">
 <table width="100%" border="0" cellspacing="0" cellpadding="1">
+	<tr><td colspan='3' align="center"><span id='assetsmsg'></span></td></tr>
   <tr>
     <td ><select name='year' id="year" onchange="getAjaxBaseRecord(this.value)"><?php echo $options; ?></select></td>
     <td ><select name='month' id="month" onchange="getAjaxBaseRecord(this.value)"><?php echo $Months; ?></select></select></td>
     <td valign="top"><table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
   <tr>
+	  <?php 
+	 if($currentasset['result']['assetstatus']=='Out-of-service')
+	 {
+	  $damagechecked="checked=checked";
+	  $inopt="";
+	  } else
+	  {
+	  $inopt="checked=checked";
+	  $damagechecked="";
+	   }
+	  ?>
     <td><strong>Trailer</strong></td>
-    <td><select name='TID' id="trailer" onchange="getYearBaseRecord(this)"><?php echo $TID; ?></select></td>
-    <td><input type="radio" name="optration" checked="checked" value="inoperation" id="inperation" onclick="getAjaxBaseRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>	
-	<input type="radio" name="optration" value="damaged" id="damaged" onclick="getAjaxBaseRecord(this.value)" value="damaged" style="margin-right:10px; margin-left:30px"><?php echo getTranslatedString('Damaged'); ?>	</td>
+    <td><select name='TID' id="trailer" onchange="getAjaxBaseRecord(this.value)"><?php echo $TID; ?></select></td>
+    <td><input type="radio" name="optration" <?php echo $inopt; ?> value="inoperation" id="inperation" onclick="getAjaxBaseAssetRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>	
+	<input type="radio" name="optration" <?php echo $damagechecked; ?> value="damaged" id="damaged" onclick="getAjaxBaseAssetRecord(this.value)" value="damaged" style="margin-right:10px; margin-left:30px"><?php echo getTranslatedString('Damaged'); ?>	</td>
   </tr>
+  
 </table>
 </td>
   </tr>
@@ -102,8 +115,13 @@ $this->widget('ext.htmltableui.htmlTableUi',array(
 ));
 ?>
 </div>
+</div>
 <script>
-function getAjaxBaseRecord(value)
+	jQuery(document).ready(function(){
+  //  jQuery("#assetsmsg").show().delay(5000).fadeOut();
+
+});
+function getAjaxBaseAssetRecord(value)
 {
 
 if(value=='damaged')
@@ -114,24 +132,38 @@ else
 {
  var tickettype='inoperation';
  }
+var trailer=$('#trailer').val();
+$("#assetsmsg").addClass("waitprocess");
+$('#assetsmsg').html('loading....  Please wait');
+$.post('index.php?r=troubleticket/changeassets',{tickettype: tickettype,trailer:trailer},
+ function(data) 
+{
+$("#assetsmsg").removeClass("waitprocess");
+$('#assetsmsg').html(data);
+});
+
+}
+function getAjaxBaseRecord(value)
+{
 var year=$('#year').val();
 var month=$('#month').val();
 var trailer=$('#trailer').val();
 $("#process").addClass("waitprocess");	
 $('#process').html('loading....  Please wait');
-$.post('index.php?r=troubleticket/surveysearch',{tickettype: tickettype, year: year, month: month ,trailer:trailer},
+$.post('index.php?r=troubleticket/surveysearch',{year: year, month: month ,trailer:trailer},
  function(data) 
 {
 $("#process").removeClass("waitprocess");
-$('#process').html(data);
+$('#wrap').html(data);
 });
 	
-	
 }
+
+
 function waitprocess(id)
 {
 $("#"+id).addClass("waitprocessdetails");	
 $('#'+id).html('Please wait...');
 }
-
+$('#trailer').val('<?php echo $TR;?>');
 </script>
