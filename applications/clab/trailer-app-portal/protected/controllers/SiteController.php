@@ -35,14 +35,19 @@ class SiteController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
-
+        
+        if(!empty(Yii::app()->session['username']))
+        {
+		 $this->redirect(Yii::app()->homeUrl.'?r=troubleticket/surveylist');
+		 exit;
+		 }   
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
-			$model->attributes=$_POST['LoginForm'];
+		   $model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-			$returnUrl=Yii::app()->homeUrl.'?r=site/page&view=about';
+			$returnUrl=Yii::app()->homeUrl.'?r=troubleticket/surveylist';
 			$this->redirect($returnUrl);
 		}
 		// display the login form
@@ -170,7 +175,22 @@ class SiteController extends Controller
 	function actionresetpassword()
 	{
 		$model=new LoginForm;
+		if(isset($_POST['submit']))
+		{
+		$model->resetpassword($_POST['LoginForm']['username']);
+	    }
 		$this->render('resetpassword',array('model'=>$model));
 	}
+	
+	function actionchangepassword()
+	{
+		$model=new LoginForm;
+		if(isset($_POST['submit']))
+		{
+		$model->changepassword($_POST['LoginForm']['oldpassword'],$_POST['LoginForm']['newpassword'],$_POST['LoginForm']['newpassword1']);
+	    }
+		$this->render('changepassword',array('model'=>$model));
+	}
+	
 	
 }

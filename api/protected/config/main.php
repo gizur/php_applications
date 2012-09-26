@@ -64,7 +64,7 @@ return array(
                         array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
                         array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
-                        array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
 			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
                         array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
@@ -112,6 +112,8 @@ return array(
 		'adminEmail'  => 'webmaster@example.com',
                 'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
                 'awsS3Bucket' => 'gizurcloud',
+                'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
+                'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'acceptableTimestampError' => 60
 	),
 );
