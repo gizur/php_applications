@@ -89,6 +89,7 @@ class CURL
 
 		else
 		{
+
 			// If a URL is provided, create new session
 			$this->create($url);
 
@@ -169,7 +170,7 @@ class CURL
 		$this->option(CURLOPT_POSTFIELDS, $params);
 
 		// Override method, I think this overrides $_POST with PUT data but... we'll see eh?
-		$this->option(CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
+//		$this->option(CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
 	}
 
 	public function delete($params, $options = array())
