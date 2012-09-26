@@ -176,8 +176,7 @@ class TroubleticketController extends Controller
 		 $tickettype=$_POST['tickettype'];  
          $currentasset=$_POST['trailer'];
 		 $records=$model->ChangeAssetStatus($tickettype,$currentasset);
-		 echo "<pre>";
-	  print_r($records); die;
+
 		 if($records['success'])
 		 {
 		   echo "Successfully Changed.";
