@@ -31,12 +31,15 @@ class TroubleticketController extends Controller
 	public function actionsurveylist()
 	{
 	     $module="HelpDesk";
-	     $tickettype="inoperation";
+	     $tickettype="all";
 		 $model=new Troubleticket;
 		 $this->LoginCheck();
-		 $records=$model->findAll($module,$tickettype);
 		 $Asset_List=$model->findAssets('Assets');
-		 $this->render('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List));
+		 reset($Asset_List);
+         $firstkey=key($Asset_List);
+         $records=$model->findAll($module,$tickettype,$year='0000',$month='00',$firstkey);
+		 $assetstatus=$model->findById('Assets',$firstkey);
+		 $this->render('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List,'currentasset'=>$assetstatus));
 		
 	}
 	
@@ -73,14 +76,16 @@ class TroubleticketController extends Controller
 	public function actionsurveysearch()
 	{
 		 $module="HelpDesk";
-		 $tickettype=$_POST['tickettype'];  
-         $year=$_POST['year'];
+		 $year=$_POST['year'];
 	     $month=$_POST['month'];
 	     $trailer=$_POST['trailer'];
 	     $model=new Troubleticket;
 	     $this->LoginCheck();
-		 $records=$model->findAll($module,$tickettype,$year,$month,$trailer);
-		 $this->renderPartial('ajaxrequest', array('result'=>$records));
+		 $records=$model->findAll($module,'all',$year,$month,$trailer);
+		 $Asset_List=$model->findAssets('Assets');
+		 $assetstatus=$model->findById('Assets',$trailer);
+		 $this->renderPartial('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List,'currentasset'=>$assetstatus,'TR'=>$trailer,'SYear'=>$year,'SMonth'=>$month));
+
 		 
 	} 
 	/**
@@ -130,8 +135,7 @@ class TroubleticketController extends Controller
 		 echo base64_decode($imagedata['result'][filecontent]); die;
 	}
 	
-	
-	
+
 	/**
 	 * This is the action to handle external exceptions.
 	 */
@@ -159,6 +163,29 @@ class TroubleticketController extends Controller
 		 $this->redirect($returnUrl);
 		 }
 		
+	 }
+	 
+	 /**
+	 * This Action are Update Asset Status on click on inprocess operation  
+	 */
+	 
+	 function actionchangeassets()
+	 {
+		 $model=new Troubleticket;
+		 $this->LoginCheck();
+		 $tickettype=$_POST['tickettype'];  
+         $currentasset=$_POST['trailer'];
+		 $records=$model->ChangeAssetStatus($tickettype,$currentasset);
+
+		 if($records['success'])
+		 {
+		   echo "Successfully Changed.";
+		  }
+		  else{
+		   echo "UnSuccessfully Changed.";
+		   }
+	    //$this->render('surveylist', array('msg'=>$records));
+		 
 	 }
 	
 	

@@ -270,7 +270,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
 
         // Sorg arguments
         ksort($params);
-
+        
         // Generate string for sign
         $string_to_sign = "";
         foreach ($params as $k => $v)
@@ -293,7 +293,7 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
             $assetlistarr=array();
 			foreach($response['result'] as $val)
 				{
-					$assetlistarr[$val['assetname']]=$val['assetname'];
+					$assetlistarr[$val['id']]=$val['assetname'];
 				 }
                        
             return $assetlistarr;
@@ -422,5 +422,50 @@ function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
 	 
  }
  
+ /*
+  *Change Asset Status  
+  * 
+  */
+ 
+ function ChangeAssetStatus($oprations,$cassets)
+ {
+	$params = array(
+                    'Verb'          => 'PUT',
+                    'Model'	        => 'Assets',
+                    'Version'       => Yii::app()->params->API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
+        );
+
+        // Sorg arguments
+        ksort($params);
+        if($oprations=='inoperation'){
+        $data=array('assetstatus'=>'In Service');
+	   } else
+	   {
+	    $data=array('assetstatus'=>'Out-of-service');
+	    }
+	   // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+      
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        //foreach($this->credentials as $username => $password){            
+            $rest = new RESTClient();
+            $rest->format('json'); 
+            $rest->set_header('X_USERNAME', Yii::app()->session['username']);
+            $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
+            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+            $rest->set_header('X_SIGNATURE', $signature);                   
+      $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+	  $response = $rest->put(Yii::app()->params->URL."Assets/".$cassets, $data);
+      return $result= json_decode($response,true);  
+   }
 	
 }

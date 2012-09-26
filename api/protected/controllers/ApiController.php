@@ -1014,9 +1014,9 @@ class ApiController extends Controller {
                 $filename_sanitizer = explode("_",
                                                  $response->result->filename);               
                 unset($filename_sanitizer[0]);               
+                unset($filename_sanitizer[1]);
                 $response->result->filename = implode('_', 
                                                         $filename_sanitizer); 
-                Yii::trace($response->result->filename,'DOCUMENT_ATTACHEMENT');
                 $this->_sendResponse(200, json_encode($response)); 
                 break;
             
@@ -1181,16 +1181,14 @@ class ApiController extends Controller {
                     'filestatus' => 1,
                     'fileversion' => '',
                     );
-                Yii::trace("starting file block", "debug"); 
                 if (!empty($_FILES) && $globalresponse->success){
                     foreach ($_FILES as $key => $file){
-                        //$target_path = YiiBase::getPathOfAlias('application')
-                        // . "/data/" . basename($file['name']);
-                        //move_uploaded_file($file['tmp_name'], $target_path);
+                        $uniqueid = uniqid();
+                         
                         //Create document
                         $rest = new RESTClient();
                         $rest->format('json'); 
-                        $dataJson['filename'] = $crmid . "_" . $file['name'];
+                        $dataJson['filename'] = $crmid . "_" . $uniqueid . "_" . $file['name'];
                         $dataJson['filesize'] = $file['size'];
                         $dataJson['filetype'] = $file['type'];
                         $document = $rest->post(Yii::app()->params->vtRestUrl, 
@@ -1201,7 +1199,6 @@ class ApiController extends Controller {
                                                         json_encode($dataJson),
                                             'elementType' => 'Documents'
                                         ));
-                        Yii::trace($document, "debug"); 
                         $document = json_decode($document);
                         $notesid = $document->result->id;
                         
@@ -1220,10 +1217,11 @@ class ApiController extends Controller {
                         
                         //Upload file to Amazon S3
                         $s3 = new AmazonS3();
-                        
+
+
                         $response = $s3->create_object(
                                 Yii::app()->params->awsS3Bucket, 
-                                $crmid . '_' . $file['name'], 
+                                $crmid . '_' . $uniqueid . '_' . $file['name'], 
                                 array(
                             'fileUpload' => $file['tmp_name'],
                             'contentType' => $file['type'],
@@ -1344,30 +1342,35 @@ class ApiController extends Controller {
                     $rest = new RESTClient();
                     $rest->format('json');                    
                     $response = $rest->post(Yii::app()->params->vtRestUrl, array(
-                        'sessionName' => $sessionId,
                         'operation' => 'resetpassword',
                         'username' => $_SERVER['HTTP_X_USERNAME'],
                     )); 
+                    $response = json_decode($response); 
                     
                     if ($response->success==false)
-                        throw new Exception($response->error->message); 
+                        throw new Exception("Unable to reset password"); 
 
-                    $response = $email->send_email(
+                    $SESresponse = $email->send_email(
                          Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
                          array('ToAddresses' => array( // Destination (aka To)
                                  $_SERVER['HTTP_X_USERNAME']
                          )),
                          array( // Message (short form)
                              'Subject.Data' => 'Your Gizur Account password has been reset',
-                             'Body.Text.Data' => 'Dear Gizur Account Holder, <br/><br/>Your password has been reset to ' . $response->result->newpassword .
-                                                 '<br/>-- Gizur Admin'
+                             'Body.Text.Data' => 'Dear Gizur Account Holder, ' . PHP_EOL . PHP_EOL  . 'Your password has been reset to ' . $response->result->newpassword .
+                                                 PHP_EOL . '-- Gizur Admin'
                          )
                          );        
-                     
-                    $this->_sendResponse(200, json_encode($response));            
+                    if ($SESresponse->isOK()) {
+                        $this->_sendResponse(200, json_encode($response));            
+                    } else {
+                        throw new Exception('Password has been reset but unable to send email.');
+                    }
                 }
 
                 if ($_GET['action'] == 'changepw') {
+                    $_PUT = Array();
+                    parse_str(file_get_contents('php://input'), $_PUT);
                     if (!isset($_PUT['newpassword'])) 
                         throw new Exception('New Password not provided.');
                     //Receive response from vtiger REST service
@@ -1375,12 +1378,16 @@ class ApiController extends Controller {
                     $rest = new RESTClient();
                     $rest->format('json');                    
                     $response = $rest->post(Yii::app()->params->vtRestUrl, array(
-                        'sessionName' => $sessionId,
-                        'operation' => 'changepassword',
+                        'sessionName' => $this->session->sessionName,
+                        'operation' => 'changepw',
                         'username' => $_SERVER['HTTP_X_USERNAME'],
                         'oldpassword' => $_SERVER['HTTP_X_PASSWORD'],
                         'newpassword' => $_PUT['newpassword']
-                    ));  
+                    )); 
+                    $response = json_decode($response);
+                    if ($response->success == false)
+                        throw new Exception($response->error->message);
+                         
                     $this->_sendResponse(200, json_encode($response));            
                 }
             /*
