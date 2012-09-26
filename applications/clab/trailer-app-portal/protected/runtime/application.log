@@ -4601,3 +4601,753 @@ Stack trace:
 REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/changepassword
 HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/changepassword
 ---
+2012/09/26 10:37:59 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:38:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:38:03 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:21 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:21 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:41:39 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:42:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:42:34 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:43:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "changeassets".' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:484
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(271): CController->missingAction('changeassets')
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('changeassets')
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('troubleticket/c...')
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#4 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 10:53:53 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:41)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(174): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionchangeassets()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (41)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (174)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 11:05:51 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:41)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(174): TroubleticketController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionchangeassets()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (41)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (174)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 11:27:47 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:41)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(181): TroubleticketController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionchangeassets()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (41)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (181)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 11:27:54 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:41)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(181): TroubleticketController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionchangeassets()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (41)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (181)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 11:27:55 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:41)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(181): TroubleticketController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionchangeassets()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/changeassets
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (41)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (181)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 11:41:51 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/ajaxrequest.php:22)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(83): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurveysearch()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveysearch
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/ajaxrequest.php (22)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (83)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 11:46:05 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:78)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(39): TroubleticketController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurveylist()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (78)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (39)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 12:14:11 [error] [php] key() expects parameter 1 to be array, string given (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:63)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): TroubleticketController->renderInternal()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#3 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(40): TroubleticketController->render()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurveylist()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#10 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#11 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (63)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (40)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 12:15:35 [error] [php] reset() expects parameter 1 to be array, null given (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php:39)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (39)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 12:16:33 [error] [php] key() expects parameter 1 to be array, string given (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php:40)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (40)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 12:30:42 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:41)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(86): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurveysearch()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveysearch
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (41)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (86)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 12:31:14 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:41)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(86): TroubleticketController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurveysearch()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveysearch
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (41)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (86)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:48:51 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:89)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(783): TroubleticketController->renderPartial()
+#2 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php(42): TroubleticketController->render()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/actions/CInlineAction.php(50): TroubleticketController->actionsurveylist()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#6 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#7 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#8 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#9 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#10 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (89)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (42)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:51:27 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:51:57 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:52:19 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:52:59 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:07 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:08 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:09 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:11 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:11 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:12 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:20 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:53:36 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:337
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('logout')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('site/logout')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#7 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+---
+2012/09/26 13:53:43 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:337
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('logout')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('site/logout')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#7 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+---
+2012/09/26 13:53:49 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:337
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('logout')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('site/logout')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#7 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+---
+2012/09/26 13:53:58 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:337
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('logout')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('site/logout')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#7 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/page&view=about
+---
+2012/09/26 13:54:03 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 13:54:12 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:337
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('logout')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('site/logout')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#7 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+---
+2012/09/26 14:46:40 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 14:46:45 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 14:50:08 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:337
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('logout')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('site/logout')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#7 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
+2012/09/26 14:50:38 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 14:52:12 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 14:54:39 [error] [php] Invalid argument supplied for foreach() (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php:294)
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(309): CInlineAction->runWithParams()
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): TroubleticketController->runAction()
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): TroubleticketController->runActionWithFilters()
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): TroubleticketController->run()
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CWebApplication->run()
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (294)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (37)
+in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
+2012/09/26 15:24:38 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php:337
+Stack trace:
+#0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(276): CController->run('logout')
+#4 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(135): CWebApplication->runController('site/logout')
+#5 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#6 /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php(14): CApplication->run()
+#7 {main}
+REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=site/logout
+HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php?r=troubleticket/surveylist
+---
