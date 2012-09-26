@@ -39,8 +39,9 @@ body
 	margin: 0;
 	padding: 0;
 	background:#507AAA;
-	height:50px;
+	height:auto;
 	color:#FFF;
+		overflow: hidden;
 }
 
 #content
@@ -64,19 +65,25 @@ body
 
 #logo
 {
-	padding: 10px 20px;
+	
 	font-size: 200%;
+	overflow: hidden;
+	height:auto;
 }
 
 #mainmenu
 {
 	background:white url(bg.gif) repeat-x left top;
+	
 }
 
 #mainmenu ul
 {
 	padding:3px 0px 5px 0px;
 	margin:0px;
+	float:left;
+	width:800px;
+	overflow: hidden;
 }
 
 #mainmenu ul li
@@ -160,7 +167,7 @@ div.view
 div.breadcrumbs
 {
 	font-size: 0.9em;
-	padding: 5px 20px;
+	padding: 10px 20px;
 }
 
 div.breadcrumbs span

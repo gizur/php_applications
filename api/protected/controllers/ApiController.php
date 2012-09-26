@@ -585,7 +585,7 @@ class ApiController extends Controller {
                         $where_clause[] = "ticketstatus = 'Open'";
                     }
 
-                    $where_clause[] = "parent_id = " . $contactId;
+                    //$where_clause[] = "parent_id = " . $contactId;
                     if (isset($_GET['year']) && isset($_GET['month'])) {
                         if ($_GET['year'] != '0000') {
                             if ($_GET['month'] == '00') {
@@ -1244,8 +1244,6 @@ class ApiController extends Controller {
                     }
                 }
                 
-                Yii::trace("Ending of FIle Upload to S3", "debug"); 
-
                 $globalresponse = json_encode($globalresponse);
                 $globalresponse = json_decode($globalresponse, true);
                 
@@ -1270,7 +1268,6 @@ class ApiController extends Controller {
                 }
 
                 $this->_sendResponse(200, json_encode($globalresponse));
-                Yii::trace(json_encode($globalresponse), "debug"); 
                 break;
             
             default :
@@ -1524,19 +1521,19 @@ class ApiController extends Controller {
              *******************************************************************
              */                
             case 'Assets':
-                $sessionId = $this->session->sessionName;
-                
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');     
-                
-                
+
+                $_PUT = Array();
+                parse_str(file_get_contents('php://input'), $_PUT);
+
                 $response = $rest->get(Yii::app()->params->vtRestUrl, array(
-                    'sessionName' => $sessionId,
+                    'sessionName' => $this->session->sessionName,
                     'operation' => 'retrieve',
                     'id' => $_GET['id']
-                ));                
+                ));
                 
                 $response = json_decode($response, true);
                 
@@ -1552,15 +1549,17 @@ class ApiController extends Controller {
                 $rest = new RESTClient();
                 $rest->format('json');                    
                 $response = $rest->post(Yii::app()->params->vtRestUrl, array(
-                    'sessionName' => $sessionId,
+                    'sessionName' => $this->session->sessionName,
                     'operation' => 'update',
                     'element' => json_encode($retrivedObject)
                 ));  
-
+                
                 $response = json_decode($response, true);
+               
+                if ($response['success']==false)
+                    throw new Exception($response['error']['message']);
                 
                 $custom_fields = $this->custom_fields['Assets'];
-
                 
                 unset($response['result']['update_log']);
                 unset($response['result']['hours']);
@@ -1584,7 +1583,7 @@ class ApiController extends Controller {
                 $response->success = false;
                 $response->error->code = $this->errors[1004];
                 $response->error->message = "Not a valid method" . 
-                        " for model "  . $_GET['model'];
+                        " for model ";
                 $this->_sendResponse(405, json_encode($response));
                 break;            
         }

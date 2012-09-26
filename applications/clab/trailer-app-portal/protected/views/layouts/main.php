@@ -31,20 +31,12 @@ include_once 'protected/extensions/langauge/'.$lang.'.php';
 
 	<div id="header">
 		
-<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?> <span style="float:right"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/gizur_green_logo.jpg" width="60px"></span></div>
-		<?php
-		 $user = Yii::app()->session['username'];
-		 
-		 if(!empty($user))
-		 {
-		 ?>
-   <div style="float:right"> <?php echo getTranslatedString('Welcome'); ?> &nbsp;
-	<?php echo CHtml::encode($user); ?></div>
-   <?php } ?>
-	</div><!-- header -->
+<div id="logo"><span style="float:left; padding:10px 20px;"><?php echo CHtml::encode(Yii::app()->name); ?></span> <span style="float:right;padding:0px 20px;"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/final-logo-gizur-60.png" width="60px"></span></div>
+		<!-- header -->
 
 	<div id="mainmenu">
 		<?php
+		 $user = Yii::app()->session['username'];
 		$querystring=$_SERVER['QUERY_STRING'];
 		$strTemp1 = trim($user);
 
@@ -71,6 +63,15 @@ include_once 'protected/extensions/langauge/'.$lang.'.php';
 				array('label'=> getTranslatedString('Logout') , 'url'=>array('/site/logout'), 'visible'=>!$loginstatus)
 			),
 		)); }?>
+		<?php
+			 
+		 if(!empty($user))
+		 {
+		 ?>
+   <div style="float:right;padding-right:20px;"> <?php echo getTranslatedString('Welcome'); ?> &nbsp;
+	<?php echo CHtml::encode($user); ?></div>
+   <?php } ?>
+	</div>
 	</div><!-- mainmenu -->
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array('links'=>$this->breadcrumbs,)); ?><!-- breadcrumbs -->
