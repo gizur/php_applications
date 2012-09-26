@@ -46,7 +46,6 @@ $this->breadcrumbs=array(
 <div id="wrap">
 <div style="float:right; width:208px" class="button">
 <a href="index.php?r=troubleticket/survey/"><?php echo getTranslatedString('Create new Trouble ticket');?></a></div>
-
 <div class="toppanel">
 <table width="100%" border="0" cellspacing="0" cellpadding="1">
 	<tr><td colspan='3' align="center"><span id='assetsmsg'></span></td></tr>
@@ -166,4 +165,6 @@ $("#"+id).addClass("waitprocessdetails");
 $('#'+id).html('Please wait...');
 }
 $('#trailer').val('<?php echo $TR;?>');
+$('#year').val('<?php if(!empty($SYear)){ echo $SYear; } else { echo date('Y'); }?>');
+$('#month').val('<?php if(!empty($SMonth)){ echo $SMonth; } else { echo date('m'); }?>');
 </script>

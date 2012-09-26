@@ -84,7 +84,7 @@ class TroubleticketController extends Controller
 		 $records=$model->findAll($module,'all',$year,$month,$trailer);
 		 $Asset_List=$model->findAssets('Assets');
 		 $assetstatus=$model->findById('Assets',$trailer);
-		 $this->renderPartial('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List,'currentasset'=>$assetstatus,'TR'=>$trailer));
+		 $this->renderPartial('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List,'currentasset'=>$assetstatus,'TR'=>$trailer,'SYear'=>$year,'SMonth'=>$month));
 
 		 
 	} 
@@ -176,8 +176,7 @@ class TroubleticketController extends Controller
 		 $tickettype=$_POST['tickettype'];  
          $currentasset=$_POST['trailer'];
 		 $records=$model->ChangeAssetStatus($tickettype,$currentasset);
-		 echo "<pre>";
-	  print_r($records); die;
+
 		 if($records['success'])
 		 {
 		   echo "Successfully Changed.";
