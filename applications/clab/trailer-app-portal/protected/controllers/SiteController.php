@@ -155,9 +155,7 @@ class SiteController extends Controller
             $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
             $response = $rest->post(Yii::app()->params->URL.$model."/logout");
             $response = json_decode($response);
-              Yii::app()->session['username'] = "";
-			Yii::app()->session['password'] = "";
-			Yii::app()->session['Lang'] = "";                 /*
+             /*
 		           * Check Response if the responce is true then set the 
 		           * session other wise return error message.
 		           */ 
