@@ -51,6 +51,7 @@
 		$adb->pquery($sql,array($userId,$token));
 		return true;
 	}
+
 	function vtws_getActiveToken($userId){
 		global $adb;
 		
