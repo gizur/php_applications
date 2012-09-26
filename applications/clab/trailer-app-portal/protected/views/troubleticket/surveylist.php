@@ -48,7 +48,7 @@ $this->breadcrumbs=array(
 <a href="index.php?r=troubleticket/survey/"><?php echo getTranslatedString('Create new Trouble ticket');?></a></div>
 <div class="toppanel">
 <table width="100%" border="0" cellspacing="0" cellpadding="1">
-	<tr><td colspan='3' align="center"><span id='assetsmsg'></span></td></tr>
+	<tr><td colspan='3' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
   <tr>
     <td ><select name='year' id="year" onchange="getAjaxBaseRecord(this.value)"><?php echo $options; ?></select></td>
     <td ><select name='month' id="month" onchange="getAjaxBaseRecord(this.value)"><?php echo $Months; ?></select></select></td>
@@ -117,7 +117,7 @@ $this->widget('ext.htmltableui.htmlTableUi',array(
 </div>
 <script>
 	jQuery(document).ready(function(){
-  //  jQuery("#assetsmsg").show().delay(5000).fadeOut();
+   jQuery("#assetsmsg").show().delay(5000).fadeOut();
 
 });
 function getAjaxBaseAssetRecord(value)
