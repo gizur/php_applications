@@ -60,10 +60,14 @@ return array(
                                    'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>', 
                                    'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
+                        array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
-                        array('api/create', 'pattern'=>'api/<model:(HelpDesk)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
+                        array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
 		),
@@ -107,6 +111,9 @@ return array(
 		// this is used in contact page
 		'adminEmail'  => 'webmaster@example.com',
                 'vtRestUrl'   => 'http://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
-                'awsS3Bucket' => 'gizurcloud'
+                'awsS3Bucket' => 'gizurcloud',
+                'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
+                'awsSESFromEmailAddress' => 'noreply@gizur.com',
+                'acceptableTimestampError' => 60
 	),
 );
