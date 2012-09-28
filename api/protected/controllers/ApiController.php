@@ -986,7 +986,6 @@ class ApiController extends Controller {
                 $response = json_decode($response);
                       
                 $s3 = new AmazonS3();
-                $s3->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
                 $bucket = Yii::app()->params->awsS3Bucket;
                 
                 $unique_id = uniqid();
@@ -1057,6 +1056,7 @@ class ApiController extends Controller {
                 $post['secretkey_2'] = uniqid("", true) . uniqid("", true);
                 $post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
 
+
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
@@ -1075,6 +1075,8 @@ class ApiController extends Controller {
                 ));
                 
                 if (isset($ddb_response->body->Item)) {
+                    Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
+                    Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
                     foreach($ddb_response->body->Item->children() 
                                                        as $key => $item) {
                        $result->{$key} = 
@@ -1100,7 +1102,7 @@ class ApiController extends Controller {
              *******************************************************************
              *******************************************************************
              */                
-            case 'HelpDesk':
+            case 'HelpDesk': 
                 $script_started = date("c"); 
                 if (!isset($_POST['ticketstatus']) || 
                                                empty($_POST['ticketstatus']))
@@ -1177,44 +1179,17 @@ class ApiController extends Controller {
                     'filedownloadcount' => null,
                     'filestatus' => 1,
                     'fileversion' => '',
-                    );
+                    ); 
                 if (!empty($_FILES) && $globalresponse->success){
                     foreach ($_FILES as $key => $file){
                         $uniqueid = uniqid();
-                         
-                        //Create document
-                        $rest = new RESTClient();
-                        $rest->format('json'); 
+                        
                         $dataJson['filename'] = $crmid . "_" . $uniqueid . "_" . $file['name'];
                         $dataJson['filesize'] = $file['size'];
                         $dataJson['filetype'] = $file['type'];
-                        $document = $rest->post(Yii::app()->params->vtRestUrl, 
-                                array(
-                                            'sessionName' => $sessionId,
-                                            'operation' => 'create',
-                                            'element' => 
-                                                        json_encode($dataJson),
-                                            'elementType' => 'Documents'
-                                        ));
-                        $document = json_decode($document);
-                        $notesid = $document->result->id;
-                        
-                        //Relate Document with Trouble Ticket
-                        $rest = new RESTClient();
-                        $rest->format('json'); 
-                        $response = $rest->post(Yii::app()->params->vtRestUrl, 
-                                array(
-                                            'sessionName' => $sessionId,
-                                            'operation' => 
-                                    'relatetroubleticketdocument',
-                                            'crmid' => $crmid,
-                                            'notesid' => $notesid
-                                        ));
-                        $response = json_decode($response);
                         
                         //Upload file to Amazon S3
                         $s3 = new AmazonS3();
-                        $s3->set_region(constant("AmazonS3::".Yii::app()->params->awsS3Region));
 
                         $response = $s3->create_object(
                                 Yii::app()->params->awsS3Bucket, 
@@ -1232,13 +1207,49 @@ class ApiController extends Controller {
                         ));                        
                         
                         if ($response->isOK()) {
-                            $globalresponse->result->documents[]
-                                    = $document->result;
+                            //Create document
+                            $rest = new RESTClient();
+                            $rest->format('json'); 
+                            $document = $rest->post(Yii::app()->params->vtRestUrl, 
+                                    array(
+                                                'sessionName' => $sessionId,
+                                                'operation' => 'create',
+                                                'element' => 
+                                                            json_encode($dataJson),
+                                                'elementType' => 'Documents'
+                                            ));
+                            $document = json_decode($document);
+                            if ($document->success) {
+                                $notesid = $document->result->id;
+                                        
+                                //Relate Document with Trouble Ticket
+                                $rest = new RESTClient();
+                                $rest->format('json'); 
+                                $response = $rest->post(Yii::app()->params->vtRestUrl, 
+                                        array(
+                                                    'sessionName' => $sessionId,
+                                                    'operation' => 
+                                            'relatetroubleticketdocument',
+                                                    'crmid' => $crmid,
+                                                    'notesid' => $notesid
+                                                ));
+                                $response = json_decode($response);   
+                                if ($response->success) { 
+                                    $globalresponse->result->documents[]
+                                        = $document->result;
+                                } else {
+                                    $globalresponse->result->documents[]
+                                     = 'not uploaded - relating document failed:' . $file['name'];
+                                }
+                            } else {
+                                $globalresponse->result->documents[]
+                                     = 'not uploaded - creating document failed:' . $file['name'];
+                            }
                         } else {
                             $globalresponse->result->documents[]
-                                     = 'not uploaded' . $file['name'];
+                                     = 'not uploaded - upload to storage service failed:' . $file['name'];
                         }
-                        
+                         
                     }
                 }
                 
@@ -1395,59 +1406,61 @@ class ApiController extends Controller {
              */                
             case 'User':
                 if (isset($_GET['field'])) {
-		        $keyid = str_replace('keypair','',$_GET['field']);
-		        
-			// Instantiate the class
-			$dynamodb = new AmazonDynamoDB();
-			$dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
+		            $keyid = str_replace('keypair','',$_GET['field']);
+                    
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
 
-			// Get an item
-			$ddb_response = $dynamodb->get_item(array(
-			    'TableName' => Yii::app()->params->awsDynamoDBTableName,
-			    'Key' => $dynamodb->attributes(array(
-				'HashKeyElement'  => $_GET['email'],
-			    )),
-			    'ConsistentRead' => 'true'
-			));
-	 
-		        foreach($ddb_response->body->Item->children() 
-		                                           as $key => $item) {
-		           $result[$key] = 
-		                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
-		        }
-
-
-			/* Create the private and public key */
-			$result['secretkey_' . $keyid] = uniqid("", true) . 
-		                                               uniqid("", true);
-			$result['apikey_' . $keyid] = strtoupper(uniqid("GZCLD" 
-		                                                  . uniqid()));
-
-		        $ddb_response = $dynamodb->put_item(array(
-		            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-		            'Item' => $dynamodb->attributes($result)
-		        ));
+                    // Get an item
+                    $ddb_response = $dynamodb->get_item(array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Key' => $dynamodb->attributes(array(
+                        'HashKeyElement'  => $_GET['email'],
+                        )),
+                        'ConsistentRead' => 'true'
+                    ));
+             
+                    foreach($ddb_response->body->Item->children() 
+                                                           as $key => $item) {
+                           $result[$key] = 
+                                  (string)$item->{AmazonDynamoDB::TYPE_STRING};
+                    }
 
 
-		        if ($response->success = $ddb_response->isOK())
-		            $response->result = $result;
-		        
-		        $this->_sendResponse(200, json_encode($response));
-		} else {
-		        $post = json_decode(file_get_contents('php://input'),
-                                                                         true);
-		        
-			// Instantiate the class
-			$dynamodb = new AmazonDynamoDB();
-			$dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
-		        $ddb_response = $dynamodb->put_item(array(
-		            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-		            'Item' => $dynamodb->attributes($post)
-		        ));
-		        $response = new stdClass();
-		        $response->success = $ddb_response->isOK();
-		        $this->_sendResponse(200, json_encode($response));
-                }
+                    Yii::app()->cache->delete($result['apikey_' . $keyid]);
+
+                    /* Create the private and public key */
+                    $result['secretkey_' . $keyid] = uniqid("", true) . 
+                                                               uniqid("", true);
+                    $result['apikey_' . $keyid] = strtoupper(uniqid("GZCLD" 
+                                                                  . uniqid()));
+                    
+                    Yii::app()->cache->set($result['apikey_' . $keyid], $result['secretkey_' . $keyid]);
+                     
+                    $ddb_response = $dynamodb->put_item(array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Item' => $dynamodb->attributes($result)
+                    ));
+
+
+                    if ($response->success = $ddb_response->isOK())
+                        $response->result = $result;
+                    
+                    $this->_sendResponse(200, json_encode($response));
+            } else {
+                    $post = json_decode(file_get_contents('php://input'), true);
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
+                    $ddb_response = $dynamodb->put_item(array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Item' => $dynamodb->attributes($post)
+                    ));
+                    $response = new stdClass();
+                    $response->success = $ddb_response->isOK();
+                    $this->_sendResponse(200, json_encode($response));
+            }
             break;
             /*
              *******************************************************************
