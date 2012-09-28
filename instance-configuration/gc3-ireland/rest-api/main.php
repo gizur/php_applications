@@ -109,11 +109,30 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'  => 'webmaster@example.com',
                 'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
                 'awsS3Bucket' => 'gizurcloud',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
-                'acceptableTimestampError' => 60
+                'acceptableTimestampError' => 60,
+                'awsS3Region' => 'REGION_EU_W1',
+                'awsDynamoDBRegion' => 'REGION_EU_W1',
+                'awsSESRegion' => 'REGION_EU_W1',
+                'custom_fields' => Array(
+                    'HelpDesk' => Array(
+                        'tickettype' => 'cf_641',
+                        'trailerid' => 'cf_642',
+                        'damagereportlocation' => 'cf_643',
+                        'sealed' => 'cf_644',
+                        'plates' => 'cf_645',
+                        'straps'  => 'cf_646',
+                        'reportdamage' => 'cf_647',
+                        'damagetype' => 'cf_648',
+                        'damageposition' => 'cf_649',
+                        'drivercauseddamage' => 'cf_650'
+                    ),
+                    'Assets' => Array(
+                        'trailertype' => 'cf_640'
+                    )
+                ),  
 	),
 );
