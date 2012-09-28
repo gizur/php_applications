@@ -91,29 +91,11 @@ class ApiController extends Controller {
         501 => 'Not Implemented',
     );
 
-
-    
     /**
-     * Aliasing custom fields
+     * Cache Key Used to store session in Cache
      */
 
-    private $custom_fields = Array(
-        'HelpDesk' => Array(
-            'tickettype' => 'cf_641',
-            'trailerid' => 'cf_642',
-            'damagereportlocation' => 'cf_643',
-            'sealed' => 'cf_644',
-            'plates' => 'cf_645',
-            'straps'  => 'cf_646',
-            'reportdamage' => 'cf_647',
-            'damagetype' => 'cf_648',
-            'damageposition' => 'cf_649',
-            'drivercauseddamage' => 'cf_650'
-        ),
-        'Assets' => Array(
-            'trailertype' => 'cf_640'
-        )
-    );    
+    private $cache_key = "";
 
     /**
      * @return array action filters
@@ -218,7 +200,7 @@ class ApiController extends Controller {
             if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))===false) {
                 // Retreive Key pair from Amazon Dynamodb
                 $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion)); 
                 
                 //Scan for API KEYS
                 $ddb_response = $dynamodb->scan(array(
@@ -301,13 +283,23 @@ class ApiController extends Controller {
             if(!isset($_SERVER['HTTP_X_PASSWORD'])) 
                 throw new Exception('Could not find enough credentials');         
             
-            $cache_key = json_encode(array(
+             $this->cache_key = json_encode(array(
                 'username'=>$_SERVER['HTTP_X_USERNAME'],
                 'password'=>$_SERVER['HTTP_X_PASSWORD']
             ));            
             
-            $cache_value = Yii::app()->cache->get($cache_key); 
-           
+            $cache_value = false;
+            $last_used = Yii::app()->cache->get("last_used_".$this->cache_key);
+
+            if ($last_used!==false) {
+                if ($last_used < (time() - 1790)) {
+                    Yii::app()->cache->delete($this->cache_key, time());
+                } else {
+                    $cache_value = Yii::app()->cache->get($this->cache_key); 
+                    Yii::app()->cache->set("last_used_".$this->cache_key, time());
+                }
+            }
+
             if ($cache_value===false) {
                 //Get the Access Key and the Username from vtiger REST 
                 //service of the customer portal user's vtiger account
@@ -367,8 +359,11 @@ class ApiController extends Controller {
                 $contact = $rest->get(Yii::app()->params->vtRestUrl . 
                             "?$params");
                 $contact = json_decode($contact, true);
-                if (!$contact['success'])
+                if (!$contact['success']) {
+                    if ($contact['error']['code'] = 'INVALID_SESSIONID')
+                        Yii::app()->cache->delete($this->cache_key); 
                     throw new Exception($contact['error']['message']);
+                }
                 $response->result->contactname = 
                          $contact['result'][0]['firstname'] . 
                          " " . $contact['result'][0]['lastname'];
@@ -390,16 +385,17 @@ class ApiController extends Controller {
                 $account = $rest->get(Yii::app()->params->vtRestUrl . 
                             "?$params");
                 $account = json_decode($account, true);
-                if (!$account['success'])
+                if (!$account['success']){
                         throw new Exception($account['error']['message']);
+                }
                 $response->result->accountname = 
                                          $account['result'][0]['accountname'];
-
                 $cache_value = json_encode($response->result);
 
                 //Save userid and session id against customerportal 
                 //credentials
-                Yii::app()->cache->set($cache_key, $cache_value);
+                Yii::app()->cache->set($this->cache_key, $cache_value, 86000);
+                Yii::app()->cache->set("last_used_".$this->cache_key, time());
                 $valueFrom = 'database';            
             } 
             
@@ -498,11 +494,11 @@ class ApiController extends Controller {
                     if ($cached_value === false) {
                         $sessionId = $this->session->sessionName; 
                         $flipped_custom_fields = 
-                                  array_flip($this->custom_fields['HelpDesk']);
+                                  array_flip(Yii::app()->params->custom_fields['HelpDesk']);
                         if (in_array($_GET['fieldname'], 
                                                     $flipped_custom_fields)){
                             $fieldname = 
-                    $this->custom_fields[$_GET['model']][$_GET['fieldname']];
+                    Yii::app()->params->custom_fields[$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
@@ -532,7 +528,7 @@ class ApiController extends Controller {
                                         foreach ($option['dependency'] 
                                          as $dep_fieldname => $dependency) {
                                             if(in_array($dep_fieldname, 
-                                            $this->custom_fields['HelpDesk'])){
+                                            Yii::app()->params->custom_fields['HelpDesk'])){
                                                 $new_fieldname = 
                                                        $flipped_custom_fields
                                                              [$dep_fieldname];
@@ -607,7 +603,7 @@ class ApiController extends Controller {
 
                     if (isset($_GET['trailerid'])){
                         if ($_GET['trailerid']!='0')
-                            $where_clause[] = $this->custom_fields
+                            $where_clause[] = Yii::app()->params->custom_fields
                                                     ['HelpDesk']['trailerid'] . 
                                              " = '" . $_GET['trailerid'] . "'";
                     }
@@ -633,7 +629,7 @@ class ApiController extends Controller {
                     if ($response['success']==false)
                         throw new Exception('Fetching details failed');
 
-                    $custom_fields = $this->custom_fields['HelpDesk'];
+                    $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
                     
                     foreach($response['result'] as &$troubleticket){
                         unset($troubleticket['update_log']);
@@ -685,7 +681,7 @@ class ApiController extends Controller {
                 $response = $rest->get(Yii::app()->params->vtRestUrl . 
                         "?$params");               
                 $response = json_decode($response, true);
-                $custom_fields = $this->custom_fields['Assets'];
+                $custom_fields = Yii::app()->params->custom_fields['Assets'];
 
                 foreach($response['result'] as &$asset){
                     unset($asset['update_log']);
@@ -741,7 +737,7 @@ class ApiController extends Controller {
             case 'User':
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+                $dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
 
                 // Get an item
                 $ddb_response = $dynamodb->get_item(array(
@@ -896,7 +892,7 @@ class ApiController extends Controller {
 
                 }
                                
-                $custom_fields = $this->custom_fields['HelpDesk'];
+                $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
 
                 unset($response['result']['update_log']);
                 unset($response['result']['hours']);
@@ -947,7 +943,7 @@ class ApiController extends Controller {
                 $response = json_decode($response, true);
                 $response['result'] = $response['result'][0]; 
 
-                $custom_fields = $this->custom_fields['Assets'];
+                $custom_fields = Yii::app()->params->custom_fields['Assets'];
 
                 foreach($response['result'] as $fieldname => $value){
                     $key_to_replace = array_search($fieldname, 
@@ -990,6 +986,7 @@ class ApiController extends Controller {
                 $response = json_decode($response);
                       
                 $s3 = new AmazonS3();
+                $s3->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
                 $bucket = Yii::app()->params->awsS3Bucket;
                 
                 $unique_id = uniqid();
@@ -1062,7 +1059,7 @@ class ApiController extends Controller {
 
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+                $dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
                 $ddb_response = $dynamodb->put_item(array(
                     'TableName' => Yii::app()->params->awsDynamoDBTableName,
                     'Item' => $dynamodb->attributes($post)
@@ -1136,7 +1133,7 @@ class ApiController extends Controller {
                 /** Creating Touble Ticket**/
                 $post = $_POST;
                 $custom_fields = array_flip(
-                                             $this->custom_fields['HelpDesk']);
+                                             Yii::app()->params->custom_fields['HelpDesk']);
                 
                 foreach ($post as $k => $v) {
                     $key_to_replace = array_search($k, $custom_fields);
@@ -1217,10 +1214,11 @@ class ApiController extends Controller {
                         
                         //Upload file to Amazon S3
                         $s3 = new AmazonS3();
-
+                        $s3->set_region(constant("AmazonS3::".Yii::app()->params->awsS3Region));
 
                         $response = $s3->create_object(
                                 Yii::app()->params->awsS3Bucket, 
+
                                 $crmid . '_' . $uniqueid . '_' . $file['name'], 
                                 array(
                             'fileUpload' => $file['tmp_name'],
@@ -1247,7 +1245,7 @@ class ApiController extends Controller {
                 $globalresponse = json_encode($globalresponse);
                 $globalresponse = json_decode($globalresponse, true);
                 
-                $custom_fields = $this->custom_fields['HelpDesk'];
+                $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
 
                 
                 unset($globalresponse['result']['update_log']);
@@ -1322,7 +1320,7 @@ class ApiController extends Controller {
                 if ($_GET['action'] == 'reset') {
 
                     $email = new AmazonSES();
-             
+                    $email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
                     $response = $email->list_verified_email_addresses();
 
                     if ($response->isOK()) {
@@ -1401,7 +1399,7 @@ class ApiController extends Controller {
 		        
 			// Instantiate the class
 			$dynamodb = new AmazonDynamoDB();
-			$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+			$dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
 
 			// Get an item
 			$ddb_response = $dynamodb->get_item(array(
@@ -1441,7 +1439,7 @@ class ApiController extends Controller {
 		        
 			// Instantiate the class
 			$dynamodb = new AmazonDynamoDB();
-			$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1); 
+			$dynamodb->set_region(constant("AmazonDynamoDB::".Yii::app()->params->awsDynamoDBRegion)); 
 		        $ddb_response = $dynamodb->put_item(array(
 		            'TableName' => Yii::app()->params->awsDynamoDBTableName,
 		            'Item' => $dynamodb->attributes($post)
@@ -1491,7 +1489,7 @@ class ApiController extends Controller {
 
                 $response = json_decode($response, true);
                 
-                $custom_fields = $this->custom_fields['HelpDesk'];
+                $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
 
                 
                 unset($response['result']['update_log']);
@@ -1559,7 +1557,7 @@ class ApiController extends Controller {
                 if ($response['success']==false)
                     throw new Exception($response['error']['message']);
                 
-                $custom_fields = $this->custom_fields['Assets'];
+                $custom_fields = Yii::app()->params->custom_fields['Assets'];
                 
                 unset($response['result']['update_log']);
                 unset($response['result']['hours']);
