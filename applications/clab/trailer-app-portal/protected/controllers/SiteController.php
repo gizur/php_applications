@@ -158,7 +158,10 @@ class SiteController extends Controller
              /*
 		           * Check Response if the responce is true then set the 
 		           * session other wise return error message.
-		           */ 
+		           */
+		           Yii::app()->session['username'] = "";
+			Yii::app()->session['password'] = "";
+			Yii::app()->session['Lang'] = ""; 
 		  if($response->success){
 			Yii::app()->session['username'] = "";
 			Yii::app()->session['password'] = "";

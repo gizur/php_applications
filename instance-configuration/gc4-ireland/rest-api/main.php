@@ -60,10 +60,14 @@ return array(
                                    'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>', 
                                    'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
+                        array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
-                        array('api/create', 'pattern'=>'api/<model:(HelpDesk)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
+                        array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
 		),
@@ -105,8 +109,30 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'  => 'webmaster@example.com',
                 'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
-                'awsS3Bucket' => 'gizurcloud'
+                'awsS3Bucket' => 'gizurcloud',
+                'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
+                'awsSESFromEmailAddress' => 'noreply@gizur.com',
+                'acceptableTimestampError' => 60,
+                'awsS3Region' => 'REGION_EU_W1',
+                'awsDynamoDBRegion' => 'REGION_EU_W1',
+                'awsSESRegion' => 'REGION_EU_W1',
+                'custom_fields' => Array(
+                    'HelpDesk' => Array(
+                        'tickettype' => 'cf_641',
+                        'trailerid' => 'cf_642',
+                        'damagereportlocation' => 'cf_643',
+                        'sealed' => 'cf_644',
+                        'plates' => 'cf_645',
+                        'straps'  => 'cf_646',
+                        'reportdamage' => 'cf_647',
+                        'damagetype' => 'cf_648',
+                        'damageposition' => 'cf_649',
+                        'drivercauseddamage' => 'cf_650'
+                    ),
+                    'Assets' => Array(
+                        'trailertype' => 'cf_640'
+                    )
+                ),  
 	),
 );
