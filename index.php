@@ -1,5 +1,4 @@
 <?php
-die;
 require 'lib/klein.php';
 $baseURL = '/gizurcloud';
 
@@ -20,4 +19,10 @@ respond($baseURL . '/[a:clientid]/vtiger/index.php?[:trailing]', function($reque
     ));
     $response->render('./lib/vtwrapper-index.php');
 });
+
+respond($baseURL . '/index.php', function($request, $response)) {    
+    echo "<pre></pre>";
+    print_r($request);
+}
+
 dispatch();
