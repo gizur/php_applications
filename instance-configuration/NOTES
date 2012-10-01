@@ -18,11 +18,16 @@ gizur1 / e345^&T*HBB
 jonas /sdf34!@#$
 backoffice / yu#!@%yt34
 
+AWS SES
 Server Name:                        email-smtp.us-east-1.amazonaws.com
 Port:	                            25, 465 or 587
 Use Transport Layer Security (TLS): Yes
 User:                               ses-smtp-user
 Password:                           MkCKWS1jbH}a
+
+Postfix mailserver to be used from vTiger
+smtp.int.gizur.com.
+usernam, from email and password should be blank and Requires Authentication=No
 
 
 - Cloud 2 -
