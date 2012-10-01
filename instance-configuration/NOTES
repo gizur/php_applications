@@ -40,6 +40,19 @@ AKIAJX43RR2UCVINIL3Q / 7W4eIzKI3BpcCLLFdmopb11FERzQ6xgDASVe10b7
 RDS instance: gc3-mysql1
 root / tUrUTebraw9EC6JE
 
+
+vTiger Contacts
+test@gizur.com  / c2zaSP5c
+test2@gizur.com / c2zaSP5c
+test3@gizur.com / c2zaSP5c
+test4@gizur.com / c2zaSP5c
+
+
+Postfix mailserver to be used from vTiger
+smtp.c3-dev.gizurcloud.se.
+usernam, from email and password should be blank and Requires Authentication=No
+
+
 - Cloud 4 -
 RDS instance: gc4-mysql1
 root / c5e7pESPehUj9dap
