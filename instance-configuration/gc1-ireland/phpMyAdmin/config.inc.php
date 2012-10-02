@@ -143,4 +143,9 @@ $cfg['SaveDir'] = '';
  * You can find more configuration options in Documentation.html
  * or here: http://wiki.phpmyadmin.net/pma/Config
  */
+
+
+// 121002, Jonas Colmsjö, Enable SSL
+$cfg['ForceSSL'] = true;
+
 ?>
