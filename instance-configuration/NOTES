@@ -30,6 +30,8 @@ smtp.int.gizur.com.
 usernam, from email and password should be blank and Requires Authentication=No
 
 
+MySQL Blowfish secret: jaOTkLFsWmP9
+
 - Cloud 2 -
 API KEY / Secret
 AKIAIYLH2M3IM5CZIL6Q / slanC493SYCuxg+hyC7Bn2GNBMhvnJfJ9hxElSG0
