@@ -200,7 +200,7 @@ class ApiController extends Controller {
             if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))===false) {
                 // Retreive Key pair from Amazon Dynamodb
                 $dynamodb = new AmazonDynamoDB();
-                //$dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion)); 
+                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion)); 
                 
                 //Scan for API KEYS
                 $ddb_response = $dynamodb->scan(array(
@@ -428,13 +428,15 @@ class ApiController extends Controller {
         try {
         switch($_GET['model']) {
             case 'About':
-                echo 'This mobile app was built using';
-                echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
-                echo 'In case of invalid API Key and signature,';
-                echo ' an account needs to setup in order to use ';
-                echo 'this service. Please contact';
-                echo '<a href="mailto://sales@gizur.com">sales@gizur.com</a>';
-                echo 'in order to setup an account.';
+                if (isset($_SEVER['HTTP_X_GIZURCLOUD_API_KEY']) && isset($_SERVER['HTTP_X_SIGNATURE'])) {
+                    echo 'This mobile app was built using';
+                    echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
+                } else {
+                    echo 'An account needs to setup in order to use ';
+                    echo 'this service. Please contact';
+                    echo '<a href="mailto://sales@gizur.com">sales@gizur.com</a>';
+                    echo 'in order to setup an account.';
+                }
                 break;
             /*
              *******************************************************************
@@ -678,7 +680,7 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                echo $response = $rest->get(Yii::app()->params->vtRestUrl . 
+                $response = $rest->get(Yii::app()->params->vtRestUrl . 
                         "?$params");               
                 $response = json_decode($response, true);
                 if ($response['success']==false)
