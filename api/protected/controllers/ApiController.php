@@ -200,7 +200,7 @@ class ApiController extends Controller {
             if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))===false) {
                 // Retreive Key pair from Amazon Dynamodb
                 $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion)); 
+                //$dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion)); 
                 
                 //Scan for API KEYS
                 $ddb_response = $dynamodb->scan(array(
@@ -678,9 +678,11 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                $response = $rest->get(Yii::app()->params->vtRestUrl . 
+                echo $response = $rest->get(Yii::app()->params->vtRestUrl . 
                         "?$params");               
                 $response = json_decode($response, true);
+                if ($response['success']==false)
+                    throw new Exception('Unable to fetch details');
                 $custom_fields = Yii::app()->params->custom_fields['Assets'];
 
                 foreach($response['result'] as &$asset){
