@@ -15,13 +15,22 @@ root / s0C55vtKKNcV
 clabgizurcom vTiger
 admin / st4vaDas3ecE
 gizur1 / e345^&T*HBB
+jonas /sdf34!@#$
+backoffice / yu#!@%yt34
 
+AWS SES
 Server Name:                        email-smtp.us-east-1.amazonaws.com
 Port:	                            25, 465 or 587
 Use Transport Layer Security (TLS): Yes
 User:                               ses-smtp-user
 Password:                           MkCKWS1jbH}a
 
+Postfix mailserver to be used from vTiger
+smtp.int.gizur.com.
+usernam, from email and password should be blank and Requires Authentication=No
+
+
+MySQL Blowfish secret: jaOTkLFsWmP9
 
 - Cloud 2 -
 API KEY / Secret
@@ -37,6 +46,19 @@ AKIAJX43RR2UCVINIL3Q / 7W4eIzKI3BpcCLLFdmopb11FERzQ6xgDASVe10b7
 
 RDS instance: gc3-mysql1
 root / tUrUTebraw9EC6JE
+
+
+vTiger Contacts
+test@gizur.com  / c2zaSP5c
+test2@gizur.com / c2zaSP5c
+test3@gizur.com / c2zaSP5c
+test4@gizur.com / c2zaSP5c
+
+
+Postfix mailserver to be used from vTiger
+smtp.c3-dev.gizurcloud.se.
+usernam, from email and password should be blank and Requires Authentication=No
+
 
 - Cloud 4 -
 RDS instance: gc4-mysql1
