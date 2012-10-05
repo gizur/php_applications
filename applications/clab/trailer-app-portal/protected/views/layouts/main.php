@@ -58,7 +58,7 @@ include_once 'protected/extensions/langauge/'.$lang.'.php';
 		if($user!='Guest' && !empty($user)){ $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=> getTranslatedString('Survey'), 'url'=>array('/troubleticket/surveylist')),
-				array('label'=> getTranslatedString('Change Password '), 'url'=>array('/site/changepassword')),
+				array('label'=> getTranslatedString('Change Password'), 'url'=>array('/site/changepassword')),
 				array('label'=> getTranslatedString('Login'), 'url'=>array('/site/login'), 'visible'=>$loginstatus),
 				array('label'=> getTranslatedString('Logout') , 'url'=>array('/site/logout'), 'visible'=>!$loginstatus)
 			),

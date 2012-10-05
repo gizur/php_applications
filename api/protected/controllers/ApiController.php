@@ -428,13 +428,15 @@ class ApiController extends Controller {
         try {
         switch($_GET['model']) {
             case 'About':
-                echo 'This mobile app was built using';
-                echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
-                echo 'In case of invalid API Key and signature,';
-                echo ' an account needs to setup in order to use ';
-                echo 'this service. Please contact';
-                echo '<a href="mailto://sales@gizur.com">sales@gizur.com</a>';
-                echo 'in order to setup an account.';
+                if (isset($_SEVER['HTTP_X_GIZURCLOUD_API_KEY']) && isset($_SERVER['HTTP_X_SIGNATURE'])) {
+                    echo 'This mobile app was built using';
+                    echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
+                } else {
+                    echo 'An account needs to setup in order to use ';
+                    echo 'this service. Please contact';
+                    echo '<a href="mailto://sales@gizur.com">sales@gizur.com</a>';
+                    echo 'in order to setup an account.';
+                }
                 break;
             /*
              *******************************************************************
@@ -681,6 +683,8 @@ class ApiController extends Controller {
                 $response = $rest->get(Yii::app()->params->vtRestUrl . 
                         "?$params");               
                 $response = json_decode($response, true);
+                if ($response['success']==false)
+                    throw new Exception('Unable to fetch details');
                 $custom_fields = Yii::app()->params->custom_fields['Assets'];
 
                 foreach($response['result'] as &$asset){

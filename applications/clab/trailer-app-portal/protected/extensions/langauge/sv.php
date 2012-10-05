@@ -50,12 +50,18 @@ $langaugeArr = array (
 'Trouble ticket' => 'supportärende',
 'Trouble ticket List' => 'Supportärende Lista',
 'Login' => 'inloggning',
-'Logout' => 'Logga',
+'Logout' => 'Logga ut',
 'About' => 'om',
 'Welcome' => 'Välkommen',
 'Status of damage' => 'Status för skador',
-'Damage' => 'skada'
-
+'Damage' => 'skada',
+'Change Password' => 'Ändra lösenord',
+'Old Password' => 'Gammalt lösenord',
+'Enter old password' => 'Ange gammalt lösenord',
+'New Password' => 'Nytt lösenord',
+'Enter new password'  => 'Ange nytt lösenord',
+'Confirm Password' =>  'Bekräfta lösenord',
+'Confirm new password' => 'Bekräfta nytt lösenord',
 );
 function getTranslatedString($str)
 {
