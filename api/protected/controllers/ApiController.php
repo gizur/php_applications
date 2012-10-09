@@ -998,13 +998,13 @@ class ApiController extends Controller {
                 $response = json_decode($response);
                       
                 $s3 = new AmazonS3();
-                $bucket = Yii::app()->params->awsS3Bucket;
-                
+                $s3->set_region(constant("AmazonS3::".Yii::app()->params->awsS3Region)); 
+
                 $unique_id = uniqid();
                  
                 $file_resource = fopen('protected/data/'. $unique_id .
                         $response->result->filename,'x');
-                $s3response = $s3->get_object($bucket, 
+                $s3response = $s3->get_object(Yii::app()->params->awsS3Bucket, 
                         $response->result->filename, 
                         array(
                     'fileDownload' => $file_resource
@@ -1170,13 +1170,13 @@ class ApiController extends Controller {
                 //Return response to client  
                 $rest = new RESTClient();
                 $rest->format('json');                    
-                echo "RESPONSE FROM VT" . $response = $rest->post(Yii::app()->params->vtRestUrl, array(
+                $response = $rest->post(Yii::app()->params->vtRestUrl, array(
                     'sessionName' => $sessionId,
                     'operation' => 'create',
                     'element' => $dataJson,
                     'elementType' => $_GET['model']
                 ));  
-                echo PHP_EOL. "--END OF RESPONSE--".PHP_EOL;
+                
                 $globalresponse = json_decode($response);
                 /**Creating Document**/
                 
@@ -1205,10 +1205,10 @@ class ApiController extends Controller {
                         
                         //Upload file to Amazon S3
                         $s3 = new AmazonS3();
+                        $s3->set_region(constant("AmazonS3::".Yii::app()->params->awsS3Region)); 
 
                         $response = $s3->create_object(
                                 Yii::app()->params->awsS3Bucket, 
-
                                 $crmid . '_' . $uniqueid . '_' . $file['name'], 
                                 array(
                             'fileUpload' => $file['tmp_name'],
