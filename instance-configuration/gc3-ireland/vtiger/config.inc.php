@@ -49,7 +49,7 @@ $dbconfig['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
 $dbconfig['db_port'] = ':3306';
 $dbconfig['db_username'] = 'gizurdbuser';
 $dbconfig['db_password'] = 'La$12^#ers';
-$dbconfig['db_name'] = 'vtiger';
+$dbconfig['db_name'] = 'vtiger-test1';
 $dbconfig['db_type'] = 'mysql';
 $dbconfig['db_status'] = 'true';
 
