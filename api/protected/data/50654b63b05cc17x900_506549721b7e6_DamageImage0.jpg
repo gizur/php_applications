@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>PermanentRedirect</Code><Message>The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint.</Message><RequestId>77DD4AC79EBE6B7E</RequestId><Bucket>gizurcloud</Bucket><HostId>rWL0k8/uOp9Zfp6YpqvXVpqWyT/BEqWJehtEiQo3Z+QgJ8qTAvB7bRLyncW9zYQ0</HostId><Endpoint>gizurcloud.s3-ap-northeast-1.amazonaws.com</Endpoint></Error>

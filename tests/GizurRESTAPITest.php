@@ -23,19 +23,33 @@ require_once('../lib/aws-php-sdk/sdk.class.php');
 
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
+    //Gizur Cloud 1
+    //Const GIZURCLOUD_SECRET_KEY  = "50694086b18cd0.9497426050694086b18fa8.66729980";
+    //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
-    Const GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
+    //Gizur Cloud 2
+    //Const GIZURCLOUD_SECRET_KEY = "5072a72ec5fc85.940161915072a72ec5ffb8.63157114";
+    //Const GIZURCLOUD_API_KEY = "GZCLD5072A72EC607D5072A72EC60F5";
+
+    //Gizur Cloud 3
+    Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
     Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+
     Const API_VERSION = "0.1";
 
     protected $credentials = Array(
+            //'portal_user@gizur.com' => 'skcx0r0i',
+            //'mobile_user@gizur.com' => 'ivry34aq',
             'cloud3@gizur.com' => 'rksh2jjf',
+            //'mobile_app@gizur.com' => 'qau5a0id',
             //'anil-singh@essindia.co.in' => '5061ae987fc35'
     );
 
+    //protected $url = "http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     protected $url = "http://localhost/gizurcloud/api/index.php/api/";
-    
+    //protected $url = "https://api.gizur.com/api/index.php/api/";
+
     public function testLogin()
     {
         $model = 'Authenticate';
@@ -59,7 +73,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'user4' => false,
             'cloud3@gizur.com' => true,
             'test@test.com' => false,
-            'anil-singh@essindia.co.in' => true
+            'anil-singh@essindia.co.in' => true,
+            'mobile_app@gizur.com' => true,
+            'mobile_user@gizur.com' => true
         );        
         generateSignature:
         $params = array(
@@ -87,6 +103,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             // Generate signature
             $signature = base64_encode(hash_hmac('SHA256', 
                         $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+            echo PHP_EOL . $string_to_sign;
             $rest->set_header('X_USERNAME', $username);
             $rest->set_header('X_PASSWORD', $password);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
@@ -614,10 +631,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
    
     
-    public function testCreateTroubleTicket(){
+    public function testCreateTroubleTicketWithOutDocument(){
         $model = 'HelpDesk';
 
-        echo " Creating Trouble Ticket " . PHP_EOL;        
+        echo " Creating Trouble Ticket With Out Document" . PHP_EOL;        
 
         //set fields to to posted
 	    $fields = array(
@@ -664,7 +681,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
             $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            $response = $rest->post($this->url.$model, $fields);
+            echo $response = $rest->post($this->url.$model, $fields);
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
@@ -710,7 +727,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                     'Model'	    => $model,
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => self::GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -733,6 +751,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             echo PHP_EOL . $response = $rest->post($this->url.$model, $fields);
             $response = json_decode($response);
             //check if response is valid
@@ -755,12 +774,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //$this->markTestSkipped('');        
 
         $params = array(
-                    'Verb'          => 'GET',
-                    'Model'         => 'DocumentAttachments',
+                    'Verb'          => 'PUT',
+                    'Model'         => 'Authenticate',
                     'Version'       => self::API_VERSION,
-                    'Timestamp'     => '20120920T15:31:22+530',
+                    'Timestamp'     => '20121003T18:12:36+0530',
                     'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => 2033595367
+                    'UniqueSalt'    => 877421141
         );
 
         // Sorg arguments
@@ -777,13 +796,13 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                     $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
 
 
-        $signature_generated = '1206f25c0554ff8313ef681fb9902DD17b';
+        $signature_generated = '9+WNcE0LK1ObHJDZAhU2o7nmWC0JzKRbHb/WvSq/Sy0=';
         $this->assertEquals($signature, $signature_generated);
     }
 
     public function testUploadToAmazonS3() {
         echo " Uploading File To Amazons3" . PHP_EOL;
-        $this->markTestSkipped('');
+        //$this->markTestSkipped('');
                         $s3 = new AmazonS3();
                         
                         $file = Array(
@@ -791,7 +810,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                         );
 
                         $response = $s3->create_object(
-                                'gizurcloud', 
+                                'gizurcloud-gc', 
                                 'image-to-upload.jpg', 
                                 array(
                             //'acl' => AmazonS3::ACL_PUBLIC,
@@ -811,9 +830,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     
     public function testGetDocumentAttachment(){
         $model = 'DocumentAttachments';
-        $notesid = '15x501';
-        $notesid = '15x507';
-        //$notesid = '15x508';
+        $notesid = '15x13';
 
         echo " Downloading Ticket Attachement " . PHP_EOL;        
     
@@ -872,9 +889,13 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testGetPicklist(){
         $model = 'HelpDesk';
-        $fieldname[0] = 'ticketstatus';
-        $fieldname[1] = 'sealed';
-        $fieldname[3] = 'reportdamage';
+        //$fieldname[0] = 'ticketstatus';
+        //$fieldname[1] = 'sealed';
+        //$fieldname[3] = 'reportdamage';
+        $fieldname[0] = 'straps';
+        $fieldname[1] = 'plates';
+        $fieldname[3] = 'damagereportlocation';
+
         echo " Getting Picklist" . PHP_EOL;        
 
         $params = array(

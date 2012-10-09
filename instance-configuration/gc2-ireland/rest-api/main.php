@@ -93,7 +93,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'trace, error, warning',
+					'levels'=>'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
@@ -109,29 +109,29 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
-                'awsS3Bucket' => 'gizurcloud',
+                'vtRestUrl'   => 'http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
+                'awsS3Bucket' => 'gizurcloud-gc2',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'acceptableTimestampError' => 60,
-                'awsS3Region' => 'REGION_APAC_NE1',
+                'awsS3Region' => 'REGION_EU_W1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
                 'awsSESRegion' => 'REGION_EU_W1',
                 'custom_fields' => Array(
                     'HelpDesk' => Array(
-                        'tickettype' => 'cf_641',
-                        'trailerid' => 'cf_642',
-                        'damagereportlocation' => 'cf_652',
-                        'sealed' => 'cf_644',
-                        'plates' => 'cf_654',
-                        'straps'  => 'cf_653',
-                        'reportdamage' => 'cf_647',
-                        'damagetype' => 'cf_648',
-                        'damageposition' => 'cf_649',
-                        'drivercauseddamage' => 'cf_650'
+                        'tickettype' => 'cf_640',
+                        'trailerid' => 'cf_641',
+                        'damagereportlocation' => 'cf_653',
+                        'sealed' => 'cf_643',
+                        'plates' => 'cf_652',
+                        'straps'  => 'cf_651',
+                        'reportdamage' => 'cf_646',
+                        'damagetype' => 'cf_647',
+                        'damageposition' => 'cf_648',
+                        'drivercauseddamage' => 'cf_649'
                     ),
                     'Assets' => Array(
-                        'trailertype' => 'cf_640'
+                        'trailertype' => 'cf_650'
                     )
                 ),  
 	),
