@@ -41,7 +41,7 @@ VALUES ((select id from vtiger_ws_operation_seq),'crmid','string',1);
 update vtiger_ws_operation_seq set id = id + 1;
 
 INSERT INTO `vtiger_ws_operation`(`operationid`, `name`, `handler_path`, `handler_method`, `type`, `prelogin`) VALUES 
-((select id from vtiger_ws_operation_seq),'changepw','include/Webservices/LoginCustomer.php','vtws_logincustomer','POST',0);
+((select id from vtiger_ws_operation_seq),'changepw','include/Webservices/LoginCustomer.php','vtws_changepassword','POST',0);
 
 INSERT INTO `vtiger_ws_operation_parameters`(`operationid`, `name`, `type`, `sequence`) 
 VALUES ((select id from vtiger_ws_operation_seq),'username','string',1);
@@ -55,7 +55,7 @@ VALUES ((select id from vtiger_ws_operation_seq),'newpassword','string',3);
 update vtiger_ws_operation_seq set id = id + 1;
 
 INSERT INTO `vtiger_ws_operation`(`operationid`, `name`, `handler_path`, `handler_method`, `type`, `prelogin`) VALUES 
-((select id from vtiger_ws_operation_seq),'resetpassword','include/Webservices/LoginCustomer.php','vtws_logincustomer','POST',1);
+((select id from vtiger_ws_operation_seq),'resetpassword','include/Webservices/LoginCustomer.php','vtws_resetpassword','POST',1);
 
 INSERT INTO `vtiger_ws_operation_parameters`(`operationid`, `name`, `type`, `sequence`) 
 VALUES ((select id from vtiger_ws_operation_seq),'username','string',1);
