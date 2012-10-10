@@ -273,7 +273,7 @@ class ApiController extends Controller {
                 throw new Exception('Used signature');
 
             Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
-
+            
             if ($_GET['model'] == 'About')
                 return true;
            
@@ -441,11 +441,8 @@ class ApiController extends Controller {
         try {
         switch($_GET['model']) {
             case 'About':
-                if (isset($_SEVER['HTTP_X_GIZURCLOUD_API_KEY']) && isset($_SERVER['HTTP_X_SIGNATURE'])) {
-                    echo 'This mobile app was built using';
-                    echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
-                } else {
-                }
+                echo 'This mobile app was built using';
+                echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
                 break;
             /*
              *******************************************************************
