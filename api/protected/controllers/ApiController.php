@@ -672,7 +672,7 @@ class ApiController extends Controller {
                 $accountId = $this->session->accountId;
                 
                 //Send request to vtiger REST service
-                $query = "select * from " . $_GET['model']; 
+                $query = "select * from " . $_GET['model'] . ";"; 
 
                 //urlencode to as its sent over http.
                 $queryParam = urlencode($query);
