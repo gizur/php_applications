@@ -41,7 +41,7 @@ return array(
                     'class'=>'CMemCache',
                     'servers'=>array(
                         array(
-                            'host'=>'gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+                            'host'=>'localhost',
                             'port'=>11211,
                             'weight'=>100,
                         ),
@@ -109,12 +109,12 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
-                'awsS3Bucket' => 'gizurcloud',
+                'vtRestUrl'   => 'http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
+                'awsS3Bucket' => 'gizurcloud-gc2',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'acceptableTimestampError' => 60,
-                'awsS3Region' => 'REGION_APAC_NE1',
+                'awsS3Region' => 'REGION_EU_W1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
                 'awsSESRegion' => 'REGION_EU_W1',
                 'custom_fields' => Array(

@@ -91,8 +91,8 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-		'GIZURCLOUD_SECRET_KEY' => '9b45e67513cb3377b0b18958c4de55be',
-		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
+		'GIZURCLOUD_SECRET_KEY' => 'yyy',
+		'GIZURCLOUD_API_KEY' => 'xxx',
 		'API_VERSION' => '0.1',
 		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/',
 		'Langauge' => array(

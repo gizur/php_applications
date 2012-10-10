@@ -41,7 +41,7 @@ return array(
                     'class'=>'CMemCache',
                     'servers'=>array(
                         array(
-                            'host'=>'gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+                            'host'=>'localhost',
                             'port'=>11211,
                             'weight'=>100,
                         ),
@@ -60,14 +60,10 @@ return array(
                                    'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>', 
                                    'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
-                        array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
-                        array('api/update', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
-			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
-                        array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
-                        array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'api/<model:(HelpDesk)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+                        array('api/create', 'pattern'=>'api/<model:(HelpDesk)>', 'verb'=>'POST'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
 		),
@@ -109,30 +105,8 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
-                'awsS3Bucket' => 'gizurcloud',
-                'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
-                'awsSESFromEmailAddress' => 'noreply@gizur.com',
-                'acceptableTimestampError' => 60,
-                'awsS3Region' => 'REGION_APAC_NE1',
-                'awsDynamoDBRegion' => 'REGION_EU_W1',
-                'awsSESRegion' => 'REGION_EU_W1',
-                'custom_fields' => Array(
-                    'HelpDesk' => Array(
-                        'tickettype' => 'cf_640',
-                        'trailerid' => 'cf_641',
-                        'damagereportlocation' => 'cf_653',
-                        'sealed' => 'cf_643',
-                        'plates' => 'cf_652',
-                        'straps'  => 'cf_651',
-                        'reportdamage' => 'cf_646',
-                        'damagetype' => 'cf_647',
-                        'damageposition' => 'cf_648',
-                        'drivercauseddamage' => 'cf_649'
-                    ),
-                    'Assets' => Array(
-                        'trailertype' => 'cf_650'
-                    )
-                ),  
+		'adminEmail'  => 'webmaster@example.com',
+                'vtRestUrl'   => 'http://gizurtrailerapp-env.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
+                'awsS3Bucket' => 'gizurcloud'
 	),
 );

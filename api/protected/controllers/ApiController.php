@@ -172,10 +172,12 @@ class ApiController extends Controller {
     
     public function beforeAction() {
         
-        try { 
-            if ($_GET['model'] == 'About' || $_GET['model'] == 'User')
+        try {
+            //First we validate the requests using logic do not consume
+            //resources 
+            if ($_GET['model'] == 'User')
                 return true;
-            
+                         
             if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Timestamp not found in request');
             
@@ -197,6 +199,7 @@ class ApiController extends Controller {
                     strtotime($_SERVER['HTTP_X_TIMESTAMP']))
 		        throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
 
+            //Fetch API Key details from Dynamodb, resource  intensive validation
             if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))===false) {
                 // Retreive Key pair from Amazon Dynamodb
                 $dynamodb = new AmazonDynamoDB();
@@ -235,9 +238,6 @@ class ApiController extends Controller {
                     $GIZURCLOUD_SECRET_KEY = (string)$ddb_response->body->Items->secretkey_1->{AmazonDynamoDB::TYPE_STRING};
                 }
 
-                //$GIZURCLOUD_SECRET_KEY  = "9b45e67513cb3377b0b18958c4de55be";
-                //$GIZURCLOUD_API_KEY = "GZCLDFC4B35B";    
-
                 if ($publicKeyNotFound) 
                     throw new Exception('Could not identify public key');        
 
@@ -273,6 +273,9 @@ class ApiController extends Controller {
                 throw new Exception('Used signature');
 
             Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
+            
+            if ($_GET['model'] == 'About')
+                return true;
            
             if(!isset($_SERVER['HTTP_X_USERNAME'])) 
                 throw new Exception('Could not find enough credentials');
@@ -403,21 +406,31 @@ class ApiController extends Controller {
             $this->session->challengeToken = $challengeToken;
             return true;
         } catch (Exception $e){
-            $response = new stdClass();
-            $response->success = false;
-            $response->error->code = $this->errors[$e->getCode()];
-            $response->error->message = $e->getMessage();
-            if ($e->getCode() == 1003) {
-		if (isset($_SERVER['HTTP_X_TIMESTAMP']))
-		        $response->error->time_difference = 
-          $_SERVER['REQUEST_TIME'] - strtotime($_SERVER['HTTP_X_TIMESTAMP']);
-                $response->error->time_request_arrived = 
+            if ($_GET['model'] != 'About') {
+                $response = new stdClass();
+                $response->success = false;
+                $response->error->code = $this->errors[$e->getCode()];
+                $response->error->message = $e->getMessage();
+
+                if ($e->getCode() == 1003) {
+		            if (isset($_SERVER['HTTP_X_TIMESTAMP']))
+		                $response->error->time_difference = 
+                    $_SERVER['REQUEST_TIME'] - strtotime($_SERVER['HTTP_X_TIMESTAMP']);
+                    $response->error->time_request_arrived = 
                                            date("c",$_SERVER['REQUEST_TIME']);
-                $response->error->time_request_sent = 
+                    $response->error->time_request_sent = 
                             date("c",strtotime($_SERVER['HTTP_X_TIMESTAMP']));
-                $response->error->time_server = date("c");
+                    $response->error->time_server = date("c");
+                }
+
+                $this->_sendResponse(403, json_encode($response));
+            } else {
+                $this->_sendResponse(403, 
+                    'An account needs to setup in order to use ' .
+                    'this service. Please contact' .
+                    '<a href="mailto://sales@gizur.com">sales@gizur.com</a>' .
+                    'in order to setup an account.' );
             }
-            $this->_sendResponse(403, json_encode($response));
             return false;
         }
     }    
@@ -428,15 +441,8 @@ class ApiController extends Controller {
         try {
         switch($_GET['model']) {
             case 'About':
-                if (isset($_SEVER['HTTP_X_GIZURCLOUD_API_KEY']) && isset($_SERVER['HTTP_X_SIGNATURE'])) {
-                    echo 'This mobile app was built using';
-                    echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
-                } else {
-                    echo 'An account needs to setup in order to use ';
-                    echo 'this service. Please contact';
-                    echo '<a href="mailto://sales@gizur.com">sales@gizur.com</a>';
-                    echo 'in order to setup an account.';
-                }
+                echo 'This mobile app was built using';
+                echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
                 break;
             /*
              *******************************************************************
@@ -666,8 +672,7 @@ class ApiController extends Controller {
                 $accountId = $this->session->accountId;
                 
                 //Send request to vtiger REST service
-                $query = "select * from " . $_GET['model'] . 
-                        " where account = " . $accountId . ";";
+                $query = "select * from " . $_GET['model'] . ";"; 
 
                 //urlencode to as its sent over http.
                 $queryParam = urlencode($query);
@@ -990,13 +995,13 @@ class ApiController extends Controller {
                 $response = json_decode($response);
                       
                 $s3 = new AmazonS3();
-                $bucket = Yii::app()->params->awsS3Bucket;
-                
+                $s3->set_region(constant("AmazonS3::".Yii::app()->params->awsS3Region)); 
+
                 $unique_id = uniqid();
                  
                 $file_resource = fopen('protected/data/'. $unique_id .
                         $response->result->filename,'x');
-                $s3response = $s3->get_object($bucket, 
+                $s3response = $s3->get_object(Yii::app()->params->awsS3Bucket, 
                         $response->result->filename, 
                         array(
                     'fileDownload' => $file_resource
@@ -1172,6 +1177,9 @@ class ApiController extends Controller {
                 $globalresponse = json_decode($response);
                 /**Creating Document**/
                 
+                if ($globalresponse->success == false)
+                    throw new Exception($globalresponse->error->message);
+                 
                 //Create Documents if any is attached
                 $crmid = $globalresponse->result->id;
                 $globalresponse->result->documents = Array();
@@ -1183,7 +1191,7 @@ class ApiController extends Controller {
                     'filedownloadcount' => null,
                     'filestatus' => 1,
                     'fileversion' => '',
-                    ); 
+                    );
                 if (!empty($_FILES) && $globalresponse->success){
                     foreach ($_FILES as $key => $file){
                         $uniqueid = uniqid();
@@ -1194,10 +1202,10 @@ class ApiController extends Controller {
                         
                         //Upload file to Amazon S3
                         $s3 = new AmazonS3();
+                        $s3->set_region(constant("AmazonS3::".Yii::app()->params->awsS3Region)); 
 
                         $response = $s3->create_object(
                                 Yii::app()->params->awsS3Bucket, 
-
                                 $crmid . '_' . $uniqueid . '_' . $file['name'], 
                                 array(
                             'fileUpload' => $file['tmp_name'],
@@ -1238,7 +1246,7 @@ class ApiController extends Controller {
                                                     'notesid' => $notesid
                                                 ));
                                 $response = json_decode($response);   
-                                if ($response->success) { 
+                                if ($response->success) {
                                     $globalresponse->result->documents[]
                                         = $document->result;
                                 } else {
@@ -1335,7 +1343,7 @@ class ApiController extends Controller {
                 if ($_GET['action'] == 'reset') {
 
                     $email = new AmazonSES();
-                    $email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
+                    //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
                     $response = $email->list_verified_email_addresses();
 
                     if ($response->isOK()) {
