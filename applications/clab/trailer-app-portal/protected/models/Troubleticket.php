@@ -195,7 +195,9 @@ public function attributeLabels()
 
 function findAll($module,$tickettype,$year='0000',$month='00',$trailer='0')
   {
-
+    $year = '2012';
+    $month = '10';
+    $trailer = 'VVS10002';
 	$params = array(
                     'Verb'          => 'GET',
                     'Model'	        => $module,
