@@ -44,11 +44,12 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
       db_name
 */
 
-$dbconfig['db_server'] = 'gc4-mysql1.cipx3vwfyph7.eu-west-1.rds.amazonaws.com';
+
+$dbconfig['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
 $dbconfig['db_port'] = ':3306';
-$dbconfig['db_username'] = 'vtiger-test1';
-$dbconfig['db_password'] = 'q9Hu9UzBrbj2YPNX';
-$dbconfig['db_name'] = 'vtiger-test1';
+$dbconfig['db_username'] = 'gizurdbuser';
+$dbconfig['db_password'] = 'La$12^#ers';
+$dbconfig['db_name'] = 'vtiger';
 $dbconfig['db_type'] = 'mysql';
 $dbconfig['db_status'] = 'true';
 
