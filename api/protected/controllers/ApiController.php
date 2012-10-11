@@ -618,10 +618,12 @@ class ApiController extends Controller {
                                                     ['HelpDesk']['trailerid'] . 
                                              " = '" . $_GET['trailerid'] . "'";
                     }
-                       
-                    $query = $query . " where " . 
-                            implode(" and ", $where_clause) . ";";
-                
+                      
+                    if (count($where_clause)!=0) 
+                        $query = $query . " where " . 
+                            implode(" and ", $where_clause);
+
+                    $query = $query . ";"; 
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
                     
@@ -638,7 +640,7 @@ class ApiController extends Controller {
                     $response = json_decode($response, true);
 
                     if ($response['success']==false)
-                        throw new Exception('Fetching details failed');
+                        throw new Exception('Fetching details failed ' . $query);
 
                     $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
                     
