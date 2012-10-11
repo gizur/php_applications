@@ -57,6 +57,8 @@ class UserIdentity extends CUserIdentity
 		           */ 
 
 		  if($response->success=='true'){
+            if ($response->account_no!=Yii::app()->params->loggable_account)
+                return false;
 			Yii::app()->session['username'] = $this->username;
 			Yii::app()->session['password'] = $this->password;
 			Yii::app()->session['account'] = $response->contactname;
