@@ -33,7 +33,7 @@ class TroubleticketController extends Controller {
         $this->LoginCheck();
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
-        $records = $model->findAll($module, $tickettype, $year = '0000', $month = '00', '0');
+        $records = $model->findAll($module, $tickettype, date("Y"), date("m"), '0');
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List));
     }
