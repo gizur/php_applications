@@ -35,9 +35,9 @@ class TroubleticketController extends Controller
 		 $model=new Troubleticket;
 		 $this->LoginCheck();
 		 $Asset_List=$model->findAssets('Assets');
-		 reset($Asset_List);
          $firstkey=key($Asset_List);
-         $records=$model->findAll($module,$tickettype,$year='0000',$month='00',$firstkey);
+         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
+         $records=$model->findAll($module,$tickettype,$year='0000',$month='00',$Asset_List[$firstkey]);
 		 $assetstatus=$model->findById('Assets',$firstkey);
 		 $this->render('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List,'currentasset'=>$assetstatus));
 		
@@ -62,7 +62,7 @@ class TroubleticketController extends Controller
 		$picklist_drivercauseddamage=$model->getpickList('drivercauseddamage');
 		$picklist_reportdamage=$model->getpickList('reportdamage');
 		$picklist_ticketstatus=$model->getpickList('ticketstatus');
-		$Asset_List=$model->findAssets('Assets');
+		$Asset_List = $model->findAssets('Assets');
 		$postdata=@$_POST['Troubleticket'];
 		$this->render('survey',array('model'=>$model,'Sealed'=>$pickList_sealed,'category'=>$pickList_category,
 		                             'damagetype' => $pickList_damagetype ,'damagepos'=> $pickList_damagepostion,
@@ -79,10 +79,12 @@ class TroubleticketController extends Controller
 		 $year=$_POST['year'];
 	     $month=$_POST['month'];
 	     $trailer=$_POST['trailer'];
+         if ($trailer=="--All Trailers--") $trailer="0";
 	     $model=new Troubleticket;
 	     $this->LoginCheck();
 		 $records=$model->findAll($module,'all',$year,$month,$trailer);
 		 $Asset_List=$model->findAssets('Assets');
+         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
 		 $assetstatus=$model->findById('Assets',$trailer);
 		 $this->renderPartial('surveylist',array('model'=>$model,'result'=>$records,'Assets'=>$Asset_List,'currentasset'=>$assetstatus,'TR'=>$trailer,'SYear'=>$year,'SMonth'=>$month));
 

@@ -6,7 +6,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Clab Trailer App',
+	'name'=>'Cikab Portal',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -94,7 +94,8 @@ return array(
 		'GIZURCLOUD_SECRET_KEY' => '9b45e67513cb3377b0b18958c4de55be',
 		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
 		'API_VERSION' => '0.1',
-		'URL' => 'http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/',
+		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/',
+                'loggable_account' => 'ACC1',
 		'Langauge' => array(
 	                 'en' => 'English',
 	                 'sv' => 'Swedish'

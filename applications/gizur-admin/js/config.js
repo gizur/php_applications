@@ -1,1 +1,2 @@
- var RESTServerURL = 'http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/'
+var RESTServerURL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/'
+

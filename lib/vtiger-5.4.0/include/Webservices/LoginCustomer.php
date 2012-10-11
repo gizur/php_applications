@@ -59,12 +59,12 @@
 	function vtws_getAccessKeyAndUsernameFromAccount($accountId){
 		global $adb;
                 
-                //Get the Object Type Id for Accounts Module
+        //Get the Object Type Id for Accounts Module
 		$sql = "SELECT id FROM `vtiger_ws_entity` WHERE name=?";
 		$result = $adb->pquery($sql,array('Accounts'));
 		if($result != null && isset($result)){
                     $objectTypeId = $adb->query_result($result, 0, 'id');
-                }                
+        }                
 		
 		$sql = "SELECT smownerid FROM `vtiger_crmentity` WHERE crmid=?";
 		$result = $adb->pquery($sql,array($accountId));

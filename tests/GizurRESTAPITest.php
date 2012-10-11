@@ -38,17 +38,26 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     Const API_VERSION = "0.1";
 
     protected $credentials = Array(
-            //'portal_user@gizur.com' => 'skcx0r0i',
+            'portal_user@gizur.com' => 'skcx0r0i',
             //'mobile_user@gizur.com' => 'ivry34aq',
-            'cloud3@gizur.com' => 'rksh2jjf',
+            //'cloud3@gizur.com' => 'rksh2jjf',
             //'mobile_app@gizur.com' => 'qau5a0id',
-            //'anil-singh@essindia.co.in' => '5061ae987fc35'
+            //'anil-singh@essindia.co.in' => '5061ae987fc35'            
     );
 
-    //protected $url = "http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
-    //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
-    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    //Cloud 1 
     //protected $url = "https://api.gizur.com/api/index.php/api/";
+
+    //Cloud 2
+    //protected $url = "http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
+    
+    //Cloud 3
+    protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
+    
+    //Dev
+    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+ 
 
     public function testLogin()
     {
@@ -75,7 +84,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'test@test.com' => false,
             'anil-singh@essindia.co.in' => true,
             'mobile_app@gizur.com' => true,
-            'mobile_user@gizur.com' => true
+            'mobile_user@gizur.com' => true,
+            'portal_user@gizur.com' => true
         );        
         generateSignature:
         $params = array(
@@ -186,6 +196,46 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+    public function testAbout()
+    {
+        $model = 'About';
+           
+        echo " Fetching About " . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'GET',
+                    'Model'         => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
+        );
+
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        $rest = new RESTClient();
+        $rest->format('json'); 
+        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $rest->set_header('X_SIGNATURE', $signature);                   
+        $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        
+        echo PHP_EOL . " Response :  " . $response = $rest->get($this->url.$model);
+        
+       unset($rest);
+       echo PHP_EOL . PHP_EOL;
+    }
+
     public function testChangePassword()
     {
         $model = 'Authenticate';
@@ -241,7 +291,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     public function testChangeAssetStatus()
     {
         $model = 'Assets';
-        $id = '28x4';
+        $id = '28x8';
            
         echo "Changing Asset Status" . PHP_EOL;        
 
@@ -484,20 +534,21 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testGetTroubleTicketInoperationListWithFilter(){
         $model = 'HelpDesk';
-        $category = 'inoperation';
+        $category = 'all';
         $filter = Array(
             'year' => '2012',
-            'month' => '08',
-            'trailerid' => 'AS0001'
+            'month' => '10',
+            'trailerid' => 'VVS10002'
         );
         echo " Getting Ticket Inoperation With Filter" . PHP_EOL;        
 
         $params = array(
                     'Verb'          => 'GET',
-                    'Model'	    => $model,
+                    'Model'         => $model,
                     'Version'       => self::API_VERSION,
                     'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+                    'KeyID'         => self::GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
         );
 
         // Sorg arguments
@@ -518,9 +569,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_USERNAME', $username);
             $rest->set_header('X_PASSWORD', $password);
             $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->get($this->url.$model."/$category"."/".
+            echo $response = $rest->get($this->url.$model."/$category"."/".
                                                   $filter['year']."/".
                                                   $filter['month']."/".
                                                   $filter['trailerid']);

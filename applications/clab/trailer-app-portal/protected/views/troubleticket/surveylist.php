@@ -146,7 +146,7 @@ function getAjaxBaseRecord(value)
 {
 var year=$('#year').val();
 var month=$('#month').val();
-var trailer=$('#trailer').val();
+var trailer=$('#trailer option:selected').text();
 $("#process").addClass("waitprocess");	
 $('#process').html('loading....  Please wait');
 $.post('index.php?r=troubleticket/surveysearch',{year: year, month: month ,trailer:trailer},
