@@ -371,7 +371,7 @@ class ApiController extends Controller {
                          $contact['result'][0]['firstname'] . 
                          " " . $contact['result'][0]['lastname'];
 
-                $query = "select accountname from Accounts" . 
+                $query = "select accountname, account_no from Accounts" . 
                           " where id = " . 
                           $contact['result'][0]['account_id'] . ";";
 
@@ -393,6 +393,8 @@ class ApiController extends Controller {
                 }
                 $response->result->accountname = 
                                          $account['result'][0]['accountname'];
+                $response->result->account_no = 
+                                         $account['result'][0]['account_no'];
                 $cache_value = json_encode($response->result);
 
                 //Save userid and session id against customerportal 
