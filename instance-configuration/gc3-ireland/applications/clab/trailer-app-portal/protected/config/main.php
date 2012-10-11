@@ -95,7 +95,7 @@ return array(
 		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
 		'API_VERSION' => '0.1',
 		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/',
-        'loggable_account' => 'ACC1',
+                'loggable_account' => 'ACC1',
 		'Langauge' => array(
 	                 'en' => 'English',
 	                 'sv' => 'Swedish'
