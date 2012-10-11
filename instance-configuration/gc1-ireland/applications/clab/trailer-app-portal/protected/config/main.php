@@ -91,11 +91,11 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-		'GIZURCLOUD_SECRET_KEY' => 'yyy',
-		'GIZURCLOUD_API_KEY' => 'xxx',
+		'GIZURCLOUD_SECRET_KEY' => '50694086b18cd0.9497426050694086b18fa8.66729980',
+		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
 		'API_VERSION' => '0.1',
 		'URL' => 'http://api.gizur.com/api/index.php/api/',
-        'loggable_account' => 'ACC1',
+                'loggable_account' => 'ACC1',
 		'Langauge' => array(
 	                 'en' => 'English',
 	                 'sv' => 'Swedish'
