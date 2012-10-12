@@ -125,7 +125,7 @@ return array(
                         'sealed' => 'cf_643',
                         'plates' => 'cf_652',
                         'straps'  => 'cf_651',
-                        'reportdamage' => 'cf_646',
+                        'reportdamage' => 'cf_654',
                         'damagetype' => 'cf_647',
                         'damageposition' => 'cf_648',
                         'drivercauseddamage' => 'cf_649'
