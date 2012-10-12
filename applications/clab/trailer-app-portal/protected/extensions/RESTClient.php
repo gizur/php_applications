@@ -142,7 +142,7 @@ class RESTClient extends CComponent
 			$lang = implode(', ', $lang);
 		}
 
-		$this->_curl->http_header('Accept-Language', $lang);
+		$this->_curl->http_header('Accept-language', $lang);
 	}
 
     private function _call($method, $uri, $params = array(), $format = NULL)

@@ -71,7 +71,7 @@ class MLUrlManager extends CUrlManager
      * @param $language language string
      * @return array
      */
-    public function changeLanguage($language) {
+    public function changelanguage($language) {
         if ($this->_currentUrl)
             $this->_currentUrl = '/'.$this->_currentUrl;
         $newUrl = array($this->_currentUrl);
@@ -87,7 +87,7 @@ class MLUrlManager extends CUrlManager
      * @param $language language string
      * @return string
      */
-    public function createLanguageUrl($language) {
+    public function createlanguageUrl($language) {
         if ($this->_currentUrl)
             $this->_currentUrl = '/'.$this->_currentUrl;
         $get = $_GET;
@@ -102,7 +102,7 @@ class MLUrlManager extends CUrlManager
      * @param $language language string
      * @return string
      */
-    public function createAbsoluteLanguageUrl($language) {
+    public function createAbsolutelanguageUrl($language) {
         if ($this->_currentUrl)
             $this->_currentUrl = '/'.$this->_currentUrl;
         $get = $_GET;
@@ -116,10 +116,10 @@ class MLUrlManager extends CUrlManager
      * returns languages list array
      * @return array
      */
-    public function listLanguage() {
+    public function listlanguage() {
         $list = array();
         foreach ($this->languages as $language) {
-            $list[$language] = $this->changeLanguage($language);
+            $list[$language] = $this->changelanguage($language);
         }
         return $list;
     }

@@ -12,7 +12,7 @@
 
 -->
 <?php 
-include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
+include_once 'protected/extensions/language/'.Yii::app()->session['Lang'].'.php';
 ?>
 <?php
 $this->pageTitle=Yii::app()->name . ' - New Ticket for Survey ';

@@ -3544,7 +3544,7 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/site/login.php (23)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/SiteController.php (49)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
-2012/09/01 10:47:15 [warning] [application] Failed to set unsafe attribute "langauge" of "LoginForm".
+2012/09/01 10:47:15 [warning] [application] Failed to set unsafe attribute "language" of "LoginForm".
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/SiteController.php (42)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
 2012/09/01 10:47:15 [error] [exception.CException] exception 'CException' with message 'Property "LoginForm.Lang" is not defined.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
@@ -3599,9 +3599,9 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=trouble
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveydetails.php (96)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (81)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
-2012/09/01 12:30:39 [error] [exception.CException] exception 'CException' with message 'Property "UserIdentity.langauge" is not defined.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
+2012/09/01 12:30:39 [error] [exception.CException] exception 'CException' with message 'Property "UserIdentity.language" is not defined.' in /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:131
 Stack trace:
-#0 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/components/UserIdentity.php(22): CComponent->__get('langauge')
+#0 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/components/UserIdentity.php(22): CComponent->__get('language')
 #1 /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/LoginForm.php(54): UserIdentity->authenticate()
 #2 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/validators/CInlineValidator.php(43): LoginForm->authenticate('password', Array)
 #3 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/validators/CValidator.php(197): CInlineValidator->validateAttribute(Object(LoginForm), 'password')
@@ -3619,7 +3619,7 @@ Stack trace:
 REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php
 HTTP_REFERER=http://localhost/gizurcloud/applications/clab/trailer-app-portal/index.php
 ---
-2012/09/01 12:46:02 [error] [php] include_once(protected/extensions/langauge/en.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:14)
+2012/09/01 12:46:02 [error] [php] include_once(protected/extensions/language/en.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:14)
 Stack trace:
 #0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): TroubleticketController->renderInternal()
 #1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
@@ -3637,7 +3637,7 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=trouble
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (14)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php (14)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (38)
-2012/09/01 12:46:28 [error] [php] include_once(protected/extensions/langauge/en.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:14)
+2012/09/01 12:46:28 [error] [php] include_once(protected/extensions/language/en.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/troubleticket/surveylist.php:14)
 Stack trace:
 #0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): TroubleticketController->renderInternal()
 #1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): TroubleticketController->renderFile()
@@ -3701,7 +3701,7 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php?r=trouble
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/models/Troubleticket.php (114)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/TroubleticketController.php (54)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
-2012/09/01 16:45:55 [error] [php] include_once(protected/extensions/langauge/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php:20)
+2012/09/01 16:45:55 [error] [php] include_once(protected/extensions/language/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php:20)
 Stack trace:
 #0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): SiteController->renderInternal()
 #1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/widgets/CContentDecorator.php(77): SiteController->renderFile()
@@ -3726,7 +3726,7 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php (20)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php (20)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/column1.php (5)
-2012/09/01 16:46:09 [error] [php] include_once(protected/extensions/langauge/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php:20)
+2012/09/01 16:46:09 [error] [php] include_once(protected/extensions/language/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php:20)
 Stack trace:
 #0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): SiteController->renderInternal()
 #1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/widgets/CContentDecorator.php(77): SiteController->renderFile()
@@ -3751,7 +3751,7 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php (20)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php (20)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/column1.php (5)
-2012/09/01 16:46:12 [error] [php] include_once(protected/extensions/langauge/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php:20)
+2012/09/01 16:46:12 [error] [php] include_once(protected/extensions/language/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/layouts/main.php:20)
 Stack trace:
 #0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): SiteController->renderInternal()
 #1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/widgets/CContentDecorator.php(77): SiteController->renderFile()
@@ -4404,7 +4404,7 @@ REQUEST_URI=/gizurcloud/applications/clab/trailer-app-portal/index.php
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/site/login.php (8)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/protected/controllers/SiteController.php (49)
 in /var/www/gizurcloud/applications/clab/trailer-app-portal/index.php (14)
-2012/09/25 10:25:37 [error] [php] include_once(protected/extensions/langauge/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/site/resetpassword.php:2)
+2012/09/25 10:25:37 [error] [php] include_once(protected/extensions/language/.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory (/var/www/gizurcloud/applications/clab/trailer-app-portal/protected/views/site/resetpassword.php:2)
 Stack trace:
 #0 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CBaseController.php(96): SiteController->renderInternal()
 #1 /var/www/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CController.php(870): SiteController->renderFile()

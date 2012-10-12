@@ -544,7 +544,7 @@ class PortalTest extends PHPUnit_Framework_TestCase
                             'headers' => array(
                                 'Cache-Control'    => 'max-age',
                                 //'Content-Encoding' => 'gzip',
-                                'Content-Language' => 'en-US',
+                                'Content-language' => 'en-US',
                                 'Expires'          => 
                                 'Thu, 01 Dec 1994 16:00:00 GMT',
                             )

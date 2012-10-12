@@ -32,7 +32,7 @@ if(Yii::app()->session['Lang']=="")
  {
  $lang=Yii::app()->session['Lang'];
 }
-include_once 'protected/extensions/langauge/'.$lang.'.php';
+include_once 'protected/extensions/language/'.$lang.'.php';
 ?>
 <body>
 <div class="container" id="page">
