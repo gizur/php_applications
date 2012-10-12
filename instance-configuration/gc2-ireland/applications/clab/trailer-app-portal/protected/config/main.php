@@ -96,7 +96,7 @@ return array(
 		'API_VERSION' => '0.1',
 		'URL' => 'http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/',
                 'loggable_account' => 'ACC1',
-		'Langauge' => array(
+		'Language' => array(
 	                 'en' => 'English',
 	                 'sv' => 'Swedish'
 		)
