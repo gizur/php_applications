@@ -28,20 +28,21 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
     //Gizur Cloud 2
-    //Const GIZURCLOUD_SECRET_KEY = "5072a72ec5fc85.940161915072a72ec5ffb8.63157114";
-    //Const GIZURCLOUD_API_KEY = "GZCLD5072A72EC607D5072A72EC60F5";
+    Const GIZURCLOUD_SECRET_KEY = "5072a72ec5fc85.940161915072a72ec5ffb8.63157114";
+    Const GIZURCLOUD_API_KEY = "GZCLD5072A72EC607D5072A72EC60F5";
 
     //Gizur Cloud 3
-    Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
-    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+    //Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
+    //Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
 
     Const API_VERSION = "0.1";
 
     protected $credentials = Array(
-            'portal_user@gizur.com' => 'skcx0r0i',
-            //'mobile_user@gizur.com' => 'ivry34aq',
+            //'portal_user@gizur.com' => 'skcx0r0i',
+            'mobile_user@gizur.com' => 'ivry34aq',
             //'cloud3@gizur.com' => 'rksh2jjf',
             //'mobile_app@gizur.com' => 'qau5a0id',
+            //'mobile_app@gizur.com' => 'cwvvzvb0',
             //'anil-singh@essindia.co.in' => '5061ae987fc35'            
     );
 
@@ -49,10 +50,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //protected $url = "https://api.gizur.com/api/index.php/api/";
 
     //Cloud 2
-    //protected $url = "http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
+    protected $url = "http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
     
     //Cloud 3
-    protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
@@ -411,7 +412,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
 
-        $this->credentials = array('anil-singh@essindia.co.in' => 'aa');
+        $this->credentials = array('anshuk-kumar@essindia.co.in' => 'ik13qfek');
 
         //login using each credentials
         foreach($this->credentials as $username => $password){            
@@ -536,9 +537,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $model = 'HelpDesk';
         $category = 'all';
         $filter = Array(
-            'year' => '2012',
-            'month' => '10',
-            'trailerid' => 'VVS10002'
+            'year' => '0000',
+            'month' => '00',
+            'trailerid' => '0'
         );
         echo " Getting Ticket Inoperation With Filter" . PHP_EOL;        
 
@@ -572,6 +573,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
             $rest->set_header('X_SIGNATURE', $signature);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+
+            echo $this->url.$model."/$category"."/".
+                                                  $filter['year']."/".
+                                                  $filter['month']."/".
+                                                  $filter['trailerid'];
             echo $response = $rest->get($this->url.$model."/$category"."/".
                                                   $filter['year']."/".
                                                   $filter['month']."/".
@@ -942,10 +948,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     public function testGetPicklist(){
         $model = 'HelpDesk';
         //$fieldname[0] = 'ticketstatus';
-        //$fieldname[1] = 'sealed';
-        //$fieldname[3] = 'reportdamage';
+        $fieldname[1] = 'sealed';
+        $fieldname[3] = 'reportdamage';
         $fieldname[0] = 'straps';
-        $fieldname[1] = 'plates';
+        //$fieldname[1] = 'plates';
         $fieldname[3] = 'damagereportlocation';
 
         echo " Getting Picklist" . PHP_EOL;        
