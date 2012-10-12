@@ -44,7 +44,7 @@ $this->breadcrumbs=array(
     <td bgcolor="e3f0f7"> <?php echo $result['result']['trailerid']; ?></td>
   </tr>
     <tr>
-    <td bgcolor="e3f0f7"><strong>Date </strong></td>
+    <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Date');?></strong></td>
     <td bgcolor="e3f0f7"><?php echo date('Y-m-d',strtotime($result['result']['createdtime'])); ?></td>
   </tr>
     <tr>
@@ -56,7 +56,7 @@ $this->breadcrumbs=array(
     <td bgcolor="e3f0f7"><?php echo $result['result']['damagereportlocation']; ?></td>
   </tr>
     <tr>
-    <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Acount');?></strong></td>
+    <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Account');?></strong></td>
     <td bgcolor="e3f0f7"><?php echo $result['result']['accountname']; ?></td>
   </tr>
     <tr>
