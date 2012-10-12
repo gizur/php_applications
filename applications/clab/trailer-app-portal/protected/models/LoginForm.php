@@ -85,7 +85,7 @@ class LoginForm extends CFormModel
 	
 	public function resetpassword($username)
 	{
-		 $model = 'Authenticate';
+		$model = 'Authenticate';
         //echo " Getting Picklist" . PHP_EOL;        
         $params = array(
                     'Verb'          => 'PUT',
@@ -108,26 +108,22 @@ class LoginForm extends CFormModel
         $signature = base64_encode(hash_hmac('SHA256', 
         $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-           $response['result']=array();           
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-            $response = $rest->put(Yii::app()->params->URL.$model."/reset");
-            $response = json_decode($response,true);
-            //check if response is valid
-        if($response['error']['success']==true){
-		echo Yii::app()->user->setFlash('success', "Your Password Successfully Changed "); 
-       } else
-       {
-	   echo Yii::app()->user->setFlash('error', $response['error']['message']); 
+        $response['result']=array();           
+        $rest = new RESTClient();
+        $rest->format('json'); 
+        $rest->set_header('X_USERNAME', $username);
+        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        $rest->set_header('X_SIGNATURE', $signature);                   
+        $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+        $response = $rest->put(Yii::app()->params->URL.$model."/reset");
+        $response = json_decode($response,true);
+        //check if response is valid
+       if($response['success']==true){
+	       echo Yii::app()->user->setFlash('success', 'Your Password Successfully Changed'); 
+       } else {
+	       echo Yii::app()->user->setFlash('error', $response['error']['message']); 
 	   }
-            //unset($rest);
-        //} 
-		
 	}
 	
 	
