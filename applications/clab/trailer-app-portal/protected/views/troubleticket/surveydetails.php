@@ -36,7 +36,7 @@ $this->breadcrumbs=array(
 <h2><?php echo getTranslatedString('Survey');?></h2>
 <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
 <tr>
-    <td width="26%" bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Tikect ID');?></strong></td>
+    <td width="26%" bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Ticket ID');?></strong></td>
     <td width="74%" bgcolor="e3f0f7"> <?php echo $result['result']['ticket_no']; ?></td>
   </tr>
    <tr>
