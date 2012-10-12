@@ -622,8 +622,8 @@ class ApiController extends Controller {
                     if (count($where_clause)!=0) 
                         $query = $query . " where " . 
                             implode(" and ", $where_clause);
-
                     $query = $query . ";"; 
+                    
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
                     
@@ -642,6 +642,56 @@ class ApiController extends Controller {
                     if ($response['success']==false)
                         throw new Exception('Fetching details failed ' . $query);
 
+
+                    //Get Accounts List
+                    $query = "select * from Accounts;";
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+                    
+                    //creating query string
+                    $params = "sessionName=$sessionId" . 
+                            "&operation=query&query=$queryParam";
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $accounts = $rest->get(Yii::app()->params->vtRestUrl . 
+                            "?$params");
+                    $accounts = json_decode($accounts, true);
+                    if ($accounts['success']==true) {
+                        $tmp_accounts = array();
+                        if (isset($accounts['result']))
+                            foreach($accounts['result'] as $account) 
+                                $tmp_accounts[$account['id']] = $account['accountname'];
+                    }
+
+
+                    //Get Contact List
+                    $query = "select * from Contacts;";
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+                    
+                    //creating query string
+                    $params = "sessionName=$sessionId" . 
+                            "&operation=query&query=$queryParam";
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');                    
+                    $contacts = $rest->get(Yii::app()->params->vtRestUrl . 
+                            "?$params");
+                    $contacts = json_decode($contacts, true);
+                    if ($contacts['success']==true) {
+                        $tmp_contacts = array();
+                        if (isset($contacts['result']))
+                            foreach($contacts['result'] as $contact) {
+                                $tmp_contacts[$contact['id']]['contactname'] = $contact['firstname'] . ' ' . $contact['lastname'];
+                                $tmp_contacts[$contact['id']]['accountname'] = $tmp_accounts[$contact['account_id']];
+                            }
+                    }
+
                     $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
                     
                     foreach($response['result'] as &$troubleticket){
@@ -650,6 +700,15 @@ class ApiController extends Controller {
                         unset($troubleticket['days']);
                         unset($troubleticket['modifiedtime']);
                         unset($troubleticket['from_portal']);
+                        if (isset($tmp_contacts)) {
+                            if (isset($tmp_contacts[$troubleticket['parent_id']])) {
+                                $troubleticket['contactname'] = $tmp_contacts[$troubleticket['parent_id']]['contactname'];
+                                $troubleticket['accountname'] = $tmp_contacts[$troubleticket['parent_id']]['accountname'];
+                            } else {
+                                $troubleticket['contactname'] = '';
+                                $troubleticket['accountname'] = '';
+                            }
+                        }
                         foreach($troubleticket as $fieldname => $value){
                             $key_to_replace = array_search($fieldname, 
                                                               $custom_fields);
