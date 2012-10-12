@@ -121,7 +121,7 @@ return array(
                     'HelpDesk' => Array(
                         'tickettype' => 'cf_649',
                         'trailerid' => 'cf_640',
-                        'damagereportlocation' => 'cf_6661',
+                        'damagereportlocation' => 'cf_661',
                         'sealed' => 'cf_651',
                         'plates' => 'cf_662',
                         'straps'  => 'cf_663',
