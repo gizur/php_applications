@@ -100,14 +100,14 @@ if (!isset($currentasset)) {
                 <?php foreach ($result['result'] as $data) { ?>
                 <?php $date = date('y-m-d', strtotime($data['createdtime'])); ?>
                 <?php $time = date('h:i', strtotime($data['createdtime'])); ?>
-                <?php $viewdteails = '<span id=' . $data['id'] . '></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '")>' . Yii::app()->session['account'] . '</a>'; ?>
+                <?php $viewdteails = '<span id=' . $data['id'] . '></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '")>' . $data['accountname'] . '</a>'; ?>
                 <?php $ticketNo = '<span id=' . $data['id'] . '-1></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '-1")>' . $data['date'] . '</a>';?>
                 <tr>
                     <td><?php echo $data['ticket_no'];?></td>
                     <td><?php echo $date;?></td>
                     <td><?php echo $time;?></td>
                     <td><?php echo $viewdteails;?></td>
-                    <td><?php echo Yii::app()->session['contactname'];?></td>
+                    <td><?php echo $data['contactname'];?></td>
                     <td><?php echo htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8");?></td>
                     <td><?php echo $data['reportdamage'];?></td>
                     <td><?php echo htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8");?></td>
