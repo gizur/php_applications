@@ -1,6 +1,6 @@
 <?php
-global $langaugeArr;
-$langaugeArr = array (
+global $languageArr;
+$languageArr = array (
 'Trailer App Portal' => 'Trailer App Portal',
 'Date' => 'Date',
 'Time' => 'Time',
@@ -59,7 +59,7 @@ $langaugeArr = array (
 );
 function getTranslatedString($str)
 {
-	global $langaugeArr;
-	return (isset($langaugeArr[$str]))?$langaugeArr[$str]:$str;
+	global $languageArr;
+	return (isset($languageArr[$str]))?$languageArr[$str]:$str;
  }
 ?>

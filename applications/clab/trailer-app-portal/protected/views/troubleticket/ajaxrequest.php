@@ -11,7 +11,7 @@
 
 -->
 <?php
-include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
+include_once 'protected/extensions/language/'.Yii::app()->session['Lang'].'.php';
 ?>
 <?php
 $columnsArray = array(getTranslatedString('ID'),getTranslatedString('Date'),getTranslatedString('Time'),getTranslatedString('Account'),getTranslatedString('Contact'),getTranslatedString('Place'), getTranslatedString('Damage Reported'),

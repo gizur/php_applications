@@ -10,7 +10,7 @@ class LoginForm extends CFormModel
 	public $username;
 	public $password;
 	public $rememberMe;
-    public $langauge;
+    public $language;
 	private $_identity;
 	public $oldpassword;
 	public $newpassword;
@@ -25,7 +25,7 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			// username and password are required
-			array('username, password,langauge', 'required'),
+			array('username, password,language', 'required'),
 			array('newpassword, newpassword1', 'length', 'min'=>4, 'max'=>40),
             array('newpassword1', 'compare', 'compareAttribute'=>'newpassword'),
 			// rememberMe needs to be a boolean
@@ -55,8 +55,8 @@ class LoginForm extends CFormModel
 		
 		if(!$this->hasErrors())
 		{
-			$this->_identity=new UserIdentity($this->username,$this->password,$this->langauge);
-			Yii::app()->session['Lang']=$this->langauge;
+			$this->_identity=new UserIdentity($this->username,$this->password,$this->language);
+			Yii::app()->session['Lang']=$this->language;
 			if(!$this->_identity->authenticate())
 			echo Yii::app()->user->setFlash('error', "Incorrect username or password");
 		}

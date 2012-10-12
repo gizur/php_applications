@@ -4,7 +4,7 @@
  * Description: Paginate, search and sort HTML tables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
  * Created:     28/3/2008
- * Language:    Javascript
+ * language:    Javascript
  * License:     GPL v2 or BSD 3 point style
  * Project:     Mtaala
  * Contact:     allan.jardine@sprymedia.co.uk
@@ -25,7 +25,7 @@
  * When considering jsLint, we need to allow eval() as it it is used for reading cookies
  */
 /*jslint evil: true, undef: true, browser: true */
-/*globals $, jQuery,_fnExternApiFunc,_fnInitalise,_fnInitComplete,_fnLanguageProcess,_fnAddColumn,_fnColumnOptions,_fnAddData,_fnCreateTr,_fnGatherData,_fnBuildHead,_fnDrawHead,_fnDraw,_fnReDraw,_fnAjaxUpdate,_fnAjaxUpdateDraw,_fnAddOptionsHtml,_fnFeatureHtmlTable,_fnScrollDraw,_fnAjustColumnSizing,_fnFeatureHtmlFilter,_fnFilterComplete,_fnFilterCustom,_fnFilterColumn,_fnFilter,_fnBuildSearchArray,_fnBuildSearchRow,_fnFilterCreateSearch,_fnDataToSearch,_fnSort,_fnSortAttachListener,_fnSortingClasses,_fnFeatureHtmlPaginate,_fnPageChange,_fnFeatureHtmlInfo,_fnUpdateInfo,_fnFeatureHtmlLength,_fnFeatureHtmlProcessing,_fnProcessingDisplay,_fnVisibleToColumnIndex,_fnColumnIndexToVisible,_fnNodeToDataIndex,_fnVisbleColumns,_fnCalculateEnd,_fnConvertToWidth,_fnCalculateColumnWidths,_fnScrollingWidthAdjust,_fnGetWidestNode,_fnGetMaxLenString,_fnStringToCss,_fnArrayCmp,_fnDetectType,_fnSettingsFromNode,_fnGetDataMaster,_fnGetTrNodes,_fnGetTdNodes,_fnEscapeRegex,_fnDeleteIndex,_fnReOrderIndex,_fnColumnOrdering,_fnLog,_fnClearTable,_fnSaveState,_fnLoadState,_fnCreateCookie,_fnReadCookie,_fnDetectHeader,_fnGetUniqueThs,_fnScrollBarWidth,_fnApplyToChildren,_fnMap,_fnGetRowData,_fnGetCellData,_fnSetCellData,_fnGetObjectDataFn,_fnSetObjectDataFn*/
+/*globals $, jQuery,_fnExternApiFunc,_fnInitalise,_fnInitComplete,_fnlanguageProcess,_fnAddColumn,_fnColumnOptions,_fnAddData,_fnCreateTr,_fnGatherData,_fnBuildHead,_fnDrawHead,_fnDraw,_fnReDraw,_fnAjaxUpdate,_fnAjaxUpdateDraw,_fnAddOptionsHtml,_fnFeatureHtmlTable,_fnScrollDraw,_fnAjustColumnSizing,_fnFeatureHtmlFilter,_fnFilterComplete,_fnFilterCustom,_fnFilterColumn,_fnFilter,_fnBuildSearchArray,_fnBuildSearchRow,_fnFilterCreateSearch,_fnDataToSearch,_fnSort,_fnSortAttachListener,_fnSortingClasses,_fnFeatureHtmlPaginate,_fnPageChange,_fnFeatureHtmlInfo,_fnUpdateInfo,_fnFeatureHtmlLength,_fnFeatureHtmlProcessing,_fnProcessingDisplay,_fnVisibleToColumnIndex,_fnColumnIndexToVisible,_fnNodeToDataIndex,_fnVisbleColumns,_fnCalculateEnd,_fnConvertToWidth,_fnCalculateColumnWidths,_fnScrollingWidthAdjust,_fnGetWidestNode,_fnGetMaxLenString,_fnStringToCss,_fnArrayCmp,_fnDetectType,_fnSettingsFromNode,_fnGetDataMaster,_fnGetTrNodes,_fnGetTdNodes,_fnEscapeRegex,_fnDeleteIndex,_fnReOrderIndex,_fnColumnOrdering,_fnLog,_fnClearTable,_fnSaveState,_fnLoadState,_fnCreateCookie,_fnReadCookie,_fnDetectHeader,_fnGetUniqueThs,_fnScrollBarWidth,_fnApplyToChildren,_fnMap,_fnGetRowData,_fnGetCellData,_fnSetCellData,_fnGetObjectDataFn,_fnSetObjectDataFn*/
 
 (function($, window, document) {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -313,8 +313,8 @@
 				nPrevious.className = oSettings.oClasses.sPagePrevDisabled;
 				nNext.className = oSettings.oClasses.sPageNextDisabled;
 				
-				nPrevious.title = oSettings.oLanguage.oPaginate.sPrevious;
-				nNext.title = oSettings.oLanguage.oPaginate.sNext;
+				nPrevious.title = oSettings.olanguage.oPaginate.sPrevious;
+				nNext.title = oSettings.olanguage.oPaginate.sNext;
 				
 				nPaging.appendChild( nPrevious );
 				nPaging.appendChild( nNext );
@@ -409,10 +409,10 @@
 				var nNext = document.createElement( 'span' );
 				var nLast = document.createElement( 'span' );
 				
-				nFirst.innerHTML = oSettings.oLanguage.oPaginate.sFirst;
-				nPrevious.innerHTML = oSettings.oLanguage.oPaginate.sPrevious;
-				nNext.innerHTML = oSettings.oLanguage.oPaginate.sNext;
-				nLast.innerHTML = oSettings.oLanguage.oPaginate.sLast;
+				nFirst.innerHTML = oSettings.olanguage.oPaginate.sFirst;
+				nPrevious.innerHTML = oSettings.olanguage.oPaginate.sPrevious;
+				nNext.innerHTML = oSettings.olanguage.oPaginate.sNext;
+				nLast.innerHTML = oSettings.olanguage.oPaginate.sLast;
 				
 				var oClasses = oSettings.oClasses;
 				nFirst.className = oClasses.sPageButton+" "+oClasses.sPageFirst;
@@ -958,13 +958,13 @@
 			this.aanFeatures = [];
 			
 			/*
-			 * Variable: oLanguage
+			 * Variable: olanguage
 			 * Purpose:  Store the language strings used by dataTables
 			 * Scope:    jQuery.dataTable.classSettings
 			 * Notes:    The words in the format _VAR_ are variables which are dynamically replaced
 			 *   by javascript
 			 */
-			this.oLanguage = {
+			this.olanguage = {
 				"sProcessing": "Processing...",
 				"sLengthMenu": "Show _MENU_ entries",
 				"sZeroRecords": "No matching records found",
@@ -2451,48 +2451,48 @@
 		}
 		
 		/*
-		 * Function: _fnLanguageProcess
+		 * Function: _fnlanguageProcess
 		 * Purpose:  Copy language variables from remote object to a local one
 		 * Returns:  -
 		 * Inputs:   object:oSettings - dataTables settings object
-		 *           object:oLanguage - Language information
+		 *           object:olanguage - language information
 		 *           bool:bInit - init once complete
 		 */
-		function _fnLanguageProcess( oSettings, oLanguage, bInit )
+		function _fnlanguageProcess( oSettings, olanguage, bInit )
 		{
-			_fnMap( oSettings.oLanguage, oLanguage, 'sProcessing' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sLengthMenu' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sEmptyTable' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sLoadingRecords' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sZeroRecords' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sInfo' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sInfoEmpty' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sInfoFiltered' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sInfoPostFix' );
-			_fnMap( oSettings.oLanguage, oLanguage, 'sSearch' );
+			_fnMap( oSettings.olanguage, olanguage, 'sProcessing' );
+			_fnMap( oSettings.olanguage, olanguage, 'sLengthMenu' );
+			_fnMap( oSettings.olanguage, olanguage, 'sEmptyTable' );
+			_fnMap( oSettings.olanguage, olanguage, 'sLoadingRecords' );
+			_fnMap( oSettings.olanguage, olanguage, 'sZeroRecords' );
+			_fnMap( oSettings.olanguage, olanguage, 'sInfo' );
+			_fnMap( oSettings.olanguage, olanguage, 'sInfoEmpty' );
+			_fnMap( oSettings.olanguage, olanguage, 'sInfoFiltered' );
+			_fnMap( oSettings.olanguage, olanguage, 'sInfoPostFix' );
+			_fnMap( oSettings.olanguage, olanguage, 'sSearch' );
 			
-			if ( typeof oLanguage.oPaginate != 'undefined' )
+			if ( typeof olanguage.oPaginate != 'undefined' )
 			{
-				_fnMap( oSettings.oLanguage.oPaginate, oLanguage.oPaginate, 'sFirst' );
-				_fnMap( oSettings.oLanguage.oPaginate, oLanguage.oPaginate, 'sPrevious' );
-				_fnMap( oSettings.oLanguage.oPaginate, oLanguage.oPaginate, 'sNext' );
-				_fnMap( oSettings.oLanguage.oPaginate, oLanguage.oPaginate, 'sLast' );
+				_fnMap( oSettings.olanguage.oPaginate, olanguage.oPaginate, 'sFirst' );
+				_fnMap( oSettings.olanguage.oPaginate, olanguage.oPaginate, 'sPrevious' );
+				_fnMap( oSettings.olanguage.oPaginate, olanguage.oPaginate, 'sNext' );
+				_fnMap( oSettings.olanguage.oPaginate, olanguage.oPaginate, 'sLast' );
 			}
 			
 			/* Backwards compatibility - if there is no sEmptyTable given, then use the same as
 			 * sZeroRecords - assuming that is given.
 			 */
-			if ( typeof oLanguage.sEmptyTable == 'undefined' && 
-			     typeof oLanguage.sZeroRecords != 'undefined' )
+			if ( typeof olanguage.sEmptyTable == 'undefined' && 
+			     typeof olanguage.sZeroRecords != 'undefined' )
 			{
-				_fnMap( oSettings.oLanguage, oLanguage, 'sZeroRecords', 'sEmptyTable' );
+				_fnMap( oSettings.olanguage, olanguage, 'sZeroRecords', 'sEmptyTable' );
 			}
 
 			/* Likewise with loading records */
-			if ( typeof oLanguage.sLoadingRecords == 'undefined' && 
-			     typeof oLanguage.sZeroRecords != 'undefined' )
+			if ( typeof olanguage.sLoadingRecords == 'undefined' && 
+			     typeof olanguage.sZeroRecords != 'undefined' )
 			{
-				_fnMap( oSettings.oLanguage, oLanguage, 'sZeroRecords', 'sLoadingRecords' );
+				_fnMap( oSettings.olanguage, olanguage, 'sZeroRecords', 'sLoadingRecords' );
 			}
 			
 			if ( bInit )
@@ -3296,16 +3296,16 @@
 					anRows[ 0 ].className = oSettings.asStripClasses[0];
 				}
 
-				var sZero = oSettings.oLanguage.sZeroRecords.replace(
+				var sZero = oSettings.olanguage.sZeroRecords.replace(
 					'_MAX_', oSettings.fnFormatNumber(oSettings.fnRecordsTotal()) );
 				if ( oSettings.iDraw == 1 && oSettings.sAjaxSource !== null && !oSettings.oFeatures.bServerSide )
 				{
-					sZero = oSettings.oLanguage.sLoadingRecords;
+					sZero = oSettings.olanguage.sLoadingRecords;
 				}
-				else if ( typeof oSettings.oLanguage.sEmptyTable != 'undefined' &&
+				else if ( typeof oSettings.olanguage.sEmptyTable != 'undefined' &&
 				     oSettings.fnRecordsTotal() === 0 )
 				{
-					sZero = oSettings.oLanguage.sEmptyTable;
+					sZero = oSettings.olanguage.sEmptyTable;
 				}
 
 				var nTd = document.createElement( 'td' );
@@ -4206,7 +4206,7 @@
 		 */
 		function _fnFeatureHtmlFilter ( oSettings )
 		{
-			var sSearchStr = oSettings.oLanguage.sSearch;
+			var sSearchStr = oSettings.olanguage.sSearch;
 			sSearchStr = (sSearchStr.indexOf('_INPUT_') !== -1) ?
 			  sSearchStr.replace('_INPUT_', '<input type="text" />') :
 			  sSearchStr==="" ? '<input type="text" />' : sSearchStr+' <input type="text" />';
@@ -5129,39 +5129,39 @@
 				   oSettings.fnRecordsDisplay() == oSettings.fnRecordsTotal() )
 			{
 				/* Empty record set */
-				sOut = oSettings.oLanguage.sInfoEmpty+ oSettings.oLanguage.sInfoPostFix;
+				sOut = oSettings.olanguage.sInfoEmpty+ oSettings.olanguage.sInfoPostFix;
 			}
 			else if ( oSettings.fnRecordsDisplay() === 0 )
 			{
 				/* Rmpty record set after filtering */
-				sOut = oSettings.oLanguage.sInfoEmpty +' '+ 
-					oSettings.oLanguage.sInfoFiltered.replace('_MAX_', sMax)+
-						oSettings.oLanguage.sInfoPostFix;
+				sOut = oSettings.olanguage.sInfoEmpty +' '+ 
+					oSettings.olanguage.sInfoFiltered.replace('_MAX_', sMax)+
+						oSettings.olanguage.sInfoPostFix;
 			}
 			else if ( oSettings.fnRecordsDisplay() == oSettings.fnRecordsTotal() )
 			{
 				/* Normal record set */
-				sOut = oSettings.oLanguage.sInfo.
+				sOut = oSettings.olanguage.sInfo.
 						replace('_START_', sStart).
 						replace('_END_',   sEnd).
 						replace('_TOTAL_', sTotal)+ 
-					oSettings.oLanguage.sInfoPostFix;
+					oSettings.olanguage.sInfoPostFix;
 			}
 			else
 			{
 				/* Record set after filtering */
-				sOut = oSettings.oLanguage.sInfo.
+				sOut = oSettings.olanguage.sInfo.
 						replace('_START_', sStart).
 						replace('_END_',   sEnd).
 						replace('_TOTAL_', sTotal) +' '+ 
-					oSettings.oLanguage.sInfoFiltered.replace('_MAX_', 
+					oSettings.olanguage.sInfoFiltered.replace('_MAX_', 
 						oSettings.fnFormatNumber(oSettings.fnRecordsTotal()))+ 
-					oSettings.oLanguage.sInfoPostFix;
+					oSettings.olanguage.sInfoPostFix;
 			}
 			
-			if ( oSettings.oLanguage.fnInfoCallback !== null )
+			if ( oSettings.olanguage.fnInfoCallback !== null )
 			{
-				sOut = oSettings.oLanguage.fnInfoCallback( oSettings, iStart, iEnd, iMax, iTotal, sOut );
+				sOut = oSettings.olanguage.fnInfoCallback( oSettings, iStart, iEnd, iMax, iTotal, sOut );
 			}
 			
 			var n = oSettings.aanFeatures.i;
@@ -5219,7 +5219,7 @@
 				nLength.setAttribute( 'id', oSettings.sTableId+'_length' );
 			}
 			nLength.className = oSettings.oClasses.sLength;
-			nLength.innerHTML = '<label>'+oSettings.oLanguage.sLengthMenu.replace( '_MENU_', sStdMenu )+'</label>';
+			nLength.innerHTML = '<label>'+oSettings.olanguage.sLengthMenu.replace( '_MENU_', sStdMenu )+'</label>';
 			
 			/*
 			 * Set the length to the current display length - thanks to Andrea Pavlovic for this fix,
@@ -5284,7 +5284,7 @@
 			{
 				nProcessing.setAttribute( 'id', oSettings.sTableId+'_processing' );
 			}
-			nProcessing.innerHTML = oSettings.oLanguage.sProcessing;
+			nProcessing.innerHTML = oSettings.olanguage.sProcessing;
 			nProcessing.className = oSettings.oClasses.sProcessing;
 			oSettings.nTable.parentNode.insertBefore( nProcessing, oSettings.nTable );
 			
@@ -6758,7 +6758,7 @@
 		this.oApi._fnExternApiFunc = _fnExternApiFunc;
 		this.oApi._fnInitalise = _fnInitalise;
 		this.oApi._fnInitComplete = _fnInitComplete;
-		this.oApi._fnLanguageProcess = _fnLanguageProcess;
+		this.oApi._fnlanguageProcess = _fnlanguageProcess;
 		this.oApi._fnAddColumn = _fnAddColumn;
 		this.oApi._fnColumnOptions = _fnColumnOptions;
 		this.oApi._fnAddData = _fnAddData;
@@ -6969,7 +6969,7 @@
 				_fnMap( oSettings, oInit, "aoSearchCols", "aoPreSearchCols" );
 				_fnMap( oSettings, oInit, "iDisplayLength", "_iDisplayLength" );
 				_fnMap( oSettings, oInit, "bJQueryUI", "bJUI" );
-				_fnMap( oSettings.oLanguage, oInit, "fnInfoCallback" );
+				_fnMap( oSettings.olanguage, oInit, "fnInfoCallback" );
 				
 				/* Callback functions which are array driven */
 				if ( typeof oInit.fnDrawCallback == 'function' )
@@ -7073,24 +7073,24 @@
 					oInit.aoColumns = oInit.aoData;
 				}
 				
-				/* Language definitions */
-				if ( typeof oInit.oLanguage != 'undefined' )
+				/* language definitions */
+				if ( typeof oInit.olanguage != 'undefined' )
 				{
-					if ( typeof oInit.oLanguage.sUrl != 'undefined' && oInit.oLanguage.sUrl !== "" )
+					if ( typeof oInit.olanguage.sUrl != 'undefined' && oInit.olanguage.sUrl !== "" )
 					{
 						/* Get the language definitions from a file */
-						oSettings.oLanguage.sUrl = oInit.oLanguage.sUrl;
-						$.getJSON( oSettings.oLanguage.sUrl, null, function( json ) { 
-							_fnLanguageProcess( oSettings, json, true ); } );
+						oSettings.olanguage.sUrl = oInit.olanguage.sUrl;
+						$.getJSON( oSettings.olanguage.sUrl, null, function( json ) { 
+							_fnlanguageProcess( oSettings, json, true ); } );
 						bInitHandedOff = true;
 					}
 					else
 					{
-						_fnLanguageProcess( oSettings, oInit.oLanguage, false );
+						_fnlanguageProcess( oSettings, oInit.olanguage, false );
 					}
 				}
-				/* Warning: The _fnLanguageProcess function is async to the remainder of this function due
-				 * to the XHR. We use _bInitialised in _fnLanguageProcess() to check this the processing 
+				/* Warning: The _fnlanguageProcess function is async to the remainder of this function due
+				 * to the XHR. We use _bInitialised in _fnlanguageProcess() to check this the processing 
 				 * below is complete. The reason for spliting it like this is optimisation - we can fire
 				 * off the XHR (if needed) and then continue processing the data.
 				 */

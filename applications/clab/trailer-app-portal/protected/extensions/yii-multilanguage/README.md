@@ -59,16 +59,16 @@ Example use inside app
 ---
 
     # return url
-    Yii::app()->UrlManager->createLanguageUrl('en')
+    Yii::app()->UrlManager->createlanguageUrl('en')
 
     # return absolute url
-    Yii::app()->UrlManager->createAbsoluteLanguageUrl('en')
+    Yii::app()->UrlManager->createAbsolutelanguageUrl('en')
 
     # returns the current link with the set language
-    CHtml::link('fr',Yii::app()->UrlManager->changeLanguage('fr'))
+    CHtml::link('fr',Yii::app()->UrlManager->changelanguage('fr'))
 
     # languages list
-    foreach (Yii::app()->UrlManager->listLanguage() as $language => $languageUrl) {
+    foreach (Yii::app()->UrlManager->listlanguage() as $language => $languageUrl) {
         echo '<ul>';
         if (Yii::app()->language==$language) {
             echo '<li>'.$language.'</li>;

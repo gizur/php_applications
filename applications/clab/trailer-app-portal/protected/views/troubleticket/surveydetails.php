@@ -11,7 +11,7 @@
 
 -->
 <?php 
-include_once 'protected/extensions/langauge/'.Yii::app()->session['Lang'].'.php';
+include_once 'protected/extensions/language/'.Yii::app()->session['Lang'].'.php';
 ?>
 <?php  
   $baseUrl = Yii::app()->baseUrl; 
