@@ -96,7 +96,7 @@ return array(
 		'API_VERSION' => '0.1',
 		'URL' => 'http://api.gizur.com/api/index.php/api/',
                 'loggable_account' => 'ACC1',
-		'Langauge' => array(
+		'language' => array(
 	                 'en' => 'English',
 	                 'sv' => 'Swedish'
 		)
