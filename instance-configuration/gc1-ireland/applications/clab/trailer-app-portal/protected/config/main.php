@@ -92,9 +92,9 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
 		'GIZURCLOUD_SECRET_KEY' => '50694086b18cd0.9497426050694086b18fa8.66729980',
-		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
+		'GIZURCLOUD_API_KEY' => 'GZCLD50694086B196F50694086B19E7',
 		'API_VERSION' => '0.1',
-		'URL' => 'http://api.gizur.com/api/index.php/api/',
+		'URL' => 'https://api.gizur.com/api/index.php/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',
