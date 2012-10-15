@@ -109,7 +109,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
+                'vtRestUrl'   => 'https://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
                 'awsS3Bucket' => 'gizurcloud-clab',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
