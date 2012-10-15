@@ -1439,8 +1439,18 @@ class ApiController extends Controller {
                          )),
                          array( // Message (short form)
                              'Subject.Data' => 'Your Gizur Account password has been reset',
-                             'Body.Text.Data' => 'Dear Gizur Account Holder, ' . PHP_EOL . PHP_EOL  . 'Your password has been reset to ' . $response->result->newpassword .
-                                                 PHP_EOL . '-- Gizur Admin'
+                             'Body.Text.Data' => 'Dear Gizur Account Holder, ' . 
+                             PHP_EOL . 
+                             PHP_EOL . 
+                             'Your password has been reset to: ' . 
+                             $response->result->newpassword .
+                             PHP_EOL .
+                             'Please change it the next time you login.' .
+                             PHP_EOL .
+                             PHP_EOL . 
+                             '--' . 
+                             PHP_EOL .
+                             ' Gizur Admin'
                          )
                          );        
                     if ($SESresponse->isOK()) {

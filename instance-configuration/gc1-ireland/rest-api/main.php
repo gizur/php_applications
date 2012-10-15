@@ -41,7 +41,7 @@ return array(
                     'class'=>'CMemCache',
                     'servers'=>array(
                         array(
-                            'host'=>'memcached.int.gizur.com',
+                            'host'=>'localhost',//'memcached.int.gizur.com',
                             'port'=>11211,
                             'weight'=>100,
                         ),
@@ -109,8 +109,8 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
-                'awsS3Bucket' => 'gizurcloud',
+                'vtRestUrl'   => 'https://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
+                'awsS3Bucket' => 'gizurcloud-clab',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'acceptableTimestampError' => 60,

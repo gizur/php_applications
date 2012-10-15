@@ -99,7 +99,7 @@
 
     function vtws_resetpassword($username) {
 	    global $adb;
-        $newpassword = uniqid();
+        $newpassword = substr(strrev(uniqid()),0,8);
         $sql = "update vtiger_portalinfo set user_password = ? where user_name=?";
 		$result = $adb->pquery($sql,array($newpassword, $username));
 
