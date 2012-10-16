@@ -28,7 +28,7 @@ class SiteController extends Controller {
         $protocol = 'http://';
         if (Yii::app()->request->isSecureConnection)
             $protocol = 'https://';
-
+        $servername = Yii::app()->request->getServerName();
         $model = new LoginForm;
 
         // if it is ajax validation request
@@ -38,7 +38,7 @@ class SiteController extends Controller {
         }
 
         if (!empty(Yii::app()->session['username'])) {
-            $this->redirect($protocol . Yii::app()->homeUrl . '?r=troubleticket/surveylist');
+            $this->redirect($protocol . $servername . '/' . Yii::app()->homeUrl . '?r=troubleticket/surveylist');
             exit;
         }
         // collect user input data
@@ -48,7 +48,7 @@ class SiteController extends Controller {
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login())
                 $returnUrl = Yii::app()->homeUrl . '?r=troubleticket/surveylist';
-            $this->redirect($protocol . $returnUrl);
+            $this->redirect($protocol . $servername . '/' . $returnUrl);
         }
         // display the login form
         $this->render('login', array('model' => $model));
@@ -90,6 +90,8 @@ class SiteController extends Controller {
         $protocol = 'http://';
         if (Yii::app()->request->isSecureConnection)
             $protocol = 'https://';
+        $servername = Yii::app()->request->getServerName();        
+        
         $model = new LoginForm;
 
         // if it is ajax validation request
@@ -103,7 +105,7 @@ class SiteController extends Controller {
             $model->attributes = $_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login())
-                $this->redirect($protocol . Yii::app()->user->returnUrl);
+                $this->redirect($protocol . $servername . '/' . Yii::app()->user->returnUrl);
         }
         // display the login form
         $this->render('login', array('model' => $model));
@@ -117,6 +119,7 @@ class SiteController extends Controller {
         $protocol = 'http://';
         if (Yii::app()->request->isSecureConnection)
             $protocol = 'https://';
+        $servername = Yii::app()->request->getServerName();        
         $model = 'Authenticate';
         //echo " Getting Picklist" . PHP_EOL;        
 
@@ -162,7 +165,7 @@ class SiteController extends Controller {
             Yii::app()->session['username'] = "";
             Yii::app()->session['password'] = "";
             Yii::app()->session['Lang'] = "";
-            $this->redirect($protocol . Yii::app()->user->returnUrl);
+            $this->redirect($protocol . $servername . '/' . Yii::app()->user->returnUrl);
         } else {
             return false;
         }
