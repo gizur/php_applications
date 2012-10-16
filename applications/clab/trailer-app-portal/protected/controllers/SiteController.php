@@ -36,7 +36,7 @@ class SiteController extends Controller {
         }
 
         if (!empty(Yii::app()->session['username'])) {
-            $this->redirect($protocol . Yii::app()->homeUrl . '?r=troubleticket/surveylist');
+            $this->redirect($protocol . $servername . Yii::app()->homeUrl . '?r=troubleticket/surveylist');
             exit;
         }
         // collect user input data
@@ -46,7 +46,7 @@ class SiteController extends Controller {
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login())
                 $returnUrl = Yii::app()->homeUrl . '?r=troubleticket/surveylist';
-            $this->redirect($protocol . $returnUrl);
+            $this->redirect($protocol . $servername . $returnUrl);
         }
         // display the login form
         $this->render('login', array('model' => $model));
