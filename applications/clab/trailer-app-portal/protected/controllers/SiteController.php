@@ -25,9 +25,7 @@ class SiteController extends Controller {
      * when an action is not explicitly requested by users.
      */
     public function actionIndex() {
-        $protocol = 'http://';
-        if (Yii::app()->request->isSecureConnection)
-            $protocol = 'https://';
+        $protocol = Yii::app()->params['protocol'];
         $servername = Yii::app()->request->getServerName();
         $model = new LoginForm;
 
@@ -87,9 +85,7 @@ class SiteController extends Controller {
      * Displays the login page
      */
     public function actionLogin() {
-        $protocol = 'http://';
-        if (Yii::app()->request->isSecureConnection)
-            $protocol = 'https://';
+        $protocol = Yii::app()->params['protocol'];
         $servername = Yii::app()->request->getServerName();        
         
         $model = new LoginForm;
@@ -116,9 +112,7 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
 
-        $protocol = 'http://';
-        if (Yii::app()->request->isSecureConnection)
-            $protocol = 'https://';
+        $protocol = Yii::app()->params['protocol'];
         $servername = Yii::app()->request->getServerName();        
         $model = 'Authenticate';
         //echo " Getting Picklist" . PHP_EOL;        
