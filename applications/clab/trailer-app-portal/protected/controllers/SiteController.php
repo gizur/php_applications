@@ -25,8 +25,8 @@ class SiteController extends Controller {
      * when an action is not explicitly requested by users.
      */
     public function actionIndex() {
-        echo $protocol = Yii::app()->params['protocol'];
-        echo $servername = Yii::app()->request->getServerName();
+        $protocol = Yii::app()->params['protocol'];
+        $servername = Yii::app()->request->getServerName();
         $model = new LoginForm;
 
         // if it is ajax validation request
