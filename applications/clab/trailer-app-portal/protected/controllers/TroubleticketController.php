@@ -143,9 +143,13 @@ class TroubleticketController extends Controller {
      * This Action are check logged user. otherwise redirect to login poage  
      */
     public function LoginCheck() {
+        $protocol = 'http://';
+        if (Yii::app()->request->isSecureConnection)
+            $protocol = 'https://';
+        $servername = Yii::app()->request->getServerName();          
         $user = Yii::app()->session['username'];
         if (empty($user)) {
-            $returnUrl = Yii::app()->homeUrl;
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl;
             $this->redirect($returnUrl);
         }
     }
