@@ -33,6 +33,9 @@ cp $1/.htaccess ../.htaccess
 echo "cp $1/aws-php-sdk/config.inc.php ../config.inc.php"
 cp $1/aws-php-sdk/config.inc.php ../lib/aws-php-sdk/config.inc.php
 
+echo "cp $1/aws-php-sdk/config.inc.php ../api/protected/vendors/aws-php-sdk/config.inc.php"
+cp $1/aws-php-sdk/config.inc.php ../api/protected/vendors/aws-php-sdk/config.inc.php
+
 echo "cp $1/rest-api/main.php ../api/protected/config/"
 cp $1/rest-api/main.php ../api/protected/config/
 
