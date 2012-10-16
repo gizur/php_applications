@@ -1351,7 +1351,33 @@ class ApiController extends Controller {
                         //unset($custom_fields[$key_to_replace]);                                
                     }
                 }
-
+                   
+                if ($post['ticketstatus']!='Closed') { 
+                    $email = new AmazonSES();
+                    //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
+                    
+                    $SESresponse = $email->send_email(
+                         Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
+                         array('ToAddresses' => array( // Destination (aka To)
+                                 $_SERVER['HTTP_X_USERNAME'],
+                                 Yii::app()->params->awsSESClientEmailAddress
+                         )),
+                         array( // Message (short form)
+                             'Subject.Data' => 'New Damaged Ticket Created',
+                             'Body.Text.Data' => 'Dear Gizur Account Holder, ' . 
+                             PHP_EOL . 
+                             PHP_EOL . 
+                             'A new damaged ticket has been created, with Ticket No.: ' .
+                             $globalresponse['result']['ticket_no'] . 
+                             PHP_EOL .
+                             PHP_EOL .
+                             PHP_EOL . 
+                             '--' . 
+                             PHP_EOL .
+                             'Gizur Admin'
+                         )
+                         );        
+                }
                 $this->_sendResponse(200, json_encode($globalresponse));
                 break;
             
