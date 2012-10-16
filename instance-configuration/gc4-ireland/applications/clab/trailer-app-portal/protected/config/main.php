@@ -91,6 +91,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+                'protocol'=>'http://',
 		'GIZURCLOUD_SECRET_KEY' => 'yyy',
 		'GIZURCLOUD_API_KEY' => 'xxx',
 		'API_VERSION' => '0.1',
