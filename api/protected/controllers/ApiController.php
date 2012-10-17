@@ -41,12 +41,10 @@ spl_autoload_register(array('YiiBase', 'autoload'));
 
 class ApiController extends Controller
 {
-    // Members
 
     /**
      * Version of API
      */
-
     const API_VERSION = "0.1";
 
     /**
@@ -69,6 +67,7 @@ class ApiController extends Controller
         1002 => "INVALID_FIELD_VALUE",
         1003 => "TIME_NOT_IN_SYNC",
         1004 => "METHOD_NOT_ALLOWED",
+        1005 => "MIME_TYPE_NOT_SUPPORTED"
     );
 
     /**
@@ -109,6 +108,11 @@ class ApiController extends Controller
      * Cache Key Used to store session in Cache
      */
     private $_cache_key = "";
+    
+    /**
+     * Trace ID
+     */
+    private $_trace_id = "";    
 
     /**
      * Filters executable action on permission basis
@@ -187,9 +191,10 @@ class ApiController extends Controller
 
             echo $body;
         }
+        Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); DISPATCH RESPONSE: " . $body, CLogger::LEVEL_TRACE);
         Yii::app()->end();
     }
-
+    
     /**
      * Yii callback executed before executing any action
      * 
@@ -199,11 +204,31 @@ class ApiController extends Controller
     {
 
         try {
+            //Will use this to tag all traces to associate to a request
+            $this->_trace_id = uniqid();
+            
+            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); RECEIVED REQUEST ", CLogger::LEVEL_TRACE);
+            
             //First we validate the requests using logic do not consume
             //resources 
             if ($_GET['model'] == 'User')
                 return true;
-
+            
+            if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+                if (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en')===false)
+                    throw new Exception('Language not supported');
+                
+            if (isset($_SERVER['HTTP_ACCEPT'])) {
+                if (strpos($_SERVER['HTTP_ACCEPT'], 'json')!==false) {
+                    if ($_GET['model'] == 'About')
+                        throw new Exception('Mime-Type not supported', 1005);                      
+                } else {
+                    if (!(strpos($_SERVER['HTTP_ACCEPT'], 'html')!==false 
+                        && $_GET['model'] == 'About'))
+                        throw new Exception('Mime-Type not supported', 1005); 
+                }
+            }
+                
             if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Timestamp not found in request');
 
@@ -454,21 +479,33 @@ class ApiController extends Controller
                     if (isset($_SERVER['HTTP_X_TIMESTAMP']))
                         $response->error->time_difference
                             = $_SERVER['REQUEST_TIME'] - strtotime($_SERVER['HTTP_X_TIMESTAMP']);
+                    
                     $response->error->time_request_arrived 
                         = date("c", $_SERVER['REQUEST_TIME']);
+                    
                     $response->error->time_request_sent 
                         = date("c", strtotime($_SERVER['HTTP_X_TIMESTAMP']));
+                    
                     $response->error->time_server = date("c");
                 }
 
                 $this->_sendResponse(403, json_encode($response));
             } else {
-                $this->_sendResponse(
-                    403, 'An account needs to setup in order to use ' .
-                    'this service. Please contact' .
-                    '<a href="mailto://sales@gizur.com">sales@gizur.com</a>' .
-                    'in order to setup an account.'
-                );
+                if ($e->getCode() == 1005) {
+                    $response = new stdClass();
+                    $response->success = false;
+                    $response->error->code = $this->_errors[$e->getCode()];
+                    $response->error->message = $e->getMessage();
+                    $this->_sendResponse(403, json_encode($response));
+                } else {
+                    $this->_sendResponse(
+                        403, 'An account needs to setup in order to use ' .
+                        'this service. Please contact ' .
+                        '<a href="mailto://sales@gizur.com">sales@gizur.com</a> ' .
+                        'in order to setup an account.',
+                        'text/html'
+                    );
+                }
             }
             return false;
         }
@@ -481,12 +518,16 @@ class ApiController extends Controller
      */
     public function actionList()
     {
+        
+        Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);
+        
         //Tasks include Listing of Troubleticket, Picklists, Assets
         try {
             switch ($_GET['model']) {
             case 'About':
-                echo 'This mobile app was built using';
-                echo ' <a href="gizur.com">gizur.com</a> services.<br><br>';
+                $body = 'This mobile app was built using';
+                $body .= ' <a href="gizur.com">gizur.com</a> services.';
+                $this->_sendResponse(200, $body, 'text/html');
                 break;
             /*
              * ******************************************************************
@@ -855,6 +896,9 @@ class ApiController extends Controller
     {
         //Tasks include detail view of a specific Troubleticket and Assets
         try {
+            
+            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
+            
             switch ($_GET['model']) {
             /*
                 * ******************************************************************
@@ -1188,6 +1232,9 @@ class ApiController extends Controller
     {
         //Tasks include detail view of a specific Troubleticket and Assets
         try {
+            
+            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
+            
             switch ($_GET['model']) {
                 /*
                  * ******************************************************************
@@ -1496,6 +1543,9 @@ class ApiController extends Controller
      */
     public function actionError()
     {
+        
+        Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); ERROR IN REQUEST ", CLogger::LEVEL_TRACE);
+        
         $response = new stdClass();
         $response->success = false;
         if (isset($this->_valid_models[$_GET['model']])) {
@@ -1520,6 +1570,9 @@ class ApiController extends Controller
     {
         //Tasks include detail updating Troubleticket
         try {
+            
+            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);
+            
             switch ($_GET['model']) {
 
                 /*
