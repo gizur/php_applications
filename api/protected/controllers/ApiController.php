@@ -48,12 +48,6 @@ class ApiController extends Controller
     const API_VERSION = "0.1";
 
     /**
-     * Default response format
-     * either 'json' or 'xml'
-     */
-    private $_format = 'json';
-
-    /**
      * Session between Gizur REST API and vTiger REST API
      */
     private $_session;
@@ -191,7 +185,10 @@ class ApiController extends Controller
 
             echo $body;
         }
+        
+        //Log
         Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); DISPATCH RESPONSE: " . $body, CLogger::LEVEL_TRACE);
+        
         Yii::app()->end();
     }
     
@@ -207,7 +204,13 @@ class ApiController extends Controller
             //Will use this to tag all traces to associate to a request
             $this->_trace_id = uniqid();
             
-            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); RECEIVED REQUEST ", CLogger::LEVEL_TRACE);
+            //Log
+            Yii::log(
+                " TRACE(" . $this->_trace_id . "); " . 
+                " FUNCTION(" . __FUNCTION__ . "); " . 
+                " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($_SERVER), 
+                CLogger::LEVEL_TRACE
+            );
             
             //First we validate the requests using logic do not consume
             //resources 
@@ -248,12 +251,28 @@ class ApiController extends Controller
             if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError < strtotime($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
 
+            //Log
+            Yii::log(
+                " TRACE(" . $this->_trace_id . "); " . 
+                " FUNCTION(" . __FUNCTION__ . "); " . 
+                " VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)", 
+                CLogger::LEVEL_TRACE
+            );
+
             //Fetch API Key details from Dynamodb, resource  intensive validation
             if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])) === false) {
                 // Retreive Key pair from Amazon Dynamodb
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " VALIDATION (Scan API KEY 1)", 
+                    CLogger::LEVEL_TRACE
+                );
+                
                 //Scan for API KEYS
                 $ddb_response = $dynamodb->scan(
                     array(
@@ -270,6 +289,15 @@ class ApiController extends Controller
                         )
                 );
                 if ($publicKeyNotFound = ($ddb_response->body->Count == 0)) {
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " VALIDATION (Scan API KEY 2)", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     //Scan for API KEYS
                     $ddb_response = $dynamodb->scan(
                         array(
@@ -292,10 +320,18 @@ class ApiController extends Controller
                 }
 
                 if ($publicKeyNotFound)
-                    throw new Exception('Could not identify public key');
-
+                    throw new Exception('Could not identify public key');            
+                
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
             }
+            
+            //Log
+            Yii::log(
+                " TRACE(" . $this->_trace_id . "); " . 
+                " FUNCTION(" . __FUNCTION__ . "); " . 
+                " VALIDATION (Generating Signature)", 
+                CLogger::LEVEL_TRACE
+            );                
 
             // Build query arguments list
             $params = array(
@@ -350,14 +386,43 @@ class ApiController extends Controller
 
             if ($last_used !== false) {
                 if ($last_used < (time() - 1790)) {
-                    Yii::app()->cache->delete($this->_cache_key, time());
+                    Yii::app()->cache->delete($this->_cache_key);
                 } else {
                     $cache_value = Yii::app()->cache->get($this->_cache_key);
                     Yii::app()->cache->set("last_used_" . $this->_cache_key, time());
                 }
             }
 
+            //Log
+            Yii::log(
+                " TRACE(" . $this->_trace_id . "); " . 
+                " FUNCTION(" . __FUNCTION__ . "); " . 
+                " VALIDATION (Logging into vtiger REST API or using preused session)", 
+                CLogger::LEVEL_TRACE
+            );              
+            
             if ($cache_value === false) {
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " VALIDATION (No value in cache found: Logging in)", 
+                    CLogger::LEVEL_TRACE
+                );                  
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending POST request to vt url: " . 
+                    Yii::app()->params->vtRestUrl .
+                    "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
+                    "&password=" . $_SERVER['HTTP_X_PASSWORD'] .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 //Get the Access Key and the Username from vtiger REST 
                 //service of the customer portal user's vtiger account
                 $rest = new RESTClient();
@@ -369,6 +434,16 @@ class ApiController extends Controller
                     "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
                     "&password=" . $_SERVER['HTTP_X_PASSWORD']
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                          
 
                 $response = json_decode($response);
                 if ($response->success == false)
@@ -414,12 +489,33 @@ class ApiController extends Controller
                 $params = "sessionName=$sessionId" .
                         "&operation=query&query=$queryParam";
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );               
+                
                 //sending request to vtiger REST Service 
                 $rest = new RESTClient();
                 $rest->format('json');
                 $contact = $rest->get(
                     Yii::app()->params->vtRestUrl . "?$params"
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $contact .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                          
+                
                 $contact = json_decode($contact, true);
                 if (!$contact['success']) {
                     if ($contact['error']['code'] == 'INVALID_SESSIONID')
@@ -442,12 +538,33 @@ class ApiController extends Controller
                 $params 
                     = "sessionName=$sessionId" .
                         "&operation=query&query=$queryParam";
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                 
 
                 //sending request to vtiger REST Service 
                 $rest = new RESTClient();
                 $rest->format('json');
                 $account 
                     = $rest->get(Yii::app()->params->vtRestUrl . "?$params");
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $account .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $account = json_decode($account, true);
                 if (!$account['success']) {
                     throw new Exception($account['error']['message']);
@@ -462,13 +579,29 @@ class ApiController extends Controller
                 //credentials
                 Yii::app()->cache->set($this->_cache_key, $cache_value, 86000);
                 Yii::app()->cache->set("last_used_" . $this->_cache_key, time());
-                $valueFrom = 'database';
             }
 
+            //Log
+            Yii::log(
+                " TRACE(" . $this->_trace_id . "); " . 
+                " FUNCTION(" . __FUNCTION__ . "); " . 
+                " VALIDATION (Storing session)", 
+                CLogger::LEVEL_TRACE
+            );            
+            
             $this->_session = json_decode($cache_value);
             $this->_session->challengeToken = $challengeToken;
             return true;
         } catch (Exception $e) {
+            
+            //Log
+            Yii::log(
+                " TRACE(" . $this->_trace_id . "); " . 
+                " FUNCTION(" . __FUNCTION__ . "); " . 
+                " VALIDATION (Some error occured during validation/Authentication)", 
+                CLogger::LEVEL_TRACE
+            );            
+            
             if ($_GET['model'] != 'About') {
                 $response = new stdClass();
                 $response->success = false;
@@ -518,8 +651,14 @@ class ApiController extends Controller
      */
     public function actionList()
     {
-        
-        Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);
+
+        //Log
+        Yii::log(
+            " TRACE(" . $this->_trace_id . "); " . 
+            " FUNCTION(" . __FUNCTION__ . "); " . 
+            " PROCESSING REQUEST (" . json_encode($_GET) . ")", 
+            CLogger::LEVEL_TRACE
+        );
         
         //Tasks include Listing of Troubleticket, Picklists, Assets
         try {
@@ -530,12 +669,12 @@ class ApiController extends Controller
                 $this->_sendResponse(200, $body, 'text/html');
                 break;
             /*
-             * ******************************************************************
-             * ******************************************************************
+             * *****************************************************************
+             * *****************************************************************
              * * AUTHENTICATE MODEL
              * * Accepts two actions login and logout
-             * ******************************************************************
-             * ******************************************************************
+             * *****************************************************************
+             * *****************************************************************
              */
             case 'Authenticate':
                 if ($_GET['action'] == 'login') {
@@ -545,13 +684,24 @@ class ApiController extends Controller
                     $response->contactname = $this->_session->contactname;
                     $response->accountname = $this->_session->accountname;
                     $response->account_no = $this->_session->account_no;
-                    //$response->valueFrom = $this->_session->valueFrom;
+
                     $this->_sendResponse(200, json_encode($response));
                 }
 
                 if ($_GET['action'] == 'logout') {
                     $sessionId = $this->_session->sessionName;
-
+           
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending request to vt url: " . 
+                        Yii::app()->params->vtRestUrl .
+                        "?operation=logout&sessionName=$sessionId" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     //Logout using $sessionId
                     $rest = new RESTClient();
                     $rest->format('json');
@@ -559,7 +709,19 @@ class ApiController extends Controller
                         Yii::app()->params->vtRestUrl .
                         "?operation=logout&sessionName=$sessionId"
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                      
+                    
                     $response = json_decode($response);
+                    
                     if ($response->success == false)
                         throw new Exception("Unable to Logout");
 
@@ -570,12 +732,12 @@ class ApiController extends Controller
                 }
                 break;
             /*
-             * ******************************************************************
-             * ******************************************************************
+             * *****************************************************************
+             * *****************************************************************
              * * HelpDesk MODEL
              * * Accepts fieldnames and categories (inoperation|damaged)
-             * ******************************************************************
-             * ******************************************************************
+             * *****************************************************************
+             * *****************************************************************
              */
             case 'HelpDesk':
                 //Is this a request for picklist?
@@ -604,12 +766,33 @@ class ApiController extends Controller
                                 "&operation=describe" .
                                 "&elementType=" . $_GET['model'];
 
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (sending GET request to vt url: " . 
+                            Yii::app()->params->vtRestUrl . "?$params" .                            
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                        
+                        
                         $rest = new RESTClient();
                         $rest->format('json');
                         $response = $rest->get(
                             Yii::app()->params->vtRestUrl . "?$params"
                         );
 
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (response received: " . 
+                            $response .                          
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                        
+                        
                         $response = json_decode($response, true);
 
                         if ($response['success'] == false)
@@ -665,7 +848,6 @@ class ApiController extends Controller
                 if (isset($_GET['category'])) {
                     $sessionId = $this->_session->sessionName;
                     $accountId = $this->_session->accountId;
-                    $contactId = $this->_session->contactId;
 
                     //Send request to vtiger REST service
                     $query = "select * from " . $_GET['model'];
@@ -720,6 +902,16 @@ class ApiController extends Controller
                     //creating query string
                     $params = "sessionName=$sessionId" .
                             "&operation=query&query=$queryParam";
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                     
 
                     //Receive response from vtiger REST service
                     //Return response to client  
@@ -728,6 +920,17 @@ class ApiController extends Controller
                     $response = $rest->get(
                         Yii::app()->params->vtRestUrl . "?$params"
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $response = json_decode($response, true);
 
                     if ($response['success'] == false)
@@ -742,6 +945,16 @@ class ApiController extends Controller
                     //creating query string
                     $params = "sessionName=$sessionId" .
                             "&operation=query&query=$queryParam";
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                      
 
                     //Receive response from vtiger REST service
                     //Return response to client  
@@ -750,6 +963,17 @@ class ApiController extends Controller
                     $accounts = $rest->get(
                         Yii::app()->params->vtRestUrl . "?$params"
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $accounts .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $accounts = json_decode($accounts, true);
                     if ($accounts['success'] == true) {
                         $tmp_accounts = array();
@@ -767,6 +991,16 @@ class ApiController extends Controller
                     //creating query string
                     $params = "sessionName=$sessionId" .
                             "&operation=query&query=$queryParam";
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                      
 
                     //Receive response from vtiger REST service
                     //Return response to client  
@@ -775,6 +1009,17 @@ class ApiController extends Controller
                     $contacts = $rest->get(
                         Yii::app()->params->vtRestUrl . "?$params"
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $contacts .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $contacts = json_decode($contacts, true);
                     if ($contacts['success'] == true) {
                         $tmp_contacts = array();
@@ -815,14 +1060,14 @@ class ApiController extends Controller
                     $this->_sendResponse(200, json_encode($response));
                 }
                 break;
-                /*
-                 * ******************************************************************
-                 * ******************************************************************
-                 * * Assets MODEL
-                 * * Accepts fieldnames 
-                 * ******************************************************************
-                 * ******************************************************************
-                 */
+            /*
+             * *****************************************************************
+             * *****************************************************************
+             * * Assets MODEL
+             * * Accepts fieldnames 
+             * *****************************************************************
+             * *****************************************************************
+             */
             case 'Assets':
                 $sessionId = $this->_session->sessionName;
                 $accountId = $this->_session->accountId;
@@ -837,6 +1082,16 @@ class ApiController extends Controller
                 $params = "sessionName=$sessionId" .
                         "&operation=query&query=$queryParam";
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                  
+                
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
@@ -844,6 +1099,17 @@ class ApiController extends Controller
                 $response = $rest->get(
                     Yii::app()->params->vtRestUrl . "?$params"
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $response = json_decode($response, true);
                 if ($response['success'] == false)
                 throw new Exception('Unable to fetch details');
@@ -966,6 +1232,16 @@ class ApiController extends Controller
                 //creating query string
                 $params = "sessionName=$sessionId" .
                         "&operation=query&query=$queryParam";
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                  
 
                 //sending Request vtiger REST service
                 $rest = new RESTClient();
@@ -973,6 +1249,17 @@ class ApiController extends Controller
                 $response = $rest->get(
                     Yii::app()->params->vtRestUrl . "?$params"
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $response = json_decode($response, true);
                 $response['result'] = $response['result'][0];
 
@@ -988,6 +1275,16 @@ class ApiController extends Controller
                 $params = "sessionName=$sessionId" .
                         "&operation=getrelatedtroubleticketdocument" .
                         "&crmid=" . $_GET['id'];
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                  
 
                 //sending request vtiger REST service
                 $rest = new RESTClient();
@@ -995,6 +1292,17 @@ class ApiController extends Controller
                 $documentids = $rest->get(
                     Yii::app()->params->vtRestUrl . "?$params"
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $documentids .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $documentids = json_decode($documentids, true);
                 $documentids = $documentids['result'];
 
@@ -1015,12 +1323,33 @@ class ApiController extends Controller
                     $params = "sessionName=$sessionId" .
                             "&operation=query&query=$queryParam";
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                     
+                    
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
                     $rest->format('json');
                     $documents = $rest->get(
                         Yii::app()->params->vtRestUrl . "?$params"
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $documents .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $documents = json_decode($documents, true);
                     if (!$documents['success'])
                         throw new Exception($documents['error']['message']);
@@ -1040,12 +1369,33 @@ class ApiController extends Controller
                     $params = "sessionName=$sessionId" .
                             "&operation=query&query=$queryParam";
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                     
+                    
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
                     $rest->format('json');
                     $contact = $rest->get(
                         Yii::app()->params->vtRestUrl . "?$params"
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $contacts .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $contact = json_decode($contact, true);
                     if (!$contact['success'])
                         throw new Exception($contact['error']['message']);
@@ -1063,12 +1413,33 @@ class ApiController extends Controller
                     $params = "sessionName=$sessionId" .
                             "&operation=query&query=$queryParam";
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                     
+                    
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
                     $rest->format('json');
                     $account = $rest->get(
                         Yii::app()->params->vtRestUrl . "?$params"
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $account .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $account = json_decode($account, true);
                     if (!$account['success'])
                         throw new Exception($account['error']['message']);
@@ -1116,6 +1487,16 @@ class ApiController extends Controller
                     $params = "sessionName=$sessionId" .
                             "&operation=query&query=$queryParam";
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                     
+                    
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
@@ -1124,6 +1505,16 @@ class ApiController extends Controller
                         Yii::app()->params->vtRestUrl . "?$params"
                     );
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $response = json_decode($response, true);
                     $response['result'] = $response['result'][0];
 
@@ -1160,6 +1551,16 @@ class ApiController extends Controller
                         "&operation=gettroubleticketdocumentfile" .
                         "&notesid=" . $_GET['id'];
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                 
+                
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
@@ -1167,6 +1568,17 @@ class ApiController extends Controller
                 $response = $rest->get(
                     Yii::app()->params->vtRestUrl . "?$params"
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $response = json_decode($response);
 
                 $s3 = new AmazonS3();
@@ -1363,6 +1775,25 @@ class ApiController extends Controller
                     )
                 );
 
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending POST request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "  " .
+                    json_encode(
+                        array(
+                            'sessionName' => $sessionId,
+                            'operation' => 'create',
+                            'element' => $dataJson,
+                            'elementType' => $_GET['model']
+                        )                            
+                    ) .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                 
+                
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
@@ -1376,6 +1807,16 @@ class ApiController extends Controller
                         )
                 );
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $globalresponse = json_decode($response);
                 /*                     * Creating Document* */
 
@@ -1420,6 +1861,25 @@ class ApiController extends Controller
                     );
 
                     if ($response->isOK()) {
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (sending POST request to vt url: " . 
+                            Yii::app()->params->vtRestUrl . "  " .
+                            json_encode(
+                                array(
+                                    'sessionName' => $sessionId,
+                                    'operation' => 'create',
+                                    'element' => json_encode($dataJson),
+                                    'elementType' => 'Documents'
+                                )                           
+                            ) .                            
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                         
+                        
                         //Create document
                         $rest = new RESTClient();
                         $rest->format('json');
@@ -1432,9 +1892,39 @@ class ApiController extends Controller
                                 'elementType' => 'Documents'
                             )
                         );
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (response received: " . 
+                            $document .                          
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                        
+                        
                         $document = json_decode($document);
                         if ($document->success) {
                             $notesid = $document->result->id;
+                            
+                            //Log
+                            Yii::log(
+                                " TRACE(" . $this->_trace_id . "); " . 
+                                " FUNCTION(" . __FUNCTION__ . "); " . 
+                                " PROCESSING REQUEST (sending POST request to vt url: " . 
+                                Yii::app()->params->vtRestUrl . "  " .
+                                json_encode(
+                                    array(
+                                        'sessionName' => $sessionId,
+                                        'operation' =>
+                                        'relatetroubleticketdocument',
+                                        'crmid' => $crmid,
+                                        'notesid' => $notesid
+                                    )                        
+                                ) .                            
+                                ")", 
+                                CLogger::LEVEL_TRACE
+                            );                               
 
                             //Relate Document with Trouble Ticket
                             $rest = new RESTClient();
@@ -1448,6 +1938,17 @@ class ApiController extends Controller
                                     'notesid' => $notesid
                                 )
                             );
+                            
+                            //Log
+                            Yii::log(
+                                " TRACE(" . $this->_trace_id . "); " . 
+                                " FUNCTION(" . __FUNCTION__ . "); " . 
+                                " PROCESSING REQUEST (response received: " . 
+                                $response .                          
+                                ")", 
+                                CLogger::LEVEL_TRACE
+                            );                            
+                            
                             $response = json_decode($response);
                             if ($response->success) {
                                 $globalresponse->result->documents[]
@@ -1599,6 +2100,22 @@ class ApiController extends Controller
                         }
                     }
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending POST request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "  " .
+                        json_encode(
+                            array(
+                                'operation' => 'resetpassword',
+                                'username' => $_SERVER['HTTP_X_USERNAME'],
+                            )                     
+                        ) .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                      
+                    
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
@@ -1610,6 +2127,17 @@ class ApiController extends Controller
                             'username' => $_SERVER['HTTP_X_USERNAME'],
                         )
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $response = json_decode($response);
 
                     if ($response->success == false)
@@ -1650,6 +2178,26 @@ class ApiController extends Controller
                     parse_str(file_get_contents('php://input'), $_PUT);
                     if (!isset($_PUT['newpassword']))
                         throw new Exception('New Password not provided.');
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending POST request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "  " .
+                        json_encode(
+                            array(
+                                'sessionName' => $this->_session->sessionName,
+                                'operation' => 'changepw',
+                                'username' => $_SERVER['HTTP_X_USERNAME'],
+                                'oldpassword' => $_SERVER['HTTP_X_PASSWORD'],
+                                'newpassword' => $_PUT['newpassword']
+                            )                  
+                        ) .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                       
+                    
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
@@ -1663,10 +2211,23 @@ class ApiController extends Controller
                             'newpassword' => $_PUT['newpassword']
                         )
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $response = json_decode($response);
                     if ($response->success == false)
                         throw new Exception($response->error->message);
-
+                    
+                    Yii::app()->cache->delete($this->_cache_key);
+                    
                     $this->_sendResponse(200, json_encode($response));
                 }
                 /*
@@ -1755,12 +2316,27 @@ class ApiController extends Controller
             case 'HelpDesk':
                     $sessionId = $this->_session->sessionName;
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "  " .
+                        json_encode(
+                            array(
+                                'sessionName' => $sessionId,
+                                'operation' => 'retrieve',
+                                'id' => $_GET['id']
+                            )                  
+                        ) .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                  
+                
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
                     $rest->format('json');
-
-
                     $response = $rest->get(
                         Yii::app()->params->vtRestUrl, array(
                             'sessionName' => $sessionId,
@@ -1769,11 +2345,39 @@ class ApiController extends Controller
                         )
                     );
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $response = json_decode($response, true);
 
                     //get data json 
                     $retrivedObject = $response['result'];
                     $retrivedObject['ticketstatus'] = 'Closed';
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending POST request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "  " .
+                        json_encode(
+                            array(
+                                'sessionName' => $sessionId,
+                                'operation' => 'update',
+                                'element' => json_encode($retrivedObject)
+                            )                  
+                        ) .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                           
+                    
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
@@ -1786,6 +2390,16 @@ class ApiController extends Controller
                         )
                     );
 
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
                     $response = json_decode($response, true);
 
                     $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
@@ -1817,6 +2431,24 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'Assets':
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "  " .
+                    json_encode(
+                        array(
+                            'sessionName' => $this->_session->sessionName,
+                            'operation' => 'retrieve',
+                            'id' => $_GET['id']
+                        )                  
+                    ) .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                  
+                
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
@@ -1833,6 +2465,16 @@ class ApiController extends Controller
                     )
                 );
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $response = json_decode($response, true);
 
                 //get data json 
@@ -1842,6 +2484,23 @@ class ApiController extends Controller
                 else
                     $retrivedObject['assetstatus'] = 'Out-of-service';
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending POST request to vt url: " . 
+                    Yii::app()->params->vtRestUrl . "  " .
+                    json_encode(
+                        array(
+                            'sessionName' => $this->_session->sessionName,
+                            'operation' => 'retrieve',
+                            'id' => $_GET['id']
+                        )                  
+                    ) .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                 
+                
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
@@ -1854,6 +2513,16 @@ class ApiController extends Controller
                     )
                 );
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $response = json_decode($response, true);
 
                 if ($response['success'] == false)
