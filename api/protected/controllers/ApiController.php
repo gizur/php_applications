@@ -61,7 +61,8 @@ class ApiController extends Controller
         1002 => "INVALID_FIELD_VALUE",
         1003 => "TIME_NOT_IN_SYNC",
         1004 => "METHOD_NOT_ALLOWED",
-        1005 => "MIME_TYPE_NOT_SUPPORTED"
+        1005 => "MIME_TYPE_NOT_SUPPORTED",
+        1006 => "INVALID_SESSIONID"
     );
 
     /**
@@ -288,6 +289,8 @@ class ApiController extends Controller
                     )
                         )
                 );
+                
+                
                 if ($publicKeyNotFound = ($ddb_response->body->Count == 0)) {
                     
                     //Log
@@ -552,11 +555,10 @@ class ApiController extends Controller
                 );                          
                 
                 $contact = json_decode($contact, true);
-                if (!$contact['success']) {
-                    if ($contact['error']['code'] == 'INVALID_SESSIONID')
-                        Yii::app()->cache->delete($this->_cache_key);
+                
+                if (!$contact['success']) 
                     throw new Exception($contact['error']['message']);
-                }
+                
                 $response->result->contactname 
                     = $contact['result'][0]['firstname'] .
                         " " . $contact['result'][0]['lastname'];
@@ -635,7 +637,8 @@ class ApiController extends Controller
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Some error occured during validation/Authentication)", 
                 CLogger::LEVEL_TRACE
-            );            
+            );       
+                       
             
             if ($_GET['model'] != 'About') {
                 $response = new stdClass();
