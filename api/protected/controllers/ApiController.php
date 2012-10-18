@@ -459,17 +459,52 @@ class ApiController extends Controller
                     Yii::app()->params->vtRestUrl .
                     "?operation=getchallenge&username=$username"
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                   
+                
                 $response = json_decode($response);
                 if ($response->success == false)
                     throw new Exception("Unable to get challenge token");
                 $challengeToken = $response->result->token;
                 $generatedKey = md5($challengeToken . $userAccessKey);
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending request to vt url: " . 
+                    Yii::app()->params->vtRestUrl .
+                    "?operation=login", 
+                    "username=$username&accessKey=$generatedKey" .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                ); 
+
+                
                 $response = $rest->post(
                     Yii::app()->params->vtRestUrl .
                     "?operation=login", 
                     "username=$username&accessKey=$generatedKey"
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received: " . 
+                    $response .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                   
+                
                 $response = json_decode($response);
                 if ($response->success == false)
                     throw new Exception("Invalid generated key ");
