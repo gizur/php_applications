@@ -218,10 +218,12 @@ class ApiController extends Controller
             if ($_GET['model'] == 'User')
                 return true;
             
+            //Check Acceptable language of request
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
                 if (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en')===false)
                     throw new Exception('Language not supported');
-                
+               
+            //Check Acceptable mime-type of request    
             if (isset($_SERVER['HTTP_ACCEPT'])) {
                 if (strpos($_SERVER['HTTP_ACCEPT'], 'json')!==false) {
                     if ($_GET['model'] == 'About')
@@ -232,23 +234,28 @@ class ApiController extends Controller
                         throw new Exception('Mime-Type not supported', 1005); 
                 }
             }
-                
+            
+            //Check if timestamp is present in the header
             if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Timestamp not found in request');
 
+            //Check if signature is present in the header
             if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
 
+            //Check if Unique Salt is present in request
             if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
                 throw new Exception('Unique Salt not found');
 
             //check if public key exists
             if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
                 throw new Exception('Public Key Not Found in request');
-
+            
+            //Check if request is in acceptable timestamp negative error
             if ($_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > strtotime($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Stale request', 1003);
 
+            //Check if request is in acceptable timestamp positive error
             if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError < strtotime($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
 
@@ -290,7 +297,8 @@ class ApiController extends Controller
                         )
                 );
                 
-                
+                //If API Keys are not found for apikey_1 then look in apikey_2
+                //can this be done in a better way?
                 if ($publicKeyNotFound = ($ddb_response->body->Count == 0)) {
                     
                     //Log
@@ -316,15 +324,21 @@ class ApiController extends Controller
                         )
                             )
                     );
+                    
+                    //Check if public key is found in apikey_2
                     if (!($publicKeyNotFound = ($ddb_response->body->Count == 0)))
                         $GIZURCLOUD_SECRET_KEY = (string) $ddb_response->body->Items->secretkey_2->{AmazonDynamoDB::TYPE_STRING};
                 } else {
+                    //Get secret key which belongs to apikey_1
                     $GIZURCLOUD_SECRET_KEY = (string) $ddb_response->body->Items->secretkey_1->{AmazonDynamoDB::TYPE_STRING};
                 }
 
+                //If public key is not found throw an exception
                 if ($publicKeyNotFound)
                     throw new Exception('Could not identify public key');            
                 
+                //Store the public key and secret key combination in cache to
+                //avoid repeated calls to Dynamo DB
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
             }
             
@@ -357,26 +371,36 @@ class ApiController extends Controller
             // Generate signature
             $verify_signature = base64_encode(hash_hmac('SHA256', $string_to_sign, $GIZURCLOUD_SECRET_KEY, 1));
 
+            //Verify if the signature is valid
             if ($_SERVER['HTTP_X_SIGNATURE'] != $verify_signature)
                 throw new Exception('Could not verify signature');
 
+            //Check if the signature has been used before
+            //This is a security loop hole to reply attacks in case memcache
+            //is not working
             if (Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE']) !== false)
                 throw new Exception('Used signature');
 
+            //Save the signature for 10 minutes
             Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
 
+            //If request is for Model About stop validating
             if ($_GET['model'] == 'About')
                 return true;
 
+            //Check if Username is provided in header
             if (!isset($_SERVER['HTTP_X_USERNAME']))
                 throw new Exception('Could not find enough credentials');
 
+            //Incase of password reset stop validating request
             if ($_GET['model'] == 'Authenticate' && $_GET['action'] == 'reset')
                 return true;
 
+            //Check if the password is provided in the request
             if (!isset($_SERVER['HTTP_X_PASSWORD']))
                 throw new Exception('Could not find enough credentials');
 
+            //Create a cache key for saving session
             $this->_cache_key = json_encode(
                 array(
                 'username' => $_SERVER['HTTP_X_USERNAME'],
@@ -385,6 +409,10 @@ class ApiController extends Controller
             );
 
             $cache_value = false;
+            
+            //Check if the session stored in the cache key is valid 
+            //as per vtiger a session can be valid till 1 day max
+            //and unused session for 1800 seconds
             $last_used = Yii::app()->cache->get("last_used_" . $this->_cache_key);
 
             if ($last_used !== false) {
@@ -404,6 +432,7 @@ class ApiController extends Controller
                 CLogger::LEVEL_TRACE
             );              
             
+            //Check if session was retrived from memcache
             if ($cache_value === false) {
                 
                 //Log
@@ -448,10 +477,12 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                          
 
+                //Objectify the response and check its success
                 $response = json_decode($response);
                 if ($response->success == false)
                     throw new Exception("Invalid Username and Password");
 
+                //Store values from response
                 $username = $response->result->user_name;
                 $userAccessKey = $response->result->accesskey;
                 $accountId = $response->result->accountId;
@@ -473,9 +504,12 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                   
                 
+                //Objectify the response and check its success
                 $response = json_decode($response);
                 if ($response->success == false)
                     throw new Exception("Unable to get challenge token");
+                
+                //Store values from response
                 $challengeToken = $response->result->token;
                 $generatedKey = md5($challengeToken . $userAccessKey);
 
@@ -491,7 +525,7 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 ); 
 
-                
+                //Login using the generated key
                 $response = $rest->post(
                     Yii::app()->params->vtRestUrl .
                     "?operation=login", 
@@ -508,15 +542,18 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                   
                 
+                //Objectify the response and check its success
                 $response = json_decode($response);
                 if ($response->success == false)
                     throw new Exception("Invalid generated key ");
+                
+                //Store the values from response
                 $sessionId = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
 
-                /* Get Contact and Account Name */
-
+                //Get Contact and Account Name 
+                //Build vtiger query to fetch contacts
                 $query = "select * from Contacts" .
                         " where id = " . $contactId . ";";
 
@@ -554,15 +591,18 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                          
                 
+                //Objectify the response and check its success
                 $contact = json_decode($contact, true);
                 
                 if (!$contact['success']) 
                     throw new Exception($contact['error']['message']);
                 
+                //Store values from response
                 $response->result->contactname 
                     = $contact['result'][0]['firstname'] .
                         " " . $contact['result'][0]['lastname'];
 
+                //Build Query to fetch Accounts
                 $query 
                     = "select accountname, account_no from Accounts" .
                         " where id = " .
@@ -602,10 +642,13 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                
                 
+                //Objectify the response and check its success
                 $account = json_decode($account, true);
                 if (!$account['success']) {
                     throw new Exception($account['error']['message']);
                 }
+                
+                //Store values from response
                 $response->result->accountname 
                     = $account['result'][0]['accountname'];
                 $response->result->account_no 
@@ -626,9 +669,13 @@ class ApiController extends Controller
                 CLogger::LEVEL_TRACE
             );            
             
+            //Used the received value as session throug out in this session 
             $this->_session = json_decode($cache_value);
             $this->_session->challengeToken = $challengeToken;
+            
+            //Yes the user is valid let him run the operation he requested
             return true;
+            
         } catch (Exception $e) {
             
             //Log
@@ -639,13 +686,17 @@ class ApiController extends Controller
                 CLogger::LEVEL_TRACE
             );       
                        
-            
+            //Check if Model is Not About
             if ($_GET['model'] != 'About') {
+                
+                //Create an error response based on the exception thrown
                 $response = new stdClass();
                 $response->success = false;
                 $response->error->code = $this->_errors[$e->getCode()];
                 $response->error->message = $e->getMessage();
 
+                //Check if the error code is TIME_NOT_IN_SYNC
+                //if so send time delta
                 if ($e->getCode() == 1003) {
                     if (isset($_SERVER['HTTP_X_TIMESTAMP']))
                         $response->error->time_difference
@@ -660,8 +711,11 @@ class ApiController extends Controller
                     $response->error->time_server = date("c");
                 }
 
+                //Send the response with status code 403 Forbidden
                 $this->_sendResponse(403, json_encode($response));
             } else {
+                
+                //Check if the MIME-TYPE is correct
                 if ($e->getCode() == 1005) {
                     $response = new stdClass();
                     $response->success = false;
@@ -669,6 +723,8 @@ class ApiController extends Controller
                     $response->error->message = $e->getMessage();
                     $this->_sendResponse(403, json_encode($response));
                 } else {
+                    
+                    //Send about message in case the signature is not validated
                     $this->_sendResponse(
                         403, 'An account needs to setup in order to use ' .
                         'this service. Please contact ' .
@@ -678,6 +734,10 @@ class ApiController extends Controller
                     );
                 }
             }
+            
+            //User is not valid stop processing
+            //This part of code is never reached though because _sendResponse
+            //has a die statement
             return false;
         }
     }
@@ -701,11 +761,19 @@ class ApiController extends Controller
         //Tasks include Listing of Troubleticket, Picklists, Assets
         try {
             switch ($_GET['model']) {
+            /*
+             * *****************************************************************
+             * *****************************************************************
+             * * ABOUT MODEL
+             * *****************************************************************
+             * *****************************************************************
+             */                
             case 'About':
                 $body = 'This mobile app was built using';
                 $body .= ' <a href="gizur.com">gizur.com</a> services.';
                 $this->_sendResponse(200, $body, 'text/html');
                 break;
+            
             /*
              * *****************************************************************
              * *****************************************************************
@@ -716,6 +784,7 @@ class ApiController extends Controller
              */
             case 'Authenticate':
                 if ($_GET['action'] == 'login') {
+                    
                     //Return response to client
                     $response = new stdClass();
                     $response->success = true;
@@ -723,6 +792,7 @@ class ApiController extends Controller
                     $response->accountname = $this->_session->accountname;
                     $response->account_no = $this->_session->account_no;
 
+                    //Send response
                     $this->_sendResponse(200, json_encode($response));
                 }
 
@@ -758,6 +828,7 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );                      
                     
+                    //Objectify the response and check its success
                     $response = json_decode($response);
                     
                     if ($response->success == false)
@@ -778,6 +849,7 @@ class ApiController extends Controller
              * *****************************************************************
              */
             case 'HelpDesk':
+                
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])) {
 
@@ -788,22 +860,28 @@ class ApiController extends Controller
                     );
 
                     if ($cached_value === false) {
+                        
+                        //retrieve session id
                         $sessionId = $this->_session->sessionName;
+                        
+                        //flip custome fields array
                         $flipped_custom_fields 
                             = array_flip(Yii::app()->params->custom_fields['HelpDesk']);
+                        
+                        //Check if the requested field name is a vtiger
+                        //custom field
                         if (in_array($_GET['fieldname'], $flipped_custom_fields)) {
                             $fieldname 
                                 = Yii::app()->params->custom_fields[$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
+                        
                         //Receive response from vtiger REST service
                         //Return response to client 
-
                         $params = "sessionName=$sessionId" .
                                 "&operation=describe" .
                                 "&elementType=" . $_GET['model'];
-
                         
                         //Log
                         Yii::log(
@@ -815,6 +893,7 @@ class ApiController extends Controller
                             CLogger::LEVEL_TRACE
                         );                        
                         
+                        //Send request to vtiger
                         $rest = new RESTClient();
                         $rest->format('json');
                         $response = $rest->get(
@@ -831,29 +910,33 @@ class ApiController extends Controller
                             CLogger::LEVEL_TRACE
                         );                        
                         
+                        //Objectify the response and check its success
                         $response = json_decode($response, true);
 
                         if ($response['success'] == false)
                             throw new Exception('Fetching details failed');
 
+                        //Find the appropriate field whose label value needs to
+                        //be sent  
                         foreach ($response['result']['fields'] as $field) {
+                            
                             if ($fieldname == $field['name']) {
+                                
+                                //Check if the field is a picklist
                                 if ($field['type']['name'] == 'picklist') {
-                                    foreach ($field['type']['picklistValues']
-                                    as $key => &$option)
+                                    
+                                    //Loop through all values of the pick list
+                                    foreach ($field['type']['picklistValues'] as &$option)
+                                        
+                                    //Check if there is a dependency setup
+                                    //for the picklist value
                                     if (isset($option['dependency'])) {
-                                        foreach ($option['dependency']
-                                            as $dep_fieldname => $dependency) {
+                                        
+                                        foreach ($option['dependency'] as $dep_fieldname => $dependency) {
                                             if (in_array($dep_fieldname, Yii::app()->params->custom_fields['HelpDesk'])) {
-                                                    $new_fieldname 
-                                                        = $flipped_custom_fields
-                                                            [$dep_fieldname];
-                                                    $option['dependency']
-                                                            [$new_fieldname] 
-                                                                = $option['dependency']
-                                                            [$dep_fieldname];
-                                                    unset($option
-                                                            ['dependency'][$dep_fieldname]);
+                                                    $new_fieldname = $flipped_custom_fields[$dep_fieldname];
+                                                    $option['dependency'][$new_fieldname] = $option['dependency'][$dep_fieldname];
+                                                    unset($option['dependency'][$dep_fieldname]);
                                             }
                                         }
                                     }
@@ -1617,8 +1700,8 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                
                 
-                $response = json_decode($response);
-
+                $response = json_decode($response);                
+                
                 $s3 = new AmazonS3();
                 $s3->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
 
@@ -1628,6 +1711,17 @@ class ApiController extends Controller
                     'protected/data/' . $unique_id . 
                     $response->result->filename, 'x'
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending request to s3 to get file: " . 
+                    $response->result->filename .                            
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                 
+                
                 $s3response = $s3->get_object(
                     Yii::app()->params->awsS3Bucket, 
                     $response->result->filename, 
@@ -1636,6 +1730,16 @@ class ApiController extends Controller
                     )
                 );
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received from s3: " . 
+                    json_encode($s3response) .                          
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 if (!$s3response->isOK())
                 throw new Exception("File not found.");
 
