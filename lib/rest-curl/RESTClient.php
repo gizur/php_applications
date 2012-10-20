@@ -74,6 +74,7 @@ class RESTClient extends CComponent
     {
         Yii::log('REST Class Initialized');
 		$this->_curl = new CURL();
+                $this->_curl->ssl(false);
 		empty($config) OR $this->initialize($config);
     }
 
