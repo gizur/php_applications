@@ -436,17 +436,10 @@ class ApiController extends Controller
                 Yii::log(
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " VALIDATION (No value in cache found: Logging in)", 
-                    CLogger::LEVEL_TRACE
-                );                  
-                
-                //Log
-                Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
-                    " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " PROCESSING REQUEST (sending POST request to vt url: " . 
+                    " VALIDATION (No value in cache found: Logging in)" .
+                    " (sending POST request to vt url: " .
                     Yii::app()->params->vtRestUrl .
-                    "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
+                    "?operation=logincustomer " . "username=" . $_SERVER['HTTP_X_USERNAME'] .
                     "&password=" . $_SERVER['HTTP_X_PASSWORD'] .                          
                     ")", 
                     CLogger::LEVEL_TRACE
@@ -484,6 +477,20 @@ class ApiController extends Controller
                 $userAccessKey = $response->result->accesskey;
                 $accountId = $response->result->accountId;
                 $contactId = $response->result->contactId;
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " VALIDATION (sending GET request to vt url: " .
+                    Yii::app()->params->vtRestUrl .
+                    "?operation=getchallenge&username=$username" .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                
+
+                $rest = new RESTClient();
+                $rest->format('json');
 
                 //Login using $username and $userAccessKey
                 $response = $rest->get(
@@ -516,11 +523,14 @@ class ApiController extends Controller
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending request to vt url: " . 
                     Yii::app()->params->vtRestUrl .
-                    "?operation=login", 
+                    "?operation=login".
                     "username=$username&accessKey=$generatedKey" .                            
                     ")", 
                     CLogger::LEVEL_TRACE
                 ); 
+
+                $rest = new RESTClient();
+                $rest->format('json');
 
                 //Login using the generated key
                 $response = $rest->post(
