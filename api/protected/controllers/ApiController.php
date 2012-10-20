@@ -701,6 +701,7 @@ class ApiController extends Controller
                 $response->success = false;
                 $response->error->code = $this->_errors[$e->getCode()];
                 $response->error->message = $e->getMessage();
+                $response->error->trace_id = $this->_trace_id;
 
                 //Check if the error code is TIME_NOT_IN_SYNC
                 //if so send time delta
@@ -728,6 +729,7 @@ class ApiController extends Controller
                     $response->success = false;
                     $response->error->code = $this->_errors[$e->getCode()];
                     $response->error->message = $e->getMessage();
+                    $response->error->trace_id = $this->_trace_id;
                     $this->_sendResponse(403, json_encode($response));
                 } else {
                     
@@ -1324,6 +1326,7 @@ class ApiController extends Controller
             $response->success = false;
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
+            $response->error->trace_id = $this->_trace_id;
             $this->_sendResponse(400, json_encode($response));
         }
     }
@@ -1845,6 +1848,7 @@ class ApiController extends Controller
             $response->success = false;
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
+            $response->error->trace_id = $this->_trace_id;
             $this->_sendResponse(400, json_encode($response));
         }
     }
@@ -2247,6 +2251,7 @@ class ApiController extends Controller
             $response->success = false;
             $response->error->code = $this->_errors[$e->getCode()];
             $response->error->message = $e->getMessage();
+            $response->error->trace_id = $this->_trace_id;
             $this->_sendResponse(400, json_encode($response));
         }
     }
@@ -2774,6 +2779,7 @@ class ApiController extends Controller
             $response->success = false;
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
+            $response->error->trace_id = $this->_trace_id;
             $this->_sendResponse(400, json_encode($response));
         }
     }
