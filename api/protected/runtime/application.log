@@ -12019,3 +12019,45 @@ in /home/anshuk/public_html/gizurcloud/api/index.php (13)
 2012/10/10 13:52:22 [trace] [system.caching.CMemCache] Saving "last_used_{"username":"portal_user@gizur.com","password":"skcx0r0i"}" to cache
 in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (302)
 in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/10/18 13:40:15 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+---
+2012/10/18 13:51:59 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+---
+2012/10/18 13:53:41 [error] [exception.CException] exception 'CException' with message 'Property "CDummyCache.servers" is not defined.' in /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CComponent.php:174
+Stack trace:
+#0 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/YiiBase.php(222): CComponent->__set('servers', Array)
+#1 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(387): YiiBase::createComponent(Array)
+#2 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(217): CModule->getComponent('cache')
+#3 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CUrlManager.php(207): CUrlManager->processRules()
+#4 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CModule.php(388): CUrlManager->init()
+#5 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(503): CModule->getComponent('urlManager')
+#6 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/web/CWebApplication.php(134): CApplication->getUrlManager()
+#7 /home/anshuk/public_html/gizurcloud/lib/yii-1.1.10.r3566/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#8 /home/anshuk/public_html/gizurcloud/api/index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/gizurcloud/api/index.php/api/Authenticate/login
+---

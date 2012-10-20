@@ -24,35 +24,37 @@ require_once('../lib/aws-php-sdk/sdk.class.php');
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
     //Gizur Cloud 1
-    Const GIZURCLOUD_SECRET_KEY  = "50694086b18cd0.9497426050694086b18fa8.66729980";
-    Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
+    //Const GIZURCLOUD_SECRET_KEY  = "50694086b18cd0.9497426050694086b18fa8.66729980";
+    //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
     //Gizur Cloud 2
     //Const GIZURCLOUD_SECRET_KEY = "5072a72ec5fc85.940161915072a72ec5ffb8.63157114";
     //Const GIZURCLOUD_API_KEY = "GZCLD5072A72EC607D5072A72EC60F5";
 
     //Gizur Cloud 3
-    //Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
-    //Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+    Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
+    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
 
     Const API_VERSION = "0.1";
 
     protected $credentials = Array(
             //Gizur Cloud 3
             //'portal_user@gizur.com' => 'skcx0r0i',
-            //'mobile_user@gizur.com' => 'ivry34aq',
-           
+            'mobile_user@gizur.com' => 'ivry34aq',
+            //Change Password User 
+            //'anshuk.kumar@essindia.co.in' => 'ipjibl0f',
+            //'anshuk.kumar@essindia.co.in' => 'dddddd',
+          
+            //Gizur Cloud 2 
             //'portal_user@gizur.com' => '2hxrftmd',
-            //'cloud3@gizur.com' => 'rksh2jjf',
             //'mobile_app@gizur.com' => 'qau5a0id',
             
             //Gizur Cloud 1
-            'mobile_app@gizur.com' => 'cwvvzvb0',
-            //'anil-singh@essindia.co.in' => '5061ae987fc35'            
+            //'mobile_app@gizur.com' => 'cwvvzvb0',
     );
 
     //Cloud 1 
-    protected $url = "https://api.gizur.com/api/index.php/api/";
+    //protected $url = "https://api.gizur.com/api/index.php/api/";
 
     //Cloud 2
     //protected $url = "http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
@@ -62,7 +64,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
-    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
  
 
     public function testLogin()
@@ -106,6 +108,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
             $rest->format('json'); 
+            $rest->language(array('en-us;q=0.5','sv'));
             //if (!isset($params['UniqueSalt'])) 
                 $params['UniqueSalt'] = uniqid();
             // Sorg arguments
@@ -230,7 +233,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                     $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         $rest = new RESTClient();
-        $rest->format('json'); 
+        $rest->format('html'); 
         $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
         $rest->set_header('X_SIGNATURE', $signature);                   
         $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
@@ -246,6 +249,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     {
         $model = 'Authenticate';
         $action = 'changepw';
+        //$newpassword = 'dddddd';
+        $newpassword = 'ipjibl0f';
            
         echo "Change Password " . PHP_EOL;        
 
@@ -280,7 +285,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $rest->set_header('X_SIGNATURE', $signature);                  
             $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);                   
             $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo PHP_EOL . "  " . $response = $rest->put($this->url.$model."/".$action, array('newpassword' => $password));
+            echo PHP_EOL . "  " . $response = $rest->put($this->url.$model."/".$action, array('newpassword' => $newpassword));
             $response = json_decode($response);
             //check if response is valid
             if (isset($response->success)){
