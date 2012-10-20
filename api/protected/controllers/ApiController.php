@@ -225,10 +225,7 @@ class ApiController extends Controller
                
             //Check Acceptable mime-type of request    
             if (isset($_SERVER['HTTP_ACCEPT'])) {
-                if (strpos($_SERVER['HTTP_ACCEPT'], 'json')!==false) {
-                    if ($_GET['model'] == 'About')
-                        throw new Exception('Mime-Type not supported', 1005);                      
-                } else {
+                if (strpos($_SERVER['HTTP_ACCEPT'], 'json')===false) {
                     if (!(strpos($_SERVER['HTTP_ACCEPT'], 'html')!==false 
                         && $_GET['model'] == 'About'))
                         throw new Exception('Mime-Type not supported', 1005); 
@@ -770,8 +767,21 @@ class ApiController extends Controller
              */                
             case 'About':
                 $body = 'This mobile app was built using';
-                $body .= ' <a href="gizur.com">gizur.com</a> services.';
-                $this->_sendResponse(200, $body, 'text/html');
+                $body .= ' <a href="gizur.com">gizur.com</a> services.';  
+                
+                if (strpos($_SERVER['HTTP_ACCEPT'], 'json')!==false) {
+                    $response = new stdClass();
+                    $response->success = true;
+                    $response->result = $body;
+                    
+                    $this->_sendResponse(200, json_encode($response));
+                }elseif (strpos($_SERVER['HTTP_ACCEPT'], 'html')!==false) {
+                    //add html tags
+                    $body = "<html><body>$body</body></html>";
+                    
+                    $this->_sendResponse(200, $body, 'text/html');
+                }                
+                
                 break;
             
             /*
@@ -940,6 +950,9 @@ class ApiController extends Controller
                                             }
                                         }
                                     }
+                                    
+                                    //Create response to be sent in proper
+                                    //format
                                     $content = json_encode(
                                         array(
                                         'success' => true,
@@ -947,13 +960,19 @@ class ApiController extends Controller
                                         $field['type']['picklistValues']
                                             )
                                     );
+                                    
+                                    //Save the response in cache
                                     Yii::app()->cache->set(
                                         'picklist_'
                                         . $_GET['model']
                                         . '_'
                                         . $_GET['fieldname'], $content, 3600
                                     );
+                                    
+                                    //Dispatch the response
                                     $this->_sendResponse(200, $content);
+                                    
+                                    //eject 2 levels
                                     break 2;
                                 }
                                 throw new Exception("Not an picklist field");
@@ -961,12 +980,16 @@ class ApiController extends Controller
                         }
                         throw new Exception("Fieldname not found");
                     } else {
+                        
+                        //Send cached response
                         $this->_sendResponse(200, $cached_value);
                     }
                 }
 
-                    //Is this a request for listing categories
+                //Is this a request for listing categories
                 if (isset($_GET['category'])) {
+                    
+                    //Store values
                     $sessionId = $this->_session->sessionName;
                     $accountId = $this->_session->accountId;
 
@@ -982,7 +1005,7 @@ class ApiController extends Controller
                         $where_clause[] = "ticketstatus = 'Open'";
                     }
 
-                    //$where_clause[] = "parent_id = " . $contactId;
+                    //Adding date range filter
                     if (isset($_GET['year']) && isset($_GET['month'])) {
                         if ($_GET['year'] != '0000') {
                             if ($_GET['month'] == '00') {
@@ -1005,6 +1028,7 @@ class ApiController extends Controller
                         }
                     }
 
+                    //Adding trailer filter
                     if (isset($_GET['trailerid'])) {
                         if ($_GET['trailerid'] != '0')
                             $where_clause[] = Yii::app()->params->custom_fields
@@ -1012,9 +1036,12 @@ class ApiController extends Controller
                                         " = '" . $_GET['trailerid'] . "'";
                     }
 
+                    //Attaching where clause to filter
                     if (count($where_clause) != 0)
                         $query = $query . " where " .
                                 implode(" and ", $where_clause);
+                    
+                    //Terminating the query
                     $query = $query . ";";
 
                     //urlencode to as its sent over http.
@@ -1052,14 +1079,15 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );                    
                     
+                    //Objectify the response and check its success
                     $response = json_decode($response, true);
 
                     if ($response['success'] == false)
-                        throw new Exception('Fetching details failed ' . $query);
-
+                        throw new Exception('Fetching details failed');
 
                     //Get Accounts List
                     $query = "select * from Accounts;";
+                 
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
 
@@ -1095,7 +1123,9 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );                    
                     
+                    //Objectify the response and check its success
                     $accounts = json_decode($accounts, true);
+                    
                     if ($accounts['success'] == true) {
                         $tmp_accounts = array();
                         if (isset($accounts['result']))
@@ -1106,6 +1136,7 @@ class ApiController extends Controller
 
                     //Get Contact List
                     $query = "select * from Contacts;";
+                    
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
 
@@ -1141,6 +1172,7 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );                    
                     
+                    //Objectify the response and check its success
                     $contacts = json_decode($contacts, true);
                     if ($contacts['success'] == true) {
                         $tmp_contacts = array();
@@ -1151,6 +1183,8 @@ class ApiController extends Controller
                         }
                     }
 
+                    //Before sending response santise custom fields names to 
+                    //human readable field names
                     $custom_fields = Yii::app()->params->custom_fields['HelpDesk'];
 
                     foreach ($response['result'] as &$troubleticket) {
@@ -1178,6 +1212,7 @@ class ApiController extends Controller
                         }
                     }
 
+                    //Send response
                     $this->_sendResponse(200, json_encode($response));
                 }
                 break;
@@ -1231,11 +1266,16 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                
                 
+                //Objectify the response and check its success
                 $response = json_decode($response, true);
+                
                 if ($response['success'] == false)
                 throw new Exception('Unable to fetch details');
+                
                 $custom_fields = Yii::app()->params->custom_fields['Assets'];
 
+            //Before sending response santise custom fields names to 
+            //human readable field names                
             foreach ($response['result'] as &$asset) {
                 unset($asset['update_log']);
                 unset($asset['hours']);
@@ -1255,6 +1295,8 @@ class ApiController extends Controller
                 break;
 
             default :
+                
+                //Default case this case should never be executed
                 $response = new stdClass();
                 $response->success = false;
 
@@ -1266,6 +1308,8 @@ class ApiController extends Controller
                 break;
             }
         } catch (Exception $e) {
+            
+            //Generating error response
             $response = new stdClass();
             $response->success = false;
             $response->error->code = "ERROR";
@@ -1284,6 +1328,7 @@ class ApiController extends Controller
         //Tasks include detail view of a specific Troubleticket and Assets
         try {
             
+            //Log
             Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
             
             switch ($_GET['model']) {
@@ -1296,7 +1341,7 @@ class ApiController extends Controller
                 * ******************************************************************
                 */
             case 'User':
-                // Instantiate the class
+                // Instantiate the class for Dynamo DB
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
 
@@ -1313,7 +1358,10 @@ class ApiController extends Controller
                         )
                 );
 
+                //Checking if DynamoDB response has items
                 if (isset($ddb_response->body->Item)) {
+                    
+                    //create response
                     foreach ($ddb_response->body->Item->children()
                     as $key => $item) {
                         $result->{$key} 
@@ -1321,8 +1369,12 @@ class ApiController extends Controller
                     }
                     $response->success = true;
                     $response->result = $result;
+                    
+                    //Send response
                     $this->_sendResponse(200, json_encode($response));
                 } else {
+                    
+                    //Create User not found error
                     $response->success = false;
                     $response->error->code = "NOT_FOUND";
                     $response->error->message = $_GET['email'] . " was " .
@@ -1341,8 +1393,7 @@ class ApiController extends Controller
             case 'HelpDesk':
                 $sessionId = $this->_session->sessionName;
 
-                /* Get HelpDesk details */
-
+                //Get HelpDesk details 
                 //Creating vTiger Query
                 $query = "select * from " . $_GET['model'] .
                         " where id = " . $_GET['id'] . ";";
@@ -1381,17 +1432,14 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                
                 
+                //Objectify the response and check its success
                 $response = json_decode($response, true);
                 $response['result'] = $response['result'][0];
 
                 if (!$response['success'])
                 throw new Exception($response['error']['message']);
 
-                /* Get Documents Ids */
-
-                //urlencode to as its sent over http.
-                $queryParam = urlencode($query);
-
+                //Get Documents Ids
                 //creating query string
                 $params = "sessionName=$sessionId" .
                         "&operation=getrelatedtroubleticketdocument" .
@@ -1424,11 +1472,17 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                
                 
+                //Arrayfy the response and check its success 
                 $documentids = json_decode($documentids, true);
+                if ($documentids['success']==false)
+                    throw new Exception('Unable to fetch Documents');
+                
                 $documentids = $documentids['result'];
 
-                // Get Document Details 
+            // Get Document Details 
             if (count($documentids) != 0) {
+                
+                    //Building query for fetching documents
                     $query = "select * from Documents" .
                             " where id in (" . $this->_ws_entities['Documents']
                             . "x" .
@@ -1471,9 +1525,12 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );                    
                     
+                    //Objectify the response and check its success
                     $documents = json_decode($documents, true);
+                    
                     if (!$documents['success'])
                         throw new Exception($documents['error']['message']);
+                    
                     $response['result']['documents'] = $documents['result'];
             }
 
@@ -1517,12 +1574,17 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );                    
                     
+                    //Objectify the response and check its success
                     $contact = json_decode($contact, true);
+                    
                     if (!$contact['success'])
                         throw new Exception($contact['error']['message']);
+                    
+                    //Storing contact name to response
                     $response['result']['contactname'] 
                         = $contact['result'][0];
 
+                    //Building response
                     $query = "select accountname from Accounts" .
                             " where id = " .
                             $contact['result'][0]['account_id'] . ";";
