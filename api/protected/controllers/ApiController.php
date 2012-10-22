@@ -2317,7 +2317,7 @@ class ApiController extends Controller
                     
                     $filename = Yii::app()->params->vtCronPath . 'MailScanner.service';
                     $response = new stdClass();
-                    $response->result = exec("php $filename");
+                    $response->result = shell_exec("php $filename");
                     
                     $this->_sendResponse(200, json_encode($response));
                 }
