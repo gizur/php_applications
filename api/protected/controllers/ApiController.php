@@ -2318,7 +2318,7 @@ class ApiController extends Controller
                     $filename = Yii::app()->params->vtCronPath . 'MailScanner.service';
                     $response = new stdClass();
                     ini_set('memory_limit','512M');
-                    $response->result = ini_get('memory_limit');
+                    $response->result = shell_exec('ls -al');
                     
                     $this->_sendResponse(200, json_encode($response));
                 }
