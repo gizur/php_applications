@@ -28,8 +28,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
     //Gizur Cloud 2
-    //Const GIZURCLOUD_SECRET_KEY = "5072a72ec5fc85.940161915072a72ec5ffb8.63157114";
-    //Const GIZURCLOUD_API_KEY = "GZCLD5072A72EC607D5072A72EC60F5";
+    //Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
+    //Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
 
     //Gizur Cloud 3
     Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
@@ -39,15 +39,15 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     protected $credentials = Array(
             //Gizur Cloud 3
-            //'portal_user@gizur.com' => 'skcx0r0i',
-            'mobile_user@gizur.com' => 'ivry34aq',
+            'portal_user@gizur.com' => 'skcx0r0i',
+            //'mobile_user@gizur.com' => 'ivry34aq',
             //Change Password User 
             //'anshuk.kumar@essindia.co.in' => 'ipjibl0f',
             //'anshuk.kumar@essindia.co.in' => 'dddddd',
           
             //Gizur Cloud 2 
             //'portal_user@gizur.com' => '2hxrftmd',
-            //'mobile_app@gizur.com' => 'qau5a0id',
+            //'mobile_app@gizur.com' => 'ivry34aq',
             
             //Gizur Cloud 1
             //'mobile_app@gizur.com' => 'cwvvzvb0',
@@ -58,13 +58,14 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     //Cloud 2
     //protected $url = "http://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "https://c2.gizur.com/api/index.php/api/";
     
     //Cloud 3
-    //protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
+    protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
-    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
  
 
     public function testLogin()
@@ -108,6 +109,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         foreach($this->credentials as $username => $password){            
             $rest = new RESTClient();
             $rest->format('json'); 
+            $rest->ssl(false);
             $rest->language(array('en-us;q=0.5','sv'));
             //if (!isset($params['UniqueSalt'])) 
                 $params['UniqueSalt'] = uniqid();
@@ -247,10 +249,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testChangePassword()
     {
+        $this->markTestSkipped('');        
         $model = 'Authenticate';
         $action = 'changepw';
         //$newpassword = 'dddddd';
-        $newpassword = 'ipjibl0f';
+        //$newpassword = 'ipjibl0f';
            
         echo "Change Password " . PHP_EOL;        
 
@@ -398,7 +401,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     {
         $model = 'Authenticate';
         $action = 'reset';
-           
+            
+        $this->markTestSkipped('');        
+
         echo " Resetting password " . PHP_EOL;        
 
         $params = array(
@@ -839,7 +844,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testSignatureHash() {
         echo " Matching Signature Hash " . PHP_EOL;
-        //$this->markTestSkipped('');        
+        $this->markTestSkipped('');        
 
         $params = array(
                     'Verb'          => 'PUT',

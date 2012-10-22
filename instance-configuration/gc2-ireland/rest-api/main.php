@@ -110,6 +110,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
                 'vtRestUrl'   => 'https://c2.gizur.com/lib/vtiger-5.4.0/webservice.php',
+                'vtCronPath'  => '/var/www/html/lib/vtiger-5.4.0/cron/',             
                 'awsS3Bucket' => 'gizurcloud-gc2',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',

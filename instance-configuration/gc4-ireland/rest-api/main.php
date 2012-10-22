@@ -110,6 +110,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
                 'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
+                'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',
                 'awsS3Bucket' => 'gizurcloud',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',

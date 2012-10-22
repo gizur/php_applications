@@ -342,4 +342,8 @@ class RESTClient
     	eval("\$populated = \"$string\";");
     	return $populated;
     }
+    
+	public function ssl($verify_peer = TRUE, $verify_host = 2, $path_to_cert = NULL) {
+        $this->_curl->ssl($verify_peer, $verify_host, $path_to_cert);
+    }
 }
