@@ -207,6 +207,47 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+    public function testCron()
+    {
+        $model = 'Cron';
+        $action = 'mailscan';
+           
+        echo " Executing Cron Mailscan " . PHP_EOL;        
+
+        $params = array(
+                    'Verb'          => 'PUT',
+                    'Model'         => $model,
+                    'Version'       => self::API_VERSION,
+                    'Timestamp'     => date("c"),
+                    'KeyID'         => self::GIZURCLOUD_API_KEY,
+                    'UniqueSalt'    => uniqid()
+        );
+
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        $rest = new RESTClient();
+        $rest->format('json'); 
+        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $rest->set_header('X_SIGNATURE', $signature);                   
+        $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        
+        echo PHP_EOL . " Response :  " . $response = $rest->put($this->url.$model."/".$action);
+        
+       unset($rest);
+       echo PHP_EOL . PHP_EOL;
+    }
+
     public function testAbout()
     {
         $model = 'About';

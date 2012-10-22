@@ -69,6 +69,7 @@ return array(
 			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
                         array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'api/<model:(Cron)>/<action:(mailscan)>', 'verb'=>'PUT'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
 		),
