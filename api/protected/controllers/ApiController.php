@@ -82,7 +82,8 @@ class ApiController extends Controller
         'Assets',
         'About',
         'DocumentAttachments',
-        'Authenticate'
+        'Authenticate',
+        'Cron'
     );
 
     /**
@@ -382,8 +383,8 @@ class ApiController extends Controller
             //Save the signature for 10 minutes
             Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
 
-            //If request is for Model About stop validating
-            if ($_GET['model'] == 'About')
+            //If request is for Model About or Cron stop validating
+            if ($_GET['model'] == 'About' || $_GET['model'] == 'Cron')
                 return true;
 
             //Check if Username is provided in header
@@ -2302,7 +2303,26 @@ class ApiController extends Controller
             Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);
             
             switch ($_GET['model']) {
-
+                /*
+                 * ******************************************************************
+                 * ******************************************************************
+                 * * Cron MODEL
+                 * * Accepts as action mailscan
+                 * ******************************************************************
+                 * ******************************************************************
+                 */
+            case 'Cron':
+                
+                if ($_GET['action'] == 'mailscan') {
+                    
+                    $filename = Yii::app()->params->vtCronPath . 'MailScanner.service';
+                    $response = new stdClass();
+                    $response->result = exec("php $filename");
+                    
+                    $this->_sendResponse(200, json_encode($response));
+                }
+                
+                break;
                 /*
                  * ******************************************************************
                  * ******************************************************************
