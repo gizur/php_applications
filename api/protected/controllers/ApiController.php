@@ -178,6 +178,7 @@ class ApiController extends Controller
             </head>
             <body>
                 <h1>' . ((isset($this->_codes[$status])) ? $codes[$status] : '') . '</h1>
+                <h2> Trace ID:' . $this->_trace_id . '</h2>
                 <p>' . $message . '</p>
                 <hr />
                 <address>' . $signature . '</address>
@@ -1315,6 +1316,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model " . $_GET['model'];
+                $response->error->trace_id = $this->_trace_id;
                 $this->_sendResponse(405, json_encode($response));
 
                 break;
@@ -1392,6 +1394,7 @@ class ApiController extends Controller
                     $response->error->code = "NOT_FOUND";
                     $response->error->message = $_GET['email'] . " was " .
                             " not found";
+                    $response->error->trace_id = $this->_trace_id;
                     $this->_sendResponse(404, json_encode($response));
                 }
                 break;
@@ -1840,6 +1843,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model " . $_GET['model'];
+                $response->error->trace_id = $this->_trace_id;
                 $this->_sendResponse(405, json_encode($response));
                 break;
             }
@@ -1925,6 +1929,7 @@ class ApiController extends Controller
                     $response->error->code = "NOT_CREATED";
                     $response->error->message = $_GET['email'] . " could "
                             . " not be created";
+                    $response->error->trace_id = $this->_trace_id;
                     $this->_sendResponse(400, json_encode($response));
                 }
                 break;
@@ -2243,6 +2248,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model " . $_GET['model'];
+                $response->error->trace_id = $this->_trace_id;
                 $this->_sendResponse(405, json_encode($response));
                 break;
             }
@@ -2272,11 +2278,13 @@ class ApiController extends Controller
             $response->error->code = $this->_errors[1004];
             $response->error->message = "Not a valid method" .
                     " for model " . $_GET['model'];
+            $response->error->trace_id = $this->_trace_id;
             $this->_sendResponse(405, json_encode($response));
         } else {
             $response->error->code = "NOT_FOUND";
             $response->error->message = "Such a service is not provided by" .
                     " this REST service";
+            $response->error->trace_id = $this->_trace_id;
             $this->_sendResponse(404, json_encode($response));
         }
     }
@@ -2771,6 +2779,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model ";
+                $response->error->trace_id = $this->_trace_id;
                 $this->_sendResponse(405, json_encode($response));
                 break;
             }
