@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Yii Controller to handel REST queries
+ * Yii Controller to handle REST queries
  *
  * Works with remote vtiger REST service
  * 
