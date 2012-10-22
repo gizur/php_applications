@@ -372,7 +372,7 @@ class ApiController extends Controller
 
             //Verify if the signature is valid
             if ($_SERVER['HTTP_X_SIGNATURE'] != $verify_signature)
-                throw new Exception('Could not verify signature sts: ' . $string_to_sign);
+                throw new Exception('Could not verify signature');
 
             //Check if the signature has been used before
             //This is a security loop hole to reply attacks in case memcache
