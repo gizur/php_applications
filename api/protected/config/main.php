@@ -38,14 +38,15 @@ return array(
 			'allowAutoLogin'=>true,
 		),
                 'cache'=>array(
-                    'class'=>'CMemCache',
-                    'servers'=>array(
-                        array(
-                            'host'=>'localhost',
-                            'port'=>11211,
-                            'weight'=>100,
-                        ),
-                    ),
+                    'class'=>'CDummyCache',
+//                    'class'=>'CMemCache',
+//                    'servers'=>array(
+//                        array(
+//                            'host'=>'localhost',//gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+//                            'port'=>11211,
+//                            'weight'=>100,
+//                        ),
+//                    ),
                 ),            
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
@@ -94,13 +95,13 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning, trace',
+					'levels'=>'error, warning',
 				),
 				array(
 					'class'=>'CLiveLogRoute',
 					'levels'=>'error, warning, trace',
                                         'server'=>'http://gizur-cron-and-logs.herokuapp.com/'
-				),                            
+				),                               
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
@@ -115,14 +116,14 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'https://c2.gizur.com/lib/vtiger-5.4.0/webservice.php',
-                'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',
-                'awsS3Bucket' => 'gizurcloud-gc2',
+                'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
+                'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',             
+                'awsS3Bucket' => 'gizurcloud',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'awsSESClientEmailAddress' => 'admin@gizur.com',
                 'acceptableTimestampError' => 60,
-                'awsS3Region' => 'REGION_EU_W1',
+                'awsS3Region' => 'REGION_APAC_NE1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
                 'awsSESRegion' => 'REGION_EU_W1',
                 'custom_fields' => Array(
