@@ -97,6 +97,11 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
+				array(
+					'class'=>'CLiveLogRoute',
+					'levels'=>'error, warning, trace',
+                                        'server'=>'http://gizur-cron-and-logs.herokuapp.com/'
+				),                               
 				// uncomment the following to show log messages on web pages
 				/*
 				array(

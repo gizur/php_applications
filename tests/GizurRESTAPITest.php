@@ -39,8 +39,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     protected $credentials = Array(
             //Gizur Cloud 3
-            'portal_user@gizur.com' => 'skcx0r0i',
-            //'mobile_user@gizur.com' => 'ivry34aq',
+            //'portal_user@gizur.com' => 'skcx0r0i',
+            'mobile_user@gizur.com' => 'ivry34aq',
             //Change Password User 
             //'anshuk.kumar@essindia.co.in' => 'ipjibl0f',
             //'anshuk.kumar@essindia.co.in' => 'dddddd',
