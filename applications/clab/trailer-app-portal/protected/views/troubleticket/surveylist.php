@@ -87,6 +87,7 @@ if (!isset($currentasset)) {
                     <th><?php echo getTranslatedString('ID');?></th>
                     <th><?php echo getTranslatedString('Date');?></th>
                     <th><?php echo getTranslatedString('Time');?></th>
+                    <th><?php echo getTranslatedString('Trailer ID');?></th>
                     <th><?php echo getTranslatedString('Account');?></th>
                     <th><?php echo getTranslatedString('Contact');?></th>
                     <th><?php echo getTranslatedString('Place');?></th>
@@ -106,6 +107,7 @@ if (!isset($currentasset)) {
                     <td><?php echo $data['ticket_no'];?></td>
                     <td><?php echo $date;?></td>
                     <td><?php echo $time;?></td>
+                    <td><?php echo $data['trailerid'];?></td>
                     <td><?php echo $viewdteails;?></td>
                     <td><?php echo $data['contactname'];?></td>
                     <td><?php echo htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8");?></td>
