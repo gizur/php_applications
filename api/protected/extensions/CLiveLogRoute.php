@@ -50,8 +50,8 @@ class CLiveLogRoute extends CLogRoute
         curl_setopt($ch, CURLOPT_URL,            $server );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
         curl_setopt($ch, CURLOPT_POST,           1 );
-        curl_setopt($ch, CURLOPT_POSTFIELDS,     $message ); 
-        curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Content-Type: text/plain')); 
+        curl_setopt($ch, CURLOPT_POSTFIELDS,     json_encode($message)); 
+        curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Content-Type: application/json')); 
 
         $result=curl_exec ($ch);
     }
