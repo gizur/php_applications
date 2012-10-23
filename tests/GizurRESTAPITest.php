@@ -61,11 +61,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //protected $url = "https://c2.gizur.com/api/index.php/api/";
     
     //Cloud 3
-    protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
-    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
  
 
     public function testLogin()
