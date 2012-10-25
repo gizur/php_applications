@@ -92,10 +92,12 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
                 'protocol'=>'http://',
-		'GIZURCLOUD_SECRET_KEY' => 'yyy',
-		'GIZURCLOUD_API_KEY' => 'xxx',
+                'createTroubleTicket'=> true,
+		'GIZURCLOUD_SECRET_KEY' => '9b45e67513cb3377b0b18958c4de55be',
+		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
 		'API_VERSION' => '0.1',
 		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/',
+                'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',
 	                 'sv' => 'Swedish'
