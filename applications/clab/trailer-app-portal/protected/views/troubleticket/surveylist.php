@@ -165,7 +165,7 @@ if (!isset($currentasset)) {
     {
         var year=$('#year').val();
         var month=$('#month').val();
-        var type=$('#type').val();
+        var reportdamage=$('#reportdamage').val();
         var trailer=$('#trailer option:selected').text();
         $("#process").addClass("waitprocess");	
         $('#process').html('loading....  Please wait');
