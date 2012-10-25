@@ -56,7 +56,7 @@ foreach ($Assets as $key => $val) {
                 <td ><select name='year' id="year" onchange="getAjaxBaseRecord(this.value)"><?php echo $options; ?></select></td>
                 <td ><select name='month' id="month" onchange="getAjaxBaseRecord(this.value)"><?php echo $Months; ?></select></select></td>
                 <td >
-                    <select name='month' id="type" onchange="getAjaxBaseRecord(this.value)">
+                    <select name='type' id="type" onchange="getAjaxBaseRecord(this.value)">
                         <option value="all">All</option>
                         <option value="damaged">Damaged</option>
                     </select>
@@ -165,10 +165,11 @@ if (!isset($currentasset)) {
     {
         var year=$('#year').val();
         var month=$('#month').val();
+        var type=$('#type').val();
         var trailer=$('#trailer option:selected').text();
         $("#process").addClass("waitprocess");	
         $('#process').html('loading....  Please wait');
-        $.post('index.php?r=troubleticket/surveysearch',{year: year, month: month ,trailer:trailer},
+        $.post('index.php?r=troubleticket/surveysearch',{year: year, month: month ,trailer:trailer, type:type},
         function(data) 
         {
             $("#process").removeClass("waitprocess");
