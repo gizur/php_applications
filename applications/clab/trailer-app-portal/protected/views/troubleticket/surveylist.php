@@ -45,7 +45,10 @@ foreach ($Assets as $key => $val) {
 ?>
 <div id="wrap">
     <div style="float:right; width:208px" class="button">
-        <a href="index.php?r=troubleticket/survey/"><?php echo getTranslatedString('Create new Trouble ticket'); ?></a></div>
+        <?php if (Yii::app()->params['createTroubleTicket']) { ?>
+        <a href="index.php?r=troubleticket/survey/"><?php echo getTranslatedString('Create new Trouble ticket'); ?></a>
+        <?php } ?>
+    </div>
     <div class="toppanel">
         <table width="100%" border="0" cellspacing="0" cellpadding="1">
             <tr><td colspan='3' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
@@ -91,6 +94,8 @@ if (!isset($currentasset)) {
                     <th><?php echo getTranslatedString('Account');?></th>
                     <th><?php echo getTranslatedString('Contact');?></th>
                     <th><?php echo getTranslatedString('Place');?></th>
+                    <th><?php echo getTranslatedString('Plates');?></th>
+                    <th><?php echo getTranslatedString('Straps');?></th>
                     <th><?php echo getTranslatedString('Damage Reported');?></th>
                     <th><?php echo getTranslatedString('Type of damage');?></th>
                     <th><?php echo getTranslatedString('Position on trailer');?></th>
@@ -111,6 +116,8 @@ if (!isset($currentasset)) {
                     <td><?php echo $viewdteails;?></td>
                     <td><?php echo $data['contactname'];?></td>
                     <td><?php echo htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8");?></td>
+                    <td><?php echo htmlentities($data['plates'], ENT_QUOTES, "UTF-8");?></td>
+                    <td><?php echo htmlentities($data['straps'], ENT_QUOTES, "UTF-8");?></td>
                     <td><?php echo $data['reportdamage'];?></td>
                     <td><?php echo htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8");?></td>
                     <td><?php echo htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8");?></td>
