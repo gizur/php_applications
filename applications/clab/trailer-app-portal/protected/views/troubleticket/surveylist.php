@@ -44,11 +44,11 @@ foreach ($Assets as $key => $val) {
 }
 ?>
 <div id="wrap">
+    <?php if (Yii::app()->params['createTroubleTicket']) { ?>
     <div style="float:right; width:208px" class="button">
-        <?php if (Yii::app()->params['createTroubleTicket']) { ?>
         <a href="index.php?r=troubleticket/survey/"><?php echo getTranslatedString('Create new Trouble ticket'); ?></a>
-        <?php } ?>
     </div>
+    <?php } ?>    
     <div class="toppanel">
         <table width="100%" border="0" cellspacing="0" cellpadding="1">
             <tr><td colspan='3' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
