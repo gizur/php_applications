@@ -205,7 +205,7 @@ class Troubleticket extends CFormModel {
         }        
         $extraparameter = implode('/', $FilterParameter);
         if (!empty($extraparameter)) {
-            $extraparameter = "/" . $extraparameter;
+            echo $extraparameter = "/" . $extraparameter;
         }
         //foreach($this->credentials as $username => $password){            
         $rest = new RESTClient();
