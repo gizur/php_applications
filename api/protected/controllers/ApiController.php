@@ -2322,8 +2322,12 @@ class ApiController extends Controller
                     else 
                         $response->fileexist = false;
                     //$response->result = shell_exec("php -f $filename");
-                    $response->result = shell_exec("/usr/bin/php -r 'echo a;'");
-                    
+                    $response->result = shell_exec("/var/www/html/lib/vtiger-5.4.0/cron/executecron.sh'");
+                   
+                    if ($response->result!='success')
+                        throw new Exception('Unable to run cron : ' . $response->result);
+
+                    $response->success = true; 
                     $this->_sendResponse(200, json_encode($response));
                 }
                 
