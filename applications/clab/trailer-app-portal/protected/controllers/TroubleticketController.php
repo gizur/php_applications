@@ -75,7 +75,7 @@ class TroubleticketController extends Controller {
             $trailer = "0";
         $model = new Troubleticket;
         $this->LoginCheck();
-        $records = $model->findAll($module, $type, $year, $month, $trailer,$reportdamage);
+        $records = $model->findAll($module, $type, $year, $month, $trailer, $reportdamage);
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
         $assetstatus = $model->findById('Assets', $trailer);
