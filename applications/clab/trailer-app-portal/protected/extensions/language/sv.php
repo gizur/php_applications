@@ -21,6 +21,8 @@ $languageArr = array (
 'Create Date' => 'Skapa Datum',
 'Ticket Category' => 'Ticket Kategori',
 'Location for damage report' => 'Plats för Rapportera skada',
+'Plates' => 'Skivor',
+'Straps' => 'Spännband',
 /*  For Mobile app  */
 'Report Damage' => 'Rapportera skada',
 'Reset' => 'Nollställ',
