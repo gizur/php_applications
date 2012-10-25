@@ -168,7 +168,7 @@ class Troubleticket extends CFormModel {
         }
     }
 
-    function findAll($module, $tickettype, $year = '0000', $month = '00', $trailer = '0') {
+    function findAll($module, $tickettype, $year = '0000', $month = '00', $trailer = '0', $reportdamage = 'all') {
         $params = array(
             'Verb' => 'GET',
             'Model' => $module,
@@ -200,6 +200,9 @@ class Troubleticket extends CFormModel {
         if ($trailer != "") {
             $FilterParameter[] = $trailer;
         }
+        if ($trailer != "") {
+            $FilterParameter[] = $reportdamage;
+        }        
         $extraparameter = implode('/', $FilterParameter);
         if (!empty($extraparameter)) {
             $extraparameter = "/" . $extraparameter;
