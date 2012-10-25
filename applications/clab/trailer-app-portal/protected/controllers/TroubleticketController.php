@@ -69,13 +69,13 @@ class TroubleticketController extends Controller {
         $module = "HelpDesk";
         $year = $_POST['year'];
         $month = $_POST['month'];
-        $type = $_POST['type'];
+        $reportdamage = $_POST['reportdamage'];
         $trailer = $_POST['trailer'];
         if ($trailer == "--All Trailers--")
             $trailer = "0";
         $model = new Troubleticket;
         $this->LoginCheck();
-        $records = $model->findAll($module, $type, $year, $month, $trailer);
+        $records = $model->findAll($module, $type, $year, $month, $trailer,$reportdamage);
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
         $assetstatus = $model->findById('Assets', $trailer);
