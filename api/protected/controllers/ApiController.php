@@ -1019,6 +1019,10 @@ class ApiController extends Controller
                         $where_clause[] = "ticketstatus = 'Open'";
                     }
 
+                    if ($_GET['reportdamage'] != 'All') {
+                        $where_clause[] = Yii::app()->params['custom_fields'][$_GET['model']]['reportdamage'] . " = '" . $_GET['reportdamage'] . "'";
+                    }
+
                     //Adding date range filter
                     if (isset($_GET['year']) && isset($_GET['month'])) {
                         if ($_GET['year'] != '0000') {
