@@ -205,7 +205,7 @@ class Troubleticket extends CFormModel {
         }        
         $extraparameter = implode('/', $FilterParameter);
         if (!empty($extraparameter)) {
-            echo $extraparameter = "/" . $extraparameter;
+            $extraparameter = "/" . $extraparameter;
         }
         //foreach($this->credentials as $username => $password){            
         $rest = new RESTClient();
@@ -216,7 +216,8 @@ class Troubleticket extends CFormModel {
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-       echo $response = $rest->get(Yii::app()->params->URL . $module . "/" . $tickettype . $extraparameter);
+        echo Yii::app()->params->URL . $module . "/" . $tickettype . $extraparameter;
+        $response = $rest->get(Yii::app()->params->URL . $module . "/" . $tickettype . $extraparameter);
         return $result = json_decode($response, true);
     }
 
