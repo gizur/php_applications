@@ -1019,7 +1019,7 @@ class ApiController extends Controller
                         $where_clause[] = "ticketstatus = 'Open'";
                     }
 
-                    if ($_GET['reportdamage'] != 'All') {
+                    if ($_GET['reportdamage'] != 'all') {
                         $where_clause[] = Yii::app()->params['custom_fields'][$_GET['model']]['reportdamage'] . " = '" . $_GET['reportdamage'] . "'";
                     }
 
