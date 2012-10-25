@@ -58,7 +58,7 @@ return array(
                                    'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 
                                    'verb'=>'GET'),
                         array('api/list', 
-                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>', 
+                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 
                                    'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
