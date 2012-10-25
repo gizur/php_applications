@@ -92,7 +92,7 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
                 'protocol'=>'http://',
-                'createTroubleTicket'=> true,
+                'createTroubleTicket'=> false,
 		'GIZURCLOUD_SECRET_KEY' => '9b45e67513cb3377b0b18958c4de55be',
 		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
 		'API_VERSION' => '0.1',
