@@ -51,10 +51,16 @@ foreach ($Assets as $key => $val) {
     <?php } ?>    
     <div class="toppanel">
         <table width="100%" border="0" cellspacing="0" cellpadding="1">
-            <tr><td colspan='3' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
+            <tr><td colspan='4' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
             <tr>
                 <td ><select name='year' id="year" onchange="getAjaxBaseRecord(this.value)"><?php echo $options; ?></select></td>
                 <td ><select name='month' id="month" onchange="getAjaxBaseRecord(this.value)"><?php echo $Months; ?></select></select></td>
+                <td >
+                    <select name='month' id="type" onchange="getAjaxBaseRecord(this.value)">
+                        <option value="all">All</option>
+                        <option value="damaged">Damaged</option>
+                    </select>
+                </td>
                 <td valign="top"><table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
                         <tr>
 <?php
