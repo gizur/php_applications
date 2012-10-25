@@ -197,6 +197,6 @@ if (!isset($currentasset)) {
     $('#reportdamage').val('<?php if (!empty($SReportdamage)) {
             echo $SReportdamage;
         } else {
-            echo 'All';
+            echo 'all';
         } ?>');            
 </script>
