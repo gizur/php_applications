@@ -51,10 +51,18 @@ $this->breadcrumbs=array(
     <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Time');?></strong></td>
     <td bgcolor="e3f0f7"><?php echo date('h:i',strtotime($result['result']['createdtime'])); ?></td>
   </tr>
-    <tr>
+  <tr>
     <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Place');?> </strong></td>
     <td bgcolor="e3f0f7"><?php echo $result['result']['damagereportlocation']; ?></td>
   </tr>
+  <tr>
+    <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Plates');?> </strong></td>
+    <td bgcolor="e3f0f7"><?php echo $result['result']['plates']; ?></td>
+  </tr>
+  <tr>
+    <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Straps');?> </strong></td>
+    <td bgcolor="e3f0f7"><?php echo $result['result']['straps']; ?></td>
+  </tr>  
     <tr>
     <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Account');?></strong></td>
     <td bgcolor="e3f0f7"><?php echo $result['result']['accountname']; ?></td>
