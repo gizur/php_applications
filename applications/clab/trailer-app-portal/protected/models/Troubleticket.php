@@ -200,7 +200,7 @@ class Troubleticket extends CFormModel {
         if ($trailer != "") {
             $FilterParameter[] = $trailer;
         }
-        if ($trailer != "") {
+        if ( $reportdamage != "") {
             $FilterParameter[] = $reportdamage;
         }        
         $extraparameter = implode('/', $FilterParameter);
