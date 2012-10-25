@@ -28,12 +28,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
     //Gizur Cloud 2
-    Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
-    Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
+    //Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
+    //Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
 
     //Gizur Cloud 3
-    //Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
-    //Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+    Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
+    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
 
     Const API_VERSION = "0.1";
 
@@ -57,11 +57,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //protected $url = "https://api.gizur.com/api/index.php/api/";
 
     //Cloud 2
-    protected $url = "https://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "https://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
     //protected $url = "https://c2.gizur.com/api/index.php/api/";
     
     //Cloud 3
-    //protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
+    protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
