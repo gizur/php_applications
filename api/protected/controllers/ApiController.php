@@ -1020,7 +1020,7 @@ class ApiController extends Controller
                     }
 
                     if ($_GET['reportdamage'] != 'all') {
-                        $where_clause[] = Yii::app()->params['custom_fields'][$_GET['model']]['reportdamage'] . " = '" . $_GET['reportdamage'] . "'";
+                        $where_clause[] = Yii::app()->params['custom_fields'][$_GET['model']]['reportdamage'] . " = '" . ucwords($_GET['reportdamage']) . "'";
                     }
 
                     //Adding date range filter
