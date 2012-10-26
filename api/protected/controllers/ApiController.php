@@ -1020,7 +1020,7 @@ class ApiController extends Controller
                     }
 
                     if ($_GET['reportdamage'] != 'all') {
-                        $where_clause[] = Yii::app()->params['custom_fields'][$_GET['model']]['reportdamage'] . " = '" . ucwords($_GET['reportdamage']) . "'";
+                        echo $where_clause[] = Yii::app()->params['custom_fields'][$_GET['model']]['reportdamage'] . " = '" . ucwords($_GET['reportdamage']) . "'";
                     }
 
                     //Adding date range filter
@@ -2325,13 +2325,9 @@ class ApiController extends Controller
                         $response->fileexists = true;
                     else 
                         $response->fileexist = false;
-                    //$response->result = shell_exec("php -f $filename");
-                    $response->result = shell_exec("/var/www/html/lib/vtiger-5.4.0/cron/executecron.sh'");
+                    
+                    $response->result = shell_exec("/var/www/html/lib/vtiger-5.4.0/cron/MainScannerCron.sh'");
                    
-                    if ($response->result!='success')
-                        throw new Exception('Unable to run cron : ' . $response->result);
-
-                    $response->success = true; 
                     $this->_sendResponse(200, json_encode($response));
                 }
                 
