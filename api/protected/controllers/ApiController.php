@@ -2334,7 +2334,7 @@ class ApiController extends Controller
                     }
                     
                     $response->filename = $filename;   
-                    $response->result = shell_exec("sudo $filename");
+                    $response->result = shell_exec($filename);
                    
                     $this->_sendResponse(200, json_encode($response));
                 }
