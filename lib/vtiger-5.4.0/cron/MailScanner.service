@@ -9,13 +9,13 @@
  *
  ********************************************************************************/
 
-require_once('../include/utils/utils.php');
-require_once('../include/logging.php');
-require_once('../include/database/PearDatabase.php');
+require_once(__DIR__.'../include/utils/utils.php');
+require_once(__DIR__.'../include/logging.php');
+require_once(__DIR__.'../include/database/PearDatabase.php');
 
-require_once('../modules/Settings/MailScanner/core/MailScannerInfo.php');
-require_once('../modules/Settings/MailScanner/core/MailBox.php');
-require_once('../modules/Settings/MailScanner/core/MailScanner.php');
+require_once(__DIR__.'../modules/Settings/MailScanner/core/MailScannerInfo.php');
+require_once(__DIR__.'../modules/Settings/MailScanner/core/MailBox.php');
+require_once(__DIR__.'../modules/Settings/MailScanner/core/MailScanner.php');
 
 //Added as sometimes the php.ini file used for command line php and
 //for Apache php is different.
