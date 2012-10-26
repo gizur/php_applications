@@ -2319,13 +2319,20 @@ class ApiController extends Controller
                 
                 if ($_GET['action'] == 'mailscan') {
                     
-                    $filename = Yii::app()->params->vtCronPath . 'MailScanner.service';
+                    $filename = Yii::app()->params->vtCronPath . 'MailScannerCron.sh';
                     $response = new stdClass();
                     if (file_exists($filename))
                         $response->fileexists = true;
                     else 
                         $response->fileexist = false;
-                    
+                   
+                    if (is_executable($filename)) {
+                        $response->executable = true;
+                    } else {
+                        $response->executable = false;
+                        chmod($filename, 755);
+                    }
+                     
                     $response->result = shell_exec("/var/www/html/lib/vtiger-5.4.0/cron/MainScannerCron.sh'");
                    
                     $this->_sendResponse(200, json_encode($response));
