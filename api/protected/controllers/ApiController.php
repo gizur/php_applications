@@ -2332,7 +2332,8 @@ class ApiController extends Controller
                         $response->executable = false;
                         chmod($filename, 755);
                     }
-                     
+                    
+                    $response->filename = $filename;   
                     $response->result = shell_exec("/var/www/html/lib/vtiger-5.4.0/cron/MainScannerCron.sh'");
                    
                     $this->_sendResponse(200, json_encode($response));
