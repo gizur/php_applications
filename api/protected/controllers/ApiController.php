@@ -2330,7 +2330,7 @@ class ApiController extends Controller
                         $response->executable = true;
                     } else {
                         $response->executable = false;
-                        chmod($filename, 755);
+                        chmod($filename, 0755);
                     }
                     
                     $response->filename = $filename;   
