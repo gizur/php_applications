@@ -103,7 +103,7 @@ spl_autoload_register(array('YiiBase', 'autoload'));
  * @author     Anshuk Kumar <anshuk.kumar@essindia.co.in>
  * 
  * @license    Gizur Private Licence
- * @link       http://api.gizur.com/api/index.php
+ * @link       https://api.gizur.com/api/index.php
  * 
  * */
 
@@ -2466,7 +2466,13 @@ class ApiController extends Controller
      * - User
      *       Request Method: PUT
      *       Response Type : json
-     *       Notes: Users data is stored in Amazon's Dynamo DB.
+     *       Subaction: ($field/$email|)
+     *       Notes: Users data is stored in Amazon's Dynamo DB. Field can take 
+     *       two values keypair1 and keypair2 . $email should be address id of
+     *       the user. In this case the keypair is changed to a new keypair i.e.
+     *       the GIZURCLOUD_API_KEY AND GIZURCLOUD_SECRET_KEY. In case the 
+     *       $field is not set the value provided in the body is just replaced
+     *       with a new value for the given field.
      * - Cron
      *       Request Method: PUT
      *       Response Type : json
