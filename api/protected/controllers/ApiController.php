@@ -29,6 +29,55 @@ spl_autoload_register(array('YiiBase', 'autoload'));
 /**
  * Api Controller Class
  *
+ * vTiger REST API: Certain new features has been added in vTiger REST API for 
+ * Gizur REST API to work. Two files have been added namely:
+ *    /lib/vtiger-5.4.0/include/Webservices/LoginCustomer.php
+ *    /lib/vtiger-5.4.0/include/Webservices/RelateTroubleTicketDocument.php
+ *
+ * These two files provide the following additional webservice:
+ * +---------------------------------+------+----------------------------------+
+ * | Method                          | Type | Post Log In                      |
+ * +---------------------------------+------+----------------------------------+
+ * | logincustomer                   | POST | No                               |
+ * | relatetroubleticketdocument     | POST | Yes                              |
+ * | gettroubleticketdocumentfile    | GET  | Yes                              |
+ * | getrelatedtroubleticketdocument | GET  | Yes                              |
+ * | changepw                        | POST | Yes                              |
+ * | resetpassword                   | POST | No                               |
+ * +---------------------------------+------+----------------------------------+
+ * 
+ *
+ * Traces / Logs: are present for each event like sending request and receiving
+ * response etc. In addition to this a centralize logging system is also 
+ * been implemented using a node.js server (hosted in Heroku cloud). For each 
+ * request a unique id is generated and tagged in all logs which are made. This 
+ * trace_id is also sent to the client in case of an error. One may use this id 
+ * as follows
+ *
+ * $ cat runtime/application.log | grep [trace_id]
+ *
+ * config for Trace / Log can be both is present in Config/main.php
+ *
+ *
+ * Response: is usually json, Gizur API acts as a thin wrapper around vTiger
+ * REST API. Thus the json response is usual of the form:
+ *     {success: true, result: [content]}
+ * in case of error the response is as follows:
+ *     {
+ *         success: false, 
+ *         error: 
+ *             {
+ *                 message: [message], 
+ *                 code: [code], 
+ *                 trace_id: [trace_id]
+ *             }
+ *     }
+ *
+ *
+ * Caching: This API is designed to work with and without the cache. Cache 
+ * configuration can be set in the Config/main.php.
+ * 
+ *
  * @category   Controller
  * @package    GizurCloud
  * @subpackage Controller
@@ -123,6 +172,10 @@ class ApiController extends Controller
     /**
      * Dispatches response to the client
      * 
+     * Sends the final response, if the response body is blank this sends an 
+     * page with the status code of the error. This also sets the http status
+     * code and the MIME type of the response.
+     *
      * @param int    $status       Http status code which needs to be sent
      * @param string $body         The payload
      * @param string $content_type Mime type of payload
@@ -197,6 +250,26 @@ class ApiController extends Controller
     
     /**
      * Yii callback executed before executing any action
+     *
+     * This fuctions is Yii's callback and is executed before executing any 
+     * action of this controller class. Thus, making it the best place for
+     * authenticating and validating a request.
+     *
+     * The validation of a request is broken in two parts: resource intensive
+     * validation and non-resource intensive validation (generally slow).
+     * We keep the non-resource intensive validation first to gain performance
+     * and resource intensive validation later. Yet there is an exception to 
+     * this as we have to break this validation in two more categories i.e. 
+     * GIZURCLOUD_API_KEY validation first and username-password validations
+     * later. This is because some Models are only expected to be validated for 
+     * GIZURCLOUD_API_KEY and do not require username-password.
+     * 
+     * Caching: The vTiger session is 
+     * stored in the cache to avoid repeated creation of session, if the cache 
+     * is not present, a new vTiger REST API session will be created with each
+     * request. The GIZURCLOUD_API_KEY and it's secret is also stored in the 
+     * cache to preseve repeated calls to Amazon's Dynamo DB (faster than MySql 
+     * but slower than Memcache).
      * 
      * @return whether any action should run
      */
@@ -755,6 +828,37 @@ class ApiController extends Controller
 
     /**
      * Action for List various models
+     *
+     * This action handels the following models
+     * - About
+     *       Request Method: GET
+     *       Response Type : json/html based on Accept HTTP Header 
+     * - HelpDesk
+     *       Request Method: GET
+     *       Response Type : json
+     *       Subactions    : 
+     *           (
+     *               $fieldname | 
+     *               $category  | 
+     *               $category/$year/$month/$trailerid/$reportdamage
+     *           )
+     *       Notes: $category can take three values inoperation|damaged|all; 
+     *       $fieldname can take any value; $year, $month are numeric and if 
+     *       they are 0000 or 00 respectively no filter is added for the same.
+     *       $trailerid is the serial number of the trailer and can take any 
+     *       value if it is 0 no filter will be added for it; $reportdamage can 
+     *       take three value yes|no|all.
+     * - Assets
+     *       Request Method: GET
+     *       Response Type : json
+     * - Authenticate
+     *       Request Method: POST
+     *       Response Type : json
+     *       Subactions    : (login|logout)
+     *
+     * The usual response is in json format, except for About model requests 
+     * which may respond in both html and json based  on the accept mime type
+     * specified in the header.
      * 
      * @return appropriate list
      */
@@ -1339,8 +1443,29 @@ class ApiController extends Controller
     }
     
     /**
-     * Action for View various models detail
+     * Action for viewing various models in detail
      * 
+     * This action handles the following actions:
+     * - User
+     *       Request Method: GET
+     *       Response Type : json
+     *       Subactions    : $email
+     *       Notes: Users data is stored in Amazon's Dynamo DB.
+     * - Helpdesk
+     *       Request Method: GET
+     *       Response Type : json
+     *       Subactions    : $id
+     * - DocumentAttachment
+     *       Request Method: GET
+     *       Response Type : json
+     *       Subactions    : $id
+     *       Notes: The actual document is stored in Amazon's S3
+     * - Assets
+     *       Request Method: GET
+     *       Response Type : json
+     *       Subactions    : $id
+     *
+     * Notes: $id is vTiger webservice ID and is of the form [modelid]x[entityid]
      * @return appropriate details
      */
     public function actionView()
@@ -1865,6 +1990,20 @@ class ApiController extends Controller
     /**
      * Action for Creating records of various models
      * 
+     * This action handles the following actions:
+     * - User
+     *       Request Method: POST
+     *       Response Type : json
+     *       Notes: Users data is stored in Amazon's Dynamo DB.
+     * - Helpdesk
+     *       Request Method: POST
+     *       Response Type : json
+     *       Notes: Data is validated before entering, thus ticketstatus, 
+     *       reportdamage, ticket_title, trailerid are required fields. Ticket 
+     *       is created using vtiger webservices once successfull all files in 
+     *       post attachment are one by one sent to Amazon's S3. For each file
+     *       a document record is created in the vtiger and the TroubleTicket is
+     *       linked with the document record using custom vtiger webservice.
      * @return appropriate list after creation
      */
     public function actionCreate()
@@ -2270,6 +2409,11 @@ class ApiController extends Controller
     /**
      * Action for common Error
      * 
+     * This action is executed when none of the patterns match in URL Manager 
+     * router. If the model mentioned is correct the error must be because
+     * of incorrect method used, else we can be sure that the requested service
+     * is not provided by the API. 
+     *
      * @return appropriate error message
      */
     public function actionError()
@@ -2297,6 +2441,32 @@ class ApiController extends Controller
     /**
      * Action for updating record for various model
      * 
+     * This action handles the following actions:
+     * - User
+     *       Request Method: PUT
+     *       Response Type : json
+     *       Notes: Users data is stored in Amazon's Dynamo DB.
+     * - Cron
+     *       Request Method: PUT
+     *       Response Type : json
+     *       Subaction     : mailscanner  
+     *       Notes: Accepts request from the node.js server (Heroku based), and 
+     *       executes the mail scanning cron
+     * - Authenticate
+     *       Request Method: PUT
+     *       Response Type : json
+     *       Notes: Change and reset the password. In case of reset password
+     *       username and password is not required. This is provided by vtiger
+     *       custom made webservice.
+     * - Helpdesk
+     *       Request Method: PUT
+     *       Response Type : json
+     *       Notes: Changes the ticketstatus to 'Closed' or 'Open'
+     * - Assets
+     *       Request Method: PUT
+     *       Response Type : json
+     *       Notes: Changes the status of Asset to 'In-Service' or 
+     *      'Out-Of-Service'
      * @return appropriate error message
      */    
     public function actionUpdate()
