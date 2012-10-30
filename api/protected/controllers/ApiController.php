@@ -73,6 +73,25 @@ spl_autoload_register(array('YiiBase', 'autoload'));
  *             }
  *     }
  *
+ * Request:
+ * 
+ * Following is the format of the HTTP request which is to be followed
+ * 
+ * (GET|POST) /url/to/gizur/rest/api/$model/($id|$fieldname|$action|$category) HTTP/1.1
+ * Host: giruz.com
+ * Http_x_username: $username
+ * Http_x_password: $password
+ * Http_x_timestamp: $timestamp
+ * Http_x_gizurcloud_api_key: $GIZURCLOUD_API_KEY
+ * Http_x_signature: $signature
+ * Http_x_unique_salt: $unique_string
+ * User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:12.0) Gecko/20100101 Firefox/12.0
+ * Accept: text/json
+ * Accept-Language: sv,en-us,en;q=0.5
+ * Connection: keep-alive
+ * 
+ * (parameter1=$parameter1&parameter2=$parameter2|)
+ * 
  *
  * Caching: This API is designed to work with and without the cache. Cache 
  * configuration can be set in the Config/main.php.
@@ -1466,6 +1485,7 @@ class ApiController extends Controller
      *       Subactions    : $id
      *
      * Notes: $id is vTiger webservice ID and is of the form [modelid]x[entityid]
+     * 
      * @return appropriate details
      */
     public function actionView()
@@ -2004,6 +2024,7 @@ class ApiController extends Controller
      *       post attachment are one by one sent to Amazon's S3. For each file
      *       a document record is created in the vtiger and the TroubleTicket is
      *       linked with the document record using custom vtiger webservice.
+     * 
      * @return appropriate list after creation
      */
     public function actionCreate()
@@ -2467,6 +2488,7 @@ class ApiController extends Controller
      *       Response Type : json
      *       Notes: Changes the status of Asset to 'In-Service' or 
      *      'Out-Of-Service'
+     * 
      * @return appropriate error message
      */    
     public function actionUpdate()
