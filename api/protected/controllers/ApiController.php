@@ -206,7 +206,7 @@ class ApiController extends Controller
     ) {
         // set the status
         $status_header = 'HTTP/1.1 ' . $status . ' '
-                . ((isset($this->_codes[$status])) ? $codes[$status] : '');
+                . ((isset($this->_codes[$status])) ? $_codes[$status] : '');
         header($status_header);
 
         // and the content type
