@@ -292,7 +292,7 @@ class ApiController extends Controller
      * 
      * @return whether any action should run
      */
-    public function beforeAction()
+    public function beforeAction($action)
     {
 
         try {
