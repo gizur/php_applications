@@ -311,7 +311,7 @@ class ApiController extends Controller
             //resources 
             if ($_GET['model'] == 'User')
                 return true;
-            /*
+            
             //Check Acceptable language of request
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
                 if (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en')===false)
@@ -325,7 +325,7 @@ class ApiController extends Controller
                         throw new Exception('Mime-Type not supported', 1005); 
                 }
             }
-            */
+            
             //Check if timestamp is present in the header
             if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Timestamp not found in request');
