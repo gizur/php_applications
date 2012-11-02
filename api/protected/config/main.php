@@ -38,11 +38,11 @@ return array(
 			'allowAutoLogin'=>true,
 		),
                 'cache'=>array(
-                    'class'=>'CDummyCache',
+                      'class'=>'CDummyCache',
 //                    'class'=>'CMemCache',
 //                    'servers'=>array(
 //                        array(
-//                            'host'=>'localhost',//gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+//                            'host'=>'localhost',
 //                            'port'=>11211,
 //                            'weight'=>100,
 //                        ),
@@ -58,7 +58,7 @@ return array(
                                    'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 
                                    'verb'=>'GET'),
                         array('api/list', 
-                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>', 
+                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 
                                    'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
@@ -116,14 +116,14 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0/webservice.php',
-                'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',             
-                'awsS3Bucket' => 'gizurcloud',
+                'vtRestUrl'   => 'http://localhost/lib/vtiger-5.4.0/webservice.php',//'https://c2.gizur.com/lib/vtiger-5.4.0/webservice.php',
+                'vtCronPath'  => '/var/www/html/lib/vtiger-5.4.0/cron/',             
+                'awsS3Bucket' => 'gizurcloud-gc2',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'awsSESClientEmailAddress' => 'admin@gizur.com',
                 'acceptableTimestampError' => 60,
-                'awsS3Region' => 'REGION_APAC_NE1',
+                'awsS3Region' => 'REGION_EU_W1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
                 'awsSESRegion' => 'REGION_EU_W1',
                 'custom_fields' => Array(

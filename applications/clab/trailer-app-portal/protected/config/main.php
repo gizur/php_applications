@@ -91,11 +91,12 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-                'protocol'=>'http://',
-		'GIZURCLOUD_SECRET_KEY' => '9b45e67513cb3377b0b18958c4de55be',
-		'GIZURCLOUD_API_KEY' => 'GZCLDFC4B35B',
+                'protocol'=>'https://',
+                'createTroubleTicket'=> true,
+		'GIZURCLOUD_SECRET_KEY' => '50826a54755009.5822592450826a54755292.56509362',
+		'GIZURCLOUD_API_KEY' => 'GZCLD50826A54755AB50826A5475624',
 		'API_VERSION' => '0.1',
-		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/',
+		'URL' => 'https://c2.gizur.com/api/index.php/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',
