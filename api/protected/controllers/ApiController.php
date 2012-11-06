@@ -314,16 +314,20 @@ class ApiController extends Controller
             
             //Check Acceptable language of request
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
-                if (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en')===false)
-                    throw new Exception('Language not supported');
+                if (!is_null($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+                    if ($_SERVER['HTTP_ACCEPT_LANGUAGE'] != 'null')
+                        if (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en')===false)
+                            throw new Exception('Language not supported');
                
             //Check Acceptable mime-type of request    
             if (isset($_SERVER['HTTP_ACCEPT'])) {
-                if (strpos($_SERVER['HTTP_ACCEPT'], 'json')===false) {
-                    if (!(strpos($_SERVER['HTTP_ACCEPT'], 'html')!==false 
-                        && $_GET['model'] == 'About'))
-                        throw new Exception('Mime-Type not supported', 1005); 
-                }
+                if (!is_null($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+                    if ($_SERVER['HTTP_ACCEPT_LANGUAGE'] != 'null')                
+                        if (strpos($_SERVER['HTTP_ACCEPT'], 'json')===false) {
+                            if (!(strpos($_SERVER['HTTP_ACCEPT'], 'html')!==false 
+                                && $_GET['model'] == 'About'))
+                                throw new Exception('Mime-Type not supported', 1005); 
+                        }
             }
             
             //Check if timestamp is present in the header
