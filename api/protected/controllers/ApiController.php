@@ -176,7 +176,12 @@ class ApiController extends Controller
     /**
      * Trace ID
      */
-    private $_trace_id = "";    
+    private $_trace_id = "";  
+    
+    /**
+     * vTiger Response
+     */
+    private $_vtresponse = "";       
 
     /**
      * Filters executable action on permission basis
