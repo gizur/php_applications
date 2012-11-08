@@ -24,7 +24,7 @@ fi
 echo "cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0"
 cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0
 
-echo "cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0"
+echo "cp $1/vtiger/log4php.properties ../lib/vtiger-5.4.0"
 cp $1/vtiger/log4php.properties ../lib/log4php.properties
 
 echo "cp $1/phpMyAdmin/config.inc.php ../lib/phpMyAdmin-3.5.2-all-languages"
