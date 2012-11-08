@@ -28,29 +28,32 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
     //Gizur Cloud 2
-    //Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
-    //Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
+    Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
+    Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
 
     //Gizur Cloud 3
-    Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
-    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+    //Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
+    //Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
 
     Const API_VERSION = "0.1";
+    
+    private $_rest;
 
     protected $credentials = Array(
             //Gizur Cloud 3
             //'portal_user@gizur.com' => 'skcx0r0i',
-            'mobile_user@gizur.com' => 'ivry34aq',
+            //'mobile_user@gizur.com' => 'ivry34aq',
             //Change Password User 
             //'anshuk.kumar@essindia.co.in' => 'ipjibl0f',
             //'anshuk.kumar@essindia.co.in' => 'dddddd',
           
             //Gizur Cloud 2 
             //'portal_user@gizur.com' => '2hxrftmd',
-            //'mobile_app@gizur.com' => 'ivry34aq',
+            'mobile_user@gizur.com' => 'ivry34aq',
             
             //Gizur Cloud 1
             //'mobile_app@gizur.com' => 'cwvvzvb0',
+            //'jonas.colmsjo@gizur.com' => '507d136b23699',
     );
 
     //Cloud 1 
@@ -61,18 +64,125 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //protected $url = "https://c2.gizur.com/api/index.php/api/";
     
     //Cloud 3
-    protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/index.php/api/";
+    //protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/";
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
-    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
  
+    private function _generateSignature($method, $model, $timestamp, 
+        $unique_salt)
+    {
+        //Build array
+        $params = array(
+            'Verb'          => $method,
+            'Model'         => $model,
+            'Version'       => self::API_VERSION,
+            'Timestamp'     => $timestamp,
+            'KeyID'         => self::GIZURCLOUD_API_KEY,
+            'UniqueSalt'    => $unique_salt
+        );
+        
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";   
+            
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', 
+                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));    
+        
+        return array($params, $signature);
+    }
+    
+    private function _setHeader($username, $password, $params, $signature)
+    {
+        $this->_rest->set_header('X_USERNAME', $username);
+        $this->_rest->set_header('X_PASSWORD', $password);
+        $this->_rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $this->_rest->set_header('X_SIGNATURE', $signature);                   
+        $this->_rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+        $this->_rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);        
+    }
+    
+    protected function setUp(){
+        $this->_rest = new RESTClient();
+        $this->_rest->format('json'); 
+        $this->_rest->ssl(false);
+        $this->_rest->language(array('en-us;q=0.5','sv'));        
+    }
+    
+    protected function tearDown(){
+        echo PHP_EOL . PHP_EOL;
+    }
+
+    public function testStressLogin()
+    {
+        //Request parameters
+        $model = 'Authenticate';
+        $action = 'login';
+        $method = 'POST';
+        $delta = 0;
+        $times = 100;
+        
+        echo "Authenticating Login " . PHP_EOL;        
+        ob_flush();
+        
+        for($i=0;$i<$times;$i++)
+        //login using each credentials
+        foreach($this->credentials as $username => $password){  
+            
+            //Create REST handle
+            $this->setUp();            
+
+            // Generate signature
+            list($params, $signature) = $this->_generateSignature(
+                    $method, $model, date("c"), 
+                    uniqid()
+            );
+            
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);  
+            
+            echo PHP_EOL . " Attempt No: $i Response: " . $response = $this->_rest->post(
+                $this->url.$model."/".$action
+            );
+            
+            $response = json_decode($response);
+            if ($response->success == false) {
+                if ($delta == 0) {
+                    if ($response->error->code == 'TIME_NOT_IN_SYNC') {
+                        $delta = $response->error->time_difference;
+                    } 
+                } else {
+                    echo PHP_EOL . " Delta Used " . $delta;
+                }
+            }
+
+            //check if response is valid
+            if (isset($response->success)){
+                //echo json_encode($response) . PHP_EOL;
+                $this->assertEquals($response->success,true, " Checking validity of response");
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+            ob_flush();
+       }
+       echo PHP_EOL . PHP_EOL;
+    }
 
     public function testLogin()
     {
+        //Request parameters
         $model = 'Authenticate';
         $action = 'login';
+        $method = 'POST';
         $delta = 0;
+        
+        
         echo " Authenticating Login " . PHP_EOL;        
   
         //set credentials
@@ -94,50 +204,37 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'anil-singh@essindia.co.in' => true,
             'mobile_app@gizur.com' => true,
             'mobile_user@gizur.com' => true,
-            'portal_user@gizur.com' => true
+            'portal_user@gizur.com' => true,
+            'jonas.colmsjo@gizur.com' => true
         );        
-        generateSignature:
-        $params = array(
-                    'Verb'          => 'POST',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c", strtotime("+2 minutes") + $delta),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-        );
 
+        Restart:
+        
         //login using each credentials
-        foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->ssl(false);
-            $rest->language(array('en-us;q=0.5','sv'));
-            //if (!isset($params['UniqueSalt'])) 
-                $params['UniqueSalt'] = uniqid();
-            // Sorg arguments
-            ksort($params);
+        foreach($this->credentials as $username => $password){  
 
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
-                $string_to_sign .= "{$k}{$v}";
+            //Create REST handle
+            $this->setUp();            
 
             // Generate signature
-            $signature = base64_encode(hash_hmac('SHA256', 
-                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-            echo PHP_EOL . $string_to_sign;
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            echo PHP_EOL . $response = $rest->post($this->url.$model."/".$action);
+            list($params, $signature) = $this->_generateSignature(
+                    $method, $model, date("c"), 
+                    uniqid()
+            );
+            
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);  
+            
+            echo PHP_EOL . " Response: " . $response = $this->_rest->post(
+                $this->url.$model."/".$action
+            );
+            
             $response = json_decode($response);
             if ($response->success == false) {
                 if ($delta == 0) {
                     if ($response->error->code == 'TIME_NOT_IN_SYNC') {
                         $delta = $response->error->time_difference;
-                        goto generateSignature;
+                        goto Restart;
                     } 
                 } else {
                     echo PHP_EOL . " Delta Used " . $delta;
@@ -151,50 +248,41 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
        }
        echo PHP_EOL . PHP_EOL;
     }
 
     public function testLogout()
     {
+        //Request parameters
         $model = 'Authenticate';
         $action = 'logout';
+        $method = 'POST';
            
         echo " Authenticating Logout " . PHP_EOL;        
 
-        $params = array(
-                    'Verb'          => 'POST',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
+        //Generate signature
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
         );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        
         //login using each credentials
-        foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            echo PHP_EOL . "  " . $response = $rest->post($this->url.$model."/".$action);
+        foreach($this->credentials as $username => $password){    
+            
+            //Create REST handle
+            $this->setUp();
+            
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+            
+            //Show the Response
+            echo PHP_EOL . " Response: " . $response = $this->_rest->post(
+                $this->url.$model."/".$action
+            );
+            
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 //echo json_encode($response) . PHP_EOL;
@@ -202,237 +290,151 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
        }
        echo PHP_EOL . PHP_EOL;
     }
 
     public function testCron()
     {
+        //Request parameters
         $model = 'Cron';
         $action = 'mailscan';
+        $method = 'POST';
            
         echo " Executing Cron Mailscan " . PHP_EOL;        
 
-        $params = array(
-                    'Verb'          => 'PUT',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-        //login using each credentials
-        $rest = new RESTClient();
-        $rest->format('json'); 
-        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-        $rest->set_header('X_SIGNATURE', $signature);                   
-        $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
         
-        echo PHP_EOL . " Response :  " . $response = $rest->put($this->url.$model."/".$action);
+        //Set Header
+        $this->_setHeader('', '', $params, $signature);
         
-       unset($rest);
-       echo PHP_EOL . PHP_EOL;
+        echo PHP_EOL . " Response:  " . $response = $this->_rest->put($this->url.$model."/".$action);
+        
+        echo PHP_EOL . PHP_EOL;
     }
 
     public function testAbout()
     {
+        //Request parameters
         $model = 'About';
-           
+        $method = 'GET';
+        
         echo " Fetching About " . PHP_EOL;        
 
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-        //login using each credentials
-        $rest = new RESTClient();
-        $rest->format('html'); 
-        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-        $rest->set_header('X_SIGNATURE', $signature);                   
-        $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
+         
+        //Set Header
+        $this->_setHeader('', '', $params, $signature);
         
-        echo PHP_EOL . " Response :  " . $response = $rest->get($this->url.$model);
+        echo PHP_EOL . " Response:  " . $response = $this->_rest->get($this->url.$model);
         
-       unset($rest);
-       echo PHP_EOL . PHP_EOL;
+        echo PHP_EOL . PHP_EOL;
     }
 
     public function testChangePassword()
-    {
-        $this->markTestSkipped('');        
+    {        
+        //Request parameters
         $model = 'Authenticate';
         $action = 'changepw';
+        $method = 'PUT';
         //$newpassword = 'dddddd';
         //$newpassword = 'ipjibl0f';
            
-        echo "Change Password " . PHP_EOL;        
-
-        $params = array(
-                    'Verb'          => 'PUT',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid(),
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
+        //Label the Test
+        echo " Change Password " . PHP_EOL;        
+        $this->markTestSkipped('');
+        
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
+        
 
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                  
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo PHP_EOL . "  " . $response = $rest->put($this->url.$model."/".$action, array('newpassword' => $newpassword));
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo PHP_EOL . " Response:  " . $response = $this->_rest->put($this->url.$model."/".$action, array('newpassword' => $newpassword));
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
-                //echo json_encode($response) . PHP_EOL;
                 $this->assertEquals($response->success, true, " Checking validity of response");
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
+            
        }
+       
        echo PHP_EOL . PHP_EOL;
     }
 
     public function testChangeAssetStatus()
     {
+        //Request Parameters       
         $model = 'Assets';
         $id = '28x8';
            
-        echo "Changing Asset Status" . PHP_EOL;        
-
+        //Label the Test
+        echo " Changing Asset Status" . PHP_EOL;        
+        $this->markTestSkipped(''); 
 
         //login using each credentials
-        foreach($this->credentials as $username => $password){            
-            $params = array(
-                        'Verb'          => 'PUT',
-                        'Model'         => $model,
-                        'Version'       => self::API_VERSION,
-                        'Timestamp'     => date("c"),
-                        'KeyID'         => self::GIZURCLOUD_API_KEY,
-                        'UniqueSalt'    => uniqid(),
-            );
-
-            // Sorg arguments
-            ksort($params);
-
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
-                $string_to_sign .= "{$k}{$v}";
-
+        foreach($this->credentials as $username => $password){ 
+            
             // Generate signature
-            $signature = base64_encode(hash_hmac('SHA256', 
-                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                  
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo PHP_EOL . "  " . $response = $rest->put($this->url.$model."/".$id, array('assetstatus' => 'In Service'));
+            list($params, $signature) = $this->_generateSignature(
+                    $method, $model, date("c"), 
+                    uniqid()
+            );
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the reponse
+            echo PHP_EOL . " Response:  " . $response = $this->_rest->put($this->url.$model."/".$id, array('assetstatus' => 'In Service'));
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
-                //echo json_encode($response) . PHP_EOL;
                 $this->assertEquals($response->result->assetstatus, 'In Service', " Checking validity of response");
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals($response->success, true, " Checking validity of response");   
             } else {
-                $this->assertInstanceOf('stdClass', $response);
+                $this->assertInstanceOf('stdClass', $response);     
             }
             
-            unset($rest);
-            
-            $params = array(
-                        'Verb'          => 'PUT',
-                        'Model'         => $model,
-                        'Version'       => self::API_VERSION,
-                        'Timestamp'     => date("c"),
-                        'KeyID'         => self::GIZURCLOUD_API_KEY,
-                        'UniqueSalt'    => uniqid(),
-            );
-
-            // Sorg arguments
-            ksort($params);
-
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
-                $string_to_sign .= "{$k}{$v}";
-
             // Generate signature
-            $signature = base64_encode(hash_hmac('SHA256', 
-                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                  
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo PHP_EOL . "  " . $response = $rest->put($this->url.$model."/".$id, array('assetstatus' => 'Out-of-service'));
+            list($params, $signature) = $this->_generateSignature(
+                    $method, $model, date("c"), 
+                    uniqid()
+            );
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo PHP_EOL . " Response: " . $response = $this->_rest->put($this->url.$model."/".$id, array('assetstatus' => 'Out-of-service'));
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
-                //echo json_encode($response) . PHP_EOL;
                 $this->assertEquals($response->result->assetstatus, 'Out-of-service', " Checking validity of response");
                 $this->assertEquals($response->success, true, " Checking validity of response");
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
         }
         echo PHP_EOL . PHP_EOL;
     }
@@ -440,253 +442,209 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testResetPassword()
     {
+        //Request Parameters     
         $model = 'Authenticate';
         $action = 'reset';
-            
-        $this->markTestSkipped('');        
+        $method = 'PUT';      
 
-        echo " Resetting password " . PHP_EOL;        
-
-        $params = array(
-                    'Verb'          => 'PUT',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid(),
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
+        //Label the test
+        echo " Resetting password " . PHP_EOL;  
+        
+        //Skipping Test
+        $this->markTestSkipped('');         
 
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
 
+        //Set Reset Pasword credentials
         $this->credentials = array('anshuk-kumar@essindia.co.in' => 'ik13qfek');
 
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                  
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo PHP_EOL . "  " . $response = $rest->put($this->url.$model."/".$action);
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo PHP_EOL . " Response: " . $response = $this->_rest->put(
+                $this->url.$model."/".$action
+            );
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 //echo json_encode($response) . PHP_EOL;
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
        }
        echo PHP_EOL . PHP_EOL;
     }
 
 
-    public function testGetAssetList(){
+    public function testGetAssetList()
+    {
+        //Request Parameters
         $model = 'Assets';
+        $method = 'GET';
 
+        //Label the test
         echo " Getting Asset List " . PHP_EOL;        
 
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
+            
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo PHP_EOL . "  " . $response = $rest->get($this->url.$model);
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo PHP_EOL . " Response: " . $response = $this->_rest->get(
+                $this->url.$model
+            );
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 $this->assertEquals($response->success,true, " Checking validity of response");
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
         } 
     }
  
-    public function testGetTroubleTicketInoperationList(){
+    public function testGetTroubleTicketInoperationList()
+    {   
+        //Request Parameters
         $model = 'HelpDesk';
         $category = 'inoperation';
+        $method = 'GET';
 
+        //Label the test
         echo " Getting Ticket Inoperation " . PHP_EOL;        
 
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
         );
 
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo $response = $rest->get($this->url.$model."/$category");
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo " Response: " . $response = $this->_rest->get(
+                $this->url.$model."/$category"
+            );
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 $this->assertEquals($response->success,true, " Checking validity of response");
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
-        } 
+        }
+        
+        echo PHP_EOL . PHP_EOL;        
+        
     }
 
-    public function testGetTroubleTicketInoperationListWithFilter(){
+    public function testGetTroubleTicketInoperationListWithFilter()
+    {
+        //Request Parameter
         $model = 'HelpDesk';
         $category = 'all';
         $filter = Array(
             'year' => '0000',
             'month' => '00',
-            'trailerid' => '0'
+            'trailerid' => '0',
+            'reportdamage' => 'all'
         );
+        $method = 'GET';
+        
+        //Label the test
         echo " Getting Ticket Inoperation With Filter" . PHP_EOL;        
 
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
         );
 
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
 
-            echo $this->url.$model."/$category"."/".
-                                                  $filter['year']."/".
-                                                  $filter['month']."/".
-                                                  $filter['trailerid'];
-            echo $response = $rest->get($this->url.$model."/$category"."/".
-                                                  $filter['year']."/".
-                                                  $filter['month']."/".
-                                                  $filter['trailerid']);
+            //Show the URL
+            echo " Request URL: " . $this->url.$model."/$category"."/".
+                $filter['year']."/".
+                $filter['month']."/".
+                $filter['trailerid']."/".
+                $filter['reportdamage'] . PHP_EOL;
+            //Show the response
+            echo " Response: " . $response = $this->_rest->get(
+                $this->url.$model."/$category"."/".
+                $filter['year']."/".
+                $filter['month']."/".
+                $filter['trailerid']."/".
+                $filter['reportdamage']
+            );
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 $this->assertEquals($response->success,true, " Checking validity of response");
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
         } 
+        
+       echo PHP_EOL . PHP_EOL;        
+        
     }
   
-   public function testGetTroubleTicketDamagedList(){
+   public function testGetTroubleTicketDamagedList()
+   {
+       //Request Parameters
         $model = 'HelpDesk';
         $category = 'damaged';
+        $method = 'GET';
 
+        //Label the test
         echo " Getting Ticket Damaged " . PHP_EOL;        
 
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid(),
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
         );
 
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            echo $response = $rest->get($this->url.$model."/$category");
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            echo " Response: " . $response = $this->_rest->get($this->url.$model."/$category");
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 $this->assertEquals($response->success,true, " Checking validity of response");
@@ -697,106 +655,86 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         } 
     }
 
-     public function testGetTroubleTicketFromId(){
+     public function testGetTroubleTicketFromId()
+     {
+        //Request Parameters
         $model = 'HelpDesk';
         $id = '17x219';
+        $method = '';
 
-        echo " Getting Ticket From ID $id" . PHP_EOL;        
-
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+        //Label the test
+        echo " Getting Ticket From ID $id" . PHP_EOL;
+        
+        //Skip the test 
+        $this->markTestSkipped('');
+        
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
         );
 
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $response = $rest->get($this->url.$model."/$id");
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            echo " Response: " . $response = $this->_rest->get($this->url.$model."/$id");
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 $this->assertEquals($response->success,true, " Checking validity of response");
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
         } 
     }
 
    
     
-    public function testCreateTroubleTicketWithOutDocument(){
+    public function testCreateTroubleTicketWithOutDocument()
+    {
+        //Request Parameters
+        $method = 'POST';
         $model = 'HelpDesk';
 
+        //Label the test
         echo " Creating Trouble Ticket With Out Document" . PHP_EOL;        
 
         //set fields to to posted
-	    $fields = array(
-		    'ticket_title'=> 'Testing Using PHPUnit',
-                    'drivercauseddamage'=>'No',
-                    'sealed'=>'Yes',
-                    'plates'=>'3',
-                    'straps'=>'2',
-                    'damagetype'=> 'Aggregatkåpa',
-                    'damageposition' => 'Vänster sida (Left side)',
-                    'ticketstatus' => 'Open',      
-                    'reportdamage' => 'Yes',
-                    'trailerid'=>'ASVVSD001'              
-		);
-
-        $params = array(
-                    'Verb'          => 'POST',
-                    'Model'         => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
-
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
+        $fields = array(
+                'ticket_title'=> 'Testing Using PHPUnit',
+                'drivercauseddamage'=>'No',
+                'sealed'=>'Yes',
+                'plates'=>'3',
+                'straps'=>'2',
+                'damagetype'=> 'Aggregatkåpa',
+                'damageposition' => 'Vänster sida (Left side)',
+                'ticketstatus' => 'Open',      
+                'reportdamage' => 'Yes',
+                'trailerid'=>'ASVVSD001'              
+            );
 
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
+
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            echo $response = $rest->post($this->url.$model, $fields);
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo " Response: " . $response = $this->_rest->post(
+                $this->url.$model, $fields
+            );
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 $message = '';
@@ -805,69 +743,57 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
         } 
     }
     
-    public function testCreateTroubleTicketWithDocument(){
+    public function testCreateTroubleTicketWithDocument()
+    {
+        //Request Parameters 
         $model = 'HelpDesk';
-        set_time_limit(0);
+        $method = 'POST';
+        
+        //Setting infinite execution time for this script
+        set_time_limit(0); 
+        
+        //Label the Test
         echo " Creating Trouble Ticket with Document " . PHP_EOL;        
 
-        //set fields to to posted
-	    $fields = array(
-		    'ticket_title'=>'Testing Using PHPUnit with Image Upload',
-                    'filename'=>'@'.getcwd().'/image-to-upload.png',
-                    'filename-1'=>'@'.getcwd().'/image-to-upload-1.png',
-                    //'filename-2'=>'@'.getcwd().'/image-to-upload-2.png',
-                    //'filename-3'=>'@'.getcwd().'/image-to-upload-3.png',
-                    //'filename-4'=>'@'.getcwd().'/image-to-upload-4.png',
-                    //'filename-5'=>'@'.getcwd().'/image-to-upload-5.png',
-		            'ticket_title'=> 'Testing Using PHPUnit',
-                    'drivercauseddamage'=>'No',
-                    'sealed'=>'Yes',
-                    'plates'=>'3',
-                    'straps'=>'2',
-                    'damagetype'=> 'Aggregatkåpa',
-                    'damageposition' => 'Vänster sida (Left side)',
-                    'ticketstatus' => 'Open',      
-                    'reportdamage' => 'Yes',
-                    'trailerid'=>'ASVVSD001'              
-		);
-
-    
-        $params = array(
-                    'Verb'          => 'POST',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => uniqid()
+        //Set fields to to posted
+        $fields = array(
+                'ticket_title'=>'Testing Using PHPUnit with Image Upload',
+                'filename'=>'@'.getcwd().'/image-to-upload.png',
+                'filename-1'=>'@'.getcwd().'/image-to-upload-1.png',
+                //'filename-2'=>'@'.getcwd().'/image-to-upload-2.png',
+                //'filename-3'=>'@'.getcwd().'/image-to-upload-3.png',
+                //'filename-4'=>'@'.getcwd().'/image-to-upload-4.png',
+                //'filename-5'=>'@'.getcwd().'/image-to-upload-5.png',
+                'ticket_title'=> 'Testing Using PHPUnit',
+                'drivercauseddamage'=>'No',
+                'sealed'=>'Yes',
+                'plates'=>'3',
+                'straps'=>'2',
+                'damagetype'=> 'Aggregatkåpa',
+                'damageposition' => 'Vänster sida (Left side)',
+                'ticketstatus' => 'Open',      
+                'reportdamage' => 'Yes',
+                'trailerid'=>'ASVVSD001'              
         );
 
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
+
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            echo PHP_EOL . $response = $rest->post($this->url.$model, $fields);
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            echo PHP_EOL . " Response: " . $response = $this->_rest->post($this->url.$model, $fields);
             $response = json_decode($response);
+            
             //check if response is valid
             if (isset($response->success)){
                 echo " Generated Ticket ID " . $response->result->id . PHP_EOL;
@@ -884,31 +810,18 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     }
 
     public function testSignatureHash() {
+        
+        //Label the test
         echo " Matching Signature Hash " . PHP_EOL;
+        
+        //Skip the Test
         $this->markTestSkipped('');        
 
-        $params = array(
-                    'Verb'          => 'PUT',
-                    'Model'         => 'Authenticate',
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => '20121003T18:12:36+0530',
-                    'KeyID'         => self::GIZURCLOUD_API_KEY,
-                    'UniqueSalt'    => 877421141
-        );
-
-        // Sorg arguments
-        ksort($params);
-
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
         // Generate signature
-        echo PHP_EOL.$string_to_sign;
-        echo PHP_EOL . $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
 
         $signature_generated = '9+WNcE0LK1ObHJDZAhU2o7nmWC0JzKRbHb/WvSq/Sy0=';
         $this->assertEquals($signature, $signature_generated);
@@ -916,7 +829,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     public function testUploadToAmazonS3() {
         echo " Uploading File To Amazons3" . PHP_EOL;
-        //$this->markTestSkipped('');
+        $this->markTestSkipped('');
                         $s3 = new AmazonS3();
                         
                         $file = Array(
@@ -942,46 +855,34 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                         $this->assertEquals($response->isOK(), true);
     }
     
-    public function testGetDocumentAttachment(){
+    public function testGetDocumentAttachment()
+    {
+        //Request Parameters
         $model = 'DocumentAttachments';
         $notesid = '15x13';
+        $method = 'GET';
 
-        echo " Downloading Ticket Attachement " . PHP_EOL;        
+        //Label the test
+        echo " Downloading Ticket Attachement " . PHP_EOL;   
+        
+        //Skip the test
+        $this->markTestSkipped('');         
     
         //login using each credentials
-        foreach($this->credentials as $username => $password){            
-            $params = array(
-                        'Verb'          => 'GET',
-                        'Model'	    => $model,
-                        'Version'       => self::API_VERSION,
-                        'Timestamp'     => date("c"),
-                        'KeyID'         => self::GIZURCLOUD_API_KEY,
-                        'UniqueSalt'    => uniqid()
+        foreach($this->credentials as $username => $password){     
+            
+            // Generate signature
+            list($params, $signature) = $this->_generateSignature(
+                    $method, $model, date("c"), 
+                    uniqid()
             );
 
-            // Sorg arguments
-            ksort($params);
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
 
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
-                $string_to_sign .= "{$k}{$v}";
-
-            // Generate signature
-            $signature = base64_encode(hash_hmac('SHA256', 
-                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-
-            echo $response = $rest->get($this->url.$model."/".$notesid);
+            echo " Response: " . $response = $this->_rest->get($this->url.$model."/".$notesid);
             $response = json_decode($response);
-            //print_r($response);
+
             //check if response is valid
             if (isset($response->success)){
                 $message = '';
@@ -995,123 +896,62 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
-            unset($rest);
-        } 
- 
-
+        }
     }
 
-    public function testGetPicklist(){
+    public function testGetPicklist()
+    {
+        //Request Parameters
+        $method = 'GET';
         $model = 'HelpDesk';
+        
         //$fieldname[0] = 'ticketstatus';
-        $fieldname[1] = 'sealed';
-        $fieldname[3] = 'reportdamage';
-        $fieldname[0] = 'straps';
-        //$fieldname[1] = 'plates';
-        $fieldname[1] = 'damagereportlocation';
-
-        echo " Getting Picklist" . PHP_EOL;        
-
-        $params = array(
-                    'Verb'          => 'GET',
-                    'Model'	    => $model,
-                    'Version'       => self::API_VERSION,
-                    'Timestamp'     => date("c"),
-                    'KeyID'         => self::GIZURCLOUD_API_KEY
+        $fieldnames = array(
+            'sealed',
+            'reportdamage',
+            'plates',
+            'damagereportlocation'
         );
 
-        // Sorg arguments
-        ksort($params);
+        //Label the test
+        echo " Getting Picklist" . PHP_EOL;        
 
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         foreach($this->credentials as $username => $password){            
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->ssl(false);
-            $params['UniqueSalt'] = uniqid();
-            // Sorg arguments
-            ksort($params);
+            
+            //Loop throug all fieldnames and access them
+            foreach($fieldnames as $fieldname) {
+                
+                //Reset REST Handle
+                $this->setUp();
+                
+                // Generate signature
+                list($params, $signature) = $this->_generateSignature(
+                        $method, $model, date("c"), 
+                        uniqid()
+                );
 
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
-                $string_to_sign .= "{$k}{$v}";
+                //Set Header
+                $this->_setHeader($username, $password, $params, $signature);
 
-            // Generate signature
-            $signature = base64_encode(hash_hmac('SHA256', 
-                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+                //Show the response
+                echo PHP_EOL . " Response: " .$response = $this->_rest->get(
+                    $this->url.$model."/".$fieldname
+                );
 
-            echo PHP_EOL . $response = $rest->get($this->url.$model."/".$fieldname[0]);
-            $params['UniqueSalt'] = uniqid();
-            // Sorg arguments
-            ksort($params);
-
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
-                $string_to_sign .= "{$k}{$v}";
-
-            // Generate signature
-            $signature = base64_encode(hash_hmac('SHA256', 
-                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->ssl(false);
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            echo PHP_EOL . $response = $rest->get($this->url.$model."/".$fieldname[1]);
-            $params['UniqueSalt'] = uniqid();
-            // Sorg arguments
-            ksort($params);
-
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
-                $string_to_sign .= "{$k}{$v}";
-
-            // Generate signature
-            $signature = base64_encode(hash_hmac('SHA256', 
-                        $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));
-            $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->ssl(false);
-            $rest->set_header('X_USERNAME', $username);
-            $rest->set_header('X_PASSWORD', $password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', self::GIZURCLOUD_API_KEY);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            echo PHP_EOL . $response = $rest->get($this->url.$model."/".$fieldname[3]);
-
-            $response = json_decode($response);
-            //check if response is valid
-            if (isset($response->success)){
-                $message = '';
-                if (isset($response->error->message)) $message = $response->error->message;
-                $this->assertEquals($response->success,true, $message);
-            } else {
-                $this->assertInstanceOf('stdClass', $response);
-            }
-            unset($rest);
-        } 
-    }
-    
+                $response = json_decode($response);
+                
+                //check if response is valid
+                if (isset($response->success)){
+                    $message = '';
+                    if (isset($response->error->message)) $message = $response->error->message;
+                    $this->assertEquals($response->success,true, $message);
+                } else {
+                    $this->assertInstanceOf('stdClass', $response);
+                }
+            }   
+        }
+        
+        echo PHP_EOL . PHP_EOL;        
+    }   
 }

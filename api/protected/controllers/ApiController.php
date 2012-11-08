@@ -570,6 +570,9 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                          
 
+                //Save vtiger response
+                $this->_vtresponse = $response;
+
                 //Objectify the response and check its success
                 $response = json_decode($response);
                 if ($response->success == false)
@@ -792,7 +795,8 @@ class ApiController extends Controller
             Yii::log(
                 " TRACE(" . $this->_trace_id . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
-                " VALIDATION (Some error occured during validation/Authentication)", 
+                " VALIDATION (Some error occured during validation/Authentication)" . 
+                " ERROR ( " . $e->getMessage() . ") ", 
                 CLogger::LEVEL_TRACE
             );       
                        
@@ -805,6 +809,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[$e->getCode()];
                 $response->error->message = $e->getMessage();
                 $response->error->trace_id = $this->_trace_id;
+                $response->error->vtresponse = json_decode($this->_vtresponse);
 
                 //Check if the error code is TIME_NOT_IN_SYNC
                 //if so send time delta
@@ -833,6 +838,7 @@ class ApiController extends Controller
                     $response->error->code = $this->_errors[$e->getCode()];
                     $response->error->message = $e->getMessage();
                     $response->error->trace_id = $this->_trace_id;
+                    $response->error->vtresponse = $this->_vtresponse;
                     $this->_sendResponse(403, json_encode($response));
                 } else {
                     
