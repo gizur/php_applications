@@ -100,7 +100,7 @@ return array(
 				array(
 					'class'=>'CLiveLogRoute',
 					'levels'=>'error, warning, trace',
-                                        'server'=>'http://gizur-cron-and-logs.herokuapp.com/'
+                                        'server'=>'http://gizur.herokuapp.com/log'
 				),                               
 				// uncomment the following to show log messages on web pages
 				/*

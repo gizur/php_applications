@@ -24,12 +24,12 @@ require_once('../lib/aws-php-sdk/sdk.class.php');
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
     //Gizur Cloud 1
-    //Const GIZURCLOUD_SECRET_KEY  = "50694086b18cd0.9497426050694086b18fa8.66729980";
-    //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
+    Const GIZURCLOUD_SECRET_KEY  = "50694086b18cd0.9497426050694086b18fa8.66729980";
+    Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
     //Gizur Cloud 2
-    Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
-    Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
+    //Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
+    //Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
 
     //Gizur Cloud 3
     //Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
@@ -49,15 +49,15 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
           
             //Gizur Cloud 2 
             //'portal_user@gizur.com' => '2hxrftmd',
-            'mobile_user@gizur.com' => 'ivry34aq',
+            //'mobile_user@gizur.com' => 'ivry34aq',
             
             //Gizur Cloud 1
             //'mobile_app@gizur.com' => 'cwvvzvb0',
-            //'jonas.colmsjo@gizur.com' => '507d136b23699',
+            'jonas.colmsjo@gizur.com' => '507d136b23699',
     );
 
     //Cloud 1 
-    //protected $url = "https://api.gizur.com/api/index.php/api/";
+    protected $url = "https://api.gizur.com/api/index.php/api/";
 
     //Cloud 2
     //protected $url = "https://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
@@ -68,7 +68,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
-    protected $url = "http://localhost/gizurcloud/api/index.php/api/";
+    //protected $url = "http://localhost/gizurcloud/api/index.php/api/";
  
     private function _generateSignature($method, $model, $timestamp, 
         $unique_salt)
@@ -90,7 +90,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $string_to_sign = "";
         foreach ($params as $k => $v)
             $string_to_sign .= "{$k}{$v}";   
-            
+        
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
                     $string_to_sign, self::GIZURCLOUD_SECRET_KEY, 1));    
@@ -385,7 +385,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     {
         //Request Parameters       
         $model = 'Assets';
-        $id = '28x8';
+        $id = '28x5';
            
         //Label the Test
         echo " Changing Asset Status" . PHP_EOL;        
@@ -487,6 +487,43 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+
+    public function testGetAssetFromId()
+    {
+        //Request Parameters
+        $model = 'Assets';
+        $id = '0';
+        $method = 'GET';
+
+        //Label the test
+        echo " Getting Asset From ID $id" . PHP_EOL;
+        
+        //Skip the test 
+        //$this->markTestSkipped('');
+        
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+        );
+
+        //login using each credentials
+        foreach($this->credentials as $username => $password){            
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            echo " Response: " . $response = $this->_rest->get($this->url.$model."/$id");
+            $response = json_decode($response);
+            
+            //check if response is valid
+            if (isset($response->success)){
+                $this->assertEquals($response->success,true, " Checking validity of response");
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+        } 
+    }
 
     public function testGetAssetList()
     {
