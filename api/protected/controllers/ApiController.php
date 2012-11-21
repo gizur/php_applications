@@ -2418,10 +2418,33 @@ class ApiController extends Controller
                     ), 
                     array(// Message (short form)
                         'Subject.Data' => 'New Damaged Ticket Created',
-                        'Body.Text.Data' => 'Dear Gizur Account Holder, ' .
+                        'Body.Text.Data' => 'Hej <Name>, ' .
                         PHP_EOL .
                         PHP_EOL .
-                        'A new damaged ticket has been created, with Ticket No.: ' .
+                        'Ett besiktningsprotokoll har skapats.' .
+                        PHP_EOL .
+                        PHP_EOL .                        
+                        'Trailer ID: ' .
+                        $globalresponse['result']['trailerid'] .
+                        PHP_EOL . 
+                        'Plats: ' .
+                        $globalresponse['result']['damagereportlocation'] .
+                        'Plomerad: ' .
+                        $globalresponse['result']['sealed'] .
+                        PHP_EOL .
+                        'Skivor: ' .
+                        $globalresponse['result']['straps'] .
+                        'Spännband: ' .
+                        $globalresponse['result']['plates'] .
+                        PHP_EOL .
+                        'Typ: ' .
+                        $globalresponse['result']['damagetype'] .
+                        'Position: ' .
+                        $globalresponse['result']['damagereportlocation'] .
+                        'Caused by: ' .
+                        $globalresponse['result']['drivercauseddamage'] .
+                        PHP_EOL .
+                        'Ticket ID: ' .                      
                         $globalresponse['result']['ticket_no'] .
                         PHP_EOL .
                         PHP_EOL .
