@@ -2413,8 +2413,7 @@ class ApiController extends Controller
                     array(
                         'ToAddresses' => array(// Destination (aka To)
                             $_SERVER['HTTP_X_USERNAME'],
-                            Yii::app()->params->awsSESClientEmailAddress,
-                            'anshuk-kumar@essindia.co.in'
+                            Yii::app()->params->awsSESClientEmailAddress
                         )
                     ), 
                     array(// Message (short form)
