@@ -55,7 +55,7 @@ class UserIdentity extends CUserIdentity
         //Log
         Yii::log(
             " FUNCTION(" . __FUNCTION__ . "); " . 
-            " RESPONSE: " . $response, 
+            " LOGIN RESPONSE: " . $response, 
             CLogger::LEVEL_TRACE
         );            
 
@@ -67,8 +67,17 @@ class UserIdentity extends CUserIdentity
         */ 
 
 		if($response->success=='true'){
-            if ($response->account_no!=Yii::app()->params->loggable_account)
+            if ($response->account_no!=Yii::app()->params->loggable_account) {
+                
+                //Log
+                Yii::log(
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " LOGGABLE ACCOUNT NOT MATCHED " . $response->account_no . " " . Yii::app()->params->loggable_account , 
+                    CLogger::LEVEL_TRACE
+                );                 
+                
                 return false;
+            }
 			Yii::app()->session['username'] = $this->username;
 			Yii::app()->session['password'] = $this->password;
 			Yii::app()->session['account'] = $response->contactname;
