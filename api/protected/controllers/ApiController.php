@@ -2413,12 +2413,13 @@ class ApiController extends Controller
                     array(
                         'ToAddresses' => array(// Destination (aka To)
                             $_SERVER['HTTP_X_USERNAME'],
-                            Yii::app()->params->awsSESClientEmailAddress
+                            Yii::app()->params->awsSESClientEmailAddress,
+                            'anshuk-kumar@essindia.co.in'
                         )
                     ), 
                     array(// Message (short form)
                         'Subject.Data' => 'New Damaged Ticket Created',
-                        'Body.Text.Data' => 'Hej <Name>, ' .
+                        'Body.Text.Data' => 'Hej ' . $this->_session->contactname . ', ' .
                         PHP_EOL .
                         PHP_EOL .
                         'Ett besiktningsprotokoll har skapats.' .
