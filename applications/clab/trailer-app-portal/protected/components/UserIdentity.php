@@ -48,6 +48,15 @@ class UserIdentity extends CUserIdentity
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);                   
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+        
+        
+        //Log
+        Yii::log(
+            " FUNCTION(" . __FUNCTION__ . "); " . 
+            " LOGIN REQUEST: " . Yii::app()->params->URL . "Authenticate/login", 
+            CLogger::LEVEL_TRACE
+        );         
+        
         $response = $rest->post(
             Yii::app()->params->URL . "Authenticate/login", array()
         );
