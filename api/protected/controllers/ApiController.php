@@ -470,6 +470,16 @@ class ApiController extends Controller
 
             // Generate signature
             $verify_signature = base64_encode(hash_hmac('SHA256', $string_to_sign, $GIZURCLOUD_SECRET_KEY, 1));
+            
+            //Log
+            Yii::log(
+                " TRACE(" . $this->_trace_id . "); " . 
+                " FUNCTION(" . __FUNCTION__ . "); " . 
+                " VALIDATION (Signature Dump) STRING_TO_SIGN: $string_to_sign" .
+                "    GENERATED SIGNATURE: " . $verify_signature .
+                "    SIGNATURE RECEIVED:" . $_SERVER['HTTP_X_SIGNATURE'] , 
+                CLogger::LEVEL_TRACE
+            );             
 
             //Verify if the signature is valid
             if ($_SERVER['HTTP_X_SIGNATURE'] != $verify_signature)
@@ -1819,6 +1829,8 @@ class ApiController extends Controller
                 unset($response['result']['days']);
                 unset($response['result']['modifiedtime']);
                 unset($response['result']['from_portal']);
+                
+            if (is_array($response['result']))
             foreach ($response['result'] as $fieldname => $value) {
                     $key_to_replace = array_search($fieldname, $custom_fields);
                 if ($key_to_replace) {
