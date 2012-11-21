@@ -15,22 +15,23 @@ class UserIdentity extends CUserIdentity
 	 * against some persistent user identity storage (e.g. database).
 	 * @return boolean whether authentication succeeds.
 	 */
-	  private $_id;
+	 private $_id;
 	  
-	public function authenticate()
-	{
-		   $params = array(
+	 public function authenticate()
+	 {
+	     $params = array(
                     'Verb'          => 'POST',
                     'Model'	        => 'Authenticate',
                     'Version'       => Yii::app()->params->API_VERSION,
                     'Timestamp'     => date("c"),
                     'KeyID'         => Yii::app()->params->GIZURCLOUD_API_KEY,
                     'UniqueSalt'    => uniqid()
-        );
+         );
 
-        // Sorg arguments
+        //Sort argumentsadding logging level trace
         ksort($params);
-          // Generate string for sign
+        
+        // Generate string for sign
         $string_to_sign = "";
         foreach ($params as $k => $v)
             $string_to_sign .= "{$k}{$v}";
@@ -38,25 +39,34 @@ class UserIdentity extends CUserIdentity
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', 
         $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
-		    $rest = new RESTClient();
-            $rest->format('json'); 
-            $rest->set_header('X_USERNAME', $this->username);
-            $rest->set_header('X_PASSWORD', $this->password);
-            $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-            $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-            $rest->set_header('X_SIGNATURE', $signature);                   
-            $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-            $response = $rest->post(Yii::app()->params->URL .
-                           "Authenticate/login", array(
-                      
-                   ));
-		          $response=json_decode($response);
-		         /*
-		           * Check Response if the responce is true then set the 
-		           * session other wise return error message.
-		           */ 
+        
+        $rest = new RESTClient();
+        $rest->format('json'); 
+        $rest->set_header('X_USERNAME', $this->username);
+        $rest->set_header('X_PASSWORD', $this->password);
+        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        $rest->set_header('X_SIGNATURE', $signature);                   
+        $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+        $response = $rest->post(
+            Yii::app()->params->URL . "Authenticate/login", array()
+        );
 
-		  if($response->success=='true'){
+        //Log
+        Yii::log(
+            " FUNCTION(" . __FUNCTION__ . "); " . 
+            " RESPONSE: " . $response, 
+            CLogger::LEVEL_TRACE
+        );            
+
+        $response=json_decode($response);
+
+        /*
+        * Check Response if the responce is true then set the 
+        * session other wise return error message.
+        */ 
+
+		if($response->success=='true'){
             if ($response->account_no!=Yii::app()->params->loggable_account)
                 return false;
 			Yii::app()->session['username'] = $this->username;
@@ -65,10 +75,9 @@ class UserIdentity extends CUserIdentity
 			Yii::app()->session['contactname'] = $response->accountname;
 			$this->errorCode=self::ERROR_NONE;
 			return true;
-             } else {
-				return false;
-				 
-			 }
+        } else {
+		    return false;
+        }
 		           
 	}
 	
