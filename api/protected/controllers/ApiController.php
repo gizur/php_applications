@@ -2430,18 +2430,22 @@ class ApiController extends Controller
                         PHP_EOL . 
                         'Plats: ' .
                         $globalresponse['result']['damagereportlocation'] .
+                        PHP_EOL .
                         'Plomerad: ' .
                         $globalresponse['result']['sealed'] .
                         PHP_EOL .
                         'Skivor: ' .
                         $globalresponse['result']['straps'] .
+                        PHP_EOL .
                         'Spännband: ' .
                         $globalresponse['result']['plates'] .
                         PHP_EOL .
                         'Typ: ' .
                         $globalresponse['result']['damagetype'] .
+                        PHP_EOL .
                         'Position: ' .
                         $globalresponse['result']['damagereportlocation'] .
+                        PHP_EOL .
                         'Caused by: ' .
                         $globalresponse['result']['drivercauseddamage'] .
                         PHP_EOL .
