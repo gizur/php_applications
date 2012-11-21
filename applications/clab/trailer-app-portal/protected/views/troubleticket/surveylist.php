@@ -26,10 +26,10 @@ for ($i = 1980; $i <= 2020; $i++) {
     $selected = $i == $currentyear ? "selected" : "";
     $options.= "<option value=" . $i . " " . $selected . " >" . $i . "</option>";
 }
-
+$options.= "<option value=0000>All</option>";
 
 $curr_month = date("m");
-$month = array('01' => "January", '02' => "February", '03' => "March", '04' => "April", '05' => "May", '06' => "June",
+$month = array('00' => "All", '01' => "January", '02' => "February", '03' => "March", '04' => "April", '05' => "May", '06' => "June",
     '07' => "July", '08' => "August", '09' => "September", '10' => "October", '11' => "November", '12' => "December");
 foreach ($month as $key => $val) {
     $selected = $key == $curr_month ? "selected" : "";
