@@ -2417,7 +2417,7 @@ class ApiController extends Controller
                         )
                     ), 
                     array(// Message (short form)
-                        'Subject.Data' => 'New Damaged Ticket Created',
+                        'Subject.Data' => 'Ny Skadad biljett Skapad',
                         'Body.Text.Data' => 'Hej ' . $this->_session->contactname . ', ' .
                         PHP_EOL .
                         PHP_EOL .
