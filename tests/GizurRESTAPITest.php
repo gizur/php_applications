@@ -24,16 +24,16 @@ require_once('../lib/aws-php-sdk/sdk.class.php');
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
     //Gizur Cloud 1
-    Const GIZURCLOUD_SECRET_KEY  = "50694086b18cd0.9497426050694086b18fa8.66729980";
-    Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
+    //Const GIZURCLOUD_SECRET_KEY  = "50694086b18cd0.9497426050694086b18fa8.66729980";
+    //Const GIZURCLOUD_API_KEY = "GZCLD50694086B196F50694086B19E7";
 
     //Gizur Cloud 2
     //Const GIZURCLOUD_SECRET_KEY = "50826a54755009.5822592450826a54755292.56509362";
     //Const GIZURCLOUD_API_KEY = "GZCLD50826A54755AB50826A5475624";
 
     //Gizur Cloud 3
-    //Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
-    //Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
+    Const GIZURCLOUD_SECRET_KEY = "9b45e67513cb3377b0b18958c4de55be";
+    Const GIZURCLOUD_API_KEY = "GZCLDFC4B35B";
 
     Const API_VERSION = "0.1";
     
@@ -41,7 +41,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     protected $credentials = Array(
             //Gizur Cloud 3
-            //'portal_user@gizur.com' => 'skcx0r0i',
+            'portal_user@gizur.com' => 'skcx0r0i',
             //'mobile_user@gizur.com' => 'ivry34aq',
             //Change Password User 
             //'anshuk.kumar@essindia.co.in' => 'ipjibl0f',
@@ -53,18 +53,18 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             
             //Gizur Cloud 1
             //'mobile_app@gizur.com' => 'cwvvzvb0',
-            'jonas.colmsjo@gizur.com' => '507d136b23699',
+            //'jonas.colmsjo@gizur.com' => '507d136b23699',
     );
 
     //Cloud 1 
-    protected $url = "https://api.gizur.com/api/index.php/api/";
+    //protected $url = "https://api.gizur.com/api/index.php/api/";
 
     //Cloud 2
     //protected $url = "https://phpapplications3-env-tk3itzr6av.elasticbeanstalk.com/api/index.php/api/";
     //protected $url = "https://c2.gizur.com/api/index.php/api/";
     
     //Cloud 3
-    //protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/";
+    protected $url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/";
     //protected $url = "http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/";
     
     //Dev
@@ -696,14 +696,14 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
      {
         //Request Parameters
         $model = 'HelpDesk';
-        $id = '17x219';
-        $method = '';
+        $id = '17x198';
+        $method = 'GET';
 
         //Label the test
         echo " Getting Ticket From ID $id" . PHP_EOL;
         
         //Skip the test 
-        $this->markTestSkipped('');
+        //$this->markTestSkipped('');
         
         // Generate signature
         list($params, $signature) = $this->_generateSignature(
@@ -799,7 +799,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $fields = array(
                 'ticket_title'=>'Testing Using PHPUnit with Image Upload',
                 'filename'=>'@'.getcwd().'/image-to-upload.png',
-                'filename-1'=>'@'.getcwd().'/image-to-upload-1.png',
+                //'filename-1'=>'@'.getcwd().'/image-to-upload-1.png',
                 //'filename-2'=>'@'.getcwd().'/image-to-upload-2.png',
                 //'filename-3'=>'@'.getcwd().'/image-to-upload-3.png',
                 //'filename-4'=>'@'.getcwd().'/image-to-upload-4.png',

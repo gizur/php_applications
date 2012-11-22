@@ -120,7 +120,7 @@ return array(
                 'awsS3Bucket' => 'gizurcloud',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
-                'awsSESClientEmailAddress' => 'admin@gizur.com',
+                'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
                 'acceptableTimestampError' => 60,
                 'awsS3Region' => 'REGION_EU_W1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
