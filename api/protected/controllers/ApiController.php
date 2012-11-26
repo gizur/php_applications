@@ -2417,7 +2417,7 @@ class ApiController extends Controller
                         )
                     ), 
                     array(// Message (short form)
-                        'Subject.Data' => 'Ny Skadad biljett Skapad',
+                        'Subject.Data' => date("F j, Y") . ': Besiktningsprotokoll för  ' . $globalresponse['result']['ticket_no'],
                         'Body.Text.Data' => 'Hej ' . $this->_session->contactname . ', ' .
                         PHP_EOL .
                         PHP_EOL .
