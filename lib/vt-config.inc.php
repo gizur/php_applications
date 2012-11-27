@@ -14,7 +14,7 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
-require_once '../lib/aws-php-sdk/sdk.class.php';
+require_once 'aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
