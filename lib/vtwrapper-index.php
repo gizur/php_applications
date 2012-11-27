@@ -149,7 +149,7 @@ $_SESSION['KCFINDER']['uploadDir'] = "../test/upload";
 //	exit();
 //}
 
-require_once('config.inc.php');
+require_once('vt-config.inc.php');
 if (!isset($dbconfig['db_hostname']) || $dbconfig['db_status']=='_DB_STAT_') {
 		header("Location: install.php");
 		exit();
