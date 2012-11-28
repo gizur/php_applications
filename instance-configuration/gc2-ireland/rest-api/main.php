@@ -62,7 +62,7 @@ return array(
                                    'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
                         array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:(HelpDesk)>/<fieldname:\w+>', 'verb'=>'GET'), 
+                        array('api/list', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
                         array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
