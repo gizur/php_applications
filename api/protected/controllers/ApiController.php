@@ -1392,73 +1392,201 @@ class ApiController extends Controller
              * *****************************************************************
              */
             case 'Assets':
-                $sessionId = $this->_session->sessionName;
-                $accountId = $this->_session->accountId;
-
-                //Send request to vtiger REST service
-                $query = "select * from " . $_GET['model'] . ";";
-
-                //urlencode to as its sent over http.
-                $queryParam = urlencode($query);
-
-                //creating query string
-                $params = "sessionName=$sessionId" .
-                        "&operation=query&query=$queryParam";
-
-                //Log
-                Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
-                    " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "?$params" .                            
-                    ")", 
-                    CLogger::LEVEL_TRACE
-                );                  
                 
-                //Receive response from vtiger REST service
-                //Return response to client  
-                $rest = new RESTClient();
-                $rest->format('json');
-                $response = $rest->get(
-                    Yii::app()->params->vtRestUrl . "?$params"
-                );
-                
-                //Log
-                Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
-                    " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " PROCESSING REQUEST (response received: " . 
-                    $response .                          
-                    ")", 
-                    CLogger::LEVEL_TRACE
-                );                
-                
-                //Objectify the response and check its success
-                $response = json_decode($response, true);
-                
-                if ($response['success'] == false)
-                throw new Exception('Unable to fetch details');
-                
-                $custom_fields = Yii::app()->params->custom_fields['Assets'];
+                if (isset($_GET['fieldname'])) {
 
-            //Before sending response santise custom fields names to 
-            //human readable field names                
-            foreach ($response['result'] as &$asset) {
-                unset($asset['update_log']);
-                unset($asset['hours']);
-                unset($asset['days']);
-                unset($asset['modifiedtime']);
-                unset($asset['from_portal']);
-                foreach ($asset as $fieldname => $value) {
-                    $key_to_replace = array_search($fieldname, $custom_fields);
-                    if ($key_to_replace) {
-                        unset($asset[$fieldname]);
-                        $asset[$key_to_replace] = $value;
-                        //unset($custom_fields[$key_to_replace]);                                
+                    $cached_value = Yii::app()->cache->get(
+                        'picklist_'
+                        . $_GET['model'] . '_'
+                        . $_GET['fieldname']
+                    );
+
+                    if ($cached_value === false) {
+                        
+                        //retrieve session id
+                        $sessionId = $this->_session->sessionName;
+                        
+                        //flip custome fields array
+                        $flipped_custom_fields 
+                            = array_flip(Yii::app()->params->custom_fields['HelpDesk']);
+                        
+                        //Check if the requested field name is a vtiger
+                        //custom field
+                        if (in_array($_GET['fieldname'], $flipped_custom_fields)) {
+                            $fieldname 
+                                = Yii::app()->params->custom_fields[$_GET['model']][$_GET['fieldname']];
+                        } else {
+                            $fieldname = $_GET['fieldname'];
+                        }
+                        
+                        //Receive response from vtiger REST service
+                        //Return response to client 
+                        $params = "sessionName=$sessionId" .
+                                "&operation=describe" .
+                                "&elementType=" . $_GET['model'];
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (sending GET request to vt url: " . 
+                            Yii::app()->params->vtRestUrl . "?$params" .                            
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                        
+                        
+                        //Send request to vtiger
+                        $rest = new RESTClient();
+                        $rest->format('json');
+                        $response = $rest->get(
+                            Yii::app()->params->vtRestUrl . "?$params"
+                        );
+
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (response received: " . 
+                            $response .                          
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                        
+                        
+                        //Objectify the response and check its success
+                        $response = json_decode($response, true);
+
+                        if ($response['success'] == false)
+                            throw new Exception('Fetching details failed');
+
+                        //Find the appropriate field whose label value needs to
+                        //be sent  
+                        foreach ($response['result']['fields'] as $field) {
+                            
+                            if ($fieldname == $field['name']) {
+                                
+                                //Check if the field is a picklist
+                                if ($field['type']['name'] == 'picklist') {
+                                    
+                                    //Loop through all values of the pick list
+                                    foreach ($field['type']['picklistValues'] as &$option)
+                                        
+                                    //Check if there is a dependency setup
+                                    //for the picklist value
+                                    if (isset($option['dependency'])) {
+                                        
+                                        foreach ($option['dependency'] as $dep_fieldname => $dependency) {
+                                            if (in_array($dep_fieldname, Yii::app()->params->custom_fields['Assets'])) {
+                                                    $new_fieldname = $flipped_custom_fields[$dep_fieldname];
+                                                    $option['dependency'][$new_fieldname] = $option['dependency'][$dep_fieldname];
+                                                    unset($option['dependency'][$dep_fieldname]);
+                                            }
+                                        }
+                                    }
+                                    
+                                    //Create response to be sent in proper
+                                    //format
+                                    $content = json_encode(
+                                        array(
+                                        'success' => true,
+                                        'result' =>
+                                        $field['type']['picklistValues']
+                                            )
+                                    );
+                                    
+                                    //Save the response in cache
+                                    Yii::app()->cache->set(
+                                        'picklist_'
+                                        . $_GET['model']
+                                        . '_'
+                                        . $_GET['fieldname'], $content, 3600
+                                    );
+                                    
+                                    //Dispatch the response
+                                    $this->_sendResponse(200, $content);
+                                    
+                                    //eject 2 levels
+                                    break 2;
+                                }
+                                throw new Exception("Not an picklist field");
+                            }
+                        }
+                        throw new Exception("Fieldname not found");
+                    } else {
+                        
+                        //Send cached response
+                        $this->_sendResponse(200, $cached_value);
+                    }
+                } else {
+
+                    $sessionId = $this->_session->sessionName;
+                    $accountId = $this->_session->accountId;
+
+                    //Send request to vtiger REST service
+                    $query = "select * from " . $_GET['model'] . ";";
+
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName=$sessionId" .
+                            "&operation=query&query=$queryParam";
+
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " . 
+                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                  
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');
+                    $response = $rest->get(
+                        Yii::app()->params->vtRestUrl . "?$params"
+                    );
+
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                
+
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                    throw new Exception('Unable to fetch details');
+
+                    $custom_fields = Yii::app()->params->custom_fields['Assets'];
+
+                //Before sending response santise custom fields names to 
+                //human readable field names                
+                foreach ($response['result'] as &$asset) {
+                    unset($asset['update_log']);
+                    unset($asset['hours']);
+                    unset($asset['days']);
+                    unset($asset['modifiedtime']);
+                    unset($asset['from_portal']);
+                    foreach ($asset as $fieldname => $value) {
+                        $key_to_replace = array_search($fieldname, $custom_fields);
+                        if ($key_to_replace) {
+                            unset($asset[$fieldname]);
+                            $asset[$key_to_replace] = $value;
+                            //unset($custom_fields[$key_to_replace]);                                
+                        }
                     }
                 }
-            }
-                $this->_sendResponse(200, json_encode($response));
+                    $this->_sendResponse(200, json_encode($response));
+                    
+                }
                 break;
 
             default :
