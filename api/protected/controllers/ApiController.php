@@ -483,7 +483,7 @@ class ApiController extends Controller
 
             //Verify if the signature is valid
             if ($_SERVER['HTTP_X_SIGNATURE'] != $verify_signature)
-                throw new Exception('Could not verify signature');
+                throw new Exception('Could not verify signature ');
 
             //Check if the signature has been used before
             //This is a security loop hole to reply attacks in case memcache
@@ -1408,7 +1408,7 @@ class ApiController extends Controller
                         
                         //flip custome fields array
                         $flipped_custom_fields 
-                            = array_flip(Yii::app()->params->custom_fields['HelpDesk']);
+                            = array_flip(Yii::app()->params->custom_fields['Assets']);
                         
                         //Check if the requested field name is a vtiger
                         //custom field
