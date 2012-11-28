@@ -14,6 +14,7 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
+require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -44,14 +45,37 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
       db_name
 */
 
+/*
+ * Fetch DB Details
+ */
+if (isset($_GET['clientid'])) {
+$region = 'REGION_EU_W1';
+$dynamodb = new AmazonDynamoDB();
+$dynamodb->set_region(constant("AmazonDynamoDB::".$region));
 
-$dbconfig['db_server'] = 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com';
-$dbconfig['db_port'] = ':3306';
-$dbconfig['db_username'] = 'root';
-$dbconfig['db_password'] = 'mRpvEpVT2lMEwr1o';
-$dbconfig['db_name'] = 'vtiger-test1';
-$dbconfig['db_type'] = 'mysql';
-$dbconfig['db_status'] = 'true';
+$response = $dynamodb->scan(array(
+    'TableName'       => 'GIZUR_ACCOUNTS',
+    'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
+    'ScanFilter'      => array(
+        'clientid' => array(
+            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+            'AttributeValueList' => array(
+                array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
+            )
+        ),
+    )
+));
+}
+
+if ($response->body->Count!=0) {
+    $dbconfig['db_server'] = (string)$response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_port'] = ':' . (string)$response->body->Items->port->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_username'] = (string)$response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_password'] = (string)$response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_name'] = (string)$response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_type'] = 'mysql';
+    $dbconfig['db_status'] = 'true';
+}
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
