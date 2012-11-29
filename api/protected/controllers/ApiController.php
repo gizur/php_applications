@@ -1712,6 +1712,9 @@ class ApiController extends Controller
                  */
             case 'HelpDesk':
                 $sessionId = $this->_session->sessionName;
+                
+                if (preg_match('[0-9]?x[0-9]?', $_GET['id'])==1)
+                    throw new Exception('Invalid format of Id');
 
                 //Get HelpDesk details 
                 //Creating vTiger Query
@@ -1980,6 +1983,9 @@ class ApiController extends Controller
                  */
             case 'Assets':
                     $sessionId = $this->_session->sessionName;
+                
+                    if (preg_match('[0-9]?x[0-9]?', $_GET['id'])==1)
+                        throw new Exception('Invalid format of Id');                
 
                     //Send request to vtiger REST service
                     $query = "select * from " . $_GET['model'] .
