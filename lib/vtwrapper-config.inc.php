@@ -54,13 +54,13 @@ define("VTWRAPPER_DOMAIN", 'developer1.gizurcloud.com');
 /**
  * Path to vtiger installation
  */
-define("VTWRAPPER_VTIGER_PATH", '/home/anshuk/public_html/gizurcloud/lib/vtiger-5.4.0');
+define("VTWRAPPER_VTIGER_PATH", '/var/www/html/lib/vtiger-5.4.0');
 
 
 /**
  * Path to wrapper
  */
-define("VTWRAPPER_PATH", '/var/www/developers/jonas/vtwrapper/test1/');
+define("VTWRAPPER_PATH", '/var/www/html/lib');
 
 
 /**
