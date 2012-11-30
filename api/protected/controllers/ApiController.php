@@ -308,7 +308,8 @@ class ApiController extends Controller
             Yii::log(
                 " TRACE(" . $this->_trace_id . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
-                " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($_SERVER), 
+                " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($_SERVER) .
+                " GET VAR " . json_encode($_GET), 
                 CLogger::LEVEL_TRACE
             );
             
