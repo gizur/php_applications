@@ -1569,3 +1569,297 @@ Stack trace:
 REQUEST_URI=/gizurcloud/api/index.php/api/HelpDesk/17x198
 in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (1822)
 in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:15 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:15 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:15 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:15 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:15 [trace] [application]  TRACE(50b5e43361ded);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:45:14+05:30","HTTP_X_SIGNATURE":"BNQSmOltzuGxvUSot9X3YbJ4QxyUQNcO2y\/KjhmPSLs=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e432aab1b","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51705","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/HelpDesk\/sealed","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/HelpDesk\/sealed","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","REQUEST_TIME":1354097714,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:15 [trace] [application]  TRACE(50b5e43361ded);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:15 [trace] [application]  TRACE(50b5e43361ded);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:33 [trace] [application]  TRACE(50b5e43361ded);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:33 [trace] [application]  TRACE(50b5e43361ded);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:45:14+05:30UniqueSalt50b5e432aab1bVerbGETVersion0.1    GENERATED SIGNATURE: yw2ymi1STdzQPttn9xO1S2b7HA2GWmOadQK8tYkP3WI=    SIGNATURE RECEIVED:BNQSmOltzuGxvUSot9X3YbJ4QxyUQNcO2y/KjhmPSLs=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:33 [trace] [application]  TRACE(50b5e43361ded);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:33 [trace] [application] TRACE(50b5e43361ded); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature","trace_id":"50b5e43361ded","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:50 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:50 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:50 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:50 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:50 [trace] [application]  TRACE(50b5e456ef575);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:45:50+05:30","HTTP_X_SIGNATURE":"MySn7A16MNNUwdMG\/ie\/kpQ07I4aEdmdTDxZtniKExU=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e456df9d9","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51708","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/Assets\/trailertype","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/Assets\/trailertype","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","REQUEST_TIME":1354097750,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:50 [trace] [application]  TRACE(50b5e456ef575);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:50 [trace] [application]  TRACE(50b5e456ef575);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:58 [trace] [application]  TRACE(50b5e456ef575);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:58 [trace] [application]  TRACE(50b5e456ef575);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:45:50+05:30UniqueSalt50b5e456df9d9VerbGETVersion0.1    GENERATED SIGNATURE: TGQQV0NYbc9n6nOTh4SNaMbDzOyQ0feLkB8iGKi2tRE=    SIGNATURE RECEIVED:MySn7A16MNNUwdMG/ie/kpQ07I4aEdmdTDxZtniKExU=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:58 [trace] [application]  TRACE(50b5e456ef575);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:45:58 [trace] [application] TRACE(50b5e456ef575); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature","trace_id":"50b5e456ef575","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:10 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:10 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:10 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:10 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:10 [trace] [application]  TRACE(50b5e4e260e13);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:48:10+05:30","HTTP_X_SIGNATURE":"qL10c7YK+vqJt1H7\/i3z8puyWVgfSgHvm7y8V9bLeHg=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e4e2540f9","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51725","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/HelpDesk\/sealed","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/HelpDesk\/sealed","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","REQUEST_TIME":1354097890,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:10 [trace] [application]  TRACE(50b5e4e260e13);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:10 [trace] [application]  TRACE(50b5e4e260e13);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:17 [trace] [application]  TRACE(50b5e4e260e13);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:17 [trace] [application]  TRACE(50b5e4e260e13);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:48:10+05:30UniqueSalt50b5e4e2540f9VerbGETVersion0.1    GENERATED SIGNATURE: SJME3zu1dwv0X5mm7P6haI47v0e+yh+jLOPMNL2xYwY=    SIGNATURE RECEIVED:qL10c7YK+vqJt1H7/i3z8puyWVgfSgHvm7y8V9bLeHg=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:17 [trace] [application]  TRACE(50b5e4e260e13);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:48:10+05:30UniqueSalt50b5e4e2540f9VerbGETVersion0.1) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:17 [trace] [application] TRACE(50b5e4e260e13); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:48:10+05:30UniqueSalt50b5e4e2540f9VerbGETVersion0.1","trace_id":"50b5e4e260e13","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:24 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:24 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:24 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:24 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:24 [trace] [application]  TRACE(50b5e4f01146f);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:48:24+05:30","HTTP_X_SIGNATURE":"8a2XMgTqNJ1pL+LTq+0mz6OdJpIchKlvgX8GQAedA\/I=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e4f00d69a","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51728","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/Assets\/trailertype","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/Assets\/trailertype","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","REQUEST_TIME":1354097904,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:24 [trace] [application]  TRACE(50b5e4f01146f);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:24 [trace] [application]  TRACE(50b5e4f01146f);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:25 [trace] [application]  TRACE(50b5e4f01146f);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:25 [trace] [application]  TRACE(50b5e4f01146f);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:48:24+05:30UniqueSalt50b5e4f00d69aVerbGETVersion0.1    GENERATED SIGNATURE: 7Xf4p/m9ofeAUHR9lh2ROs94s5XgHTa2J90nUoCWgYc=    SIGNATURE RECEIVED:8a2XMgTqNJ1pL+LTq+0mz6OdJpIchKlvgX8GQAedA/I=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:25 [trace] [application]  TRACE(50b5e4f01146f);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:48:24+05:30UniqueSalt50b5e4f00d69aVerbGETVersion0.1) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:48:25 [trace] [application] TRACE(50b5e4f01146f); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:48:24+05:30UniqueSalt50b5e4f00d69aVerbGETVersion0.1","trace_id":"50b5e4f01146f","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:24 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:24 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:24 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:24 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:24 [trace] [application]  TRACE(50b5e5683b684);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:50:24+05:30","HTTP_X_SIGNATURE":"sgCJgncuiaxyKps8XExOxNW5ruo0Bn8hTb\/Vni5ncVw=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e568383af","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51736","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/HelpDesk\/sealed","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/HelpDesk\/sealed","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","REQUEST_TIME":1354098024,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:24 [trace] [application]  TRACE(50b5e5683b684);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:24 [trace] [application]  TRACE(50b5e5683b684);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:26 [trace] [application]  TRACE(50b5e5683b684);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:26 [trace] [application]  TRACE(50b5e5683b684);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:50:24+05:30UniqueSalt50b5e568383afVerbGETVersion0.1    GENERATED SIGNATURE: jSiuaIkLfi0x9uZ8EuVvj2hUNbzhXgeMHK6HvP8qFc4=    SIGNATURE RECEIVED:sgCJgncuiaxyKps8XExOxNW5ruo0Bn8hTb/Vni5ncVw=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:26 [trace] [application]  TRACE(50b5e5683b684);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:50:24+05:30UniqueSalt50b5e568383afVerbGETVersion0.1) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:26 [trace] [application] TRACE(50b5e5683b684); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:50:24+05:30UniqueSalt50b5e568383afVerbGETVersion0.1","trace_id":"50b5e5683b684","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:37 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:37 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:37 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:37 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:37 [trace] [application]  TRACE(50b5e575aa4bc);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:50:37+05:30","HTTP_X_SIGNATURE":"TDzb4JvzYb08cOqsgX\/1VycQA1ZxalkdCyqT7+dbkhU=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e575a6816","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51739","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/Assets\/trailertype","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/Assets\/trailertype","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","REQUEST_TIME":1354098037,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:37 [trace] [application]  TRACE(50b5e575aa4bc);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:37 [trace] [application]  TRACE(50b5e575aa4bc);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:44 [trace] [application]  TRACE(50b5e575aa4bc);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:44 [trace] [application]  TRACE(50b5e575aa4bc);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:50:37+05:30UniqueSalt50b5e575a6816VerbGETVersion0.1    GENERATED SIGNATURE: mLdMUH4IUk+YmbpWiymoBcWHVMIXJpm2XIqo4lwaxYw=    SIGNATURE RECEIVED:TDzb4JvzYb08cOqsgX/1VycQA1ZxalkdCyqT7+dbkhU=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:44 [trace] [application]  TRACE(50b5e575aa4bc);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:50:37+05:30UniqueSalt50b5e575a6816VerbGETVersion0.1) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:50:44 [trace] [application] TRACE(50b5e575aa4bc); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:50:37+05:30UniqueSalt50b5e575a6816VerbGETVersion0.1","trace_id":"50b5e575aa4bc","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:39 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:39 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:39 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:39 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:39 [trace] [application]  TRACE(50b5e6671e07c);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:54:39+05:30","HTTP_X_SIGNATURE":"HTwGtMxBEGIbvE5gHI+yZZdK+rw1RgqoOHwc+4gRJN8=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e6671ac3a","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51748","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/HelpDesk\/sealed","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/HelpDesk\/sealed","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","REQUEST_TIME":1354098279,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:39 [trace] [application]  TRACE(50b5e6671e07c);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:39 [trace] [application]  TRACE(50b5e6671e07c);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:46 [trace] [application]  TRACE(50b5e6671e07c);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:46 [trace] [application]  TRACE(50b5e6671e07c);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:54:39+05:30UniqueSalt50b5e6671ac3aVerbGETVersion0.1    GENERATED SIGNATURE: L7OwpcMiOTIbVj9k5ObFw7yXQD4ZaSwdUyUxx9iEt3I=    SIGNATURE RECEIVED:HTwGtMxBEGIbvE5gHI+yZZdK+rw1RgqoOHwc+4gRJN8=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:46 [trace] [application]  TRACE(50b5e6671e07c);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:54:39+05:30UniqueSalt50b5e6671ac3aVerbGETVersion0.1) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:54:46 [trace] [application] TRACE(50b5e6671e07c); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:54:39+05:30UniqueSalt50b5e6671ac3aVerbGETVersion0.1","trace_id":"50b5e6671e07c","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:02 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:02 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:02 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:02 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:02 [trace] [application]  TRACE(50b5e67ee1d7e);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:55:02+05:30","HTTP_X_SIGNATURE":"hVkNY\/CzGjMqskenbjTcYGenEbNl0Rxsfce60fDz3UA=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLDFC4B35B","HTTP_X_UNIQUE_SALT":"50b5e67edd4f1","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51751","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/Assets\/trailertype","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/Assets\/trailertype","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","REQUEST_TIME":1354098302,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:02 [trace] [application]  TRACE(50b5e67ee1d7e);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:02 [trace] [application]  TRACE(50b5e67ee1d7e);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:30 [trace] [application]  TRACE(50b5e67ee1d7e);  FUNCTION(beforeAction);  VALIDATION (Generating Signature)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (451)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:30 [trace] [application]  TRACE(50b5e67ee1d7e);  FUNCTION(beforeAction);  VALIDATION (Signature Dump) STRING_TO_SIGN: KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:55:02+05:30UniqueSalt50b5e67edd4f1VerbGETVersion0.1    GENERATED SIGNATURE: ntdxUQNJjeHEkHRo57LyLzR78e6S8TYuqdUC4yJ0RUU=    SIGNATURE RECEIVED:hVkNY/CzGjMqskenbjTcYGenEbNl0Rxsfce60fDz3UA=
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (482)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:30 [trace] [application]  TRACE(50b5e67ee1d7e);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:55:02+05:30UniqueSalt50b5e67edd4f1VerbGETVersion0.1) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:55:30 [trace] [application] TRACE(50b5e67ee1d7e); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not verify signature KeyIDGZCLDFC4B35BModelTimestamp2012-11-28T15:55:02+05:30UniqueSalt50b5e67edd4f1VerbGETVersion0.1","trace_id":"50b5e67ee1d7e","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:19 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:19 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:19 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:19 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:19 [trace] [application]  TRACE(50b5e6cbe2727);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:56:19+05:30","HTTP_X_SIGNATURE":"whL1u6rAvcP\/I8tqWVBuKybPD0iCF96oteDEdfKeJNA=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLD50826A54755AB50826A5475624","HTTP_X_UNIQUE_SALT":"50b5e6cbdfb39","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51754","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/HelpDesk\/sealed","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/HelpDesk\/sealed","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/HelpDesk\/sealed","REQUEST_TIME":1354098379,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:19 [trace] [application]  TRACE(50b5e6cbe2727);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:19 [trace] [application]  TRACE(50b5e6cbe2727);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:23 [trace] [application]  TRACE(50b5e6cbe2727);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 2)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (410)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:24 [trace] [application]  TRACE(50b5e6cbe2727);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not identify public key) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:24 [trace] [application] TRACE(50b5e6cbe2727); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not identify public key","trace_id":"50b5e6cbe2727","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:31 [trace] [system.CModule] Loading "log" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:31 [trace] [system.CModule] Loading "request" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:31 [trace] [system.CModule] Loading "urlManager" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:31 [trace] [system.CModule] Loading "cache" application component
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:31 [trace] [application]  TRACE(50b5e6d7162e9);  FUNCTION(beforeAction);  RECEIVED REQUEST, STARTING VALIDATION {"HTTP_USER_AGENT":"PHPUnit","HTTP_HOST":"localhost","HTTP_ACCEPT_LANGUAGE":"en-us;q=0.5, sv","HTTP_X_USERNAME":"mobile_user@gizur.com","HTTP_X_PASSWORD":"ivry34aq","HTTP_X_TIMESTAMP":"2012-11-28T15:56:31+05:30","HTTP_X_SIGNATURE":"mZ7GPadqnPdCh3I2Cx41cz4ySsXJdvjGmU0\/eIg6\/aU=","HTTP_X_GIZURCLOUD_API_KEY":"GZCLD50826A54755AB50826A5475624","HTTP_X_UNIQUE_SALT":"50b5e6d712dbd","HTTP_ACCEPT":"application\/json","PATH":"\/usr\/local\/bin:\/usr\/bin:\/bin","SERVER_SIGNATURE":"<address>Apache\/2.2.20 (Ubuntu) Server at localhost Port 80<\/address>\n","SERVER_SOFTWARE":"Apache\/2.2.20 (Ubuntu)","SERVER_NAME":"localhost","SERVER_ADDR":"127.0.0.1","SERVER_PORT":"80","REMOTE_ADDR":"127.0.0.1","DOCUMENT_ROOT":"\/home\/anshuk\/public_html","SERVER_ADMIN":"webmaster@localhost","SCRIPT_FILENAME":"\/home\/anshuk\/public_html\/gizurcloud\/api\/index.php","REMOTE_PORT":"51758","GATEWAY_INTERFACE":"CGI\/1.1","SERVER_PROTOCOL":"HTTP\/1.1","REQUEST_METHOD":"GET","QUERY_STRING":"","REQUEST_URI":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","SCRIPT_NAME":"\/gizurcloud\/api\/index.php","PATH_INFO":"\/api\/Assets\/trailertype","PATH_TRANSLATED":"\/home\/anshuk\/public_html\/api\/Assets\/trailertype","PHP_SELF":"\/gizurcloud\/api\/index.php\/api\/Assets\/trailertype","REQUEST_TIME":1354098391,"argv":[],"argc":0}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (313)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:31 [trace] [application]  TRACE(50b5e6d7162e9);  FUNCTION(beforeAction);  VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (368)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:31 [trace] [application]  TRACE(50b5e6d7162e9);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 1)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (382)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:43 [trace] [application]  TRACE(50b5e6d7162e9);  FUNCTION(beforeAction);  VALIDATION (Scan API KEY 2)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (410)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:45 [trace] [application]  TRACE(50b5e6d7162e9);  FUNCTION(beforeAction);  VALIDATION (Some error occured during validation/Authentication) ERROR ( Could not identify public key) 
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (811)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)
+2012/11/28 15:56:45 [trace] [application] TRACE(50b5e6d7162e9); FUNCTION(_sendResponse); DISPATCH RESPONSE: {"success":false,"error":{"code":"ERROR","message":"Could not identify public key","trace_id":"50b5e6d7162e9","vtresponse":null}}
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (270)
+in /home/anshuk/public_html/gizurcloud/api/protected/controllers/ApiController.php (841)
+in /home/anshuk/public_html/gizurcloud/api/index.php (13)

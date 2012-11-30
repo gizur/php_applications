@@ -54,6 +54,8 @@ cp $1/applications/clab/trailer-app-portal/protected/config/main.php ../applicat
 echo "cp $1/applications/gizur-admin/js/config.js ../applications/gizur-admin/js/config.js"
 cp $1/applications/gizur-admin/js/config.js ../applications/gizur-admin/js/config.js
 
+echo "cp $1/tests/config.inc.php ../tests/config.inc.php"
+cp $1/tests/config.inc.php ../tests/config.inc.php
 
 #
 # Memacaced setup
