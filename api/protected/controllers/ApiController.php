@@ -1714,7 +1714,13 @@ class ApiController extends Controller
             case 'HelpDesk':
                 $sessionId = $this->_session->sessionName;
                 
-                if (preg_match('[0-9]?x[0-9]?', $_GET['id'])==0)
+                Yii::log(
+                   "TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST " .
+                   json_encode($_GET),
+                   CLogger::LEVEL_TRACE
+                );                
+                
+                if (preg_match('/[0-9]?x[0-9]?/i', $_GET['id'])==0)
                     throw new Exception('Invalid format of Id');
 
                 //Get HelpDesk details 
@@ -2207,6 +2213,40 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'User':
+                
+                    include("../config/config.inc.php");
+                    require_once 'MDB2.php';  
+
+                    /**
+                    * Database connection string
+                    * @global string $dsn
+                    *
+                    * Example 'mysql://root:mysecret@localhost/mysql'
+                    */                    
+                    $dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $db_server . ":" . $db_port . "/" . $dbconfig['db_name'];
+
+
+                    /**
+                    * Database connection options
+                    * @global string $options
+                    */
+                    $options = array(
+                        'persistent' => true,
+                    );
+
+                    /**
+                    * Database MDB2 connection object 
+                    * @global mixed $mdb2
+                    */
+                    $mdb2 =& MDB2::factory($dsn, $options);                    
+                    
+                    //Create Default DB credentials
+                    $db_server     = $dbconfig['db_server'];
+                    $db_port       = $dbconfig['db_port'];
+                    $db_username   = 'user_' . substr(strrev(uniqid()), 1, 8);
+                    $db_password   = substr(strrev(uniqid()), 1, 16);
+                    $db_name       = 'vtiger_' . substr(strrev(uniqid()), 1, 8);                    
+                
                     $sessionId = $this->_session->sessionName;
                     $post = json_decode(file_get_contents('php://input'), true);
 
@@ -2215,8 +2255,54 @@ class ApiController extends Controller
 
                     $post['secretkey_2'] = uniqid("", true) . uniqid("", true);
                     $post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
+                    
+                    $post['databasename'] = $db_server;
+                    $post['port'] = $db_port;
+                    $post['username'] = $db_username;
+                    $post['dbpassword'] = $db_password;
+                    $post['port'] = $db_port ;
 
+                    //Create User
+                    //===========
+                    $query = "GRANT USAGE ON *.* TO '$db_username'@'%' IDENTIFIED BY '$db_password' ";
+                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;";                    
+                    
+                    // Execute the query
+                    $result = $mdb2->exec($stmt);
 
+                    // check if the query was executed properly
+                    if (PEAR::isError($result))
+                        throw New Exception($result->getMessage().' - '.$result->getUserinfo());
+        
+                    
+                    //Create Database
+                    //===============
+                    $query = "CREATE DATABASE IF NOT EXISTS `$db_name`;";
+                    
+                    // Execute the query
+                    $result = $mdb2->exec($stmt);
+
+                    // check if the query was executed properly
+                    if (PEAR::isError($result))
+                        throw New Exception($result->getMessage().' - '.$result->getUserinfo());                    
+
+                    //Grant Permission
+                    //================
+                    $query = "GRANT ALL PRIVILEGES ON `$db_username`.* TO '$db_name'@'%';";
+                    
+                    // Execute the query
+                    $result = $mdb2->exec($stmt);
+
+                    // check if the query was executed properly
+                    if (PEAR::isError($result))
+                        throw New Exception($result->getMessage().' - '.$result->getUserinfo());                    
+                    
+                    //Import Database
+                    //===============
+                    $exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < ../../../lib/vtiger-5.4.0-database.sql";
+
+                    $output = shell_exec($exec_stmt);
+                    
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
