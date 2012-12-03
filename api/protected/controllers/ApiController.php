@@ -2214,6 +2214,12 @@ class ApiController extends Controller
                  */
             case 'User':
                 
+                    Yii::log(
+                        "TRACE(" . $this->_trace_id . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING MDB OBJECT ", 
+                         CLogger::LEVEL_TRACE
+                    );
                     include("../config/config.inc.php");
                     require_once 'MDB2.php';  
 
@@ -2233,6 +2239,13 @@ class ApiController extends Controller
                     $options = array(
                         'persistent' => true,
                     );
+                    
+                    Yii::log(
+                        "TRACE(" . $this->_trace_id . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING MDB OBJECT ", 
+                         CLogger::LEVEL_TRACE
+                    );                    
 
                     /**
                     * Database MDB2 connection object 
