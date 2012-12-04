@@ -2261,7 +2261,6 @@ class ApiController extends Controller
                     $db_password   = substr(strrev(uniqid()), 1, 16);
                     $db_name       = 'vtiger_' . substr(strrev(uniqid()), 1, 8);                    
                 
-                    $sessionId = $this->_session->sessionName;
                     $post = json_decode(file_get_contents('php://input'), true);
 
                     $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
