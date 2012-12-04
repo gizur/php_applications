@@ -2281,7 +2281,7 @@ class ApiController extends Controller
                     $query .= "WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;";                    
                     
                     // Execute the query
-                    $result = $mdb2->exec($stmt);
+                    $result = $mdb2->exec($query);
 
                     // check if the query was executed properly
                     if (PEAR::isError($result))
@@ -2293,7 +2293,7 @@ class ApiController extends Controller
                     $query = "CREATE DATABASE IF NOT EXISTS `$db_name`;";
                     
                     // Execute the query
-                    $result = $mdb2->exec($stmt);
+                    $result = $mdb2->exec($query);
 
                     // check if the query was executed properly
                     if (PEAR::isError($result))
@@ -2304,7 +2304,7 @@ class ApiController extends Controller
                     $query = "GRANT ALL PRIVILEGES ON `$db_username`.* TO '$db_name'@'%';";
                     
                     // Execute the query
-                    $result = $mdb2->exec($stmt);
+                    $result = $mdb2->exec($query);
 
                     // check if the query was executed properly
                     if (PEAR::isError($result))
