@@ -2213,7 +2213,8 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'User':
-                
+                error_reporting(E_ALL);
+                ini_set('display_errors', 'On');
                     Yii::log(
                         "TRACE(" . $this->_trace_id . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
@@ -2229,7 +2230,7 @@ class ApiController extends Controller
                     *
                     * Example 'mysql://root:mysecret@localhost/mysql'
                     */                    
-                    $dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $db_server . ":" . $db_port . "/" . $dbconfig['db_name'];
+                    $dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $dbconfig['db_server'] . ":" . $dbconfig['db_port'] . "/" . $dbconfig['db_name'];
 
 
                     /**
