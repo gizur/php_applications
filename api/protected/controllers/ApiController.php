@@ -2221,7 +2221,7 @@ class ApiController extends Controller
                         " CREATING MDB OBJECT ", 
                          CLogger::LEVEL_TRACE
                     );
-                    include("../config/config.inc.php");
+                    include("protected/config/config.inc.php");
                     require_once 'MDB2.php';  
 
                     /**
