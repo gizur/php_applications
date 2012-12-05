@@ -2256,7 +2256,7 @@ class ApiController extends Controller
                     
                     //Create Default DB credentials
                     $db_server     = $dbconfig['db_server'];
-                    $db_port       = $dbconfig['db_port'];
+                    $db_port       = str_replace(":", "", $dbconfig['db_port']);
                     $db_username   = 'user_' . substr(strrev(uniqid()), 1, 8);
                     $db_password   = substr(strrev(uniqid()), 1, 16);
                     $db_name       = 'vtiger_' . substr(strrev(uniqid()), 1, 8);                    
@@ -2274,7 +2274,7 @@ class ApiController extends Controller
                     $post['port'] = $db_port;
                     $post['username'] = $db_username;
                     $post['dbpassword'] = $db_password;
-                    $post['port'] = str_replace(":", "", $db_port) ;
+                    $post['port'] = $db_port;
 
                     //Create User
                     //===========
@@ -2313,7 +2313,7 @@ class ApiController extends Controller
                     
                     //Import Database
                     //===============
-                    $exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < ../../../lib/vtiger-5.4.0-database.sql";
+                    $exec_stmt = "mysql -u $db_username -p $db_password -h $db_server -P $db_port $db_name < ../../../lib/vtiger-5.4.0-database.sql";
 
                     $output = shell_exec($exec_stmt);
                     
