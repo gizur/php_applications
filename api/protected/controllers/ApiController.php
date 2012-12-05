@@ -2274,7 +2274,7 @@ class ApiController extends Controller
                     $post['port'] = $db_port;
                     $post['username'] = $db_username;
                     $post['dbpassword'] = $db_password;
-                    $post['port'] = $db_port ;
+                    $post['port'] = str_replace(":", "", $db_port) ;
 
                     //Create User
                     //===========
@@ -2345,12 +2345,12 @@ class ApiController extends Controller
                     Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
                     foreach ($ddb_response->body->Item->children()
                     as $key => $item) {
-                        $result->{$key} 
+                        $result_ddb->{$key} 
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
                     }
 
                     $response->success = true;
-                    $response->result = $result;
+                    $response->result = $result_ddb;
                     $this->_sendResponse(200, json_encode($response));
                 } else {
                     $response->success = false;
