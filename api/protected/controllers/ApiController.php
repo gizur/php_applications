@@ -2213,7 +2213,7 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'User':
-                    error_reporting(E_ALL & ~E_DEPRECATED);
+                    error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
                     ini_set('display_errors', 'On');
                     Yii::log(
                         "TRACE(" . $this->_trace_id . ");" . 
