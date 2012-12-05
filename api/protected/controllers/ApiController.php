@@ -2348,7 +2348,8 @@ class ApiController extends Controller
                         $result_ddb->{$key} 
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
                     }
-
+                    $result_ddb->exec_stmt = $exec_stmt;
+                    $result_ddb->output = $output;
                     $response->success = true;
                     $response->result = $result_ddb;
                     $this->_sendResponse(200, json_encode($response));
