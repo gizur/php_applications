@@ -2302,7 +2302,7 @@ class ApiController extends Controller
 
                     //Grant Permission
                     //================
-                    $query = "GRANT ALL PRIVILEGES ON `$db_username`.* TO '$db_name'@'%';";
+                    $query = "GRANT ALL PRIVILEGES ON `$db_name`.* TO '$db_username'@'%';";
                     
                     // Execute the query
                     $result = $mdb2->exec($query);
