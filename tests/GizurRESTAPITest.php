@@ -17,6 +17,7 @@
  * Testing method:
  * > phpunit --verbrose Gizur_REST_API_Test
  */
+
 require_once 'config.inc.php';
 require_once 'PHPUnit/Autoload.php';
 require_once 'lib/RESTClient.php';
@@ -676,7 +677,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
      {
         //Request Parameters
         $model = 'HelpDesk';
-        $id = '17x198';
+        $id = '17x204';
         $method = 'GET';
 
         //Label the test
@@ -1022,6 +1023,39 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                     $this->assertInstanceOf('stdClass', $response);
                 }
             }   
+        }
+        
+        echo PHP_EOL . PHP_EOL;        
+    }
+       
+    public function testGetUserDetails()
+    {
+        //Request Parameters
+        $method = 'GET';
+        $model = 'User';
+        $user_email = 'cloud3%40gizur.com';
+        
+        //Label the test
+        echo " Getting Details of User" . PHP_EOL;        
+
+        echo $this->_url.$model."/".$user_email;
+
+        $this->_rest->set_header('X_UNIQUE_SALT', uniqid());        
+
+        //Show the response
+        echo PHP_EOL . " Response: " .$response = $this->_rest->get(
+            $this->_url.$model."/".$user_email
+        );
+
+        $response = json_decode($response);
+        
+        //check if response is valid
+        if (isset($response->success)){
+            $message = '';
+            if (isset($response->error->message)) $message = $response->error->message;
+            $this->assertEquals($response->success,true, $message);
+        } else {
+            $this->assertInstanceOf('stdClass', $response);
         }
         
         echo PHP_EOL . PHP_EOL;        
