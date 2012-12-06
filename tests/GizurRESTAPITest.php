@@ -1,10 +1,18 @@
 <?php
 
 /**
- * @version 0.2
- * @package gizur
- * @copyright &copy; gizur
- * @author Anshuk Kumar <anshuk-kumar@essindia.co.in>
+ * PHP Unit Test cases class. Testin Gizur API
+ * 
+ * PHP version 5
+ * 
+ * @category   Test
+ * @package    Gizur
+ * @subpackage Test
+ * @author     Anshuk Kumar <anshuk-kumar@essindia.co.in>
+ * @copyright  2012 &copy; Gizur AB
+ * @license    Gizur Private Licence
+ * @version    0.2
+ * @link       http://www.gizur.com
  */
 
 /**
@@ -21,7 +29,19 @@
 require_once 'config.inc.php';
 require_once 'PHPUnit/Autoload.php';
 require_once 'lib/RESTClient.php';
-require_once('../lib/aws-php-sdk/sdk.class.php');
+require_once '../lib/aws-php-sdk/sdk.class.php';
+
+/**
+ * Gizur Test inherist PHP Unit Tests Framework
+ * 
+ * @category  Test
+ * @package   Gizur 
+ * @author    Anshuk Kumar <anshuk-kumar@essindia.co.in>
+ * @copyright 2012 &copy; Gizur AB
+ * @license   Gizur Private Licence
+ * @version   0.2
+ * @link      http://www.gizur.com
+ */
 
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
@@ -32,13 +52,23 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     
     private $_rest;
 
-    protected $_credentials = Array();
+    private $_credentials = Array();
 
-    protected $_url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/";
- 
+    private $_url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/";
+
+    /**
+     * Generates Signature for request
+     * 
+     * @param string $method      The Http method used to send the request
+     * @param string $model       Model which is being accessed
+     * @param string $timestamp   Time of the format date("c")
+     * @param string $unique_salt Any unique string 
+     * 
+     * @return string signature
+     */
     private function _generateSignature($method, $model, $timestamp, 
-        $unique_salt)
-    {
+        $unique_salt
+    ) {
         //Build array
         $params = array(
             'Verb'          => $method,
@@ -58,11 +88,23 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $string_to_sign .= "{$k}{$v}";   
         
         // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', 
-                    $string_to_sign, $this->_GIZURCLOUD_SECRET_KEY, 1));    
+        $signature = base64_encode(
+            hash_hmac('SHA256', $string_to_sign, $this->_GIZURCLOUD_SECRET_KEY, 1)
+        );    
         
         return array($params, $signature);
     }
+    
+    /**
+     * Sets the header from for CURL
+     * 
+     * @param string $username  string to be set to HTTP_X_USERNAME header
+     * @param string $password  string to be set to HTTP_X_USERNAME header
+     * @param string $params    string to be set to HTTP_X_USERNAME header
+     * @param string $signature string to be set to HTTP_X_USERNAME header
+     * 
+     * @return string signature
+     */    
     
     private function _setHeader($username, $password, $params, $signature)
     {
@@ -74,7 +116,14 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $this->_rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);        
     }
     
-    protected function setUp(){
+    /**
+     * Executed before every Test case
+     * 
+     * @return void
+     */      
+    
+    protected function setUp()
+    {
         $this->_rest = new RESTClient();
         $this->_rest->format('json'); 
         $this->_rest->ssl(false);
@@ -90,11 +139,24 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         
     }
     
-    protected function tearDown(){
+    /**
+     * Executed after every Test case
+     * 
+     * @return void
+     */        
+    
+    protected function tearDown()
+    {
         echo PHP_EOL . PHP_EOL;
     }
-
-    public function testStressLogin()
+    
+    /**
+     * Tests the Login of the API multiple times
+     * 
+     * @return void
+     */ 
+    
+    public function testLoginStress()
     {
         //Request parameters
         $model = 'Authenticate';
@@ -149,6 +211,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests the Login of the API single times
+     * 
+     * @return void
+     */     
+    
     public function testLoginSingle()
     {
         //Request parameters
@@ -227,6 +295,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests the Logout 
+     * 
+     * @return void
+     */     
+    
     public function testLogout()
     {
         //Request parameters
@@ -269,6 +343,13 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests cron fucntionality for
+     * 1) Mailscan
+     * 
+     * @return void
+     */     
+    
     public function testCron()
     {
         //Request parameters
@@ -292,6 +373,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests to fetch the About page
+     * 
+     * @return void
+     */     
+    
     public function testAbout()
     {
         //Request parameters
@@ -320,6 +407,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests the Change password
+     * 
+     * @return void
+     */     
+    
     public function testChangePassword()
     {        
         //Request parameters
@@ -362,6 +455,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests Change Asset Status from Inoperation to Damaged and visa versa
+     * 
+     * @return void
+     */     
+    
     public function testChangeAssetStatus()
     {
         //Request Parameters       
@@ -420,6 +519,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests Reseting password
+     * 
+     * @return void
+     */ 
 
     public function testResetPassword()
     {
@@ -468,6 +572,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
        echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Test getting Asset from id
+     * 
+     * @return void
+     */ 
 
     public function testGetAssetFromId()
     {
@@ -506,6 +615,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         } 
     }
 
+    /**
+     * Tests Getting Asset List
+     * 
+     * @return void
+     */     
+    
     public function testGetAssetList()
     {
         //Request Parameters
@@ -542,6 +657,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         } 
     }
  
+    /**
+     * Tests getting Trouble Ticket from Inoperation List
+     * 
+     * @return void
+     */ 
+    
     public function testGetTroubleTicketInoperationList()
     {   
         //Request Parameters
@@ -582,6 +703,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         
     }
 
+    /**
+     * Tests getting Trouble Ticket from Inoperation List with Filter
+     * 
+     * @return void
+     */     
+    
     public function testGetTroubleTicketInoperationListWithFilter()
     {
         //Request Parameter
@@ -638,6 +765,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         
     }
   
+    /**
+     * Tests getting Damaged Trouble Ticket List
+     * 
+     * @return void
+     */     
+    
    public function testGetTroubleTicketDamagedList()
    {
        //Request Parameters
@@ -673,6 +806,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         } 
     }
 
+    /**
+     * Tests getting Trouble Ticket from Id
+     * 
+     * @return void
+     */     
+    
      public function testGetTroubleTicketFromId()
      {
         //Request Parameters
@@ -710,7 +849,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         } 
     }
 
-   
+    /**
+     * Tests getting Trouble Ticket from Inoperation List
+     * 
+     * @return void
+     */    
     
     public function testCreateTroubleTicketWithOutDocument()
     {
@@ -763,6 +906,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             }
         } 
     }
+
+    /**
+     * Tests getting Trouble Ticket With Document
+     * 
+     * @return void
+     */     
     
     public function testCreateTroubleTicketWithDocument()
     {
@@ -827,6 +976,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo PHP_EOL . PHP_EOL;
     }
 
+    /**
+     * Tests Generating Signature Hash
+     * 
+     * @return void
+     */     
+    
     public function testSignatureHash() {
         
         //Label the test
@@ -845,6 +1000,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($signature, $signature_generated);
     }
 
+    /**
+     * Tests Uploading files to Amazon S3
+     * 
+     * @return void
+     */     
+    
     public function testUploadToAmazonS3() {
         echo " Uploading File To Amazons3" . PHP_EOL;
         $this->markTestSkipped('');
@@ -872,6 +1033,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                         ));                        
                         $this->assertEquals($response->isOK(), true);
     }
+
+    /**
+     * Tests Getting document attachement
+     * 
+     * @return void
+     */       
     
     public function testGetDocumentAttachment()
     {
@@ -917,6 +1084,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Tests Getting Picklists
+     * 
+     * @return void
+     */       
+    
     public function testGetPicklist()
     {
         //Request Parameters
@@ -973,7 +1146,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo PHP_EOL . PHP_EOL;        
     }  
     
-    
+    /**
+     * Tests Getting picklist for assets
+     * 
+     * @return void
+     */       
 
     public function testGetPicklistAssets()
     {
@@ -1027,7 +1204,13 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         
         echo PHP_EOL . PHP_EOL;        
     }
-       
+
+    /**
+     * Tests Get User Details
+     * 
+     * @return void
+     */       
+    
     public function testGetUserDetails()
     {
         //Request Parameters
