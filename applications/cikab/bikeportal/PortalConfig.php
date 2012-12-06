@@ -12,7 +12,7 @@
 
 global $Server_Path;
 global $Portal_Path;
-
+error_reporting(E_ALL);
 //This is the vtiger server path ie., the url to access the vtiger server in browser
 //Ex. i access my vtiger as http://mickie:90/vtiger/index.php so i will give as http://mickie:90/vtiger
 $Server_Path = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/vtiger";
