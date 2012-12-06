@@ -851,14 +851,14 @@ function create_ticket($input_array)
 
     $ticket->column_fields['parent_id'] = $parent_id;
     $ticket->column_fields['product_id'] = $product_id;
-    $ticket->column_fields['cf_645'] = $input_array['product_quantity'];
+    $ticket->column_fields[$custom_fields['product_quantity']] = $input_array['product_quantity'];
     
     if($title == 'Release')
-        $ticket->column_fields['cf_642'] = 'Decrease';
+        $ticket->column_fields[$custom_fields['increase_decrease']] = 'Decrease';
     else
-        $ticket->column_fields['cf_642'] = $title;
+        $ticket->column_fields[$custom_fields['increase_decrease']] = $title;
     
-    $ticket->column_fields['cf_644'] = date('Y-m-d');
+    $ticket->column_fields[$custom_fields['requested_date']] = date('Y-m-d');
     
     $defaultAssignee = getDefaultAssigneeId();
 
