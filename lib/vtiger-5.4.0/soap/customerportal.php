@@ -814,6 +814,7 @@ function get_tickets_list($input_array) {
 	*/
 function create_ticket($input_array)
 {
+        include 'soap/config.php';
 	global $adb,$log;
 	$adb->println("Inside customer portal function create_ticket");
 	$adb->println($input_array);
@@ -855,9 +856,10 @@ function create_ticket($input_array)
     
     if($title == 'Release')
         $ticket->column_fields[$custom_fields['increase_decrease']] = 'Decrease';
-    else
-        $ticket->column_fields[$custom_fields['increase_decrease']] = $title;
+    elseif ($title == 'Increase')
+        $ticket->column_fields[$custom_fields['increase_decrease']] = 'Increase';
     
+    if(!empty($input_array['product_quantity']))
     $ticket->column_fields[$custom_fields['requested_date']] = date('Y-m-d');
     
     $defaultAssignee = getDefaultAssigneeId();
