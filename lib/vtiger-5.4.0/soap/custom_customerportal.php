@@ -35,15 +35,15 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
 {
 
     global $adb, $log, $current_user;
-    ob_start();
     error_reporting(E_ALL);
     ini_set('display_errors', 'On');
     $log->debug("Entering customer portal function get_list_preorder");
     $log->debug("get_list_preorder($id, $module, $sessionid, $only_mine)");
     $log->debug("require_once start : get_list_preorder");
     
-    include_once("modules/$module/$module.php");
-    $log->debug('Errors : ' . ob_get_contents());
+    if(!@require_once("modules/$module/$module.php"))
+        $log->debug("Failed to include modules/$module/$module.php");
+    
     require_once('include/utils/UserInfoUtil.php');
     $log->debug("require_once end : get_list_preorder");
         
