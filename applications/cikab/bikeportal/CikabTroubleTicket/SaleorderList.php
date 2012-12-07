@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 global $result, $client;
 $customerid = $_SESSION['customer_id'];
 $username = $_SESSION['customer_name'];
@@ -17,7 +18,7 @@ $i = 0;
 $params = Array('id' => $customerid, 'module' => $module, 'sessionid' => $sessionid, 'onlymine' => $onlymine);
 
 $result = $client->call('get_list_preorder', $params);
-echo "<pre>"; print_r($result); die;
+
 if (!empty($result)) {
     foreach ($result as $value1) {
         $bal = $value1['totalquotes'] - $value1['totalsales'];
