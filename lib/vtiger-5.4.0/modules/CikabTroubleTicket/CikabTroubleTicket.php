@@ -20,7 +20,6 @@
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
  ********************************************************************************/
-include_once('config.php');
 require_once('include/logging.php');
 require_once('data/SugarBean.php');
 require_once('include/utils/utils.php');
@@ -100,6 +99,7 @@ class CikabTroubleTicket extends CRMEntity {
     
     function CikabTroubleTicket() {
         $this->log = LoggerManager::getLogger('CikabTroubleTicket');
+        $this->db = PearDatabase::getInstance();
         $this->log->debug("Entering CikabTroubleTicket() method ...");
         $this->log->debug("Exiting CikabTroubleTicket() method ...");
     }
