@@ -39,7 +39,7 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
     $log->debug("get_list_preorder($id, $module, $sessionid, $only_mine)");
     $log->debug("require_once start : get_list_preorder");
     
-    //require_once('modules/' . $module . '/' . $module . '.php');
+    require_once('modules/' . $module . '/' . $module . '.php');
     require_once('include/utils/UserInfoUtil.php');
     $log->debug("require_once end : get_list_preorder");
         
