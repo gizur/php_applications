@@ -38,6 +38,10 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
     $log->debug("Entering customer portal function get_list_preorder");
     $log->debug("get_list_preorder($id, $module, $sessionid, $only_mine)");
     $log->debug("require_once start : get_list_preorder");
+    
+    error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
+    
     require_once('modules/' . $module . '/' . $module . '.php');
     require_once('include/utils/UserInfoUtil.php');
     $log->debug("require_once end : get_list_preorder");
