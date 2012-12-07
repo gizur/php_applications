@@ -1746,8 +1746,6 @@ class soap_transport_http extends nusoap_base {
 
 		$this->tryagain = true;
 		$tries = 0;
-        echo "<pre>";
-        print_r($data);
 		while ($this->tryagain) {
 			$this->tryagain = false;
 			if ($tries++ < 2) {
@@ -1767,7 +1765,6 @@ class soap_transport_http extends nusoap_base {
 				$this->setError('Too many tries to get an OK response');
 			}
 		}		
-        print_r($respdata);
 		$this->debug('end of send()');
 		return $respdata;
 	}

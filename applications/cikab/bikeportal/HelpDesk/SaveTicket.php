@@ -63,6 +63,7 @@ $params = Array(Array(
 	));
 
 $record_result = $client->call('create_ticket', $params);
+print_r($client->getError());
 if(isset($record_result[0]['new_ticket']) && $record_result[0]['new_ticket']['ticketid'] != '')
 {
 	$new_record = 1;
