@@ -39,13 +39,13 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
     $log->debug("get_list_preorder($id, $module, $sessionid, $only_mine)");
     $log->debug("require_once start : get_list_preorder");
     
-    error_reporting(E_ALL);
-    ini_set('display_errors', 'On');
-    
-    require_once('modules/' . $module . '/' . $module . '.php');
-    require_once('include/utils/UserInfoUtil.php');
-    $log->debug("require_once end : get_list_preorder");
-    
+    try{
+        require_once('modules/' . $module . '/' . $module . '.php');
+        require_once('include/utils/UserInfoUtil.php');
+        $log->debug("require_once end : get_list_preorder");
+    }catch(Exception $e){
+        $log->debug('Caught exception in get_list_preorder : ' . $e->getMessage());
+    }
     $check = checkModuleActive($module);
     if ($check == false) {
         return array("#MODULE INACTIVE#");
