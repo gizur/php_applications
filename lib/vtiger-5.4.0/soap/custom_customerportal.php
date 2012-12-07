@@ -50,6 +50,7 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
     $user = new Users();
     $userid = getPortalUserid();
     $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
+    $log->debug("END retrieveCurrentUserInfoFromFile");
     $focus = new $module();
     $focus->filterInactiveFields($module);
     foreach ($focus->list_fields as $fieldlabel => $values) {
@@ -57,7 +58,7 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
             $fields_list[$fieldlabel] = $fieldname;
         }
     }
-
+    $log->debug("END foreach");
     if (!validateSession($id, $sessionid))
         return null;
 
