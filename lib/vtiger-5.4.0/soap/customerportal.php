@@ -3229,9 +3229,9 @@ function getPortalUserid() {
 			// Update the cache information now.
 			Vtiger_Soap_CustomerPortal::updatePrefValue('userid', $userid);
 		}
-	}
+	}    
+	$log->debug("Exiting customerportal function getPortalUserid : $userid");
 	return $userid;
-	$log->debug("Exiting customerportal function getPortalUserid");
 }
 
 function checkModuleActive($module){
