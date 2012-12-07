@@ -99,6 +99,7 @@ class CikabTroubleTicket extends CRMEntity {
 	 */	
     
     function CikabTroubleTicket() {
+        $this->log = LoggerManager::getLogger('CikabTroubleTicket');
         $this->log->debug("Entering CikabTroubleTicket() method ...");
         $this->log->debug("Exiting CikabTroubleTicket() method ...");
     }
