@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
 global $result, $client;
 $customerid = $_SESSION['customer_id'];
 $username = $_SESSION['customer_name'];

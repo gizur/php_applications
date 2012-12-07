@@ -833,7 +833,7 @@ function create_ticket($input_array)
     $ticket->column_fields['from_portal'] = 1;
 
 	$ticket->save("HelpDesk");
-
+    /*
 	$subject = "[From Portal] " .$ticket->column_fields['ticket_no']." [ Ticket ID : $ticket->id ] ".$title;
 	$contents = ' Ticket No : '.$ticket->column_fields['ticket_no']. '<br> Ticket ID : '.$ticket->id.'<br> Ticket Title : '.$title.'<br><br>'.$description;
 
@@ -850,7 +850,7 @@ function create_ticket($input_array)
 	//send mail to the customer(contact who creates the ticket from portal)
 	$adb->println("Send mail to the customer(contact) who creates the portal ticket");
 	$mail_status = send_mail('Contacts',$contact_email,'',$from_email,$subject,$contents);
-
+    */
 	$ticketresult = $adb->pquery("select vtiger_troubletickets.ticketid from vtiger_troubletickets
 		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_troubletickets.ticketid 
         inner join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid 
@@ -918,7 +918,7 @@ function update_ticket_comment($input_array)
 		
 		$ticket->column_fields['from_portal'] = 1;
 		$ticket->save('HelpDesk');
-		
+		/*
 		//To get the username and user email id, user means assigned to user of the ticket
 		$result = $adb->pquery("select user_name, email1 from vtiger_users inner join vtiger_crmentity on vtiger_users.id=vtiger_crmentity.smownerid where vtiger_crmentity.crmid=?", array($ticketid));
 		$owner = $adb->query_result($result,0,'user_name');
@@ -942,7 +942,7 @@ function update_ticket_comment($input_array)
 		.$mod_strings['LBL_REGARDS']."<br>"
 		.$mod_strings['LBL_SUPPORT_ADMIN'];
 
-		$mailstatus = send_mail('HelpDesk',$to_email,$customername,$from_email,$subject,$contents);
+		$mailstatus = send_mail('HelpDesk',$to_email,$customername,$from_email,$subject,$contents);*/
 	}
 }
 
