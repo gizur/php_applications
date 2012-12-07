@@ -40,6 +40,10 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
     $log->debug("require_once start : get_list_preorder");
     
     try{
+        if(file_exists('modules/' . $module . '/' . $module . '.php'))
+            $log->debug("'modules/$module/$module.php' exists.");
+        else
+            $log->debug("'modules/$module/$module.php' not exists.");
         require_once('modules/' . $module . '/' . $module . '.php');
         require_once('include/utils/UserInfoUtil.php');
         $log->debug("require_once end : get_list_preorder");
