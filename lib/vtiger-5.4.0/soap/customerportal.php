@@ -246,14 +246,14 @@ $server->register(
 	array('return'=>'xsd:string'),
 	$NAMESPACE);
 
-		//to get details of quotes,invoices and documents
+/* to get details of quotes,invoices and documents */
 $server->register(
 	'get_details',
 	array('id'=>'xsd:string','block'=>'xsd:string','contactid'=>'xsd:string','sessionid'=>'xsd:string'),
 	array('return'=>'tns:field_details_array'),
 	$NAMESPACE);
 
-		//to get the products list for the entire account of a contact
+/* to get the products list for the entire account of a contact */
 $server->register(
 	'get_product_list_values',
 	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
@@ -265,35 +265,7 @@ $server->register(
 	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
 	array('return'=>'tns:field_datalist_array'),
 	$NAMESPACE);
-	
-///////////////////////////// Created Anil Singh 
 
-	$server->register(
-	'get_list_preorder',
-	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
-	array('return'=>'tns:field_datalist_array'),
-	$NAMESPACE);
-	
-	$server->register(
-	'get_list_cikabsalesorder',
-	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
-	array('return'=>'tns:field_datalist_array'),
-	$NAMESPACE);
-		
-	$server->register(
-	'get_list_cikabVendorPortal',
-	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
-	array('return'=>'tns:field_datalist_array'),
-	$NAMESPACE);
-	
-/////////////////////////////////////////////////////// End Functions /////////////////////
-
-$server->register(
-	'get_product_urllist',
-	array('customerid'=>'xsd:string','productid'=>'xsd:string','block'=>'xsd:string'),
-	array('return'=>'tns:field_datalist_array'),
-	$NAMESPACE);
-	
 $server->register(
 	'get_product_urllist',
 	array('customerid'=>'xsd:string','productid'=>'xsd:string','block'=>'xsd:string'),
@@ -362,13 +334,6 @@ $server->register(
 	array('id'=>'xsd:string','module'=>'xsd:string','customerid'=>'xsd:string','sessionid'=>'xsd:string'),
 	array('return'=>'tns:field_details_array'),
 	$NAMESPACE);
-
-/* ADDED BY PRABHAT KHERA ON 03 DEC 2012 */
-$server->register(
-    'create_salesorder', 
-    array('fieldname' => 'tns:common_array'), 
-    array('return' => 'tns:common_array'), 
-    $NAMESPACE);
 
 /**
  * Helper class to provide functionality like caching etc...
@@ -3319,6 +3284,7 @@ function getDefaultAssigneeId() {
 }
 
 include 'soap/custom_customerportal.php';
+
 /* Begin the HTTP listener service and exit. */
 if (!isset($HTTP_RAW_POST_DATA)){
 	$HTTP_RAW_POST_DATA = file_get_contents('php://input');

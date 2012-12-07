@@ -1,14 +1,47 @@
 <?php
+/* Created Anil Singh */
 
-/////////////////////////////////  For Create Function by Anil Singh
+$server->register(
+	'get_list_preorder',
+	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
+	array('return'=>'tns:field_datalist_array'),
+	$NAMESPACE);
+	
+$server->register(
+	'get_list_cikabsalesorder',
+	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
+	array('return'=>'tns:field_datalist_array'),
+	$NAMESPACE);
+		
+$server->register(
+	'get_list_cikabVendorPortal',
+	array('id'=>'xsd:string','block'=>'xsd:string','sessionid'=>'xsd:string','only_mine'=>'xsd:string'),
+	array('return'=>'tns:field_datalist_array'),
+	$NAMESPACE);
+	
+/* End Functions */
+    
+/* ADDED BY PRABHAT KHERA ON 03 DEC 2012 */
+    
+$server->register(
+    'create_salesorder', 
+    array('fieldname' => 'tns:common_array'), 
+    array('return' => 'tns:common_array'), 
+    $NAMESPACE);
+
+/*  For Create Function by Anil Singh */
 
 function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
 {
 
+    global $adb, $log, $current_user;
+    $log->debug("Entering customer portal function get_list_preorder");
+    $log->debug("get_list_preorder($id, $module, $sessionid, $only_mine)");
+    $log->debug("require_once start : get_list_preorder");
     require_once('modules/' . $module . '/' . $module . '.php');
     require_once('include/utils/UserInfoUtil.php');
-    global $adb, $log, $current_user;
-    $log->debug("Entering customer portal function get_list_values");
+    $log->debug("require_once end : get_list_preorder");
+    
     $check = checkModuleActive($module);
     if ($check == false) {
         return array("#MODULE INACTIVE#");
@@ -67,8 +100,6 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
         }
         $log->debug("ACCOUNTID : " . json_encode($entity_ids_list));
     }
-    //////////////////////////////////////////////////////////////////
-//$ids=@implode(",",$entity_ids_list); 
 
     $queryquotesfortroublet = "SELECT DISTINCT i.productid,i.id , i.quantity,
         p.product_no productno ,p.productname,p.productsheet,
@@ -111,7 +142,7 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
     return $fields_listquotes;
 }
 
-////////////////////  Check Centeruser by anil Singh
+/* Check Centeruser by anil Singh */
 
 function getCenteralUser($portaluserid)
 {
@@ -129,7 +160,7 @@ function getCenteralUser($portaluserid)
     $log->debug("Exiting customerportal function getPortalUserid");
 }
 
-/////////////////////////////////  For Create Function by Anil Singh
+/*  For Create Function by Anil Singh */
 
 function get_list_cikabsalesorder($id, $module, $sessionid, $only_mine = 'false', $status = "", $ACCID)
 {
@@ -146,8 +177,7 @@ function get_list_cikabsalesorder($id, $module, $sessionid, $only_mine = 'false'
     $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
     if (!validateSession($id, $sessionid))
         return null;
-
-    //////////////////////////////////////////////////////////////////
+    
     $Wherecases = array();
     $Wherecases[] = "WHERE CE.deleted = 0 ";
     $centerUseris = getCenteralUser($id);
@@ -189,7 +219,7 @@ function get_list_cikabsalesorder($id, $module, $sessionid, $only_mine = 'false'
     $log->debug("Exiting customerportal function get_list_cikabsalesorder");
 }
 
-////////////////////  Check VendorPortaluser by anil Singh
+/* Check VendorPortaluser by anil Singh */
 
 function getVendorPortalUserid($portaluserid)
 {
@@ -208,7 +238,7 @@ function getVendorPortalUserid($portaluserid)
     $log->debug("Exiting customerportal function getVendorPortalUserid");
 }
 
-/////////////////////////////////  For Create Function by Anil Singh
+/*  For Create Function by Anil Singh */
 
 function get_list_cikabVendorPortal($id, $module, $sessionid, $only_mine = 'false', $status = "", $ACCID)
 {
@@ -231,7 +261,7 @@ function get_list_cikabVendorPortal($id, $module, $sessionid, $only_mine = 'fals
         return array("2");
     }
 
-    /////////////////////////////////// Get Vendor to related Contact Id
+    /*  Get Vendor to related Contact Id */
     $Vendor_id = array();
     $vendorlist = "SELECT vendorid FROM vtiger_vendorcontactrel WHERE contactid=?";
     $VendorParams = array($id);
@@ -240,7 +270,7 @@ function get_list_cikabVendorPortal($id, $module, $sessionid, $only_mine = 'fals
     for ($i = 0; $i < $rowsvendor; $i++) {
         $Vendor_id[] = $adb->query_result($VendorResult, $i, 'vendorid');
     }
-    //////////////////////////////////////////////////////////////////
+    
     $Wherecases = array();
     $Wherecases[] = "WHERE CE.deleted = 0 ";
     $Wherecases[] = " po.vendorid IN  (" . generateQuestionMarks($Vendor_id) . ") ";
