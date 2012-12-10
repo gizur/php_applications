@@ -19,7 +19,7 @@ $Server_Path = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab
 
 //This is the customer portal path ie., url to access the customer portal in browser 
 //Ex. i access my portal as http://mickie:90/customerportal/login.php so i will give as http://mickie:90/customerportal
-$Authenticate_Path = "http://localhost/applications/cikab/bikeportal";
+$Authenticate_Path = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/applications/cikab/bikeportal";
 /*$Server_Path = "https://cikab.gizurcloud.com";
 $Authenticate_Path = "https://cikab.gizurcloud.com/portal";*/
 //Give a temporary directory path which is used when we upload attachment
