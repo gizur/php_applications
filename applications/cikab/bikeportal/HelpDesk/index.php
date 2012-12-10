@@ -10,6 +10,7 @@
  ********************************************************************************/
 require_once("include/Zend/Json.php");
 @include("../PortalConfig.php");
+error_reporting(E_ALL);
 if(!isset($_SESSION['customer_id']) || $_SESSION['customer_id'] == '')
 {
 	@header("Location: $Authenticate_Path/login.php");
