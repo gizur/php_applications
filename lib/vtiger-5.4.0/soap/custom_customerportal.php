@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/SalesOrder/SalesOrder.php';
 /* Created Anil Singh */
 
 $server->register(
@@ -19,6 +20,12 @@ $server->register(
 	array('return'=>'tns:field_datalist_array'),
 	$NAMESPACE);
 	
+$server->register(
+	'create_custom_ticket',
+	array('fieldname'=>'tns:common_array'),
+	array('return'=>'tns:common_array'),
+	$NAMESPACE);
+
 /* End Functions */
     
 /* ADDED BY PRABHAT KHERA ON 03 DEC 2012 */
@@ -311,6 +318,124 @@ function get_list_cikabVendorPortal($id, $module, $sessionid, $only_mine = 'fals
 
     return $fields_listquotes;
     $log->debug("Exiting customerportal function get_list_cikabVendorPortal");
+}
+
+/**	function used to create ticket which has been created from customer portal
+ *	@param array $input_array - array which contains the following values
+ => 	int $id - customer id
+	int $sessionid - session id
+	string $title - title of the ticket
+	string $description - description of the ticket
+	string $priority - priority of the ticket
+	string $severity - severity of the ticket
+	string $category - category of the ticket
+	string $user_name - customer name
+	int $parent_id - parent id ie., customer id as this customer is the parent for this ticket
+	int $product_id - product id for the ticket
+	string $module - module name where as based on this module we will get the module owner and assign this ticket to that corresponding user
+	*	return array - currently created ticket array, if this is not created then all tickets list will be returned
+	*/
+function create_custom_ticket($input_array)
+{
+    include 'soap/config.php';
+	global $adb,$log;
+	$adb->println("Inside customer portal function create_ticket");
+	$adb->println($input_array);
+	$id = $input_array['id'];
+	$sessionid = $input_array['sessionid'];
+	$title = $input_array['title'];
+	$description = $input_array['description'];
+	$priority = $input_array['priority'];
+	$severity = $input_array['severity'];
+	$category = $input_array['category'];
+	$user_name = $input_array['user_name'];
+	$parent_id = (int) $input_array['parent_id'];
+	$product_id = (int) $input_array['product_id'];
+	$module = $input_array['module'];
+	//$assigned_to = $input_array['assigned_to'];
+	$servicecontractid = $input_array['serviceid'];
+	$projectid = $input_array['projectid'];
+
+    if (!validateSession($id, $sessionid))
+        return null;
+
+    $product_no = $input_array['product_no'];
+    $result = $adb->pquery("select productid from vtiger_products 
+        where product_no = ?", array($product_no));
+    $product_id = $adb->query_result($result, 0, 'productid');
+    
+    $ticket = new HelpDesk();
+
+    $ticket->column_fields['ticket_title'] = $title;
+    $ticket->column_fields['description'] = $description;
+    $ticket->column_fields['ticketpriorities'] = $priority;
+    $ticket->column_fields['ticketseverities'] = $severity;
+    $ticket->column_fields['ticketcategories'] = $category;
+    $ticket->column_fields['ticketstatus'] = 'Open';
+
+    $ticket->column_fields['parent_id'] = $parent_id;
+    $ticket->column_fields['product_id'] = $product_id;
+    $ticket->column_fields[$custom_fields['product_quantity']] = $input_array['product_quantity'];
+    
+    if ($title == 'Release')
+        $ticket->column_fields[$custom_fields['increase_decrease']] = 'Decrease';
+    elseif ($title == 'Increase')
+        $ticket->column_fields[$custom_fields['increase_decrease']] = 'Increase';
+    
+    if(!empty($input_array['product_quantity']))
+        $ticket->column_fields[$custom_fields['requested_date']] = date('Y-m-d');
+    
+    $defaultAssignee = getDefaultAssigneeId();
+
+    $ticket->column_fields['assigned_user_id'] = $defaultAssignee;
+    $ticket->column_fields['from_portal'] = 1;
+
+	$ticket->save("HelpDesk");
+    /*
+	$subject = "[From Portal] " .$ticket->column_fields['ticket_no']." [ Ticket ID : $ticket->id ] ".$title;
+	$contents = ' Ticket No : '.$ticket->column_fields['ticket_no']. '<br> Ticket ID : '.$ticket->id.'<br> Ticket Title : '.$title.'<br><br>'.$description;
+
+	//get the contact email id who creates the ticket from portal and use this email as from email id in email
+	$result = $adb->pquery("select email from vtiger_contactdetails where contactid = ?", array($parent_id));
+	$contact_email = $adb->query_result($result,0,'email');
+	$from_email = $contact_email;
+
+	//send mail to assigned to user
+	$to_email = getUserEmailId('id',$userid);
+	$adb->println("Send mail to the user who is the owner of the module about the portal ticket");
+	$mail_status = send_mail('HelpDesk',$to_email,'',$from_email,$subject,$contents);
+
+	//send mail to the customer(contact who creates the ticket from portal)
+	$adb->println("Send mail to the customer(contact) who creates the portal ticket");
+	$mail_status = send_mail('Contacts',$contact_email,'',$from_email,$subject,$contents);
+    */
+	$ticketresult = $adb->pquery("select vtiger_troubletickets.ticketid from vtiger_troubletickets
+		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_troubletickets.ticketid 
+        inner join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid 
+		where vtiger_crmentity.deleted=0 and vtiger_troubletickets.ticketid = ?", array($ticket->id));
+	if($adb->num_rows($ticketresult) == 1)
+	{
+		$record_save = 1;
+		$record_array[0]['new_ticket']['ticketid'] = $adb->query_result($ticketresult,0,'ticketid');
+	}
+	if($servicecontractid != ''){
+		$res = $adb->pquery("insert into vtiger_crmentityrel values(?,?,?,?)",
+		array($servicecontractid, 'ServiceContracts', $ticket->id, 'HelpDesk'));
+	}
+	if($projectid != '') {
+		$res = $adb->pquery("insert into vtiger_crmentityrel values(?,?,?,?)",
+		array($projectid, 'Project', $ticket->id, 'HelpDesk'));		
+	}
+	if($record_save == 1)
+	{
+		$adb->println("Ticket from Portal is saved with id => ".$ticket->id);
+		return $record_array;
+	}
+	else
+	{
+		$adb->println("There may be error in saving the ticket.");
+		return null;
+	}
 }
 
 /* ADDED BY PRABHAT KHERA 01-12-2012 */

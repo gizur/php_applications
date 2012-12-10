@@ -80,7 +80,7 @@ if ($title == 'Call off') {
     </script>
     <?php
 } else {
-    $record_result = $client->call('create_ticket', $params);
+    $record_result = $client->call('create_custom_ticket', $params);
     if (isset($record_result[0]['new_ticket']) && 
         $record_result[0]['new_ticket']['ticketid'] != '') {
         $new_record = 1;
