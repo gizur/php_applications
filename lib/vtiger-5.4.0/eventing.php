@@ -8,8 +8,8 @@ if (Vtiger_Event::hasSupport()) {
         'modules/HelpDesk/CustomHelpDeskHandler.php'
     );
 }
-if(chmod('eventing.php', '400')){
-    echo "<br/><br/>Permission set to 400.";
+if(chmod('eventing.php', '200')){
+    echo "<br/><br/>Permission set to 200.";
 }else
     echo "<br/><br/>Error in setting permissions.";
 ?>
