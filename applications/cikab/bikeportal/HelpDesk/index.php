@@ -8,10 +8,10 @@
  * All Rights Reserved.
 *
  ********************************************************************************/
-require_once("include/Zend/Json.php");
-@include("../PortalConfig.php");
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
+require_once("include/Zend/Json.php");
+@include("../PortalConfig.php");
 if(!isset($_SESSION['customer_id']) || $_SESSION['customer_id'] == '')
 {
 	@header("Location: $Authenticate_Path/login.php");
