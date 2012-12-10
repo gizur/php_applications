@@ -16,7 +16,8 @@ $sessionid = $_SESSION['customer_sessionid'];
 
 $params = Array(Array('id'=>"$customerid", 'sessionid'=>"$sessionid"));
 $result = $client->call('get_combo_values', $params, $Server_Path, $Server_Path);
-
+print_r($client->getError());
+echo '<pre>'; print_r($result);
 $_SESSION['combolist'] = $result;
 $combolist = $_SESSION['combolist'];
 for($i=0;$i<count($result);$i++)
