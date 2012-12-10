@@ -35,7 +35,6 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
 {
 
     global $adb, $log, $current_user;
-    error_reporting(E_ALL);
     ini_set('display_errors', 'On');
     $log->debug("Entering customer portal function get_list_preorder");
     $log->debug("get_list_preorder($id, $module, $sessionid, $only_mine)");
