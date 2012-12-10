@@ -10,6 +10,7 @@
  ********************************************************************************/
 require_once("include/Zend/Json.php");
 @include("../PortalConfig.php");
+ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 if(!isset($_SESSION['customer_id']) || $_SESSION['customer_id'] == '')
 {
