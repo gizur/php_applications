@@ -2847,6 +2847,22 @@ class ApiController extends Controller
                     if ($response->isOK()) {
                         $verifiedEmailAddresses = (Array) $response->body->ListVerifiedEmailAddressesResult->VerifiedEmailAddresses;
                         $verifiedEmailAddresses = $verifiedEmailAddresses['member'];
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (List of Verified Email Addresses: " . 
+                            json_encode($verifiedEmailAddresses) . "  From Email Address" .
+                            json_encode(Yii::app()->params->awsSESFromEmailAddress) .                            
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );        
+                        
+                        if (!is_array($verifiedEmailAddresses)) {
+                            $verifiedEmailAddresses = (array)$verifiedEmailAddresses;
+                        }
+                        
                         if (in_array(Yii::app()->params->awsSESFromEmailAddress, $verifiedEmailAddresses) == false) {
                             $email->verify_email_address(Yii::app()->params->awsSESFromEmailAddress);
                             throw new Exception('From Email Address not verified. Contact Gizur Admin.');
