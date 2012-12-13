@@ -14,4 +14,18 @@ class configuration {
 	       )
 	    );
     }
+    
+    public function getBikerPortalCredentials()
+    {
+        return array(
+            'url' => 'http://bike-portal-env.elasticbeanstalk.com/applications/cikab',
+            'credentials' => array(
+                array('user_name' => 'jonas.colmsjo@gizur.com',
+                    'user_password' => 'homeend01', 'id' => 216),
+                array('user_name' => 'jonas@gizur.com',
+                    'user_password' => 'homeend01', 'id' => ''),
+            ),
+            'version' => '5.4.0'
+        );
+    }
 }
