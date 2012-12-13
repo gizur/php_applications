@@ -377,7 +377,7 @@ function create_custom_ticket($input_array)
     $ticket->column_fields['product_id'] = $product_id;
     $ticket->column_fields[$custom_fields['product_quantity']] = $input_array['product_quantity'];
     
-    if ($title == 'Release')
+    if ($title == 'Release' || $title == 'Decrease')
         $ticket->column_fields[$custom_fields['increase_decrease']] = 'Decrease';
     elseif ($title == 'Increase')
         $ticket->column_fields[$custom_fields['increase_decrease']] = 'Increase';

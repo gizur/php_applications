@@ -15,6 +15,12 @@ require_once 'modules/HelpDesk/HelpDesk.php';
 class CustomHelpDeskHandler extends VTEventHandler
 {
 
+    public $custom_fields = array(
+        'product_quantity' => 'cf_662', //Quantity
+    	'increase_decrease' => 'cf_661', //Increase/Decrease
+	'requested_date' => 'cf_663', //Requested Date
+    );
+
     function handleEvent($eventName, $entityData)
     {
         global $log, $adb;
@@ -26,11 +32,11 @@ class CustomHelpDeskHandler extends VTEventHandler
             if ($moduleName == 'HelpDesk') {
                 $ticketId = $entityData->getId();
                 //Increase/Decrease
-                $cf_642 = $entityData->focus->column_fields['cf_642'];
+                $cf_642 = $entityData->focus->column_fields[$this->custom_fields['increase_decrease']];
                 //Requested Date
-                $cf_644 = $entityData->focus->column_fields['cf_644'];
+                $cf_644 = $entityData->focus->column_fields[$this->custom_fields['requested_date']];
                 //Product Quantity
-                $cf_645 = $entityData->focus->column_fields['cf_645'];
+                $cf_645 = $entityData->focus->column_fields[$this->custom_fields['product_quantity']];
                 //Product Id
                 $product_id = $entityData->focus->column_fields['product_id'];
 
@@ -39,9 +45,12 @@ class CustomHelpDeskHandler extends VTEventHandler
                     in_array($cf_642, array('Increase', 'Decrease')) &&
                     !empty($cf_644) && !empty($cf_645)) {
 
-                    $log->debug("IN CustomHelpDeskHandler :: calling _operationDecreaseOrIncrease($ticketId, $product_id, $cf_645, $cf_642, 1);");
+                    $log->debug("IN CustomHelpDeskHandler :: 
+                        calling _operationDecreaseOrIncrease
+                        ($ticketId, $product_id, $cf_645, $cf_642, 1);");
                     /* If request is for Decrease */
-                    $this->_operationDecreaseOrIncrease($ticketId, $product_id, $cf_645, $cf_642, 1);
+                    $this->_operationDecreaseOrIncrease($ticketId, 
+                        $product_id, $cf_645, $cf_642, 1);
                 }
             }
         }
@@ -63,7 +72,7 @@ class CustomHelpDeskHandler extends VTEventHandler
          * FETCH THE RECORDS TO MATCH 
          */
         $log->debug('Fetching pr');
-        $quantity = $result->fields['cf_645'];
+        $quantity = $result->fields[$this->custom_fields['product_quantity']];
         if (!empty($quantity)) {
             /*
              * IF QUANTITY EQUALS TO THE ORDERED QUANTITY 
@@ -118,7 +127,7 @@ class CustomHelpDeskHandler extends VTEventHandler
         /*
          * FETCH THE RECORDS TO MATCH 
          */
-        $quantity = $result->fields['cf_645'];
+        $quantity = $result->fields[$this->custom_fields['product_quantity']];
         if (!empty($quantity)) {
             /*
              * IF QUANTITY EQUALS TO THE ORDERED QUANTITY 
@@ -220,9 +229,9 @@ class CustomHelpDeskHandler extends VTEventHandler
         $new_ticket->column_fields['comments'] = 'Auto creted by system.';
         $new_ticket->column_fields['modifiedby'] = $ticket->fields['modifiedby'];
         $new_ticket->column_fields['from_portal'] = $ticket->fields['from_portal'];
-        $new_ticket->column_fields['cf_642'] = $ticket->fields['cf_642'];
-        $new_ticket->column_fields['cf_644'] = $ticket->fields['cf_644'];
-        $new_ticket->column_fields['cf_645'] = $new_quantity;
+        $new_ticket->column_fields[$this->custom_fields['increase_decrease']] = $ticket->fields[$this->custom_fields['increase_decrease']];
+        $new_ticket->column_fields[$this->custom_fields['requested_date']] = $ticket->fields[$this->custom_fields['requested_date']];
+        $new_ticket->column_fields[$this->custom_fields['product_quantity']] = $new_quantity;
 
 
         $new_ticket->save("HelpDesk");
