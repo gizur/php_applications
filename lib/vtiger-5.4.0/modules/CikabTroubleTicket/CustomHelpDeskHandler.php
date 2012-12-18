@@ -265,7 +265,8 @@ class CustomHelpDeskHandler extends VTEventHandler
                     vtiger_troubletickets.product_id IS NOT NULL AND
                     vtiger_ticketcf.{$this->custom_fields['increase_decrease']} IN ( ? ) AND
                     vtiger_ticketcf.{$this->custom_fields['product_quantity']} > 0
-                ORDER BY vtiger_ticketcf.{$this->custom_fields['requested_date']} ASC LIMIT 1";
+                ORDER BY vtiger_ticketcf.{$this->custom_fields['requested_date']} ASC, 
+                vtiger_troubletickets.ticketid ASC LIMIT 1";
         return $result = $adb->pquery($query, array($product_id, $type));
     }
 
