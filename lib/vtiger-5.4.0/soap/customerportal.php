@@ -3219,7 +3219,7 @@ function getDefaultAssigneeId() {
 	$log->debug("Exiting customerportal function getPortalUserid");
 }
 
-include 'soap/custom_customerportal.php';
+include 'modules/CikabTroubleTicket/custom_customerportal.php';
 /* Begin the HTTP listener service and exit. */
 if (!isset($HTTP_RAW_POST_DATA)){
 	$HTTP_RAW_POST_DATA = file_get_contents('php://input');
