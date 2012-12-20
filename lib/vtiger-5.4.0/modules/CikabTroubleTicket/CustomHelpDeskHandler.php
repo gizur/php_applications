@@ -155,7 +155,9 @@ class CustomHelpDeskHandler extends VTEventHandler
                 $parent_id = $result_sts->fields['parent_id'];
                 $quantity = $result_sts->fields[$this->custom_fields['product_quantity']];
                 $in_de = $result_sts->fields[$this->custom_fields['increase_decrease']];
-                $this->increaseOrDecreaseFirstQuoteByParentId($parent_id, $quantity, $in_de);
+                $product_id = $result_sts->fields['product_id'];
+                
+                $this->increaseOrDecreaseFirstQuoteByParentId($parent_id, $quantity, $in_de, $product_id);
                 $log->debug("CLOSED TICKET : $id");
                 return true;
             } else {
@@ -305,7 +307,8 @@ class CustomHelpDeskHandler extends VTEventHandler
 
     function increaseOrDecreaseFirstQuoteByParentId($parent_id, 
         $quantity, 
-        $in_de)
+        $in_de,
+        $product_id)
     {
         global $log, $adb;
         $log->debug("In increaseOrDecreaseFirstQuoteByParentId($parent_id, 
@@ -333,6 +336,7 @@ class CustomHelpDeskHandler extends VTEventHandler
             WHERE
                 CE.deleted = 0 AND 
                 q.quotestage NOT IN ('Rejected' , 'Delivered', 'Closed') AND
+                i.productid = ? AND
                 p.discontinued = 1 AND
                 (
                     q.accountid IN (select c.accountid 
@@ -351,7 +355,7 @@ class CustomHelpDeskHandler extends VTEventHandler
                     ) 
                 )
             ORDER BY i.id ASC LIMIT 1";
-        $result = $adb->pquery($query, array($parent_id, $parent_id));
+        $result = $adb->pquery($query, array($product_id, $parent_id, $parent_id));
         if ($result) {
             $new_quantity = 0;
             if($in_de == 'Increase')
