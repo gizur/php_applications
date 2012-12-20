@@ -364,8 +364,8 @@ class CustomHelpDeskHandler extends VTEventHandler
                 $new_quantity = $result->fields['quantity'] - $quantity;
             $query_up = "UPDATE vtiger_inventoryproductrel i
                 SET i.quantity = ? WHERE
-                i.id = ?";
-            $adb->pquery($query_up, array($new_quantity, $result->fields['id']));
+                i.id = ? AND productid = ?";
+            $adb->pquery($query_up, array($new_quantity, $result->fields['id'], $product_id));
         }
     }
 
