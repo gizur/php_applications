@@ -216,7 +216,7 @@ class CustomHelpDeskHandler extends VTEventHandler
             $opt_type = 'Increase';
         
         $this->increaseOrDecreaseFirstQuoteByParentId($ticket->fields['parent_id'], 
-            $new_quantity, $opt_type);
+            $new_quantity, $opt_type, $ticket->fields['product_id']);
         
         $log->debug("Cloned Ticket $ticketId with ID : " . $new_ticket->id);
     }
@@ -313,7 +313,7 @@ class CustomHelpDeskHandler extends VTEventHandler
         global $log, $adb;
         $log->debug("In increaseOrDecreaseFirstQuoteByParentId($parent_id, 
         $quantity, 
-        $in_de)");
+        $in_de, $product_id)");
         $log->debug("Fetch Quote by Parent Id : $parent_id");
         $query = "SELECT
                 i.productid,
