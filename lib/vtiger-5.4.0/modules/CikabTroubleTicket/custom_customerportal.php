@@ -361,6 +361,7 @@ function create_custom_ticket($input_array)
     if (!validateSession($id, $sessionid))
         return null;
 
+    $quoteid = $input_array['quoteid'];
     $product_no = $input_array['product_no'];
     $result = $adb->pquery("select productid from vtiger_products 
         where product_no = ?", array($product_no));

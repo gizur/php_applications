@@ -33,35 +33,40 @@ if (!empty($result)) {
             $value1['totalsales'] = '0';
         }
         $accountname = $value1['accountname'];
-        $list.="<tr class='" . $class . "'> <td>" . $value1['productno'] . "</td><td>" . $value1['productname'] . "</td>
+        $list.="<tr class='" . $class . "'> 
+            <td>" . $value1['productno'] . "</td><td>" 
+            . $value1['productname'] . "</td>
 	        <td>" . $value1['productsheet'] . "</td>
 	        <td>" . number_format($value1['totalquotes']) . "</td> 
-	       <td>" . number_format($value1['totalsales']) . "</td>
-	       <td>" . number_format($bal) . "</td>
-	          <td>
-	          <select name='saleaction' id='" . $value1['productname'] . "' onchange=calllightbox(this.value," . $bal . ",'" . $value1['productno'] . "','" . $value1['accountno'] . "',this.id)>
+	        <td>" . number_format($value1['totalsales']) . "</td>
+	        <td>" . number_format($bal) . "</td>
+	        <td>
+	          <select name='saleaction' id='" . $value1['quoteid'] 
+                  . '_' . $value1['productname'] . "'
+                  onchange=calllightbox(this.value,$bal,'{$value1['productno']}','{$value1['accountno']}',this.id,{$value1['quoteid']},'{$value1['productname']}')>
 	          <option value=''>" . getTranslatedString('Select') . "</option>
 	          <option value='" . getTranslatedString('Call off') . "'>" . getTranslatedString('Call off') . "</option>
 	          <option value='" . getTranslatedString('Release') . "'>" . getTranslatedString('Release') . "</option>
 	          <option value='" . getTranslatedString('Increase') . "'>" . getTranslatedString('Increase') . "</option>
-	          </select></td>
+	          </select>
+            </td>
 	     </tr> ";
         $i++;
     }
 } else {
     $list.="<tr><td colspan='6' align='center'>" . getTranslatedString('No record found') . "</td></tr>";
 }
-echo '<tr>
-	 			<td><span class="lvtHeaderText">' . getTranslatedString("Order") . '</span</td>';
+echo '<tr><td><span class="lvtHeaderText">' 
+    . getTranslatedString("Order") . '</span</td>';
 $allow_all = $client->call('show_all', array('module' => 'Products'), $Server_Path, $Server_Path);
 /// <option value="mine" '. $mine_selected .'>'.getTranslatedString('MINE').'</option> By Anil Singh
 if ($allow_all == 'true') {
-    echo '<td align="right" style="padding-right:50px;"> <b>'.getTranslatedString('SHOW').'</b>&nbsp; 
+    echo '<td align="right" style="padding-right:50px;"> <b>' . getTranslatedString('SHOW') . '</b>&nbsp; 
         <select name="list_type" onchange="getList(this, \'CikabTroubleTicket\');">
-	 			<option value="mine" '. $mine_selected .'>'.getTranslatedString('MINE').'</option>
-				<option value="all"'. $all_selected .'>'.getTranslatedString('ALL').'</option>
+	 			<option value="mine" ' . $mine_selected . '>' . getTranslatedString('MINE') . '</option>
+				<option value="all"' . $all_selected . '>' . getTranslatedString('ALL') . '</option>
 				</select></td></tr>';
-	    		}
+}
 
 echo '<tr><td colspan="2"><hr noshade="noshade" size="1" width="100%" align="left">
 	      		<table width="95%"  border="0" cellspacing="0" cellpadding="5" align="center">';
@@ -91,6 +96,7 @@ echo '<tr align="center">
         <input type="hidden" name="accountname" id="accountname" value="<?php echo $accountname; ?>" />
         <input type="hidden" name="category" value="<?php echo getTranslatedString('Changing the pre-order'); ?>">
         <input type="hidden" name="bal" id="bal" value="" />
+        <input type="hidden" name="quoteid" id="quoteid" value="" />
         <table>
             <tr>
                 <td><span style="color :red">*</span> <?php echo getTranslatedString("Number"); ?> : </td>
@@ -104,7 +110,7 @@ echo '<tr align="center">
 </div>
 
 <script>
-    function calllightbox(value,bal,prodno,accountno,tid)
+    function calllightbox(value,bal,prodno,accountno,tid,quoteid,productname)
     {
         var titlevalue="";
         var prenumber="";
@@ -115,9 +121,11 @@ echo '<tr align="center">
             $('#title').val(value);
             $('#bal').val(bal);
             $('#productno').val(prodno);
-            $('#productname').val(tid);
+            $('#productname').val(productname);
             $('#accountno').val(accountno);
-            titlevalue=value+' : '+prodno+' '+tid;
+            $('#quoteid').val(quoteid);
+            
+            titlevalue=value+' : '+prodno+' '+productname;
             $('#ui-dialog-title-dialog').html(titlevalue);
             return false;
         }	

@@ -33,16 +33,26 @@ class CustomHelpDeskHandler extends VTEventHandler
             $moduleName = $entityData->getModuleName();
             if ($moduleName == 'HelpDesk') {
                 $ticketId = $entityData->getId();
-//Increase/Decrease
+                /*
+                 * Increase/Decrease
+                 */
                 $cf_642 = $entityData->focus->column_fields[$this->custom_fields['increase_decrease']];
-//Requested Date
+                /*
+                 * Requested Date
+                 */
                 $cf_644 = $entityData->focus->column_fields[$this->custom_fields['requested_date']];
-//Product Quantity
+                /*
+                 * Product Quantity
+                 */
                 $cf_645 = $entityData->focus->column_fields[$this->custom_fields['product_quantity']];
-//Product Id
+                /*
+                 * Product Id
+                 */
                 $product_id = $entityData->focus->column_fields['product_id'];
 
-//Validate ticket fields before executing the code.
+                /*
+                 * Validate ticket fields before executing the code.
+                 */
                 if (!empty($product_id) &&
                     in_array($cf_642, array('Increase', 'Decrease')) &&
                     !empty($cf_644) && !empty($cf_645)) {
@@ -62,17 +72,17 @@ class CustomHelpDeskHandler extends VTEventHandler
         global $log, $adb;
         $log->debug("IN _operationDecreaseOrIncrease($ticketId, $product_id, $cf_645, $type, $count);");
         /*
-         * GET THE FIRST TICKET WITH INCREASE REQUEST
+         * GET THE FIRST TICKET WITH INCREASE/DECREASE REQUEST
          * FOR SAME PRODUCT.
          */
+        $opp_type = null;
         if ($type == 'Increase')
-            $result = $this->getFirstTicketByProductId($product_id, 'Decrease');
+            $opp_type = 'Decrease';            
         else
-            $result = $this->getFirstTicketByProductId($product_id, 'Increase');
-        /*
-         * FETCH THE RECORDS TO MATCH 
-         */
-        $log->debug('Fetching pr');
+            $opp_type = 'Increase';
+
+        $result = $this->getFirstTicketByProductId($product_id, $opp_type);
+        
         $quantity = $result->fields[$this->custom_fields['product_quantity']];
         if (!empty($quantity)) {
             /*
@@ -85,12 +95,18 @@ class CustomHelpDeskHandler extends VTEventHandler
                  */
                 $this->closeTroubleTicket($ticketId);
             } elseif ($quantity > $cf_645) {
-                /* CLOSING THE FETCHED TICKET */
+                /*
+                 * CLOSING THE FETCHED TICKET 
+                 */
                 $this->closeTroubleTicket($result->fields['ticketid']);
                 $new_quantity = $quantity - $cf_645;
-                /* CLOSING THE CURRENT CREATED TICKET */
+                /*
+                 * CLOSING THE CURRENT CREATED TICKET 
+                 */
                 $this->closeTroubleTicket($ticketId);
-                /* CREATE A NEW TICKET WITH NEW QUANTITY */
+                /*
+                 * CREATE A NEW TICKET WITH NEW QUANTITY 
+                 */
                 $this->cloneATicketWithNewQuantity($result->fields['ticketid'], $new_quantity);
             } elseif ($quantity < $cf_645) {
                 /*
@@ -111,92 +127,43 @@ class CustomHelpDeskHandler extends VTEventHandler
             }
         } else {
             if ($count > 1) {
-                /* CREATE A NEW TICKET WITH NEW QUANTITY */
+                /*
+                 * CREATE A NEW TICKET WITH NEW QUANTITY 
+                 */
                 $this->cloneATicketWithNewQuantity($ticketId, $cf_645);
             }
-        }
-    }
-
-    function _operationIncrease($ticketId, $product_id, $cf_645, $count = 1)
-    {
-        global $log, $adb;
-        /*
-         * GET THE FIRST TICKET WITH INCREASE REQUEST
-         * FOR SAME PRODUCT.
-         */
-        $result = $this->getFirstTicketByProductId($product_id, 'Increase');
-        /*
-         * FETCH THE RECORDS TO MATCH 
-         */
-        $quantity = $result->fields[$this->custom_fields['product_quantity']];
-        if (!empty($quantity)) {
-            /*
-             * IF QUANTITY EQUALS TO THE ORDERED QUANTITY 
-             */
-            if ($quantity == $cf_645) {
-                $this->closeTroubleTicket($result->fields['ticketid']);
-                /*
-                 * CLOSING THE CURRENT CREATED TICKET 
-                 */
-                $this->closeTroubleTicket($ticketId);
-            } elseif ($quantity > $cf_645) {
-                $this->closeTroubleTicket($result->fields['ticketid']);
-                $new_quantity = $quantity - $cf_645;
-                $this->closeTroubleTicket($ticketId);
-                /* CREATE A NEW TICKET WITH NEW QUANTITY */
-                $this->cloneATicketWithNewQuantity($result->fields['ticketid'], $new_quantity);
-            } elseif ($quantity < $cf_645) {
-                /*
-                 * THIS CONDITION WILL CALLED WHEN REQUESTED INCREASE QUANTITY IS 
-                 * GREATER THAN THE FETCHED TICKET QUANTITY.
-                 */
-                $this->closeTroubleTicket($result->fields['ticketid']);
-                /*
-                 * CLOSING THE CURRENT CREATED TICKET 
-                 */
-                $this->closeTroubleTicket($ticketId);
-                /*
-                 * NOW RE-CALL THE SAME FUNCTION TO MATCH FOR
-                 * THE BALANCE QUANTITY.
-                 */
-                if (($cf_645 - $quantity) > 0)
-                    $this->_operationIncrease($ticketId, $product_id, ($cf_645 - $quantity));
-            } else {
-                $new_quantity = 0;
-                if (!empty($quantity)) {
-                    $this->closeTroubleTicket($result->fields['ticketid']);
-                    $new_quantity = $quantity - $cf_645;
-                } else {
-                    $new_quantity = $cf_645;
-                }
-                /*
-                 * CLOSING THE CURRENT CREATED TICKET 
-                 */
-                $this->closeTroubleTicket($ticketId);
-                /*
-                 * CREATE A NEW TICKET WITH BALANCE QUANTITY 
-                 */
-                if (!empty($new_quantity))
-                    $this->cloneATicketWithNewQuantity($result, $new_quantity);
-            }
-        }else {
-            
         }
     }
 
     function closeTroubleTicket($id)
     {
         global $log, $adb;
-        $sql = "UPDATE vtiger_troubletickets 
+        
+        $result_sts = $this->getTicketByTicketId($id);
+        
+        $log->debug("TICKET STATUS TO CLOSE : " . json_encode($result_sts));
+        
+        if ($result_sts->fields['status'] != 'Closed') {
+            $sql = "UPDATE vtiger_troubletickets 
             SET vtiger_troubletickets.status = 'Closed'
             WHERE ticketid = ?";
-        $result = $adb->pquery($sql, array($id));
-        if ($result) {
-            $log->debug("CLOSED TICKET : $id");
-            return true;
+            $result = $adb->pquery($sql, array($id));
+            if ($result) {
+                /*
+                 * UPDATE QUOTE
+                 */
+                $parent_id = $result_sts->fields['parent_id'];
+                $quantity = $result_sts->fields[$this->custom_fields['product_quantity']];
+                $in_de = $result_sts->fields[$this->custom_fields['increase_decrease']];
+                $this->increaseOrDecreaseFirstQuoteByParentId($parent_id, $quantity, $in_de);
+                $log->debug("CLOSED TICKET : $id");
+                return true;
+            } else {
+                $log->debug("FAILED CLOSING TICKET : $id");
+                return false;
+            }
         } else {
-            $log->debug("FAILED CLOSING TICKET : $id");
-            return false;
+            return true;
         }
     }
 
@@ -236,6 +203,19 @@ class CustomHelpDeskHandler extends VTEventHandler
 
 
         $new_ticket->save("HelpDesk");
+        
+        /*
+         * Incase of creating a new ticket
+         * Increase a quote by new quantity.
+         */
+        if($ticket->fields[$this->custom_fields['increase_decrease']] == 'Increase')
+            $opt_type = 'Decrease';
+        else
+            $opt_type = 'Increase';
+        
+        $this->increaseOrDecreaseFirstQuoteByParentId($ticket->fields['parent_id'], 
+            $new_quantity, $opt_type);
+        
         $log->debug("Cloned Ticket $ticketId with ID : " . $new_ticket->id);
     }
 
@@ -292,6 +272,97 @@ class CustomHelpDeskHandler extends VTEventHandler
                     vtiger_crmentity.deleted = 0 AND 
                     vtiger_troubletickets.ticketid = ?";
         return $result = $adb->pquery($query, array($id));
+    }
+
+    function getQuoteByProductId($product_id)
+    {
+        global $log, $adb;
+        $log->debug("Fetch Quote by Product Id : $product_id");
+        $query = "SELECT
+                i.productid,
+                i.id,
+                i.quantity,
+                p.product_no productno,
+                p.productname,
+                p.productsheet,
+                i.quantity
+            FROM
+                vtiger_inventoryproductrel i
+                    LEFT JOIN
+                vtiger_quotes q ON i.id = q.quoteid
+                    INNER JOIN
+                vtiger_products p ON p.productid = i.productid
+                    INNER JOIN
+                vtiger_crmentity CE ON CE.crmid = i.id
+            WHERE
+                CE.deleted = 0 AND 
+                q.quotestage NOT IN ('Rejected' , 'Delivered', 'Closed') AND
+                p.discontinued = 1 AND
+                i.productid = ?
+            ORDER BY i.id ASC LIMIT 1;";
+        return $result = $adb->pquery($query, array($product_id));
+    }
+
+    function increaseOrDecreaseFirstQuoteByParentId($parent_id, 
+        $quantity, 
+        $in_de)
+    {
+        global $log, $adb;
+        $log->debug("In increaseOrDecreaseFirstQuoteByParentId($parent_id, 
+        $quantity, 
+        $in_de)");
+        $log->debug("Fetch Quote by Parent Id : $parent_id");
+        $query = "SELECT
+                i.productid,
+                i.id,
+                i.quantity,
+                p.product_no,
+                p.productname,
+                p.productsheet,
+                i.quantity,
+                q.accountid,
+                q.contactid
+            FROM
+                vtiger_inventoryproductrel i
+                    LEFT JOIN
+                vtiger_quotes q ON i.id = q.quoteid
+                    INNER JOIN
+                vtiger_products p ON p.productid = i.productid
+                    INNER JOIN
+                vtiger_crmentity CE ON CE.crmid = i.id
+            WHERE
+                CE.deleted = 0 AND 
+                q.quotestage NOT IN ('Rejected' , 'Delivered', 'Closed') AND
+                p.discontinued = 1 AND
+                (
+                    q.accountid IN (select c.accountid 
+                        from vtiger_contactdetails c
+                        where c.contactid = ?
+                    ) 
+                    OR 
+                    q.contactid IN (
+                        SELECT c1.contactid 
+                        FROM vtiger_contactdetails c1
+                        WHERE c1.accountid = (
+                            select c.accountid 
+                            from vtiger_contactdetails c
+                            where c.contactid = ( ? )
+                        )
+                    ) 
+                )
+            ORDER BY i.id ASC LIMIT 1";
+        $result = $adb->pquery($query, array($parent_id, $parent_id));
+        if ($result) {
+            $new_quantity = 0;
+            if($in_de == 'Increase')
+                $new_quantity = $result->fields['quantity'] + $quantity;
+            else
+                $new_quantity = $result->fields['quantity'] - $quantity;
+            $query_up = "UPDATE vtiger_inventoryproductrel i
+                SET i.quantity = ? WHERE
+                i.id = ?";
+            $adb->pquery($query_up, array($new_quantity, $result->fields['id']));
+        }
     }
 
 }
