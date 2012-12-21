@@ -15,7 +15,7 @@ global $Portal_Path;
 
 //This is the vtiger server path ie., the url to access the vtiger server in browser
 //Ex. i access my vtiger as http://mickie:90/vtiger/index.php so i will give as http://mickie:90/vtiger
-$Server_Path = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0";
+$Server_Path = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/vtiger";
 
 //This is the customer portal path ie., url to access the customer portal in browser 
 //Ex. i access my portal as http://mickie:90/customerportal/login.php so i will give as http://mickie:90/customerportal
