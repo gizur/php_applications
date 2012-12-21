@@ -1,0 +1,8 @@
+AuthUserFile /home/anshuk/public_html/gizurcloud/applications/gizur-admin/protect/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Gizur Admin"
+AuthType Basic
+
+<Limit GET>
+require valid-user
+</Limit>

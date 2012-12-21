@@ -1,5 +1,5 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^api/(.*)$ api/index.php/api/$1
-RewriteRule ^([^\/]*)/vtiger/index.php lib/vtwrapper-index.php?clienid=$1
-RewriteRule ^([^\/]*)/vtiger/(.*) lib/vtiger-5.4.0/$2
+RewriteCond %{REQUEST_FILENAME} !-d
+RedirectMatch 301 ^(\/|)$ http://www.gizur.com
+RewriteRule . /var/www/html/index.php [L]

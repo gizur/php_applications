@@ -57,6 +57,12 @@ cp $1/applications/gizur-admin/js/config.js ../applications/gizur-admin/js/confi
 echo "cp $1/tests/config.inc.php ../tests/config.inc.php"
 cp $1/tests/config.inc.php ../tests/config.inc.php
 
+echo "cp $1/applications/cikab/bikerportal/Portalconfig.php ../applications/cikab/Portalconfig.php"
+cp $1/applications/cikab/bikerportal/Portalconfig.php ../applications/cikab/bikerportal/Portalconfig.php
+
+echo "cp $1/vtiger/modules/CikabTroubleTicket/CustomConfig.php ../lib/vtiger-5.4.0/modules/CikabTroubleTicket/CustomConfig.php"
+cp $1/vtiger/modules/CikabTroubleTicket/CustomConfig.php ../lib/vtiger-5.4.0/modules/CikabTroubleTicket/CustomConfig.php
+
 #
 # Memacaced setup
 #

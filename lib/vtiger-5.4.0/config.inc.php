@@ -14,7 +14,6 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
-require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -29,7 +28,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/applications/cikab/bikeportal';
+$PORTAL_URL = 'http://vtiger.com/customerportal';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
 $HELPDESK_SUPPORT_EMAIL_ID = 'admin@gizur.com';
@@ -45,37 +44,13 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
       db_name
 */
 
-/*
- * Fetch DB Details
- */
-if (isset($_GET['clientid'])) {
-$region = 'REGION_EU_W1';
-$dynamodb = new AmazonDynamoDB();
-$dynamodb->set_region(constant("AmazonDynamoDB::".$region));
-
-$response = $dynamodb->scan(array(
-    'TableName'       => 'GIZUR_ACCOUNTS',
-    'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
-    'ScanFilter'      => array(
-        'clientid' => array(
-            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-            'AttributeValueList' => array(
-                array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
-            )
-        ),
-    )
-));
-}
-
-if ($response->body->Count!=0) {
-    $dbconfig['db_server'] = (string)$response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_port'] = ':' . (string)$response->body->Items->port->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_username'] = (string)$response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_password'] = (string)$response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_name'] = (string)$response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_type'] = 'mysql';
-    $dbconfig['db_status'] = 'true';
-}
+$dbconfig['db_server']   = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+$dbconfig['db_port']     = ':3306';
+$dbconfig['db_username'] = 'clabgizurcom';
+$dbconfig['db_password'] = 'il2xiTtjKG30';
+$dbconfig['db_name']     = 'clabgizurcom';
+$dbconfig['db_type']     = 'mysql';
+$dbconfig['db_status']   = 'true';
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
