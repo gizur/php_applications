@@ -2222,16 +2222,20 @@ class ApiController extends Controller
                          CLogger::LEVEL_TRACE
                     );
                     include("protected/config/config.inc.php");
-                    require_once 'MDB2.php';  
 
                     /**
-                    * Database connection string
-                    * @global string $dsn
+                    * Database connection 
                     *
-                    * Example 'mysql://root:mysecret@localhost/mysql'
                     */                    
-                    $dsn = "mysql://" . $dbconfig['db_username'] . ":" . $dbconfig['db_password'] . "@" . $dbconfig['db_server'] . ":" . $dbconfig['db_port'] . "/" . $dbconfig['db_name'];
-
+                    
+                    $mysqli = new mysqli('localhost', 'my_user', 'my_password', 'my_db');
+                    
+                    $mysqli = new mysqli(
+                        $dbconfig['db_server'] . ":" . $dbconfig['db_port'],
+                        $dbconfig['db_username'],
+                        $dbconfig['db_password'],
+                        $dbconfig['db_name']
+                    );
 
                     /**
                     * Database connection options
@@ -2246,13 +2250,7 @@ class ApiController extends Controller
                         " FUNCTION(" . __FUNCTION__ . ");" . 
                         " CREATING MDB OBJECT ", 
                          CLogger::LEVEL_TRACE
-                    );                    
-
-                    /**
-                    * Database MDB2 connection object 
-                    * @global mixed $mdb2
-                    */
-                    $mdb2 =& MDB2::factory($dsn, $options);                    
+                    );                                       
                     
                     //Create Default DB credentials
                     $db_server     = $dbconfig['db_server'];
@@ -2282,11 +2280,9 @@ class ApiController extends Controller
                     $query .= "WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;";                    
                     
                     // Execute the query
-                    $result = $mdb2->exec($query);
-
                     // check if the query was executed properly
-                    if (PEAR::isError($result))
-                        throw New Exception($result->getMessage().' - '.$result->getUserinfo());
+                    if ($mysqli->query($query))
+                        throw New Exception($mysqli->error);
         
                     
                     //Create Database
@@ -2294,22 +2290,20 @@ class ApiController extends Controller
                     $query = "CREATE DATABASE IF NOT EXISTS `$db_name`;";
                     
                     // Execute the query
-                    $result = $mdb2->exec($query);
-
                     // check if the query was executed properly
-                    if (PEAR::isError($result))
-                        throw New Exception($result->getMessage().' - '.$result->getUserinfo());                    
+                    if ($mysqli->query($query))
+                        throw New Exception($mysqli->error);                    
 
                     //Grant Permission
                     //================
                     $query = "GRANT ALL PRIVILEGES ON `$db_name`.* TO '$db_username'@'%';";
                     
                     // Execute the query
-                    $result = $mdb2->exec($query);
-
                     // check if the query was executed properly
-                    if (PEAR::isError($result))
-                        throw New Exception($result->getMessage().' - '.$result->getUserinfo());                    
+                    if ($mysqli->query($query))
+                        throw New Exception($mysqli->error);
+                    
+                    $mysqli->close();
                     
                     //Import Database
                     //===============
