@@ -79,7 +79,7 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/vtiger';
+$site_URL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/vtiger-5.4.0';
 
 // root directory path
 $root_directory = '/var/www/html/lib/vtiger-5.4.0/';
