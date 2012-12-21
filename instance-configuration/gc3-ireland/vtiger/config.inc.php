@@ -14,7 +14,6 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
-require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -45,37 +44,13 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
       db_name
 */
 
-/*
- * Fetch DB Details
- */
-if (isset($_GET['clientid'])) {
-$region = 'REGION_EU_W1';
-$dynamodb = new AmazonDynamoDB();
-$dynamodb->set_region(constant("AmazonDynamoDB::".$region));
-
-$response = $dynamodb->scan(array(
-    'TableName'       => 'GIZUR_ACCOUNTS',
-    'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
-    'ScanFilter'      => array(
-        'clientid' => array(
-            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-            'AttributeValueList' => array(
-                array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
-            )
-        ),
-    )
-));
-}
-
-if ($response->body->Count!=0) {
-    $dbconfig['db_server'] = (string)$response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_port'] = ':' . (string)$response->body->Items->port->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_username'] = (string)$response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_password'] = (string)$response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_name'] = (string)$response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
-    $dbconfig['db_type'] = 'mysql';
-    $dbconfig['db_status'] = 'true';
-}
+$dbconfig['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
+$dbconfig['db_port'] = ':3306';
+$dbconfig['db_username'] = 'user_6bd70dc3';
+$dbconfig['db_password'] = 'fbd70dc30c05';
+$dbconfig['db_name'] = 'vtiger_7cd70dc3';
+$dbconfig['db_type'] = 'mysql';
+$dbconfig['db_status'] = 'true';
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
@@ -104,7 +79,7 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = '/lib/vtiger-5.4.0';
+$site_URL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/vtiger';
 
 // root directory path
 $root_directory = '/var/www/html/lib/vtiger-5.4.0/';

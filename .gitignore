@@ -1,6 +1,7 @@
 /api/nbproject/private/.elasticbeanstalk/
 /nbproject/
 /instance-configuration/dev/
+/instance-configuration/gc3-ireland/vtiger/dynamic.config.inc.php
 *~
 *.swp
 *.swo
