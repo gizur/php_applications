@@ -2235,6 +2235,10 @@ class ApiController extends Controller
                         $dbconfig['db_password'],
                         $dbconfig['db_name']
                     );
+                    
+                    if ($mysqli->connect_error) 
+                        throw New Exception($mysqli->connect_error);
+
 
                     /**
                     * Database connection options
