@@ -2229,7 +2229,7 @@ class ApiController extends Controller
                     */                    
 
                     $mysqli = new mysqli(
-                        $dbconfig['db_server'] . ":" . $dbconfig['db_port'],
+                        $dbconfig['db_server'] . $dbconfig['db_port'],
                         $dbconfig['db_username'],
                         $dbconfig['db_password'],
                         $dbconfig['db_name']
