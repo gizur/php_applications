@@ -2284,7 +2284,7 @@ class ApiController extends Controller
                     // Execute the query
                     // check if the query was executed properly
                     if ($mysqli->query($query))
-                        throw New Exception($mysqli->error);
+                        throw New Exception("Unable to create user and grant permission: " . $mysqli->error);
         
                     
                     //Create Database
@@ -2294,7 +2294,7 @@ class ApiController extends Controller
                     // Execute the query
                     // check if the query was executed properly
                     if ($mysqli->query($query))
-                        throw New Exception($mysqli->error);                    
+                        throw New Exception("Unable to create database " . $mysqli->error);                    
 
                     //Grant Permission
                     //================
