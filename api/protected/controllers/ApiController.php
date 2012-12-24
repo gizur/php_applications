@@ -2306,7 +2306,8 @@ class ApiController extends Controller
                         throw New Exception($mysqli->error);
                     
                     $mysqli->close();
-                    
+                    echo "something got done";
+                    die;
                     //Import Database
                     //===============
                     $exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < ../lib/vtiger-5.4.0-database.sql";
