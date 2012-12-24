@@ -2227,8 +2227,7 @@ class ApiController extends Controller
                     * Database connection 
                     *
                     */                    
-                    echo json_encode($dbconfig);
-                    die;
+
                     $mysqli = new mysqli(
                         $dbconfig['db_server'] . ":" . $dbconfig['db_port'],
                         $dbconfig['db_username'],
