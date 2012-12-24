@@ -2283,9 +2283,8 @@ class ApiController extends Controller
                     
                     // Execute the query
                     // check if the query was executed properly
-                    if ($mysqli->query($query))
+                    if ($mysqli->query($query)===false)
                         throw New Exception("Unable to create user and grant permission: " . $mysqli->error);
-        
                     
                     //Create Database
                     //===============
@@ -2293,7 +2292,7 @@ class ApiController extends Controller
                     
                     // Execute the query
                     // check if the query was executed properly
-                    if ($mysqli->query($query))
+                    if ($mysqli->query($query)===false)
                         throw New Exception("Unable to create database " . $mysqli->error);                    
 
                     //Grant Permission
@@ -2302,12 +2301,11 @@ class ApiController extends Controller
                     
                     // Execute the query
                     // check if the query was executed properly
-                    if ($mysqli->query($query))
+                    if ($mysqli->query($query)===false)
                         throw New Exception($mysqli->error);
                     
                     $mysqli->close();
-                    echo "something got done";
-                    die;
+
                     //Import Database
                     //===============
                     $exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < ../lib/vtiger-5.4.0-database.sql";
