@@ -2238,8 +2238,6 @@ class ApiController extends Controller
                     if ($mysqli->connect_error) 
                         throw New Exception($mysqli->connect_error);
 
-                    echo "after connect";
-                    die;
 
                     /**
                     * Database connection options
