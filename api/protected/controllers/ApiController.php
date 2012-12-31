@@ -579,7 +579,10 @@ class ApiController extends Controller
                     $response .                          
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                          
+                );         
+                
+                if ($response == '')
+                    throw new Exception("Blank Response received for: LoginCustomer");                
 
                 //Save vtiger response
                 $this->_vtresponse = $response;
