@@ -39,14 +39,14 @@ return array(
 		),
                 'cache'=>array(
                     'class'=>'CDummyCache',
-                    'class'=>'CMemCache',
-                    'servers'=>array(
-                        array(
-                            'host'=>'10.58.226.192',//'localhost',//gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
-                            'port'=>11211,
-                            'weight'=>100,
-                        ),
-                    ),
+//                    'class'=>'CMemCache',
+//                    'servers'=>array(
+//                        array(
+//                            'host'=>'10.58.226.192',//'localhost',//gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+//                            'port'=>11211,
+//                            'weight'=>100,
+//                        ),
+//                    ),
                 ),            
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
