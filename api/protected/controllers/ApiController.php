@@ -722,7 +722,10 @@ class ApiController extends Controller
                     $contact .                          
                     ")", 
                     CLogger::LEVEL_TRACE
-                );     
+                );  
+                
+                //Save vtiger response
+                $this->_vtresponse = $contact;                
                 
                 if ($contact == '' || $contact == null)
                     throw new Exception("Blank Response received for: Contact");                
@@ -777,6 +780,9 @@ class ApiController extends Controller
                     ")", 
                     CLogger::LEVEL_TRACE
                 );   
+                
+                //Save vtiger response
+                $this->_vtresponse = $account;                
                 
                 if ($account == '' || $account == null)
                     throw new Exception("Blank Response received for: Account");                
