@@ -39,7 +39,7 @@
  * PHP version 5
  */
  
- 
+ini_set('max_execution_time', 300);
 
 // vtwrapper - New include file
 require_once('vtwrapper-config.inc.php');
