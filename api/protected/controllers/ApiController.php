@@ -626,7 +626,10 @@ class ApiController extends Controller
                     $response .                          
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                   
+                ); 
+                
+                if ($response == '' || $response == null)
+                    throw new Exception("Blank Response received for: GetChallenge");                 
                 
                 //Objectify the response and check its success
                 $response = json_decode($response);
@@ -667,7 +670,10 @@ class ApiController extends Controller
                     $response .                          
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                   
+                );  
+                
+                if ($response == '' || $response == null)
+                    throw new Exception("Blank Response received for: Login");                
                 
                 //Objectify the response and check its success
                 $response = json_decode($response);
@@ -716,7 +722,10 @@ class ApiController extends Controller
                     $contact .                          
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                          
+                );     
+                
+                if ($contact == '' || $contact == null)
+                    throw new Exception("Blank Response received for: Contact");                
                 
                 //Objectify the response and check its success
                 $contact = json_decode($contact, true);
@@ -767,7 +776,10 @@ class ApiController extends Controller
                     $account .                          
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                
+                );   
+                
+                if ($account == '' || $account == null)
+                    throw new Exception("Blank Response received for: Account");                
                 
                 //Objectify the response and check its success
                 $account = json_decode($account, true);

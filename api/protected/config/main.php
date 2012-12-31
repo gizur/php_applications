@@ -38,37 +38,38 @@ return array(
 			'allowAutoLogin'=>true,
 		),
                 'cache'=>array(
-                    'class'=>'CMemCache',
-                    'servers'=>array(
-                        array(
-                            'host'=>'localhost',//'memcached.int.gizur.com',
-                            'port'=>11211,
-                            'weight'=>100,
-                        ),
-                    ),
+                    'class'=>'CDummyCache',
+//                    'class'=>'CMemCache',
+//                    'servers'=>array(
+//                        array(
+//                            'host'=>'10.58.226.192',//'localhost',//gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+//                            'port'=>11211,
+//                            'weight'=>100,
+//                        ),
+//                    ),
                 ),            
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
                     'urlFormat'=>'path',
                     'rules'=>array(
                         // REST patterns
-                        array('api/list', 'pattern'=>'api/<model:(HelpDesk|Assets|About)>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'/<model:(HelpDesk|Assets|About)>', 'verb'=>'GET'),
                         array('api/list', 
-                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 
+                                   'pattern'=>'/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 
                                    'verb'=>'GET'),
                         array('api/list', 
-                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 
+                                   'pattern'=>'/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 
                                    'verb'=>'GET'),
-                        array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
-                        array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb'=>'GET'), 
-                        array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
-                        array('api/update', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
-			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
-                        array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
-                        array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:(Cron)>/<action:(mailscan)>', 'verb'=>'PUT'),
+                        array('api/view', 'pattern'=>'/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
+                        array('api/view', 'pattern'=>'/<model:(User)>/<email:.+>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb'=>'GET'), 
+                        array('api/list', 'pattern'=>'/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+			            array('api/update', 'pattern'=>'/<model:(User)>/', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
+                        array('api/create', 'pattern'=>'/<model:(HelpDesk|User)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'/<model:(Cron)>/<action:(mailscan)>', 'verb'=>'PUT'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
 		),
@@ -94,12 +95,12 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning, trace, info',
+					'levels'=>'trace, error, warning',
 				),
 				array(
 					'class'=>'CLiveLogRoute',
 					'levels'=>'error, warning, trace',
-                    'server'=>'http://gizur.herokuapp.com/log'
+                                        'server'=>'http://gizur.herokuapp.com/log'
 				),                               
 				// uncomment the following to show log messages on web pages
 				/*
@@ -115,31 +116,31 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'https://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
-                'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',            
-                'awsS3Bucket' => 'gizurcloud-clab',
+                'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/clab/vtiger/webservice.php',
+                'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',             
+                'awsS3Bucket' => 'gizurcloud',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
-                'awsSESClientEmailAddress' => 'admin@gizur.com',
+                'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
                 'acceptableTimestampError' => 60,
-                'awsS3Region' => 'REGION_EU_W1',
+                'awsS3Region' => 'REGION_APAC_NE1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
                 'awsSESRegion' => 'REGION_EU_W1',
                 'custom_fields' => Array(
                     'HelpDesk' => Array(
-                        'tickettype' => 'cf_649',
-                        'trailerid' => 'cf_640',
-                        'damagereportlocation' => 'cf_661',
-                        'sealed' => 'cf_651',
-                        'plates' => 'cf_662',
-                        'straps'  => 'cf_663',
+                        'tickettype' => 'cf_640',
+                        'trailerid' => 'cf_641',
+                        'damagereportlocation' => 'cf_653',
+                        'sealed' => 'cf_643',
+                        'plates' => 'cf_652',
+                        'straps'  => 'cf_651',
                         'reportdamage' => 'cf_654',
-                        'damagetype' => 'cf_659',
-                        'damageposition' => 'cf_658',
-                        'drivercauseddamage' => 'cf_657'
+                        'damagetype' => 'cf_647',
+                        'damageposition' => 'cf_648',
+                        'drivercauseddamage' => 'cf_649'
                     ),
                     'Assets' => Array(
-                        'trailertype' => 'cf_660'
+                        'trailertype' => 'cf_650'
                     )
                 ),  
 	),
