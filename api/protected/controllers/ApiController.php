@@ -1102,7 +1102,13 @@ class ApiController extends Controller
                             $response .                          
                             ")", 
                             CLogger::LEVEL_TRACE
-                        );                        
+                        ); 
+                        
+                        //Save vtiger response
+                        $this->_vtresponse = $response;                
+
+                        if ($response == '' || $response == null)
+                            throw new Exception("Blank Response received for: Picklist");                        
                         
                         //Objectify the response and check its success
                         $response = json_decode($response, true);
