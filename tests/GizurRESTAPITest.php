@@ -1101,10 +1101,16 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         
         //$fieldname[0] = 'ticketstatus';
         $fieldnames = array(
+            'ticketpriorities', 
+            'ticketseverities', 
+            'ticketstatus',
+            'ticketcategories',
+            'tickettype',
             'sealed',
             'reportdamage',
-            'plates',
-            'damagereportlocation'
+            'damagetype',
+            'damageposition',
+            'drivercauseddamage'
         );
 
         //Label the test
@@ -1129,7 +1135,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                 $this->_setHeader($username, $password, $params, $signature);
 
                 //Show the response
-                echo PHP_EOL . " Response: " .$response = $this->_rest->get(
+                echo PHP_EOL . " Response ($fieldname): " .$response = $this->_rest->get(
                     $this->_url.$model."/".$fieldname
                 );
 

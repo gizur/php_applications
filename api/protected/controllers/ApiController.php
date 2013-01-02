@@ -582,7 +582,7 @@ class ApiController extends Controller
                 );         
                 
                 if ($response == '' || $response == null)
-                    throw new Exception("Blank Response received for: LoginCustomer");                
+                    throw new Exception("Blank response received from vtiger: LoginCustomer");                
 
                 //Save vtiger response
                 $this->_vtresponse = $response;
@@ -629,7 +629,7 @@ class ApiController extends Controller
                 ); 
                 
                 if ($response == '' || $response == null)
-                    throw new Exception("Blank Response received for: GetChallenge");                 
+                    throw new Exception("Blank response received from vtiger: GetChallenge");                 
                 
                 //Objectify the response and check its success
                 $response = json_decode($response);
@@ -670,10 +670,12 @@ class ApiController extends Controller
                     $response .                          
                     ")", 
                     CLogger::LEVEL_TRACE
-                );  
+                ); 
+                
+                $this->_vtresponse = $response;
                 
                 if ($response == '' || $response == null)
-                    throw new Exception("Blank Response received for: Login");                
+                    throw new Exception("Blank response received from vtiger: Login");                
                 
                 //Objectify the response and check its success
                 $response = json_decode($response);
@@ -728,7 +730,7 @@ class ApiController extends Controller
                 $this->_vtresponse = $contact;                
                 
                 if ($contact == '' || $contact == null)
-                    throw new Exception("Blank Response received for: Contact");                
+                    throw new Exception("Blank response received from vtiger: Contact");                
                 
                 //Objectify the response and check its success
                 $contact = json_decode($contact, true);
@@ -785,7 +787,7 @@ class ApiController extends Controller
                 $this->_vtresponse = $account;                
                 
                 if ($account == '' || $account == null)
-                    throw new Exception("Blank Response received for: Account");                
+                    throw new Exception("Blank response received from vtiger: Account");                
                 
                 //Objectify the response and check its success
                 $account = json_decode($account, true);
@@ -1108,7 +1110,7 @@ class ApiController extends Controller
                         $this->_vtresponse = $response;                
 
                         if ($response == '' || $response == null)
-                            throw new Exception("Blank Response received for: Picklist");                        
+                            throw new Exception("Blank response received from vtiger: Picklist");                        
                         
                         //Objectify the response and check its success
                         $response = json_decode($response, true);
@@ -1639,6 +1641,7 @@ class ApiController extends Controller
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
             $response->error->trace_id = $this->_trace_id;
+            $response->error->vtresponse = $this->_vtresponse;
             $this->_sendResponse(400, json_encode($response));
         }
     }
