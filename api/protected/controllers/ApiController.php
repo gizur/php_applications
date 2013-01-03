@@ -1062,7 +1062,7 @@ class ApiController extends Controller
                         
                         //flip custome fields array
                         $flipped_custom_fields 
-                            = array_flip(Yii::app()->params->custom_fields['HelpDesk']);
+                            = array_flip(Yii::app()->params->custom_fields[$_GET['model']]);
                         
                         //Check if the requested field name is a vtiger
                         //custom field
@@ -1160,7 +1160,8 @@ class ApiController extends Controller
                                     'picklist_'
                                     . $_GET['model']
                                     . '_'
-                                    . $_GET['fieldname'], $content, 3600
+                                    . $flipped_custom_fields[$field['name']]
+                                    , $content, 3600
                                 );
                                 
                                 if ($fieldname == $field['name']) {
