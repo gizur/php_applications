@@ -36,6 +36,8 @@ if ($_mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" .
     $_mysqli->connect_errno . ") " . $_mysqli->connect_error;
     exit();
+}else{
+    echo "Connected with MySQL : " . $dbconfig_integration['db_server'] . '\n';
 }
 
 /**
@@ -47,6 +49,7 @@ if ($_mysqli->connect_errno) {
 function createTable(&$mysqli)
 {
 
+    echo "In createTable function.\n";
     /**
      * First drop the table if it exists
      */
