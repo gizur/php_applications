@@ -59,8 +59,8 @@ function createTable(&$mysqli)
     $result = $mysqli->query($query);
 
     // check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
     // Free the result set
@@ -75,8 +75,8 @@ function createTable(&$mysqli)
     $result = $mysqli->query($query2);
 
     // Check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
     // Free the result set
@@ -107,8 +107,8 @@ function createTable(&$mysqli)
     $result = $mysqli->query($query);
 
     // check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
     // Free the result set
@@ -130,8 +130,8 @@ function createTable(&$mysqli)
     $result = $mysqli->query($query2);
 
     // check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
     // Free the result set
