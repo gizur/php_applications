@@ -1118,59 +1118,79 @@ class ApiController extends Controller
                         if ($response['success'] == false)
                             throw new Exception('Fetching details failed');
 
+                        $picklist = '';
+                        $foundPicklist = false;
+                        $notPicklist = false;
+                        
                         //Find the appropriate field whose label value needs to
                         //be sent  
                         foreach ($response['result']['fields'] as $field) {
                             
-                            if ($fieldname == $field['name']) {
-                                
-                                //Check if the field is a picklist
-                                if ($field['type']['name'] == 'picklist') {
-                                    
-                                    //Loop through all values of the pick list
-                                    foreach ($field['type']['picklistValues'] as &$option)
-                                        
-                                    //Check if there is a dependency setup
-                                    //for the picklist value
-                                    if (isset($option['dependency'])) {
-                                        
-                                        foreach ($option['dependency'] as $dep_fieldname => $dependency) {
-                                            if (in_array($dep_fieldname, Yii::app()->params->custom_fields['HelpDesk'])) {
-                                                    $new_fieldname = $flipped_custom_fields[$dep_fieldname];
-                                                    $option['dependency'][$new_fieldname] = $option['dependency'][$dep_fieldname];
-                                                    unset($option['dependency'][$dep_fieldname]);
-                                            }
+                            //Check if the field is a picklist
+                            if ($field['type']['name'] == 'picklist') {
+
+                                //Loop through all values of the pick list
+                                foreach ($field['type']['picklistValues'] as &$option)
+
+                                //Check if there is a dependency setup
+                                //for the picklist value
+                                if (isset($option['dependency'])) {
+
+                                    foreach ($option['dependency'] as $dep_fieldname => $dependency) {
+                                        if (in_array($dep_fieldname, Yii::app()->params->custom_fields['HelpDesk'])) {
+                                                $new_fieldname = $flipped_custom_fields[$dep_fieldname];
+                                                $option['dependency'][$new_fieldname] = $option['dependency'][$dep_fieldname];
+                                                unset($option['dependency'][$dep_fieldname]);
                                         }
                                     }
-                                    
-                                    //Create response to be sent in proper
-                                    //format
-                                    $content = json_encode(
-                                        array(
-                                        'success' => true,
-                                        'result' =>
-                                        $field['type']['picklistValues']
-                                            )
-                                    );
-                                    
-                                    //Save the response in cache
-                                    Yii::app()->cache->set(
-                                        'picklist_'
-                                        . $_GET['model']
-                                        . '_'
-                                        . $_GET['fieldname'], $content, 3600
-                                    );
-                                    
-                                    //Dispatch the response
-                                    $this->_sendResponse(200, $content);
-                                    
-                                    //eject 2 levels
-                                    break 2;
                                 }
-                                throw new Exception("Not an picklist field");
+
+                                //Create response to be sent in proper
+                                //format
+                                $content = json_encode(
+                                    array(
+                                    'success' => true,
+                                    'result' =>
+                                    $field['type']['picklistValues']
+                                        )
+                                );
+
+                                //Save the response in cache
+                                Yii::app()->cache->set(
+                                    'picklist_'
+                                    . $_GET['model']
+                                    . '_'
+                                    . $_GET['fieldname'], $content, 3600
+                                );
+                                
+                                if ($fieldname == $field['name']) {
+                                    $foundPicklist = true;
+                                    $picklist = $content;
+                                }
+
+                            } else {
+                                
+                                if ($fieldname == $field['name']) {
+                                    $notPicklist = true;
+                                }                                
+                                
                             }
+                            
                         }
-                        throw new Exception("Fieldname not found");
+                        
+                        if ($foundPicklist) {
+                            
+                            //Dispatch the response
+                            $this->_sendResponse(200, $picklist);                           
+                            
+                        }                        
+                        
+                        if ($notPicklist)
+                            throw new Exception("Not an picklist field");
+                        
+                        if ($notPicklist == false and $foundPicklist == false )
+                            throw new Exception("Fieldname not found");
+                        
                     } else {
                         
                         //Send cached response
