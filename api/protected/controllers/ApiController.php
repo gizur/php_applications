@@ -1193,6 +1193,16 @@ class ApiController extends Controller
                         
                     } else {
                         
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST ( FROM CACHE " . 
+                            $cached_value .                            
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                        
+                        
                         //Send cached response
                         $this->_sendResponse(200, $cached_value);
                     }
