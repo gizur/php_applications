@@ -53,9 +53,7 @@ function createTable(&$mysqli)
     /**
      * First drop the table if it exists
      */
-    $query = <<<EOT
-        DROP TABLE IF EXISTS `salesorder_interface` ;
-EOT;
+    $query = "DROP TABLE IF EXISTS `salesorder_interface`";
 
     // Execute the query
     $result = $mysqli->query($query);
@@ -71,9 +69,7 @@ EOT;
     /**
      * First drop the table if it exists
      */
-    $query2 = <<<EOT
-        DROP TABLE IF EXISTS `saleorder_msg_que` ;
-EOT;
+    $query2 = "DROP TABLE IF EXISTS `saleorder_msg_que`";
 
     // Execute the query
     $result = $mysqli->query($query2);
@@ -89,8 +85,7 @@ EOT;
     /**
      * Then create the table
      */
-    $query = <<<EOT
-        CREATE TABLE `salesorder_interface` (
+    $query = "CREATE TABLE `salesorder_interface` (
                      `id` int(19) NOT NULL AUTO_INCREMENT,
                      `salesorderid` int(19) NOT NULL DEFAULT '0',
                      `salesorder_no` varchar(100) DEFAULT NULL,
@@ -106,8 +101,7 @@ EOT;
                      `batchno` varchar(20) NOT NULL,
                      `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-EOT;
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
     // Execute the query
     $result = $mysqli->query($query);
@@ -123,16 +117,14 @@ EOT;
     /**
      * Then create the table saleorder_msg_que
      */
-    $query2 = <<<EOT
-        CREATE TABLE `saleorder_msg_que` (
+    $query2 = "CREATE TABLE `saleorder_msg_que` (
                      `id` int(19) NOT NULL AUTO_INCREMENT,
                      `accountname` varchar(100) DEFAULT NULL,
                      `ftpfilename` varchar (200) DEFAULT NULL,
                      `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                      `status` int(1) DEFAULT '0',
         PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-EOT;
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
     // Execute the query
     $result = $mysqli->query($query2);
