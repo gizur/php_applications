@@ -90,10 +90,10 @@ if (!$executequery) {
                     /**
                      * Check file on local server if not found then manage syslog
                      */
-                    /*if (!file_exists($local_file)) {
+                    if (!file_exists($local_file)) {
                         $OKAll = false;
                         $syslogmessage[] = $local_file . " doesnot exist on local server.!!";
-                    }*/
+                    }
 
                     /**
                      * Call server file path and File Name When uploaded on FTP
@@ -103,10 +103,10 @@ if (!$executequery) {
                     /**
                      * Check file on local server if found then manage syslog
                      */
-                    /*if (file_exists($ftp_path)) {
+                    if (file_exists($ftp_path)) {
                         $OKAll = false;
                         $syslogmessage[] = $ftp_path . " exist on FTP server.!";
-                    }*/
+                    }
 
 
                     /**
@@ -117,8 +117,7 @@ if (!$executequery) {
                      */
                     $upload = "";
                     if ($OKAll) {
-                        $upload = true;
-                        //$upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
+                        $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
                     }
                     /**
                      * if the files not push on FTP the getting a Error message.

@@ -112,18 +112,18 @@ $dbconfig_batchvaliable['batch_valiable'] = 10;
 /**
  *  @FTP Host Name 
  */
-$dbconfig_ftphost['Host'] = "int-gc1-dev-server2.developer1.gizurcloud.com";
+$dbconfig_ftphost['Host'] = "10.58.266.192";
 
 /**
  *  @FTP User Name 
  */
-$dbconfig_ftpuser['User'] = "ftp-dev";
+$dbconfig_ftpuser['User'] = "anonymous";
 
 
 /**
  *  @FTP Password
  */
-$dbconfig_ftppassword['Password'] = "DyjX7z3cqYiX";
+$dbconfig_ftppassword['Password'] = "";
 
 /**
  *  @FTP Local files path
