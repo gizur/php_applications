@@ -97,10 +97,10 @@ if (!$executequery) {
                     /**
                      * Check file on local server if not found then manage syslog
                      */
-                    if (!file_exists($local_file)) {
+                    /*if (!file_exists($local_file)) {
                         $OKAll = false;
                         $syslogmessage[] = $local_file . " doesnot exist on local server.!!";
-                    }
+                    }*/
 
                     /**
                      * Call server file path and File Name When uploaded on FTP
