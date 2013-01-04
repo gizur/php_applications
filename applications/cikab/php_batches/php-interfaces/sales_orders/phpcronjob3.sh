@@ -23,7 +23,6 @@ require_once __DIR__ . '/../config.sqs.inc.php';
  * for use databse connection
  */
 require_once __DIR__ . '/../config.database.php';
-echo "One<br/>";
 /**
  * set autocommit off
  */
@@ -33,7 +32,6 @@ echo "One<br/>";
  * set satrt trasaction on
  */
 @mysql_query("start transaction", $obj1->link);
-echo "Two<br/>";
 /**
  * ready state of syslog
  */
@@ -44,7 +42,6 @@ $ServerFilePath = $dbconfig_ftpserverpath['serverpath'];
 $GetAllQues = "SELECT accountname FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
     WHERE status=0 group by accountname limit 0," . $dbconfig_batchvaliable['batch_valiable'] . "";
 $executequery = @mysql_query($GetAllQues, $obj1->link);
-echo "three<br/>";
 if (!$executequery) {
     $OKAll = false;
     $syslogmessage = "Some problem in Query1, the error is : " . mysql_error();
@@ -59,7 +56,6 @@ if (!$executequery) {
     /**
      * Check the count record
      */
-    echo "four<br/>";
     if ($numrows > 0) {
         while ($GETRows = mysql_fetch_array($executequery)) {
             $GetAllQuesacno = "SELECT * FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
@@ -72,7 +68,6 @@ if (!$executequery) {
                 syslog(LOG_WARNING, "" . $syslogmessage . "");
                 exit;
             }
-            echo "five<br/>";
             /**
              * Count the record if no record found then it will be go else conditions
              */
@@ -87,9 +82,7 @@ if (!$executequery) {
             $syslogmessage = array();
             $OKAll = true;
             if ($numrows2 > 0) {
-                echo "six<br/>";
                 while ($GETRowsacno = mysql_fetch_array($executequery2)) {
-                    echo "seven<br/>";
                     /**
                      * Call Local file path and File Name When send on FTP
                      */
@@ -140,7 +133,6 @@ if (!$executequery) {
                      * Syslog
                      */
                     if ($OKAll) {
-                        echo "eight<br/>";
                         $rmqmessagerecid = $GETRowsacno['accountname'];
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
@@ -163,7 +155,6 @@ if (!$executequery) {
                     }
                 }
                 if ($OKAll) {
-                    echo "ten<br/>";
                     $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
                     mysql_query("commit", $obj1->link);
                 } else {
