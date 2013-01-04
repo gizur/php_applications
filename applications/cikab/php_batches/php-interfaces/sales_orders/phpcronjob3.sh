@@ -142,27 +142,27 @@ if (!$executequery) {
                      */
                     if ($OKAll) {
                         $rmqmessagerecid = $GETRowsacno['accountname'];
-                        if ($ch->queue_declare($rmqmessagerecid, false, false, false, false)) {
-                            $callback = function($msg) {
-                                    echo " [x] Received ", $msg->body, "\n";
-                                };
-                            $ch->basic_consume($rmqmessagerecid, '', false, true, false, false, $callback);
+                        $_response = $sqs->receive_message($amazonqueue_config['_url']);
+                        if ($_response->status == 200) {
+                            $msgObj = $_response->body->ReceiveMessageResult->Message;
+                            echo " [x] Received ", $msgObj->Body, "\n";
                         } else {
                             $OKAll = false;
                             $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                         }
                         if ($OKAll) {
                             $updatesaleorde = "UPDATE `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
-                                SET status=1 WHERE id=" . $GETRowsacno['id'];
+                                SET status = 1 WHERE id=" . $GETRowsacno['id'];
                             $updatetable = @mysql_query($updatesaleorde, $obj1->link);
                             if (!$updatetable) {
                                 $OKAll = false;
-                                $syslogmessage[] = "Some problem in query updatation and error is : " . mysql_error();
+                                $syslogmessage[] = "Some problem in query updation and error is : " . mysql_error();
                             }
                         }
                     }
                 }
                 if ($OKAll) {
+                    $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
                     mysql_query("commit");
                 } else {
                     mysql_query("rollback");

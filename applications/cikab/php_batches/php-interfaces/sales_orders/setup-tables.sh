@@ -40,15 +40,14 @@ if ($_mysqli->connect_errno) {
     echo "Connected with MySQL : " . $dbconfig_integration['db_server'] . '\n';
 }
 
-
 /**
  * Create the saleorder_interface table 
  *
  * @param mixed $_mysqli
  * @return int
  */
-//function createTable(&$_mysqli)
-//{
+function createTable(&$mysqli)
+{
 
     echo "In createTable function.\n";
     /**
@@ -57,15 +56,13 @@ if ($_mysqli->connect_errno) {
     $query = "DROP TABLE IF EXISTS `salesorder_interface`";
 
     // Execute the query
-    $result = $_mysqli->query($query);
-    print_r($result);
+    $result = $mysqli->query($query);
+    
     // check if the query was executed properly
     if ($result !== TRUE) {
-        echo ($result . ' : ' . $_mysqli->error);
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
-    // Free the result set
-    $result->close();
 
     /**
      * First drop the table if it exists
@@ -73,15 +70,13 @@ if ($_mysqli->connect_errno) {
     $query2 = "DROP TABLE IF EXISTS `saleorder_msg_que`";
 
     // Execute the query
-    $result = $_mysqli->query($query2);
+    $result = $mysqli->query($query2);
 
     // Check if the query was executed properly
     if ($result !== TRUE) {
-        echo ($result . ' : ' . $_mysqli->error);
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
-    // Free the result set
-    $result->close();
 
     /**
      * Then create the table
@@ -105,15 +100,13 @@ if ($_mysqli->connect_errno) {
         ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
     // Execute the query
-    $result = $_mysqli->query($query);
+    $result = $mysqli->query($query);
 
     // check if the query was executed properly
     if ($result !== TRUE) {
-        echo ($result . ' : ' . $_mysqli->error);
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
-    // Free the result set
-    $result->close();
 
     /**
      * Then create the table saleorder_msg_que
@@ -128,20 +121,18 @@ if ($_mysqli->connect_errno) {
         ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
     // Execute the query
-    $result = $_mysqli->query($query2);
+    $result = $mysqli->query($query2);
 
     // check if the query was executed properly
     if ($result !== TRUE) {
-        echo ($result . ' : ' . $_mysqli->error);
+        echo ($result . ' : ' . $mysqli->error);
         exit();
     }
-    // Free the result set
-    $result->close();
-    //return 0;
-//}
+    return 0;
+}
 
 // Call the function to crete the tables
-//$result = createTable($_mysqli);
+$result = createTable($_mysqli);
 
 // Close the connnection
 $_mysqli->close();
