@@ -15,14 +15,9 @@
 require_once __DIR__ . '/../ftp_connection.php';
 
 /**
- * for use rabbit mq connection
+ * include SQS instance file 
  */
-require_once __DIR__ . '/../config.rmq.inc.php';
-
-/**
- * Use Global Namespace
- */
-use PhpAmqpLib\Message\AMQPMessage;
+require_once __DIR__ . '/../config.sqs.inc.php';
 
 /**
  * for use databse connection
