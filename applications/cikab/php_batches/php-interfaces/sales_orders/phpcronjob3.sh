@@ -89,6 +89,7 @@ if (!$executequery) {
             if ($numrows2 > 0) {
                 echo "six<br/>";
                 while ($GETRowsacno = mysql_fetch_array($executequery2)) {
+                    echo "seven<br/>";
                     /**
                      * Call Local file path and File Name When send on FTP
                      */
@@ -139,6 +140,7 @@ if (!$executequery) {
                      * Syslog
                      */
                     if ($OKAll) {
+                        echo "eight<br/>";
                         $rmqmessagerecid = $GETRowsacno['accountname'];
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
