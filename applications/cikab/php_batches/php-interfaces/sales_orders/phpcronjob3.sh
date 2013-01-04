@@ -12,7 +12,7 @@
 /**
  * Call FTP Connection
  */
-require_once __DIR__ . '/../ftp_connection.php';
+//require_once __DIR__ . '/../ftp_connection.php';
 
 /**
  * include SQS instance file 
@@ -121,7 +121,7 @@ if (!$executequery) {
                      */
                     $upload = "";
                     if ($OKAll) {
-                        $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
+                        //$upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
                     }
                     /**
                      * if the files not push on FTP the getting a Error message.
