@@ -173,11 +173,6 @@ if (!$executequery) {
         }
     }
 
-    $ch->close();
     $conn->close();
-
-    while (count($ch->callbacks)) {
-        @$ch->wait();
-    }
 }
 ?>
