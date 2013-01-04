@@ -72,7 +72,7 @@ if (!$executequery) {
                 syslog(LOG_WARNING, "" . $syslogmessage . "");
                 exit;
             }
-
+            echo "five<br/>";
             /**
              * Count the record if no record found then it will be go else conditions
              */
@@ -87,7 +87,7 @@ if (!$executequery) {
             $syslogmessage = array();
             $OKAll = true;
             if ($numrows2 > 0) {
-
+                echo "six<br/>";
                 while ($GETRowsacno = mysql_fetch_array($executequery2)) {
                     /**
                      * Call Local file path and File Name When send on FTP
@@ -109,10 +109,10 @@ if (!$executequery) {
                     /**
                      * Check file on local server if found then manage syslog
                      */
-                    if (file_exists($ftp_path)) {
+                    /*if (file_exists($ftp_path)) {
                         $OKAll = false;
                         $syslogmessage[] = $ftp_path . " exist on FTP server.!";
-                    }
+                    }*/
 
 
                     /**
