@@ -121,6 +121,7 @@ if (!$executequery) {
                      */
                     $upload = "";
                     if ($OKAll) {
+                        $upload = true;
                         //$upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
                     }
                     /**
