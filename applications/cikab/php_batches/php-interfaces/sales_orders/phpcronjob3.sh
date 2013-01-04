@@ -137,7 +137,12 @@ if (!$executequery) {
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
                             $msgObj = $_response->body->ReceiveMessageResult->Message;
-                            echo " [x] Received ", $msgObj->Body, "\n";
+                            if(!empty($msgObj))
+                                echo " [x] Received ", $msgObj->Body, "\n";
+                            else{
+                                $OKAll = false;
+                                $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
+                            }
                         } else {
                             $OKAll = false;
                             $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
