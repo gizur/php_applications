@@ -29,7 +29,7 @@ $dbconfig_integration['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amaz
  * The port of the database server
  * @global string $dbconfig_integration['db_port']       
  */
-$dbconfig_integration['db_port'] = ':3306';
+$dbconfig_integration['db_port'] = 3306;
 
 /**
  * The usename to use when logging into the database
@@ -69,7 +69,7 @@ $dbconfig_vtiger['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws
  * The port of the database server
  * @global string $dbconfig_vtiger['db_port']       
  */
-$dbconfig_vtiger['db_port'] = ':3306';
+$dbconfig_vtiger['db_port'] = 3306;
 
 /**
  * The usename to use when logging into the database

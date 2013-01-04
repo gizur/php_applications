@@ -36,7 +36,10 @@ if ($_mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" .
     $_mysqli->connect_errno . ") " . $_mysqli->connect_error;
     exit();
+}else{
+    echo "Connected with MySQL : " . $dbconfig_integration['db_server'] . '\n';
 }
+
 
 /**
  * Create the saleorder_interface table 
@@ -44,22 +47,21 @@ if ($_mysqli->connect_errno) {
  * @param mixed $_mysqli
  * @return int
  */
-function createTable(&$mysqli)
-{
+//function createTable(&$_mysqli)
+//{
 
+    echo "In createTable function.\n";
     /**
      * First drop the table if it exists
      */
-    $query = <<<EOT
-        DROP TABLE IF EXISTS `salesorder_interface` ;
-EOT;
+    $query = "DROP TABLE IF EXISTS `salesorder_interface`";
 
     // Execute the query
-    $result = $mysqli->query($query);
-
+    $result = $_mysqli->query($query);
+    print_r($result);
     // check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $_mysqli->error);
         exit();
     }
     // Free the result set
@@ -68,16 +70,14 @@ EOT;
     /**
      * First drop the table if it exists
      */
-    $query2 = <<<EOT
-        DROP TABLE IF EXISTS `saleorder_msg_que` ;
-EOT;
+    $query2 = "DROP TABLE IF EXISTS `saleorder_msg_que`";
 
     // Execute the query
-    $result = $mysqli->query($query2);
+    $result = $_mysqli->query($query2);
 
     // Check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $_mysqli->error);
         exit();
     }
     // Free the result set
@@ -86,8 +86,7 @@ EOT;
     /**
      * Then create the table
      */
-    $query = <<<EOT
-        CREATE TABLE `salesorder_interface` (
+    $query = "CREATE TABLE `salesorder_interface` (
                      `id` int(19) NOT NULL AUTO_INCREMENT,
                      `salesorderid` int(19) NOT NULL DEFAULT '0',
                      `salesorder_no` varchar(100) DEFAULT NULL,
@@ -103,15 +102,14 @@ EOT;
                      `batchno` varchar(20) NOT NULL,
                      `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-EOT;
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
     // Execute the query
-    $result = $mysqli->query($query);
+    $result = $_mysqli->query($query);
 
     // check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $_mysqli->error);
         exit();
     }
     // Free the result set
@@ -120,32 +118,30 @@ EOT;
     /**
      * Then create the table saleorder_msg_que
      */
-    $query2 = <<<EOT
-        CREATE TABLE `saleorder_msg_que` (
+    $query2 = "CREATE TABLE `saleorder_msg_que` (
                      `id` int(19) NOT NULL AUTO_INCREMENT,
                      `accountname` varchar(100) DEFAULT NULL,
                      `ftpfilename` varchar (200) DEFAULT NULL,
                      `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                      `status` int(1) DEFAULT '0',
         PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-EOT;
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
     // Execute the query
-    $result = $mysqli->query($query2);
+    $result = $_mysqli->query($query2);
 
     // check if the query was executed properly
-    if (!$result) {
-        echo ($mysqli->error);
+    if ($result !== TRUE) {
+        echo ($result . ' : ' . $_mysqli->error);
         exit();
     }
     // Free the result set
     $result->close();
-    return 0;
-}
+    //return 0;
+//}
 
 // Call the function to crete the tables
-$result = createTable($_mysqli);
+//$result = createTable($_mysqli);
 
 // Close the connnection
 $_mysqli->close();
