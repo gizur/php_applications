@@ -23,16 +23,17 @@ require_once __DIR__ . '/../config.sqs.inc.php';
  * for use databse connection
  */
 require_once __DIR__ . '/../config.database.php';
+echo "One<br/>";
 /**
  * set autocommit off
  */
-@mysql_query("set autocommit = 0");
+@mysql_query("set autocommit = 0", $obj1->link);
 
 /**
  * set satrt trasaction on
  */
-@mysql_query("start transaction");
-
+@mysql_query("start transaction", $obj1->link);
+echo "Two<br/>";
 /**
  * ready state of syslog
  */
@@ -43,7 +44,7 @@ $ServerFilePath = $dbconfig_ftpserverpath['serverpath'];
 $GetAllQues = "SELECT accountname FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
     WHERE status=0 group by accountname limit 0," . $dbconfig_batchvaliable['batch_valiable'] . "";
 $executequery = @mysql_query($GetAllQues, $obj1->link);
-
+echo "three<br/>";
 if (!$executequery) {
     $OKAll = false;
     $syslogmessage = "Some problem in Query1, the error is : " . mysql_error();
@@ -58,6 +59,7 @@ if (!$executequery) {
     /**
      * Check the count record
      */
+    echo "four<br/>";
     if ($numrows > 0) {
         while ($GETRows = mysql_fetch_array($executequery)) {
             $GetAllQuesacno = "SELECT * FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
