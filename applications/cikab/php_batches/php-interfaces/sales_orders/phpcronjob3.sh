@@ -165,7 +165,7 @@ if (!$executequery) {
                 if ($OKAll) {
                     echo "ten<br/>";
                     $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
-                    mysql_query("commit");
+                    mysql_query("commit", $obj1->link);
                 } else {
                     mysql_query("rollback");
                     $access = date("y/m/d h:i:s");
