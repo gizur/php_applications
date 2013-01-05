@@ -141,12 +141,4 @@ $dbconfig_ftpserverpath['serverpath'] = "files/";
  * Queue URL
  */
 $amazonqueue_config['_url'] = 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue';
-/**
- * Amazon Access Key
- */
-$amazonqueue_config['_access_key'] = 'AKIAJX43RR2UCVINIL3Q';
-/**
- * Amazon Secret Key
- */
-$amazonqueue_config['_secret_key'] = '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';
 ?>
