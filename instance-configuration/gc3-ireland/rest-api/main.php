@@ -116,7 +116,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/clab/vtiger/webservice.php',
+                'vtRestUrl'   => 'http://127.0.0.1/{clientid}/vtiger/webservice.php',
                 'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',             
                 'awsS3Bucket' => 'gizurcloud',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
