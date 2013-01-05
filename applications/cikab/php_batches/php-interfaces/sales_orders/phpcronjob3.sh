@@ -147,7 +147,6 @@ if (!$executequery) {
                             $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                         }
                         if ($OKAll) {
-                            echo "nine<br/>";
                             $updatesaleorde = "UPDATE `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
                                 SET status = 1 WHERE id=" . $GETRowsacno['id'];
                             $updatetable = @mysql_query($updatesaleorde, $obj1->link);
