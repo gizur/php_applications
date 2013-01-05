@@ -457,11 +457,11 @@ class ApiController extends Controller
                 Yii::log(
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " VALIDATION (Client ID retrived)" . $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
+                    " VALIDATION (Client ID retrived)" . (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
                     CLogger::LEVEL_TRACE
                 );                
                 
-                $this->_clientid = $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
+                $this->_clientid = (string)$ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
                     
                 //Store the public key and secret key combination in cache to
                 //avoid repeated calls to Dynamo DB
