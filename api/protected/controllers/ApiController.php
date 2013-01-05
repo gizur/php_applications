@@ -613,7 +613,8 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
-                    $response .                          
+                    $response .
+                    (string)($response == '' || $response == null) .
                     ")", 
                     CLogger::LEVEL_TRACE
                 );         
