@@ -117,13 +117,13 @@ $dbconfig_ftphost['Host'] = "10.58.226.192";
 /**
  *  @FTP User Name 
  */
-$dbconfig_ftpuser['User'] = "anonymous";
+$dbconfig_ftpuser['User'] = "gizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfig_ftppassword['Password'] = "";
+$dbconfig_ftppassword['Password'] = "gizur";
 
 /**
  *  @FTP Local files path
@@ -133,7 +133,7 @@ $dbconfig_ftplocalpath['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfig_ftpserverpath['serverpath'] = "/";
+$dbconfig_ftpserverpath['serverpath'] = "files/";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */
