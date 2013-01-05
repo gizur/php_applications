@@ -451,17 +451,20 @@ class ApiController extends Controller
 
                 //If public key is not found throw an exception
                 if ($publicKeyNotFound)
-                    throw new Exception('Could not identify public key');            
-                else 
-                    $this->_clientid = $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
-                    
-                //Check the string
-                $this->_vtresturl = str_replace('{clientid}', $this->_clientid, Yii::app()->params->vtRestUrl);
+                    throw new Exception('Could not identify public key'); 
+                
+                $this->_clientid = $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
                     
                 //Store the public key and secret key combination in cache to
                 //avoid repeated calls to Dynamo DB
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
+                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid", $this->_clientid);
+            } else {
+                $this->_clientid = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']);
             }
+            
+            //Check the string
+            $this->_vtresturl = str_replace('{clientid}', $this->_clientid, Yii::app()->params->vtRestUrl);            
             
             //Log
             Yii::log(
