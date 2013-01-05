@@ -401,7 +401,7 @@ class ApiController extends Controller
                 $ddb_response = $dynamodb->scan(
                     array(
                     'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                    'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1'),
+                    'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid'),
                     'ScanFilter' => array(
                         'apikey_1' => array(
                             'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
@@ -429,7 +429,7 @@ class ApiController extends Controller
                     $ddb_response = $dynamodb->scan(
                         array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                        'AttributesToGet' => array('id', 'apikey_2', 'secretkey_2'),
+                        'AttributesToGet' => array('id', 'apikey_2', 'secretkey_2', 'clientid'),
                         'ScanFilter' => array(
                             'apikey_2' => array(
                                 'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
