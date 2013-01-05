@@ -468,7 +468,7 @@ class ApiController extends Controller
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid", $this->_clientid);
             } else {
-                $this->_clientid = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']);
+                $this->_clientid = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid");
             }
             
             //Check the string
