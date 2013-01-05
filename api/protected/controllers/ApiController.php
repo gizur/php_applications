@@ -453,6 +453,14 @@ class ApiController extends Controller
                 if ($publicKeyNotFound)
                     throw new Exception('Could not identify public key'); 
                 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " VALIDATION (Client ID retrived)" . $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
+                    CLogger::LEVEL_TRACE
+                );                
+                
                 $this->_clientid = $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
                     
                 //Store the public key and secret key combination in cache to
