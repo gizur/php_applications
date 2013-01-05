@@ -182,6 +182,21 @@ class ApiController extends Controller
      * vTiger Response
      */
     private $_vtresponse = "";       
+    
+    /**
+     * Amazon Instance ID
+     */
+    private $_instanceid = ""; 
+    
+    /**
+     * Client ID
+     */
+    private $_clientid = ""; 
+    
+    /**
+     * vTiger REST URL
+     */
+    private $_vtresturl = "";     
 
     /**
      * Filters executable action on permission basis
@@ -437,7 +452,12 @@ class ApiController extends Controller
                 //If public key is not found throw an exception
                 if ($publicKeyNotFound)
                     throw new Exception('Could not identify public key');            
-                
+                else 
+                    $this->_clientid = $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
+                    
+                //Check the string
+                $this->_vtresturl = str_replace('{clientid}', $this->_clientid, Yii::app()->params->vtRestUrl);
+                    
                 //Store the public key and secret key combination in cache to
                 //avoid repeated calls to Dynamo DB
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
@@ -510,10 +530,16 @@ class ApiController extends Controller
             //Check if the password is provided in the request
             if (!isset($_SERVER['HTTP_X_PASSWORD']))
                 throw new Exception('Could not find enough credentials');
+            
+            //Get the instance ID of amazon
+            $this->_instanceid = file_get_contents(
+                "http://instance-data/latest/meta-data/instance-id"
+            );
 
             //Create a cache key for saving session
             $this->_cache_key = json_encode(
                 array(
+                'instanceid' => $this->_instanceid,
                 'username' => $_SERVER['HTTP_X_USERNAME'],
                 'password' => $_SERVER['HTTP_X_PASSWORD']
                     )
@@ -524,14 +550,14 @@ class ApiController extends Controller
             //Check if the session stored in the cache key is valid 
             //as per vtiger a session can be valid till 1 day max
             //and unused session for 1800 seconds
-            $last_used = Yii::app()->cache->get("last_used_" . $this->_cache_key);
+            $last_used = Yii::app()->cache->get($this->_instanceid . "_last_used_" . $this->_cache_key);
 
             if ($last_used !== false) {
                 if ($last_used < (time() - 1790)) {
                     Yii::app()->cache->delete($this->_cache_key);
                 } else {
                     $cache_value = Yii::app()->cache->get($this->_cache_key);
-                    Yii::app()->cache->set("last_used_" . $this->_cache_key, time());
+                    Yii::app()->cache->set($this->_instanceid . "_last_used_" . $this->_cache_key, time());
                 }
             }
 
@@ -552,7 +578,7 @@ class ApiController extends Controller
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " VALIDATION (No value in cache found: Logging in)" .
                     " (sending POST request to vt url: " .
-                    Yii::app()->params->vtRestUrl .
+                    $this->_vtresturl .
                     "?operation=logincustomer " . "username=" . $_SERVER['HTTP_X_USERNAME'] .
                     "&password=" . $_SERVER['HTTP_X_PASSWORD'] .                          
                     ")", 
@@ -566,7 +592,7 @@ class ApiController extends Controller
 
                 $rest->set_header('Content-Type', 'application/x-www-form-urlencoded');
                 $response = $rest->post(
-                    Yii::app()->params->vtRestUrl .
+                    $this->_vtresturl .
                     "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
                     "&password=" . $_SERVER['HTTP_X_PASSWORD']
                 );
@@ -603,7 +629,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " VALIDATION (sending GET request to vt url: " .
-                    Yii::app()->params->vtRestUrl .
+                    $this->_vtresturl .
                     "?operation=getchallenge&username=$username" .
                     ")", 
                     CLogger::LEVEL_TRACE
@@ -614,7 +640,7 @@ class ApiController extends Controller
 
                 //Login using $username and $userAccessKey
                 $response = $rest->get(
-                    Yii::app()->params->vtRestUrl .
+                    $this->_vtresturl .
                     "?operation=getchallenge&username=$username"
                 );
                 
@@ -645,7 +671,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending request to vt url: " . 
-                    Yii::app()->params->vtRestUrl .
+                    $this->_vtresturl .
                     "?operation=login".
                     "username=$username&accessKey=$generatedKey" .                            
                     ")", 
@@ -657,7 +683,7 @@ class ApiController extends Controller
 
                 //Login using the generated key
                 $response = $rest->post(
-                    Yii::app()->params->vtRestUrl .
+                    $this->_vtresturl .
                     "?operation=login", 
                     "username=$username&accessKey=$generatedKey"
                 );
@@ -704,7 +730,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .                            
                     ")", 
                     CLogger::LEVEL_TRACE
                 );               
@@ -713,7 +739,7 @@ class ApiController extends Controller
                 $rest = new RESTClient();
                 $rest->format('json');
                 $contact = $rest->get(
-                    Yii::app()->params->vtRestUrl . "?$params"
+                    $this->_vtresturl . "?$params"
                 );
                 
                 //Log
@@ -762,7 +788,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .                            
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                 
@@ -771,7 +797,7 @@ class ApiController extends Controller
                 $rest = new RESTClient();
                 $rest->format('json');
                 $account 
-                    = $rest->get(Yii::app()->params->vtRestUrl . "?$params");
+                    = $rest->get($this->_vtresturl . "?$params");
                 
                 //Log
                 Yii::log(
@@ -805,7 +831,7 @@ class ApiController extends Controller
                 //Save userid and session id against customerportal 
                 //credentials
                 Yii::app()->cache->set($this->_cache_key, $cache_value, 86000);
-                Yii::app()->cache->set("last_used_" . $this->_cache_key, time());
+                Yii::app()->cache->set($this->_instanceid . "_last_used_" . $this->_cache_key, time());
             }
 
             //Log
@@ -1000,7 +1026,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending request to vt url: " . 
-                        Yii::app()->params->vtRestUrl .
+                        $this->_vtresturl .
                         "?operation=logout&sessionName=$sessionId" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
@@ -1010,7 +1036,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->get(
-                        Yii::app()->params->vtRestUrl .
+                        $this->_vtresturl .
                         "?operation=logout&sessionName=$sessionId"
                     );
                     
@@ -1084,7 +1110,7 @@ class ApiController extends Controller
                             " TRACE(" . $this->_trace_id . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (sending GET request to vt url: " . 
-                            Yii::app()->params->vtRestUrl . "?$params" .                            
+                            $this->_vtresturl . "?$params" .                            
                             ")", 
                             CLogger::LEVEL_TRACE
                         );                        
@@ -1093,7 +1119,7 @@ class ApiController extends Controller
                         $rest = new RESTClient();
                         $rest->format('json');
                         $response = $rest->get(
-                            Yii::app()->params->vtRestUrl . "?$params"
+                            $this->_vtresturl . "?$params"
                         );
 
                         //Log
@@ -1284,7 +1310,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -1294,7 +1320,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
                     
                     //Log
@@ -1328,7 +1354,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                      
@@ -1338,7 +1364,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $accounts = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
                     
                     //Log
@@ -1377,7 +1403,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                      
@@ -1387,7 +1413,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $contacts = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
                     
                     //Log
@@ -1491,7 +1517,7 @@ class ApiController extends Controller
                             " TRACE(" . $this->_trace_id . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (sending GET request to vt url: " . 
-                            Yii::app()->params->vtRestUrl . "?$params" .                            
+                            $this->_vtresturl . "?$params" .                            
                             ")", 
                             CLogger::LEVEL_TRACE
                         );                        
@@ -1500,7 +1526,7 @@ class ApiController extends Controller
                         $rest = new RESTClient();
                         $rest->format('json');
                         $response = $rest->get(
-                            Yii::app()->params->vtRestUrl . "?$params"
+                            $this->_vtresturl . "?$params"
                         );
 
                         //Log
@@ -1597,7 +1623,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                  
@@ -1607,7 +1633,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
 
                     //Log
@@ -1801,7 +1827,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .                            
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                  
@@ -1810,7 +1836,7 @@ class ApiController extends Controller
                 $rest = new RESTClient();
                 $rest->format('json');
                 $response = $rest->get(
-                    Yii::app()->params->vtRestUrl . "?$params"
+                    $this->_vtresturl . "?$params"
                 );
                 
                 //Log
@@ -1841,7 +1867,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .                            
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                  
@@ -1850,7 +1876,7 @@ class ApiController extends Controller
                 $rest = new RESTClient();
                 $rest->format('json');
                 $documentids = $rest->get(
-                    Yii::app()->params->vtRestUrl . "?$params"
+                    $this->_vtresturl . "?$params"
                 );
                 
                 //Log
@@ -1894,7 +1920,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -1903,7 +1929,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $documents = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
                     
                     //Log
@@ -1943,7 +1969,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -1952,7 +1978,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $contact = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
                     
                     //Log
@@ -1992,7 +2018,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -2001,7 +2027,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $account = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
                     
                     //Log
@@ -2071,7 +2097,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "?$params" .                            
+                        $this->_vtresturl . "?$params" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -2081,7 +2107,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->get(
-                        Yii::app()->params->vtRestUrl . "?$params"
+                        $this->_vtresturl . "?$params"
                     );
 
                     //Log
@@ -2135,7 +2161,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .                            
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                 
@@ -2145,7 +2171,7 @@ class ApiController extends Controller
                 $rest = new RESTClient();
                 $rest->format('json');
                 $response = $rest->get(
-                    Yii::app()->params->vtRestUrl . "?$params"
+                    $this->_vtresturl . "?$params"
                 );
                 
                 //Log
@@ -2489,7 +2515,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending POST request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "  " .
+                    $this->_vtresturl . "  " .
                     json_encode(
                         array(
                             'sessionName' => $sessionId,
@@ -2507,7 +2533,7 @@ class ApiController extends Controller
                 $rest = new RESTClient();
                 $rest->format('json');
                 $response = $rest->post(
-                    Yii::app()->params->vtRestUrl, array(
+                    $this->_vtresturl, array(
                         'sessionName' => $sessionId,
                         'operation' => 'create',
                         'element' => $dataJson,
@@ -2575,7 +2601,7 @@ class ApiController extends Controller
                             " TRACE(" . $this->_trace_id . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (sending POST request to vt url: " . 
-                            Yii::app()->params->vtRestUrl . "  " .
+                            $this->_vtresturl . "  " .
                             json_encode(
                                 array(
                                     'sessionName' => $sessionId,
@@ -2592,7 +2618,7 @@ class ApiController extends Controller
                         $rest = new RESTClient();
                         $rest->format('json');
                         $document = $rest->post(
-                            Yii::app()->params->vtRestUrl, array(
+                            $this->_vtresturl, array(
                                 'sessionName' => $sessionId,
                                 'operation' => 'create',
                                 'element' =>
@@ -2620,7 +2646,7 @@ class ApiController extends Controller
                                 " TRACE(" . $this->_trace_id . "); " . 
                                 " FUNCTION(" . __FUNCTION__ . "); " . 
                                 " PROCESSING REQUEST (sending POST request to vt url: " . 
-                                Yii::app()->params->vtRestUrl . "  " .
+                                $this->_vtresturl . "  " .
                                 json_encode(
                                     array(
                                         'sessionName' => $sessionId,
@@ -2638,7 +2664,7 @@ class ApiController extends Controller
                             $rest = new RESTClient();
                             $rest->format('json');
                             $response = $rest->post(
-                                Yii::app()->params->vtRestUrl, array(
+                                $this->_vtresturl, array(
                                     'sessionName' => $sessionId,
                                     'operation' =>
                                     'relatetroubleticketdocument',
@@ -2930,7 +2956,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending POST request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "  " .
+                        $this->_vtresturl . "  " .
                         json_encode(
                             array(
                                 'operation' => 'resetpassword',
@@ -2946,7 +2972,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->post(
-                        Yii::app()->params->vtRestUrl, 
+                        $this->_vtresturl, 
                         array(
                             'operation' => 'resetpassword',
                             'username' => $_SERVER['HTTP_X_USERNAME'],
@@ -3009,7 +3035,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending POST request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "  " .
+                        $this->_vtresturl . "  " .
                         json_encode(
                             array(
                                 'sessionName' => $this->_session->sessionName,
@@ -3028,7 +3054,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->post(
-                        Yii::app()->params->vtRestUrl, array(
+                        $this->_vtresturl, array(
                             'sessionName' => $this->_session->sessionName,
                             'operation' => 'changepw',
                             'username' => $_SERVER['HTTP_X_USERNAME'],
@@ -3146,7 +3172,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "  " .
+                        $this->_vtresturl . "  " .
                         json_encode(
                             array(
                                 'sessionName' => $sessionId,
@@ -3163,7 +3189,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->get(
-                        Yii::app()->params->vtRestUrl, array(
+                        $this->_vtresturl, array(
                             'sessionName' => $sessionId,
                             'operation' => 'retrieve',
                             'id' => $_GET['id']
@@ -3191,7 +3217,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending POST request to vt url: " . 
-                        Yii::app()->params->vtRestUrl . "  " .
+                        $this->_vtresturl . "  " .
                         json_encode(
                             array(
                                 'sessionName' => $sessionId,
@@ -3208,7 +3234,7 @@ class ApiController extends Controller
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->post(
-                        Yii::app()->params->vtRestUrl, array(
+                        $this->_vtresturl, array(
                             'sessionName' => $sessionId,
                             'operation' => 'update',
                             'element' => json_encode($retrivedObject)
@@ -3262,7 +3288,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "  " .
+                    $this->_vtresturl . "  " .
                     json_encode(
                         array(
                             'sessionName' => $this->_session->sessionName,
@@ -3283,7 +3309,7 @@ class ApiController extends Controller
                 parse_str(file_get_contents('php://input'), $_PUT);
 
                 $response = $rest->get(
-                    Yii::app()->params->vtRestUrl, array(
+                    $this->_vtresturl, array(
                         'sessionName' => $this->_session->sessionName,
                         'operation' => 'retrieve',
                         'id' => $_GET['id']
@@ -3314,7 +3340,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_trace_id . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending POST request to vt url: " . 
-                    Yii::app()->params->vtRestUrl . "  " .
+                    $this->_vtresturl . "  " .
                     json_encode(
                         array(
                             'sessionName' => $this->_session->sessionName,
@@ -3331,7 +3357,7 @@ class ApiController extends Controller
                 $rest = new RESTClient();
                 $rest->format('json');
                 $response = $rest->post(
-                    Yii::app()->params->vtRestUrl, array(
+                    $this->_vtresturl, array(
                         'sessionName' => $this->_session->sessionName,
                         'operation' => 'update',
                         'element' => json_encode($retrivedObject)
