@@ -12,7 +12,7 @@
 /**
  * Call FTP Connection
  */
-//require_once __DIR__ . '/../ftp_connection.php';
+require_once __DIR__ . '/../ftp_connection.php';
 
 /**
  * include SQS instance file 
