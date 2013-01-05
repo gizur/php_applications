@@ -36,16 +36,10 @@
  */
 require_once __DIR__ . '/../config.inc.php';
 
-
 /**
- * for use rabbit mq connection
+ * include SQS instance file 
  */
-require_once __DIR__ . '/../config.rmq.inc.php';
-
-/**
- * Use Global Namespace 
- */
-use PhpAmqpLib\Message\AMQPMessage;
+require_once __DIR__ . '/../config.sqs.inc.php';
 
 /**
  * for use databse connection
@@ -234,16 +228,16 @@ if (!empty($numrows)) {
              * Insert Salesorder_no into message_que Table because recieved related message 
              */
             if (InsertRecordToMsg($dbconfig_integration['db_name'], $messagequniqueid, $filename, $obj1->link)) {
-                if ($ch->queue_declare($messagequniqueid, false, false, false, false)) {
-                    $msg = new AMQPMessage($messagequniqueid, "Successfully");
-                    $ch->basic_publish($msg, '', $messagequniqueid);
+                $_message = $messagequniqueid;
+                $_response = $sqs->send_message($amazonqueue_config['_url'], $_message);
+                if ($_response->status == 200) {
                     echo " [x] " . $messagequniqueid . " ' Sent successfully in messageQ'\n";
                 } else {
-                    $findproblemsalesorder[] = "Some problems in rabbit mq server!!!!!!.";
+                    $findproblemsalesorder[] = "Some problems in Amazon SQS Queue " . $amazonqueue_config['_url'] . ".";
                     $allok = false;
                 }
             } else {
-                $findproblemsalesorder[] = "Some problems in Inser Salesorder no into msg que table. !!!!!!.";
+                $findproblemsalesorder[] = "Some problem in Inserting Salesorder number into msg que table.";
                 $allok = false;
             }
             // } 
@@ -321,10 +315,13 @@ function leadingzero($limitnumber = 6, $number)
 function InsertRecordToMsg($db, $accountname, $Setfile, $connf)
 {
 
-    $Insertsalesordertable = "INSERT INTO `" . $db . "`.`saleorder_msg_que` SET accountname='" . $accountname . "',ftpfilename='" . $Setfile . "'  ON DUPLICATE KEY UPDATE accountname='" . $accountname . "'";
+    $Insertsalesordertable = "INSERT INTO `$db`.`saleorder_msg_que` 
+        SET accountname= '$accountname', 
+            ftpfilename= '$Setfile'  ON DUPLICATE KEY UPDATE accountname = '$accountname'";
     $exequery = @mysql_query($Insertsalesordertable, $connf);
     if ($exequery) {
-        $updateinterfasesatus = "UPDATE `" . $db . "`.`salesorder_interface` SET sostatus='Delivered' where accountname='" . $accountname . "'";
+        $updateinterfasesatus = "UPDATE `$db`.`salesorder_interface` 
+            SET sostatus = 'Delivered' where accountname = '$accountname'";
         $exequery = mysql_query($updateinterfasesatus, $connf);
         if ($exequery) {
             return true;
@@ -336,7 +333,6 @@ function InsertRecordToMsg($db, $accountname, $Setfile, $connf)
     }
 }
 
-$ch->close();
 $conn->close();
 ?>
 

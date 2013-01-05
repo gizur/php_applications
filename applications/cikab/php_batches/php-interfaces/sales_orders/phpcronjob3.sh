@@ -15,14 +15,9 @@
 require_once __DIR__ . '/../ftp_connection.php';
 
 /**
- * for use rabbit mq connection
+ * include SQS instance file 
  */
-require_once __DIR__ . '/../config.rmq.inc.php';
-
-/**
- * Use Global Namespace
- */
-use PhpAmqpLib\Message\AMQPMessage;
+require_once __DIR__ . '/../config.sqs.inc.php';
 
 /**
  * for use databse connection
@@ -31,13 +26,12 @@ require_once __DIR__ . '/../config.database.php';
 /**
  * set autocommit off
  */
-@mysql_query("set autocommit = 0");
+@mysql_query("set autocommit = 0", $obj1->link);
 
 /**
  * set satrt trasaction on
  */
-@mysql_query("start transaction");
-
+@mysql_query("start transaction", $obj1->link);
 /**
  * ready state of syslog
  */
@@ -48,7 +42,6 @@ $ServerFilePath = $dbconfig_ftpserverpath['serverpath'];
 $GetAllQues = "SELECT accountname FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
     WHERE status=0 group by accountname limit 0," . $dbconfig_batchvaliable['batch_valiable'] . "";
 $executequery = @mysql_query($GetAllQues, $obj1->link);
-
 if (!$executequery) {
     $OKAll = false;
     $syslogmessage = "Some problem in Query1, the error is : " . mysql_error();
@@ -75,7 +68,6 @@ if (!$executequery) {
                 syslog(LOG_WARNING, "" . $syslogmessage . "");
                 exit;
             }
-
             /**
              * Count the record if no record found then it will be go else conditions
              */
@@ -90,7 +82,6 @@ if (!$executequery) {
             $syslogmessage = array();
             $OKAll = true;
             if ($numrows2 > 0) {
-
                 while ($GETRowsacno = mysql_fetch_array($executequery2)) {
                     /**
                      * Call Local file path and File Name When send on FTP
@@ -142,28 +133,34 @@ if (!$executequery) {
                      */
                     if ($OKAll) {
                         $rmqmessagerecid = $GETRowsacno['accountname'];
-                        if ($ch->queue_declare($rmqmessagerecid, false, false, false, false)) {
-                            $callback = function($msg) {
-                                    echo " [x] Received ", $msg->body, "\n";
-                                };
-                            $ch->basic_consume($rmqmessagerecid, '', false, true, false, false, $callback);
+                        $_response = $sqs->receive_message($amazonqueue_config['_url']);
+                        if ($_response->status == 200) {
+                            $msgObj = $_response->body->ReceiveMessageResult->Message;
+                            if(!empty($msgObj))
+                                echo " [x] Received ", $msgObj->Body, "\n";
+                            else{
+                                $OKAll = false;
+                                $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
+                            }
                         } else {
                             $OKAll = false;
                             $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                         }
                         if ($OKAll) {
+                            echo "nine<br/>";
                             $updatesaleorde = "UPDATE `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
-                                SET status=1 WHERE id=" . $GETRowsacno['id'];
+                                SET status = 1 WHERE id=" . $GETRowsacno['id'];
                             $updatetable = @mysql_query($updatesaleorde, $obj1->link);
                             if (!$updatetable) {
                                 $OKAll = false;
-                                $syslogmessage[] = "Some problem in query updatation and error is : " . mysql_error();
+                                $syslogmessage[] = "Some problem in query updation and error is : " . mysql_error();
                             }
                         }
                     }
                 }
                 if ($OKAll) {
-                    mysql_query("commit");
+                    $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
+                    mysql_query("commit", $obj1->link);
                 } else {
                     mysql_query("rollback");
                     $access = date("y/m/d h:i:s");
@@ -178,11 +175,6 @@ if (!$executequery) {
         }
     }
 
-    $ch->close();
     $conn->close();
-
-    while (count($ch->callbacks)) {
-        @$ch->wait();
-    }
 }
 ?>
