@@ -112,7 +112,7 @@ $dbconfig_batchvaliable['batch_valiable'] = 10;
 /**
  *  @FTP Host Name 
  */
-$dbconfig_ftphost['Host'] = "10.58.266.192";
+$dbconfig_ftphost['Host'] = "10.58.226.192";
 
 /**
  *  @FTP User Name 
