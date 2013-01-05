@@ -881,7 +881,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[$e->getCode()];
                 $response->error->message = $e->getMessage();
                 $response->error->trace_id = $this->_trace_id;
-                $response->error->vtresponse = json_decode($this->_vtresponse);
+                $response->error->vtresponse = $this->_vtresponse;
 
                 //Check if the error code is TIME_NOT_IN_SYNC
                 //if so send time delta
