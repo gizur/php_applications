@@ -165,6 +165,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $delta = 0;
         $times = 100;
         
+        $this->markTestSkipped('');
+
         echo "Authenticating Login " . PHP_EOL;        
         ob_flush();
         
@@ -589,7 +591,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo " Getting Asset From ID $id" . PHP_EOL;
         
         //Skip the test 
-        //$this->markTestSkipped('');
+        $this->markTestSkipped('');
         
         // Generate signature
         list($params, $signature) = $this->_generateSignature(
@@ -928,12 +930,12 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //Set fields to to posted
         $fields = array(
                 'ticket_title'=>'Testing Using PHPUnit with Image Upload',
-                'filename'=>'@'.getcwd().'/image-to-upload.png',
-                //'filename-1'=>'@'.getcwd().'/image-to-upload-1.png',
-                //'filename-2'=>'@'.getcwd().'/image-to-upload-2.png',
-                //'filename-3'=>'@'.getcwd().'/image-to-upload-3.png',
-                //'filename-4'=>'@'.getcwd().'/image-to-upload-4.png',
-                //'filename-5'=>'@'.getcwd().'/image-to-upload-5.png',
+                'filename'=>'@'.getcwd().'/images/image-to-upload.png',
+                //'filename-1'=>'@'.getcwd().'/images/image-to-upload-1.png',
+                //'filename-2'=>'@'.getcwd().'/images/image-to-upload-2.png',
+                //'filename-3'=>'@'.getcwd().'/images/image-to-upload-3.png',
+                //'filename-4'=>'@'.getcwd().'/images/image-to-upload-4.png',
+                //'filename-5'=>'@'.getcwd().'/images/image-to-upload-5.png',
                 'ticket_title'=> 'Testing Using PHPUnit',
                 'drivercauseddamage'=>'No',
                 'sealed'=>'Yes',
@@ -1014,7 +1016,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                         $s3 = new AmazonS3();
                         
                         $file = Array(
-                            'name' => getcwd().'/image-to-upload.jpg'
+                            'name' => getcwd().'/images/image-to-upload.jpg'
                         );
 
                         $response = $s3->create_object(
