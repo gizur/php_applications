@@ -1624,7 +1624,7 @@ class ApiController extends Controller
                         . 'list'
                     );
 
-                    if ($cached_value) {
+                    if ($cached_value === false) {
                         //Send request to vtiger REST service
                         $query = "select * from " . $_GET['model'] . ";";
 
