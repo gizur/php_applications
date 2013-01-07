@@ -1088,12 +1088,25 @@ class ApiController extends Controller
                 
                 //Is this a request for picklist?
                 if (isset($_GET['fieldname'])) {
-
+                    
                     $cached_value = Yii::app()->cache->get(
                         'picklist_'
                         . $_GET['model'] . '_'
                         . $_GET['fieldname']
                     );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (Getting Value from cache for " . 
+                        'picklist_'
+                        . $_GET['model'] . '_' 
+                        . $_GET['fieldname'] . ' : ' 
+                        . (string)$cached_value .
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
 
                     if ($cached_value === false) {
                         
