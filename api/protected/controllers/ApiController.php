@@ -1208,6 +1208,9 @@ class ApiController extends Controller
                                         )
                                 );
                                 
+                                if (!isset($flipped_custom_fields[$field['name']]))
+                                    $flipped_custom_fields[$field['name']] = $field['name'];                                
+                                
                                 //Log
                                 Yii::log(
                                     " TRACE(" . $this->_trace_id . "); " . 
@@ -1216,18 +1219,18 @@ class ApiController extends Controller
                                     'picklist_'
                                     . $_GET['model']
                                     . '_'
-                                    . ($flipped_custom_fields[$field['name']])?$flipped_custom_fields[$field['name']]:$field['name'] . ' : ' 
+                                    . $flipped_custom_fields[$field['name']] . ' : ' 
                                     . (string)$content .
                                     ")", 
                                     CLogger::LEVEL_TRACE
-                                );                                
+                                ); 
 
                                 //Save the response in cache
                                 Yii::app()->cache->set(
                                     'picklist_'
                                     . $_GET['model']
                                     . '_'
-                                    . ($flipped_custom_fields[$field['name']])?$flipped_custom_fields[$field['name']]:$field['name']
+                                    . $flipped_custom_fields[$field['name']]
                                     , $content
                                 );
                                 
