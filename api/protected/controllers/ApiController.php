@@ -1228,7 +1228,7 @@ class ApiController extends Controller
                                     . $_GET['model']
                                     . '_'
                                     . $flipped_custom_fields[$field['name']]
-                                    , $content, 3600
+                                    , $content
                                 );
                                 
                                 if ($fieldname == $field['name']) {
