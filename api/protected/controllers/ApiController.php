@@ -1207,6 +1207,20 @@ class ApiController extends Controller
                                     $field['type']['picklistValues']
                                         )
                                 );
+                                
+                                //Log
+                                Yii::log(
+                                    " TRACE(" . $this->_trace_id . "); " . 
+                                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                                    " PROCESSING REQUEST (Setting Value to cache for " . 
+                                    'picklist_'
+                                    . $_GET['model']
+                                    . '_'
+                                    . $flipped_custom_fields[$field['name']] . ' : ' 
+                                    . (string)$content .
+                                    ")", 
+                                    CLogger::LEVEL_TRACE
+                                );                                
 
                                 //Save the response in cache
                                 Yii::app()->cache->set(
