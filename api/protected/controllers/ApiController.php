@@ -1216,7 +1216,7 @@ class ApiController extends Controller
                                     'picklist_'
                                     . $_GET['model']
                                     . '_'
-                                    . $flipped_custom_fields[$field['name']] . ' : ' 
+                                    . ($flipped_custom_fields[$field['name']])?$flipped_custom_fields[$field['name']]:$field['name'] . ' : ' 
                                     . (string)$content .
                                     ")", 
                                     CLogger::LEVEL_TRACE
