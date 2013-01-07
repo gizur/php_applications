@@ -881,6 +881,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[$e->getCode()];
                 $response->error->message = $e->getMessage();
                 $response->error->trace_id = $this->_trace_id;
+                $response->error->instance_id = $this->_instanceid;
                 $response->error->vtresponse = $this->_vtresponse;
 
                 //Check if the error code is TIME_NOT_IN_SYNC
@@ -910,6 +911,7 @@ class ApiController extends Controller
                     $response->error->code = $this->_errors[$e->getCode()];
                     $response->error->message = $e->getMessage();
                     $response->error->trace_id = $this->_trace_id;
+                    $response->error->instance_id = $this->_instanceid;
                     $response->error->vtresponse = $this->_vtresponse;
                     $this->_sendResponse(403, json_encode($response));
                 } else {
@@ -1734,6 +1736,7 @@ class ApiController extends Controller
             $response->error->message = $e->getMessage();
             $response->error->trace_id = $this->_trace_id;
             $response->error->vtresponse = $this->_vtresponse;
+            $response->error->instance_id = $this->_instanceid;
             $this->_sendResponse(400, json_encode($response));
         }
     }
