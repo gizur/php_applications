@@ -461,7 +461,7 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                
                 
-                $this->_clientid = (string)$ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
+                $this->_clientid = (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
                     
                 //Store the public key and secret key combination in cache to
                 //avoid repeated calls to Dynamo DB
