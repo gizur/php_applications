@@ -465,6 +465,8 @@ class PHPMailer
             return false;
 
         $smtp_from = ($this->Sender == "") ? $this->From : $this->Sender;
+        $error = "PRABHAT:$smtp_from:$this->From : $this->Sender";
+        $this->SetError($error);
         if(!$this->smtp->Mail($smtp_from))
         {
             $error = $this->Lang("from_failed") . $smtp_from;
