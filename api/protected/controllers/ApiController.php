@@ -606,8 +606,7 @@ class ApiController extends Controller
                     $this->_vtresturl .
                     "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
                     "&password=" . $_SERVER['HTTP_X_PASSWORD'] .
-                    "&fieldname=" . $_GET['fieldname'] .
-                    "&model=" . $_GET['model']
+                    "&traceid=" . $this->_trace_id
                 );
                 
                 //Log
