@@ -21,10 +21,10 @@
       db_name
 */
 
-$dbconfig['db_server']     = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
+$dbconfig['db_server']     = 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com';
 $dbconfig['db_port']       = ':3306';
-$dbconfig['db_username']   = 'gizurdbuser';
-$dbconfig['db_password']   = 'La$12^#ers';
+$dbconfig['db_username']   = 'root';
+$dbconfig['db_password']   = 'mRpvEpVT2lMEwr1o';
 $dbconfig['db_name']       = 'mysql';
 
 ?>

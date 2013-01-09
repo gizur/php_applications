@@ -38,11 +38,11 @@ return array(
 			'allowAutoLogin'=>true,
 		),
                 'cache'=>array(
-                    'class'=>'CDummyCache',
+                      'class'=>'CDummyCache',
 //                    'class'=>'CMemCache',
 //                    'servers'=>array(
 //                        array(
-//                            'host'=>'10.58.226.192',//'localhost',//gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+//                            'host'=>'localhost',
 //                            'port'=>11211,
 //                            'weight'=>100,
 //                        ),
@@ -95,12 +95,12 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'trace, error, warning',
+					'levels'=>'error, warning, trace',
 				),
 				array(
 					'class'=>'CLiveLogRoute',
 					'levels'=>'error, warning, trace',
-                                        'server'=>'http://gizur.herokuapp.com/log'
+					'server'=>'http://gizur.herokuapp.com/log'
 				),                               
 				// uncomment the following to show log messages on web pages
 				/*
@@ -116,14 +116,14 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'http://127.0.0.1/{clientid}/vtiger/webservice.php',
-                'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',             
-                'awsS3Bucket' => 'gizurcloud',
+                'vtRestUrl'   => 'https://c2.gizur.com/clab/vtiger/webservice.php',
+                'vtCronPath'  => '/var/www/html/lib/vtiger-5.4.0/cron/',             
+                'awsS3Bucket' => 'gizurcloud-gc2',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
                 'acceptableTimestampError' => 60,
-                'awsS3Region' => 'REGION_APAC_NE1',
+                'awsS3Region' => 'REGION_EU_W1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
                 'awsSESRegion' => 'REGION_EU_W1',
                 'custom_fields' => Array(

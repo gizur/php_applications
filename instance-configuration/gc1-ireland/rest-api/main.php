@@ -41,7 +41,7 @@ return array(
                     'class'=>'CMemCache',
                     'servers'=>array(
                         array(
-                            'host'=>'localhost',//'memcached.int.gizur.com',
+                            'host'=>'10.235.54.94',//'memcached.int.gizur.com',
                             'port'=>11211,
                             'weight'=>100,
                         ),
@@ -52,23 +52,23 @@ return array(
                     'urlFormat'=>'path',
                     'rules'=>array(
                         // REST patterns
-                        array('api/list', 'pattern'=>'api/<model:(HelpDesk|Assets|About)>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'/<model:(HelpDesk|Assets|About)>', 'verb'=>'GET'),
                         array('api/list', 
-                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 
+                                   'pattern'=>'/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 
                                    'verb'=>'GET'),
                         array('api/list', 
-                                   'pattern'=>'api/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 
+                                   'pattern'=>'/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 
                                    'verb'=>'GET'),
-                        array('api/view', 'pattern'=>'api/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
-                        array('api/view', 'pattern'=>'api/<model:(User)>/<email:.+>', 'verb'=>'GET'),
-                        array('api/list', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb'=>'GET'), 
-                        array('api/list', 'pattern'=>'api/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
-                        array('api/update', 'pattern'=>'api/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
-			            array('api/update', 'pattern'=>'api/<model:(User)>/', 'verb'=>'PUT'),
-                        array('api/update', 'pattern'=>'api/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
-                        array('api/create', 'pattern'=>'api/<model:(HelpDesk|User)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'api/<model:(Cron)>/<action:(mailscan)>', 'verb'=>'PUT'),
+                        array('api/view', 'pattern'=>'/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb'=>'GET'),
+                        array('api/view', 'pattern'=>'/<model:(User)>/<email:.+>', 'verb'=>'GET'),
+                        array('api/list', 'pattern'=>'/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb'=>'GET'), 
+                        array('api/list', 'pattern'=>'/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
+			            array('api/update', 'pattern'=>'/<model:(User)>/', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
+                        array('api/create', 'pattern'=>'/<model:(HelpDesk|User)>', 'verb'=>'POST'),
+                        array('api/update', 'pattern'=>'/<model:(Cron)>/<action:(mailscan)>', 'verb'=>'PUT'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
 		),
@@ -115,7 +115,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-                'vtRestUrl'   => 'https://api.gizur.com/lib/vtiger-5.4.0/webservice.php',
+                'vtRestUrl'   => 'http://127.0.0.1/{clientid}/vtiger/webservice.php',
                 'vtCronPath'   => '/var/www/html/lib/vtiger-5.4.0/cron/',            
                 'awsS3Bucket' => 'gizurcloud-clab',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
