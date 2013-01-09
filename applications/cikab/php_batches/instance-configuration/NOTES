@@ -8,11 +8,7 @@ MySQL:
         Port:       3306
 
     vTiger Server
-        Host:       gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com
-        User:       user_6bd70dc3
-        Password:   fbd70dc30c05
-        Database:   vtiger_7cd70dc3
-        Port:       3306
+        Refer to gizur-admin.
 
 FTP:
 
