@@ -605,7 +605,9 @@ class ApiController extends Controller
                 $response = $rest->post(
                     $this->_vtresturl .
                     "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
-                    "&password=" . $_SERVER['HTTP_X_PASSWORD']
+                    "&password=" . $_SERVER['HTTP_X_PASSWORD'] .
+                    "&fieldname=" . $_GET['fieldname'] .
+                    "&model=" . $_GET['model']
                 );
                 
                 //Log
@@ -619,11 +621,11 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );         
                 
+                //Save vtiger response
+                $this->_vtresponse = $response;                
+                
                 if ($response == '' || $response == null)
                     throw new Exception("Blank response received from vtiger: LoginCustomer");                
-
-                //Save vtiger response
-                $this->_vtresponse = $response;
 
                 //Objectify the response and check its success
                 $response = json_decode($response);
@@ -665,6 +667,8 @@ class ApiController extends Controller
                     ")", 
                     CLogger::LEVEL_TRACE
                 ); 
+                
+                $this->_vtresponse = $response;
                 
                 if ($response == '' || $response == null)
                     throw new Exception("Blank response received from vtiger: GetChallenge");                 
