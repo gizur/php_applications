@@ -192,8 +192,17 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 	
 	$mail->FromName = decode_html($from_name);
 
-	$mail->Sender= getReturnPath($mail->Host);
-    
+    /**
+     * @category patch
+     * @author Prabhat Khera
+     * Date: Jan 09, 2013
+     * This line is commented not to send mail from noreply@domain_name.
+     * A new line has been added to send mail from the $from_email.
+     * 
+     */
+	//$mail->Sender= getReturnPath($mail->Host);
+    $mail->Sender = $from_email;
+
 	if($to_email != '')
 	{
 		if(is_array($to_email)) {
