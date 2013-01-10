@@ -2536,8 +2536,6 @@ class ApiController extends Controller
                     "Ticket can be opened for damaged trailers only", 1002
                 );
 
-                $userId = $this->_session->userId;
-
                 /** Creating Touble Ticket* */
                 $post = $_POST;
                 $custom_fields = array_flip(
@@ -2616,7 +2614,7 @@ class ApiController extends Controller
                 $globalresponse->result->documents = Array();
                 $dataJson = array(
                     'notes_title' => 'Attachement',
-                    'assigned_user_id' => $userId,
+                    'assigned_user_id' => $this->_session->userId,
                     'notecontent' => 'Attachement',
                     'filelocationtype' => 'I',
                     'filedownloadcount' => null,
