@@ -605,8 +605,7 @@ class ApiController extends Controller
                 $response = $rest->post(
                     $this->_vtresturl .
                     "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
-                    "&password=" . $_SERVER['HTTP_X_PASSWORD'] .
-                    "&traceid=" . $this->_trace_id
+                    "&password=" . $_SERVER['HTTP_X_PASSWORD']
                 );
                 
                 //Log
@@ -1284,10 +1283,6 @@ class ApiController extends Controller
 
                 //Is this a request for listing categories
                 if (isset($_GET['category'])) {
-                    
-                    //Store values
-                    $sessionId = $this->_session->sessionName;
-                    $accountId = $this->_session->accountId;
 
                     //Send request to vtiger REST service
                     $query = "select * from " . $_GET['model'];
@@ -1349,7 +1344,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
                     
                     //Log
@@ -1393,7 +1388,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
                     
                     //Log
@@ -1442,7 +1437,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
                     
                     //Log
@@ -1632,7 +1627,7 @@ class ApiController extends Controller
                                         'picklist_'
                                         . $_GET['model']
                                         . '_'
-                                        . $_GET['fieldname'], $content, 3600
+                                        . $_GET['fieldname'], $content
                                     );
                                     
                                     //Dispatch the response
@@ -1736,7 +1731,7 @@ class ApiController extends Controller
                         Yii::app()->cache->set(
                             $_GET['model']
                             . '_'
-                            . 'list', $cached_value, 3600
+                            . 'list', $cached_value
                         );                    
                     }
                     
