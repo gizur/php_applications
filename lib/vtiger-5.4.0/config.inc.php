@@ -49,7 +49,6 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  * Fetch DB Details
  */
 if (isset($_GET['clientid'])) {
-    ini_set('session.name', $_GET['clientid'] . '_SESSID');
     $region = 'REGION_EU_W1';
     $dynamodb = new AmazonDynamoDB();
     $dynamodb->set_region(constant("AmazonDynamoDB::".$region));
