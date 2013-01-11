@@ -28,10 +28,11 @@ class vtigerCRM_Smarty extends Smarty{
 	function vtigerCRM_Smarty()
 	{
 		global $CALENDAR_DISPLAY, $WORLD_CLOCK_DISPLAY, $CALCULATOR_DISPLAY, $CHAT_DISPLAY, $current_user;
+        global $gizur_client_id;
 
 		$this->Smarty();
 		$this->template_dir = 'Smarty/templates';
-		$this->compile_dir = 'Smarty/templates_c';
+		$this->compile_dir = 'Smarty/templates_c/' . $gizur_client_id;
 		$this->config_dir = 'Smarty/configs';
 		$this->cache_dir = 'Smarty/cache';
 
