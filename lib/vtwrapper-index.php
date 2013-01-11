@@ -38,7 +38,7 @@
  *
  * PHP version 5
  */
-ini_set('session.name', $_GET['clientid'] . '_SESSID');
+ini_set('session.name', strtoupper($_GET['clientid']) . '_SESSID');
     
 ini_set('max_execution_time', 300);
 
