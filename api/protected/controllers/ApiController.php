@@ -1571,7 +1571,13 @@ class ApiController extends Controller
                             $response .                          
                             ")", 
                             CLogger::LEVEL_TRACE
-                        );                        
+                        );
+                        
+                        //Save vtiger response
+                        $this->_vtresponse = $response;                
+
+                        if ($response == '' || $response == null)
+                            throw new Exception("Blank response received from vtiger: Asset Picklist");                         
                         
                         //Objectify the response and check its success
                         $response = json_decode($response, true);
@@ -2602,6 +2608,9 @@ class ApiController extends Controller
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                
+                
+                if ($response == '' | $response == null)
+                    throw new Exception('Blank response received from vtiger: Creating TT'); 
                 
                 $globalresponse = json_decode($response);
                 /*                     * Creating Document* */

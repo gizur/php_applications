@@ -40,55 +40,51 @@ PHPUnit 3.6.11 by Sebastian Bergmann.
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c8465b57","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c41d7aa6","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c84939c0","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c41c9713","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c849305a","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c4254218","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c84de8f1","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c421bfa8","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c8470e4f","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c421d71b","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c84dd952","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c43d3d15","instance_id":"i-33e3fc78","vtresponse":false}}
+
+FF Getting Picklist
+
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c45580b1","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c8484789","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c44453d2","instance_id":"i-33e3fc78","vtresponse":false}}
+
+ Getting Picklist
+
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: GetChallenge","trace_id":"50ed5c41849e7","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c849b2d1","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c4475db3","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c84cf2d8","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: GetChallenge","trace_id":"50ed5c4415248","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c865fd11","instance_id":"i-33e3fc78","vtresponse":""}}
-
-F Getting Picklist
-
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2c88886ef","instance_id":"i-33e3fc78","vtresponse":""}}
-
-F Getting Picklist
-
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Login","trace_id":"50ed2c8483fb6","instance_id":"i-33e3fc78","vtresponse":false}}
-
-F Getting Picklist
-
- Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Login","trace_id":"50ed2c859fa50","instance_id":"i-33e3fc78","vtresponse":false}}
+ Response (ticketpriorities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Login","trace_id":"50ed5c43011f8","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist
 
@@ -110,17 +106,26 @@ F Getting Picklist
 
  Response (ticketpriorities): 
 
-F Getting Picklist
+FF Getting Picklist
 
  Response (ticketpriorities): 
+
+ Getting Picklist
+
+ Response (ticketpriorities): 
+
+F Getting Picklist
+
+ Response (ticketpriorities): {"success":true,"result":[{"label":"Low","value":"Low"},{"label":"Normal","value":"Normal"},{"label":"High","value":"High"},{"label":"Urgent","value":"Urgent"}]}
+ Response (ticketseverities): {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c610400e","instance_id":"i-33e3fc78","vtresponse":false}}
 
 F Getting Picklist for Assets
 
- Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2ca63e2f8","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c62e2386","instance_id":"i-33e3fc78","vtresponse":false}}
 
 
 
-Time: 01:15, Memory: 4.25Mb
+Time: 01:06, Memory: 4.25Mb
 
 There were 2 failures:
 
@@ -140,11 +145,131 @@ FAILURES!
 Tests: 2, Assertions: 2, Failures: 2.
 F Getting Picklist for Assets
 
- Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Login","trace_id":"50ed2ca7895a8","instance_id":"i-33e3fc78","vtresponse":false}}
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c62c1046","instance_id":"i-33e3fc78","vtresponse":false}}
 
 
 
-Time: 01:20, Memory: 4.25Mb
+Time: 01:06, Memory: 4.25Mb
+
+There were 2 failures:
+
+1) Girur_REST_API_Test::testGetPicklist
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
+
+2) Girur_REST_API_Test::testGetPicklistAssets
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 2.
+F Getting Picklist for Assets
+
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c662f441","instance_id":"i-33e3fc78","vtresponse":false}}
+
+
+
+Time: 01:13, Memory: 4.25Mb
+
+There were 2 failures:
+
+1) Girur_REST_API_Test::testGetPicklist
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
+
+2) Girur_REST_API_Test::testGetPicklistAssets
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 2.
+F Getting Picklist for Assets
+
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Contact","trace_id":"50ed5c6638e8a","instance_id":"i-33e3fc78","vtresponse":false}}
+
+
+
+Time: 01:16, Memory: 4.25Mb
+
+There were 2 failures:
+
+1) Girur_REST_API_Test::testGetPicklist
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
+
+2) Girur_REST_API_Test::testGetPicklistAssets
+Blank response received from vtiger: Contact
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 2.
+F Getting Picklist for Assets
+
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c6d79326","instance_id":"i-33e3fc78","vtresponse":false}}
+
+
+
+Time: 01:17, Memory: 4.25Mb
+
+There were 2 failures:
+
+1) Girur_REST_API_Test::testGetPicklist
+Blank response received from vtiger: Login
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
+
+2) Girur_REST_API_Test::testGetPicklistAssets
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 2.
+F Getting Picklist for Assets
+
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c62c1c01","instance_id":"i-33e3fc78","vtresponse":false}}
+
+
+
+Time: 01:19, Memory: 4.25Mb
+
+There were 2 failures:
+
+1) Girur_REST_API_Test::testGetPicklist
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
+
+2) Girur_REST_API_Test::testGetPicklistAssets
+Blank response received from vtiger: LoginCustomer
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 2.
+F Getting Picklist for Assets
+
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Login","trace_id":"50ed5c646e6e3","instance_id":"i-33e3fc78","vtresponse":false}}
+
+
+
+Time: 01:23, Memory: 4.25Mb
 
 There were 2 failures:
 
@@ -175,7 +300,7 @@ Time: 01:25, Memory: 4.25Mb
 There was 1 failure:
 
 1) Girur_REST_API_Test::testGetPicklist
-Blank response received from vtiger: LoginCustomer
+Blank response received from vtiger: GetChallenge
 Failed asserting that true matches expected false.
 
 /home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
@@ -184,83 +309,11 @@ FAILURES!
 Tests: 2, Assertions: 2, Failures: 1.
 F Getting Picklist for Assets
 
- Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: GetChallenge","trace_id":"50ed2ca7e6d12","instance_id":"i-33e3fc78","vtresponse":"{\"success\":true,\"result\":{\"accountId\":\"11x4\",\"user_name\":\"gizur1\",\"accesskey\":\"a1uHr8qtX8LsShqE\",\"contactId\":\"12x10\"}}"}}
+ Response: {"success":false,"error":{"code":"ERROR","message":"Could not identify public key","trace_id":"50ed5c6636a17","instance_id":"","vtresponse":""}}
 
 
 
-Time: 01:28, Memory: 4.25Mb
-
-There were 2 failures:
-
-1) Girur_REST_API_Test::testGetPicklist
-Blank response received from vtiger: LoginCustomer
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
-
-2) Girur_REST_API_Test::testGetPicklistAssets
-Blank response received from vtiger: GetChallenge
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 2.
-F Getting Picklist for Assets
-
- Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2cba2f057","instance_id":"i-33e3fc78","vtresponse":""}}
-
-
-
-Time: 01:28, Memory: 4.25Mb
-
-There were 2 failures:
-
-1) Girur_REST_API_Test::testGetPicklist
-Blank response received from vtiger: Login
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
-
-2) Girur_REST_API_Test::testGetPicklistAssets
-Blank response received from vtiger: LoginCustomer
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 2.
-F Getting Picklist for Assets
-
- Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Contact","trace_id":"50ed2ca79e235","instance_id":"i-33e3fc78","vtresponse":false}}
-
-
-
-Time: 01:30, Memory: 4.25Mb
-
-There were 2 failures:
-
-1) Girur_REST_API_Test::testGetPicklist
-Blank response received from vtiger: LoginCustomer
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
-
-2) Girur_REST_API_Test::testGetPicklistAssets
-Blank response received from vtiger: Contact
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 2.
-F Getting Picklist for Assets
-
- Response: {"success":false,"error":{"code":"ERROR","message":"Could not identify public key","trace_id":"50ed2ca7da3c8","instance_id":"","vtresponse":""}}
-
-
-
-Time: 01:32, Memory: 4.25Mb
+Time: 01:31, Memory: 4.25Mb
 
 There were 2 failures:
 
@@ -280,35 +333,11 @@ FAILURES!
 Tests: 2, Assertions: 2, Failures: 2.
 F Getting Picklist for Assets
 
- Response: {"success":false,"error":{"code":"ERROR","message":"Could not identify public key","trace_id":"50ed2ca787f14","instance_id":"","vtresponse":""}}
+ Response: {"success":false,"error":{"code":"ERROR","message":"Fetching details failed","trace_id":"50ed5c626bd7e","vtresponse":"{\"success\":true,\"result\":[{\"accountname\":\"Transport X2\",\"account_no\":\"ACC3\",\"id\":\"11x4\"}]}","instance_id":"i-33e3fc78"}}
 
 
 
 Time: 01:33, Memory: 4.25Mb
-
-There were 2 failures:
-
-1) Girur_REST_API_Test::testGetPicklist
-Blank response received from vtiger: LoginCustomer
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
-
-2) Girur_REST_API_Test::testGetPicklistAssets
-Could not identify public key
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 2.
-F Getting Picklist for Assets
-
- Response: {"success":false,"error":{"code":"ERROR","message":"Fetching details failed","trace_id":"50ed2ca85b93a","vtresponse":"{\"success\":true,\"result\":[{\"accountname\":\"Transport X2\",\"account_no\":\"ACC3\",\"id\":\"11x4\"}]}","instance_id":"i-33e3fc78"}}
-
-
-
-Time: 01:34, Memory: 4.25Mb
 
 There were 2 failures:
 
@@ -349,13 +378,32 @@ Failed asserting that null is an instance of class "stdClass".
 
 FAILURES!
 Tests: 2, Assertions: 2, Failures: 2.
+. Getting Picklist for Assets
+
+ Response: {"success":true,"result":[{"label":"Cooptrailer","value":"Cooptrailer"},{"label":"Hyrtrailer","value":"Hyrtrailer"}]}
+
+
+
+
+
+Time: 01:34, Memory: 4.25Mb
+
+There was 1 failure:
+
+1) Girur_REST_API_Test::testGetPicklist
+Failed asserting that null is an instance of class "stdClass".
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 1.
 F Getting Picklist for Assets
 
- Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed2cc072441","instance_id":"i-33e3fc78","vtresponse":""}}
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: LoginCustomer","trace_id":"50ed5c7f2a4f6","instance_id":"i-33e3fc78","vtresponse":false}}
 
 
 
-Time: 01:35, Memory: 4.25Mb
+Time: 01:36, Memory: 4.25Mb
 
 There were 2 failures:
 
@@ -374,11 +422,11 @@ FAILURES!
 Tests: 2, Assertions: 2, Failures: 2.
 F Getting Picklist for Assets
 
- Response: 
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Login","trace_id":"50ed5c82952ba","instance_id":"i-33e3fc78","vtresponse":false}}
 
 
 
-Time: 01:35, Memory: 4.25Mb
+Time: 01:43, Memory: 4.25Mb
 
 There were 2 failures:
 
@@ -389,110 +437,25 @@ Failed asserting that true matches expected false.
 /home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
 
 2) Girur_REST_API_Test::testGetPicklistAssets
-Failed asserting that null is an instance of class "stdClass".
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1211
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 2.
-. Getting Picklist for Assets
-
- Response: {"success":true,"result":[{"label":"Cooptrailer","value":"Cooptrailer"},{"label":"Hyrtrailer","value":"Hyrtrailer"}]}
-
-
-
-
-
-Time: 01:40, Memory: 4.25Mb
-
-There was 1 failure:
-
-1) Girur_REST_API_Test::testGetPicklist
 Blank response received from vtiger: Login
 Failed asserting that true matches expected false.
 
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
 
 FAILURES!
-Tests: 2, Assertions: 2, Failures: 1.
-. Getting Picklist for Assets
+Tests: 2, Assertions: 3, Failures: 2.
+F Getting Picklist for Assets
 
- Response: {"success":true,"result":[{"label":"Cooptrailer","value":"Cooptrailer"},{"label":"Hyrtrailer","value":"Hyrtrailer"}]}
-
-
+ Response: 
 
 
 
 Time: 01:44, Memory: 4.25Mb
 
-There was 1 failure:
-
-1) Girur_REST_API_Test::testGetPicklist
-Failed asserting that null is an instance of class "stdClass".
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 1.
-. Getting Picklist for Assets
-
- Response: {"success":true,"result":[{"label":"Cooptrailer","value":"Cooptrailer"},{"label":"Hyrtrailer","value":"Hyrtrailer"}]}
-
-
-
-
-
-Time: 01:46, Memory: 4.25Mb
-
-There was 1 failure:
-
-1) Girur_REST_API_Test::testGetPicklist
-Failed asserting that null is an instance of class "stdClass".
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 1.
-F Getting Picklist
-
- Response (ticketpriorities): {"success":true,"result":[{"label":"Low","value":"Low"},{"label":"Normal","value":"Normal"},{"label":"High","value":"High"},{"label":"Urgent","value":"Urgent"}]}
- Response (ticketseverities): 
-
-F Getting Picklist for Assets
-
- Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: GetChallenge","trace_id":"50ed2cc07ae15","instance_id":"i-33e3fc78","vtresponse":"{\"success\":true,\"result\":{\"accountId\":\"11x4\",\"user_name\":\"gizur1\",\"accesskey\":\"a1uHr8qtX8LsShqE\",\"contactId\":\"12x10\"}}"}}
-
-
-
-Time: 01:49, Memory: 4.25Mb
-
 There were 2 failures:
 
 1) Girur_REST_API_Test::testGetPicklist
-Failed asserting that null is an instance of class "stdClass".
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
-
-2) Girur_REST_API_Test::testGetPicklistAssets
 Blank response received from vtiger: GetChallenge
-Failed asserting that true matches expected false.
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
-
-FAILURES!
-Tests: 2, Assertions: 2, Failures: 2.
-F Getting Picklist for Assets
-
- Response: 
-
-
-
-Time: 01:52, Memory: 4.25Mb
-
-There were 2 failures:
-
-1) Girur_REST_API_Test::testGetPicklist
-Blank response received from vtiger: LoginCustomer
 Failed asserting that true matches expected false.
 
 /home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1150
@@ -504,42 +467,85 @@ Failed asserting that null is an instance of class "stdClass".
 
 FAILURES!
 Tests: 2, Assertions: 2, Failures: 2.
-FF Getting Picklist for Assets
+F Getting Picklist for Assets
 
- Response: 
-
- Getting Picklist for Assets
-
- Response: 
+ Response: {"success":false,"error":{"code":"ERROR","message":"Blank response received from vtiger: Login","trace_id":"50ed5c7f03dd4","instance_id":"i-33e3fc78","vtresponse":false}}
 
 
 
-Time: 02:00, Memory: 4.00Mb
+Time: 01:54, Memory: 4.25Mb
 
 There were 2 failures:
 
-
-Time: 02:00, Memory: 4.00Mb
-
-
 1) Girur_REST_API_Test::testGetPicklist
-There were 2 failures:
-
-1) Girur_REST_API_Test::testGetPicklist
-Failed asserting that null is an instance of class "stdClass".
-
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
 Failed asserting that null is an instance of class "stdClass".
 
 /home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
 
 2) Girur_REST_API_Test::testGetPicklistAssets
-Failed asserting that null is an instance of class "stdClass".
+Blank response received from vtiger: Login
+Failed asserting that true matches expected false.
 
-/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1211
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
 
 FAILURES!
 Tests: 2, Assertions: 2, Failures: 2.
+F Getting Picklist for Assets
+
+ Response: {"success":false,"error":{"code":"ERROR","message":"Could not identify public key","trace_id":"50ed5c7f5e47a","instance_id":"","vtresponse":""}}
+
+
+
+Time: 01:57, Memory: 4.25Mb
+
+There were 2 failures:
+
+1) Girur_REST_API_Test::testGetPicklist
+Failed asserting that null is an instance of class "stdClass".
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
+
+2) Girur_REST_API_Test::testGetPicklistAssets
+Could not identify public key
+Failed asserting that true matches expected false.
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1209
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 2.
+. Getting Picklist for Assets
+
+ Response: {"success":true,"result":[{"label":"Cooptrailer","value":"Cooptrailer"},{"label":"Hyrtrailer","value":"Hyrtrailer"}]}
+
+
+
+
+
+Time: 01:59, Memory: 4.25Mb
+
+There was 1 failure:
+
+1) Girur_REST_API_Test::testGetPicklist
+Failed asserting that null is an instance of class "stdClass".
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
+
+FAILURES!
+Tests: 2, Assertions: 2, Failures: 1.
+F Getting Picklist for Assets
+
+ Response: 
+
+
+
+Time: 02:01, Memory: 4.00Mb
+
+There were 2 failures:
+
+1) Girur_REST_API_Test::testGetPicklist
+Failed asserting that null is an instance of class "stdClass".
+
+/home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
 
 2) Girur_REST_API_Test::testGetPicklistAssets
 Failed asserting that null is an instance of class "stdClass".
@@ -556,7 +562,7 @@ Tests: 2, Assertions: 2, Failures: 2.
 
 
 
-Time: 02:11, Memory: 4.25Mb
+Time: 02:01, Memory: 4.25Mb
 
 There was 1 failure:
 
@@ -566,4 +572,4 @@ Failed asserting that null is an instance of class "stdClass".
 /home/anshuk/public_html/gizurcloud/tests/GizurRESTAPITest.php:1152
 
 FAILURES!
-Tests: 2, Assertions: 3, Failures: 1.
+Tests: 2, Assertions: 2, Failures: 1.
