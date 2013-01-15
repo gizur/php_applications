@@ -1662,12 +1662,18 @@ function create_tab_data_file() {
     $dynamodb->set_region("AmazonDynamoDB::$region");
     
     // Prepare the data
-    $post['id'] = $gizur_client_id;
+    /*$post['id'] = $gizur_client_id;
     $post['tab_info_array'] = constructArray($result_array);
     $post['tab_seq_array'] = constructArray($seq_array);
     $post['tab_ownedby_array'] = constructArray($ownedby_array);
     $post['action_id_array'] = constructSingleStringKeyAndValueArray($actionid_array);
-    $post['action_name_array'] = constructSingleStringValueArray($actionname_array);
+    $post['action_name_array'] = constructSingleStringValueArray($actionname_array);*/
+    $post['id'] = $gizur_client_id;
+    $post['tab_info_array'] = 1;
+    $post['tab_seq_array'] = 2;
+    $post['tab_ownedby_array'] = 3;
+    $post['action_id_array'] = 4;
+    $post['action_name_array'] = 5;
     
     $ddb_response = $dynamodb->put_item(
         array(
@@ -1676,7 +1682,6 @@ function create_tab_data_file() {
         )
     );
     
-    print_r($ddb_response);
     
 
     /**
