@@ -3,6 +3,10 @@
 require_once '../lib/aws-php-sdk/sdk.class.php';
 $gizur_client_id = 'cikab';
 $dynamodb = new AmazonDynamoDB();
+
+$queue = new CFBatchRequest();
+$queue->use_credentials($dynamodb->credentials);
+
 $region = 'REGION_EU_W1';
 $table_name = 'VTIGER_TABDATA';
 $dynamodb->set_region("AmazonDynamoDB::" . $region);
@@ -17,12 +21,18 @@ $post['action_id_array'] = 'constructSingleStringKeyAndValueArray($actionid_arra
 $post['action_name_array'] = 'constructSingleStringValueArray($actionname_array)';
 echo "In create_tab_data_file() $gizur_client_id";
 
-$ddb_response = $dynamodb->put_item(
+$dynamodb->batch($queue)->put_item(
     array(
         'TableName' => $table_name,
-        'Item' => $dynamodb->attributes($post)
+        'Item' => $post
     )
 );
 
-print_r($ddb_response);
+$responses = $dynamodb->batch($queue)->send();
+
+if ($responses->areOK()) {
+    echo "The data has been added to the table." . PHP_EOL;
+} else {
+    print_r($responses);
+}
 ?>
