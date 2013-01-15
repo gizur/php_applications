@@ -5,7 +5,7 @@ $gizur_client_id = 'cikab';
 $dynamodb = new AmazonDynamoDB();
 $region = 'REGION_EU_W1';
 $table_name = 'VTIGER_TABDATA';
-$dynamodb->set_region($region);
+$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1);
 
 $queue = new CFBatchRequest();
 $queue->use_credentials($dynamodb->credentials);
