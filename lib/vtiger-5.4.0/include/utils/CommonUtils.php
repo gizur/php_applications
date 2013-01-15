@@ -1656,7 +1656,7 @@ function create_tab_data_file() {
     
     ini_set('display_errors', '1');
     error_reporting(E_ALL);
-    
+    require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
     require_once('modules/Users/CreateUserPrivilegeFile.php');
     global $gizur_client_id;
     $dynamodb = new AmazonDynamoDB();
