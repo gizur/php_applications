@@ -1668,6 +1668,7 @@ function create_tab_data_file() {
     $post['tab_ownedby_array'] = constructArray($ownedby_array);
     $post['action_id_array'] = constructSingleStringKeyAndValueArray($actionid_array);
     $post['action_name_array'] = constructSingleStringValueArray($actionname_array);*/
+    $log->debug("In create_tab_data_file() $gizur_client_id");
     $post['id'] = $gizur_client_id;
     $post['tab_info_array'] = 1;
     $post['tab_seq_array'] = 2;
