@@ -1653,6 +1653,7 @@ function create_tab_data_file() {
     /**
      * Created to resolve issue #187
      */
+    try{
     require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
     require_once('modules/Users/CreateUserPrivilegeFile.php');
     global $gizur_client_id;
@@ -1682,7 +1683,9 @@ function create_tab_data_file() {
             'Item' => $dynamodb->attributes($post)
         )
     );
-    
+    }catch(Exception $e){
+        $log->debug("In create_tab_data_file() " . $e->getMessage());
+    }
     
 
     /**
