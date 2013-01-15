@@ -3,13 +3,12 @@
 require_once '../lib/aws-php-sdk/sdk.class.php';
 $gizur_client_id = 'cikab';
 $dynamodb = new AmazonDynamoDB();
-
-$queue = new CFBatchRequest();
-$queue->use_credentials($dynamodb->credentials);
-
 $region = 'REGION_EU_W1';
 $table_name = 'VTIGER_TABDATA';
 $dynamodb->set_region($region);
+
+$queue = new CFBatchRequest();
+$queue->use_credentials($dynamodb->credentials);
 // Prepare the data
 $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
 $post['tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => 'constructArray($result_array)');
