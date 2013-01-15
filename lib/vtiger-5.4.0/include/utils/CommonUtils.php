@@ -1654,38 +1654,46 @@ function create_tab_data_file() {
      * Created to resolve issue #187
      */
     
-    /*
+    
     require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
     require_once('modules/Users/CreateUserPrivilegeFile.php');
     global $gizur_client_id;
     $dynamodb = new AmazonDynamoDB();
-    $region = 'REGION_EU_W1';
     $table_name = 'VTIGER_TABDATA';
-    $dynamodb->set_region("AmazonDynamoDB::".$region);
+    $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1);
     
+    $queue = new CFBatchRequest();
+    $queue->use_credentials($dynamodb->credentials);
     // Prepare the data
-    $post['id'] = $gizur_client_id;
-    $post['tab_info_array'] = constructArray($result_array);
-    $post['tab_seq_array'] = constructArray($seq_array);
-    $post['tab_ownedby_array'] = constructArray($ownedby_array);
-    $post['action_id_array'] = constructSingleStringKeyAndValueArray($actionid_array);
-    $post['action_name_array'] = constructSingleStringValueArray($actionname_array);
+    $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
+    $post['tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => serialize(constructArray($result_array)));
+    $post['tab_seq_array'] = array(AmazonDynamoDB::TYPE_STRING => serialize(constructArray($seq_array)));
+    $post['tab_ownedby_array'] = array(AmazonDynamoDB::TYPE_STRING => serialize(constructArray($ownedby_array)));
+    $post['action_id_array'] = array(AmazonDynamoDB::TYPE_STRING => serialize(constructSingleStringKeyAndValueArray($actionid_array)));
+    $post['action_name_array'] = array(AmazonDynamoDB::TYPE_STRING => serialize(constructSingleStringValueArray($actionname_array)));
+
     $log->debug("In create_tab_data_file() $gizur_client_id");
     
-    $ddb_response = $dynamodb->put_item(
+    $dynamodb->batch($queue)->put_item(
         array(
             'TableName' => $table_name,
-            'Item' => $dynamodb->attributes($post)
+            'Item' => $post
         )
     );
-    echo "<pre>" . $gizur_client_id; print_r($ddb_response);
-    die;
-     * 
+
+    $responses = $dynamodb->batch($queue)->send();
+    if (!$responses->areOK()) {
+        print_r($responses);
+        return;
+    }
+     /** 
      * 
      * Hide to resolve issue #187
      * https://github.com/gizur/gizurcloud/issues/187
      */
-	if (file_exists($filename)) {
+	/*
+      if (file_exists($filename)) {
+     
 
 		if (is_writable($filename)) {
 
