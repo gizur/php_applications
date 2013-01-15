@@ -1650,7 +1650,37 @@ function create_tab_data_file() {
 
 	$filename = 'tabdata.php';
 
+    /**
+     * Created to resolve issue #187
+     */
+    require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
+    require_once('modules/Users/CreateUserPrivilegeFile.php');
+    global $gizur_client_id;
+    $dynamodb = new AmazonDynamoDB();
+    $region = 'REGION_EU_W1';
+    $table_name = 'VTIGER_TABDATA';
+    $dynamodb->set_region("AmazonDynamoDB::$region");
+    
+    // Prepare the data
+    $post['id'] = $gizur_client_id;
+    $post['tab_info_array'] = constructArray($result_array);
+    $post['tab_seq_array'] = constructArray($seq_array);
+    $post['tab_ownedby_array'] = constructArray($ownedby_array);
+    $post['action_id_array'] = constructSingleStringKeyAndValueArray($actionid_array);
+    $post['action_name_array'] = constructSingleStringValueArray($actionname_array);
+    
+    $ddb_response = $dynamodb->put_item(
+        array(
+            'TableName' => $table_name,
+            'Item' => $dynamodb->attributes($post)
+        )
+    );
+    
 
+    /**
+     * Hide to resolve issue #187
+     * https://github.com/gizur/gizurcloud/issues/187
+     * 
 	if (file_exists($filename)) {
 
 		if (is_writable($filename)) {
@@ -1685,6 +1715,8 @@ function create_tab_data_file() {
 		$log->debug("Exiting create_tab_data_file method ...");
 		return;
 	}
+     * 
+     */
 }
 
 /**

@@ -49,6 +49,7 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  * Fetch DB Details
  */
 if (isset($_GET['clientid'])) {
+$gizur_client_id = $_GET['clientid'];
 $region = 'REGION_EU_W1';
 $dynamodb = new AmazonDynamoDB();
 $dynamodb->set_region(constant("AmazonDynamoDB::".$region));
