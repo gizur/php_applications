@@ -1653,15 +1653,16 @@ function create_tab_data_file() {
     /**
      * Created to resolve issue #187
      */
+    
+    ini_set('display_errors', '1');
     error_reporting(E_ALL);
-    ini_set('display_errors', 'On');
     
     require_once('modules/Users/CreateUserPrivilegeFile.php');
     global $gizur_client_id;
     $dynamodb = new AmazonDynamoDB();
     $region = 'REGION_EU_W1';
     $table_name = 'VTIGER_TABDATA';
-    $dynamodb->set_region("AmazonDynamoDB::$region");
+    $dynamodb->set_region("AmazonDynamoDB::".$region);
     
     // Prepare the data
     /*$post['id'] = $gizur_client_id;
@@ -1684,7 +1685,7 @@ function create_tab_data_file() {
             'Item' => $dynamodb->attributes($post)
         )
     );
-    echo "<pre>"; print_r($ddb_response);
+    echo "<pre>" . $gizur_client_id; print_r($ddb_response);
     die;
     /**
      * Hide to resolve issue #187

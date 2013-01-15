@@ -49,23 +49,23 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  * Fetch DB Details
  */
 if (isset($_GET['clientid'])) {
-$gizur_client_id = $_GET['clientid'];
-$region = 'REGION_EU_W1';
-$dynamodb = new AmazonDynamoDB();
-$dynamodb->set_region(constant("AmazonDynamoDB::".$region));
+    $gizur_client_id = $_GET['clientid'];
+    $region = 'REGION_EU_W1';
+    $dynamodb = new AmazonDynamoDB();
+    $dynamodb->set_region(constant("AmazonDynamoDB::".$region));
 
-$response = $dynamodb->scan(array(
-    'TableName'       => 'GIZUR_ACCOUNTS',
-    'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
-    'ScanFilter'      => array(
-        'clientid' => array(
-            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-            'AttributeValueList' => array(
-                array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
-            )
-        ),
-    )
-));
+    $response = $dynamodb->scan(array(
+        'TableName'       => 'GIZUR_ACCOUNTS',
+        'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
+        'ScanFilter'      => array(
+            'clientid' => array(
+                'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                'AttributeValueList' => array(
+                    array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
+                )
+            ),
+        )
+    ));
 }
 
 if ($response->body->Count!=0) {
