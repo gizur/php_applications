@@ -1676,6 +1676,8 @@ function create_tab_data_file() {
         )
     );
     
+    print_r($ddb_response);
+    
 
     /**
      * Hide to resolve issue #187

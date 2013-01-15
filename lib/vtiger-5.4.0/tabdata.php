@@ -4,7 +4,7 @@
 //This file contains the commonly used variables 
 
 require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
-require_once('modules/Users/CreateUserPrivilegeFile.php');
+
 global $gizur_client_id;
 $dynamodb = new AmazonDynamoDB();
 $region = 'REGION_EU_W1';
