@@ -9,7 +9,7 @@ $queue->use_credentials($dynamodb->credentials);
 
 $region = 'REGION_EU_W1';
 $table_name = 'VTIGER_TABDATA';
-//$dynamodb->set_region("AmazonDynamoDB::" . $region);
+$dynamodb->set_region($region);
 // Prepare the data
 $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
 $post['tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => 'constructArray($result_array)');
