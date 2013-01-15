@@ -381,6 +381,7 @@ class Users extends CRMEntity {
                      * in the time of login.
                      */
                     $userid = $result->fields['id'];
+                    createUserPrivilegesfile($userid);
                     createUserSharingPrivilegesfile($userid);
                     return true;
                 }
