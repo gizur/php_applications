@@ -1684,8 +1684,8 @@ function create_tab_data_file() {
             'Item' => $dynamodb->attributes($post)
         )
     );
-    
-
+    echo "<pre>"; print_r($ddb_response);
+    die;
     /**
      * Hide to resolve issue #187
      * https://github.com/gizur/gizurcloud/issues/187
