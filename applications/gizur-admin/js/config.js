@@ -1,2 +1,2 @@
-var RESTServerURL = 'https://c2.gizur.com/api/'
+var RESTServerURL = 'https://api.gizur.com/api/'
 

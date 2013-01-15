@@ -250,7 +250,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'mobile_app@gizur.com' => true,
             'mobile_user@gizur.com' => true,
             'portal_user@gizur.com' => true,
-            'jonas.colmsjo@gizur.com' => true
+            'jonas.colmsjo@gizur.com' => true,
+            'demo@gizur.com' => true
         );        
 
         Restart:
@@ -1112,7 +1113,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'reportdamage',
             'damagetype',
             'damageposition',
-            'drivercauseddamage'
+            'drivercauseddamage',
+            'damagereportlocation'
         );
 
         //Label the test

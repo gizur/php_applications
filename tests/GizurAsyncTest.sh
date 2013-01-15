@@ -5,3 +5,4 @@ do
    echo "Test run $i"
    phpunit --filter GetPicklist GizurRESTAPITest.php >> output &
 done
+tail -f output

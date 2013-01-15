@@ -126,7 +126,7 @@ return array(
                 'awsS3Region' => 'REGION_APAC_NE1',
                 'awsDynamoDBRegion' => 'REGION_EU_W1',
                 'awsSESRegion' => 'REGION_EU_W1',
-                'custom_fields' => Array(
+                'clab_custom_fields' => Array(
                     'HelpDesk' => Array(
                         'tickettype' => 'cf_640',
                         'trailerid' => 'cf_641',
@@ -143,5 +143,22 @@ return array(
                         'trailertype' => 'cf_650'
                     )
                 ),  
+                'demo_custom_fields' => Array(
+                    'HelpDesk' => Array(
+                        'tickettype' => 'cf_640',
+                        'trailerid' => 'cf_641',
+                        'damagereportlocation' => 'cf_653',
+                        'sealed' => 'cf_643',
+                        'plates' => 'cf_652',
+                        'straps'  => 'cf_651',
+                        'reportdamage' => 'cf_654',
+                        'damagetype' => 'cf_647',
+                        'damageposition' => 'cf_648',
+                        'drivercauseddamage' => 'cf_649'
+                    ),
+                    'Assets' => Array(
+                        'trailertype' => 'cf_650'
+                    )
+                ),         
 	),
 );

@@ -605,8 +605,7 @@ class ApiController extends Controller
                 $response = $rest->post(
                     $this->_vtresturl .
                     "?operation=logincustomer", "username=" . $_SERVER['HTTP_X_USERNAME'] .
-                    "&password=" . $_SERVER['HTTP_X_PASSWORD'] .
-                    "&traceid=" . $this->_trace_id
+                    "&password=" . $_SERVER['HTTP_X_PASSWORD']
                 );
                 
                 //Log
@@ -724,7 +723,6 @@ class ApiController extends Controller
                     throw new Exception("Invalid generated key ");
                 
                 //Store the values from response
-                $sessionId = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
 
@@ -737,7 +735,7 @@ class ApiController extends Controller
                 $queryParam = urlencode($query);
 
                 //creating query string
-                $params = "sessionName=$sessionId" .
+                $params = "sessionName={$this->_session->sessionName}" .
                         "&operation=query&query=$queryParam";
 
                 //Log
@@ -795,7 +793,7 @@ class ApiController extends Controller
 
                 //creating query string
                 $params 
-                    = "sessionName=$sessionId" .
+                    = "sessionName={$this->_session->sessionName}" .
                         "&operation=query&query=$queryParam";
                 
                 //Log
@@ -1036,7 +1034,6 @@ class ApiController extends Controller
                 }
 
                 if ($_GET['action'] == 'logout') {
-                    $sessionId = $this->_session->sessionName;
            
                     //Log
                     Yii::log(
@@ -1044,17 +1041,17 @@ class ApiController extends Controller
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending request to vt url: " . 
                         $this->_vtresturl .
-                        "?operation=logout&sessionName=$sessionId" .                            
+                        "?operation=logout&sessionName={$this->_session->sessionName}" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                    
                     
-                    //Logout using $sessionId
+                    //Logout using {$this->_session->sessionName}
                     $rest = new RESTClient();
                     $rest->format('json');
                     $response = $rest->get(
                         $this->_vtresturl .
-                        "?operation=logout&sessionName=$sessionId"
+                        "?operation=logout&sessionName={$this->_session->sessionName}"
                     );
                     
                     //Log
@@ -1113,9 +1110,6 @@ class ApiController extends Controller
 
                     if ($cached_value === false) {
                         
-                        //retrieve session id
-                        $sessionId = $this->_session->sessionName;
-                        
                         //flip custome fields array
                         $flipped_custom_fields 
                             = array_flip(Yii::app()->params->custom_fields[$_GET['model']]);
@@ -1131,7 +1125,7 @@ class ApiController extends Controller
                         
                         //Receive response from vtiger REST service
                         //Return response to client 
-                        $params = "sessionName=$sessionId" .
+                        $params = "sessionName={$this->_session->sessionName}" .
                                 "&operation=describe" .
                                 "&elementType=" . $_GET['model'];
                         
@@ -1284,10 +1278,6 @@ class ApiController extends Controller
 
                 //Is this a request for listing categories
                 if (isset($_GET['category'])) {
-                    
-                    //Store values
-                    $sessionId = $this->_session->sessionName;
-                    $accountId = $this->_session->accountId;
 
                     //Send request to vtiger REST service
                     $query = "select * from " . $_GET['model'];
@@ -1349,7 +1339,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
                     
                     //Log
@@ -1393,7 +1383,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
                     
                     //Log
@@ -1442,7 +1432,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
                     
                     //Log
@@ -1537,9 +1527,6 @@ class ApiController extends Controller
 
                     if ($cached_value === false) {
                         
-                        //retrieve session id
-                        $sessionId = $this->_session->sessionName;
-                        
                         //flip custome fields array
                         $flipped_custom_fields 
                             = array_flip(Yii::app()->params->custom_fields['Assets']);
@@ -1555,7 +1542,7 @@ class ApiController extends Controller
                         
                         //Receive response from vtiger REST service
                         //Return response to client 
-                        $params = "sessionName=$sessionId" .
+                        $params = "sessionName={$this->_session->sessionName}" .
                                 "&operation=describe" .
                                 "&elementType=" . $_GET['model'];
                         
@@ -1584,7 +1571,13 @@ class ApiController extends Controller
                             $response .                          
                             ")", 
                             CLogger::LEVEL_TRACE
-                        );                        
+                        );
+                        
+                        //Save vtiger response
+                        $this->_vtresponse = $response;                
+
+                        if ($response == '' || $response == null)
+                            throw new Exception("Blank response received from vtiger: Asset Picklist");                         
                         
                         //Objectify the response and check its success
                         $response = json_decode($response, true);
@@ -1632,7 +1625,7 @@ class ApiController extends Controller
                                         'picklist_'
                                         . $_GET['model']
                                         . '_'
-                                        . $_GET['fieldname'], $content, 3600
+                                        . $_GET['fieldname'], $content
                                     );
                                     
                                     //Dispatch the response
@@ -1736,7 +1729,7 @@ class ApiController extends Controller
                         Yii::app()->cache->set(
                             $_GET['model']
                             . '_'
-                            . 'list', $cached_value, 3600
+                            . 'list', $cached_value
                         );                    
                     }
                     
@@ -1870,7 +1863,6 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'HelpDesk':
-                $sessionId = $this->_session->sessionName;
                 
                 Yii::log(
                    "TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST " .
@@ -1890,7 +1882,7 @@ class ApiController extends Controller
                 $queryParam = urlencode($query);
 
                 //creating query string
-                $params = "sessionName=$sessionId" .
+                $params = "sessionName={$this->_session->sessionName}" .
                         "&operation=query&query=$queryParam";
                 
                 //Log
@@ -1929,7 +1921,7 @@ class ApiController extends Controller
 
                 //Get Documents Ids
                 //creating query string
-                $params = "sessionName=$sessionId" .
+                $params = "sessionName={$this->_session->sessionName}" .
                         "&operation=getrelatedtroubleticketdocument" .
                         "&crmid=" . $_GET['id'];
                 
@@ -1983,7 +1975,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
 
                     //Log
@@ -2032,7 +2024,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
 
                     //Log
@@ -2081,7 +2073,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
 
                     //Log
@@ -2147,7 +2139,6 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'Assets':
-                    $sessionId = $this->_session->sessionName;
                 
                     if (preg_match('[0-9]?x[0-9]?', $_GET['id'])==0)
                         throw new Exception('Invalid format of Id');                
@@ -2160,7 +2151,7 @@ class ApiController extends Controller
                     $queryParam = urlencode($query);
 
                     //creating query string
-                    $params = "sessionName=$sessionId" .
+                    $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=query&query=$queryParam";
 
                     //Log
@@ -2217,13 +2208,12 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'DocumentAttachments':
-                $sessionId = $this->_session->sessionName;
 
                 //urlencode to as its sent over http.
                 $queryParam = urlencode($query);
 
                 //creating query string
-                $params = "sessionName=$sessionId" .
+                $params = "sessionName={$this->_session->sessionName}" .
                         "&operation=gettroubleticketdocumentfile" .
                         "&notesid=" . $_GET['id'];
 
@@ -2552,9 +2542,6 @@ class ApiController extends Controller
                     "Ticket can be opened for damaged trailers only", 1002
                 );
 
-                $sessionId = $this->_session->sessionName;
-                $userId = $this->_session->userId;
-
                 /** Creating Touble Ticket* */
                 $post = $_POST;
                 $custom_fields = array_flip(
@@ -2589,7 +2576,7 @@ class ApiController extends Controller
                     $this->_vtresturl . "  " .
                     json_encode(
                         array(
-                            'sessionName' => $sessionId,
+                            'sessionName' => $this->_session->sessionName,
                             'operation' => 'create',
                             'element' => $dataJson,
                             'elementType' => $_GET['model']
@@ -2605,7 +2592,7 @@ class ApiController extends Controller
                 $rest->format('json');
                 $response = $rest->post(
                     $this->_vtresturl, array(
-                        'sessionName' => $sessionId,
+                        'sessionName' => $this->_session->sessionName,
                         'operation' => 'create',
                         'element' => $dataJson,
                         'elementType' => $_GET['model']
@@ -2622,6 +2609,9 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );                
                 
+                if ($response == '' | $response == null)
+                    throw new Exception('Blank response received from vtiger: Creating TT'); 
+                
                 $globalresponse = json_decode($response);
                 /*                     * Creating Document* */
 
@@ -2633,7 +2623,7 @@ class ApiController extends Controller
                 $globalresponse->result->documents = Array();
                 $dataJson = array(
                     'notes_title' => 'Attachement',
-                    'assigned_user_id' => $userId,
+                    'assigned_user_id' => $this->_session->userId,
                     'notecontent' => 'Attachement',
                     'filelocationtype' => 'I',
                     'filedownloadcount' => null,
@@ -2675,7 +2665,7 @@ class ApiController extends Controller
                             $this->_vtresturl . "  " .
                             json_encode(
                                 array(
-                                    'sessionName' => $sessionId,
+                                    'sessionName' => $this->_session->sessionName,
                                     'operation' => 'create',
                                     'element' => json_encode($dataJson),
                                     'elementType' => 'Documents'
@@ -2690,7 +2680,7 @@ class ApiController extends Controller
                         $rest->format('json');
                         $document = $rest->post(
                             $this->_vtresturl, array(
-                                'sessionName' => $sessionId,
+                                'sessionName' => $this->_session->sessionName,
                                 'operation' => 'create',
                                 'element' =>
                                 json_encode($dataJson),
@@ -2720,7 +2710,7 @@ class ApiController extends Controller
                                 $this->_vtresturl . "  " .
                                 json_encode(
                                     array(
-                                        'sessionName' => $sessionId,
+                                        'sessionName' => $this->_session->sessionName,
                                         'operation' =>
                                         'relatetroubleticketdocument',
                                         'crmid' => $crmid,
@@ -2736,7 +2726,7 @@ class ApiController extends Controller
                             $rest->format('json');
                             $response = $rest->post(
                                 $this->_vtresturl, array(
-                                    'sessionName' => $sessionId,
+                                    'sessionName' => $this->_session->sessionName,
                                     'operation' =>
                                     'relatetroubleticketdocument',
                                     'crmid' => $crmid,
@@ -3236,7 +3226,6 @@ class ApiController extends Controller
                  * ******************************************************************
                  */
             case 'HelpDesk':
-                    $sessionId = $this->_session->sessionName;
 
                     //Log
                     Yii::log(
@@ -3246,7 +3235,7 @@ class ApiController extends Controller
                         $this->_vtresturl . "  " .
                         json_encode(
                             array(
-                                'sessionName' => $sessionId,
+                                'sessionName' => $this->_session->sessionName,
                                 'operation' => 'retrieve',
                                 'id' => $_GET['id']
                             )                  
@@ -3261,7 +3250,7 @@ class ApiController extends Controller
                     $rest->format('json');
                     $response = $rest->get(
                         $this->_vtresturl, array(
-                            'sessionName' => $sessionId,
+                            'sessionName' => $this->_session->sessionName,
                             'operation' => 'retrieve',
                             'id' => $_GET['id']
                         )
@@ -3291,7 +3280,7 @@ class ApiController extends Controller
                         $this->_vtresturl . "  " .
                         json_encode(
                             array(
-                                'sessionName' => $sessionId,
+                                'sessionName' => $this->_session->sessionName,
                                 'operation' => 'update',
                                 'element' => json_encode($retrivedObject)
                             )                  
@@ -3306,7 +3295,7 @@ class ApiController extends Controller
                     $rest->format('json');
                     $response = $rest->post(
                         $this->_vtresturl, array(
-                            'sessionName' => $sessionId,
+                            'sessionName' => $this->_session->sessionName,
                             'operation' => 'update',
                             'element' => json_encode($retrivedObject)
                         )
