@@ -1653,8 +1653,9 @@ function create_tab_data_file() {
     /**
      * Created to resolve issue #187
      */
-    ini_set('display_errors', 'On');
     error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
+    
     require_once('modules/Users/CreateUserPrivilegeFile.php');
     global $gizur_client_id;
     $dynamodb = new AmazonDynamoDB();
