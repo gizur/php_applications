@@ -1601,6 +1601,9 @@ function setObjectValuesFromRequest($focus) {
  * returns null
  */
 function create_tab_data_file() {
+    ini_set('display_errors', '1');
+    error_reporting(E_ALL);
+    
 	global $log;
 	$log->debug("Entering create_tab_data_file() method ...");
 	$log->info("creating vtiger_tabdata file");
@@ -1654,8 +1657,7 @@ function create_tab_data_file() {
      * Created to resolve issue #187
      */
     
-    ini_set('display_errors', '1');
-    error_reporting(E_ALL);
+    
     require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
     require_once('modules/Users/CreateUserPrivilegeFile.php');
     global $gizur_client_id;
