@@ -1655,7 +1655,7 @@ function create_tab_data_file() {
      */
     
     
-    require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
+    require_once '../aws-php-sdk/sdk.class.php';
     require_once('modules/Users/CreateUserPrivilegeFile.php');
     global $gizur_client_id;
     $dynamodb = new AmazonDynamoDB();
@@ -1684,8 +1684,8 @@ function create_tab_data_file() {
     $responses = $dynamodb->batch($queue)->send();
     if (!$responses->areOK()) {
         print_r($responses);
-        return;
-    }
+        return; 
+   }
      /** 
      * 
      * Hide to resolve issue #187
