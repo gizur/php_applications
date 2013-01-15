@@ -2408,7 +2408,7 @@ class ApiController extends Controller
                     $post['clientid'] = array_shift(explode('@', $post['id']));
                     $db_server     = $dbconfig['db_server'];
                     $db_port       = str_replace(":", "", $dbconfig['db_port']);
-                    $db_username   = 'user_' . $post['clientid'] . '_' . substr(strrev(uniqid()), 1, 8);
+                    $db_username   = 'user_' . substr($post['clientid'], 0, 5) . '_' . substr(strrev(uniqid()), 1, 5);
                     $db_password   = substr(strrev(uniqid()), 1, 16);
                     $db_name       = 'vtiger_' . $post['clientid'] . '_' . substr(strrev(uniqid()), 1, 8);                    
 
