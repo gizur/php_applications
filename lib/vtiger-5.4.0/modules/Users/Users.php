@@ -376,6 +376,12 @@ class Users extends CRMEntity {
                 if (empty($result)) {
                     return false;
                 } else {
+                    /**
+                     * Added to create sharing Privileges file
+                     * in the time of login.
+                     */
+                    $userid = $result->fields['id'];
+                    createUserSharingPrivilegesfile($userid);
                     return true;
                 }
                 break;
