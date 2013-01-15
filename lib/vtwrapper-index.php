@@ -107,11 +107,11 @@ global $currentModule;
 }
 
 // Allow for the session information to be passed via the URL for printing.
-if(isset($_REQUEST['PHPSESSID']))
+if(isset($_REQUEST[strtoupper($_GET['clientid']) . '_SESSID']))
 {
-	session_id($_REQUEST['PHPSESSID']);
+	session_id($_REQUEST[strtoupper($_GET['clientid']) . '_SESSID']);
 	//Setting the same session id to Forums as in CRM
-        $sid=$_REQUEST['PHPSESSID'];
+        $sid=$_REQUEST[strtoupper($_GET['clientid']) . '_SESSID'];
 }	
 
 if(isset($_REQUEST['view'])) {
