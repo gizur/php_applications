@@ -19,7 +19,7 @@ $response = $dynamodb->get_item(
 );
 
 if (isset($response->body->Item)) {
-    $items = $ddb_response->body->Item;
+    $items = $response->body->Item;
     $tab_info_array = unserialize($items->tab_info_array->S);
     $tab_seq_array = unserialize($items->tab_seq_array->S);
     $tab_ownedby_array = unserialize($items->tab_ownedby_array->S);
