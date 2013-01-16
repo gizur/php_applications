@@ -10,7 +10,7 @@ $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1);
 $response = $dynamodb->get_item(
     array(
         'TableName' => $table_name,
-        'Key' => $dynamodb->attributes(array('HashKeyValue' => array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id))),
+        'Key' => $dynamodb->attributes(array('HashKeyElement' => $gizur_client_id)),
         'ConsistentRead' => 'true'
     )
 );
