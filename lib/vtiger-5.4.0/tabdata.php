@@ -20,11 +20,11 @@ $response = $dynamodb->get_item(
 
 if (isset($response->body->Item)) {
     $items = $ddb_response->body->Item;
-    $tab_info_array = unserialize($items['tab_info_array']['S']);
-    $tab_seq_array = unserialize($items['tab_seq_array']['S']);
-    $tab_ownedby_array = unserialize($items['tab_ownedby_array']['S']);
-    $action_id_array = unserialize($items['action_id_array']['S']);
-    $action_name_array = unserialize($items['action_name_array']['S']);
+    $tab_info_array = unserialize($items->tab_info_array->S);
+    $tab_seq_array = unserialize($items->tab_seq_array->S);
+    $tab_ownedby_array = unserialize($items->tab_ownedby_array->S);
+    $action_id_array = unserialize($items->action_id_array->S);
+    $action_name_array = unserialize($items->action_name_array->S);
 } else {
     /*
     $tab_info_array = array('Dashboard' => 1, 'Potentials' => 2, 'Home' => 3, 'Contacts' => 4, 'Accounts' => 6, 'Leads' => 7, 'Documents' => 8, 'Calendar' => 9, 'Emails' => 10, 'HelpDesk' => 13, 'Products' => 14, 'Faq' => 15, 'Events' => 16, 'Vendors' => 18, 'PriceBooks' => 19, 'Quotes' => 20, 'PurchaseOrder' => 21, 'SalesOrder' => 22, 'Invoice' => 23, 'Rss' => 24, 'Reports' => 25, 'Campaigns' => 26, 'Portal' => 27, 'Webmails' => 28, 'Users' => 29, 'MailManager' => 30, 'Mobile' => 31, 'VtigerBackup' => 32, 'ServiceContracts' => 33, 'Import' => 34, 'ConfigEditor' => 35, 'WSAPP' => 36, 'Integration' => 37, 'PBXManager' => 38, 'ModTracker' => 39, 'Services' => 40, 'Webforms' => 41, 'CronTasks' => 42, 'SMSNotifier' => 43, 'RecycleBin' => 44, 'Assets' => 45, 'Tooltip' => 46, 'FieldFormulas' => 47, 'ProjectMilestone' => 48, 'ProjectTask' => 49, 'Project' => 50, 'CustomerPortal' => 51, 'ModComments' => 52,);
@@ -36,7 +36,6 @@ if (isset($response->body->Item)) {
     $action_id_array = array('Save' => 0, 'SavePriceBook' => 0, 'SaveVendor' => 0, 'DetailViewAjax' => 1, 'EditView' => 1, 'PriceBookEditView' => 1, 'QuickCreate' => 1, 'VendorEditView' => 1, 'Delete' => 2, 'DeletePriceBook' => 2, 'DeleteVendor' => 2, 'index' => 3, 'Popup' => 3, 'DetailView' => 4, 'PriceBookDetailView' => 4, 'TagCloud' => 4, 'VendorDetailView' => 4, 'Import' => 5, 'Export' => 6, 'Merge' => 8, 'ConvertLead' => 9, 'DuplicatesHandling' => 10);
 
     $action_name_array = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 5 => 'Import', 6 => 'Export', 8 => 'Merge', 9 => 'ConvertLead', 10 => 'DuplicatesHandling');
-     * 
-     */
+*/
 }
 ?>
