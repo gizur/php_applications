@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 $Vtiger_Utils_Log = true;
 
 include_once('vtlib/Vtiger/Menu.php');
