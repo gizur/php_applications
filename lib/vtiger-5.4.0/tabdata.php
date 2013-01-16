@@ -20,11 +20,11 @@ $response = $dynamodb->get_item(
 
 if (isset($response->body->Item)) {
     $items = $response->body->Item;
-    $tab_info_array = json_decode($items->tab_info_array->S, true);
-    $tab_seq_array = json_decode($items->tab_seq_array->S, true);
-    $tab_ownedby_array = json_decode($items->tab_ownedby_array->S, true);
-    $action_id_array = json_decode($items->action_id_array->S, true);
-    $action_name_array = json_decode($items->action_name_array->S, true);
+    $tab_info_array = json_decode( (String) $items->tab_info_array->{AmazonDynamoDB::TYPE_STRING}, true);
+    $tab_seq_array = json_decode( (String) $items->tab_seq_array->{AmazonDynamoDB::TYPE_STRING}, true);
+    $tab_ownedby_array = json_decode( (String) $items->tab_ownedby_array->{AmazonDynamoDB::TYPE_STRING}, true);
+    $action_id_array = json_decode( (String) $items->action_id_array->{AmazonDynamoDB::TYPE_STRING}, true);
+    $action_name_array = json_decode( (String) $items->action_name_array->{AmazonDynamoDB::TYPE_STRING}, true);
 } else {
     
     $tab_info_array = array('Dashboard' => 1, 'Potentials' => 2, 'Home' => 3, 'Contacts' => 4, 'Accounts' => 6, 'Leads' => 7, 'Documents' => 8, 'Calendar' => 9, 'Emails' => 10, 'HelpDesk' => 13, 'Products' => 14, 'Faq' => 15, 'Events' => 16, 'Vendors' => 18, 'PriceBooks' => 19, 'Quotes' => 20, 'PurchaseOrder' => 21, 'SalesOrder' => 22, 'Invoice' => 23, 'Rss' => 24, 'Reports' => 25, 'Campaigns' => 26, 'Portal' => 27, 'Webmails' => 28, 'Users' => 29, 'MailManager' => 30, 'Mobile' => 31, 'VtigerBackup' => 32, 'ServiceContracts' => 33, 'Import' => 34, 'ConfigEditor' => 35, 'WSAPP' => 36, 'Integration' => 37, 'PBXManager' => 38, 'ModTracker' => 39, 'Services' => 40, 'Webforms' => 41, 'CronTasks' => 42, 'SMSNotifier' => 43, 'RecycleBin' => 44, 'Assets' => 45, 'Tooltip' => 46, 'FieldFormulas' => 47, 'ProjectMilestone' => 48, 'ProjectTask' => 49, 'Project' => 50, 'CustomerPortal' => 51, 'ModComments' => 52,);
