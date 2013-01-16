@@ -7,6 +7,13 @@ $region = 'REGION_EU_W1';
 $table_name = 'VTIGER_TABDATA';
 $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1);
 
+$response = $dynamodb->query(array(
+    'TableName' => $table_name,
+    'HashKeyValue' => array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id),
+    )
+);
+print_r($responses);
+/*
 $queue = new CFBatchRequest();
 $queue->use_credentials($dynamodb->credentials);
 // Prepare the data
@@ -26,7 +33,7 @@ $dynamodb->batch($queue)->put_item(
 );
 
 $responses = $dynamodb->batch($queue)->send();
-
+*/
 if ($responses->areOK()) {
     echo "The data has been added to the table." . PHP_EOL;
 } else {
