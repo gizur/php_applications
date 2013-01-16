@@ -1755,6 +1755,10 @@ class ApiController extends Controller
             }
         } catch (Exception $e) {
             
+            if (isset($this->_vtresponse->error->code))
+                if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
+                    Yii::app()->cache->delete($this->_cache_key);            
+            
             //Generating error response
             $response = new stdClass();
             $response->success = false;
@@ -2315,6 +2319,11 @@ class ApiController extends Controller
                 break;
             }
         } catch (Exception $e) {
+            
+            if (isset($this->_vtresponse->error->code))
+                if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
+                    Yii::app()->cache->delete($this->_cache_key);            
+            
             $response = new stdClass();
             $response->success = false;
             $response->error->code = "ERROR";
@@ -2853,6 +2862,11 @@ class ApiController extends Controller
                 break;
             }
         } catch (Exception $e) {
+            
+            if (isset($this->_vtresponse->error->code))
+                if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
+                    Yii::app()->cache->delete($this->_cache_key);
+            
             $response = new stdClass();
             $response->success = false;
             $response->error->code = $this->_errors[$e->getCode()];
@@ -3469,6 +3483,11 @@ class ApiController extends Controller
                 break;
             }
         } catch (Exception $e) {
+            
+            if (isset($this->_vtresponse->error->code))
+                if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
+                    Yii::app()->cache->delete($this->_cache_key);            
+            
             $response = new stdClass();
             $response->success = false;
             $response->error->code = "ERROR";
