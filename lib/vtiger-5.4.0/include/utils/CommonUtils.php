@@ -1666,11 +1666,11 @@ function create_tab_data_file() {
     $queue->use_credentials($dynamodb->credentials);
     // Prepare the data
     $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
-    $post['tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => json_encode(constructArray($result_array)));
-    $post['tab_seq_array'] = array(AmazonDynamoDB::TYPE_STRING => json_encode(constructArray($seq_array)));
-    $post['tab_ownedby_array'] = array(AmazonDynamoDB::TYPE_STRING => json_encode(constructArray($ownedby_array)));
-    $post['action_id_array'] = array(AmazonDynamoDB::TYPE_STRING => json_encode(constructSingleStringKeyAndValueArray($actionid_array)));
-    $post['action_name_array'] = array(AmazonDynamoDB::TYPE_STRING => json_encode(constructSingleStringValueArray($actionname_array)));
+    $post['tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($result_array));
+    $post['tab_seq_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($seq_array));
+    $post['tab_ownedby_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($ownedby_array));
+    $post['action_id_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringKeyAndValueArray($actionid_array));
+    $post['action_name_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($actionname_array));
 
     $log->debug("In create_tab_data_file() $gizur_client_id");
     
