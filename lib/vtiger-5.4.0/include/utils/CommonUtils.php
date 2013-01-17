@@ -1683,7 +1683,7 @@ function create_tab_data_file() {
 
     $responses = $dynamodb->batch($queue)->send();
     if (!$responses->areOK()) {
-        print_r($responses);
+        echo "<br/>Error connecting DynamoDB : " . $responses->body->message;
         return; 
    }
      /** 
