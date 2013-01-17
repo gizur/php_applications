@@ -1,2 +1,2 @@
-var RESTServerURL = 'https://api.gizur.com/api/'
+var RESTServerURL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/'
 

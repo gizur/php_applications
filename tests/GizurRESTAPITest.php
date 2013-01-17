@@ -86,7 +86,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $string_to_sign = "";
         foreach ($params as $k => $v)
             $string_to_sign .= "{$k}{$v}";   
-        
+        //echo PHP_EOL . $string_to_sign;
+                 
         // Generate signature
         $signature = base64_encode(
             hash_hmac('SHA256', $string_to_sign, $this->_GIZURCLOUD_SECRET_KEY, 1)
@@ -992,15 +993,21 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         echo " Matching Signature Hash " . PHP_EOL;
         
         //Skip the Test
-        $this->markTestSkipped('');        
+        //$this->markTestSkipped('');        
 
         // Generate signature
+        /*
         list($params, $signature) = $this->_generateSignature(
             $method, $model, date("c"), 
             uniqid()
         );
-
-        $signature_generated = '9+WNcE0LK1ObHJDZAhU2o7nmWC0JzKRbHb/WvSq/Sy0=';
+        */
+        list($params, $signature) = $this->_generateSignature(
+            'POST', 'Authenticate', '20130114T14:29:54+530', 
+            '-1977733266'
+        );
+        print_r($params);
+        $signature_generated = 'QG20Na83BMOtJEOR+9kyAAbyK//oXX0AYgCdYyvqPZ0=';
         $this->assertEquals($signature, $signature_generated);
     }
 
