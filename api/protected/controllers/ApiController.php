@@ -723,6 +723,7 @@ class ApiController extends Controller
                     throw new Exception("Invalid generated key ");
                 
                 //Store the values from response
+                $this->_session->sessionName = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
 
