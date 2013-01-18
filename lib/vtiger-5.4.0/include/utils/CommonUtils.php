@@ -1657,6 +1657,8 @@ function create_tab_data_file() {
     
     include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
+    $post = array();
+    
     $dynamodb = new AmazonDynamoDB();
     $dynamodb->set_region(constant($dynamodb_table_region));
     $queue = new CFBatchRequest();
@@ -1682,7 +1684,17 @@ function create_tab_data_file() {
     if (!$responses->areOK()) {
         echo "<br/>Error connecting DynamoDB table $tabdata_table_name : " . $responses->body->message;
         return; 
+    }else{
+        global $memcache_url;
+        $memcache = new Memcache;
+        if ($memcache->connect($memcache_url, 11211)) {
+            $memcache->delete($gizur_client_id . "_tabdata_details");
+            $memcache->set($gizur_client_id . "_tabdata_details", $post);
+        } else {
+            unset($memcache);
+        }
     }
+    return $post;
      /** 
      * 
      * Hide to resolve issue #187
