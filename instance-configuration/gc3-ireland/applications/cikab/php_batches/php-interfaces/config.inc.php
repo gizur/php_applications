@@ -23,7 +23,7 @@
  * DNS of database server to use 
  * @global string $dbconfig_integration['db_server']
  */
-$dbconfig_integration['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com ';
+$dbconfig_integration['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
 
 /**
  * The port of the database server
