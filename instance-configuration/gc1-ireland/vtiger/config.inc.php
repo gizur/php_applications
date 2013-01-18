@@ -50,8 +50,9 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  */
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
+    $memcache_url = '10.235.54.94';
     $memcache = new Memcache;
-    if ($memcache->connect('10.235.54.94', 11211)) {
+    if ($memcache->connect($memcache_url, 11211)) {
         $dbconfig_cache = $memcache->get($gizur_client_id . "_connection_details");
         $dbconfig = $dbconfig_cache;
     } else {
