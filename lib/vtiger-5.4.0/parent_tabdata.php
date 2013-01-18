@@ -13,7 +13,7 @@ if ($memcache->connect($memcache_url, 11211)) {
     $_tabdata_cache = false;
 }
 
-if (!$_tabdata_cache && $_is_active_dynamodb) {
+if (!$_tabdata_cache && true) {
     $dynamodb = new AmazonDynamoDB();
     $dynamodb->set_region(constant($dynamodb_table_region));
 // Get an item

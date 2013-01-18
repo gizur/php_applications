@@ -1665,7 +1665,7 @@ function create_tab_data_file() {
     
     include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
-    if($_is_active_dynamodb){
+    if(true){
         $dynamodb = new AmazonDynamoDB();
         $dynamodb->set_region(constant($dynamodb_table_region));
         $queue = new CFBatchRequest();
@@ -1800,7 +1800,7 @@ function create_parenttab_data_file() {
 
     include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
-    if($_is_active_dynamodb){
+    if(true){
         $dynamodb = new AmazonDynamoDB();
         $dynamodb->set_region(constant($dynamodb_table_region));
         $queue = new CFBatchRequest();
