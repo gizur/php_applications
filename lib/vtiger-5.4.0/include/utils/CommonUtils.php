@@ -1655,46 +1655,54 @@ function create_tab_data_file() {
      * Created to resolve issue #187
      */
     
+    $_cache = array();
+    $_cache['id'] = $gizur_client_id;
+    $_cache['tab_info_array'] = constructArray($result_array);
+    $_cache['tab_seq_array'] = constructArray($seq_array);
+    $_cache['tab_ownedby_array'] = constructArray($ownedby_array);
+    $_cache['action_id_array'] = constructSingleStringKeyAndValueArray($actionid_array);
+    $_cache['action_name_array'] = constructSingleStringValueArray($actionname_array);
+    
     include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
-    $post = array();
-    
-    $dynamodb = new AmazonDynamoDB();
-    $dynamodb->set_region(constant($dynamodb_table_region));
-    $queue = new CFBatchRequest();
-    $queue->use_credentials($dynamodb->credentials);
-    // Prepare the data
-    $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
-    $post['tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($result_array));
-    $post['tab_seq_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($seq_array));
-    $post['tab_ownedby_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($ownedby_array));
-    $post['action_id_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringKeyAndValueArray($actionid_array));
-    $post['action_name_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($actionname_array));
+    if($_is_active_dynamodb){
+        $dynamodb = new AmazonDynamoDB();
+        $dynamodb->set_region(constant($dynamodb_table_region));
+        $queue = new CFBatchRequest();
+        $queue->use_credentials($dynamodb->credentials);
+        // Prepare the data
+        $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
+        $post['tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($result_array));
+        $post['tab_seq_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($seq_array));
+        $post['tab_ownedby_array'] = array(AmazonDynamoDB::TYPE_STRING => constructArray($ownedby_array));
+        $post['action_id_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringKeyAndValueArray($actionid_array));
+        $post['action_name_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($actionname_array));
 
-    $log->debug("In create_tab_data_file() : CLIENT ID : $gizur_client_id");
-    
-    $dynamodb->batch($queue)->put_item(
-        array(
-            'TableName' => $tabdata_table_name,
-            'Item' => $post
-        )
-    );
+        $log->debug("In create_tab_data_file() : CLIENT ID : $gizur_client_id");
 
-    $responses = $dynamodb->batch($queue)->send();
-    if (!$responses->areOK()) {
-        echo "<br/>Error connecting DynamoDB table $tabdata_table_name : " . $responses->body->message;
-        return; 
-    }else{
-        global $memcache_url;
-        $memcache = new Memcache;
-        if ($memcache->connect($memcache_url, 11211)) {
-            $memcache->delete($gizur_client_id . "_tabdata_details");
-            $memcache->set($gizur_client_id . "_tabdata_details", $post);
-        } else {
-            unset($memcache);
+        $dynamodb->batch($queue)->put_item(
+            array(
+                'TableName' => $tabdata_table_name,
+                'Item' => $post
+            )
+        );
+
+        $responses = $dynamodb->batch($queue)->send();
+        if (!$responses->areOK()) {
+            echo "<br/>Error connecting DynamoDB table $tabdata_table_name : " . $responses->body->message;
+            return; 
+        }else{
+            global $memcache_url;
+            $memcache = new Memcache;
+            if ($memcache->connect($memcache_url, 11211)) {
+                $memcache->delete($gizur_client_id . "_tabdata_details");
+                $memcache->set($gizur_client_id . "_tabdata_details", $_cache);
+            } else {
+                unset($memcache);
+            }
         }
     }
-    return $post;
+    return $_cache;
      /** 
      * 
      * Hide to resolve issue #187
