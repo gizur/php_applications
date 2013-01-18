@@ -32,7 +32,9 @@ if (!$_tabdata_cache && true) {
         $_cache['parent_tab_info_array'] = $items->parent_tab_info_array->{AmazonDynamoDB::TYPE_STRING};
         $_cache['parent_child_tab_rel_array'] = $items->parent_child_tab_rel_array->{AmazonDynamoDB::TYPE_STRING};
         
-        $memcache->set($gizur_client_id . "_parent_tabdata_details", $_cache);
+        if (isset($memcache)) {
+            $memcache->set($gizur_client_id . "_parent_tabdata_details", $_cache);
+        }
     } else {
         $_cache = create_parenttab_data_file();
     }

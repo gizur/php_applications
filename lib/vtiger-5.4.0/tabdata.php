@@ -35,8 +35,9 @@ if (!$_tabdata_cache && true) {
         $_cache['tab_ownedby_array'] = $_items->tab_ownedby_array->{AmazonDynamoDB::TYPE_STRING};
         $_cache['action_id_array'] = $_items->action_id_array->{AmazonDynamoDB::TYPE_STRING};
         $_cache['action_name_array'] = $_items->action_name_array->{AmazonDynamoDB::TYPE_STRING};
-
-        $memcache->set($gizur_client_id . "_tabdata_details", $_cache);
+        if (isset($memcache)) {
+            $memcache->set($gizur_client_id . "_tabdata_details", $_cache);
+        }
     } else {
         $_cache = create_tab_data_file();
     }
