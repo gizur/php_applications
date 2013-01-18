@@ -112,18 +112,18 @@ $dbconfig_batchvaliable['batch_valiable'] = 10;
 /**
  *  @FTP Host Name 
  */
-$dbconfig_ftphost['Host'] = "10.58.226.192";
+$dbconfig_ftphost['Host'] = "ftp-hp.coop.se";
 
 /**
  *  @FTP User Name 
  */
-$dbconfig_ftpuser['User'] = "gizur";
+$dbconfig_ftpuser['User'] = "ftpSETGizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfig_ftppassword['Password'] = "gizur";
+$dbconfig_ftppassword['Password'] = "Sk4nsk4113";
 
 /**
  *  @FTP Local files path
@@ -133,7 +133,7 @@ $dbconfig_ftplocalpath['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfig_ftpserverpath['serverpath'] = "files/";
+$dbconfig_ftpserverpath['serverpath'] = "";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */

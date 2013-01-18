@@ -63,6 +63,9 @@ cp $1/applications/cikab/bikeportal/PortalConfig.php ../applications/cikab/bikep
 echo "cp $1/vtiger/modules/CikabTroubleTicket/CustomConfig.php ../lib/vtiger-5.4.0/modules/CikabTroubleTicket/CustomConfig.php"
 cp $1/vtiger/modules/CikabTroubleTicket/CustomConfig.php ../lib/vtiger-5.4.0/modules/CikabTroubleTicket/CustomConfig.php
 
+echo "cp $1/vtiger/modules/CikabTroubleTicket/dynamodb.config.php ../lib/vtiger-5.4.0/modules/CikabTroubleTicket/dynamodb.config.php"
+cp $1/vtiger/modules/CikabTroubleTicket/dynamodb.config.php ../lib/vtiger-5.4.0/modules/CikabTroubleTicket/dynamodb.config.php
+
 echo "cp $1/applications/cikab/php_batches/php-interfaces/config.inc.php ../applications/cikab/php_batches/php-interfaces/config.inc.php"
 cp $1/applications/cikab/php_batches/php-interfaces/config.inc.php ../applications/cikab/php_batches/php-interfaces/config.inc.php
 

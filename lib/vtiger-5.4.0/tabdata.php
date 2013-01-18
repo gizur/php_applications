@@ -2,17 +2,14 @@
 
 //This file contains the commonly used variables 
 
-require_once '../aws-php-sdk/sdk.class.php';
-
-global $gizur_client_id;
+include 'modules/CikabTroubleTicket/dynamodb.config.php';
+    
 $dynamodb = new AmazonDynamoDB();
-$table_name = 'VTIGER_TABDATA';
-$dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1);
-
+$dynamodb->set_region(constant($dynamodb_table_region));
 // Get an item
 $response = $dynamodb->get_item(
     array(
-        'TableName' => $table_name,
+        'TableName' => $tabdata_table_name,
         'Key' => $dynamodb->attributes(array('HashKeyElement' => $gizur_client_id)),
         'ConsistentRead' => 'true'
     )
