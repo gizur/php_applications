@@ -50,22 +50,33 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  */
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
-$region = 'REGION_EU_W1';
-$dynamodb = new AmazonDynamoDB();
-$dynamodb->set_region(constant("AmazonDynamoDB::".$region));
+    $memcache = new Memcache;
+    if ($memcache->connect('gc2-memcache.oztphl.cfg.euw1.cache.amazonaws.com', 11211)) {
+        $dbconfig_cache = $memcache->get($gizur_client_id . "_connection_details");
+        $dbconfig = $dbconfig_cache;
+    } else {
+        unset($memcache);
+        $dbconfig_cache = false;
+    }
+    
+    if (!$dbconfig_cache) {
+        $region = 'REGION_EU_W1';
+        $dynamodb = new AmazonDynamoDB();
+        $dynamodb->set_region(constant("AmazonDynamoDB::".$region));
 
-$response = $dynamodb->scan(array(
-    'TableName'       => 'GIZUR_ACCOUNTS',
-    'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
-    'ScanFilter'      => array(
-        'clientid' => array(
-            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-            'AttributeValueList' => array(
-                array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
+        $response = $dynamodb->scan(array(
+            'TableName'       => 'GIZUR_ACCOUNTS',
+            'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
+            'ScanFilter'      => array(
+                'clientid' => array(
+                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                    'AttributeValueList' => array(
+                        array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
+                    )
+                ),
             )
-        ),
-    )
-));
+        ));
+    }
 }
 
 if ($response->body->Count!=0) {
@@ -76,6 +87,10 @@ if ($response->body->Count!=0) {
     $dbconfig['db_name'] = (string)$response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
     $dbconfig['db_type'] = 'mysql';
     $dbconfig['db_status'] = 'true';
+    
+    if (isset($memcache)){
+        $memcache->set($gizur_client_id . "_connection_details", $dbconfig);
+    }
 }
 
 // TODO: test if port is empty
