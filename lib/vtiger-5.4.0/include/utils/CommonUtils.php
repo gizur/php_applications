@@ -1774,18 +1774,6 @@ function create_parenttab_data_file() {
     /**
      * Created to resolve issue #187
      */
-    
-    include 'modules/CikabTroubleTicket/dynamodb.config.php';
-    
-    $dynamodb = new AmazonDynamoDB();
-    $dynamodb->set_region(constant($dynamodb_table_region));
-    $queue = new CFBatchRequest();
-    $queue->use_credentials($dynamodb->credentials);
-    // Prepare the data
-    $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
-    
-    $post['parent_tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($result_array));
-
     $parChildTabRelArray = Array();
 
     foreach ($result_array as $parid => $parvalue) {
@@ -1804,23 +1792,51 @@ function create_parenttab_data_file() {
         }
         $parChildTabRelArray[$parid] = $childArray;
     }
-     
-    $post['parent_child_tab_rel_array'] = array(AmazonDynamoDB::TYPE_STRING => constructTwoDimensionalValueArray($parChildTabRelArray));
     
-    $log->debug("In create_parenttab_data_file() : CLIENT ID : $gizur_client_id");
-    
-    $dynamodb->batch($queue)->put_item(
-        array(
-            'TableName' => $parent_tabdata_table_name,
-            'Item' => $post
-        )
-    );
+    $_cache = array();
+    $_cache['id'] = $gizur_client_id;
+    $_cache['parent_tab_info_array'] = constructSingleStringValueArray($result_array);
+    $_cache['parent_child_tab_rel_array'] = constructTwoDimensionalValueArray($parChildTabRelArray);
 
-    $responses = $dynamodb->batch($queue)->send();
-    if (!$responses->areOK()) {
-        echo "<br/>Error connecting DynamoDB table $parent_tabdata_table_name : " . $responses->body->message;
-        return; 
+    include 'modules/CikabTroubleTicket/dynamodb.config.php';
+    
+    if($_is_active_dynamodb){
+        $dynamodb = new AmazonDynamoDB();
+        $dynamodb->set_region(constant($dynamodb_table_region));
+        $queue = new CFBatchRequest();
+        $queue->use_credentials($dynamodb->credentials);
+        // Prepare the data
+        $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
+
+        $post['parent_tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($result_array));
+
+        $post['parent_child_tab_rel_array'] = array(AmazonDynamoDB::TYPE_STRING => constructTwoDimensionalValueArray($parChildTabRelArray));
+
+        $log->debug("In create_parenttab_data_file() : CLIENT ID : $gizur_client_id");
+
+        $dynamodb->batch($queue)->put_item(
+            array(
+                'TableName' => $parent_tabdata_table_name,
+                'Item' => $post
+            )
+        );
+
+        $responses = $dynamodb->batch($queue)->send();
+        if (!$responses->areOK()) {
+            echo "<br/>Error connecting DynamoDB table $parent_tabdata_table_name : " . $responses->body->message;
+            return; 
+        }else{
+            global $memcache_url;
+            $memcache = new Memcache;
+            if ($memcache->connect($memcache_url, 11211)) {
+                $memcache->delete($gizur_client_id . "_parent_tabdata_details");
+                $memcache->set($gizur_client_id . "_parent_tabdata_details", $_cache);
+            } else {
+                unset($memcache);
+            }
+        }
     }
+    return $_cache;
     /**
      *
 	if (file_exists($filename)) {

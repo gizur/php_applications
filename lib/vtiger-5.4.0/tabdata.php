@@ -8,7 +8,7 @@ $_cache = array();
 $memcache = new Memcache;
 if ($memcache->connect($memcache_url, 11211)) {
     $_tabdata_cache = $memcache->get($gizur_client_id . "_tabdata_details");
-    $_items = $_tabdata_cache;
+    $_cache = $_tabdata_cache;
 } else {
     unset($memcache);
     $_tabdata_cache = false;
