@@ -1654,6 +1654,7 @@ function create_tab_data_file() {
     /**
      * Created to resolve issue #187
      */
+    include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
     $_cache = array();
     $_cache['id'] = $gizur_client_id;
@@ -1663,7 +1664,7 @@ function create_tab_data_file() {
     $_cache['action_id_array'] = constructSingleStringKeyAndValueArray($actionid_array);
     $_cache['action_name_array'] = constructSingleStringValueArray($actionname_array);
     
-    include 'modules/CikabTroubleTicket/dynamodb.config.php';
+    
     
     if(true){
         $dynamodb = new AmazonDynamoDB();
@@ -1793,12 +1794,12 @@ function create_parenttab_data_file() {
         $parChildTabRelArray[$parid] = $childArray;
     }
     
+    include 'modules/CikabTroubleTicket/dynamodb.config.php';
+    
     $_cache = array();
     $_cache['id'] = $gizur_client_id;
     $_cache['parent_tab_info_array'] = constructSingleStringValueArray($result_array);
-    $_cache['parent_child_tab_rel_array'] = constructTwoDimensionalValueArray($parChildTabRelArray);
-
-    include 'modules/CikabTroubleTicket/dynamodb.config.php';
+    $_cache['parent_child_tab_rel_array'] = constructTwoDimensionalValueArray($parChildTabRelArray);    
     
     if(true){
         $dynamodb = new AmazonDynamoDB();
