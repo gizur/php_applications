@@ -2,9 +2,7 @@
 
 //This file contains the commonly used variables 
 
-require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
-
-echo "$gizur_client_id, $tabdata_table_name, $parent_tabdata_table_name, $dynamodb_table_region";
+include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
 $dynamodb = new AmazonDynamoDB();
 $dynamodb->set_region(constant($dynamodb_table_region));

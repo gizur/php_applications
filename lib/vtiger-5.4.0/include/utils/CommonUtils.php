@@ -1655,7 +1655,7 @@ function create_tab_data_file() {
      * Created to resolve issue #187
      */
     
-    require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
+    include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
     $dynamodb = new AmazonDynamoDB();
     $dynamodb->set_region(constant($dynamodb_table_region));
@@ -1755,7 +1755,7 @@ function create_parenttab_data_file() {
      * Created to resolve issue #187
      */
     
-    require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
+    include 'modules/CikabTroubleTicket/dynamodb.config.php';
     
     $dynamodb = new AmazonDynamoDB();
     $dynamodb->set_region(constant($dynamodb_table_region));
