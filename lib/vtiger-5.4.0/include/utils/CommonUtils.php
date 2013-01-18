@@ -1657,9 +1657,6 @@ function create_tab_data_file() {
     
     require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
     
-    global $tabdata_table_name, $parent_tabdata_table_name, $dynamodb_table_region;
-    global $gizur_client_id;
-    
     $dynamodb = new AmazonDynamoDB();
     $dynamodb->set_region(constant($dynamodb_table_region));
     $queue = new CFBatchRequest();
@@ -1759,9 +1756,6 @@ function create_parenttab_data_file() {
      */
     
     require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
-    
-    global $tabdata_table_name, $parent_tabdata_table_name, $dynamodb_table_region;
-    global $gizur_client_id;
     
     $dynamodb = new AmazonDynamoDB();
     $dynamodb->set_region(constant($dynamodb_table_region));
