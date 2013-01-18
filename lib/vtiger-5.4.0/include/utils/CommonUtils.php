@@ -1649,18 +1649,13 @@ function create_tab_data_file() {
 	}
 
 	$filename = 'tabdata.php';
+    require_once('modules/Users/CreateUserPrivilegeFile.php');
 
     /**
      * Created to resolve issue #187
      */
     
-    
-    require_once '../aws-php-sdk/sdk.class.php';
-    require_once('modules/Users/CreateUserPrivilegeFile.php');
-    global $gizur_client_id;
-    $dynamodb = new AmazonDynamoDB();
-    $table_name = 'VTIGER_TABDATA';
-    $dynamodb->set_region(AmazonDynamoDB::REGION_EU_W1);
+    require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
     
     $queue = new CFBatchRequest();
     $queue->use_credentials($dynamodb->credentials);
@@ -1672,20 +1667,20 @@ function create_tab_data_file() {
     $post['action_id_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringKeyAndValueArray($actionid_array));
     $post['action_name_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($actionname_array));
 
-    $log->debug("In create_tab_data_file() $gizur_client_id");
+    $log->debug("In create_tab_data_file() : CLIENT ID : $gizur_client_id");
     
     $dynamodb->batch($queue)->put_item(
         array(
-            'TableName' => $table_name,
+            'TableName' => $tabdata_table_name,
             'Item' => $post
         )
     );
 
     $responses = $dynamodb->batch($queue)->send();
     if (!$responses->areOK()) {
-        echo "<br/>Error connecting DynamoDB : " . $responses->body->message;
+        echo "<br/>Error connecting DynamoDB table $tabdata_table_name : " . $responses->body->message;
         return; 
-   }
+    }
      /** 
      * 
      * Hide to resolve issue #187
@@ -1752,8 +1747,58 @@ function create_parenttab_data_file() {
 	}
 
 	$filename = 'parent_tabdata.php';
+    require_once('modules/Users/CreateUserPrivilegeFile.php');
 
+    /**
+     * Created to resolve issue #187
+     */
+    
+    require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
+    
+    $queue = new CFBatchRequest();
+    $queue->use_credentials($dynamodb->credentials);
+    // Prepare the data
+    $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
+    
+    $post['parent_tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($result_array));
 
+    $parChildTabRelArray = Array();
+
+    foreach ($result_array as $parid => $parvalue) {
+        $childArray = Array();
+        //$sql = "select * from vtiger_parenttabrel where parenttabid=? order by sequence";
+        // vtlib customization: Disabling the tab item based on presence
+        $sql = "select * from vtiger_parenttabrel where parenttabid=?
+            and tabid in (select tabid from vtiger_tab where presence in (0,2)) order by sequence";
+        // END
+        $result = $adb->pquery($sql, array($parid));
+        $num_rows = $adb->num_rows($result);
+        $result_array = Array();
+        for ($i = 0; $i < $num_rows; $i++) {
+            $tabid = $adb->query_result($result, $i, 'tabid');
+            $childArray[] = $tabid;
+        }
+        $parChildTabRelArray[$parid] = $childArray;
+    }
+     
+    $post['parent_child_tab_rel_array'] = array(AmazonDynamoDB::TYPE_STRING => constructTwoDimensionalValueArray($parChildTabRelArray));
+    
+    $log->debug("In create_parenttab_data_file() : CLIENT ID : $gizur_client_id");
+    
+    $dynamodb->batch($queue)->put_item(
+        array(
+            'TableName' => $parent_tabdata_table_name,
+            'Item' => $post
+        )
+    );
+
+    $responses = $dynamodb->batch($queue)->send();
+    if (!$responses->areOK()) {
+        echo "<br/>Error connecting DynamoDB table $parent_tabdata_table_name : " . $responses->body->message;
+        return; 
+    }
+    /**
+     *
 	if (file_exists($filename)) {
 
 		if (is_writable($filename)) {
@@ -1806,6 +1851,8 @@ function create_parenttab_data_file() {
 		$log->debug("Exiting create_parenttab_data_file method ...");
 		return;
 	}
+     * 
+     */
 }
 
 /**

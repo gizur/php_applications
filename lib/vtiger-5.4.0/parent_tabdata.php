@@ -1,13 +1,22 @@
 <?php
 
-
 //This file contains the commonly used variables 
+require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
 
-$parent_tab_info_array=array(1=>'My Home Page',2=>'Marketing',3=>'Sales',4=>'Support',5=>'Analytics',6=>'Inventory',7=>'Tools',8=>'Settings');
+// Get an item
+$response = $dynamodb->get_item(
+    array(
+        'TableName' => $parent_tabdata_table_name,
+        'Key' => $dynamodb->attributes(array('HashKeyElement' => $gizur_client_id)),
+        'ConsistentRead' => 'true'
+    )
+);
 
-
-$parent_child_tab_rel_array=array(1=>array(3,9,28,),2=>array(26,6,4,28,7,9,8,),3=>array(7,6,4,2,20,22,23,19,8,9,),4=>array(13,15,6,4,8,28,9,33,48,49,50,),5=>array(25,1,),6=>array(14,18,19,21,22,20,23,40,45,),7=>array(24,27,8,30,37,38,43,44,52,),8=>array(),);
-
-
-
+if (isset($response->body->Item)) {
+    $items = $response->body->Item;
+    eval("\$parent_tab_info_array=" . $items->parent_tab_info_array->{AmazonDynamoDB::TYPE_STRING} . ";");
+    eval("\$parent_child_tab_rel_array=" . $items->parent_child_tab_rel_array->{AmazonDynamoDB::TYPE_STRING} . ";");
+} else {
+    create_parenttab_data_file();
+}
 ?>
