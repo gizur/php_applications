@@ -6,5 +6,5 @@ global $gizur_client_id;
 
 $tabdata_table_name = 'VTIGER_TABDATA';
 $parent_tabdata_table_name = 'VTIGER_PARENT_TABDATA';
-$table_region = AmazonDynamoDB::REGION_EU_W1;
+$table_region = constant("AmazonDynamoDB::REGION_EU_W1");
 ?>
