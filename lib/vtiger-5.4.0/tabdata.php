@@ -30,11 +30,11 @@ if (!$_tabdata_cache && true) {
         $_items = $response->body->Item;
 
         $_cache['id'] = $gizur_client_id;
-        $_cache['tab_info_array'] = $_items->tab_info_array->{AmazonDynamoDB::TYPE_STRING};
-        $_cache['tab_seq_array'] = $_items->tab_seq_array->{AmazonDynamoDB::TYPE_STRING};
-        $_cache['tab_ownedby_array'] = $_items->tab_ownedby_array->{AmazonDynamoDB::TYPE_STRING};
-        $_cache['action_id_array'] = $_items->action_id_array->{AmazonDynamoDB::TYPE_STRING};
-        $_cache['action_name_array'] = $_items->action_name_array->{AmazonDynamoDB::TYPE_STRING};
+        $_cache['tab_info_array'] = (string)$_items->tab_info_array->{AmazonDynamoDB::TYPE_STRING};
+        $_cache['tab_seq_array'] = (string)$_items->tab_seq_array->{AmazonDynamoDB::TYPE_STRING};
+        $_cache['tab_ownedby_array'] = (string)$_items->tab_ownedby_array->{AmazonDynamoDB::TYPE_STRING};
+        $_cache['action_id_array'] = (string)$_items->action_id_array->{AmazonDynamoDB::TYPE_STRING};
+        $_cache['action_name_array'] = (string)$_items->action_name_array->{AmazonDynamoDB::TYPE_STRING};
         if (isset($memcache)) {
             $memcache->set($gizur_client_id . "_tabdata_details", $_cache);
         }
