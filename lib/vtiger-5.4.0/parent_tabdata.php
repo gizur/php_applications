@@ -38,8 +38,6 @@ if (!$_tabdata_cache && true) {
     } else {
         $_cache = create_parenttab_data_file();
     }
-} else {
-    $_cache = create_parenttab_data_file();
 }
 
 if (isset($_cache) && !empty($_cache)) {
