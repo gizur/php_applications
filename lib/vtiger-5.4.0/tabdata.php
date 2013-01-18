@@ -4,6 +4,8 @@
 
 require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
 
+$dynamodb = new AmazonDynamoDB();
+$dynamodb->set_region($table_region);
 // Get an item
 $response = $dynamodb->get_item(
     array(

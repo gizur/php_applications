@@ -1657,6 +1657,8 @@ function create_tab_data_file() {
     
     require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
     
+    $dynamodb = new AmazonDynamoDB();
+    $dynamodb->set_region($table_region);
     $queue = new CFBatchRequest();
     $queue->use_credentials($dynamodb->credentials);
     // Prepare the data
@@ -1755,6 +1757,8 @@ function create_parenttab_data_file() {
     
     require_once 'modules/CikabTroubleTicket/dynamodb.config.php';
     
+    $dynamodb = new AmazonDynamoDB();
+    $dynamodb->set_region($table_region);
     $queue = new CFBatchRequest();
     $queue->use_credentials($dynamodb->credentials);
     // Prepare the data
