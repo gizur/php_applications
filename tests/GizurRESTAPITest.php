@@ -1003,11 +1003,11 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         );
         */
         list($params, $signature) = $this->_generateSignature(
-            'POST', 'Authenticate', '20130114T14:29:54+530', 
-            '-1977733266'
+            'POST', 'Authenticate', '20130117T10:21:24+0530', 
+            '1980550879'
         );
         print_r($params);
-        $signature_generated = 'QG20Na83BMOtJEOR+9kyAAbyK//oXX0AYgCdYyvqPZ0=';
+        $signature_generated = 'gjkXqfwN67RCI+bTz+Riq6LSTeCpJ5AKd4YBIYrf2Mw=';
         $this->assertEquals($signature, $signature_generated);
     }
 
