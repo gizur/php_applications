@@ -4,6 +4,7 @@
 
 include 'modules/CikabTroubleTicket/dynamodb.config.php';
 global $memcache_url;
+$_items = array();
 $memcache = new Memcache;
 if ($memcache->connect($memcache_url, 11211)) {
     $_tabdata_cache = $memcache->get($gizur_client_id . "_tabdata_details");
@@ -34,10 +35,10 @@ if (!$_tabdata_cache) {
 }
 
 if (isset($_items) && !empty($_items)) {
-    eval("\$tab_info_array=" . $items->tab_info_array->{AmazonDynamoDB::TYPE_STRING} . ";");
-    eval("\$tab_seq_array=" . $items->tab_seq_array->{AmazonDynamoDB::TYPE_STRING} . ";");
-    eval("\$tab_ownedby_array=" . $items->tab_ownedby_array->{AmazonDynamoDB::TYPE_STRING} . ";");
-    eval("\$action_id_array=" . $items->action_id_array->{AmazonDynamoDB::TYPE_STRING} . ";");
-    eval("\$action_name_array=" . $items->action_name_array->{AmazonDynamoDB::TYPE_STRING} . ";");
+    eval("\$tab_info_array=" . $_items->tab_info_array->{AmazonDynamoDB::TYPE_STRING} . ";");
+    eval("\$tab_seq_array=" . $_items->tab_seq_array->{AmazonDynamoDB::TYPE_STRING} . ";");
+    eval("\$tab_ownedby_array=" . $_items->tab_ownedby_array->{AmazonDynamoDB::TYPE_STRING} . ";");
+    eval("\$action_id_array=" . $_items->action_id_array->{AmazonDynamoDB::TYPE_STRING} . ";");
+    eval("\$action_name_array=" . $_items->action_name_array->{AmazonDynamoDB::TYPE_STRING} . ";");
 }
 ?>
