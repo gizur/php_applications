@@ -29,8 +29,8 @@ if (!$_tabdata_cache && true) {
         $items = $response->body->Item;
         
         $_cache['id'] = $gizur_client_id;
-        $_cache['parent_tab_info_array'] = $items->parent_tab_info_array->{AmazonDynamoDB::TYPE_STRING};
-        $_cache['parent_child_tab_rel_array'] = $items->parent_child_tab_rel_array->{AmazonDynamoDB::TYPE_STRING};
+        $_cache['parent_tab_info_array'] = (String) $items->parent_tab_info_array->{AmazonDynamoDB::TYPE_STRING};
+        $_cache['parent_child_tab_rel_array'] = (String) $items->parent_child_tab_rel_array->{AmazonDynamoDB::TYPE_STRING};
         
         $memcache->set($gizur_client_id . "_parent_tabdata_details", $_cache);
     } else {
