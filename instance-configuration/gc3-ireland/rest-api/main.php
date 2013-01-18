@@ -142,23 +142,6 @@ return array(
                     'Assets' => Array(
                         'trailertype' => 'cf_650'
                     )
-                ),  
-                'demo_custom_fields' => Array(
-                    'HelpDesk' => Array(
-                        'tickettype' => 'cf_649',
-                        'trailerid' => 'cf_640',
-                        'damagereportlocation' => 'cf_650',
-                        'sealed' => 'cf_651',
-                        'plates' => 'cf_652',
-                        'straps'  => 'cf_653',
-                        'reportdamage' => 'cf_654',
-                        'damagetype' => 'cf_659',
-                        'damageposition' => 'cf_658',
-                        'drivercauseddamage' => 'cf_657'
-                    ),
-                    'Assets' => Array(
-                        'trailertype' => 'cf_660'
-                    )
-                ),         
+                ),           
 	),
 );
