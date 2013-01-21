@@ -2409,7 +2409,7 @@ class ApiController extends Controller
                     $ddb_response = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                        //    'AttributesToGet' => array('id_sequence'),
+                            'AttributesToGet' => array('id_sequence'),
                         )
                     );                    
                     print_r($ddb_response);die;
