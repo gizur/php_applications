@@ -2403,7 +2403,8 @@ class ApiController extends Controller
                     if ($mysqli->connect_error) 
                         throw New Exception($mysqli->connect_error);
                     
-                    
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB();                    
                     $ddb_response = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
