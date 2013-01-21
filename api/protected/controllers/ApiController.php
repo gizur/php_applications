@@ -2490,8 +2490,6 @@ class ApiController extends Controller
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false)
                         throw New Exception($mysqli->error);
-                    
-                    $mysqli->close();
 
                     //Import Database
                     //===============
@@ -2525,6 +2523,8 @@ class ApiController extends Controller
                             throw New Exception($mysqli->error);                        
                         }
                     }
+                    
+                    $mysqli->close();                    
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
