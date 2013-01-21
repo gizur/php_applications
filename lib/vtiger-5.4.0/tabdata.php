@@ -41,8 +41,6 @@ if (!$_tabdata_cache && true) {
     } else {
         $_cache = create_tab_data_file();
     }
-} else {
-    $_cache = create_tab_data_file();
 }
 
 if (isset($_cache) && !empty($_cache)) {
