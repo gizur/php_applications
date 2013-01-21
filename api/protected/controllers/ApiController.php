@@ -2461,7 +2461,7 @@ class ApiController extends Controller
                     $post['username'] = $db_username;
                     $post['dbpassword'] = $db_password;
                     $post['port'] = $db_port;
-                    $post['id_sequence'] = $max_id_sequence;
+                    $post['id_sequence'] = (String)$max_id_sequence;
 
                     //Create User
                     //===========
