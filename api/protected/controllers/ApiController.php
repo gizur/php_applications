@@ -2416,8 +2416,7 @@ class ApiController extends Controller
                     $max_id_sequence = 1000;
                     foreach ($ddb_response->body->Items
                     as $key => $item) {
-                        print_r($item);
-                        echo "<br/>" . $id_sequence
+                        $id_sequence
                             = intval((string) $item->id_sequence->{AmazonDynamoDB::TYPE_STRING});
                         if ($id_sequence > $max_id_sequence) {
                             $max_id_sequence = $id_sequence;
