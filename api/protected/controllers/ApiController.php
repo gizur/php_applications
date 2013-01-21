@@ -2422,8 +2422,9 @@ class ApiController extends Controller
                         if ($id_sequence > $max_id_sequence) {
                             $max_id_sequence = $id_sequence;
                         }
-                    }                    
-                    die;
+                    }  
+                    $max_id_sequence += 1000;
+
                     /**
                     * Database connection options
                     * @global string $options
@@ -2498,6 +2499,33 @@ class ApiController extends Controller
                     $exec_stmt = "mysql -u$db_username -p$db_password -h$db_server -P $db_port $db_name < ../lib/vtiger-5.4.0-database.sql";
 
                     $output = shell_exec($exec_stmt);
+                    
+                    //Add User Sequence
+                    //======================
+                    $queries[] = "START TRANSACTION;";
+                    $queries[] = "SET foreign_key_checks = 0;";
+                    $queries[] = "update vtiger_users2group set userid = $max_id_sequence + userid;";
+                    $queries[] = "update vtiger_user2role set userid = $max_id_sequence + userid;";
+                    $queries[] = "update vtiger_users set id = $max_id_sequence + id;";
+                    $queries[] = "update vtiger_users_seq set id = $max_id_sequence + id;";
+                    $queries[] = "update vtiger_crmentity set smcreatorid = $max_id_sequence + smcreatorid, smownerid = smownerid + $max_id_sequence, modifiedby = modifiedby + $max_id_sequence;";
+                    $queries[] = "update vtiger_homestuff set userid = $max_id_sequence + userid;";
+                    $queries[] = "update vtiger_mail_accounts set user_id = $max_id_sequence + user_id;";
+                    $queries[] = "update vtiger_user2mergefields set userid = $max_id_sequence + userid;";
+                    $queries[] = "update vtiger_user_module_preferences set userid = $max_id_sequence + userid;";
+                    $queries[] = "update vtiger_users_last_import set assigned_user_id = $max_id_sequence + assigned_user_id;";
+                    $queries[] = "update vtiger_customview set userid = $max_id_sequence + userid;";
+                    $queries[] = "SET foreign_key_checks = 1;";
+                    $queries[] = "COMMIT;";
+                    
+                    foreach ($queries as $query) {
+                        // Execute the query
+                        // check if the query was executed properly
+                        if ($mysqli->query($query)===false){
+                            $mysqli->query('ROLLBACK;');
+                            throw New Exception($mysqli->error);                        
+                        }
+                    }
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
