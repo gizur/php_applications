@@ -2499,6 +2499,7 @@ class ApiController extends Controller
                     
                     //Add User Sequence
                     //======================
+                    $queries[] = "USE $db_name;";
                     $queries[] = "START TRANSACTION;";
                     $queries[] = "SET foreign_key_checks = 0;";
                     $queries[] = "update vtiger_users2group set userid = $max_id_sequence + userid;";
@@ -2518,7 +2519,7 @@ class ApiController extends Controller
                     foreach ($queries as $query) {
                         // Execute the query
                         // check if the query was executed properly
-                        if ($mysqli->query(rtrim($query, ';'))===false){
+                        if ($mysqli->query($query)===false){
                             $mysqli->query('ROLLBACK;');
                             throw New Exception($mysqli->error . " Query:" . $query);                        
                         }
