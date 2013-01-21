@@ -550,6 +550,7 @@ class ApiController extends Controller
             //Create a cache key for saving session
             $this->_cache_key = json_encode(
                 array(
+                'clientid' => $this->_clientid,
                 'instanceid' => $this->_instanceid,
                 'username' => $_SERVER['HTTP_X_USERNAME'],
                 'password' => $_SERVER['HTTP_X_PASSWORD']
@@ -1091,7 +1092,8 @@ class ApiController extends Controller
                 if (isset($_GET['fieldname'])) {
                     
                     $cached_value = Yii::app()->cache->get(
-                        'picklist_'
+                        $this->_clientid . 
+                        '_picklist_'
                         . $_GET['model'] . '_'
                         . $_GET['fieldname']
                     );
@@ -1225,7 +1227,8 @@ class ApiController extends Controller
 
                                 //Save the response in cache
                                 Yii::app()->cache->set(
-                                    'picklist_'
+                                    $this->_clientid,
+                                    '_picklist_'
                                     . $_GET['model']
                                     . '_'
                                     . $flipped_custom_fields[$field['name']]
@@ -1521,7 +1524,8 @@ class ApiController extends Controller
                 if (isset($_GET['fieldname'])) {
 
                     $cached_value = Yii::app()->cache->get(
-                        'picklist_'
+                        $this->_clientid .
+                        '_picklist_'
                         . $_GET['model'] . '_'
                         . $_GET['fieldname']
                     );
@@ -1623,7 +1627,8 @@ class ApiController extends Controller
                                     
                                     //Save the response in cache
                                     Yii::app()->cache->set(
-                                        'picklist_'
+                                        $this->_clientid .
+                                        '_picklist_'
                                         . $_GET['model']
                                         . '_'
                                         . $_GET['fieldname'], $content
@@ -1648,6 +1653,7 @@ class ApiController extends Controller
                     
                     //Check if Asset list is present in cache
                     $cached_value = Yii::app()->cache->get(
+                        $this->_clientid . '_' .
                         $_GET['model']
                         . '_'
                         . 'list'
@@ -1728,6 +1734,7 @@ class ApiController extends Controller
 
                         //Save the response in cache
                         Yii::app()->cache->set(
+                            $this->_clientid . '_' .
                             $_GET['model']
                             . '_'
                             . 'list', $cached_value

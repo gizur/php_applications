@@ -3,6 +3,7 @@
 class configuration {
 
     public function get() {
+        
 	    return array(
 	       'url' => 'https://api.gizur.com/api/',
 	       'GIZURCLOUD_API_KEY' => 'GZCLD50694086B196F50694086B19E7',

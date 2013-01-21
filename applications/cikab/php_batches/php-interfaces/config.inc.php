@@ -23,7 +23,7 @@
  * DNS of database server to use 
  * @global string $dbconfig_integration['db_server']
  */
-$dbconfig_integration['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
+$dbconfig_integration['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -63,7 +63,7 @@ $dbconfig_integration['db_type'] = 'mysql';
  * DNS of database server to use 
  * @global string $dbconfig_vtiger['db_server']
  */
-$dbconfig_vtiger['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
+$dbconfig_vtiger['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -75,19 +75,19 @@ $dbconfig_vtiger['db_port'] = 3306;
  * The usename to use when logging into the database
  * @global string $dbconfig_vtiger['db_username']  
  */
-$dbconfig_vtiger['db_username'] = 'user_6bd70dc3';
+$dbconfig_vtiger['db_username'] = 'user_2059ff6a';
 
 /**
  * The password to use when logging into the database
  * @global string $dbconfig_vtiger['db_password']
  */
-$dbconfig_vtiger['db_password'] = 'fbd70dc30c05';
+$dbconfig_vtiger['db_password'] = 'c059ff6a3f05';
 
 /**
  * The name of the database
  * @global string $dbconfig_vtiger['db_name']
  */
-$dbconfig_vtiger['db_name'] = 'vtiger_7cd70dc3';
+$dbconfig_vtiger['db_name'] = 'vtiger_5159ff6a';
 
 /**
  * The type of database (currently is only mysql supported)
@@ -112,18 +112,18 @@ $dbconfig_batchvaliable['batch_valiable'] = 10;
 /**
  *  @FTP Host Name 
  */
-$dbconfig_ftphost['Host'] = "10.58.226.192";
+$dbconfig_ftphost['Host'] = "ftp-hp.coop.se";
 
 /**
  *  @FTP User Name 
  */
-$dbconfig_ftpuser['User'] = "gizur";
+$dbconfig_ftpuser['User'] = "ftpSETGizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfig_ftppassword['Password'] = "gizur";
+$dbconfig_ftppassword['Password'] = "Sk4nsk4113";
 
 /**
  *  @FTP Local files path
@@ -133,12 +133,12 @@ $dbconfig_ftplocalpath['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfig_ftpserverpath['serverpath'] = "files/";
+$dbconfig_ftpserverpath['serverpath'] = "";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */
 /**
  * Queue URL
  */
-$amazonqueue_config['_url'] = 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue';
+$amazonqueue_config['_url'] = 'https://sqs.eu-west-1.amazonaws.com/791200854364/cikab_queue';
 ?>

@@ -50,7 +50,7 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  */
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
-    $memcache_url = 'localhost';
+    $memcache_url = '10.235.54.94';
     $memcache = new Memcache;
     if ($memcache->connect($memcache_url, 11211)) {
         $dbconfig_cache = $memcache->get($gizur_client_id . "_connection_details");
@@ -242,9 +242,4 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 /** minimum cron frequency -- In minutes */
 $MINIMUM_CRON_FREQUENCY = 15;
 
-/** 
- * Custom flag configuration 
- */
-
-$_is_active_dynamodb = true;
 ?>
