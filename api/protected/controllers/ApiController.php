@@ -2412,11 +2412,15 @@ class ApiController extends Controller
                             'AttributesToGet' => array('id_sequence'),
                         )
                     );                    
-                    print_r($ddb_response);die;
-                    foreach ($ddb_response->body->Item->children()
+
+                    $max_id_sequence = 1000;
+                    foreach ($ddb_response->body->Items->children()
                     as $key => $item) {
-                        $max_id_sequence
-                            = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                        $id_sequence
+                            = intval((string) $item->{AmazonDynamoDB::TYPE_STRING});
+                        if ($id_sequence > $max_id_sequence) {
+                            $max_id_sequence = $id_sequence;
+                        }
                     }                    
 
                     /**
@@ -2456,7 +2460,7 @@ class ApiController extends Controller
                     $post['username'] = $db_username;
                     $post['dbpassword'] = $db_password;
                     $post['port'] = $db_port;
-                    $post['id_sequence'] = '';
+                    $post['id_sequence'] = $max_id_sequence;
 
                     //Create User
                     //===========
