@@ -2418,7 +2418,7 @@ class ApiController extends Controller
                     as $key => $item) {
                         print_r($item);
                         echo $id_sequence
-                            = intval((string) $item->{AmazonDynamoDB::TYPE_STRING});
+                            = intval((string) $item->id_sequence->{AmazonDynamoDB::TYPE_STRING});
                         if ($id_sequence > $max_id_sequence) {
                             $max_id_sequence = $id_sequence;
                         }
