@@ -2520,7 +2520,7 @@ class ApiController extends Controller
                         // check if the query was executed properly
                         if ($mysqli->query($query)===false){
                             $mysqli->query('ROLLBACK;');
-                            throw New Exception($mysqli->error);                        
+                            throw New Exception($mysqli->error . " Query:" . $query);                        
                         }
                     }
                     
