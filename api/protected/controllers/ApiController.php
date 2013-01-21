@@ -2515,14 +2515,14 @@ class ApiController extends Controller
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
                     
-                    foreach ($queries as $query) {
+                    //foreach ($queries as $query) {
                         // Execute the query
                         // check if the query was executed properly
-                        if ($mysqli->query($query)===false){
+                        if ($mysqli->query(implode($queries))===false){
                             $mysqli->query('ROLLBACK;');
                             throw New Exception($mysqli->error . " Query:" . $query);                        
                         }
-                    }
+                    //}
                     
                     $mysqli->close();                    
                     
