@@ -2402,7 +2402,20 @@ class ApiController extends Controller
                     
                     if ($mysqli->connect_error) 
                         throw New Exception($mysqli->connect_error);
-
+                    
+                    
+                    $ddb_response = $dynamodb->scan(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'AttributesToGet' => array('id_sequence'),
+                        )
+                    );                    
+                    print_r($ddb_response);die;
+                    foreach ($ddb_response->body->Item->children()
+                    as $key => $item) {
+                        $max_id_sequence
+                            = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                    }                    
 
                     /**
                     * Database connection options
@@ -2441,6 +2454,7 @@ class ApiController extends Controller
                     $post['username'] = $db_username;
                     $post['dbpassword'] = $db_password;
                     $post['port'] = $db_port;
+                    $post['id_sequence'] = '';
 
                     //Create User
                     //===========
