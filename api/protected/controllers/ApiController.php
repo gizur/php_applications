@@ -2414,7 +2414,7 @@ class ApiController extends Controller
                     );                    
 
                     $max_id_sequence = 1000;
-                    foreach ($ddb_response->body->Items->children()
+                    foreach ($ddb_response->body->Items
                     as $key => $item) {
                         print_r($item);
                         echo $id_sequence
