@@ -1810,7 +1810,7 @@ function create_parenttab_data_file() {
         // Prepare the data
         $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
 
-        $post['parent_tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($result_array));
+        $post['parent_tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($parent_tab_info_array));
 
         $post['parent_child_tab_rel_array'] = array(AmazonDynamoDB::TYPE_STRING => constructTwoDimensionalValueArray($parChildTabRelArray));
 
