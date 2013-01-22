@@ -20,9 +20,7 @@
  ********************************************************************************/
 
 global $entityDel;
-
 global $display;
-
 global $category;
 
 if(version_compare(phpversion(), '5.2.0') < 0) {

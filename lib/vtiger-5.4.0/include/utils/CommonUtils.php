@@ -1775,6 +1775,7 @@ function create_parenttab_data_file() {
     /**
      * Created to resolve issue #187
      */
+    $parent_tab_info_array = $result_array;
     $parChildTabRelArray = Array();
 
     foreach ($result_array as $parid => $parvalue) {
@@ -1798,7 +1799,7 @@ function create_parenttab_data_file() {
     
     $_cache = array();
     $_cache['id'] = $gizur_client_id;
-    $_cache['parent_tab_info_array'] = constructSingleStringValueArray($result_array);
+    $_cache['parent_tab_info_array'] = constructSingleStringValueArray($parent_tab_info_array);
     $_cache['parent_child_tab_rel_array'] = constructTwoDimensionalValueArray($parChildTabRelArray);    
     
     if(true){
