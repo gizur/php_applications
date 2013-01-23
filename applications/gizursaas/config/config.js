@@ -22,12 +22,6 @@ $(function() {
         });
     });
     
-    route2.matched.add(function(client_id, session_id){
-        console.log('handler 2: '+ client_id + ' : ' + session_id);
-        __client_email = client_id;
-        __session_id = session_id;
-    });
-    
     //only required if you want to set a default value
 
     if(! hasher.getHash()){
