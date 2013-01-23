@@ -1,0 +1,32 @@
+<div class="row-fluid">
+    <div class="span12">
+        <div class="span6" style="background-color: none; padding: 4px;">
+            <form id="registrationform" class="form-horizontal">
+                <fieldset>
+                    <legend>Create an account</legend>
+                    <div class="control-group"><input type="text" placeholder="First Name" name="first_name" id="first_name"/></div>
+                    <div class="control-group"><input type="text" placeholder="Last Name" name="last_name" id="last_name"/></div>
+                    <div class="control-group"><input type="text" placeholder="Email" name="email" id="email"/></div>
+                    <div class="control-group"><input type="password" placeholder="Password" name="password" id="password"/></div>
+                    <div class="control-group"><input type="password" placeholder="Repeat Password" name="re_password" id="re_password"/></div>
+                    <div style="padding-bottom: 14px;" class="control-group"><input type="checkbox" name="terms" id="terms" value="y"/> I agree to Gizur SaaS Terms &AMP; Services.</div>
+                    <div class="control-group"><input type="submit" value="Create Account" class="btn btn-success"/></div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span6" style="background-color: none; padding: 4px;">
+            <form id="loginform" class="form-horizontal">
+                <fieldset>
+                    <legend>Sign In</legend>
+                    <div class="control-group"><input type="text" placeholder="Email" name="email"/></div>
+                    <div class="control-group"><input type="password" placeholder="Password" name="password"/></div>
+                    <div class="control-group"><input type="button" value="Login" class="btn btn-success" id="loginButton"/></div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span6" id="list_users" style="background-color: #ffcc00; padding: 4px;">
+            <ul></ul>
+        </div>
+    </div>
+</div>
+<script src="app/controller/registration.js"></script>
