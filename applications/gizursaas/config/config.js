@@ -22,12 +22,13 @@ $(function() {
         });
     });
     
-    var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
-    
     route2.matched.add(function(client_id, session_id){
         console.log('handler 2: '+ client_id + ' : ' + session_id);
         __client_email = client_id;
         __session_id = session_id;
+        
+        var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
+    
         $.get(_url,{},function(_data){
             var data = {
                 'email' : _data.result.id,
