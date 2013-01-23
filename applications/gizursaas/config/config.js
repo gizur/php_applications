@@ -44,6 +44,7 @@ $(function() {
             map.where('id').is('api_key_1').use('api_key_1').as('value');
             map.where('id').is('api_key_2').use('api_key_2').as('value');
             map.where('id').is('old_email').use('old_email').as('value');
+            map.where('id').is('client_id').use('client_id').as('value');
             
             $.get('templates/home.tmp.html',{},function(html){
                 var output = Plates.bind(html, data, map);
