@@ -12,11 +12,11 @@
                         <fieldset>
                             <legend>User Info</legend>
                             <label for="inputFirstName">First Name</label>
-                            <input type="text" name="first_name"/>
+                            <input type="text" name="first_name" id="first_name"/>
                             <label for="inputLastName">Last Name</label>
-                            <input type="text" name="last_name"/>
+                            <input type="text" name="last_name" id="last_name"/>
                             <label for="inputEmail">Email</label>
-                            <input type="text" name="email"/>
+                            <input type="text" name="email" id="email"/>
                             <a href="#changeEmail" data-toggle="modal">(Change)</a>
                         </fieldset>
                     </form>
@@ -26,13 +26,13 @@
                         <fieldset>
                             <legend>API Settings</legend>
                             <label for="inputClientId">Client Id</label>
-                            <input type="text" name="client_id"/>
+                            <input type="text" name="client_id" id="client_id"/>
                             <label for="inputApiKey1">API Key 1</label>
-                            <input type="text" name="api_key_1"/>
+                            <input type="text" name="api_key_1" id="api_key_1"/>
                             <div><a href="#showSecretKey1" data-toggle="modal">(Show secret key)</a></div>
                             <div><a href="#changeEmail" data-toggle="modal">(Generate new API Key and Secret)</a></div>
                             <label for="inputApiKey2">API Key 2</label>
-                            <input type="text" name="api_key_2"/>
+                            <input type="text" name="api_key_2" id="api_key_2"/>
                             <div><a href="#showSecretKey2" data-toggle="modal">(Show secret key)</a></div>
                             <div><a href="#changeEmail" data-toggle="modal">(Generate new API Key and Secret)</a></div>
                         </fieldset>
@@ -48,13 +48,13 @@
 <div id="changeEmail" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Change Email</h3>
+        <h3 id="changeEmailLabel">Change Email</h3>
     </div>
     <div class="modal-body">
         <form id="registrationform" class="form-horizontal">
-            <div class="control-group"><input type="text" placeholder="New Email" name="new_email"/></div>
-            <div class="control-group"><input type="text" placeholder="Email" name="email"/></div>
-            <div class="control-group"><input type="password" placeholder="Password" name="password"/></div>
+            <div class="control-group"><input type="text" placeholder="New Email" name="new_email" id="new_email"/></div>
+            <div class="control-group"><input type="text" placeholder="Email" name="old_email" id="old_email"/></div>
+            <div class="control-group"><input type="password" placeholder="Password" name="password" id="password"/></div>
         </form>
     </div>
     <div class="modal-footer">
@@ -65,10 +65,10 @@
 <div id="showSecretKey1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Secret Key 1</h3>
+        <h3 id="secretKey1Label">Secret Key 1</h3>
     </div>
     <div class="modal-body">
-        <p>SecretKey1</p>
+        <p id="secret_key_1"></p>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -77,10 +77,10 @@
 <div id="showSecretKey2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Secret Key 2</h3>
+        <h3 id="secretKey2Label">Secret Key 2</h3>
     </div>
     <div class="modal-body">
-        <p>SecretKey2</p>
+        <p id="secret_key_2"></p>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

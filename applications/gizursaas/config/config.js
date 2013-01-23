@@ -26,11 +26,6 @@ $(function() {
         console.log('handler 2: '+ client_id + ' : ' + session_id);
         __client_email = client_id;
         __session_id = session_id;
-        var data = {};
-        $.get('templates/home.tmp.html',{},function(html){
-            var output = Plates.bind(html, data);
-            $('#container').empty().html(output);
-        });
     });
     
     //only required if you want to set a default value
