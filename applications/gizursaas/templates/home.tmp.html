@@ -12,11 +12,11 @@
                         <fieldset>
                             <legend>User Info</legend>
                             <label for="inputFirstName">First Name</label>
-                            <input type="text" name="first_name" id="first_name"/>
+                            <input type="text" name="first_name" id="first_name" value=""/>
                             <label for="inputLastName">Last Name</label>
-                            <input type="text" name="last_name" id="last_name"/>
+                            <input type="text" name="last_name" id="last_name" value=""/>
                             <label for="inputEmail">Email</label>
-                            <input type="text" name="email" id="email"/>
+                            <input type="text" name="email" id="email" value=""/>
                             <a href="#changeEmail" data-toggle="modal">(Change)</a>
                         </fieldset>
                     </form>
@@ -26,13 +26,13 @@
                         <fieldset>
                             <legend>API Settings</legend>
                             <label for="inputClientId">Client Id</label>
-                            <input type="text" name="client_id" id="client_id"/>
+                            <input type="text" name="client_id" id="client_id" value=""/>
                             <label for="inputApiKey1">API Key 1</label>
                             <input type="text" name="api_key_1" id="api_key_1" value=""/>
                             <div><a href="#showSecretKey1" data-toggle="modal">(Show secret key)</a></div>
                             <div><a href="#changeEmail" data-toggle="modal">(Generate new API Key and Secret)</a></div>
                             <label for="inputApiKey2">API Key 2</label>
-                            <input type="text" name="api_key_2" id="api_key_2"/>
+                            <input type="text" name="api_key_2" id="api_key_2" value=""/>
                             <div><a href="#showSecretKey2" data-toggle="modal">(Show secret key)</a></div>
                             <div><a href="#changeEmail" data-toggle="modal">(Generate new API Key and Secret)</a></div>
                         </fieldset>
@@ -52,9 +52,9 @@
     </div>
     <div class="modal-body">
         <form id="registrationform" class="form-horizontal">
-            <div class="control-group"><input type="text" placeholder="New Email" name="new_email" id="new_email"/></div>
-            <div class="control-group"><input type="text" placeholder="Email" name="old_email" id="old_email"/></div>
-            <div class="control-group"><input type="password" placeholder="Password" name="password" id="password"/></div>
+            <div class="control-group"><input type="text" placeholder="New Email" name="new_email" id="new_email" value=""/></div>
+            <div class="control-group"><input type="text" placeholder="Email" name="old_email" id="old_email" value=""/></div>
+            <div class="control-group"><input type="password" placeholder="Password" name="password" id="password" value=""/></div>
         </form>
     </div>
     <div class="modal-footer">
