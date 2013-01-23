@@ -29,17 +29,24 @@ $(function() {
         
         var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
     
+        var _data = {'result' : {'apikey_1':'apikey_1111111'}};
         $.get(_url,{},function(_data){
             var data = {
-                'value_email' : _data.result.id,
-                'value_api_key_1' : _data.result.apikey_1,
-                'value_api_key_2' : _data.result.apikey_2,
-                'value_secret_key_1' : _data.result.secretkey_2,
-                'value_secret_key_2' : _data.result.secretkey_1,
-                'value_old_email' : _data.result.id
+                'email' : _data.result.id,
+                'api_key_1' : _data.result.apikey_1,
+                'api_key_2' : _data.result.apikey_2,
+                'secret_key_1' : _data.result.secretkey_2,
+                'secret_key_2' : _data.result.secretkey_1,
+                'old_email' : _data.result.id
             };
+            var map = Plates.Map();
+            map.where('id').is('email').use('email').as('value');
+            map.where('id').is('api_key_1').use('api_key_1').as('value');
+            map.where('id').is('api_key_2').use('api_key_2').as('value');
+            map.where('id').is('old_email').use('old_email').as('value');
+            
             $.get('templates/home.tmp.html',{},function(html){
-                var output = Plates.bind(html, data);
+                var output = Plates.bind(html, data, map);
                 $('#container').empty().html(output);
             });
         });    
