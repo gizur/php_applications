@@ -5,6 +5,7 @@ $(function() {
     //setup crossroads
     var route1 = crossroads.addRoute('registration');
     var route2 = crossroads.addRoute('user/{client_id}/{session_id}');
+    var route3 = crossroads.addRoute('login/:status:');
     
     crossroads.routed.add(console.log, console); //log all routes
    
@@ -13,6 +14,40 @@ $(function() {
         $.get('templates/registration.tmp.html',{},function(html){
             $('#container').empty().html(html);
         });
+    });
+    
+    route3.matched.add(function(status){
+        console.log('In login');
+        if(status == 'success'){
+            $('#errorMessageBox').removeClass('alert-error');
+            $('#errorMessageBox').addClass('alert alert-success')
+            .empty()
+            .html('<button data-dismiss="alert" class="close" type="button">×</button>Login successfull. Please wait...');
+            setTimeout(function(){
+                var $email = $('#login_email');
+                var $password = $('#login_password');
+                hasher.setHash('user/' + $email.val() + '/test');
+            }, 500);
+        }else if(status == 'fail'){
+            $('#errorMessageBox').removeClass('alert-success');
+            $('#errorMessageBox').addClass('alert alert-error')
+            .empty()
+            .html('<button data-dismiss="alert" class="close" type="button">×</button>Username or password is invalid.');
+        }else if(status == 'empty'){
+            $('#errorMessageBox').removeClass('alert-error');
+            $('#errorMessageBox').removeClass('alert-success');
+            $('#errorMessageBox').addClass('alert')
+            .empty()
+            .html('<button data-dismiss="alert" class="close" type="button">×</button>Username or password can\'t be left blank.');
+        }else{
+            var $email = $('#login_email');
+            var $password = $('#login_password');
+            if($email.val() != '' && $password.val() != ''){
+                hasher.setHash('login/success');
+            }else{
+                hasher.setHash('login/empty');
+            }
+        }
     });
     
     route2.matched.add(function(client_id, session_id){

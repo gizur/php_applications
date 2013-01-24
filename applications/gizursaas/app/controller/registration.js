@@ -1,6 +1,6 @@
 $(function() {
    $('#loginButton').click(function(){
-       hasher.setHash('user/cikab@gizur.com/xyz');
+       hasher.setHash('login');
    });
    var user_controller = new UsersController();
 });
