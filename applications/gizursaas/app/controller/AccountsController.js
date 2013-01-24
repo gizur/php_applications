@@ -41,10 +41,10 @@ var AccountsController = Stapes.subclass({
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
                         
                         //Assign values to the Account Object
-                        this.model.api_key_1 = _data.result.apikey_1;
-                        this.model.secret_key_1 = _data.result.secretkey_1;
+                        self.model.api_key_1 = _data.result.apikey_1;
+                        self.model.secret_key_1 = _data.result.secretkey_1;
                         //Map values to the page
-                        this.model.emit('mapValues');
+                        self.model.emit('mapValues');
                         
                     }else{
                         $('#errorMessageBox').removeClass('alert-success')
