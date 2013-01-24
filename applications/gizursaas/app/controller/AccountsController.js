@@ -42,11 +42,12 @@ var AccountsController = Stapes.subclass({
                         
                         //Assign values to the Account Object
                         //client_id, api_key_1, api_key_2, secret_key_1, secret_key_2
-                        self.model.assign_values(_data.result.clientid,
+                        /*self.model.assign_values(_data.result.clientid,
                             _data.result.apikey_1, 
                             _data.result.apikey_2, 
                             _data.result.secretkey_1, 
-                            _data.result.secretkey_2);
+                            _data.result.secretkey_2);*/
+                        self.model.set({'api_key_1':_data.result.apikey_1,'secret_key_1':_data.result.secretkey_1});
                         //Map values to the page
                         self.model.mapValues();
                         
