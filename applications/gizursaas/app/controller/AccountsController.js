@@ -44,7 +44,7 @@ var AccountsController = Stapes.subclass({
                         self.model.setApiKey1(_data.result.apikey_1);
                         self.model.setSecretKey1(_data.result.secretkey_1);
                         //Map values to the page
-                        self.model.emit('mapValues');
+                        self.model.mapValues();
                         
                     }else{
                         $('#errorMessageBox').removeClass('alert-success')
