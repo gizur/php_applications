@@ -25,16 +25,13 @@ var AccountsController = Stapes.subclass({
     
             $.ajax({
                 url: _url,
-                type: "GET",
+                type: "PUT",
                 dataType: "json",
                 error: function() {
                     $('#errorMessageBox').removeClass('alert-success')
                     $('#errorMessageBox').addClass('alert alert-error')
                     .empty()
                     .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
-                    setTimeout(function(){
-                        $('#errorMessageBox').removeClass('alert-error').empty();
-                    }, 1000);
                 },
                 success : function(_data){
                     if(_data.success){
@@ -42,9 +39,6 @@ var AccountsController = Stapes.subclass({
                         $('#errorMessageBox').addClass('alert alert-success')
                         .empty()
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
-                        setTimeout(function(){
-                            $('#errorMessageBox').removeClass('alert').removeClass('alert-success').empty();
-                        }, 1000);
                         
                         //Assign values to the Account Object
                         this.model.api_key_1 = _data.result.apikey_1;
@@ -57,9 +51,6 @@ var AccountsController = Stapes.subclass({
                         $('#errorMessageBox').addClass('alert alert-error')
                         .empty()
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
-                        setTimeout(function(){
-                            $('#errorMessageBox').removeClass('alert-error').empty();
-                        }, 1000);
                     }
                 }
             });
