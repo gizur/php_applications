@@ -19,7 +19,7 @@ var AccountsController = Stapes.subclass({
         });
         
         this.model.on('generateAPIKeyAndSecret1', function() {
-            
+            alert('generateAPIKeyAndSecret1');
         });
         
         this.model.on('generateAPIKeyAndSecret2', function() {
