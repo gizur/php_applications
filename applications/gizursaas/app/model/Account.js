@@ -37,14 +37,12 @@ var AccountModel = Stapes.subclass({
     },
     'setApiKey1' : function(api_key_1){
         this.api_key_1 = api_key_1;
-        console.log('API KEY : ' + this.api_key_1);
     },
     'setApiKey2' : function(api_key_2){
         this.api_key_2 = api_key_2;
     },
     'setSecretKey1' : function(secret_key_1){
         this.secret_key_1 = secret_key_1;
-        console.log('SECRET KEY : ' + this.secret_key_1);
     },
     'setSecretKey2' : function(secret_key_2){
         this.secret_key_2 = secret_key_2;

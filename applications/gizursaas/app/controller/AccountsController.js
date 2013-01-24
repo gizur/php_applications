@@ -41,8 +41,12 @@ var AccountsController = Stapes.subclass({
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
                         
                         //Assign values to the Account Object
-                        self.model.setApiKey1(_data.result.apikey_1);
-                        self.model.setSecretKey1(_data.result.secretkey_1);
+                        //client_id, api_key_1, api_key_2, secret_key_1, secret_key_2
+                        self.model.assign_values(_data.result.clientid,
+                            _data.result.apikey_1, 
+                            _data.result.apikey_2, 
+                            _data.result.secretkey_1, 
+                            _data.result.secretkey_2);
                         //Map values to the page
                         self.model.mapValues();
                         
