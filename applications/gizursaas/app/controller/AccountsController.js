@@ -21,7 +21,7 @@ var AccountsController = Stapes.subclass({
         this.model.on('generateAPIKeyAndSecret1', function() {
             console.log('generateAPIKeyAndSecret1');
             
-            var _url = __rest_server_url + 'User/keypair1' + encodeURIComponent(__client_email);
+            var _url = __rest_server_url + 'User/keypair1/' + encodeURIComponent(__client_email);
     
             $.ajax({
                 url: _url,
