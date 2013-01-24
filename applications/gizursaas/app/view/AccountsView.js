@@ -1,6 +1,7 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+'use strict';
 
-
+var AccountsView = Stapes.subclass({
+    constructor : function(model) {
+        var self = this;
+    }
+});
