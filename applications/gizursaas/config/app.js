@@ -24,7 +24,7 @@ $(function() {
     
         $.ajax({
             url: _url,
-            type: "POST",
+            type: "GET",
             dataType: "json",
             error: function() {
                 $('#errorMessageBox').addClass('alert alert-error')
