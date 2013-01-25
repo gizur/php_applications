@@ -39,14 +39,8 @@ var AccountsController = Stapes.subclass({
                         $('#errorMessageBox').addClass('alert alert-success')
                         .empty()
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
-                        
+                        $('generateNewAPIAndSecretKey1').addClass('hide');
                         //Assign values to the Account Object
-                        //client_id, api_key_1, api_key_2, secret_key_1, secret_key_2
-                        /*self.model.assign_values(_data.result.clientid,
-                            _data.result.apikey_1, 
-                            _data.result.apikey_2, 
-                            _data.result.secretkey_1, 
-                            _data.result.secretkey_2);*/
                         self.model.set({'api_key_1':_data.result.apikey_1,'secret_key_1':_data.result.secretkey_1});
                         //Map values to the page
                         self.model.mapValues();
@@ -62,7 +56,41 @@ var AccountsController = Stapes.subclass({
         });
         
         this.model.on('generateAPIKeyAndSecret2', function() {
+            console.log('generateAPIKeyAndSecret2');
             
+            var _url = __rest_server_url + 'User/keypair2/' + encodeURIComponent(__client_email);
+    
+            $.ajax({
+                url: _url,
+                type: "PUT",
+                dataType: "json",
+                error: function() {
+                    $('#errorMessageBox').removeClass('alert-success')
+                    $('#errorMessageBox').addClass('alert alert-error')
+                    .empty()
+                    .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
+                },
+                success : function(_data){
+                    if(_data.success){
+                        $('#errorMessageBox').removeClass('alert-error')
+                        $('#errorMessageBox').addClass('alert alert-success')
+                        .empty()
+                        .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
+                        
+                        $('generateNewAPIAndSecretKey2').addClass('hide');
+                        //Assign values to the Account Object
+                        self.model.set({'api_key_2':_data.result.apikey_2,'secret_key_2':_data.result.secretkey_2});
+                        //Map values to the page
+                        self.model.mapValues();
+                        
+                    }else{
+                        $('#errorMessageBox').removeClass('alert-success')
+                        $('#errorMessageBox').addClass('alert alert-error')
+                        .empty()
+                        .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
+                    }
+                }
             });
+        });
     }
 });
