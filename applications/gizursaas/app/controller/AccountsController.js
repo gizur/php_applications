@@ -39,7 +39,7 @@ var AccountsController = Stapes.subclass({
                         $('#errorMessageBox').addClass('alert alert-success')
                         .empty()
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
-                        $('generateNewAPIAndSecretKey1').addClass('hide');
+                        $('generateNewAPIAndSecretKey1').hide();
                         //Assign values to the Account Object
                         self.model.set({'api_key_1':_data.result.apikey_1,'secret_key_1':_data.result.secretkey_1});
                         //Map values to the page
@@ -77,7 +77,7 @@ var AccountsController = Stapes.subclass({
                         .empty()
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
                         
-                        $('generateNewAPIAndSecretKey2').addClass('hide');
+                        $('generateNewAPIAndSecretKey2').hide();
                         //Assign values to the Account Object
                         self.model.set({'api_key_2':_data.result.apikey_2,'secret_key_2':_data.result.secretkey_2});
                         //Map values to the page
