@@ -24,7 +24,6 @@ var AccountModel = Stapes.subclass({
         return true;
     },
     'mapValues' : function(){
-        alert('x');
         //$('#email').val(_data.result.id);
         $('#api_key_1').val(this.api_key_1);
         $('#api_key_2').val(this.api_key_2);
