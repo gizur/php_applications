@@ -11,7 +11,7 @@ $(function() {
    
     route1.matched.add(function(){
         console.log('handler 1');
-        $.get('templates/registration.tmp.html',{},function(html){
+        $.get('templates/registration.tmp.html?x=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
         });
     });
@@ -71,7 +71,7 @@ $(function() {
             },
             success : function(_data){
                 if(_data.success){
-                    $.get('templates/home.tmp.html',{},function(html){
+                    $.get('templates/home.tmp.html?x=' + Math.random(),{},function(html){
                         $('#container').empty().html(html);
                         $('#email').val(_data.result.id);
                         $('#api_key_1').val(_data.result.apikey_1);
