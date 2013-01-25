@@ -1,3 +1,7 @@
+var user_controller = new UsersController();
+
+var account_controller = new AccountsController();
+
 $(function() {
     var DEFAULT_HASH = 'registration';
     //setup hasher
@@ -80,6 +84,7 @@ $(function() {
                         $('#secret_key_2').text(_data.result.secretkey_2);
                         $('#old_email').val(_data.result.id);
                         $('#client_id').val(_data.result.clientid);
+                        account_controller.model.getFromForm();
                     });
                 }else{
                     $('#errorMessageBox').addClass('alert alert-error')

@@ -8,15 +8,16 @@ var UsersController = Stapes.subclass({
 
         //Form
         this.$el = $("#registrationform");
-        var $first_name = this.$el.find("#first_name");
-        var $last_name = this.$el.find("#last_name");
-        var $email = this.$el.find("#email");
-        var $password = this.$el.find("#password");
-        var $re_password = this.$el.find("#re_password");
 
         this.$el.on('submit', function(e) {
             e.preventDefault();
-
+            
+            var $first_name = this.$el.find("#first_name");
+            var $last_name = this.$el.find("#last_name");
+            var $email = this.$el.find("#email");
+            var $password = this.$el.find("#password");
+            var $re_password = this.$el.find("#re_password");
+            
             self.model.assign_values( $first_name.val(), $last_name.val(), $email.val(), 
                 $password.val(), $re_password.val());
             

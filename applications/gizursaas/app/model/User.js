@@ -25,20 +25,5 @@ var UserModel = Stapes.subclass({
     },
     'validate' : function(){
         return true;
-    },
-    'getFirstName' : function (){
-        return this.first_name;
-    },
-    'getLastName' : function (){
-        return this.last_name;
-    },
-    'getEmail' : function (){
-        return this.email;
-    },
-    'getPassword' : function (){
-        return this.password;
-    },
-    'getRePassword' : function (){
-        return this.re_password;
     }
 });
