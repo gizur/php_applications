@@ -67,7 +67,6 @@ if (!$executequery) {
                 $OKAll = false;
                 $syslogmessage = "Some problem in Query2, the error is : " . mysql_error();
                 syslog(LOG_WARNING, "" . $syslogmessage . "");
-                mysql_close($obj1->link);
                 exit;
             }
             /**
