@@ -170,7 +170,7 @@ if (!$executequery) {
                     /** write error message into the syslog		
                      */
                     $findproblemsalesordermsg = @implode(" \n ", $syslogmessage);
-                    $message = "sorry ! -" . $findproblemsalesordermsg . ". at " . $access . "  ";
+                    echo $message = "sorry ! -" . $findproblemsalesordermsg . ". at " . $access . "  ";
                     syslog(LOG_WARNING, "" . $message . "");
                 }
             }
