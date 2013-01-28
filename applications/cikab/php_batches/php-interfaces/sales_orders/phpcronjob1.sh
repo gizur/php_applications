@@ -67,6 +67,7 @@ if (!$exequery) {
      * Write which type Error into the query 
      */
     $queryerror = mysql_error();
+    mysql_close($obj2->link);
     $access = date("Y/m/d H:i:s");
 
     /**
@@ -186,6 +187,8 @@ if (!empty($NumRows)) {
          */
         if ($allOK) {
             mysql_query("COMMIT");
+            mysql_close($obj2->link);
+            mysql_close($obj1->link);
             echo "Succussfilly inserted \n";
         }
 
@@ -193,6 +196,8 @@ if (!empty($NumRows)) {
          * if the Query not successfull the ROLLBACK command Execute here
          */ else {
             mysql_query("ROLLBACK");
+            mysql_close($obj2->link);
+            mysql_close($obj1->link);
             $access = date("Y/m/d H:i:s");
 
             /**

@@ -71,6 +71,7 @@ $exequery = @mysql_query($salesordertable, $obj1->link);
  */
 if (!$exequery) {
     $message = mysql_error();
+    mysql_close($obj1->link);
     $access = date("y/m/d h:i:s");
     syslog(LOG_WARNING, "" . $message . " at " . $access . "");
 }
@@ -265,6 +266,7 @@ if (!empty($numrows)) {
      */
     if ($allok) {
         mysql_query("commit");
+        mysql_close($obj1->link);
         echo "all process succussfilly executed.!!!! /n";
     }
 
@@ -272,6 +274,7 @@ if (!empty($numrows)) {
      * if the query not successfull the rollback command execute here 
      */ else {
         mysql_query("rollback");
+        mysql_close($obj1->link);
         $access = date("y/m/d h:i:s");
 
         /** write error message into the syslog		

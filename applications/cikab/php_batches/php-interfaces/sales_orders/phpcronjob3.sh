@@ -46,6 +46,7 @@ if (!$executequery) {
     $OKAll = false;
     $syslogmessage = "Some problem in Query1, the error is : " . mysql_error();
     syslog(LOG_WARNING, "" . $syslogmessage . "");
+    mysql_close($obj1->link);
     exit;
 } else {
     /**
@@ -66,6 +67,7 @@ if (!$executequery) {
                 $OKAll = false;
                 $syslogmessage = "Some problem in Query2, the error is : " . mysql_error();
                 syslog(LOG_WARNING, "" . $syslogmessage . "");
+                mysql_close($obj1->link);
                 exit;
             }
             /**
@@ -160,8 +162,10 @@ if (!$executequery) {
                 if ($OKAll) {
                     $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
                     mysql_query("commit", $obj1->link);
+                    mysql_close($obj1->link);
                 } else {
                     mysql_query("rollback");
+                    mysql_close($obj1->link);
                     $access = date("y/m/d h:i:s");
 
                     /** write error message into the syslog		
@@ -173,7 +177,5 @@ if (!$executequery) {
             }
         }
     }
-
-    $conn->close();
 }
 ?>
