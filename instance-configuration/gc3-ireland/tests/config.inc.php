@@ -14,4 +14,16 @@ class configuration {
 	       )
 	    );
     }
+    
+    public function getBikerPortalCredentials()
+    {
+        return array(
+            'url' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/applications/cikab',
+            'credentials' => array(
+                array('user_name' => 'prabhat.khera@essindia.co.in',
+                    'user_password' => 'essindia', 'id' => 2),
+            ),
+            'version' => '5.4.0'
+        );
+    }
 }

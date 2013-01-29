@@ -110,7 +110,7 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         echo " calling authenticate_user " . PHP_EOL;
         $result = $this->_client->call('authenticate_user', $params, $this->_url, $this->_url);
         echo " end calling authenticate_user " . PHP_EOL;
-
+        
         $this->assertEquals(count($result), 1, " Eaither no or more than one contacts have been sent.");
         $this->assertEquals($result[0]['id'], $this->_credentials[0]['id'], " User is invalid.");
 
@@ -183,7 +183,7 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         $module = 'CikabTroubleTicket';
 
         $valid_products = array(
-            array('id' => 94, 'product_name' => '202035',
+            array('id' => 5, 'product_name' => 'PRODUCT-1',
                 'product_no' => 'PRO1', 'product_quantity' => 10)
         );
         
