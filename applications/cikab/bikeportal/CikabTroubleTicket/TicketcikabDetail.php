@@ -14,7 +14,6 @@ $helpdeskrmfieldskey = array('1', '2', '3', '4', '6', '8', '10');
 ?>
 <input align="left" class="crmbutton small cancel"type="button" value="<?PHP echo getTranslatedString('LBL_BACK_BUTTON'); ?>" onclick="window.history.back();"/>	
 </td>
-</form>
 
 <?PHP
 global $result;
@@ -112,24 +111,23 @@ if ($ticketid != '') {
         $list .= '
 		   <tr><td colspan="4" class="detailedViewHeader"><b>' . 
             getTranslatedString('LBL_ADD_COMMENT') . '</b></td></tr>
-		   <form name="comments" action="index.php" method="post">
-		   <input type="hidden" name="module">
-		   <input type="hidden" name="action">
-		   <input type="hidden" name="fun">
-		   <input type=hidden name=ticketid value=' . $ticketid . '>
+		   
 		   <tr>
-			<td colspan="4" class="dvtCellInfo"><textarea name="comments" 
+			<td colspan="4" class="dvtCellInfo"><form name="comments" action="index.php" method="post">
+		   <input type="hidden" name="module"/>
+		   <input type="hidden" name="action"/>
+		   <input type="hidden" name="fun"/>
+		   <input type=hidden name=ticketid value=' . $ticketid . '/>
+           <textarea name="comments" 
             cols="55" rows="5" class="detailedViewTextBox"  
             onFocus="this.className=\'detailedViewTextBoxOn\'" 
             onBlur="this.className=\'detailedViewTextBox\'"></textarea></td>
-		   </tr>
-		   <tr>
-			    <td><input class="crmbutton small cancel" title="' . 
+		   <input class="crmbutton small cancel" title="' . 
             getTranslatedString('LBL_SUBMIT') . '" accesskey="S" class="small"  
                 name="submit" value="' . getTranslatedString('LBL_SUBMIT') . 
             '" style="width: 70px;" type="submit" 
-                onclick="this.form.module.value=\'HelpDesk\';this.form.action.value=\'index\';this.form.fun.value=\'updatecomment\'; if(trim(this.form.comments.value) != \'\')	return true; else return false;"/></td>
-		   </form>
+                onclick="this.form.module.value=\'HelpDesk\';this.form.action.value=\'index\';this.form.fun.value=\'updatecomment\'; if(trim(this.form.comments.value) != \'\')	return true; else return false;"/></form></td>
+		   
 			    <td colspan="2">&nbsp;</td>
 			    <td>&nbsp;</td>
 		   </tr>';
@@ -205,16 +203,11 @@ if ($ticketid != '') {
     $list .= '
 		</table>
 	 </td>
-   </tr>
-</table>
-</td></tr>
-
-';
+   </tr>';
 
 
     echo $list;
-    echo '</table></td></tr>';
-    echo '</table></td></tr></table></td></tr></table>';
+    echo '</table></td></tr>'; //</td></tr></table>
     echo '<!-- --End--  -->';
 }
 else

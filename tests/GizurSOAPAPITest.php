@@ -229,8 +229,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         $module = 'CikabTroubleTicket';
 
         $valid_products = array(
-            array('id' => 94, 'product_name' => '202035',
-                'product_no' => 'PRO1', 'product_quantity' => 20)
+            array('id' => 192, 'product_name' => '202035',
+                'product_no' => 'PRO3', 'product_quantity' => 2)
         );
         
         foreach ($valid_products as $product) {

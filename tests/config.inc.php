@@ -23,7 +23,7 @@ class configuration
             'url' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/vtiger',
             'credentials' => array(
                 array('user_name' => 'prabhat.khera@essindia.co.in',
-                    'user_password' => 'essindia', 'id' => 2),
+                    'user_password' => 'essindia', 'id' => 208),
             ),
             'version' => '5.4.0'
         );

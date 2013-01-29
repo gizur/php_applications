@@ -97,6 +97,11 @@ if ($title == 'Call off') {
     } else {
         echo getTranslatedString('LBL_PROBLEM_IN_TICKET_SAVING');
         //include("NewTicket.php");
+        echo "</tr>
+        </table>
+        </td>
+        </tr>
+        </table>";
     }
 }
 ?>
