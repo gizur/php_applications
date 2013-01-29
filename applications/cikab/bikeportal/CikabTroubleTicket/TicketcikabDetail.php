@@ -12,7 +12,7 @@
 $helpdeskrmfieldskey = array('1', '2', '3', '4', '6', '8', '10');
 ///////////////////////////////////////
 ?>
-<input align="left" class="crmbutton small cancel"type="button" value="<?PHP echo getTranslatedString('LBL_BACK_BUTTON'); ?>" onclick="window.history.back();"/>	
+<input align="left" class="crmbutton small cancel" type="button" value="<?PHP echo getTranslatedString('LBL_BACK_BUTTON'); ?>" onclick="window.history.back();"/>	
 </td>
 
 <?PHP
@@ -73,8 +73,8 @@ if ($ticketid != '') {
     //If the ticket is created by this customer and status is not 
     //Closed then allow him to Close this ticket otherwise not
     if ($ticket_status != 'Closed' && $ticket_status != '') {
-        $ticket_close_link = '<a href=index.php?module=HelpDesk&action=index&' .
-            'fun=close_ticket&ticketid=' . $ticketid . '><b>' .
+        $ticket_close_link = '<a href="index.php?module=HelpDesk&action=index&' .
+            'fun=close_ticket&ticketid=' . $ticketid . '"><b>' .
             getTranslatedString('LBL_CLOSE_TICKET') . '</b></a>&nbsp;&nbsp;&nbsp;';
     } else {
         $ticket_close_link = '';
@@ -123,7 +123,7 @@ if ($ticketid != '') {
             onFocus="this.className=\'detailedViewTextBoxOn\'" 
             onBlur="this.className=\'detailedViewTextBox\'"></textarea>
 		   <input class="crmbutton small cancel" title="' . 
-            getTranslatedString('LBL_SUBMIT') . '" accesskey="S" class="small"  
+            getTranslatedString('LBL_SUBMIT') . '" accesskey="S"  
                 name="submit" value="' . getTranslatedString('LBL_SUBMIT') . 
             '" style="width: 70px;" type="submit" 
                 onclick="this.form.module.value=\'HelpDesk\';this.form.action.value=\'index\';this.form.fun.value=\'updatecomment\'; if(trim(this.form.comments.value) != \'\')	return true; else return false;"/></td>
@@ -203,14 +203,11 @@ if ($ticketid != '') {
 	 </td>
    </tr>
 </table>
-</td></tr>
 
 ';
 
 
     echo $list;
-    echo '</table></td></tr>';
-    echo '</table></td></tr></table>'; //</td></tr></table>
     echo '<!-- --End--  -->';
 }
 else
