@@ -231,7 +231,7 @@ $log =& LoggerManager::getLogger('index');
 global $seclog;
 $seclog =& LoggerManager::getLogger('SECURITY');
 
-if (isset($_REQUEST['PHPSESSID'])) $log->debug("****Starting for session ".$_REQUEST['PHPSESSID']);
+if (isset($_REQUEST[strtoupper($_GET['clientid']) . '_SESSID'])) $log->debug("****Starting for session ".$_REQUEST[strtoupper($_GET['clientid']) . '_SESSID']);
 else $log->debug("****Starting for new session");
 
 // We use the REQUEST_URI later to construct dynamic URLs.  IIS does not pass this field
