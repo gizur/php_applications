@@ -36,11 +36,72 @@ var UsersController = Stapes.subclass({
             if(self.model.validate()){
                 self.model.emit('addUser');
                 
-                $first_name.val(''); 
-                $last_name.val(''); 
-                $email.val('');
-                $password.val(''); 
-                $re_password.val('');
+                var _url = __rest_server_url + 'User/' + encodeURIComponent(self.model.get('email'));
+    
+                $.ajax({
+                    url: _url,
+                    type: "GET",
+                    dataType: "json",
+                    error: function() {
+                        
+                    },
+                    success : function(_data){
+                        if(_data.success){
+                            self.model.error('This email has already been registered with Gizur SaaS.');
+                        }else{
+                            self.model.success('Processing ...');
+                            
+                            var _url_create = __rest_server_url + 'User/';
+                            $.ajax({
+                                url: _url_create,
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    "id":self.model.get('email'),
+                                    "password":self.model.get('password'),
+                                    "name_1":self.model.get('first_name'),
+                                    "name_2":self.model.get('last_name'),
+                                    "address_1":"",
+                                    "address_2":"",
+                                    "city":"",
+                                    "state":"",
+                                    "postalcode":"",
+                                    "country":"",
+                                    "phone_1":"",
+                                    "clientid":self.model.get('client_id'),
+                                    "apikey_1":"",
+                                    "secretkey_1":"",
+                                    "active_1":"",
+                                    "apikey_2":"",
+                                    "secretkey_2":"",
+                                    "active_2":"",
+                                    "server":"",
+                                    "port":"",
+                                    "username":"",
+                                    "dbpassword":"",
+                                    "databasename":""
+                                },
+                                error: function() {
+                        
+                                },
+                                success : function(_data){
+                                    if(_data.success){
+                                        self.model.error('Your account has been created. You may login to your account.');
+                                        $first_name.val(''); 
+                                        $last_name.val(''); 
+                                        $email.val('');
+                                        $password.val(''); 
+                                        $re_password.val('');
+                                        $client_id.val('');
+                                        $terms.val('');
+                                    }else{
+                                        self.model.error('An error occured while creating your account. Please contact administrator.');
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
     }
