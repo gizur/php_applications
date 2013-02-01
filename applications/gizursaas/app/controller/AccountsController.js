@@ -1,10 +1,10 @@
 'use strict';
 
 var AccountsController = Stapes.subclass({
-    constructor : function(_model) {
+    constructor : function() {
         var self = this;
         //Form
-        this.model = _model;
+        this.model = _account_model;
         this.view = new AccountsView( this.model );
         
         this.model.map_values();
