@@ -43,10 +43,10 @@ var UsersController = Stapes.subclass({
                     type: "GET",
                     dataType: "json",
                     error: function(jqXHR, textStatus, errorThrown ) {
-                        var _data = JSON.parse(jqXHR);
+                        var _data = JSON.parse(jqXHR.responseText);
                         
                         console.log(_data);
-                        if(_data.response.error.code == "NOT_FOUND"){
+                        if(_data.error.code == "NOT_FOUND"){
                             self.model.success('Processing ...');
                             
                             var _url_create = __rest_server_url + 'User/';
