@@ -1,20 +1,19 @@
 'use strict';
 
 var AccountsController = Stapes.subclass({
-    constructor : function(_model) {
+    constructor : function() {
         var self = this;
         //Form
-        this.model = _model;
-        this.view = new AccountsView( this.model );
+        this.view = new AccountsView( _account_model );
         
-        this.model.map_values();
+        _account_model.map_values();
         
         this.$el = $('form');
         this.$el.on('submit', function(e) {
             e.preventDefault();
         });
         
-        this.model.on('generateAPIKeyAndSecret1', function() {
+        _account_model.on('generateAPIKeyAndSecret1', function() {
             console.log('generateAPIKeyAndSecret1');
             
             var _url = __rest_server_url + 'User/keypair1/' + encodeURIComponent(__client_email);
@@ -37,9 +36,10 @@ var AccountsController = Stapes.subclass({
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
                         
                         //Set modified values to the Account Object
-                        self.model.set({'api_key_1':_data.result.apikey_1,'secret_key_1':_data.result.secretkey_1});
+                        _account_model.set({'api_key_1':_data.result.apikey_1,
+                            'secret_key_1':_data.result.secretkey_1});
                         //Map values to the page
-                        self.model.map_values();
+                        _account_model.map_values();
                         $('#generateNewAPIAndSecretKey1Close').click();
                     }else{
                         $('#errorMessageBox').removeClass('alert-success')
@@ -51,7 +51,7 @@ var AccountsController = Stapes.subclass({
             });
         });
         
-        this.model.on('generateAPIKeyAndSecret2', function() {
+        _account_model.on('generateAPIKeyAndSecret2', function() {
             console.log('generateAPIKeyAndSecret2');
             
             var _url = __rest_server_url + 'User/keypair2/' + encodeURIComponent(__client_email);
@@ -74,9 +74,9 @@ var AccountsController = Stapes.subclass({
                         .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
                         
                         //Set modified values to the Account Object
-                        self.model.set({'api_key_2':_data.result.apikey_2,'secret_key_2':_data.result.secretkey_2});
+                        _account_model.set({'api_key_2':_data.result.apikey_2,'secret_key_2':_data.result.secretkey_2});
                         //Map values to the page
-                        self.model.map_values();
+                        _account_model.map_values();
                         $('#generateNewAPIAndSecretKey2Close').click();
                     }else{
                         $('#errorMessageBox').removeClass('alert-success')
