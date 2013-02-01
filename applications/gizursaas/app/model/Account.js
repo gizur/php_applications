@@ -13,6 +13,7 @@ var AccountModel = Stapes.subclass({
         this.api_key_2 = api_key_2;
         this.secret_key_1 = secret_key_1;
         this.secret_key_2 = secret_key_2;
+        console.log(secret_key_2);
     },
     'validate' : function(){
         return true;
