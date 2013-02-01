@@ -7,8 +7,6 @@ var AccountsController = Stapes.subclass({
         this.model = new AccountModel();
         this.view = new AccountsView( this.model );
         
-        this.model.map_values();
-        
         this.$el = $('form');
         this.$el.on('submit', function(e) {
             e.preventDefault();

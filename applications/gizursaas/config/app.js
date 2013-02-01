@@ -74,11 +74,16 @@ $(function() {
             },
             success : function(_data){
                 if(_data.success){
-                    account_controller.model.assign_values('', '', 
-                        _data.result.id,
-                        _data.result.clientid,
-                        _data.result.apikey_1, _data.result.apikey_2,
-                        _data.result.secretkey_1, _data.result.secretkey_2);
+                    account_controller.model.set({
+                        "first_name" : '',
+                        "last_name" : '',
+                        "email" : _data.result.id,
+                        "client_id" : _data.result.clientid,
+                        "api_key_1" : _data.result.apikey_1,
+                        "api_key_2" : _data.result.apikey_2,
+                        "secret_key_1" : _data.result.secretkey_1,
+                        "secret_key_2" : _data.result.secretkey_2
+                    });
                             
                     $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
                         $('#container').empty().html(html);
