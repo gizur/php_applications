@@ -1,4 +1,5 @@
-//Instanciate the controller
+//Instanciate the controllers
+var user_controller = new UsersController();
 var account_controller = new AccountsController();
 
 $(function() {
