@@ -6,14 +6,19 @@ var AccountModel = Stapes.subclass({
     "api_key_2" : '',
     "secret_key_1" : '',
     "secret_key_2" : '',
-    constructor : function (){},
+    constructor : function (client_id, api_key_1, api_key_2, secret_key_1, secret_key_2) {
+        this.client_id = client_id;
+        this.api_key_1 = api_key_1;
+        this.api_key_2 = api_key_2;
+        this.secret_key_1 = secret_key_1;
+        this.secret_key_2 = secret_key_2;
+    },
     'assign_values' : function (client_id, api_key_1, api_key_2, secret_key_1, secret_key_2) {
         this.client_id = client_id;
         this.api_key_1 = api_key_1;
         this.api_key_2 = api_key_2;
         this.secret_key_1 = secret_key_1;
         this.secret_key_2 = secret_key_2;
-        console.log(secret_key_2);
     },
     'validate' : function(){
         return true;
