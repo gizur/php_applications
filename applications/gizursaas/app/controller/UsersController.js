@@ -6,18 +6,21 @@ var UsersController = Stapes.subclass({
         this.model = new UserModel();
         this.view = new UsersView( this.model );
 
-        //Form
-        this.$el = $("#registrationform");
-        var $first_name = this.$el.find("#first_name");
-        var $last_name = this.$el.find("#last_name");
-        var $email = this.$el.find("#email");
-        var $password = this.$el.find("#password");
-        var $re_password = this.$el.find("#re_password");
-        var $client_id = this.$el.find("#client_id");
-        var $terms = this.$el.find("#terms");
-
-        this.$el.on('submit', function(e) {
-            e.preventDefault();
+        this.model.on('addUser', function() {
+            var text = self.model.get('email');
+            $("#list_users ul").append('<li>' + text + '</li>');
+        });
+        
+        this.model.on('registrationSubmit', function(){
+            //Form
+            this.$el = $("#registrationform");
+            var $first_name = this.$el.find("#first_name");
+            var $last_name = this.$el.find("#last_name");
+            var $email = this.$el.find("#email");
+            var $password = this.$el.find("#password");
+            var $re_password = this.$el.find("#re_password");
+            var $client_id = this.$el.find("#client_id");
+            var $terms = this.$el.find("#terms:checked");
 
             self.model.set({
                 "first_name" : $first_name.val(),
@@ -39,11 +42,6 @@ var UsersController = Stapes.subclass({
                 $password.val(''); 
                 $re_password.val('');
             }
-        });
-        
-        this.model.on('addUser', function() {
-            var text = self.model.getEmail();
-            $("#list_users ul").append('<li>' + text + '</li>');
         });
     }
 });
