@@ -3,8 +3,8 @@
 var AccountsController = Stapes.subclass({
     constructor : function() {
         var self = this;
-        //Form
-        this.model = _account_model;
+        
+        this.model = new AccountModel();
         this.view = new AccountsView( this.model );
         
         this.model.map_values();

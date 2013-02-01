@@ -1,5 +1,5 @@
-//Instanciate the models
-var _account_model = new AccountModel();
+//Instanciate the controller
+var account_controller = new AccountsController();
 
 $(function() {
     var DEFAULT_HASH = 'registration';
@@ -74,7 +74,8 @@ $(function() {
             },
             success : function(_data){
                 if(_data.success){
-                    _account_model.assign_values('', '', _data.result.id,
+                    account_controller.model.assign_values('', '', 
+                        _data.result.id,
                         _data.result.clientid,
                         _data.result.apikey_1, _data.result.apikey_2,
                         _data.result.secretkey_1, _data.result.secretkey_2);
