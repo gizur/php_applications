@@ -42,13 +42,11 @@ var UsersController = Stapes.subclass({
                     url: _url,
                     type: "GET",
                     dataType: "json",
-                    error: function() {
+                    error: function(jqXHR, textStatus, errorThrown ) {
+                        var _data = JSON.parse(jqXHR);
                         
-                    },
-                    success : function(_data){
-                        if(_data.success){
-                            self.model.error('This email has already been registered with Gizur SaaS.');
-                        }else{
+                        console.log(_data);
+                        if(_data.response.error.code == "NOT_FOUND"){
                             self.model.success('Processing ...');
                             
                             var _url_create = __rest_server_url + 'User/';
@@ -99,6 +97,13 @@ var UsersController = Stapes.subclass({
                                     }
                                 }
                             });
+                        }
+                    },
+                    success : function(_data){
+                        if(_data.success){
+                            self.model.error('This email has already been registered with Gizur SaaS.');
+                        }else{
+                            
                         }
                     }
                 });
