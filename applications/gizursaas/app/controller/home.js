@@ -5,4 +5,5 @@ $(function() {
     $('#generateNewAPIAndSecretKey2Button').click(function(){
         account_controller.model.emit('generateAPIKeyAndSecret2');
     });
+    account_controller.model.map_values();
 });
