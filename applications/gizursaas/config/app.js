@@ -1,3 +1,6 @@
+//Instanciate the models
+var _account_model = new AccountModel();
+
 $(function() {
     var DEFAULT_HASH = 'registration';
     //setup hasher
@@ -8,7 +11,7 @@ $(function() {
     var route3 = crossroads.addRoute('login/:status:');
     
     crossroads.routed.add(console.log, console); //log all routes
-   
+    
     route1.matched.add(function(){
         console.log('handler 1');
         $.get('templates/registration.tmp.html?_=' + Math.random(),{},function(html){
@@ -71,15 +74,13 @@ $(function() {
             },
             success : function(_data){
                 if(_data.success){
+                    _account_model.assign_values('', '', _data.result.id,
+                        _data.result.clientid,
+                        _data.result.apikey_1, _data.result.apikey_2,
+                        _data.result.secretkey_1, _data.result.secretkey_2);
+                            
                     $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
                         $('#container').empty().html(html);
-                        $('#email').val(_data.result.id);
-                        $('#api_key_1').val(_data.result.apikey_1);
-                        $('#api_key_2').val(_data.result.apikey_2);
-                        $('#secret_key_1').text(_data.result.secretkey_1);
-                        $('#secret_key_2').text(_data.result.secretkey_2);
-                        $('#old_email').val(_data.result.id);
-                        $('#client_id').val(_data.result.clientid);
                     });
                 }else{
                     $('#errorMessageBox').addClass('alert alert-error')

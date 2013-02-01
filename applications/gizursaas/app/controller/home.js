@@ -1,5 +1,5 @@
 $(function() {
-    var account_controller = new AccountsController();
+    var account_controller = new AccountsController(_account_model);
     $('#generateNewAPIAndSecretKey1Button').click(function(){
         account_controller.model.emit('generateAPIKeyAndSecret1');
     });
