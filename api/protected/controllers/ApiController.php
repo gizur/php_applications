@@ -2513,8 +2513,8 @@ class ApiController extends Controller
                     $queries[] = "update vtiger_user_module_preferences set userid = $max_id_sequence + userid;";
                     $queries[] = "update vtiger_users_last_import set assigned_user_id = $max_id_sequence + assigned_user_id;";
                     $queries[] = "update vtiger_customview set userid = $max_id_sequence + userid;";
-                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $max_id_sequence + prefvalue " + 
-                        "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'userid';";
+                    //$queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $max_id_sequence + prefvalue " + 
+                    //    "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'userid';";
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
                     
