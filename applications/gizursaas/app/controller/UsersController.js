@@ -54,7 +54,8 @@ var UsersController = Stapes.subclass({
                                 url: _url_create,
                                 type: "POST",
                                 dataType: "json",
-                                data: {
+                                processData: false,
+                                data: JSON.stringify({
                                     "id":self.model.get('email'),
                                     "password":self.model.get('password'),
                                     "name_1":self.model.get('first_name'),
@@ -78,7 +79,7 @@ var UsersController = Stapes.subclass({
                                     "username":"",
                                     "dbpassword":"",
                                     "databasename":""
-                                },
+                                }),
                                 error: function() {
                         
                                 },
