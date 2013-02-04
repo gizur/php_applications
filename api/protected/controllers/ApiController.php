@@ -2449,7 +2449,7 @@ class ApiController extends Controller
                         )
                     );
                     
-                    if(isset($ddb_response->body->Items))
+                    if(!empty($ddb_response->body->Items))
                         throw New Exception("Client id is not available.");
                     
                     $ddb_response = $dynamodb->scan(

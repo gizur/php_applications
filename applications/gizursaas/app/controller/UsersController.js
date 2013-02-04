@@ -81,11 +81,12 @@ var UsersController = Stapes.subclass({
                                     "databasename":""
                                 }),
                                 error: function() {
-                        
+                                    if(!_data.success)
+                                        self.model.error(_data.error.message);
                                 },
                                 success : function(_data){
                                     if(_data.success){
-                                        self.model.error('Your account has been created. You may login to your account.');
+                                        self.model.success('Your account has been created. You may login to your account.');
                                         $first_name.val(''); 
                                         $last_name.val(''); 
                                         $email.val('');
