@@ -6,11 +6,6 @@ var UsersController = Stapes.subclass({
         this.model = new UserModel();
         this.view = new UsersView( this.model );
 
-        this.model.on('addUser', function() {
-            var text = self.model.get('email');
-            $("#list_users ul").append('<li>' + text + '</li>');
-        });
-        
         this.model.on('registrationSubmit', function(){
             //Form
             this.$el = $("#registrationform");
