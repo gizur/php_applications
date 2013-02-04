@@ -2406,12 +2406,58 @@ class ApiController extends Controller
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB(); 
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    
+                    $post = json_decode(file_get_contents('php://input'), true);
+                    
+                    //GET THE CLIENT ID
+                    if(empty($post['clientid']))
+                        $post['clientid'] = array_shift(explode('@', $post['id']));
+                    
+                    //REPLACE UN-WANTED CHARS FROM CLIENTID
+                    $replacable = array('_', '.', '#', '-');
+                    $post['clientid'] = str_replace($replacable, '', $post['clientid']);
+                    
+                    //Validations
+                    
+                    // Get an item
+                    $ddb_response = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $post['id'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+                    if (isset($ddb_response->body->Item))
+                        throw New Exception("Email is already registered.");
+                    
+                    $ddb_response = $dynamodb->scan(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'AttributesToGet' => array('clientid'),
+                            'ScanFilter' => array(
+                                'clientid' => array(
+                                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                                    'AttributeValueList' => array(
+                                        array( AmazonDynamoDB::TYPE_STRING => $post['clientid'] )
+                                    )
+                                )
+                            )
+                        )
+                    );
+                    
+                    if(isset($ddb_response->body->Items))
+                        throw New Exception("Client id is not available.");
+                    
                     $ddb_response = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'AttributesToGet' => array('id_sequence'),
                         )
-                    );                    
+                    );                  
 
                     $max_id_sequence = 1000;
                     foreach ($ddb_response->body->Items
@@ -2439,15 +2485,13 @@ class ApiController extends Controller
                          CLogger::LEVEL_TRACE
                     );                                       
                     
-                    $post = json_decode(file_get_contents('php://input'), true);                    
-                    
                     //Create Default DB credentials
-                    $post['clientid'] = array_shift(explode('@', $post['id']));
+                    
                     $db_server     = $dbconfig['db_server'];
                     $db_port       = str_replace(":", "", $dbconfig['db_port']);
                     $db_username   = 'user_' . substr($post['clientid'], 0, 5) . '_' . substr(strrev(uniqid()), 1, 5);
                     $db_password   = substr(strrev(uniqid()), 1, 16);
-                    $db_name       = 'vtiger_' . $post['clientid'] . '_' . substr(strrev(uniqid()), 1, 8);                    
+                    $db_name       = 'vtiger_' . substr($post['clientid'], 1, 8) . '_' . substr(strrev(uniqid()), 1, 8);                    
 
                     $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
                     $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
