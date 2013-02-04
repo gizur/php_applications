@@ -2491,7 +2491,7 @@ class ApiController extends Controller
                     $db_port       = str_replace(":", "", $dbconfig['db_port']);
                     $db_username   = 'user_' . substr($post['clientid'], 0, 5) . '_' . substr(strrev(uniqid()), 1, 5);
                     $db_password   = substr(strrev(uniqid()), 1, 16);
-                    $db_name       = 'vtiger_' . substr($post['clientid'], 1, 8) . '_' . substr(strrev(uniqid()), 1, 8);                    
+                    $db_name       = 'vtiger_' . substr($post['clientid'], 0, 7) . '_' . substr(strrev(uniqid()), 1, 8);                    
 
                     $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
                     $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));

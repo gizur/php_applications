@@ -81,7 +81,7 @@ var UsersController = Stapes.subclass({
                                     "databasename":""
                                 }),
                                 error: function() {
-                                    if(!_data.success)
+                                    if(_data.error.code == "ERROR" && !_data.success)
                                         self.model.error(_data.error.message);
                                 },
                                 success : function(_data){
