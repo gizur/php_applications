@@ -2549,7 +2549,7 @@ class ApiController extends Controller
                     
                     if($output !== ''){
                         $mysqli->query("DROP USER $db_username;");
-                        $mysqli->query("DROP DATABASE IF EXISTS $db_username;");
+                        $mysqli->query("DROP DATABASE IF EXISTS $db_name;");
                         throw New Exception("Unable to populate data in $db_name.");
                     }
                     //Add User Sequence
