@@ -76,8 +76,8 @@ $(function() {
             success : function(_data){
                 if(_data.success){
                     account_controller.model.set({
-                        "first_name" : '',
-                        "last_name" : '',
+                        "first_name" : _data.result.name_1,
+                        "last_name" : _data.result.name_2,
                         "email" : _data.result.id,
                         "client_id" : _data.result.clientid,
                         "api_key_1" : _data.result.apikey_1,
