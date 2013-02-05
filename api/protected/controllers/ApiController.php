@@ -2419,21 +2419,7 @@ class ApiController extends Controller
                     
                     //Validations
                     
-                    // Get an item
-                    $ddb_response = $dynamodb->get_item(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                            'Key' => $dynamodb->attributes(
-                                array(
-                                    'HashKeyElement' => $post['id'],
-                                )
-                            ),
-                            'ConsistentRead' => 'true'
-                        )
-                    );
-                    if (isset($ddb_response->body->Item))
-                        throw New Exception("Email is already registered.");
-                    
+                    //Validate Client ID
                     $ddb_response = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
@@ -2451,6 +2437,21 @@ class ApiController extends Controller
                     
                     if(!empty($ddb_response->body->Items))
                         throw New Exception("Client id is not available.");
+                    
+                    // Validate Email
+                    $ddb_response = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $post['id'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+                    if (isset($ddb_response->body->Item))
+                        throw New Exception("Email is already registered.");
                     
                     $ddb_response = $dynamodb->scan(
                         array(
@@ -2523,8 +2524,10 @@ class ApiController extends Controller
                     
                     // Execute the query
                     // check if the query was executed properly
-                    if ($mysqli->query($query)===false)
+                    if ($mysqli->query($query)===false){
+                        $mysqli->query("DROP USER $db_username;");
                         throw New Exception("Unable to create database " . $mysqli->error);                    
+                    }
 
                     //Grant Permission
                     //================
@@ -2532,8 +2535,11 @@ class ApiController extends Controller
                     
                     // Execute the query
                     // check if the query was executed properly
-                    if ($mysqli->query($query)===false)
+                    if ($mysqli->query($query)===false){
+                        $mysqli->query("DROP USER $db_username;");
+                        $mysqli->query("DROP DATABASE IF EXISTS $db_username;");
                         throw New Exception($mysqli->error);
+                    }
 
                     //Import Database
                     //===============
@@ -2541,6 +2547,11 @@ class ApiController extends Controller
 
                     $output = shell_exec($exec_stmt);
                     
+                    if($output == false || $output == NULL){
+                        $mysqli->query("DROP USER $db_username;");
+                        $mysqli->query("DROP DATABASE IF EXISTS $db_username;");
+                        throw New Exception("Unable to populate data in $db_name.");
+                    }
                     //Add User Sequence
                     //======================
                     $queries[] = "USE $db_name;";
