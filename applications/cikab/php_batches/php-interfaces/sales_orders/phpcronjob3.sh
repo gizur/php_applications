@@ -94,39 +94,41 @@ if (!$executequery) {
                     if (!file_exists($local_file)) {
                         $OKAll = false;
                         $syslogmessage[] = $local_file . " doesnot exist on local server.!!";
-                    }
+                    } else {
+                        //IF FILE DOES EXIST, FTP IT.
 
-                    /**
-                     * Call server file path and File Name When uploaded on FTP
-                     */
-                    $ftp_path = $ServerFilePath . $GETRowsacno['ftpfilename'];
+                        /**
+                         * Call server file path and File Name When uploaded on FTP
+                         */
+                        $ftp_path = $ServerFilePath . $GETRowsacno['ftpfilename'];
 
-                    /**
-                     * Check file on local server if found then manage syslog
-                     */
-                    if (file_exists($ftp_path)) {
-                        $OKAll = false;
-                        $syslogmessage[] = $ftp_path . " exist on FTP server.!";
-                    }
+                        /**
+                         * Check file on local server if found then manage syslog
+                         */
+                        if (file_exists($ftp_path)) {
+                            $OKAll = false;
+                            $syslogmessage[] = $ftp_path . " exist on FTP server.!";
+                        }
 
 
-                    /**
-                     * Push the above files on FTP Server by put command. if 
-                     * the above condition will be true then file upload on 
-                     * ftp server other wise manage 
-                     * Syslog
-                     */
-                    $upload = "";
-                    if ($OKAll) {
-                        $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
-                    }
-                    /**
-                     * if the files not push on FTP the getting a Error message.
-                     */
-                    if (!$upload) {
-                        $OKAll = false;
-                        $syslogmessage[] = "Some permission issue in files OR Directories. "
-                            . "File does not upload on ftp server!!";
+                        /**
+                         * Push the above files on FTP Server by put command. if 
+                         * the above condition will be true then file upload on 
+                         * ftp server other wise manage 
+                         * Syslog
+                         */
+                        $upload = "";
+                        if ($OKAll) {
+                            $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
+                        }
+                        /**
+                         * if the files not push on FTP the getting a Error message.
+                         */
+                        if (!$upload) {
+                            $OKAll = false;
+                            $syslogmessage[] = "Some permission issue in files OR Directories. "
+                                . "File does not upload on ftp server!!";
+                        }
                     }
                     /**
                      * if the above condition will be true then file recieved files into the message que server other wise manage 
@@ -137,9 +139,9 @@ if (!$executequery) {
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
                             $msgObj = $_response->body->ReceiveMessageResult->Message;
-                            if(!empty($msgObj))
+                            if (!empty($msgObj))
                                 echo " [x] Received ", $msgObj->Body, "\n";
-                            else{
+                            else {
                                 $OKAll = false;
                                 $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                             }
