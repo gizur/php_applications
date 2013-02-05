@@ -65,7 +65,8 @@ var UsersController = Stapes.subclass({
                         "dbpassword":"",
                         "databasename":""
                     }),
-                    error: function() {
+                    error: function(jqXHR, textStatus, errorThrown ) {
+                        var _data = JSON.parse(jqXHR.responseText);
                         if(_data.error.code == "ERROR" && !_data.success)
                             self.model.error(_data.error.message);
                     },
