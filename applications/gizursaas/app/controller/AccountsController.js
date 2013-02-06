@@ -36,17 +36,11 @@ var AccountsController = Stapes.subclass({
                 type: "PUT",
                 dataType: "json",
                 error: function() {
-                    $('#errorMessageBox').removeClass('alert-success')
-                    $('#errorMessageBox').addClass('alert alert-error')
-                    .empty()
-                    .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
+                    self.view.error('An error occured while re-generating the key pair. Please try again.');
                 },
                 success : function(_data){
                     if(_data.success){
-                        $('#errorMessageBox').removeClass('alert-error')
-                        $('#errorMessageBox').addClass('alert alert-success')
-                        .empty()
-                        .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
+                        self.view.success('Key pair has been generated successfully.');
                         
                         //Set modified values to the Account Object
                         self.model.set({
@@ -57,10 +51,7 @@ var AccountsController = Stapes.subclass({
                         self.model.map_values();
                         $('#generateNewAPIAndSecretKey1Close').click();
                     }else{
-                        $('#errorMessageBox').removeClass('alert-success')
-                        $('#errorMessageBox').addClass('alert alert-error')
-                        .empty()
-                        .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
+                        self.view.error('An error occured while re-generating the key pair. Please try again.');
                     }
                 }
             });
@@ -76,17 +67,11 @@ var AccountsController = Stapes.subclass({
                 type: "PUT",
                 dataType: "json",
                 error: function() {
-                    $('#errorMessageBox').removeClass('alert-success')
-                    $('#errorMessageBox').addClass('alert alert-error')
-                    .empty()
-                    .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
+                    self.view.error('An error occured while re-generating the key pair. Please try again.');
                 },
                 success : function(_data){
                     if(_data.success){
-                        $('#errorMessageBox').removeClass('alert-error')
-                        $('#errorMessageBox').addClass('alert alert-success')
-                        .empty()
-                        .html('<button data-dismiss="alert" class="close" type="button">×</button>Key pair has been generated successfully.');
+                        self.view.success('Key pair has been generated successfully.');
                         
                         //Set modified values to the Account Object
                         self.model.set({
@@ -97,13 +82,47 @@ var AccountsController = Stapes.subclass({
                         self.model.map_values();
                         $('#generateNewAPIAndSecretKey2Close').click();
                     }else{
-                        $('#errorMessageBox').removeClass('alert-success')
-                        $('#errorMessageBox').addClass('alert alert-error')
-                        .empty()
-                        .html('<button data-dismiss="alert" class="close" type="button">×</button>An error occured while re-generating the key pair. Please try again.');
+                        self.view.error('An error occured while re-generating the key pair. Please try again.');
                     }
                 }
             });
+        });
+    },
+    "loadHome" : function(DEFAULT_HASH){
+        var self = this;
+        
+        var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
+    
+        $.ajax({
+            url: _url,
+            type: "GET",
+            dataType: "json",
+            error: function() {
+                self.view.error('Username or password is invalid.');
+                setTimeout(function(){
+                    hasher.setHash(DEFAULT_HASH);
+                }, 1000);
+            },
+            success : function(_data){
+                if(_data.success){
+                    self.model.set({
+                        "first_name" : _data.result.name_1,
+                        "last_name" : _data.result.name_2,
+                        "email" : _data.result.id,
+                        "client_id" : _data.result.clientid,
+                        "api_key_1" : _data.result.apikey_1,
+                        "api_key_2" : _data.result.apikey_2,
+                        "secret_key_1" : _data.result.secretkey_1,
+                        "secret_key_2" : _data.result.secretkey_2
+                    });
+                    self.view.renderHome();
+                }else{
+                    self.view.error('Username or password is invalid.');
+                    setTimeout(function(){
+                        hasher.setHash(DEFAULT_HASH);
+                    }, 1000);
+                }
+            }
         });
     }
 });
