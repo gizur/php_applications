@@ -60,7 +60,7 @@ if (!$executequery) {
     if ($numrows > 0) {
         while ($GETRows = mysql_fetch_array($executequery)) {
             $GetAllQuesacno = "SELECT * FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
-                WHERE accountname='" . $GETRows['accountname'] . "' WHERE status=0";
+                WHERE accountname='" . $GETRows['accountname'] . "' AND status=0";
             $executequery2 = @mysql_query($GetAllQuesacno, $obj1->link);
 
             if (!$executequery2) {
