@@ -3339,6 +3339,26 @@ class ApiController extends Controller
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    
+                    //Validate Client ID
+                    $ddb_response = $dynamodb->scan(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'AttributesToGet' => array('clientid'),
+                            'ScanFilter' => array(
+                                'clientid' => array(
+                                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                                    'AttributeValueList' => array(
+                                        array( AmazonDynamoDB::TYPE_STRING => $post['clientid'] )
+                                    )
+                                )
+                            )
+                        )
+                    );
+                    
+                    if(!empty($ddb_response->body->Items))
+                        throw New Exception("Client id is not available.", 2001);
+                    
                     $ddb_response = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
