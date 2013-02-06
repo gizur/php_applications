@@ -80,7 +80,7 @@ var UsersController = Stapes.subclass({
                             $password.val(''); 
                             $re_password.val('');
                             $client_id.val('');
-                            $terms.val('');
+                            $terms.attr('checked', false);
                         }else{
                             self.model.error('An error occured while creating your account. Please contact administrator.');
                         }
