@@ -130,7 +130,9 @@ class ApiController extends Controller
         1003 => "TIME_NOT_IN_SYNC",
         1004 => "METHOD_NOT_ALLOWED",
         1005 => "MIME_TYPE_NOT_SUPPORTED",
-        1006 => "INVALID_SESSIONID"
+        1006 => "INVALID_SESSIONID",
+        2001 => "CLIENT_ID_INVALID",
+        2002 => "EMAIL_INVALID"
     );
 
     /**
@@ -2436,7 +2438,7 @@ class ApiController extends Controller
                     );
                     
                     if(!empty($ddb_response->body->Items))
-                        throw New Exception("Client id is not available.");
+                        throw New Exception("Client id is not available.", 2001);
                     
                     // Validate Email
                     $ddb_response = $dynamodb->get_item(
@@ -2451,7 +2453,7 @@ class ApiController extends Controller
                         )
                     );
                     if (isset($ddb_response->body->Item))
-                        throw New Exception("Email is already registered.");
+                        throw New Exception("Email is already registered.", 2002);
                     
                     $ddb_response = $dynamodb->scan(
                         array(
@@ -2516,7 +2518,7 @@ class ApiController extends Controller
                     // Execute the query
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false)
-                        throw New Exception("Unable to create user and grant permission: " . $mysqli->error);
+                        throw New Exception("Unable to create user and grant permission: " . $mysqli->error, 0);
                     
                     //Create Database
                     //===============
@@ -2526,7 +2528,7 @@ class ApiController extends Controller
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false){
                         $mysqli->query("DROP USER $db_username;");
-                        throw New Exception("Unable to create database " . $mysqli->error);                    
+                        throw New Exception("Unable to create database " . $mysqli->error, 0);                    
                     }
 
                     //Grant Permission
@@ -2538,7 +2540,7 @@ class ApiController extends Controller
                     if ($mysqli->query($query)===false){
                         $mysqli->query("DROP USER $db_username;");
                         $mysqli->query("DROP DATABASE IF EXISTS $db_username;");
-                        throw New Exception($mysqli->error);
+                        throw New Exception($mysqli->error, 0);
                     }
 
                     //Import Database
@@ -2550,7 +2552,7 @@ class ApiController extends Controller
                     if($output === false){
                         $mysqli->query("DROP USER $db_username;");
                         $mysqli->query("DROP DATABASE IF EXISTS $db_name;");
-                        throw New Exception("Unable to populate data in $db_name.");
+                        throw New Exception("Unable to populate data in $db_name.", 0);
                     }
                     //Add User Sequence
                     //======================
@@ -2580,7 +2582,7 @@ class ApiController extends Controller
                         // check if the query was executed properly
                         if ($mysqli->query($query)===false){
                             $mysqli->query('ROLLBACK;');
-                            throw New Exception($mysqli->error . " Query:" . $query);                        
+                            throw New Exception($mysqli->error . " Query:" . $query, 0);                        
                         }
                     }
                     
