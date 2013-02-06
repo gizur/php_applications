@@ -95,7 +95,8 @@ if (!empty($numrows)) {
         $filename = "SET.GZ.FTP.IN.BST." . $createDate . "." . $interfaceorderid['accountname'] . "";
         $ourfilename = $ourfilenamedir . $filename;
 
-        $salesorderallorderno = " select * from `" . $dbconfig_integration['db_name'] . "`.`salesorder_interface`  where accountname='" . $interfaceorderid['accountname'] . "'";
+        $salesorderallorderno = " select * from `" . $dbconfig_integration['db_name'] . "`.`salesorder_interface` " + 
+                    + "where accountname='" . $interfaceorderid['accountname'] . "'";
         $findproblemsalesorderid = "";
         $queryerror = "";
         $allok = true;
