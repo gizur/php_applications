@@ -133,7 +133,7 @@ $dbconfig_ftplocalpath['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfig_ftpserverpath['serverpath'] = "";
+$dbconfig_ftpserverpath['serverpath'] = "in/";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */

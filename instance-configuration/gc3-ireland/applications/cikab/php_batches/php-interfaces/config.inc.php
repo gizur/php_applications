@@ -63,7 +63,7 @@ $dbconfig_integration['db_type'] = 'mysql';
  * DNS of database server to use 
  * @global string $dbconfig_vtiger['db_server']
  */
-$dbconfig_vtiger['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com ';
+$dbconfig_vtiger['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
 
 /**
  * The port of the database server

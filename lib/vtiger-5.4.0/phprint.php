@@ -62,7 +62,7 @@ $lang_crm = (empty($_GET['lang_crm'])) ? $default_language : $_GET['lang_crm'];
 $app_strings = return_application_language($lang_crm);
 insert_charset_header();
 
-$fp = @fopen($url . "&PHPSESSID=" . $_GET['jt'], "rb") or die("Error opening $url<br><br>Is your \$site_URL correct in config.php?");
+$fp = @fopen($url . "&" . strtoupper($_GET['clientid']) . "_SESSID=" . $_GET['jt'], "rb") or die("Error opening $url<br><br>Is your \$site_URL correct in config.php?");
 
 $get = $page_str = FALSE;
 while ($data = fgets($fp, 4096)) {

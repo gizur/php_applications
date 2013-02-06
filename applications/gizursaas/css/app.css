@@ -1,0 +1,14 @@
+/* 
+    Document   : app
+    Created on : Jan 22, 2013, 11:40:55 AM
+    Author     : prabhat
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+.container {
+    padding-top: 20px;
+}

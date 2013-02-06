@@ -75,11 +75,11 @@
 		if(strcasecmp($operation,"extendsession")===0){
 			if(isset($input['operation'])){
 				// Workaround fix for PHP 5.3.x: $_REQUEST doesn't have PHPSESSID
-				if(isset($_REQUEST['PHPSESSID'])) {
-					$sessionId = vtws_getParameter($_REQUEST,"PHPSESSID");
+				if(isset($_REQUEST[strtoupper($_GET['clientid']) . '_SESSID'])) {
+					$sessionId = vtws_getParameter($_REQUEST,strtoupper($_GET['clientid']) . '_SESSID');
 				} else {
 					// NOTE: Need to evaluate for possible security issues
-					$sessionId = vtws_getParameter($_COOKIE,'PHPSESSID');
+					$sessionId = vtws_getParameter($_COOKIE,strtoupper($_GET['clientid']) . '_SESSID');
 				}
 				// END
 				$adoptSession = true;

@@ -394,24 +394,7 @@ function create_custom_ticket($input_array)
     $ticket->column_fields['from_portal'] = 1;
 
 	$ticket->save("HelpDesk");
-    /*
-	$subject = "[From Portal] " .$ticket->column_fields['ticket_no']." [ Ticket ID : $ticket->id ] ".$title;
-	$contents = ' Ticket No : '.$ticket->column_fields['ticket_no']. '<br> Ticket ID : '.$ticket->id.'<br> Ticket Title : '.$title.'<br><br>'.$description;
-
-	//get the contact email id who creates the ticket from portal and use this email as from email id in email
-	$result = $adb->pquery("select email from vtiger_contactdetails where contactid = ?", array($parent_id));
-	$contact_email = $adb->query_result($result,0,'email');
-	$from_email = $contact_email;
-
-	//send mail to assigned to user
-	$to_email = getUserEmailId('id',$userid);
-	$adb->println("Send mail to the user who is the owner of the module about the portal ticket");
-	$mail_status = send_mail('HelpDesk',$to_email,'',$from_email,$subject,$contents);
-
-	//send mail to the customer(contact who creates the ticket from portal)
-	$adb->println("Send mail to the customer(contact) who creates the portal ticket");
-	$mail_status = send_mail('Contacts',$contact_email,'',$from_email,$subject,$contents);
-    */
+    
 	$ticketresult = $adb->pquery("select vtiger_troubletickets.ticketid from vtiger_troubletickets
 		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_troubletickets.ticketid 
         inner join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid 

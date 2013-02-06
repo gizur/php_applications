@@ -166,6 +166,3 @@ echo '<tr align="center">
     }
 
 </script>
-
-</body>
-</html>

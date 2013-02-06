@@ -46,6 +46,7 @@ if (!$executequery) {
     $OKAll = false;
     $syslogmessage = "Some problem in Query1, the error is : " . mysql_error();
     syslog(LOG_WARNING, "" . $syslogmessage . "");
+    mysql_close($obj1->link);
     exit;
 } else {
     /**
@@ -59,7 +60,7 @@ if (!$executequery) {
     if ($numrows > 0) {
         while ($GETRows = mysql_fetch_array($executequery)) {
             $GetAllQuesacno = "SELECT * FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
-                WHERE accountname='" . $GETRows['accountname'] . "'";
+                WHERE accountname='" . $GETRows['accountname'] . "' AND status=0";
             $executequery2 = @mysql_query($GetAllQuesacno, $obj1->link);
 
             if (!$executequery2) {
@@ -93,39 +94,41 @@ if (!$executequery) {
                     if (!file_exists($local_file)) {
                         $OKAll = false;
                         $syslogmessage[] = $local_file . " doesnot exist on local server.!!";
-                    }
+                    } else {
+                        //IF FILE DOES EXIST, FTP IT.
 
-                    /**
-                     * Call server file path and File Name When uploaded on FTP
-                     */
-                    $ftp_path = $ServerFilePath . $GETRowsacno['ftpfilename'];
+                        /**
+                         * Call server file path and File Name When uploaded on FTP
+                         */
+                        $ftp_path = $ServerFilePath . $GETRowsacno['ftpfilename'];
 
-                    /**
-                     * Check file on local server if found then manage syslog
-                     */
-                    if (file_exists($ftp_path)) {
-                        $OKAll = false;
-                        $syslogmessage[] = $ftp_path . " exist on FTP server.!";
-                    }
+                        /**
+                         * Check file on local server if found then manage syslog
+                         */
+                        if (file_exists($ftp_path)) {
+                            $OKAll = false;
+                            $syslogmessage[] = $ftp_path . " exist on FTP server.!";
+                        }
 
 
-                    /**
-                     * Push the above files on FTP Server by put command. if 
-                     * the above condition will be true then file upload on 
-                     * ftp server other wise manage 
-                     * Syslog
-                     */
-                    $upload = "";
-                    if ($OKAll) {
-                        $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
-                    }
-                    /**
-                     * if the files not push on FTP the getting a Error message.
-                     */
-                    if (!$upload) {
-                        $OKAll = false;
-                        $syslogmessage[] = "Some permission issue in files OR Directories. "
-                            . "File does not upload on ftp server!!";
+                        /**
+                         * Push the above files on FTP Server by put command. if 
+                         * the above condition will be true then file upload on 
+                         * ftp server other wise manage 
+                         * Syslog
+                         */
+                        $upload = "";
+                        if ($OKAll) {
+                            $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
+                        }
+                        /**
+                         * if the files not push on FTP the getting a Error message.
+                         */
+                        if (!$upload) {
+                            $OKAll = false;
+                            $syslogmessage[] = "Some permission issue in files OR Directories. "
+                                . "File does not upload on ftp server!!";
+                        }
                     }
                     /**
                      * if the above condition will be true then file recieved files into the message que server other wise manage 
@@ -136,9 +139,9 @@ if (!$executequery) {
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
                             $msgObj = $_response->body->ReceiveMessageResult->Message;
-                            if(!empty($msgObj))
+                            if (!empty($msgObj))
                                 echo " [x] Received ", $msgObj->Body, "\n";
-                            else{
+                            else {
                                 $OKAll = false;
                                 $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                             }
@@ -160,20 +163,20 @@ if (!$executequery) {
                 if ($OKAll) {
                     $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
                     mysql_query("commit", $obj1->link);
+                    mysql_close($obj1->link);
                 } else {
                     mysql_query("rollback");
+                    mysql_close($obj1->link);
                     $access = date("y/m/d h:i:s");
 
                     /** write error message into the syslog		
                      */
                     $findproblemsalesordermsg = @implode(" \n ", $syslogmessage);
-                    $message = "sorry ! -" . $findproblemsalesordermsg . ". at " . $access . "  ";
+                    echo $message = "sorry ! -" . $findproblemsalesordermsg . ". at " . $access . "  ";
                     syslog(LOG_WARNING, "" . $message . "");
                 }
             }
         }
     }
-
-    $conn->close();
 }
 ?>
