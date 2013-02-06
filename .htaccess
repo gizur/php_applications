@@ -1,6 +1,8 @@
 Options -Indexes
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RedirectMatch 301 ^(\/|)$ http://www.gizur.com
 RewriteRule ^api/(.*)$ api/index.php/api/$1 [L]
 RewriteRule ^([^\/]*)/vtiger/index.php lib/vtwrapper-index.php?clientid=$1 [QSA,L]
 RewriteRule ^([^\/]*)/vtiger/([^?]*) lib/vtiger-5.4.0/$2?clientid=$1 [QSA]

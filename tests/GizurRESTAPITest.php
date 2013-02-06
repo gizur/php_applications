@@ -166,7 +166,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $delta = 0;
         $times = 100;
         
-        $this->markTestSkipped('');
+        //$this->markTestSkipped('');
 
         echo "Authenticating Login " . PHP_EOL;        
         ob_flush();
@@ -645,7 +645,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         
             //Set Header
             $this->_setHeader($username, $password, $params, $signature);
-        
+          
+            echo PHP_EOL . "URL: " . $this->_url.$model;
             //Show the response
             echo PHP_EOL . " Response: " . $response = $this->_rest->get(
                 $this->_url.$model
