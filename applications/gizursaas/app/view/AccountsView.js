@@ -11,12 +11,12 @@ var AccountsView = Stapes.subclass({
             $('#container').empty().html(html);
         });
         $('#generateNewAPIAndSecretKey1Button').click(function(){
-            self.model.emit('generateAPIKeyAndSecret1');
+            account_controller.model.emit('generateAPIKeyAndSecret1');
         });
         $('#generateNewAPIAndSecretKey2Button').click(function(){
-            self.model.emit('generateAPIKeyAndSecret2');
+            account_controller.model.emit('generateAPIKeyAndSecret2');
         });
-        self.model.map_values();
+        account_controller.model.map_values();
     },
     'success' : function(msg){
         $('#errorMessageBox').removeClass('alert-error')
