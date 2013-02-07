@@ -9,6 +9,13 @@ var AccountsView = Stapes.subclass({
         $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
         });
+        $('#generateNewAPIAndSecretKey1Button').click(function(){
+            self.model.emit('generateAPIKeyAndSecret1');
+        });
+        $('#generateNewAPIAndSecretKey2Button').click(function(){
+            self.model.emit('generateAPIKeyAndSecret2');
+        });
+        self.model.map_values();
     },
     'success' : function(msg){
         $('#errorMessageBox').removeClass('alert-error')
