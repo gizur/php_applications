@@ -29,7 +29,7 @@ $(function() {
         __client_email = client_id;
         __session_id = session_id;
         
-        account_controller.view.loadHome(DEFAULT_HASH);
+        account_controller.view.emit('loadHome', DEFAULT_HASH);
     });
     
     //only required if you want to set a default value
