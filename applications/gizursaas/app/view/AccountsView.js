@@ -3,6 +3,7 @@
 var AccountsView = Stapes.subclass({
     constructor : function() {
         var self = this;
+        self.bindEventHandlers();
     },
     'renderHome' : function(){
         $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
