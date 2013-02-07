@@ -2914,7 +2914,13 @@ class ApiController extends Controller
             if ($post['ticketstatus'] != 'Closed') {
                 $email = new AmazonSES();
                 //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
+                
+                if ($globalresponse['result']['drivercauseddamage']=='Yes')
+                    $globalresponse['result']['drivercauseddamage'] == 'Ja';
 
+                if ($globalresponse['result']['drivercauseddamage']=='No')
+                    $globalresponse['result']['drivercauseddamage'] == 'Nej';                
+                
                 $SESresponse = $email->send_email(
                     Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
                     array(
