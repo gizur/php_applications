@@ -1,11 +1,13 @@
 'use strict';
 
 var AccountsView = Stapes.subclass({
-    constructor : function() {},
+    constructor : function() {
+        var self = this;
+    },
     'renderHome' : function(){
         $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
-            this.bindEventHandlers();
+            self.bindEventHandlers();
         });        
     },
     'success' : function(msg){
