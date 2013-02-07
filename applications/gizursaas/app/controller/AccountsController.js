@@ -117,6 +117,7 @@ var AccountsController = Stapes.subclass({
                                 "secret_key_2" : _data.result.secretkey_2
                             });
                             self.view.renderHome();
+                            self.model.map_values();
                         }else{
                             self.view.error('Username or password is invalid.');
                             setTimeout(function(){
