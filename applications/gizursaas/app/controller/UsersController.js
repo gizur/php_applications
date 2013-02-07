@@ -32,7 +32,7 @@ var UsersController = Stapes.subclass({
                                 
                 var _url = __rest_server_url + 'User/' + encodeURIComponent(self.model.get('email'));
     
-                self.model.success('Processing ...');
+                self.view.success('Processing ...');
                             
                 var _url_create = __rest_server_url + 'User/';
                 $.ajax({
@@ -69,11 +69,11 @@ var UsersController = Stapes.subclass({
                         var _data = JSON.parse(jqXHR.responseText);
                         //_data.error.code == "ERROR" && 
                         if(!_data.success)
-                            self.model.error(__messages[_data.error.code]);
+                            self.view.error(__messages[_data.error.code]);
                     },
                     success : function(_data){
                         if(_data.success){
-                            self.model.success('Your account has been created. You may login to your account.');
+                            self.view.success('Your account has been created. You may login to your account.');
                             $first_name.val(''); 
                             $last_name.val(''); 
                             $email.val('');
@@ -82,11 +82,34 @@ var UsersController = Stapes.subclass({
                             $client_id.val('');
                             $terms.attr('checked', false);
                         }else{
-                            self.model.error('An error occured while creating your account. Please contact administrator.');
+                            self.view.error('An error occured while creating your account. Please contact administrator.');
                         }
                     }
                 });
             }
         });
+    },
+    "login" : function(status){
+        var self = this;
+        
+        var $email = $('#login_email');
+        var $password = $('#login_password');
+        
+        if(status == 'success'){
+            self.view.success('Login successfull. Please wait...');
+            setTimeout(function(){
+                hasher.setHash('user/' + $email.val() + '/test');
+            }, 500);
+        }else if(status == 'fail'){
+            self.view.error('Username or password is invalid.');
+        }else if(status == 'empty'){
+            self.view.alert('Username or password can\'t be left blank.');
+        }else{
+            if($email.val() != '' && $password.val() != ''){
+                hasher.setHash('login/success');
+            }else{
+                hasher.setHash('login/empty');
+            }
+        }
     }
 });
