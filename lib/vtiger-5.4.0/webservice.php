@@ -13,6 +13,7 @@
 	require_once 'include/Webservices/Utils.php';
 	require_once("include/Webservices/State.php");
 	require_once("include/Webservices/OperationManager.php");
+    require_once('include/utils/UserInfoUtil.php');
 	require_once("include/Webservices/SessionManager.php");
 	require_once("include/Zend/Json.php");
 	require_once('include/logging.php');
@@ -23,6 +24,15 @@
 	global $seclog,$log;
 	$seclog =& LoggerManager::getLogger('SECURITY');
 	$log =& LoggerManager::getLogger('webservice');
+    
+    //Recalculate Priviledges
+    
+    if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . 'php')){
+        RecalculateSharingRules();
+        $ourFileHandle = fopen('user_privileges/user_privileges_' . $_GET['clientid'] . 'php', 'w');
+        fclose($ourFileHandle);        
+    }
+
 	
 	function getRequestParamsArrayForOperation($operation){
 		global $operationInput;
