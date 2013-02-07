@@ -91,6 +91,12 @@ var AccountsController = Stapes.subclass({
         });
         
         this.view.on({
+            'renderHome' : function(){
+                $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
+                    $('#container').empty().html(html);
+                    self.model.map_values();
+                });        
+            },
             'loadHome': function(DEFAULT_HASH){
                 var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
     
@@ -116,8 +122,7 @@ var AccountsController = Stapes.subclass({
                                 "secret_key_1" : _data.result.secretkey_1,
                                 "secret_key_2" : _data.result.secretkey_2
                             });
-                            self.view.renderHome();
-                            self.model.map_values();
+                            self.view.emit('renderHome');                            
                         }else{
                             self.view.error('Username or password is invalid.');
                             setTimeout(function(){

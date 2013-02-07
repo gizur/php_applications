@@ -5,11 +5,6 @@ var AccountsView = Stapes.subclass({
         var self = this;
         self.bindEventHandlers();
     },
-    'renderHome' : function(){
-        $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
-            $('#container').empty().html(html);
-        });        
-    },
     'success' : function(msg){
         $('#errorMessageBox').removeClass('alert-error')
         .addClass('alert alert-success')
