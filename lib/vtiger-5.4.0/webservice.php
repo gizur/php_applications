@@ -26,8 +26,7 @@
 	$log =& LoggerManager::getLogger('webservice');
     
     //Recalculate Priviledges
-    error_reporting(E_ALL);
-    ini_set('display_errors', 'On');
+    
     if (isset($_GET['clientid']))
     if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . 'php')){
         RecalculateSharingRules();
