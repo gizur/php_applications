@@ -2923,41 +2923,25 @@ class ApiController extends Controller
                             Yii::app()->params->awsSESClientEmailAddress
                         )
                     ), 
-                    array(// Message (short form)
+                    array(// sesMessage (short form)
                         'Subject.Data' => date("F j, Y") . ': Besiktningsprotokoll för  ' . $globalresponse['result']['ticket_no'],
-                        'Body.Text.Data' => 'Hej ' . $this->_session->contactname . ', ' .
+                        'Body.Text.Data' => 'Hej ' . $this->_session->contactname . ', ' . PHP_EOL .
                         PHP_EOL .
+                        'En skaderapport har skapats.' . PHP_EOL .
                         PHP_EOL .
-                        'Ett besiktningsprotokoll har skapats.' .
+                        'Datum och tid: ' . date("Y-m-d H:i") . PHP_EOL .                        
+                        'Ticket ID: ' . $globalresponse['result']['ticket_no'] . PHP_EOL .
                         PHP_EOL .
-                        PHP_EOL .                        
-                        'Trailer ID: ' .
-                        $globalresponse['result']['trailerid'] .
-                        PHP_EOL . 
-                        'Plats: ' .
-                        $globalresponse['result']['damagereportlocation'] .
+                        '- Besiktningsuppgifter -' . PHP_EOL .
+                        'Trailer ID: ' . $globalresponse['result']['trailerid'] . PHP_EOL .
+                        'Plats: ' . $globalresponse['result']['damagereportlocation'] . PHP_EOL .
+                        'Plomerad: ' . $globalresponse['result']['sealed'] . PHP_EOL .
+                        'Skivor: ' . $globalresponse['result']['plates'] . PHP_EOL .
+                        'Spännband: ' . $globalresponse['result']['straps'] . PHP_EOL .
                         PHP_EOL .
-                        'Plomerad: ' .
-                        $globalresponse['result']['sealed'] .
-                        PHP_EOL .
-                        'Skivor: ' .
-                        $globalresponse['result']['straps'] .
-                        PHP_EOL .
-                        'Spännband: ' .
-                        $globalresponse['result']['plates'] .
-                        PHP_EOL .
-                        'Typ: ' .
-                        $globalresponse['result']['damagetype'] .
-                        PHP_EOL .
-                        'Position: ' .
-                        $globalresponse['result']['damagereportlocation'] .
-                        PHP_EOL .
-                        'Caused by: ' .
-                        $globalresponse['result']['drivercauseddamage'] .
-                        PHP_EOL .
-                        'Ticket ID: ' .                      
-                        $globalresponse['result']['ticket_no'] .
-                        PHP_EOL .
+                        '- Skadeuppgifter -' . PHP_EOL .
+                        'Position: ' . $globalresponse['result']['damageposition'] . PHP_EOL .
+                        'Skada orsakad av chaufför: ' . $globalresponse['result']['drivercauseddamage'] . PHP_EOL .
                         PHP_EOL .
                         PHP_EOL .
                         '--' .
