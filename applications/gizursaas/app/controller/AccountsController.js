@@ -92,8 +92,6 @@ var AccountsController = Stapes.subclass({
         
         this.view.on({
             'loadHome': function(DEFAULT_HASH){
-                var self = this;
-        
                 var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
     
                 $.ajax({
