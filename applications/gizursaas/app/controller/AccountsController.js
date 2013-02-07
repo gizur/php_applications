@@ -118,6 +118,7 @@ var AccountsController = Stapes.subclass({
                             });
                             self.view.renderHome();
                             self.model.map_values();
+                            self.view.bindEventHandlers();
                         }else{
                             self.view.error('Username or password is invalid.');
                             setTimeout(function(){
