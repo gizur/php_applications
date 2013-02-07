@@ -6,17 +6,9 @@ var AccountsView = Stapes.subclass({
         self.model = model;
     },
     'renderHome' : function(){
-        var self = this;
         $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
         });
-        $('#generateNewAPIAndSecretKey1Button').click(function(){
-            account_controller.model.emit('generateAPIKeyAndSecret1');
-        });
-        $('#generateNewAPIAndSecretKey2Button').click(function(){
-            account_controller.model.emit('generateAPIKeyAndSecret2');
-        });
-        account_controller.model.map_values();
     },
     'success' : function(msg){
         $('#errorMessageBox').removeClass('alert-error')
