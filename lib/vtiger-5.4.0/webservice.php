@@ -30,7 +30,7 @@
     if (isset($_GET['clientid']))
     if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . 'php')){
         RecalculateSharingRules();
-        $ourFileHandle = fopen('user_privileges/user_privileges_' . $_GET['clientid'] . 'php', 'w');
+        $ourFileHandle = fopen('user_privileges/user_privileges_' . $_GET['clientid'] . '.php', 'w');
         fclose($ourFileHandle);        
     }
 
