@@ -91,7 +91,7 @@ if ($title == 'Call off') {
         <script>
             var ticketid = '<?php echo $ticketid; ?>';
             window.location.href = "index.php?module=CikabTroubleTicket" + 
-                "&action=index&fun=detail&ticketid="+ticketid
+                "&action=index"
         </script>
         <?php
     } else {
