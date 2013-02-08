@@ -330,6 +330,13 @@ class ApiController extends Controller
                 CLogger::LEVEL_TRACE
             );
             
+            //First we validate the model
+            if (isset($_GET['model']))
+                throw new Exception('Model not present');
+            
+            if (in_array($_GET['model'], $this->_valid_models)===false)
+                throw new Exception('Model not supported');            
+            
             //First we validate the requests using logic do not consume
             //resources 
             if ($_GET['model'] == 'User')
