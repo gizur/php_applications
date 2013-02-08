@@ -34,40 +34,36 @@ function fnMySettings(){
 </head>
 
 <body>
-<table class="innerTab" cellspacing="0" cellpadding="0">
-   <tr>
-       <th align="left"><img src="images/gizur_logo.png" height="49" alt="Gizur"></th>
+<table class="innerTab-inner" cellspacing="0" width="100%" cellpadding="0">
+   <tr class="innerTab-top-inner">
+    <th align="left"></th>
     <th>&nbsp;</th>
-    <th align="right" style="padding-right:15px;" nowrap>
-	<span onclick="fnMySettings();" class="MySettingsHdr"><?php echo getTranslatedString('LBL_MY_SETTINGS');?></span>&nbsp;|&nbsp;
+    <th align="right" style="padding-right:15px; padding-top:5px;padding-bottom:5px; " nowrap>
+	<span onclick="fnMySettings();" class="MySettingsHdr"><?php echo getTranslatedString('LBL_MY_SETTINGS');?></span>
 	<a href="index.php?logout=true" class="hdr"><?php echo getTranslatedString('LBL_LOG_OUT');?></a></th>
    </tr>
-  <tr class="tableTop"><td colspan="3"></td></tr>
+  <tr class="tableTop-inner"><td colspan="3" valign="top">
+    
+  <h2 class="mainh2">CIKAB Portal</h2>
+ 
+  </td></tr>
   <tr class="tableMid">
     <td colspan="3" align="right" valign="top">
-	<table cellspacing="0" cellpadding="0" align="center" border="0" width="99%">
+	<table cellspacing="0" cellpadding="0" align="center" border="0" width="100%">
 	   <tr>
-		<td width="6" height="5"></td>
-	        <td align="right">&nbsp;</td>
-        	<td width="6" height="5"></td>
-	   </tr>
-	   <tr>
-        	<td width="6" height="5"><img src="images/loginSITopLeft.gif"></td>
-        	<td bgcolor="#FFFFFF"></td>
-	        <td width="6" height="5"><img src="images/loginSITopRight.gif"></td>
-	   </tr>
-	   <tr bgcolor="#FFFFFF">
-	        <td height="100">&nbsp;</td>
+	   
+	      
+	        
 		<td valign="top">
-		   <table width="100%"  border="0" cellspacing="0" cellpadding="3">
+		   <table width="100%"  border="0" cellspacing="0" cellpadding="0">
 		      <tr>
-			<td class="dvtCellInfo" colspan="2">
+			<td class="dvtCellInfo" colspan="3">
 				<!-- Table with Tickets and FAQ tabs - Starts -->
-				<table align="center" border="0" cellpadding="0" cellspacing="0" width="99%">
+				<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
                 		<tbody>
 				   <tr>
                     			<td>
-                      				<table class="small" border="0" cellpadding="1" cellspacing="0" width="100%">
+                      				<table class="small" border="0" cellpadding="0" cellspacing="0" width="100%">
 			                        <tbody>
                         			   <tr>
 			             	<?php
@@ -84,7 +80,7 @@ function fnMySettings(){
 								}
 								for($i=0;$i<count($showmodule);$i++ ) {
 									if(file_exists($showmodule[$i])) // Show module tab, only if the module directory exists
-										echo "<td class='dvtUnSelectedCell'  align='center' nowrap='nowrap' id='$showmodule[$i]' onclick='fnLoadValues(\"$showmodule[$i]\")'><a href='index.php?module=".$showmodule[$i]."&action=index&onlymine=true'><b>".getTranslatedString($showmodule[$i])."</b></a></td>";
+										echo "<td class='dvtUnSelectedCell'  align='center' nowrap='nowrap' id='$showmodule[$i]' onclick='fnLoadValues(\"$showmodule[$i]\")'><a href='index.php?module=".$showmodule[$i]."&action=index&onlymine=false'><b>".getTranslatedString($showmodule[$i])."</b></a></td>";
 								}
 							?>
 						  </tr>
