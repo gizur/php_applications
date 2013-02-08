@@ -1,14 +1,9 @@
 'use strict';
 
 var AccountsView = Stapes.subclass({
-    constructor : function(model) {
+    constructor : function() {
         var self = this;
-        self.model = model;
-    },
-    'renderHome' : function(){
-        $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
-            $('#container').empty().html(html);
-        });
+        self.bindEventHandlers();
     },
     'success' : function(msg){
         $('#errorMessageBox').removeClass('alert-error')
@@ -28,5 +23,17 @@ var AccountsView = Stapes.subclass({
         .addClass('alert')
         .empty()
         .html('<button data-dismiss="alert" class="close" type="button">×</button>' + msg);
+    }
+});
+
+AccountsView.proto({
+    'bindEventHandlers' : function() {
+        $('#generateNewAPIAndSecretKey1Button').on('click', function(e) {
+            this.model.emit('generateAPIKeyAndSecret1');
+        }.bind(this));
+
+        $('#generateNewAPIAndSecretKey2Button').on('click', function(e) {
+            this.model.emit('generateAPIKeyAndSecret2');
+        }.bind(this));
     }
 });
