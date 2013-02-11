@@ -208,7 +208,7 @@ class ApiController extends Controller
     /**
      * Db Server
      */
-    private $_dbserver = ""; 
+    private $_dbhost = ""; 
     
     /**
      * Db name
@@ -3141,7 +3141,7 @@ class ApiController extends Controller
                     $http_status = 200;
                     $filename = 'backup-' . time() . '.sql';
                     
-                    $command = "mysqldump --host={$this->_dbserver} -u {$this->_dbuser} -p{$this->_dbpassword} {$this->_dbname}> $filename";
+                    $command = "mysqldump --host={$this->_dbhost} -u {$this->_dbuser} -p{$this->_dbpassword} {$this->_dbname}> $filename";
                     
                     //Log
                     Yii::log(
