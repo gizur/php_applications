@@ -351,7 +351,7 @@ class ApiController extends Controller
             );
             
             //First we validate the model
-            if (isset($_GET['model']))
+            if (!isset($_GET['model']))
                 throw new Exception('Model not present');
             
             if (in_array($_GET['model'], $this->_valid_models)===false)
