@@ -119,7 +119,7 @@ return array(
                 'vtRestUrl'   => 'https://c2.gizur.com/clab/vtiger/webservice.php',
                 'vtCronPath'  => '/var/www/html/lib/vtiger-5.4.0/cron/',             
                 'awsS3Bucket' => 'gizurcloud-gc2',
-                'awsS3BackupBucket' => 'gc2-backup',
+                'awsS3BackupBucket' => 'gc2-backups',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
