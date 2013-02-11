@@ -358,8 +358,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     {
         //Request parameters
         $model = 'Cron';
-        $action = 'mailscan';
-        $method = 'POST';
+        $action = 'dbbackup';
+        $method = 'PUT';
            
         echo " Executing Cron Mailscan " . PHP_EOL;        
 
