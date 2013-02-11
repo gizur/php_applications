@@ -3172,7 +3172,7 @@ class ApiController extends Controller
                         $s3->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
 
                         $responseS3 = $s3->create_object(
-                            Yii::app()->params->awsS3Bucket, $filename, array(
+                            Yii::app()->params->awsS3BackupBucket, $filename, array(
                                 'fileUpload' => $filename,
                                 'contentType' => 'plain/text',
                                 'headers' => array(
