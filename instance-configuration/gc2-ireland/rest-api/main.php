@@ -69,7 +69,7 @@ return array(
 			            array('api/update', 'pattern'=>'/<model:(User)>/', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb'=>'PUT'),
                         array('api/create', 'pattern'=>'/<model:(HelpDesk|User)>', 'verb'=>'POST'),
-                        array('api/update', 'pattern'=>'/<model:(Cron)>/<action:(mailscan)>', 'verb'=>'PUT'),
+                        array('api/update', 'pattern'=>'/<model:(Cron)>/<action:(mailscan|dbbackup)>', 'verb'=>'PUT'),
                         array('api/error', 'pattern'=>'.*?')
                     ),
 		),
@@ -119,6 +119,7 @@ return array(
                 'vtRestUrl'   => 'https://c2.gizur.com/clab/vtiger/webservice.php',
                 'vtCronPath'  => '/var/www/html/lib/vtiger-5.4.0/cron/',             
                 'awsS3Bucket' => 'gizurcloud-gc2',
+                'awsS3BackupBucket' => 'gc2-backups',
                 'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
                 'awsSESFromEmailAddress' => 'noreply@gizur.com',
                 'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',

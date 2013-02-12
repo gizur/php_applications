@@ -193,7 +193,27 @@ class ApiController extends Controller
     /**
      * Client ID
      */
-    private $_clientid = ""; 
+    private $_clientid = "";
+    
+    /**
+     * Db User
+     */
+    private $_dbuser = "";    
+    
+    /**
+     * Db Password
+     */
+    private $_dbpassword = "";
+    
+    /**
+     * Db Server
+     */
+    private $_dbhost = ""; 
+    
+    /**
+     * Db name
+     */
+    private $_dbname = "";     
     
     /**
      * vTiger REST URL
@@ -331,7 +351,7 @@ class ApiController extends Controller
             );
             
             //First we validate the model
-            if (isset($_GET['model']))
+            if (!isset($_GET['model']))
                 throw new Exception('Model not present');
             
             if (in_array($_GET['model'], $this->_valid_models)===false)
@@ -410,7 +430,7 @@ class ApiController extends Controller
                 $ddb_response = $dynamodb->scan(
                     array(
                     'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                    'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid'),
+                    'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid', 'databasename', 'dbpassword', 'username', 'server'),
                     'ScanFilter' => array(
                         'apikey_1' => array(
                             'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
@@ -438,7 +458,7 @@ class ApiController extends Controller
                     $ddb_response = $dynamodb->scan(
                         array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                        'AttributesToGet' => array('id', 'apikey_2', 'secretkey_2', 'clientid'),
+                        'AttributesToGet' => array('id', 'apikey_2', 'secretkey_2', 'clientid', 'databasename', 'dbpassword', 'username', 'server'),
                         'ScanFilter' => array(
                             'apikey_2' => array(
                                 'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
@@ -471,13 +491,28 @@ class ApiController extends Controller
                 );                
                 
                 $this->_clientid = (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
+                
+                $this->_dbuser = (string) $ddb_response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
+                $this->_dbpassword = (string) $ddb_response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
+                $this->_dbhost = (string) $ddb_response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
+                $this->_dbname = (string) $ddb_response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
                     
                 //Store the public key and secret key combination in cache to
                 //avoid repeated calls to Dynamo DB
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
                 Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid", $this->_clientid);
+                
+                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbpassword", $this->_dbpassword);
+                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbhost", $this->_dbhost);
+                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbuser", $this->_dbuser);
+                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbname", $this->_dbname);
             } else {
                 $this->_clientid = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid");
+                
+                $this->_dbhost = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbhost");
+                $this->_dbname = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbname");
+                $this->_dbuser = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbuser");
+                $this->_dbpassword = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbpassword");
             }
             
             //Check the string
@@ -3100,6 +3135,74 @@ class ApiController extends Controller
                    
                     $this->_sendResponse(200, json_encode($response));
                 }
+                
+                if ($_GET['action'] == 'dbbackup') {
+                    
+                    $http_status = 200;
+                    $filename = 'backup-' . time() . '.sql';
+                    
+                    $command = "mysqldump --host={$this->_dbhost} -u {$this->_dbuser} -p{$this->_dbpassword} {$this->_dbname}> $filename";
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " Command to be executed " . 
+                        $command .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
+                    $response->result = shell_exec($command);
+                   
+                    if (file_exists($filename)) {
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_trace_id . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " File has been created " . 
+                            $filename .                          
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                        
+                        
+                        //Upload file to Amazon S3
+                        $s3 = new AmazonS3();
+                        $s3->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
+
+                        $responseS3 = $s3->create_object(
+                                Yii::app()->params->awsS3BackupBucket, $filename, array(
+                                'fileUpload' => $filename,
+                                'contentType' => 'plain/text',
+                                'headers' => array(
+                                    'Cache-Control' => 'max-age',
+                                    'Content-Language' => 'en-US',
+                                    'Expires' =>
+                                    'Thu, 01 Dec 1994 16:00:00 GMT',
+                                )
+                            )
+                        );
+
+                        if ($responseS3->isOK()) {
+                            $response->success = true;
+                        } else {
+                            $response->error = "Unable to upload file to server";
+                            $response->xml = $responseS3->body->asXML();
+                            $response->success = false;
+                            $http_status = 500;
+                        }
+                        
+                        unlink($filename);
+                        
+                    } else {
+                        $response->error = "Unable to create file";
+                        $response->success = false;
+                        $http_status = 500;
+                    }
+                    
+                    $this->_sendResponse($http_status, json_encode($response));
+                }                
                 
                 break;
                 /*
