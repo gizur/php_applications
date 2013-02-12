@@ -3188,7 +3188,7 @@ class ApiController extends Controller
                             $response->success = true;
                         } else {
                             $response->error = "Unable to upload file to server";
-                            $response->xml = $responseS3->asXML();
+                            $response->xml = $responseS3->body->asXML();
                             $response->success = false;
                             $http_status = 500;
                         }
