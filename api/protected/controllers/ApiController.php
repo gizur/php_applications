@@ -3154,6 +3154,8 @@ class ApiController extends Controller
                     );                    
                     
                     $response->result = shell_exec($command);
+                    $response->filename = $filename;
+                    $response->command = $command;
                    
                     if (file_exists($filename)) {
                         
