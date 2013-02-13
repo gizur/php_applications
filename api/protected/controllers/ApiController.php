@@ -3156,7 +3156,8 @@ class ApiController extends Controller
                     $response->result = shell_exec($command);
                     $response->filename = $filename;
                     $response->command = $command;
-                   
+                    $response->bucketname = Yii::app()->params->awsS3BackupBucket;
+                    
                     if (file_exists($filename)) {
                         
                         //Log
