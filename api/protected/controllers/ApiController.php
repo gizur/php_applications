@@ -3198,7 +3198,7 @@ class ApiController extends Controller
                             $http_status = 500;
                         }
                         
-                        unlink($filename);
+                        unlink($path . $filename);
                         
                     } else {
                         $response->error = "Unable to create file";
