@@ -3139,7 +3139,7 @@ class ApiController extends Controller
                 if ($_GET['action'] == 'dbbackup') {
                     
                     $http_status = 200;
-                    $filename = Yii::getPathOfAlias('application') . '/backup-' . $this->_clientid . "_" . date("c") . '.sql';
+                    $filename = Yii::getPathOfAlias('application') . '/data/backup-' . $this->_clientid . "_" . date("c") . '.sql';
                     
                     $command = "mysqldump --host={$this->_dbhost} -u {$this->_dbuser} -p{$this->_dbpassword} {$this->_dbname}> $filename";
                     
@@ -3154,7 +3154,10 @@ class ApiController extends Controller
                     );                    
                     
                     $response->result = shell_exec($command);
-                   
+                    $response->filename = $filename;
+                    $response->command = $command;
+                    $response->bucketname = Yii::app()->params->awsS3BackupBucket;
+                    
                     if (file_exists($filename)) {
                         
                         //Log
