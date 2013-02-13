@@ -110,6 +110,11 @@ echo '<tr align="center">
 </div>
 
 <script>
+    var __trans = { 
+            'Call off' : '<?php echo getTranslatedString('Call off'); ?>',
+            'Release' : '<?php echo getTranslatedString('Release'); ?>',
+            'Increase' : '<?php echo getTranslatedString('Call off'); ?>'
+        };
     function calllightbox(value,bal,prodno,accountno,tid,quoteid,productname)
     {
         var titlevalue="";
@@ -125,7 +130,7 @@ echo '<tr align="center">
             $('#accountno').val(accountno);
             $('#quoteid').val(quoteid);
             
-            titlevalue=value+' : '+prodno+' '+productname;
+            titlevalue=__trans[value]+' : '+prodno+' '+productname;
             $('#ui-dialog-title-dialog').html(titlevalue);
             return false;
         }	
