@@ -2,7 +2,17 @@ Options -Indexes
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RedirectMatch 301 ^(\/|)$ http://www.gizur.com
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^api/(.*)$ api/index.php/api/$1 [L]
-RewriteRule ^([^\/]*)/vtiger/index.php lib/vtwrapper-index.php?clientid=$1 [QSA,L]
-RewriteRule ^([^\/]*)/vtiger/([^?]*) lib/vtiger-5.4.0/$2?clientid=$1 [QSA]
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^applications/cikab/bikeportal/ /cikab/seasonportal/ [R,L]
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^cikab/seasonportal/(.*) applications/cikab/seasonportal/$1 [QSA,L]
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^lib/(.*) lib/$1 [QSA,L]
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^applications/(.*) applications/$1 [QSA,L]
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^([^\/]*)/index.php /lib/vtwrapper-index.php?clientid=$1 [QSA,L]
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^([^\/]*)/([^?]*) /lib/vtiger-5.4.0/$2?clientid=$1 [QSA]

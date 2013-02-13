@@ -1704,49 +1704,6 @@ function create_tab_data_file() {
         }
     }
     return $_cache;
-     /** 
-     * 
-     * Hide to resolve issue #187
-     * https://github.com/gizur/gizurcloud/issues/187
-     */
-	/*
-      if (file_exists($filename)) {
-     
-
-		if (is_writable($filename)) {
-
-			if (!$handle = fopen($filename, 'w+')) {
-				echo "Cannot open file ($filename)";
-				exit;
-			}
-			require_once('modules/Users/CreateUserPrivilegeFile.php');
-			$newbuf = '';
-			$newbuf .="<?php\n\n";
-			$newbuf .="\n";
-			$newbuf .= "//This file contains the commonly used variables \n";
-			$newbuf .= "\n";
-			$newbuf .= "\$tab_info_array=" . constructArray($result_array) . ";\n";
-			$newbuf .= "\n";
-			$newbuf .= "\$tab_seq_array=" . constructArray($seq_array) . ";\n";
-			$newbuf .= "\n";
-			$newbuf .= "\$tab_ownedby_array=" . constructArray($ownedby_array) . ";\n";
-			$newbuf .= "\n";
-			$newbuf .= "\$action_id_array=" . constructSingleStringKeyAndValueArray($actionid_array) . ";\n";
-			$newbuf .= "\n";
-			$newbuf .= "\$action_name_array=" . constructSingleStringValueArray($actionname_array) . ";\n";
-			$newbuf .= "?>";
-			fputs($handle, $newbuf);
-			fclose($handle);
-		} else {
-			echo "The file $filename is not writable";
-		}
-	} else {
-		echo "The file $filename does not exist";
-		$log->debug("Exiting create_tab_data_file method ...");
-		return;
-	}
-     /* 
-     */
 }
 
 /**
@@ -1839,62 +1796,6 @@ function create_parenttab_data_file() {
         }
     }
     return $_cache;
-    /**
-     *
-	if (file_exists($filename)) {
-
-		if (is_writable($filename)) {
-
-			if (!$handle = fopen($filename, 'w+')) {
-				echo "Cannot open file ($filename)";
-				exit;
-			}
-			require_once('modules/Users/CreateUserPrivilegeFile.php');
-			$newbuf = '';
-			$newbuf .="<?php\n\n";
-			$newbuf .="\n";
-			$newbuf .= "//This file contains the commonly used variables \n";
-			$newbuf .= "\n";
-			$newbuf .= "\$parent_tab_info_array=" . constructSingleStringValueArray($result_array) . ";\n";
-			$newbuf .="\n";
-
-
-			$parChildTabRelArray = Array();
-
-			foreach ($result_array as $parid => $parvalue) {
-				$childArray = Array();
-				//$sql = "select * from vtiger_parenttabrel where parenttabid=? order by sequence";
-				// vtlib customization: Disabling the tab item based on presence
-				$sql = "select * from vtiger_parenttabrel where parenttabid=?
-					and tabid in (select tabid from vtiger_tab where presence in (0,2)) order by sequence";
-				// END
-				$result = $adb->pquery($sql, array($parid));
-				$num_rows = $adb->num_rows($result);
-				$result_array = Array();
-				for ($i = 0; $i < $num_rows; $i++) {
-					$tabid = $adb->query_result($result, $i, 'tabid');
-					$childArray[] = $tabid;
-				}
-				$parChildTabRelArray[$parid] = $childArray;
-			}
-			$newbuf .= "\n";
-			$newbuf .= "\$parent_child_tab_rel_array=" . constructTwoDimensionalValueArray($parChildTabRelArray) . ";\n";
-			$newbuf .="\n";
-			$newbuf .="\n";
-			$newbuf .="\n";
-			$newbuf .= "?>";
-			fputs($handle, $newbuf);
-			fclose($handle);
-		} else {
-			echo "The file $filename is not writable";
-		}
-	} else {
-		echo "The file $filename does not exist";
-		$log->debug("Exiting create_parenttab_data_file method ...");
-		return;
-	}
-     * 
-     */
 }
 
 /**

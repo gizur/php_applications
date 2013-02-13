@@ -200,8 +200,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
      * A new line has been added to send mail from the $from_email.
      * 
      */
-	//$mail->Sender= getReturnPath($mail->Host);
-    $mail->Sender = $from_email;
+	$mail->Sender = $from_email;
 
 	if($to_email != '')
 	{

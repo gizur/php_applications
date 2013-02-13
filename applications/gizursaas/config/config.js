@@ -1,4 +1,4 @@
-var __rest_server_url = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/';
+var __rest_server_url = 'http://localhost/php_applications/api/';
 var __client_email = '';
 var __session_id = '';
 var __prepend_hash = '!';
