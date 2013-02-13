@@ -3139,9 +3139,11 @@ class ApiController extends Controller
                 if ($_GET['action'] == 'dbbackup') {
                     
                     $http_status = 200;
-                    $filename = Yii::getPathOfAlias('application') . '/data/backup-' . $this->_clientid . "_" . date("c") . '.sql';
                     
-                    $command = "mysqldump --host={$this->_dbhost} -u {$this->_dbuser} -p{$this->_dbpassword} {$this->_dbname}> $filename";
+                    $path = Yii::getPathOfAlias('application') . '/data/';
+                    $filename = 'backup-' . $this->_clientid . "_" . date("c") . '.sql';
+                    
+                    $command = "mysqldump --host={$this->_dbhost} -u {$this->_dbuser} -p{$this->_dbpassword} {$this->_dbname}> {$path}{$filename}";
                     
                     //Log
                     Yii::log(
@@ -3158,7 +3160,7 @@ class ApiController extends Controller
                     $response->command = $command;
                     $response->bucketname = Yii::app()->params->awsS3BackupBucket;
                     
-                    if (file_exists($filename)) {
+                    if (file_exists($path.$filename)) {
                         
                         //Log
                         Yii::log(
@@ -3176,7 +3178,7 @@ class ApiController extends Controller
 
                         $responseS3 = $s3->create_object(
                                 Yii::app()->params->awsS3BackupBucket, $filename, array(
-                                'fileUpload' => $filename,
+                                'fileUpload' => $path.$filename,
                                 'contentType' => 'plain/text',
                                 'headers' => array(
                                     'Cache-Control' => 'max-age',
@@ -3196,7 +3198,7 @@ class ApiController extends Controller
                             $http_status = 500;
                         }
                         
-                        unlink($filename);
+                        unlink($path . $filename);
                         
                     } else {
                         $response->error = "Unable to create file";
