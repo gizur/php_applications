@@ -113,7 +113,7 @@ echo '<tr align="center">
     var __trans = { 
             'Call off' : '<?php echo getTranslatedString('Call off'); ?>',
             'Release' : '<?php echo getTranslatedString('Release'); ?>',
-            'Increase' : '<?php echo getTranslatedString('Call off'); ?>'
+            'Increase' : '<?php echo getTranslatedString('Increase'); ?>'
         };
     function calllightbox(value,bal,prodno,accountno,tid,quoteid,productname)
     {
