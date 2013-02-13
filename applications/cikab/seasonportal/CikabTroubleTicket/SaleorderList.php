@@ -45,9 +45,9 @@ if (!empty($result)) {
                   . '_' . $value1['productname'] . "'
                   onchange=calllightbox(this.value,$bal,'{$value1['productno']}','{$value1['accountno']}',this.id,{$value1['quoteid']},'{$value1['productname']}')>
 	          <option value=''>" . getTranslatedString('Select') . "</option>
-	          <option value='" . getTranslatedString('Call off') . "'>" . getTranslatedString('Call off') . "</option>
-	          <option value='" . getTranslatedString('Release') . "'>" . getTranslatedString('Release') . "</option>
-	          <option value='" . getTranslatedString('Increase') . "'>" . getTranslatedString('Increase') . "</option>
+	          <option value='Call off'>" . getTranslatedString('Call off') . "</option>
+	          <option value='Release'>" . getTranslatedString('Release') . "</option>
+	          <option value='Increase'>" . getTranslatedString('Increase') . "</option>
 	          </select>
             </td>
 	     </tr> ";
