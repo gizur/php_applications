@@ -23,7 +23,7 @@
  * DNS of database server to use 
  * @global string $dbconfig_integration['db_server']
  */
-$dbconfig_integration['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+$dbconfig_integration['db_server'] = 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -63,7 +63,7 @@ $dbconfig_integration['db_type'] = 'mysql';
  * DNS of database server to use 
  * @global string $dbconfig_vtiger['db_server']
  */
-$dbconfig_vtiger['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+$dbconfig_vtiger['db_server'] = 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -75,19 +75,19 @@ $dbconfig_vtiger['db_port'] = 3306;
  * The usename to use when logging into the database
  * @global string $dbconfig_vtiger['db_username']  
  */
-$dbconfig_vtiger['db_username'] = 'user_2059ff6a';
+$dbconfig_vtiger['db_username'] = 'user_7aeb7290';
 
 /**
  * The password to use when logging into the database
  * @global string $dbconfig_vtiger['db_password']
  */
-$dbconfig_vtiger['db_password'] = 'c059ff6a3f05';
+$dbconfig_vtiger['db_password'] = 'faeb72908d05';
 
 /**
  * The name of the database
  * @global string $dbconfig_vtiger['db_name']
  */
-$dbconfig_vtiger['db_name'] = 'vtiger_5159ff6a';
+$dbconfig_vtiger['db_name'] = 'vtiger_6beb7290';
 
 /**
  * The type of database (currently is only mysql supported)
