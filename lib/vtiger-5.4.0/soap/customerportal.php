@@ -18,8 +18,14 @@ require_once('modules/HelpDesk/language/en_us.lang.php');
 require_once('include/utils/CommonUtils.php');
 require_once('include/utils/VtlibUtils.php');
 require_once 'modules/Users/Users.php';
+require_once('include/utils/UserInfoUtil.php');
 
-
+if (isset($_GET['clientid']))
+if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . 'php')){
+    RecalculateSharingRules();
+    $ourFileHandle = fopen('user_privileges/user_privileges_' . $_GET['clientid'] . '.php', 'w');
+    fclose($ourFileHandle);        
+}
 /** Configure language for server response translation */
 global $default_language, $current_language;
 if(!isset($current_language)) $current_language = $default_language;
