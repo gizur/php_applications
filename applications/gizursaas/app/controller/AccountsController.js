@@ -31,6 +31,8 @@ var AccountsController = Stapes.subclass({
                         "secret_key_1" : _data.result.secretkey_1,
                         "secret_key_2" : _data.result.secretkey_2
                     });
+                    
+                    self.view.bindEventHandlers();
                     self.model.map_values();
                 }else{
                     self.view.error('Username or password is invalid.');
