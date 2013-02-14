@@ -5,6 +5,7 @@ var AccountsView = Stapes.subclass({
         var self = this;
         $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
+            self.view.bindEventHandlers();
         });
     },
     'success' : function(msg){
@@ -31,11 +32,11 @@ var AccountsView = Stapes.subclass({
 AccountsView.proto({
     'bindEventHandlers' : function() {
         $('#generateNewAPIAndSecretKey1Button').on('click', function(e) {
-            this.model.emit('generateAPIKeyAndSecret1');
+            this.emit('generateAPIKeyAndSecret1');
         }.bind(this));
 
         $('#generateNewAPIAndSecretKey2Button').on('click', function(e) {
-            this.model.emit('generateAPIKeyAndSecret2');
+            this.emit('generateAPIKeyAndSecret2');
         }.bind(this));
     }
 });
