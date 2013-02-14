@@ -1,6 +1,6 @@
 //Instanciate the controllers
 var user_controller = new UsersController();
-var account_controller = new AccountsController();
+var account_controller = null;
 
 $(function() {
     var DEFAULT_HASH = 'registration';
@@ -29,7 +29,7 @@ $(function() {
         __client_email = client_id;
         __session_id = session_id;
         
-        account_controller.view.emit('loadHome', DEFAULT_HASH);
+        account_controller = new AccountsController(DEFAULT_HASH);
     });
     
     //only required if you want to set a default value

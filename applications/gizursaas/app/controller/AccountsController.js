@@ -1,11 +1,45 @@
 'use strict';
 
 var AccountsController = Stapes.subclass({
-    constructor : function() {
+    constructor : function(DEFAULT_HASH) {
         var self = this;
         
         this.model = new AccountModel();
-        this.view = new AccountsView( this.model );
+        this.view = new AccountsView();
+        
+        var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
+    
+        $.ajax({
+            url: _url,
+            type: "GET",
+            dataType: "json",
+            error: function() {
+                self.view.error('Username or password is invalid.');
+                setTimeout(function(){
+                    hasher.setHash(DEFAULT_HASH);
+                }, 1000);
+            },
+            success : function(_data){
+                if(_data.success){
+                    self.model.set({
+                        "first_name" : _data.result.name_1,
+                        "last_name" : _data.result.name_2,
+                        "email" : _data.result.id,
+                        "client_id" : _data.result.clientid,
+                        "api_key_1" : _data.result.apikey_1,
+                        "api_key_2" : _data.result.apikey_2,
+                        "secret_key_1" : _data.result.secretkey_1,
+                        "secret_key_2" : _data.result.secretkey_2
+                    });
+                    self.model.map_values();
+                }else{
+                    self.view.error('Username or password is invalid.');
+                    setTimeout(function(){
+                        hasher.setHash(DEFAULT_HASH);
+                    }, 1000);
+                }
+            }
+        });
         
         this.$el = $('form');
         this.$el.on('submit', function(e) {
@@ -98,39 +132,7 @@ var AccountsController = Stapes.subclass({
                 });        
             },
             'loadHome': function(DEFAULT_HASH){
-                var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
-    
-                $.ajax({
-                    url: _url,
-                    type: "GET",
-                    dataType: "json",
-                    error: function() {
-                        self.view.error('Username or password is invalid.');
-                        setTimeout(function(){
-                            hasher.setHash(DEFAULT_HASH);
-                        }, 1000);
-                    },
-                    success : function(_data){
-                        if(_data.success){
-                            self.model.set({
-                                "first_name" : _data.result.name_1,
-                                "last_name" : _data.result.name_2,
-                                "email" : _data.result.id,
-                                "client_id" : _data.result.clientid,
-                                "api_key_1" : _data.result.apikey_1,
-                                "api_key_2" : _data.result.apikey_2,
-                                "secret_key_1" : _data.result.secretkey_1,
-                                "secret_key_2" : _data.result.secretkey_2
-                            });
-                            self.view.emit('renderHome');                            
-                        }else{
-                            self.view.error('Username or password is invalid.');
-                            setTimeout(function(){
-                                hasher.setHash(DEFAULT_HASH);
-                            }, 1000);
-                        }
-                    }
-                });
+                
             }
         });
     }
