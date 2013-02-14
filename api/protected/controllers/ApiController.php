@@ -1060,6 +1060,60 @@ class ApiController extends Controller
             /*
              * *****************************************************************
              * *****************************************************************
+             * * USER AUTHENTICATE MODEL
+             * * Accepts two actions login and logout
+             * *****************************************************************
+             * *****************************************************************
+             */
+            case 'User':
+                if ($_GET['action'] == 'login') {
+                    
+                    $post = json_decode(file_get_contents('php://input'), true);
+                    $_client_id = $post['login_email'];
+                    $_password = $post['login_password'];
+                    
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+
+                    // Get an item
+                    $ddb_response = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $_GET['email'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+                    
+                    //Return response to client
+                    $response = new stdClass();
+                    $response->success = true;
+                    $response->contactname = $this->_session->contactname;
+                    $response->accountname = $this->_session->accountname;
+                    $response->account_no = $this->_session->account_no;
+
+                    //Send response
+                    $this->_sendResponse(200, json_encode($response));
+                }
+
+                if ($_GET['action'] == 'logout') {
+           
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST ", 
+                        CLogger::LEVEL_TRACE
+                    );
+                }
+                break;
+            /*
+             * *****************************************************************
+             * *****************************************************************
              * * AUTHENTICATE MODEL
              * * Accepts two actions login and logout
              * *****************************************************************
@@ -2552,6 +2606,15 @@ class ApiController extends Controller
                     $post['port'] = $db_port;
                     $post['id_sequence'] = (String)$max_id_sequence;
 
+                    //Hash password
+                    if(empty($post['password']))
+                        $original_password = substr(uniqid("", true), 0, 7);
+                    else
+                        $original_password = $post['password'];
+                    
+                    $post['security_salt'] = hash("sha256", uniqid("", true));
+                    $post['password'] = hash("sha256", $original_password . $post['security_salt']);
+                        
                     //Create User
                     //===========
                     $query = "GRANT USAGE ON *.* TO '$db_username'@'%' IDENTIFIED BY '$db_password' ";
@@ -2656,6 +2719,34 @@ class ApiController extends Controller
                 if (isset($ddb_response->body->Item)) {
                     Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
                     Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
+                    
+                    //SEND THE EMAIL TO USER
+                    $email = new AmazonSES();
+                    //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
+                    $SESresponse = $email->send_email(
+                        Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
+                        array(
+                            'ToAddresses' => array(// Destination (aka To)
+                                $post['id']
+                            )
+                        ), 
+                        array(// sesMessage (short form)
+                            'Subject.Data' => 'Welcome to Gizur SaaS',
+                            'Body.Text.Data' => 'Hi ' . $post['name_1'] . ' ' . $post['name_2'] . ', ' . PHP_EOL .
+                            PHP_EOL .
+                            'Welcome to Gizur SaaS.' . PHP_EOL .
+                            'Your username and password are as follows:' . PHP_EOL .
+                            PHP_EOL .
+                            'Username: ' . $post['id']  . PHP_EOL .
+                            'Password: ' . $original_password . PHP_EOL .
+                            PHP_EOL .
+                            PHP_EOL .
+                            '--' .
+                            PHP_EOL .
+                            'Gizur Admin'
+                        )
+                    );
+                    
                     foreach ($ddb_response->body->Item->children()
                     as $key => $item) {
                         $result_ddb->{$key} 
