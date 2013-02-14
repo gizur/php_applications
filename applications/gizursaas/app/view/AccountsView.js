@@ -5,7 +5,7 @@ var AccountsView = Stapes.subclass({
         var self = this;
         $.get('templates/home.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
-            self.view.bindEventHandlers();
+            this.bindEventHandlers();
         });
     },
     'success' : function(msg){
