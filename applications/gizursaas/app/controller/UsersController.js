@@ -6,7 +6,7 @@ var UsersController = Stapes.subclass({
         this.model = new UserModel();
         this.view = new UsersView( this.model );
 
-        this.model.on('registrationSubmit', function(){
+        this.view.on('registrationSubmit', function(){
             //Form
             this.$el = $("#registrationform");
             var $first_name = this.$el.find("#first_name");

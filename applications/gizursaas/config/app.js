@@ -1,5 +1,5 @@
 //Instanciate the controllers
-var user_controller = new UsersController();
+var user_controller = null;
 var account_controller = null;
 
 $(function() {
@@ -15,7 +15,7 @@ $(function() {
     
     route1.matched.add(function(){
         console.log('handler 1');
-        user_controller.view.renderRegistration();
+        user_controller = new UsersController();
     });
     
     route3.matched.add(function(status){

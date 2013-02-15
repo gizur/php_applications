@@ -3,10 +3,9 @@
 var UsersView = Stapes.subclass({
     constructor : function(model) {
         var self = this;
-    },
-    'renderRegistration' : function(){
         $.get('templates/registration.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
+            self.bindEventHandlers();
         });
     },
     'success' : function(msg){
@@ -27,5 +26,17 @@ var UsersView = Stapes.subclass({
         .addClass('alert')
         .empty()
         .html('<button data-dismiss="alert" class="close" type="button">×</button>' + msg);
+    }
+});
+
+UsersView.proto({
+    'bindEventHandlers' : function() {
+        $('#loginButton').on('click', function(e) {
+            hasher.setHash('login');
+        }.bind(this));
+        $('#registrationform').on('submit', function(e) {
+            e.preventDefault();
+            this.emit('registrationSubmit');
+        }.bind(this));
     }
 });
