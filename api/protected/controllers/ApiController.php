@@ -2601,7 +2601,7 @@ class ApiController extends Controller
                     $post['databasename'] = $db_name;
                     $post['server'] = $db_server;
                     $post['port'] = $db_port;
-                    $phandlingost['username'] = $db_username;
+                    $post['username'] = $db_username;
                     $post['dbpassword'] = $db_password;
                     $post['port'] = $db_port;
                     $post['id_sequence'] = (String)$max_id_sequence;
