@@ -2737,7 +2737,8 @@ class ApiController extends Controller
                             'Welcome to Gizur SaaS.' . PHP_EOL .
                             'Your username and password are as follows:' . PHP_EOL .
                             PHP_EOL .
-                            'Username: ' . $post['id']  . PHP_EOL .
+                            'Portal Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/'  . PHP_EOL .
+                            'Username: ' . $post['id']  . PHP_EOL .                            
                             'Password: ' . $original_password . PHP_EOL .
                             PHP_EOL .
                             PHP_EOL .
