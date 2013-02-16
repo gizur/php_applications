@@ -18,7 +18,7 @@ function GetForgotPasswordUI($mail_send_message='')
 	$list .= '<br><br>';
 	$list .= '<link rel="stylesheet" type="text/css" href="css/style.css">';
     $list .= '<form name="forgot_password" action="index.php" method="post">';
-    $list .= '<input type="hidden" name="email_id">';
+    $list .= '<!--<input type="hidden" name="email_id">-->';
     $list .= '<input type="hidden" name="param" value="forgot_password">';
     $list .= '<table width="50%" border="0" cellspacing="2" cellpadding="2" align="center">';
 	$list .= '<tr><td class="detailedViewHeader" nowrap colspan=2 ><b>'.getTranslatedString('LBL_FORGOT_LOGIN').'</b></td></tr>';
