@@ -64,6 +64,7 @@ return array(
                         array('api/view', 'pattern'=>'/<model:(User)>/<email:.+>', 'verb'=>'GET'),
                         array('api/list', 'pattern'=>'/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb'=>'GET'), 
                         array('api/list', 'pattern'=>'/<model:(Authenticate)>/<action:(login|logout)>', 'verb'=>'POST'),
+                        array('api/list', 'pattern'=>'/<model:(User)>/<action:(login)>', 'verb'=>'POST'),
                         array('api/update', 'pattern'=>'/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb'=>'PUT'),
                         array('api/update', 'pattern'=>'/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb'=>'PUT'),
 			            array('api/update', 'pattern'=>'/<model:(User)>/', 'verb'=>'PUT'),

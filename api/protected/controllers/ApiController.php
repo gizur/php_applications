@@ -132,7 +132,8 @@ class ApiController extends Controller
         1005 => "MIME_TYPE_NOT_SUPPORTED",
         1006 => "INVALID_SESSIONID",
         2001 => "CLIENT_ID_INVALID",
-        2002 => "EMAIL_INVALID"
+        2002 => "EMAIL_INVALID",
+        2003 => "LOGIN_INVALID"
     );
 
     /**
@@ -1089,6 +1090,16 @@ class ApiController extends Controller
                         )
                     );
                     
+                    if(empty($ddb_response->body->Item))
+                        throw new Exception("Login Id / password incorrect.", 2003);
+                        
+                    $_security_salt = $ddb_response->body->Item->security_salt;
+                    $_h_password = $ddb_response->body->Item->password;
+                    
+                    $_g_password = hash("sha256", $_password . $_security_salt);
+                    
+                    if($_g_password !== $_h_password)
+                        throw new Exception("Login Id / password incorrect.", 2003);
                     //Return response to client
                     $response = new stdClass();
                     $response->success = true;

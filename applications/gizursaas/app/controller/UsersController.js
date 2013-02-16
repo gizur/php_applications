@@ -33,7 +33,14 @@ var UsersController = Stapes.subclass({
                 var _url = __rest_server_url + 'User/' + encodeURIComponent(self.model.get('email'));
     
                 self.view.success('Processing ...');
-                            
+                
+                /* 
+                    var hashObj1 = new jsSHA(Math.random(), "TEXT");
+                    var security_salt = hashObj1.getHash("SHA-256", "HEX");
+                    var hashObj = new jsSHA(self.model.get('password') + security_salt, "TEXT");
+                    var hashed_password = hashObj.getHash("SHA-256", "HEX"); 
+                 */
+
                 var _url_create = __rest_server_url + 'User/';
                 $.ajax({
                     url: _url_create,
