@@ -113,7 +113,29 @@ var UsersController = Stapes.subclass({
             self.view.alert('Username or password can\'t be left blank.');
         }else{
             if($email.val() != '' && $password.val() != ''){
-                hasher.setHash('login/success');
+                var _url_login = __rest_server_url + 'User/login';
+                $.ajax({
+                    url: _url_login,
+                    type: "POST",
+                    dataType: "json",
+                    processData: false,
+                    data: JSON.stringify({
+                        "id":$email.val(),
+                        "password":$password.val()
+                    }),
+                    error: function(jqXHR, textStatus, errorThrown ) {
+                        var _data = JSON.parse(jqXHR.responseText);
+                        //_data.error.code == "ERROR" && 
+                        if(!_data.success)
+                            hasher.setHash('login/fail');
+                    },
+                    success : function(_data){
+                        if(_data.success)
+                            hasher.setHash('login/success');
+                        else
+                            hasher.setHash('login/fail');
+                    }
+                });                
             }else{
                 hasher.setHash('login/empty');
             }

@@ -1070,8 +1070,8 @@ class ApiController extends Controller
                 if ($_GET['action'] == 'login') {
                     
                     $post = json_decode(file_get_contents('php://input'), true);
-                    $_client_id = $post['login_email'];
-                    $_password = $post['login_password'];
+                    $_client_id = $post['id'];
+                    $_password = $post['password'];
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
