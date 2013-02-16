@@ -1073,6 +1073,14 @@ class ApiController extends Controller
                     $_client_id = $post['id'];
                     $_password = $post['password'];
                     
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST : User/login ($_client_id)", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
@@ -1083,7 +1091,7 @@ class ApiController extends Controller
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
                                 array(
-                                    'HashKeyElement' => $_GET['email'],
+                                    'HashKeyElement' => $_client_id,
                                 )
                             ),
                             'ConsistentRead' => 'true'
@@ -1093,10 +1101,10 @@ class ApiController extends Controller
                     if(empty($ddb_response->body->Item))
                         throw new Exception("Login Id / password incorrect.", 2003);
                         
-                    $_security_salt = $ddb_response->body->Item->security_salt;
-                    $_h_password = $ddb_response->body->Item->password;
+                    $_security_salt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                    $_h_password = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
                     
-                    $_g_password = hash("sha256", $_password . $_security_salt);
+                    $_g_password = (string)hash("sha256", $_password . $_security_salt);
                     
                     if($_g_password !== $_h_password)
                         throw new Exception("Login Id / password incorrect.", 2003);
