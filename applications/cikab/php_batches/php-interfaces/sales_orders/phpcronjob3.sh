@@ -26,12 +26,6 @@ require_once __DIR__ . '/../config.database.php';
 /**
  * set autocommit off
  */
-@mysql_query("set autocommit = 0", $obj1->link);
-
-/**
- * set satrt trasaction on
- */
-@mysql_query("start transaction", $obj1->link);
 /**
  * ready state of syslog
  */
@@ -52,131 +46,133 @@ if (!$executequery) {
     /**
      * Count the record if no record found then it will be go else conditions
      */
-    $numrows = @mysql_num_rows($executequery);
+    /**
+     * Define array for syslog message
+     */
+    $syslogmessage = array();
 
+    $numrows = @mysql_num_rows($executequery);
+    $syslogmessage[] = "Total no of accounts found : $numrows \n";
     /**
      * Check the count record
      */
     if ($numrows > 0) {
+        
+        $OKAll = true;
+        
         while ($GETRows = mysql_fetch_array($executequery)) {
+
+            $account_flag = true;
+            $syslogmessage[] = "  Account : " . $GETRows['accountname'] . " \n";
             $GetAllQuesacno = "SELECT * FROM `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
                 WHERE accountname='" . $GETRows['accountname'] . "' AND status=0";
             $executequery2 = @mysql_query($GetAllQuesacno, $obj1->link);
 
             if (!$executequery2) {
-                $OKAll = false;
-                $syslogmessage = "Some problem in Query2, the error is : " . mysql_error();
+                $account_flag = $account_flag && false;
+                $syslogmessage[] = "Some problem in Query2, the error is : " . mysql_error();
                 syslog(LOG_WARNING, "" . $syslogmessage . "");
-                exit;
-            }
-            /**
-             * Count the record if no record found then it will be go else conditions
-             */
-            $numrows2 = @mysql_num_rows($executequery2);
+            } else {
+                /**
+                 * Count the record if no record found then it will be go else conditions
+                 */
+                $numrows2 = @mysql_num_rows($executequery2);
+                $syslogmessage[] = "      Total files for account " . $GETRows['accountname'] . ": $numrows2 \n";
+                /**
+                 * Check the count record
+                 */
+                if ($numrows2 > 0) {
+                    while ($GETRowsacno = mysql_fetch_array($executequery2)) {
 
-            /**
-             * Check the count record
-             */
-            /**
-             * Define array for syslog message
-             */
-            $syslogmessage = array();
-            $OKAll = true;
-            if ($numrows2 > 0) {
-                while ($GETRowsacno = mysql_fetch_array($executequery2)) {
-                    /**
-                     * Call Local file path and File Name When send on FTP
-                     */
-                    $local_file = $LocalFilePath . $GETRowsacno['ftpfilename'];
-                    /**
-                     * Check file on local server if not found then manage syslog
-                     */
-                    if (!file_exists($local_file)) {
-                        $OKAll = false;
-                        $syslogmessage[] = $local_file . " doesnot exist on local server.!!";
-                    } else {
-                        //IF FILE DOES EXIST, FTP IT.
+                        @mysql_query("set autocommit = 0", $obj1->link);
 
                         /**
-                         * Call server file path and File Name When uploaded on FTP
+                         * set satrt trasaction on
                          */
-                        $ftp_path = $ServerFilePath . $GETRowsacno['ftpfilename'];
+                        @mysql_query("start transaction", $obj1->link);
 
                         /**
-                         * Check file on local server if found then manage syslog
+                         * Call Local file path and File Name When send on FTP
                          */
-                        if (file_exists($ftp_path)) {
-                            $OKAll = false;
-                            $syslogmessage[] = $ftp_path . " exist on FTP server.!";
-                        }
-
-
+                        $local_file = $LocalFilePath . $GETRowsacno['ftpfilename'];
                         /**
-                         * Push the above files on FTP Server by put command. if 
-                         * the above condition will be true then file upload on 
-                         * ftp server other wise manage 
-                         * Syslog
+                         * Check file on local server if not found then manage syslog
                          */
-                        $upload = "";
-                        if ($OKAll) {
-                            $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
-                        }
-                        /**
-                         * if the files not push on FTP the getting a Error message.
-                         */
-                        if (!$upload) {
-                            $OKAll = false;
-                            $syslogmessage[] = "Some permission issue in files OR Directories. "
-                                . "File does not upload on ftp server!!";
+                        if (!file_exists($local_file)) {
+                            $syslogmessage[] = $local_file . " doesnot exist on local server.!!";
+                        } else {
+                            //IF FILE DOES EXIST, FTP IT.
+
+                            /**
+                             * Call server file path and File Name When uploaded on FTP
+                             */
+                            $ftp_path = $ServerFilePath . $GETRowsacno['ftpfilename'];
+
+                            /**
+                             * Check file on local server if found then manage syslog
+                             */
+                            if (file_exists($ftp_path)) {
+                                $syslogmessage[] = $ftp_path . " exist on FTP server.!";
+                            } else {
+                                //IF File does not exist on ftp, process it.
+                                $updatesaleorde = "UPDATE `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
+                                SET status = 1 WHERE id=" . $GETRowsacno['id'];
+                                $updatetable = @mysql_query($updatesaleorde, $obj1->link);
+
+                                if ($updatetable) {
+                                    /**
+                                     * Push the above files on FTP Server by put command. if 
+                                     * the above condition will be true then file upload on 
+                                     * ftp server other wise manage 
+                                     * Syslog
+                                     */
+                                    $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
+                                    /**
+                                     * if the files not push on FTP the getting a Error message.
+                                     */
+                                    if (!$upload) {
+                                        $syslogmessage[] = "Some permission issue in files OR Directories. "
+                                            . "File does not upload on ftp server!!";
+
+                                        //ROLL BACK THE ABOVE QUERY.
+                                        mysql_query("rollback", $obj1->link);
+                                        $account_flag = $account_flag && false;
+                                    } else {
+                                        $account_flag = $account_flag && true;
+                                        mysql_query("commit", $obj1->link);
+                                    }
+                                } else {
+                                    $syslogmessage[] = "Some problem in query updation and error is : " . mysql_error();
+                                }
+                            }
                         }
                     }
-                    /**
-                     * if the above condition will be true then file recieved files into the message que server other wise manage 
-                     * Syslog
-                     */
-                    if ($OKAll) {
+                    if ($account_flag) {
                         $rmqmessagerecid = $GETRowsacno['accountname'];
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
                             $msgObj = $_response->body->ReceiveMessageResult->Message;
-                            if (!empty($msgObj))
-                                echo " [x] Received ", $msgObj->Body, "\n";
-                            else {
-                                $OKAll = false;
+                            if (!empty($msgObj)) {
+                                $syslogmessage[] = " [x] Received " . $msgObj->Body . "\n";
+                                $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
+                            } else {
                                 $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                             }
                         } else {
-                            $OKAll = false;
                             $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                         }
-                        if ($OKAll) {
-                            $updatesaleorde = "UPDATE `" . $dbconfig_integration['db_name'] . "`.`saleorder_msg_que` 
-                                SET status = 1 WHERE id=" . $GETRowsacno['id'];
-                            $updatetable = @mysql_query($updatesaleorde, $obj1->link);
-                            if (!$updatetable) {
-                                $OKAll = false;
-                                $syslogmessage[] = "Some problem in query updation and error is : " . mysql_error();
-                            }
-                        }
                     }
-                }
-                if ($OKAll) {
-                    $sqs->delete_message($amazonqueue_config['_url'], $msgObj->ReceiptHandle);
-                    mysql_query("commit", $obj1->link);
-                    mysql_close($obj1->link);
-                } else {
-                    mysql_query("rollback");
-                    mysql_close($obj1->link);
-                    $access = date("y/m/d h:i:s");
-
-                    /** write error message into the syslog		
-                     */
-                    $findproblemsalesordermsg = @implode(" \n ", $syslogmessage);
-                    echo $message = "sorry ! -" . $findproblemsalesordermsg . ". at " . $access . "  ";
-                    syslog(LOG_WARNING, "" . $message . "");
                 }
             }
         }
     }
 }
+
+$access = date("y/m/d h:i:s");
+
+/** write error message into the syslog		
+    */
+$findproblemsalesordermsg = @implode(" \n ", $syslogmessage);
+echo $message = "sorry ! -" . $findproblemsalesordermsg . ". at " . $access . "  ";
+syslog(LOG_WARNING, "" . $message . "");
 ?>
