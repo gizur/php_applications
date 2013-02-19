@@ -5,7 +5,7 @@ class configuration
 
     public function get()
     {
-
+        /*
         return array(
             'url' => 'https://api.gizur.com/api/',
             'GIZURCLOUD_API_KEY' => 'GZCLD50694086B196F50694086B19E7',
@@ -16,7 +16,8 @@ class configuration
             //'jonas.colmsjo@gizur.com' => '507d136b23699',
             )
         );
-        /*
+        */
+        
           return array(
           'url' => 'https://api.gizur.com/api/',
           'GIZURCLOUD_API_KEY' => 'GZCLD50EE9D44BEBD450EE9D44BEC50',
@@ -27,7 +28,7 @@ class configuration
           //'jonas.colmsjo@gizur.com' => '507d136b23699',
           )
           );
-         */
+         
     }
 
     public function getBikerPortalCredentials()
