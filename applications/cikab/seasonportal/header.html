@@ -12,83 +12,88 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<title>vtiger CRM 5 - CustomerPortal</title>
-<link href="css/style.css" rel="stylesheet" type="text/css">
+    <head>
+        <title>vtiger CRM 5 - CustomerPortal</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
 
-<?php
-// Prototype library clashes with AutoComplete library in use so avoid on those pages
-if($_REQUEST['fun'] != 'newticket') {
-	echo '<script language="javascript" type="text/javascript" src="js/prototype.js"></script>';
-}
-?>
+        <?php
+        // Prototype library clashes with AutoComplete library in use so avoid on those pages
+        if($_REQUEST['fun'] != 'newticket') {
+        echo '<script language="javascript" type="text/javascript" src="js/prototype.js"></script>';
+        }
+        ?>
 
-<script language="javascript" type="text/javascript" src="js/general.js"></script>
-<script>
+        <script language="javascript" type="text/javascript" src="js/general.js"></script>
+        <script>
 	
-function fnMySettings(){
-		params = "last_login=<?php echo $_SESSION['last_login']; ?>&support_start_date=<?php echo $_SESSION['support_start_date']; ?>&support_end_date=<?php echo $_SESSION['support_end_date']; ?>";
-		window.open("MySettings.php?"+params,"MySetttings","menubar=no,location=no,resizable=no,scrollbars=no,status=no,width=400,height=350,left=550,top=200");
-}
-</script>
-</head>
+            function fnMySettings(){
+                params = "last_login=<?php echo $_SESSION['last_login']; ?>&support_start_date=<?php echo $_SESSION['support_start_date']; ?>&support_end_date=<?php echo $_SESSION['support_end_date']; ?>";
+                window.open("MySettings.php?"+params,"MySetttings","menubar=no,location=no,resizable=no,scrollbars=no,status=no,width=400,height=350,left=550,top=200");
+            }
+        </script>
+    </head>
 
-<body>
-<table class="innerTab-inner" cellspacing="0" width="100%" cellpadding="0">
-   <tr class="innerTab-top-inner">
-    <th align="left"></th>
-    <th>&nbsp;</th>
-    <th align="right" style="padding-right:15px; padding-top:5px;padding-bottom:5px; " nowrap>
-	<span onclick="fnMySettings();" class="MySettingsHdr"><?php echo getTranslatedString('LBL_MY_SETTINGS');?></span>
-	<a href="index.php?logout=true" class="hdr"><?php echo getTranslatedString('LBL_LOG_OUT');?></a></th>
-   </tr>
-  <tr class="tableTop-inner"><td colspan="3" valign="top">
-    
-  <h2 class="mainh2">CIKAB Portal</h2>
- 
-  </td></tr>
-  <tr class="tableMid">
-    <td colspan="3" align="right" valign="top">
-	<table cellspacing="0" cellpadding="0" align="center" border="0" width="100%">
-	   <tr>
-	   
-	      
-	        
-		<td valign="top">
-		   <table width="100%"  border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-			<td class="dvtCellInfo" colspan="3">
-				<!-- Table with Tickets and FAQ tabs - Starts -->
-				<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                		<tbody>
-				   <tr>
-                    			<td>
-                      				<table class="small" border="0" cellpadding="0" cellspacing="0" width="100%">
-			                        <tbody>
-                        			   <tr>
-			             	<?php
-			             		$showmodule = array();
-								// Look if we have the information already
-								if(isset($_SESSION['__permitted_modules'])) {
-									$showmodule = $_SESSION['__permitted_modules'];
-								} else {
-									// Get the information from server
-									$params = array();
-									$showmodule = $client->call('get_modules',$params,$Server_path,$Server_path);
-									// Store for further use.
-									$_SESSION['__permitted_modules'] = $showmodule;
-								}
-								for($i=0;$i<count($showmodule);$i++ ) {
-									if(file_exists($showmodule[$i])) // Show module tab, only if the module directory exists
-										echo "<td class='dvtUnSelectedCell'  align='center' nowrap='nowrap' id='$showmodule[$i]' onclick='fnLoadValues(\"$showmodule[$i]\")'><a href='index.php?module=".$showmodule[$i]."&action=index&onlymine=false'><b>".getTranslatedString($showmodule[$i])."</b></a></td>";
-								}
-							?>
-						  </tr>
-						</tbody>
-						</table>
-					</td>
-				   </tr>
-				   <tr>
-					<td align="left" valign="top">
-						<div id="mnuTab">
+    <body>
+        <table class="innerTab-inner" cellspacing="0" width="100%" cellpadding="0">
+            <tr class="innerTab-top-inner">
+                <th align="left"></th>
+                <th>&nbsp;</th>
+                <th align="right" style="padding-right:15px; padding-top:5px;padding-bottom:5px; " nowrap>
+                    <span onclick="fnMySettings();" class="MySettingsHdr"><?php echo getTranslatedString('LBL_MY_SETTINGS');?></span>
+                    <a href="index.php?logout=true" class="hdr"><?php echo getTranslatedString('LBL_LOG_OUT');?></a></th>
+            </tr>
+            <tr class="tableTop-inner">
+                <td colspan="3" valign="top">
+                    <table>
+                        <tr>
+                            <td><img style="margin: 0 10px;" alt="Gizur" src="images/gizur_logo.png"></td>
+                            <td><h2 class="mainh2">CIKAB Portal</h2></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="tableMid">
+                <td colspan="3" align="right" valign="top">
+                    <table cellspacing="0" cellpadding="0" align="center" border="0" width="100%">
+                        <tr>
+
+
+
+                            <td valign="top">
+                                <table width="100%"  border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td class="dvtCellInfo" colspan="3">
+                                            <!-- Table with Tickets and FAQ tabs - Starts -->
+                                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <table class="small" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <?php
+                                                                        $showmodule = array();
+                                                                        // Look if we have the information already
+                                                                        if(isset($_SESSION['__permitted_modules'])) {
+                                                                        $showmodule = $_SESSION['__permitted_modules'];
+                                                                        } else {
+                                                                        // Get the information from server
+                                                                        $params = array();
+                                                                        $showmodule = $client->call('get_modules',$params,$Server_path,$Server_path);
+                                                                        // Store for further use.
+                                                                        $_SESSION['__permitted_modules'] = $showmodule;
+                                                                        }
+                                                                        for($i=0;$i<count($showmodule);$i++ ) {
+                                                                    if(file_exists($showmodule[$i])) // Show module tab, only if the module directory exists
+                                                                    echo "<td class='dvtUnSelectedCell'  align='center' nowrap='nowrap' id='$showmodule[$i]' onclick='fnLoadValues(\"$showmodule[$i]\")'><a href='index.php?module=".$showmodule[$i]."&action=index&onlymine=false'><b>".getTranslatedString($showmodule[$i])."</b></a></td>";
+                                                                    }
+                                                                    ?>
+                                                                    </tr>
+                                                                    </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">
+                                                            <div id="mnuTab">
 
