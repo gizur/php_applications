@@ -1220,7 +1220,8 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (Getting Value from cache for " . 
-                        'picklist_'
+                        $this->_clientid . 
+                        '_picklist_'
                         . $_GET['model'] . '_' 
                         . $_GET['fieldname'] . ' : ' 
                         . (string)$cached_value .
@@ -1344,7 +1345,7 @@ class ApiController extends Controller
 
                                 //Save the response in cache
                                 Yii::app()->cache->set(
-                                    $this->_clientid,
+                                    $this->_clientid .
                                     '_picklist_'
                                     . $_GET['model']
                                     . '_'
