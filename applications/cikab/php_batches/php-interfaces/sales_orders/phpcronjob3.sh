@@ -148,7 +148,7 @@ if (!$executequery) {
                         }
                     }
                     if ($account_flag) {
-                        $rmqmessagerecid = $GETRowsacno['accountname'];
+                        $rmqmessagerecid = $GETRows['accountname'];
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
                             $msgObj = $_response->body->ReceiveMessageResult->Message;
