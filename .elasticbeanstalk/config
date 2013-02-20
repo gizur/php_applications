@@ -1,0 +1,11 @@
+[global]
+ApplicationName=phpapplications
+AwsCredentialFile=/home/prabhat/.elasticbeanstalk/aws_credential_file
+DevToolsEndpoint=git.elasticbeanstalk.eu-west-1.amazonaws.com
+EnvironmentName=phpapplications-env
+OptionSettingFile=/home/prabhat/public_html/php_applications/.elasticbeanstalk/optionsettings.phpapplications-env
+RdsEnabled=No
+Region=eu-west-1
+ServiceEndpoint=https://elasticbeanstalk.eu-west-1.amazonaws.com
+SolutionStack=64bit Amazon Linux running PHP 5.3
+
