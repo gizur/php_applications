@@ -565,11 +565,28 @@ class ApiController extends Controller
             //Check if the signature has been used before
             //This is a security loop hole to reply attacks in case memcache
             //is not working
-            if (Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE']) !== false)
+            if ($who = Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE']) !== false) {
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    "    WHO USED THE SIGNATURE:" . $who, 
+                    CLogger::LEVEL_TRACE
+                );             
                 throw new Exception('Used signature');
+            }
 
-            //Save the signature for 10 minutes
-            Yii::app()->cache->set($_SERVER['HTTP_X_SIGNATURE'], 1, 600);
+            //Save the signature for 10 minutes            
+            Yii::app()->cache->set(
+                $_SERVER['HTTP_X_SIGNATURE'], 
+                json_encode(
+                    array(
+                        "trace" => $this->_trace_id,
+                        "instance" => $this->_instance_id
+                    )
+                ), 
+                600
+            );
 
             //If request is for Model About or Cron stop validating
             if ($_GET['model'] == 'About' || $_GET['model'] == 'Cron')
