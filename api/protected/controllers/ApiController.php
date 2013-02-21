@@ -582,7 +582,7 @@ class ApiController extends Controller
                 json_encode(
                     array(
                         "trace" => $this->_trace_id,
-                        "instance" => $this->_instance_id
+                        "instance" => $this->_instanceid
                     )
                 ), 
                 600
