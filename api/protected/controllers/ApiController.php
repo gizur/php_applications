@@ -3573,7 +3573,7 @@ class ApiController extends Controller
                         )
                     );
                     
-                    if(!empty($ddb_response->body->Items))
+                    if(!empty($ddb_response->body->Items) && $ddb_response->body->count > 1)
                         throw New Exception("Client id is not available.", 2001);
                     
                     $ddb_response = $dynamodb->put_item(
