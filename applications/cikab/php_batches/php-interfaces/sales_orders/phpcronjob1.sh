@@ -18,13 +18,12 @@ $integrationConnect = new Connect(
         $dbconfig_integration['db_password'],
         $dbconfig_integration['db_name']);
 
-$salesOrdersQuery = "SELECT SO.salesorderid,SO.salesorder_no 
+$salesOrdersQuery = "SELECT SO.salesorderid, SO.salesorder_no 
         FROM " . $dbconfig_vtiger['db_name'] . ".vtiger_salesorder SO 
         WHERE SO.sostatus IN ('Created','Approved') LIMIT 0," . $dbconfig_batchvaliable['batch_valiable'] . "";
 
 $salesOrders = $vTigerConnect->query($salesOrdersQuery);
 
-$_errors = array();
 $_messages = array();
     
 if ($salesOrders) {    
@@ -60,7 +59,7 @@ if ($salesOrders) {
                         salesorder_no = '$salesOrderProduct->salesorder_no',
                         contactid = $salesOrderProduct->contactid, 
                         productname = '$salesOrderProduct->productname',
-                        productid = '$salesOrderProduct->productid,
+                        productid = $salesOrderProduct->productid,
                         productquantity = '$salesOrderProduct->quantity', 
                         duedate = '$salesOrderProduct->duedate',
                         accountname = '$salesOrderProduct->accountname',
@@ -74,7 +73,7 @@ if ($salesOrders) {
                     
                     $updateSaleOrder = $vTigerConnect->query("UPDATE " .
                         "vtiger_salesorder SET " .
-                        "sostatus = 'Delivered' WHERE salesorderid = '$salesOrder->salesorder_no'");
+                        "sostatus = 'Delivered' WHERE salesorderid = '$salesOrder->salesorderid'");
 
                     if ($updateSaleOrder)
                         $flag = $flag && true;
@@ -107,21 +106,15 @@ if ($salesOrders) {
             }
         }
     } else {
-        array_push($_errors, "No Sales Order Found!");
+        $_messages['message'] = "No Sales Order Found!";
     }
 } else {
-    array_push($_errors, "Error executing sales order query : ($vTigerConnect->errno) - $vTigerConnect->error");
+    $_messages['message'] = "Error executing sales order query : ($vTigerConnect->errno) - $vTigerConnect->error";
 }
 
 $vTigerConnect->close();
 $integrationConnect->close();
 
-if(!empty($_errors)){
-    syslog(LOG_WARNING, json_encode($_errors));
-    echo json_encode($_errors);
-}else{
-    syslog(LOG_WARNING, json_encode($_messages));
-    echo json_encode($_messages);
-}
-    
+syslog(LOG_WARNING, json_encode($_messages));
+echo json_encode($_messages);
 ?>
