@@ -52,44 +52,38 @@ if ($salesOrders) {
 
             while ($salesOrderProduct = $salesOrderProducts->fetch_object()) {
 
-                $interfaceQuery = $integrationConnect->prepare("INSERT 
-                    INTO `" . $dbconfig_integration['db_name'] . "`.`salesorder_interface` 
-                    SET salesorderid = ?, salesorder_no = ?,
-                        contactid = ?, productname = ?, productid = ?,
-                        productquantity = ?, duedate = ?,
-                        accountname = ?, accountid = ?,
-                        sostatus = ?, batchno = ?");
-                $interfaceQuery->bind_param("i", $salesOrderProduct->salesorderid);
-                $interfaceQuery->bind_param("s", $salesOrderProduct->salesorder_no);
-                $interfaceQuery->bind_param("i", $salesOrderProduct->contactid);
-                $interfaceQuery->bind_param("s", $salesOrderProduct->productname);
-                $interfaceQuery->bind_param("i", $salesOrderProduct->productid);
-                $interfaceQuery->bind_param("i", $salesOrderProduct->quantity);
-                $interfaceQuery->bind_param("s", (string) $salesOrderProduct->duedate);
-                $interfaceQuery->bind_param("s", $salesOrderProduct->accountname);
-                $interfaceQuery->bind_param("i", $salesOrderProduct->accountid);
-                $interfaceQuery->bind_param("s", $salesOrderProduct->sostatus);
-                $interfaceQuery->bind_param("s", $salesOrderProduct->salesorder_no . '-' . $dbconfig_batchvaliable['batch_valiable']);
-                //batchno : $CrmRows['salesorder_no'] . "-" . $dbconfig_batchvaliable['batch_valiable']
-
-                if ($interfaceQuery->execute()) {
+                $_batch_no = $salesOrderProduct->salesorder_no . '-' . $dbconfig_batchvaliable['batch_valiable'];
+                
+                $interfaceQuery = $integrationConnect->query("INSERT 
+                    INTO salesorder_interface
+                    SET id = NULL, salesorderid = $salesOrderProduct->salesorderid, 
+                        salesorder_no = '$salesOrderProduct->salesorder_no',
+                        contactid = $salesOrderProduct->contactid, 
+                        productname = '$salesOrderProduct->productname',
+                        productid = '$salesOrderProduct->productid,
+                        productquantity = '$salesOrderProduct->quantity', 
+                        duedate = '$salesOrderProduct->duedate',
+                        accountname = '$salesOrderProduct->accountname',
+                        accountid = $salesOrderProduct->accountid,
+                        sostatus = '$salesOrderProduct->sostatus', 
+                        batchno = '$_batch_no', createdate = now()");
+                
+                if ($interfaceQuery) {
                     
-                    $_messages[$salesOrder->salesorder_no][$salesOrderProduct->productname] = true;
+                    $_messages[$salesOrder->salesorder_no]['products'][$salesOrderProduct->productname] = true;
                     
-                    $updateSaleOrder = $vTigerConnect->prepare("UPDATE " .
+                    $updateSaleOrder = $vTigerConnect->query("UPDATE " .
                         "vtiger_salesorder SET " .
-                        "sostatus = ? WHERE salesorderid = ?");
+                        "sostatus = 'Delivered' WHERE salesorderid = '$salesOrder->salesorder_no'");
 
-                    $updateSaleOrder->bind_param("s", "Delivered");
-                    $updateSaleOrder->bind_param("s", $salesOrder->salesorder_no);
-
-                    if ($updateSaleOrder->execute())
+                    if ($updateSaleOrder)
                         $flag = $flag && true;
                     else
                         $flag = $flag && false;
                 } else {
                     
-                    $_messages[$salesOrder->salesorder_no][$salesOrderProduct->productname] = false;
+                    $_messages[$salesOrder->salesorder_no]['error'] = "($integrationConnect->errno) - $integrationConnect->error";
+                    $_messages[$salesOrder->salesorder_no]['products'][$salesOrderProduct->productname] = false;
                     
                     $flag = $flag && false;
                     // ERROR INSERTING PRODUCTS
