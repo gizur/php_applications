@@ -26,7 +26,7 @@ $salesOrders = $vTigerConnect->query($salesOrdersQuery);
 
 $_messages = array();
     
-if ($salesOrders) {    
+if ($salesOrders) {
     
     if ($salesOrders->num_rows > 0) {
         
