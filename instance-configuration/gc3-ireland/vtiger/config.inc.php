@@ -94,8 +94,8 @@ if ($response->body->Count!=0) {
     }
 }
 
-if (isset($dbconfig['db_server'])) {
-    echo file_get_contents('http://localhost/404.jst');
+if (!isset($dbconfig['db_server'])) {
+    echo file_get_contents('http://127.0.0.1/lib/error-documents/404.html');
     die;
 }
 
