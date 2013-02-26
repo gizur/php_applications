@@ -94,6 +94,11 @@ if ($response->body->Count!=0) {
     }
 }
 
+if (isset($dbconfig['db_server'])) {
+    echo file_get_contents('http://localhost/404.jst');
+    die;
+}
+
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
 $dbconfig['db_hostname'] = $dbconfig['db_server'].$dbconfig['db_port'];
