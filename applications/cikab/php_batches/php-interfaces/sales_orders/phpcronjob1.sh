@@ -5,7 +5,7 @@ include '../config.inc.php';
 include '../config.database.php';
 
 openlog("phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0);
-/* turn autocommit false */
+
 $vTigerConnect = new Connect(
         $dbconfig_vtiger['db_server'],
         $dbconfig_vtiger['db_username'],
