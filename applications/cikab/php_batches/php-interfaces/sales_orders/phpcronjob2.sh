@@ -43,6 +43,7 @@ if ($salesOrders) {
             $leadzero = "";
             $accountlenth = "";
             $productnamearray = array();
+            $multiproduct = array();
             $productaccountarray = array();
             $productlength = "";
             $leadzeroproduct = "";
@@ -121,6 +122,9 @@ if ($salesOrders) {
                     $orderrefferenceno = "000" . $salesOrderWithProduct->salesorder_no;
                     
                     $flag = $flag && true;
+                    
+                    unset($multiproduct);
+                    unset($productnamearray);
                 }
                 
                 if($flag){
