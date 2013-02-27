@@ -26,10 +26,10 @@
  * > phpunit --verbrose Gizur_REST_API_Test
  */
 
-require_once 'config.inc.php';
+require_once realpath(__DIR__ . '/config.inc.php');
 require_once 'PHPUnit/Autoload.php';
-require_once 'lib/RESTClient.php';
-require_once '../lib/aws-php-sdk/sdk.class.php';
+require_once realpath(__DIR__ . '/lib/RESTClient.php');
+require_once realpath(__DIR__ . '/../lib/aws-php-sdk/sdk.class.php');
 
 /**
  * Gizur Test inherist PHP Unit Tests Framework
