@@ -166,6 +166,9 @@ try {
 }
 
 $integrationConnect->close();
+
+syslog(LOG_WARNING, json_encode($_messages));
+echo json_encode($_messages);
 ?>
 
 <?php
