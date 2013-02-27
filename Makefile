@@ -23,6 +23,7 @@ clean2:
 
 test2:
 	./vendor/bin/phpunit tests 
+	cd api/protected/tests && ../../../vendor/bin/phpunit .
 	./vendor/bin/phpcs --standard=Zend api/protected/**/*.php tests/*.php
 
 lint2:
