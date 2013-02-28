@@ -27,8 +27,7 @@ require_once '../../../../../lib/aws-php-sdk/sdk.class.php';
   Instansiate AmazonSQS
  */
 try {
-    $sqs = new AmazonSQS();    
-    print_r($sqs->get_queue_list());
+    $sqs = new AmazonSQS();
 } catch (SQS_Exception $e) {
     syslog(LOG_WARNING, "Unable to connect to Amazon SQS.");
     die("Unable to connect to Amazon SQS.");
