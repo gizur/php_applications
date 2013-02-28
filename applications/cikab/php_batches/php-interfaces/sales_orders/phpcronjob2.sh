@@ -153,7 +153,7 @@ try {
             if (!$updateStatus)
                 throw new Exception("Error updating status to delivered.");
 
-            updateMessage(&$_messages, $salesOrder->salesorder_no, true, $fileName, "Successfully sent to messageQ.");
+            updateLogMessage(&$_messages, $salesOrder->salesorder_no, true, $fileName, "Successfully sent to messageQ.");
             $integrationConnect->commit();
         } catch (Exception $e) {
             $integrationConnect->rollback();
