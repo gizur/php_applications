@@ -55,7 +55,7 @@ class Connect extends mysqli
     
     public function __destruct()
     {
-        $this->close();
+        
     }
 
 }
