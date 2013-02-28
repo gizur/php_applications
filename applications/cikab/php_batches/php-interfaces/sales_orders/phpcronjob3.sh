@@ -60,4 +60,7 @@ try {
 } catch (Exception $e) {
     $_messages['message'] = $e->getMessage();
 }
+
+syslog(LOG_WARNING, json_encode($_messages));
+echo json_encode($_messages);
 ?>
