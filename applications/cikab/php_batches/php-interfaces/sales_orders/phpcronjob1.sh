@@ -1,8 +1,8 @@
 #!/usr/bin/php
 
 <?php
-include __DIR__ . '../config.inc.php';
-include __DIR__ . '../config.database.php';
+include __DIR__ . '/../config.inc.php';
+include __DIR__ . '/../config.database.php';
 
 openlog("phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 

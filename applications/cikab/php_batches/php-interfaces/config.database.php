@@ -20,7 +20,7 @@
  * Call Configration Files
  * 
  */
-include 'config.inc.php';
+include __DIR__ . '/config.inc.php';
 
 /**
  * 

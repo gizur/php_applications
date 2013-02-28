@@ -20,8 +20,8 @@
 ?>
 <?php
 
-require_once 'config.inc.php';
-require_once '../../../../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/config.inc.php';
+require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
 
 /**
   Instansiate AmazonSQS
