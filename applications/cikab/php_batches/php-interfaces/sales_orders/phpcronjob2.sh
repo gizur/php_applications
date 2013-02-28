@@ -2,8 +2,9 @@
 <?php
 include '../config.inc.php';
 include '../config.database.php';
+include '../config.sqs.inc.php';
 
-openlog("phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+openlog("phpcronjob2", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
 try {
     $integrationConnect = new Connect(
