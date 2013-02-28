@@ -2,8 +2,8 @@
 <?php
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-include __DIR__ . '/../ftp_connection.php';
-include __DIR__ . '/../config.sqs.inc.php';
+require_once __DIR__ . '/../ftp_connection.php';
+require_once __DIR__ . '/../config.sqs.inc.php';
 
 openlog("phpcronjob3", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
@@ -55,6 +55,7 @@ try {
         } catch (Exception $e) {
             $_messages['message'] = $e->getMessage();
         }
+        $messageCount--;
     }
     $_messages['message'] = "Total $messageCount files copied.";
 } catch (Exception $e) {
