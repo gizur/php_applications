@@ -27,6 +27,7 @@ try {
         throw new Exception("No SalesOrder Found!");
 
     $_messages['no_sales_order'] = $salesOrders->num_rows;
+    $_dublicate_file_name = array();
     // Cycle through results
     while ($salesOrder = $salesOrders->fetch_object()) {
 
@@ -38,6 +39,12 @@ try {
 
             $createdDate = date("YmdHi");
 
+            if(in_array($createdDate, $_dublicate_file_name[$salesOrder->accountname])){
+                $createdDate = date("YmdHi", strtotime(date("YmdHi") + 1));
+            }
+            
+            $_dublicate_file_name[$salesOrder->accountname][] = $createdDate;
+            
             $fileName = "SET.GZ.FTP.IN.BST.$createdDate.$salesOrder->accountname";
 
             $salesOrderWithProducts = $integrationConnect->query("SELECT * FROM salesorder_interface " .
@@ -46,7 +53,6 @@ try {
 
             $flag = true;
 
-            $string = "";
             $leadzero = "";
             $accountlenth = "";
             $productnamearray = array();
