@@ -14,6 +14,8 @@ try {
             $dbconfig_integration['db_name']);
 
     $_messages = array();
+    
+    $_dublicate_file_name = array();
 
     $salesOrders = $integrationConnect->query("SELECT salesorder_no, accountname 
            FROM salesorder_interface
@@ -27,7 +29,6 @@ try {
         throw new Exception("No SalesOrder Found!");
 
     $_messages['no_sales_order'] = $salesOrders->num_rows;
-    $_dublicate_file_name = array();
     // Cycle through results
     while ($salesOrder = $salesOrders->fetch_object()) {
 
@@ -36,15 +37,16 @@ try {
             $integrationConnect->autocommit(FALSE);
             $flag = true;
             $_messages['sales_orders'][$salesOrder->salesorder_no] = array();
-
-            $createdDate = date("YmdHi");
-
-            if(in_array($createdDate, $_dublicate_file_name[$salesOrder->accountname])){
-                $createdDate = date("YmdHi", strtotime(date("YmdHi") + 1));
+            
+            if (empty($_dublicate_file_name[$salesOrder->accountname]))
+                $createdDate = date("YmdHi");
+            else{
+                $cnt = count($_dublicate_file_name[$salesOrder->accountname]);
+                $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
             }
-            
+
             $_dublicate_file_name[$salesOrder->accountname][] = $createdDate;
-            
+
             $fileName = "SET.GZ.FTP.IN.BST.$createdDate.$salesOrder->accountname";
 
             $salesOrderWithProducts = $integrationConnect->query("SELECT * FROM salesorder_interface " .
