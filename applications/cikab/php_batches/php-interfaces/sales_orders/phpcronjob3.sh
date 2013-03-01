@@ -11,7 +11,7 @@ openlog("phpcronjob3", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 $_messages = array();
 
 try {
-    $messageCount = $sqs->get_queue_size($amazonqueue_config['_url']);
+    $messageCount = $no_of_files = $sqs->get_queue_size($amazonqueue_config['_url']);
 
     if ($messageCount <= 0)
         throw new Exception("messageQ is empty.");
@@ -29,7 +29,7 @@ try {
             if (empty($msgObj))
                 throw new Exception("Received an empty message from messageQ.");
 
-            $_fileJson = $msgObj->Body;
+            $_fileJson = json_decode($msgObj->Body);
             $_receipt = $msgObj->ReceiptHandle;
 
             if(empty($_fileJson->content))
@@ -43,8 +43,8 @@ try {
             
             $fp = fopen('php://temp', 'r+');
             fwrite($fp, $_fileJson->content);
-            rewind($fp);
-            $uploaded = ftp_fput($ftp_conn, $ftp_path, $fp, FTP_ASCII);
+            //rewind($fp);
+            $uploaded = ftp_fput($conn_id, $ftp_path, $fp, FTP_ASCII);
             $fp->close();
             
             if(!$uploaded)
@@ -54,11 +54,11 @@ try {
             
             $_messages['files'][$_fileJson->file] = true;
         } catch (Exception $e) {
-            $_messages['message'] = $e->getMessage();
+            $_messages[] = $e->getMessage();
         }
         $messageCount--;
     }
-    $_messages['message'] = "Total $messageCount files copied.";
+    $_messages['message'] = "Total $no_of_files files copied.";
 } catch (Exception $e) {
     $_messages['message'] = $e->getMessage();
 }
