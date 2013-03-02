@@ -45,7 +45,7 @@ try {
             fwrite($fp, $_fileJson->content);
             rewind($fp);
             $uploaded = ftp_fput($ftpConnId, $ftp_path, $fp, FTP_ASCII);
-            flose($fp);
+            fclose($fp);
             
             if(!$uploaded)
                 throw new Exception("Error copying file $_fileJson->file on FTP server.");

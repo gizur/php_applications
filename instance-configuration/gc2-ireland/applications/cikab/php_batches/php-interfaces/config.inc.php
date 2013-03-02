@@ -145,4 +145,3 @@ $dbconfigFtp['serverpath'] = "files/";
  */
 $amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' . 
     '791200854364/cikab_queue';
-?>
