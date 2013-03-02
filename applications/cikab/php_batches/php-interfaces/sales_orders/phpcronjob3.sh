@@ -7,11 +7,11 @@ require_once __DIR__ . '/../config.sqs.inc.php';
 
 openlog("phpcronjob3", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
-//$dbconfig_batchvaliable['batch_valiable'];
+//$dbconfigBatchVariable['batch_valiable'];
 $_messages = array();
 
 try {
-    $messageCount = $no_of_files = $sqs->get_queue_size($amazonqueue_config['_url']);
+    $messageCount = $no_of_files = $sqs->get_queue_size($amazonqueueConfig['_url']);
 
     if ($messageCount <= 0)
         throw new Exception("messageQ is empty.");
@@ -19,7 +19,7 @@ try {
     while ($messageCount > 0) {
 
         try {
-            $_response = $sqs->receive_message($amazonqueue_config['_url']);
+            $_response = $sqs->receive_message($amazonqueueConfig['_url']);
 
             if (!$_response->status == 200)
                 throw new Exception("Message not recieved from the messageQ server.");
@@ -35,7 +35,7 @@ try {
             if(empty($_fileJson->content))
                 throw new Exception("$_fileJson->file content is empty in messageQ.");
             
-            $ServerFilePath = $dbconfig_ftpserverpath['serverpath'];
+            $ServerFilePath = $dbconfigFtp['serverpath'];
             $ftp_path = $ServerFilePath . $_fileJson->file;
             
             if (file_exists($ftp_path))
@@ -44,13 +44,13 @@ try {
             $fp = fopen('php://temp', 'r+');
             fwrite($fp, $_fileJson->content);
             rewind($fp);
-            $uploaded = ftp_fput($conn_id, $ftp_path, $fp, FTP_ASCII);
+            $uploaded = ftp_fput($ftpConnId, $ftp_path, $fp, FTP_ASCII);
             flose($fp);
             
             if(!$uploaded)
                 throw new Exception("Error copying file $_fileJson->file on FTP server.");
 
-            $sqs->delete_message($amazonqueue_config['_url'], $_receipt);
+            $sqs->delete_message($amazonqueueConfig['_url'], $_receipt);
             
             $_messages['files'][$_fileJson->file] = true;
         } catch (Exception $e) {

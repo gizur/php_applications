@@ -8,10 +8,10 @@ openlog("phpcronjob2", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
 try {
     $integrationConnect = new Connect(
-            $dbconfig_integration['db_server'],
-            $dbconfig_integration['db_username'],
-            $dbconfig_integration['db_password'],
-            $dbconfig_integration['db_name']);
+            $dbconfigIntegration['db_server'],
+            $dbconfigIntegration['db_username'],
+            $dbconfigIntegration['db_password'],
+            $dbconfigIntegration['db_name']);
 
     $_messages = array();
     
@@ -20,7 +20,7 @@ try {
     $salesOrders = $integrationConnect->query("SELECT salesorder_no, accountname 
            FROM salesorder_interface
            WHERE sostatus IN ('created', 'approved') 
-           GROUP BY salesorder_no, accountname LIMIT 0, " . $dbconfig_batchvaliable['batch_valiable']);
+           GROUP BY salesorder_no, accountname LIMIT 0, " . $dbconfigBatchVariable['batch_valiable']);
 
     if (!$salesOrders)
         throw new Exception("Error executing sales order query : ($integrationConnect->errno) - $integrationConnect->error");
@@ -150,7 +150,7 @@ try {
             $_messageQ['file'] = $fileName;
             $_messageQ['content'] = $_content;
 
-            $_response = $sqs->send_message($amazonqueue_config['_url'], json_encode($_messageQ));
+            $_response = $sqs->send_message($amazonqueueConfig['_url'], json_encode($_messageQ));
 
             if ($_response->status !== 200)
                 throw new Exception("Error in sending file to messageQ.");

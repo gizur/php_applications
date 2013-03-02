@@ -8,7 +8,8 @@
  * @version    SVN: $Id$
  * @link       href="http://gizur.com"
  * @license    Commercial license
- * @copyright  Copyright (c) 2012, Gizur AB, <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
  *
  * purpose : Connect to Amazon SQS through aws-php-sdk
  * Coding standards:
@@ -32,5 +33,3 @@ try {
     syslog(LOG_WARNING, "Unable to connect to Amazon SQS.");
     die("Unable to connect to Amazon SQS.");
 }
-?>
-

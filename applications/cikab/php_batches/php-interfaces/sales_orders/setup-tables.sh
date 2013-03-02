@@ -23,11 +23,11 @@ include("../config.inc.php");
 /**
  * Connect to MySQL database. 
  */
-$_mysqli = new mysqli($dbconfig_integration['db_server'],
-        $dbconfig_integration['db_username'],
-        $dbconfig_integration['db_password'],
-        $dbconfig_integration['db_name'],
-        $dbconfig_integration['db_port']);
+$_mysqli = new mysqli($dbconfigIntegration['db_server'],
+        $dbconfigIntegration['db_username'],
+        $dbconfigIntegration['db_password'],
+        $dbconfigIntegration['db_name'],
+        $dbconfigIntegration['db_port']);
 
 /**
  * Print error message in case of connection error.
@@ -37,7 +37,7 @@ if ($_mysqli->connect_errno) {
     $_mysqli->connect_errno . ") " . $_mysqli->connect_error;
     exit();
 }else{
-    echo "Connected with MySQL : " . $dbconfig_integration['db_server'] . '\n';
+    echo "Connected with MySQL : " . $dbconfigIntegration['db_server'] . '\n';
 }
 
 /**

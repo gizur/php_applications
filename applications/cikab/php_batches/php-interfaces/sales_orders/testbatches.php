@@ -26,4 +26,3 @@ if (isset($_GET['action'])) {
     @shell_exec('sudo chmod -x ' . $_GET['action'] . '.sh');
     echo $output;
 }
-?>

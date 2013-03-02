@@ -7,7 +7,8 @@
  * @subpackage DatabaseConfig
  * @author     Anil Singh <anil-singh@essindia.co.in>
  * @link       href="http://gizur.com"
- * @copyright  Copyright (c) 2012,Gizur AB, <a href="http://gizur.com">Gizur Consulting</a>.
+ * @copyright  Copyright (c) 2012,Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>.
  * @license    Commercial license
  * @version    SVN: $Id$
  * purpose : connect to mysql server
@@ -36,6 +37,7 @@ openlog("DatabaseConnetionCron", LOG_PID | LOG_PERROR, LOG_LOCAL0);
  */
 class Connect extends mysqli
 {
+
     /**
      * 
      * construct function use this function auto load
@@ -43,34 +45,19 @@ class Connect extends mysqli
      */
     public function __construct($host, $user, $pass, $database)
     {
-        parent::__construct($host, $user, $pass, $database);
-        
+        parent::__construct(
+            $host, $user, $pass, $database
+        );
         if (mysqli_connect_error()) {
-            syslog(LOG_WARNING, 'Error connecting ' . $host . ' (' . mysqli_connect_errno() . ') '
-                    . mysqli_connect_error());
-            die('Error connecting ' . $host . ' (' . mysqli_connect_errno() . ') '
-                    . mysqli_connect_error());
+            syslog(
+                LOG_WARNING, 'Error connecting ' . $host . ' (' .
+                mysqli_connect_errno() . ') ' .
+                mysqli_connect_error()
+            );
+            die('Error connecting ' . $host . ' (' .
+                mysqli_connect_errno() . ') '
+                . mysqli_connect_error());
         }
-    }
-    
-    public function __destruct()
-    {
-        
     }
 
 }
-
-/**
- * 
- * Connect to integration database
- * 
- */
-
-/**
- * 
- * Connect to vTiger database
- * 
- */
-
-?>
-

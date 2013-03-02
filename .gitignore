@@ -7,3 +7,9 @@
 *.swo
 .DS_Store
 /.elasticbeanstalk/.elasticbeanstalk/.elasticbeanstalk/.elasticbeanstalk/.elasticbeanstalk/.elasticbeanstalk/
+/vendor/
+/composer
+/node_modules/doccoh/.idea/
+/node_modules/.bin/
+/node_modules/
+/composer.lock

@@ -17,20 +17,21 @@ openlog("phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0);
  * defined in config files.
  */
 $vTigerConnect = new Connect(
-        $dbconfig_vtiger['db_server'],
-        $dbconfig_vtiger['db_username'],
-        $dbconfig_vtiger['db_password'],
-        $dbconfig_vtiger['db_name']);
+        $dbconfigVtiger['db_server'],
+        $dbconfigVtiger['db_username'],
+        $dbconfigVtiger['db_password'],
+        $dbconfigVtiger['db_name']);
 
 /*
  * Try to connect to integration database as per 
  * setting defined in config files.
  */
 $integrationConnect = new Connect(
-        $dbconfig_integration['db_server'],
-        $dbconfig_integration['db_username'],
-        $dbconfig_integration['db_password'],
-        $dbconfig_integration['db_name']);
+        $dbconfigIntegration['db_server'],
+        $dbconfigIntegration['db_username'],
+        $dbconfigIntegration['db_password'],
+        $dbconfigIntegration['db_name']
+    );
 
 /*
  * Open try to catch exceptions
@@ -41,9 +42,9 @@ try {
      * Try to fetch pending sales orders fron vTiger database 
      */
     $salesOrdersQuery = "SELECT SO.salesorderid, SO.salesorder_no 
-        FROM " . $dbconfig_vtiger['db_name'] . ".vtiger_salesorder SO 
+        FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
         WHERE SO.sostatus IN ('Created','Approved') LIMIT 0," .
-        $dbconfig_batchvaliable['batch_valiable'] . "";
+        $dbconfigBatchVariable['batch_valiable'] . "";
 
     $salesOrders = $vTigerConnect->query($salesOrdersQuery);
 
@@ -95,10 +96,10 @@ try {
             $salesOrderProducts = $vTigerConnect->query("SELECT SO.salesorderid, SO.salesorder_no, SO.contactid,
                     SO.duedate, SO.sostatus, ACCO.accountname, ACCO.accountid, PRO.productid,
                     PRO.productname,IVP.quantity 
-                FROM " . $dbconfig_vtiger['db_name'] . ".vtiger_salesorder SO 
-                    INNER JOIN " . $dbconfig_vtiger['db_name'] . ".vtiger_account ACCO on ACCO.accountid=SO.accountid
-                    INNER JOIN " . $dbconfig_vtiger['db_name'] . ".vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid
-                    INNER JOIN " . $dbconfig_vtiger['db_name'] . ".vtiger_products PRO on PRO.productid=IVP.productid
+                FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
+                    INNER JOIN " . $dbconfigVtiger['db_name'] . ".vtiger_account ACCO on ACCO.accountid=SO.accountid
+                    INNER JOIN " . $dbconfigVtiger['db_name'] . ".vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid
+                    INNER JOIN " . $dbconfigVtiger['db_name'] . ".vtiger_products PRO on PRO.productid=IVP.productid
                 WHERE SO.salesorder_no = '" . $salesOrder->salesorder_no . "'");
 
             /*
@@ -106,7 +107,7 @@ try {
              */
             while ($salesOrderProduct = $salesOrderProducts->fetch_object()) {
 
-                $_batch_no = $salesOrderProduct->salesorder_no . '-' . $dbconfig_batchvaliable['batch_valiable'];
+                $_batch_no = $salesOrderProduct->salesorder_no . '-' . $dbconfigBatchVariable['batch_valiable'];
 
                 /*
                  * Insert product into integration table.

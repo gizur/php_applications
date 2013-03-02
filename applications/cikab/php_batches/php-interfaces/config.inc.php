@@ -9,7 +9,8 @@
  * @version    SVN: $Id$
  *
  * @license    Commercial license
- * @copyright  Copyright (c) 2012, Gizur AB, <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
  *
  * Coding standards:
  * http://pear.php.net/manual/en/standards.php
@@ -17,128 +18,130 @@
  * PHP version 5
  *
  */
-/* * *************************************** INTEGRATION DATABASE *********************************** */
+/* * *********** INTEGRATION DATABASE ******************* */
 
 /**
  * DNS of database server to use 
- * @global string $dbconfig_integration['db_server']
+ * @global string $dbconfigIntegration['db_server']
  */
-$dbconfig_integration['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+$dbconfigIntegration['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.' . 
+    'rds.amazonaws.com';
 
 /**
  * The port of the database server
- * @global string $dbconfig_integration['db_port']       
+ * @global string $dbconfigIntegration['db_port']       
  */
-$dbconfig_integration['db_port'] = 3306;
+$dbconfigIntegration['db_port'] = 3306;
 
 /**
  * The usename to use when logging into the database
- * @global string $dbconfig_integration['db_username']  
+ * @global string $dbconfigIntegration['db_username']  
  */
-$dbconfig_integration['db_username'] = 'vtiger_integrati';
+$dbconfigIntegration['db_username'] = 'vtiger_integrati';
 
 /**
  * The password to use when logging into the database
- * @global string $dbconfig_integration['db_password']
+ * @global string $dbconfigIntegration['db_password']
  */
-$dbconfig_integration['db_password'] = 'ALaXEryCwSFyW5jQ';
+$dbconfigIntegration['db_password'] = 'ALaXEryCwSFyW5jQ';
 
 /**
  * The name of the database
- * @global string $dbconfig_integration['db_name']
+ * @global string $dbconfigIntegration['db_name']
  */
-$dbconfig_integration['db_name'] = 'vtiger_integration';
+$dbconfigIntegration['db_name'] = 'vtiger_integration';
 
 /**
  * The type of database (currently is only mysql supported)
- * @global string $dbconfig_integration['db_type']
+ * @global string $dbconfigIntegration['db_type']
  */
-$dbconfig_integration['db_type'] = 'mysql';
+$dbconfigIntegration['db_type'] = 'mysql';
 
 
-/* * *************************************** VTIGER DATABASE *********************************** */
+/* * ***************** VTIGER DATABASE *************************** */
 
 
 /**
  * DNS of database server to use 
- * @global string $dbconfig_vtiger['db_server']
+ * @global string $dbconfigVtiger['db_server']
  */
-$dbconfig_vtiger['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+$dbconfigVtiger['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.' .
+    'rds.amazonaws.com';
 
 /**
  * The port of the database server
- * @global string $dbconfig_vtiger['db_port']       
+ * @global string $dbconfigVtiger['db_port']       
  */
-$dbconfig_vtiger['db_port'] = 3306;
+$dbconfigVtiger['db_port'] = 3306;
 
 /**
  * The usename to use when logging into the database
- * @global string $dbconfig_vtiger['db_username']  
+ * @global string $dbconfigVtiger['db_username']  
  */
-$dbconfig_vtiger['db_username'] = 'user_2059ff6a';
+$dbconfigVtiger['db_username'] = 'user_2059ff6a';
 
 /**
  * The password to use when logging into the database
- * @global string $dbconfig_vtiger['db_password']
+ * @global string $dbconfigVtiger['db_password']
  */
-$dbconfig_vtiger['db_password'] = 'c059ff6a3f05';
+$dbconfigVtiger['db_password'] = 'c059ff6a3f05';
 
 /**
  * The name of the database
- * @global string $dbconfig_vtiger['db_name']
+ * @global string $dbconfigVtiger['db_name']
  */
-$dbconfig_vtiger['db_name'] = 'vtiger_5159ff6a';
+$dbconfigVtiger['db_name'] = 'vtiger_5159ff6a';
 
 /**
  * The type of database (currently is only mysql supported)
- * @global string $dbconfig_vtiger['db_type']
+ * @global string $dbconfigVtiger['db_type']
  */
-$dbconfig_vtiger['db_type'] = 'mysql';
+$dbconfigVtiger['db_type'] = 'mysql';
 
 
 
-/* * ************************** BATCH CONFIGURATION *************************** */
+/* * ********* BATCH CONFIGURATION ********** */
 
 /**
  *  Set Batch Valiable
  * 
  * 
  */
-$dbconfig_batchvaliable['batch_valiable'] = 10;
+$dbconfigBatchVariable['batch_valiable'] = 10;
 
-/* * *************************** FTP CONFIGURATION **************************** */
+/* * *********** FTP CONFIGURATION ************ */
 
 
 /**
  *  @FTP Host Name 
  */
-$dbconfig_ftphost['Host'] = "ftp-hp.coop.se";
+$dbconfigFtp['Host'] = "ftp-hp.coop.se";
 
 /**
  *  @FTP User Name 
  */
-$dbconfig_ftpuser['User'] = "ftpSETGizur";
+$dbconfigFtp['User'] = "ftpSETGizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfig_ftppassword['Password'] = "Sk4nsk4113";
+$dbconfigFtp['Password'] = "Sk4nsk4113";
 
 /**
  *  @FTP Local files path
  */
-$dbconfig_ftplocalpath['localpath'] = "cronsetfiles/";
+$dbconfigFtp['localpath'] = "cronsetfiles/";
 
 /**
  *  @FTP Server files path
  */
-$dbconfig_ftpserverpath['serverpath'] = "";
+$dbconfigFtp['serverpath'] = "";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */
 /**
  * Queue URL
  */
-$amazonqueue_config['_url'] = 'https://sqs.eu-west-1.amazonaws.com/791200854364/cikab_queue';
-?>
+$amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' . 
+    '791200854364/cikab_queue';
