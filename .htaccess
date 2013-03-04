@@ -10,8 +10,13 @@ RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^cikab/seasonportal/(.*) applications/cikab/seasonportal/$1 [QSA,L]
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^lib/(.*) lib/$1 [QSA,L]
+
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^applications/demo/trailer-app-portal/([^?]*) applications/clab/trailer-app-portal/$1?clientid=demo [QSA,L]
+
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^applications/(.*) applications/$1 [QSA,L]
+
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^([^\/]*)/index.php /lib/vtwrapper-index.php?clientid=$1 [QSA,L]
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
