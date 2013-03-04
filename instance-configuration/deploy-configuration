@@ -51,6 +51,9 @@ cp $1/rest-api/config.inc.php ../api/protected/config/config.inc.php
 echo "cp $1/applications/clab/trailer-app-portal/protected/config/main.php ../applications/clab/trailer-app-portal/protected/config/main.php"
 cp $1/applications/clab/trailer-app-portal/protected/config/main.php ../applications/clab/trailer-app-portal/protected/config/main.php
 
+echo "cp $1/applications/clab/trailer-app-portal/protected/config/demo/main.php ../applications/clab/trailer-app-portal/protected/config/demo/main.php"
+cp $1/applications/clab/trailer-app-portal/protected/config/demo/main.php ../applications/clab/trailer-app-portal/protected/config/demo/main.php
+
 echo "cp $1/applications/gizur-admin/js/config.js ../applications/gizur-admin/js/config.js"
 cp $1/applications/gizur-admin/js/config.js ../applications/gizur-admin/js/config.js
 
