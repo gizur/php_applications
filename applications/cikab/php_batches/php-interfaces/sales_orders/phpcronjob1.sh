@@ -10,28 +10,31 @@ require_once __DIR__ . '/../config.database.php';
 /*
  * Open connection to system logger
  */
-openlog("phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+openlog(
+    "phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0
+);
 
 /*
  * Try to connect to vTiger database as per setting 
  * defined in config files.
  */
 $vTigerConnect = new Connect(
-        $dbconfigVtiger['db_server'],
-        $dbconfigVtiger['db_username'],
-        $dbconfigVtiger['db_password'],
-        $dbconfigVtiger['db_name']);
+    $dbconfigVtiger['db_server'],
+    $dbconfigVtiger['db_username'],
+    $dbconfigVtiger['db_password'],
+    $dbconfigVtiger['db_name']
+);
 
 /*
  * Try to connect to integration database as per 
  * setting defined in config files.
  */
 $integrationConnect = new Connect(
-        $dbconfigIntegration['db_server'],
-        $dbconfigIntegration['db_username'],
-        $dbconfigIntegration['db_password'],
-        $dbconfigIntegration['db_name']
-    );
+    $dbconfigIntegration['db_server'],
+    $dbconfigIntegration['db_username'],
+    $dbconfigIntegration['db_password'],
+    $dbconfigIntegration['db_name']
+);
 
 /*
  * Open try to catch exceptions
@@ -52,14 +55,17 @@ try {
      * Message array to store error / success messages
      * through out end.
      */
-    $_messages = array();
+    $messages = array();
 
     /*
      * In case of unable to fetch sales orders
      * throw exception.
      */
     if (!$salesOrders)
-        throw new Exception("Error executing sales order query : ($vTigerConnect->errno) - $vTigerConnect->error");
+        throw new Exception(
+            "Error executing sales order query : " . 
+            "($vTigerConnect->errno) - $vTigerConnect->error"
+        );
 
     /*
      * If no pending sales orders found
@@ -71,7 +77,7 @@ try {
     /*
      * Update message array with number of sales orders.
      */
-    $_messages['no_sales_orders'] = $salesOrders->num_rows;
+    $messages['no_sales_orders'] = $salesOrders->num_rows;
 
     /*
      * Iterate through sales orders
@@ -88,18 +94,21 @@ try {
             $vTigerConnect->autocommit(FALSE);
             $integrationConnect->autocommit(FALSE);
 
-            $_messages['sales_orders'][$salesOrder->salesorder_no] = array();
+            $mess = array();
 
             /*
              * Fetch current sales order products.
              */
-            $salesOrderProducts = $vTigerConnect->query("SELECT SO.salesorderid, SO.salesorder_no, SO.contactid,
-                    SO.duedate, SO.sostatus, ACCO.accountname, ACCO.accountid, PRO.productid,
-                    PRO.productname,IVP.quantity 
-                FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
-                    INNER JOIN " . $dbconfigVtiger['db_name'] . ".vtiger_account ACCO on ACCO.accountid=SO.accountid
-                    INNER JOIN " . $dbconfigVtiger['db_name'] . ".vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid
-                    INNER JOIN " . $dbconfigVtiger['db_name'] . ".vtiger_products PRO on PRO.productid=IVP.productid
+            $salesOrderProducts = $vTigerConnect->query("SELECT " .
+                "SO.salesorderid, SO.salesorder_no, SO.contactid,
+                SO.duedate, SO.sostatus, ACCO.accountname, " .
+                "ACCO.accountid, PRO.productid, " .
+                "PRO.productname,IVP.quantity " . 
+                "FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
+                    INNER JOIN vtiger_account ACCO on ACCO.accountid = " . 
+                "SO.accountid INNER JOIN vtiger_inventoryproductrel IVP " . 
+                "on IVP.id=SO.salesorderid INNER JOIN vtiger_products PRO " .
+                "on PRO.productid=IVP.productid
                 WHERE SO.salesorder_no = '" . $salesOrder->salesorder_no . "'");
 
             /*
@@ -107,14 +116,17 @@ try {
              */
             while ($salesOrderProduct = $salesOrderProducts->fetch_object()) {
 
-                $_batch_no = $salesOrderProduct->salesorder_no . '-' . $dbconfigBatchVariable['batch_valiable'];
+                $batchNo = $salesOrderProduct->salesorder_no . '-' . 
+                    $dbconfigBatchVariable['batch_valiable'];
 
                 /*
                  * Insert product into integration table.
                  */
-                $interfaceQuery = $integrationConnect->query("INSERT 
+                $interfaceQuery = $integrationConnect->query(
+                    "INSERT 
                     INTO salesorder_interface
-                    SET id = NULL, salesorderid = $salesOrderProduct->salesorderid, 
+                    SET id = NULL, 
+                    salesorderid = $salesOrderProduct->salesorderid, 
                         salesorder_no = '$salesOrderProduct->salesorder_no',
                         contactid = $salesOrderProduct->contactid, 
                         productname = '$salesOrderProduct->productname',
@@ -124,21 +136,28 @@ try {
                         accountname = '$salesOrderProduct->accountname',
                         accountid = $salesOrderProduct->accountid,
                         sostatus = '$salesOrderProduct->sostatus', 
-                        batchno = '$_batch_no', createdate = now()");
+                        batchno = '$batchNo', createdate = now()"
+                );
 
                 /*
                  * If insertion failed, Close resultset and raise exception.
                  */
                 if (!$interfaceQuery) {
                     $salesOrderProducts->close();
-                    throw new Exception("Error inserting product $salesOrderProduct->productname in interface table. ($integrationConnect->errno) - $integrationConnect->error");
+                    throw new Exception(
+                        "Error inserting product " .
+                        "$salesOrderProduct->productname in " . 
+                        "interface table. " . 
+                        "($integrationConnect->errno) - " . 
+                        "$integrationConnect->error"
+                    );
                 }
 
                 /*
                  * Update message array with the inserted product.
                  */
-                $_messages['sales_orders'][$salesOrder->salesorder_no]['products'][$salesOrderProduct->productname] = true;
-                
+                $mess['products'][$salesOrderProduct->productname] = true;
+
                 /*
                  * Iterate till either no exception raise or all 
                  * sales order product get inserted into integration database.
@@ -148,18 +167,24 @@ try {
             /*
              * Update sales order in case of all products get inserted.
              */
-            $updateSaleOrder = $vTigerConnect->query("UPDATE " .
-                "vtiger_salesorder SET " .
-                "sostatus = 'Delivered' WHERE salesorderid = '$salesOrder->salesorderid'");
+            $updateSaleOrder = $vTigerConnect->query(
+                "UPDATE vtiger_salesorder SET " .
+                "sostatus = 'Delivered' WHERE salesorderid = " . 
+                "'$salesOrder->salesorderid'"
+            );
 
             /*
              * If updation fails throw exception.
              */
             if (!$updateSaleOrder) {
                 $salesOrderProducts->close();
-                throw new Exception("Error updating sales order $salesOrder->salesorder_no in vTiger ($vTigerConnect->errno) - $vTigerConnect->error.");
+                throw new Exception(
+                    "Error updating sales order " . 
+                    "$salesOrder->salesorder_no in vTiger " . 
+                    "($vTigerConnect->errno) - $vTigerConnect->error."
+                );
             }
-            
+
             /*
              * Close the products resultset.
              */
@@ -168,7 +193,7 @@ try {
             /*
              * Set sales status true, since it has processed without error.
              */
-            $_messages['sales_orders'][$salesOrder->salesorder_no]['status'] = true;
+            $mess['status'] = true;
 
             /*
              * Commit the databases.
@@ -179,20 +204,23 @@ try {
             /*
              * Store the messages
              */
-            $_messages['sales_orders'][$salesOrder->salesorder_no]['error'] = $e->getMessage();
-            $_messages['sales_orders'][$salesOrder->salesorder_no]['products'][$salesOrderProduct->productname] = false;
+            $mess['error'] = $e->getMessage();
+            $mess['products'][$salesOrderProduct->productname] = false;
             /*
              * Rollback the connections
              */
             $integrationConnect->rollback();
             $vTigerConnect->rollback();
         }
+        
+        $messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
+        unset($mess);
     }
 } catch (Exception $e) {
     /*
      * Store the message and rollbach the connections.
      */
-    $_messages['message'] = $e->getMessage();
+    $messages['message'] = $e->getMessage();
     $integrationConnect->rollback();
     $vTigerConnect->rollback();
 }
@@ -206,6 +234,5 @@ $integrationConnect->close();
 /*
  * Log the message
  */
-syslog(LOG_WARNING, json_encode($_messages));
-echo json_encode($_messages);
-?>
+syslog(LOG_WARNING, json_encode($messages));
+echo json_encode($messages);
