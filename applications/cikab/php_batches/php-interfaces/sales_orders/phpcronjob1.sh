@@ -99,17 +99,19 @@ try {
             /*
              * Fetch current sales order products.
              */
-            $salesOrderProducts = $vTigerConnect->query("SELECT " .
+            $salesOrderProducts = $vTigerConnect->query(
+                "SELECT " .
                 "SO.salesorderid, SO.salesorder_no, SO.contactid,
                 SO.duedate, SO.sostatus, ACCO.accountname, " .
                 "ACCO.accountid, PRO.productid, " .
                 "PRO.productname,IVP.quantity " . 
                 "FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
-                    INNER JOIN vtiger_account ACCO on ACCO.accountid = " . 
+                INNER JOIN vtiger_account ACCO on ACCO.accountid = " . 
                 "SO.accountid INNER JOIN vtiger_inventoryproductrel IVP " . 
                 "on IVP.id=SO.salesorderid INNER JOIN vtiger_products PRO " .
                 "on PRO.productid=IVP.productid
-                WHERE SO.salesorder_no = '" . $salesOrder->salesorder_no . "'");
+                WHERE SO.salesorder_no = '$salesOrder->salesorder_no'"
+            );
 
             /*
              * Iterate through products.
