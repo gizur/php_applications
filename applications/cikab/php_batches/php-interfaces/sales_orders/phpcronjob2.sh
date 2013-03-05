@@ -10,7 +10,9 @@ require_once __DIR__ . '/../config.sqs.inc.php';
 /*
  * Open connection to system logger
  */
-openlog("phpcronjob2", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+openlog(
+    "phpcronjob2", LOG_PID | LOG_PERROR, LOG_LOCAL0
+);
 
 /*
  * Start try block to catch the exceptions raised.
@@ -21,36 +23,44 @@ try {
      * as per the settings.
      */
     $integrationConnect = new Connect(
-            $dbconfigIntegration['db_server'],
-            $dbconfigIntegration['db_username'],
-            $dbconfigIntegration['db_password'],
-            $dbconfigIntegration['db_name']);
+        $dbconfigIntegration['db_server'],
+        $dbconfigIntegration['db_username'],
+        $dbconfigIntegration['db_password'],
+        $dbconfigIntegration['db_name']
+    );
 
     /*
      * Message array to store log
      */
-    $_messages = array();
+    $messages = array();
     
     /*
-     * $_dublicate_file_name used to remove duplicacy in
+     * $duplicateFile used to remove duplicacy in
      * file names, account wise.
      */
-    $_dublicate_file_name = array();
+    $duplicateFile = array();
 
     /*
      * Fetch all pending (created, approved) sales 
      * orders from integration database.
      */
-    $salesOrders = $integrationConnect->query("SELECT salesorder_no, accountname 
-           FROM salesorder_interface
-           WHERE sostatus IN ('created', 'approved') 
-           GROUP BY salesorder_no, accountname LIMIT 0, " . $dbconfigBatchVariable['batch_valiable']);
+    $salesOrders = $integrationConnect->query(
+        "SELECT salesorder_no,
+         accountname 
+         FROM salesorder_interface
+         WHERE sostatus IN ('created', 'approved') 
+         GROUP BY salesorder_no, accountname 
+         LIMIT 0, " . $dbconfigBatchVariable['batch_valiable']
+    );
 
     /*
      * If query return false / error, raise the exception.
      */
     if (!$salesOrders)
-        throw new Exception("Error executing sales order query : ($integrationConnect->errno) - $integrationConnect->error");
+        throw new Exception(
+            "Error executing sales order query : " . 
+            "($integrationConnect->errno) - $integrationConnect->error"
+        );
 
     /*
      * If number of sales order fetched is 0, raise the exception.
@@ -61,7 +71,7 @@ try {
     /*
      * Store sales order numbers in message array.
      */
-    $_messages['no_sales_order'] = $salesOrders->num_rows;
+    $messages['no_sales_order'] = $salesOrders->num_rows;
     /*
      * Iterate through sales orders.
      */
@@ -79,7 +89,7 @@ try {
             /*
              * Store sales order number in Message array.
              */
-            $_messages['sales_orders'][$salesOrder->salesorder_no] = array();
+            $mess = array();
             
             /*
              * $createdDate is being used in file name
@@ -87,28 +97,32 @@ try {
              * code is preventing the duplicacy of file name by 
              * increasing 1 minute for every salesorder for the same client.
              * check issue:
-             * https://github.com/gizur/gizurcloud/issues/225#issuecomment-14158434
+             * https://github.com/gizur/gizurcloud/
+             * issues/225#issuecomment-14158434
              */
-            if (empty($_dublicate_file_name[$salesOrder->accountname]))
+            if (empty($duplicateFile[$salesOrder->accountname]))
                 $createdDate = date("YmdHi");
             else{
-                $cnt = count($_dublicate_file_name[$salesOrder->accountname]);
+                $cnt = count($duplicateFile[$salesOrder->accountname]);
                 $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
             }
 
-            $_dublicate_file_name[$salesOrder->accountname][] = $createdDate;
+            $duplicateFile[$salesOrder->accountname][] = $createdDate;
 
             /*
              * Generate the file name.
              */
-            $fileName = "SET.GZ.FTP.IN.BST.$createdDate.$salesOrder->accountname";
+            $fileName = "SET.GZ.FTP.IN.BST.$createdDate." .
+                "$salesOrder->accountname";
 
             /*
              * Get all the products of current sales order
              */
-            $salesOrderWithProducts = $integrationConnect->query("SELECT * FROM salesorder_interface " .
+            $salesOrderWithProducts = $integrationConnect->query(
+                "SELECT * FROM salesorder_interface " .
                 "WHERE salesorder_no = '$salesOrder->salesorder_no'" .
-                " AND sostatus in ('created', 'approved')");
+                " AND sostatus in ('created', 'approved')"
+            );
 
             /*
              * Initialise variables used in creating SET file contents.
@@ -126,7 +140,8 @@ try {
             /*
              * Store number of products in sales order.
              */
-            $_messages['sales_orders'][$salesOrder->salesorder_no]['no_products'] = $salesOrderWithProducts->num_rows;
+            $mess['no_products'] = $salesOrderWithProducts->num_rows;
+            $messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
 
             /*
              * If error executing the query, raise the exception.
@@ -134,42 +149,57 @@ try {
             if (!$salesOrderWithProducts)
                 throw new Exception("Problem in fetching products.");
 
-            while ($salesOrderWithProduct = $salesOrderWithProducts->fetch_object()) {
+            while ($sOWProduct = $salesOrderWithProducts->fetch_object()) {
 
                 /**
-                 * for check duplicate product and write productname in set file with+
+                 * for check duplicate product and 
+                 * write productname in set file with+
                  */
-                if (!in_array($salesOrderWithProduct->productname, $productnamearray)) {
-                    $productlength = strlen($salesOrderWithProduct->productname);
-                    $productquantitylength = strlen($salesOrderWithProduct->productquantity);
+                if (!in_array($sOWProduct->productname, $productnamearray)) {
+                    $productlength = strlen($sOWProduct->productname);
+                    $productquantitylength = strlen(
+                        $sOWProduct->productquantity
+                    );
 
                     if ($productlength < 6) {
-                        $leadzeroproduct = leadingzero($productlength);
+                        $leadzeroproduct = Functions::leadingzero(
+                            $productlength
+                        );
                     }
 
                     if ($productquantitylength < 3) {
-                        $leadzeroproductquantity = leadingzero(3, $productquantitylength);
+                        $leadzeroproductquantity = Functions::leadingzero(
+                            3, $productquantitylength
+                        );
                     }
 
-                    $multiproduct[] = "189" . $leadzeroproduct . $salesOrderWithProduct->productname . $leadzeroproductquantity . $salesOrderWithProduct->productquantity;
-                    $productnamearray[] = $salesOrderWithProduct->productname;
+                    $multiproduct[] = "189" . $leadzeroproduct . 
+                        $sOWProduct->productname . 
+                        $leadzeroproductquantity . 
+                        $sOWProduct->productquantity;
+                    $productnamearray[] = $sOWProduct->productname;
                 }
 
                 /**
-                 * for check duplicate account name and write account name in set file
+                 * for check duplicate account name 
+                 * and write account name in set file
                  */
-                if (!in_array($salesOrderWithProduct->accountname, $productaccountarray)) {
+                $inArr = in_array(
+                    $sOWProduct->accountname, $productaccountarray
+                );
+                if (!$inArr) {
 
-                    $accountlenth = strlen($salesOrderWithProduct->accountname);
+                    $accountlenth = strlen($sOWProduct->accountname);
                     if ($accountlenth < 6) {
-                        $leadzero = leadingzero(6, $accountlenth);
+                        $leadzero = Functions::leadingzero(6, $accountlenth);
                     }
-                    $finalformataccountname = $leadzero . $salesOrderWithProduct->accountname;
+                    $finalformataccountname = $leadzero . 
+                        $sOWProduct->accountname;
                 }
 
                 $finalformatproductname = implode("+", $multiproduct);
                 $currentdate = date("Ymd");
-                $originalordernomber = "7777" . $salesOrderWithProduct->salesorder_no;
+                $originalordernomber = "7777" . $sOWProduct->salesorder_no;
 
                 /**
                  * for find the order no. total length if length 
@@ -180,13 +210,19 @@ try {
                 if ($orderlength > 6) {
                     $accessorderlength = $orderlength - 6;
 
-                    $ordernumber = substr($originalordernomber, $accessorderlength);
+                    $ordernumber = substr(
+                        $originalordernomber, $accessorderlength
+                    );
                 } else
                     $ordernumber = $originalordernomber;
 
-                $deliveryday = date("ymd", strtotime($salesOrderWithProduct->duedate));
-                $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($salesOrderWithProduct->duedate)) . " +1 day");
-                $futuredeliverydate = date('ymd', $futuredeliverydate1);
+                $deliveryday = date(
+                    "ymd", strtotime($sOWProduct->duedate)
+                );
+                $futuredeliveryDate = strtotime(
+                    date("Y-m-d", strtotime($sOWProduct->duedate)) . " +1 day"
+                );
+                $futuredeliverydate = date('ymd', $futuredeliveryDate);
 
                 unset($multiproduct);
                 unset($productnamearray);
@@ -200,7 +236,7 @@ try {
             /*
              * Generate the file content
              */
-            $_content = "HEADERGIZUR           " . $currentdate .
+            $contentF = "HEADERGIZUR           " . $currentdate .
                 "18022800M256      RUTIN   .130KF27777100   " .
                 "mottagning initierad                               " .
                 "                                          001" .
@@ -214,12 +250,15 @@ try {
             /*
              * Get the message from the responce.
              */
-            $_messageID = $_response->body->SendMessageResult->MessageId;
+            $messageID = $responseQ->body->SendMessageResult->MessageId;
             /*
              * Update sales order status to Delivered.
              */
-            $updateStatus = $integrationConnect->query("UPDATE salesorder_interface
-                            SET sostatus = 'Delivered' where salesorder_no = '$salesOrder->salesorder_no'");
+            $updateStatus = $integrationConnect->query(
+                "UPDATE salesorder_interface
+                SET sostatus = 'Delivered' 
+                where salesorder_no = '$salesOrder->salesorder_no'"
+            );
 
             /*
              * If unable to update status, raise the exception and
@@ -231,21 +270,23 @@ try {
             /*
              * Initialise an array to store file name and content.
              */
-            $_messageQ = array();
+            $messageQ = array();
 
-            $_messageQ['file'] = $fileName;
-            $_messageQ['content'] = $_content;
+            $messageQ['file'] = $fileName;
+            $messageQ['content'] = $contentF;
 
             /*
              * Store file name and file content to messageQ.
              */
-            $_response = $sqs->send_message($amazonqueueConfig['_url'], json_encode($_messageQ));
+            $responseQ = $sqs->send_message(
+                $amazonqueueConfig['_url'], json_encode($messageQ)
+            );
 
             /*
              * If unable to store file content at queue,
              * raise the exception
              */
-            if ($_response->status !== 200)
+            if ($responseQ->status !== 200)
                 throw new Exception("Error in sending file to messageQ.");
             
             /*
@@ -253,7 +294,12 @@ try {
              * in message array.
              */
 
-            updateLogMessage(&$_messages, $salesOrder->salesorder_no, true, $fileName, "Successfully sent to messageQ.");
+            Functions::updateLogMessage(
+                &$messages, 
+                $salesOrder->salesorder_no, 
+                true, $fileName, 
+                "Successfully sent to messageQ."
+            );
             
             /*
              * Commit the changes.
@@ -266,7 +312,12 @@ try {
              */
         } catch (Exception $e) {
             $integrationConnect->rollback();
-            updateLogMessage(&$_messages, $salesOrder->salesorder_no, false, $fileName, $e->getMessage());
+            Functions::updateLogMessage(
+                &$messages, 
+                $salesOrder->salesorder_no, false, 
+                $fileName, 
+                $e->getMessage()
+            );
         }
     }
 
@@ -278,7 +329,7 @@ try {
      * Catch the exceptions
      */
 } catch (Exception $e) {
-    $_messages['message'] = $e->getMessage();
+    $messages['message'] = $e->getMessage();
 }
 
 /*
@@ -289,32 +340,31 @@ $integrationConnect->close();
 /*
  * Update system logs and print log messages.
  */
-syslog(LOG_WARNING, json_encode($_messages));
-echo json_encode($_messages);
-?>
+syslog(LOG_WARNING, json_encode($messages));
+echo json_encode($messages);
 
-<?php
-
-/*
- * updateLogMessage fuction is used to update the message array.
- */
-function updateLogMessage($m, $so, $status, $filename, $msg)
+class Functions
 {
-    $m['sales_orders'][$so]['status'] = $status;
-    $m['sales_orders'][$so]['file'] = $filename;
-    $m['sales_orders'][$so]['message'] = $msg;
-}
-
-/**
- * auto adding zero befor number  
- */
-function leadingzero($limitnumber = 6, $number)
-{
-    $leadzero = "";
-    $leadingzero = $limitnumber - $number;
-    for ($i = 0; $i < $leadingzero; $i++) {
-        $leadzero.= 0;
+    /*
+    * updateLogMessage fuction is used to update the message array.
+    */
+    static function updateLogMessage($m, $so, $status, $filename, $msg)
+    {
+        $m['sales_orders'][$so]['status'] = $status;
+        $m['sales_orders'][$so]['file'] = $filename;
+        $m['sales_orders'][$so]['message'] = $msg;
     }
-    return $leadzero;
+
+    /**
+    * auto adding zero befor number  
+    */
+    static function leadingzero($limitnumber = 6, $number = 0)
+    {
+        $leadzero = "";
+        $leadingzero = $limitnumber - $number;
+        for ($i = 0; $i < $leadingzero; $i++) {
+            $leadzero.= 0;
+        }
+        return $leadzero;
+    }
 }
-?>
