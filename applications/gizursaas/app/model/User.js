@@ -10,31 +10,31 @@ var UserModel = Stapes.subclass({
     "client_id" : '',
     constructor : function () {},
     'validate' : function(){
-        if(this.get('first_name').length == 0){
+        if(this.get('first_name').length === 0){
             user_controller.view.error('First name can\'t be left blank.');
             return false;
         }
-        if(this.get('last_name').length == 0){
+        if(this.get('last_name').length === 0){
             user_controller.view.error('Last name can\'t be left blank.');
             return false;
         }
-        if(this.get('client_id').length == 0){
+        if(this.get('client_id').length === 0){
             user_controller.view.error('Client Id can\'t be left blank.');
             return false;
         }
-        if(this.get('email').length == 0){
+        if(this.get('email').length === 0){
             user_controller.view.error('Email can\'t be left blank.');
             return false;
         }
-        if(this.get('password').length == 0){
+        if(this.get('password').length === 0){
             user_controller.view.error('Password can\'t be left blank.');
             return false;
         }
-        if(this.get('re_password').length == 0){
+        if(this.get('re_password').length === 0){
             user_controller.view.error('Re-password can\'t be left blank.');
             return false;
         }
-        if(this.get('terms') != 'y'){
+        if(this.get('terms') !== 'y'){
             user_controller.view.error('You must agree to Gizur SaaS terms & conditions.');
             return false;
         }
@@ -43,7 +43,7 @@ var UserModel = Stapes.subclass({
             user_controller.view.error('Email is not a valid email.');
             return false;
         }
-        if(this.get('re_password') != this.get('password')){
+        if(this.get('re_password') !== this.get('password')){
             user_controller.view.error('Password and re-password do not match.');
             return false;
         }

@@ -1,8 +1,10 @@
+"use strict";
+
 //Instanciate the controllers
 var user_controller = null;
 var account_controller = null;
 
-$(function() {
+(function() {
     var DEFAULT_HASH = 'registration';
     //setup hasher
     hasher.prependHash = __prepend_hash;
@@ -47,4 +49,4 @@ $(function() {
     hasher.initialized.add(parseHash); //parse initial hash
     hasher.changed.add(parseHash); //parse hash changes
     hasher.init(); //start listening for hash changes
-});
+})();

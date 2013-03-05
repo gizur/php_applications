@@ -1,3 +1,4 @@
+"use strict";
 var __rest_server_url = 'http://localhost/php_applications/api/';
 var __client_email = '';
 var __session_id = '';

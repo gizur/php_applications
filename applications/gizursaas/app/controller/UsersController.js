@@ -75,8 +75,9 @@ var UsersController = Stapes.subclass({
                     error: function(jqXHR, textStatus, errorThrown ) {
                         var _data = JSON.parse(jqXHR.responseText);
                         //_data.error.code == "ERROR" && 
-                        if(!_data.success)
+                        if(!_data.success){
                             self.view.error(__messages[_data.error.code]);
+                        }
                     },
                     success : function(_data){
                         if(_data.success){
@@ -102,17 +103,17 @@ var UsersController = Stapes.subclass({
         var $email = $('#login_email');
         var $password = $('#login_password');
         
-        if(status == 'success'){
+        if(status === 'success'){
             self.view.success('Login successfull. Please wait...');
             setTimeout(function(){
                 hasher.setHash('user/' + $email.val() + '/test');
             }, 500);
-        }else if(status == 'fail'){
+        }else if(status === 'fail'){
             self.view.error('Username or password is invalid.');
-        }else if(status == 'empty'){
+        }else if(status === 'empty'){
             self.view.alert('Username or password can\'t be left blank.');
         }else{
-            if($email.val() != '' && $password.val() != ''){
+            if($email.val() !== '' && $password.val() !== ''){
                 var _url_login = __rest_server_url + 'User/login';
                 $.ajax({
                     url: _url_login,
@@ -126,14 +127,16 @@ var UsersController = Stapes.subclass({
                     error: function(jqXHR, textStatus, errorThrown ) {
                         var _data = JSON.parse(jqXHR.responseText);
                         //_data.error.code == "ERROR" && 
-                        if(!_data.success)
+                        if(!_data.success){
                             hasher.setHash('login/fail');
+                        }
                     },
                     success : function(_data){
-                        if(_data.success)
+                        if(_data.success){
                             hasher.setHash('login/success');
-                        else
+                        } else {
                             hasher.setHash('login/fail');
+                        }
                     }
                 });                
             }else{
