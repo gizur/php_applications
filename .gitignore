@@ -33,3 +33,14 @@
 /applications/cikab/gizur-cron-tests/node_modules/grunt/node_modules/gzip-js/node_modules/.bin/
 /applications/cikab/gizur-cron-tests/node_modules/nodeunit/node_modules/tap/node_modules/.bin/
 /applications/cikab/gizur-cron-tests/node_modules/
+/applications/cikab/tests/node_modules/.bin/
+/applications/cikab/tests/node_modules/grunt-doccoh/.idea/
+/applications/cikab/tests/node_modules/grunt-doccoh/node_modules/.bin/
+/applications/cikab/tests/node_modules/grunt-doccoh/node_modules/doccoh/.idea/
+/applications/cikab/tests/node_modules/grunt/node_modules/.bin/
+/applications/cikab/tests/node_modules/grunt/node_modules/gzip-js/node_modules/.bin/
+/applications/cikab/tests/node_modules/nodeunit/node_modules/.bin/
+/applications/cikab/tests/node_modules/nodeunit/node_modules/tap/node_modules/.bin/
+/applications/cikab/tests/node_modules/nodeunit/node_modules/tap/node_modules/runforcover/node_modules/bunker/node_modules/burrito/node_modules/.bin/
+/applications/cikab/tests/node_modules/time/build/Release/.deps/
+/applications/cikab/tests/node_modules/
