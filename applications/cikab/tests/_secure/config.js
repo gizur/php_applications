@@ -49,7 +49,7 @@
     var AWS_REGION = Config.AWS_REGION = 'eu-west-1';
     
     // Integration Database configurations
-    var DB_I_HOST = Config.DB_I_HOST = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+    var DB_I_HOST = Config.DB_I_HOST = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';
     var DB_I_NAME = Config.DB_I_NAME = 'vtiger_integration';
     var DB_I_USER = Config.DB_I_USER = 'vtiger_integrati';
     var DB_I_PASSWORD = Config.DB_I_PASSWORD = 'ALaXEryCwSFyW5jQ';

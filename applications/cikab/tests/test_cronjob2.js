@@ -67,47 +67,53 @@ connection.connect();
 int_connection.connect();
 
 exports.group = {
-    "Testing Sales Order Interface Cron Job 1" : function(test){
+    "Testing Sales Order Interface Cron Job 2" : function(test){
         test.ok(true, "This test will always pass.");
         test.done();
     },
-    "Checking Sales Orders in vTiger ('Created','Approved') before hitting cron job 1" : function(test){
-        connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
-            "vtiger_salesorder SO " + 
-            "WHERE SO.sostatus IN ('Created','Approved') " +
-            "LIMIT 0, 10", function(err, rows, fields) {
-                if (err) throw err;
-                
-                test.equal(rows.length, 1, rows.length + " sales orders found in vTiger.");
-                test.done();
-            });
-    },
-    "Hitting Cron Job 1" : function(test){
-        testPhpBatch(test, config.PHP_BATCHES_1);
-    },
-    "Checking Sales Orders in vTiger ('Created','Approved') after hitting cron job 1" : function(test){
-        connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
-            "vtiger_salesorder SO " + 
-            "WHERE SO.sostatus IN ('Created','Approved') " +
-            "LIMIT 0, 10", function(err, rows, fields) {
-                if (err) throw err;
-                
-                test.equal(rows.length, 0, rows.length + " sales orders found in vTiger.");
-                test.done();
-            });
-    },
-    "Checking Sales Order In Integration Database" : function(test){
+    "Checking Sales Order In Integration Database before hitting Cron job 2" : function(test){
         int_connection.query("SELECT salesorder_no, " +
-         "accountname " +
-         "FROM salesorder_interface " +
-         "WHERE sostatus IN ('created', 'approved') " +
-         "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
+            "accountname " +
+            "FROM salesorder_interface " +
+            "WHERE sostatus IN ('created', 'approved') " +
+            "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
                 if (err) throw err;
                 
                 test.equal(rows.length, 1, rows.length + " sales orders found in integration db.");
                 test.done();
-                connection.destroy();
-                int_connection.destroy();
             });
+    },
+    "Hitting Cron Job 2" : function(test){
+        testPhpBatch(test, config.PHP_BATCHES_2);
+    },
+    "Checking Sales Order In Integration Database After hitting Cron job 2" : function(test){
+        int_connection.query("SELECT salesorder_no, " +
+            "accountname " +
+            "FROM salesorder_interface " +
+            "WHERE sostatus IN ('created', 'approved') " +
+            "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
+                if (err) throw err;
+                
+                test.equal(rows.length, 1, rows.length + " sales orders found in integration db.");
+                test.done();
+            });
+    },
+    "Checking SQS for messages" : function(test){
+        var sqs = new AWS.SQS();
+        var params = {
+            QueueUrl: config.Q_URL,
+            MaxNumberOfMessages: 1
+        };
+        sqs.client.receiveMessage(params, function(err, data) {
+            if (!err) {
+                test.notEqual(data.Messages, undefined, "Queue is empty.");
+                test.done();
+            }else{
+                test.ok(false, "Failed due to error : " + err);
+                test.done();
+            }
+            connection.destroy();
+            int_connection.destroy();
+        });
     }
 };
