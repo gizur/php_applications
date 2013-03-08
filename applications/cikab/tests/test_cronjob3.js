@@ -102,35 +102,9 @@ function testPhpBatch(test, batch){
 connection.connect();
 int_connection.connect();
 
-// Configure Expected Test Result
-// ==============================
-
-var messagesInQueueBefore = 1, 
-    messagesInQueueAfter = 6,
-    salesOrderIntegrationBefore = 5,
-    salesOrderIntegrationAfter = 0;
 // Group all Tests
 // ===============
 exports.group = {
-    // **Check sales orders in vtiger before hitting cron job 2**
-    //
-    // This test will pass for sales order count >=1 in integration table.  
-    "Checking Sales Order In Integration Database before hitting Cron job 2" : function(test){
-        int_connection.query("SELECT salesorder_no, " +
-            "accountname " +
-            "FROM salesorder_interface " +
-            "WHERE sostatus IN ('created', 'approved') " +
-            "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
-                if (err) throw err;
-                
-                var result = false;
-                if(rows.length == salesOrderIntegrationBefore)
-                    result = true;
-                
-                test.ok(result, salesOrderIntegrationBefore + " sales orders expected, " + rows.length + " found.");
-                test.done();
-            });
-    },
     "Checking SQS for messages before hitting Cron job 2" : function(test){
         var sqs = new AWS.SQS();
         var params = {
@@ -139,53 +113,7 @@ exports.group = {
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
             if (!err) {
-                var result = false;
-                var cnt = data.Attributes.ApproximateNumberOfMessages;
-                if(cnt == messagesInQueueBefore)
-                    result = true;
-                
-                test.ok(result, messagesInQueueBefore + " messages expected, " + cnt + " found.");
-                test.done();
-            }else{
-                test.ok(false, "Failed due to error : " + err);
-                test.done();
-            }            
-        });
-    },
-    "Hitting Cron Job 2" : function(test){
-        testPhpBatch(test, config.PHP_BATCHES_2);
-    },
-    "Checking Sales Order In Integration Database After hitting Cron job 2" : function(test){
-        int_connection.query("SELECT salesorder_no, " +
-            "accountname " +
-            "FROM salesorder_interface " +
-            "WHERE sostatus IN ('created', 'approved') " +
-            "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
-                if (err) throw err;
-                
-                var result = false;
-                if(rows.length == salesOrderIntegrationAfter)
-                    result = true;
-                
-                test.ok(result, salesOrderIntegrationAfter + " sales orders expected, " + rows.length + " found.");
-                test.done();
-            });
-    },
-    "Checking SQS for messages" : function(test){
-        var sqs = new AWS.SQS();
-        var params = {
-            QueueUrl: config.Q_URL,
-            AttributeNames: new Array('All')
-        };
-        sqs.client.getQueueAttributes(params, function(err, data) {
-            if (!err) {
-                
-                var result = false;
-                var cnt = data.Attributes.ApproximateNumberOfMessages;
-                if(cnt == messagesInQueueAfter)
-                    result = true;
-                
-                test.ok(result, messagesInQueueAfter + " messages expected, " + cnt + " found.");
+                test.equal(data, undefined, "Queue is not empty.");
                 test.done();
             }else{
                 test.ok(false, "Failed due to error : " + err);

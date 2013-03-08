@@ -57,15 +57,18 @@ var int_connection = mysql.createConnection({
     database: config.DB_I_NAME
 });
 
-// Group Tests
+// #### Connect with the databases.
+connection.connect();
+int_connection.connect();   
+
+// Group all Tests
+// ===============
 exports.group = {
-    // This is a 
-    "Initially Testing Sales Order Interface" : function(test){
-        test.ok(true, "This test will always pass.");
-        test.done();
-    },
+    // #### Check sales order count in vTiger
+    // 
+    // Test will pass in case of 0 number of sales order
+    // with status Created / Approved exists.
     "Checking Sales Orders in vTiger ('Created','Approved')" : function(test){
-        connection.connect();
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
             "WHERE SO.sostatus IN ('Created','Approved') " +
@@ -76,6 +79,12 @@ exports.group = {
                 test.done();
             });
     },
+    // #### Check Queue for messages
+    // 
+    // Test will pass if no message found in
+    // Amazon Queue.
+    // There is no method found in aws-sdk to get the
+    // approx number of messages in QUEUE.
     "Checking Queue" : function(test){
         var sqs = new AWS.SQS();
         var params = {
@@ -84,9 +93,10 @@ exports.group = {
         };
         sqs.client.receiveMessage(params, function(err, data) {
             if (!err) {
-                test.equal(data.Messages, undefined, "Queue is not empty.");
                 if(data.Messages)
-                    test.equal(data.Messages, undefined, data.Messages.length + " messages are in queue.");
+                    test.ok(false, data.Messages.length + " message(s) are in queue.");
+                else
+                    test.ok(true, " Queue is empty.");
                 test.done();
             }else{
                 test.ok(false, "Failed due to error : " + err);
@@ -94,8 +104,21 @@ exports.group = {
             }
         });
     },
+    // #### Check files in FTP server
+    // 
     "Checking FTP" : function(test){
         test.ok(true, "This test will pass.");
+        test.done();
+    },
+    // #### Closing connections
+    // 
+    // Reason behind putting connection close in
+    // a test is not to close connections
+    // before test execution.
+    "Closing Connections" : function(test){
+        connection.destroy();
+        int_connection.destroy();
+        test.ok(true, "Connections closed.");
         test.done();
     }
 };
