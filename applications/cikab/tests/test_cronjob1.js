@@ -27,6 +27,7 @@ var AWS = require('aws-sdk');
 var mysql = require("mysql");
 var http    = require('http');
 var fs = require('fs');
+var exec = require('child_process').exec;
 
 // Configs
 // =======
@@ -67,35 +68,7 @@ var int_connection = mysql.createConnection({
 
 function testPhpBatch(test, batch){
     
-    // Set the options
-    var options = {
-        hostname: config.HOSTNAME,
-        port: config.SERVER_PORT,
-        path: batch,
-        method: 'GET'
-    };
-
-    // Request the host
-    var req = http.request(options, function(res) {
-        var body = '';
-        // On success
-        res.on('data', function (chunk) {
-            body += chunk;            
-        });
-        res.on('end', function (){
-            test.ok(true, "Success : " + body.message);
-            test.done();
-        });
-    });
     
-    // In case of error
-    req.on('error', function(e) {
-        test.ok(false, "Error : " + e.message);
-        test.done();
-    });
-    
-    //End the request
-    req.end();
 }
 
 // #### Connect with the databases.
@@ -105,9 +78,9 @@ int_connection.connect();
 // Expected test results
 // =====================
 var salesOrdervTigerBefore = 5,
-    salesOrderIntegrationBefore = 0,
-    salesOrdervTigerAfter = 0,
-    salesOrderIntegrationAfter = 5;
+salesOrderIntegrationBefore = 0,
+salesOrdervTigerAfter = 0,
+salesOrderIntegrationAfter = 5;
     
 // Group all Tests
 // ===============
@@ -115,8 +88,6 @@ var salesOrdervTigerBefore = 5,
 // Edit test cases for the expected value.
 exports.group = {
     // **Check sales orders in vtiger before hitting cron job 1**
-    //
-    // This test will pass for sales order count >= 1.
     "Checking Sales Orders in vTiger ('Created','Approved') before hitting cron job 1" : function(test){
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
@@ -132,9 +103,7 @@ exports.group = {
                 test.done();
             });
     },
-    // **Check sales orders in vtiger before hitting cron job 1**
-    //
-    // This test will pass for sales order count >=1 in integration table.  
+    // **Check sales orders in integration db before hitting cron job 1**
     "Checking Sales Order In Integration Database before hitting Cron job 1" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
@@ -152,14 +121,21 @@ exports.group = {
             });
     },
     // **Hitting cron job 1**
-    //
-    // It fails in case of any error.    
     "Hitting Cron Job 1" : function(test){
-        testPhpBatch(test, config.PHP_BATCHES_1);
+        exec("chmod +x " + config.PHP_BATCHES_1, function (error, stdout, stderr) {
+            if (error !== null)
+                test.ok(true, "Error in chmod +x " + batch);
+            else
+                exec(config.PHP_BATCHES_1, function (error, stdout, stderr) {
+                    if (error !== null)
+                        test.ok(false, "Error executing " + batch);
+                    else
+                        test.ok(true, "Error executing " + batch);
+                    test.done();
+                });
+        });
     },
-    // **Check sales orders in vtiger after hitting cron job 1**
-    //
-    // This test will pass for sales order count 0.    
+    // **Check sales orders in vtiger after hitting cron job 2**
     "Checking Sales Orders in vTiger ('Created','Approved') after hitting cron job 1" : function(test){
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
@@ -175,15 +151,13 @@ exports.group = {
                 test.done();
             });
     },
-    // **Check sales orders in vtiger after hitting cron job 1**
-    //
-    // This test will pass for sales order count >=1 in integration table.    
+    // **Check sales orders in integration db after hitting cron job 1**
     "Checking Sales Order In Integration Database" : function(test){
         int_connection.query("SELECT salesorder_no, " +
-         "accountname " +
-         "FROM salesorder_interface " +
-         "WHERE sostatus IN ('created', 'approved') " +
-         "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
+            "accountname " +
+            "FROM salesorder_interface " +
+            "WHERE sostatus IN ('created', 'approved') " +
+            "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
                 if (err) throw err;
                 
                 var result = false;

@@ -27,6 +27,7 @@ var AWS = require('aws-sdk');
 var mysql = require("mysql");
 var http    = require('http');
 var fs = require('fs');
+var exec = require('child_process').exec;
 
 // Configs
 // =======
@@ -102,10 +103,18 @@ function testPhpBatch(test, batch){
 connection.connect();
 int_connection.connect();
 
+// Configure Expected Test Result
+// ==============================
+
+var messagesInQueueBefore = 1, 
+    messagesInQueueAfter = 6,
+    fileInFTPBefore = 0,
+    fileInFTPAfter = 5;
 // Group all Tests
 // ===============
 exports.group = {
-    "Checking SQS for messages before hitting Cron job 2" : function(test){
+    // **Check Queue before hitting cron job 3**
+    "Checking SQS for messages before hitting Cron job 3" : function(test){
         var sqs = new AWS.SQS();
         var params = {
             QueueUrl: config.Q_URL,
@@ -113,7 +122,39 @@ exports.group = {
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
             if (!err) {
-                test.equal(data, undefined, "Queue is not empty.");
+                var result = false;
+                var cnt = data.Attributes.ApproximateNumberOfMessages;
+                if(cnt == messagesInQueueBefore)
+                    result = true;
+                
+                test.ok(result, messagesInQueueBefore + " messages expected, " + cnt + " found.");
+                test.done();
+            }else{
+                test.ok(false, "Failed due to error : " + err);
+                test.done();
+            }            
+        });
+    },
+    // **Hitting Cron Job 3**
+    "Hitting Cron Job 3" : function(test){
+        testPhpBatch(test, config.PHP_BATCHES_3);
+    },
+    // **Checking SQS messages after hitting cron job 3**
+    "Checking SQS for messages after hitting Cron job 3" : function(test){
+        var sqs = new AWS.SQS();
+        var params = {
+            QueueUrl: config.Q_URL,
+            AttributeNames: new Array('All')
+        };
+        sqs.client.getQueueAttributes(params, function(err, data) {
+            if (!err) {
+                
+                var result = false;
+                var cnt = data.Attributes.ApproximateNumberOfMessages;
+                if(cnt == messagesInQueueAfter)
+                    result = true;
+                
+                test.ok(result, messagesInQueueAfter + " messages expected, " + cnt + " found.");
                 test.done();
             }else{
                 test.ok(false, "Failed due to error : " + err);

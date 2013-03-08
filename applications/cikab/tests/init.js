@@ -75,8 +75,24 @@ exports.group = {
             "LIMIT 0, 10", function(err, rows, fields) {
                 if (err) throw err;
                 
-                test.equal(rows.length, 0, rows.length + " sales orders found in vTiger.");
+                test.ok(true, "OK");
                 test.done();
+                
+                console.log("Sales Order in vTiger : " + rows.length);
+            });
+    },
+    "Checking Sales Order In Integration Database ('created', 'approved')" : function(test){
+        int_connection.query("SELECT salesorder_no, " +
+            "accountname " +
+            "FROM salesorder_interface " +
+            "WHERE sostatus IN ('created', 'approved') " +
+            "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
+                if (err) throw err;
+                
+                test.ok(true, "OK");
+                test.done();
+                
+                console.log("Sales Order in integrationDB : " + rows.length);                
             });
     },
     // #### Check Queue for messages
@@ -89,19 +105,20 @@ exports.group = {
         var sqs = new AWS.SQS();
         var params = {
             QueueUrl: config.Q_URL,
-            MaxNumberOfMessages: 10
+            AttributeNames: new Array('All')
         };
-        sqs.client.receiveMessage(params, function(err, data) {
-            if (!err) {
-                if(data.Messages)
-                    test.ok(false, data.Messages.length + " message(s) are in queue.");
-                else
-                    test.ok(true, " Queue is empty.");
+        sqs.client.getQueueAttributes(params, function(err, data) {
+            if (!err) {                
+                var cnt = data.Attributes.ApproximateNumberOfMessages;
+                
+                test.ok(true + "OK");
                 test.done();
+                
+                console.log('Messages in Queue : ' + cnt);
             }else{
                 test.ok(false, "Failed due to error : " + err);
                 test.done();
-            }
+            }            
         });
     },
     // #### Check files in FTP server

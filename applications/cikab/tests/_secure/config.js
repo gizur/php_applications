@@ -34,9 +34,9 @@
     var SERVER_PORT = Config.SERVER_PORT = 80;
     
     // PHP CRON JOB PATHS
-    var PHP_BATCHES_1 = Config.PHP_BATCHES_1 = '/applications/cikab/php_batches/php-interfaces/sales_orders/testbatches.php?action=phpcronjob1';
-    var PHP_BATCHES_2 = Config.PHP_BATCHES_2 = '/applications/cikab/php_batches/php-interfaces/sales_orders/testbatches.php?action=phpcronjob2';
-    var PHP_BATCHES_3 = Config.PHP_BATCHES_3 = '/applications/cikab/php_batches/php-interfaces/sales_orders/testbatches.php?action=phpcronjob3';
+    var PHP_BATCHES_1 = Config.PHP_BATCHES_1 = '../../../applications/cikab/php_batches/php-interfaces/sales_orders/phpcronjob1.sh';
+    var PHP_BATCHES_2 = Config.PHP_BATCHES_2 = '../../../applications/cikab/php_batches/php-interfaces/sales_orders/phpcronjob2.sh';
+    var PHP_BATCHES_3 = Config.PHP_BATCHES_3 = '../../../applications/cikab/php_batches/php-interfaces/sales_orders/phpcronjob3.sh';
 
     //vTiger Database configurations
     var DB_HOST = Config.DB_HOST = 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com';

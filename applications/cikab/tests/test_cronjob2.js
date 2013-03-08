@@ -27,6 +27,7 @@ var AWS = require('aws-sdk');
 var mysql = require("mysql");
 var http    = require('http');
 var fs = require('fs');
+var exec = require('child_process').exec;
 
 // Configs
 // =======
@@ -113,8 +114,6 @@ var messagesInQueueBefore = 1,
 // ===============
 exports.group = {
     // **Check sales orders in vtiger before hitting cron job 2**
-    //
-    // This test will pass for sales order count >=1 in integration table.  
     "Checking Sales Order In Integration Database before hitting Cron job 2" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
@@ -131,6 +130,7 @@ exports.group = {
                 test.done();
             });
     },
+    // **Check Queue before hitting cron job 2**
     "Checking SQS for messages before hitting Cron job 2" : function(test){
         var sqs = new AWS.SQS();
         var params = {
@@ -152,6 +152,7 @@ exports.group = {
             }            
         });
     },
+    // **Hitting Cron Job 2**
     "Hitting Cron Job 2" : function(test){
         testPhpBatch(test, config.PHP_BATCHES_2);
     },
@@ -171,6 +172,7 @@ exports.group = {
                 test.done();
             });
     },
+    // **Checking SQS messages after hitting cron job 2**
     "Checking SQS for messages" : function(test){
         var sqs = new AWS.SQS();
         var params = {

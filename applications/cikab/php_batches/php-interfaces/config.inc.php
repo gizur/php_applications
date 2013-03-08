@@ -18,13 +18,13 @@
  * PHP version 5
  *
  */
-/* * *********** INTEGRATION DATABASE ******************* */
+/* **************** INTEGRATION DATABASE ******************** */
 
 /**
  * DNS of database server to use 
  * @global string $dbconfigIntegration['db_server']
  */
-$dbconfigIntegration['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.' . 
+$dbconfigIntegration['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.' .
     'rds.amazonaws.com';
 
 /**
@@ -58,14 +58,14 @@ $dbconfigIntegration['db_name'] = 'vtiger_integration';
 $dbconfigIntegration['db_type'] = 'mysql';
 
 
-/* * ***************** VTIGER DATABASE *************************** */
+/* * **************** VTIGER DATABASE *************** */
 
 
 /**
  * DNS of database server to use 
  * @global string $dbconfigVtiger['db_server']
  */
-$dbconfigVtiger['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.' .
+$dbconfigVtiger['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.' . 
     'rds.amazonaws.com';
 
 /**
@@ -78,19 +78,19 @@ $dbconfigVtiger['db_port'] = 3306;
  * The usename to use when logging into the database
  * @global string $dbconfigVtiger['db_username']  
  */
-$dbconfigVtiger['db_username'] = 'user_2059ff6a';
+$dbconfigVtiger['db_username'] = 'user_6bd70dc3';
 
 /**
  * The password to use when logging into the database
  * @global string $dbconfigVtiger['db_password']
  */
-$dbconfigVtiger['db_password'] = 'c059ff6a3f05';
+$dbconfigVtiger['db_password'] = 'fbd70dc30c05';
 
 /**
  * The name of the database
  * @global string $dbconfigVtiger['db_name']
  */
-$dbconfigVtiger['db_name'] = 'vtiger_5159ff6a';
+$dbconfigVtiger['db_name'] = 'vtiger_7cd70dc3';
 
 /**
  * The type of database (currently is only mysql supported)
@@ -100,7 +100,7 @@ $dbconfigVtiger['db_type'] = 'mysql';
 
 
 
-/* * ********* BATCH CONFIGURATION ********** */
+/* * ************* BATCH CONFIGURATION ************* */
 
 /**
  *  Set Batch Valiable
@@ -109,24 +109,24 @@ $dbconfigVtiger['db_type'] = 'mysql';
  */
 $dbconfigBatchVariable['batch_valiable'] = 10;
 
-/* * *********** FTP CONFIGURATION ************ */
+/* * *************** FTP CONFIGURATION ************* */
 
 
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['Host'] = "ftp-hp.coop.se";
+$dbconfigFtp['Host'] = "10.58.226.192";
 
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "ftpSETGizur";
+$dbconfigFtp['User'] = "gizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "Sk4nsk4113";
+$dbconfigFtp['Password'] = "gizur";
 
 /**
  *  @FTP Local files path
@@ -136,7 +136,7 @@ $dbconfigFtp['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "";
+$dbconfigFtp['serverpath'] = "files/";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */
@@ -144,4 +144,4 @@ $dbconfigFtp['serverpath'] = "";
  * Queue URL
  */
 $amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' . 
-    '791200854364/cikab_queue';
+    '065717488322/cikab_queue';
