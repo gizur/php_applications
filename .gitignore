@@ -6,3 +6,10 @@
 *.swp
 *.swo
 .DS_Store
+/node_modules/
+/composer
+/composer.lock
+/vendor/
+/applications/gizursaas/npm-debug.log
+/applications/gizursaas/node_modules/
+/applications/cikab/tests/node_modules/

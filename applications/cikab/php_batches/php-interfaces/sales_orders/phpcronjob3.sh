@@ -147,7 +147,7 @@ if (!$executequery) {
                             }
                         }
                     }
-                    if ($account_flag) {
+                    /*if ($account_flag) {
                         $rmqmessagerecid = $GETRows['accountname'];
                         $_response = $sqs->receive_message($amazonqueue_config['_url']);
                         if ($_response->status == 200) {
@@ -161,7 +161,7 @@ if (!$executequery) {
                         } else {
                             $syslogmessage[] = $rmqmessagerecid . "Message Not Recieved from the MessageQ Server.";
                         }
-                    }
+                    }*/
                 }
             }
         }
