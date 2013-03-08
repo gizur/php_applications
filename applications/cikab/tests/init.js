@@ -1,14 +1,47 @@
-var AWS = require('aws-sdk');
-AWS.config.loadFromPath('./_secure/credentials.json');
-var mysql = require("mysql");
 
+//------------------------------
+//
+// 2013-03-08, Prabhat Khera
+//
+// Copyright Gizur AB 2012
+//
+// Functions:
+//  * Test jobs cron-style
+//
+// Install with dependencies: npm install 
+//
+// Documentation is 'docco style' - http://jashkenas.github.com/docco/
+//
+// Using Google JavaScript Style Guide - 
+// http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+//
+//------------------------------
+
+
+"use strict";
+
+
+// Includes
+// =========
+
+var AWS = require('aws-sdk');
+var mysql = require("mysql");
 var http    = require('http');
 
+// Configs
+// =======
+// Load / read the AWS credentials
+AWS.config.loadFromPath('./_secure/credentials.json');
+
+// Load the configurations
 var config  = require('./_secure/config.js').Config;
 
+// If server requires secure connection
+// use https
 if(config.IS_HTTPS)
     http = require('https');
 
+// Connection to vtiger MySQL db
 var connection = mysql.createConnection({
     host: config.DB_HOST,
     user: config.DB_USER,
@@ -16,7 +49,17 @@ var connection = mysql.createConnection({
     database: config.DB_NAME
 });
 
+// Connection to integration MySQL db
+var int_connection = mysql.createConnection({
+    host: config.DB_I_HOST,
+    user: config.DB_I_USER,
+    password: config.DB_I_PASSWORD,
+    database: config.DB_I_NAME
+});
+
+// Group Tests
 exports.group = {
+    // This is a 
     "Initially Testing Sales Order Interface" : function(test){
         test.ok(true, "This test will always pass.");
         test.done();
