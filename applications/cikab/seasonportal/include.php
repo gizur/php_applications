@@ -15,7 +15,7 @@ require_once('nusoap/lib/nusoap.php');
 global $Server_Path;
 global $client;
 
-$client = new soapclient2($Server_Path."/vtigerservice.php?service=customerportal", false, $proxy_host, $proxy_port, $proxy_username, $proxy_password);
+$client = new soapclient2($Server_Path."/vtigerservice.php?service=customerportal", false, $proxy_host, $proxy_port, $proxy_username, $proxy_password, 0, 300);
 
 //We have to overwrite the character set which was set in nusoap/lib/nusoap.php file (line 87)
 $client->soap_defencoding = $default_charset;
