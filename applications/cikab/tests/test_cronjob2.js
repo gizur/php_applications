@@ -111,9 +111,13 @@ exports.group = {
             }else{
                 test.ok(false, "Failed due to error : " + err);
                 test.done();
-            }
-            connection.destroy();
-            int_connection.destroy();
+            }            
         });
+    },
+    "Closing Connections" : function(test){
+        connection.destroy();
+        int_connection.destroy();
+        test.ok(true, "Connections closed.");
+        test.done();
     }
 };

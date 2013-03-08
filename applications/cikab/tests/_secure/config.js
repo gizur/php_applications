@@ -28,11 +28,12 @@
     // These should be moved to environment variables
     //-----------------------------------------------
 
+    // Host Configuration used to call php cron job
     var HOSTNAME = Config.HOSTNAME = 'phpapplications-env-sixmtjkbzs.elasticbeanstalk.com';
     var IS_HTTPS = Config.IS_HTTPS = false;
     var SERVER_PORT = Config.SERVER_PORT = 80;
     
-    // CRON PATHS
+    // PHP CRON JOB PATHS
     var PHP_BATCHES_1 = Config.PHP_BATCHES_1 = '/applications/cikab/php_batches/php-interfaces/sales_orders/testbatches.php?action=phpcronjob1';
     var PHP_BATCHES_2 = Config.PHP_BATCHES_2 = '/applications/cikab/php_batches/php-interfaces/sales_orders/testbatches.php?action=phpcronjob2';
     var PHP_BATCHES_3 = Config.PHP_BATCHES_3 = '/applications/cikab/php_batches/php-interfaces/sales_orders/testbatches.php?action=phpcronjob3';

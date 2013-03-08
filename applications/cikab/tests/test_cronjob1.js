@@ -106,8 +106,12 @@ exports.group = {
                 
                 test.equal(rows.length, 1, rows.length + " sales orders found in integration db.");
                 test.done();
-                connection.destroy();
-                int_connection.destroy();
             });
+    },
+    "Closing Connections" : function(test){
+        connection.destroy();
+        int_connection.destroy();
+        test.ok(true, "Connections closed.");
+        test.done();
     }
 };
