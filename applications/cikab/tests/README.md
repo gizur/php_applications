@@ -14,11 +14,20 @@ tests
     -- grunt.js
     -- init.js                  : Initial test file
     -- package.json
+    -- make.js                  : To configure the test environment
     -- test_cronjob1.js         : Test file for phpcronjob1
     -- test_cronjob2.js         : Test file for phpcronjob2
     -- test_cronjob3.js         : Test file for phpcronjob3
 
 ```
+
+Usages
+
+### To set the environment (It will copy all the config files)
+>>>node make.js gc1-ireland / gc2-ireland / gc3-ireland
+### To run the tests
+>>>nodeunit test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
+
 ## License
 Copyright (c) 2012 Jonas Colmsjö  
 Licensed under the MIT license.
