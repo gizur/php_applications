@@ -117,6 +117,12 @@ $dbconfigBatchVariable['batch_valiable'] = 10;
  */
 $dbconfigFtp['Host'] = "ftp-hp.coop.se";
 
+
+/**
+ *  @FTP Host Port 
+ */
+$dbconfigFtp['port'] = 21;
+
 /**
  *  @FTP User Name 
  */

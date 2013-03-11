@@ -22,7 +22,7 @@ openlog("FTPConnectionCron", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 /**
  * Check FTP Connection
  */
-$ftpConnId = ftp_connect($dbconfigFtp['Host']);
+$ftpConnId = ftp_connect($dbconfigFtp['Host'], $dbconfigFtp['port']);
 /**
  * Check FTP Connection if any issue in ftp then manage error in syslog
  */

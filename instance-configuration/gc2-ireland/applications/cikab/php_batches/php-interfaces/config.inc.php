@@ -118,6 +118,11 @@ $dbconfigBatchVariable['batch_valiable'] = 10;
 $dbconfigFtp['Host'] = "10.58.226.192";
 
 /**
+ *  @FTP Host Port 
+ */
+$dbconfigFtp['port'] = 21;
+
+/**
  *  @FTP User Name 
  */
 $dbconfigFtp['User'] = "gizur";

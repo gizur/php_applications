@@ -115,18 +115,24 @@ $dbconfigBatchVariable['batch_valiable'] = 10;
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['Host'] = "10.58.226.192";
+$dbconfigFtp['Host'] = "127.0.0.1";
+
+
+/**
+ *  @FTP Host Name 
+ */
+$dbconfigFtp['port'] = "2121";
 
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "gizur";
+$dbconfigFtp['User'] = "anonymous";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "gizur";
+$dbconfigFtp['Password'] = "anonymous";
 
 /**
  *  @FTP Local files path
@@ -136,7 +142,7 @@ $dbconfigFtp['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "files/";
+$dbconfigFtp['serverpath'] = "/";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */

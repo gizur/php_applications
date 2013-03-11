@@ -101,7 +101,7 @@ try {
             /*
              * Prepare file in temp dir locally.
              */
-            $fp = fopen('php://temp', 'r+');
+            $fp = fopen('php://temp', 'w+');
             fwrite($fp, $fileJson->content);
             rewind($fp);
             /*
@@ -141,7 +141,7 @@ try {
     /*
      * Update the success message
      */
-    $messages['message'] = "Total $noOfFiles files copied.";
+    $messages['message'] = "Total $noOfFiles files processed.";
 } catch (Exception $e) {
     $messages['message'] = $e->getMessage();
 }
