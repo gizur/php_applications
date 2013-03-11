@@ -87,8 +87,7 @@ try {
                     "$fileJson->file content is empty in messageQ."
                 );
             
-            $serverFilePath = $dbconfigFtp['serverpath'];
-            $ftpPath = $serverFilePath . $fileJson->file;
+            $ftpPath = $dbconfigFtp['serverpath'] . $fileJson->file;
             
             /*
              * If file exists at FTP, raise the Exception.
@@ -101,15 +100,16 @@ try {
             /*
              * Prepare file in temp dir locally.
              */
-            $fp = fopen('php://temp', 'w+');
+            $fp = fopen('php://temp', 'r+');
             fwrite($fp, $fileJson->content);
             rewind($fp);
             /*
              * Upload file to FTP.
              */
             $uploaded = ftp_fput(
-                $ftpConnId, $ftpPath, $fp, FTP_ASCII
+                $ftpConnId, $ftpPath, $fp, FTP_BINARY
             );
+            
             fclose($fp);
             /*
              * If file upload process fails, throw the exception.

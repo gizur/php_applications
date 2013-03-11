@@ -50,5 +50,8 @@
     var DB_I_USER = Config.DB_I_USER = 'vtiger_integrati';
     var DB_I_PASSWORD = Config.DB_I_PASSWORD = 'ALaXEryCwSFyW5jQ';
     var DB_I_PORT = Config.DB_I_PORT = '3306';
+    
+    // Local FTP folder
+    var LOCAL_FTP_FOLDER = Config.LOCAL_FTP_FOLDER = '/home/prabhat/files';
 
 })();

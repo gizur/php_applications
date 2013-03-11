@@ -64,10 +64,10 @@ int_connection.connect();
 
 // Expected test results
 // =====================
-var salesOrdervTigerBefore = 5,
+var salesOrdervTigerBefore = 1,
 salesOrderIntegrationBefore = 0,
 salesOrdervTigerAfter = 0,
-salesOrderIntegrationAfter = 5;
+salesOrderIntegrationAfter = 1;
     
 // Group all Tests
 // ===============

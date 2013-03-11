@@ -24,8 +24,6 @@
 // Includes
 // =========
 var AWS = require('aws-sdk');
-var mysql = require("mysql");
-var http    = require('http');
 var fs = require('fs');
 var exec = require('child_process').exec;
 
@@ -37,38 +35,13 @@ AWS.config.loadFromPath('./_secure/credentials.json');
 // Load the configurations
 var config  = require('./_secure/config.js').Config;
 
-// If server requires secure connection
-// use https
-if(config.IS_HTTPS)
-    http = require('https');
-
-// Connection to vtiger MySQL db
-var connection = mysql.createConnection({
-    host: config.DB_HOST,
-    user: config.DB_USER,
-    password: config.DB_PASSWORD,
-    database: config.DB_NAME
-});
-
-// Connection to integration MySQL db
-var int_connection = mysql.createConnection({
-    host: config.DB_I_HOST,
-    user: config.DB_I_USER,
-    password: config.DB_I_PASSWORD,
-    database: config.DB_I_NAME
-});
-
-// #### Connect with the databases.
-connection.connect();
-int_connection.connect();
-
 // Configure Expected Test Result
 // ==============================
 
-var messagesInQueueBefore = 1, 
-    messagesInQueueAfter = 6,
-    fileInFTPBefore = 0,
-    fileInFTPAfter = 5;
+var messagesInQueueBefore = 0, 
+messagesInQueueAfter = 0,
+fileInFTPBefore = 3,
+fileInFTPAfter = 3;
 // Group all Tests
 // ===============
 exports.group = {
@@ -92,6 +65,18 @@ exports.group = {
                 test.ok(false, "Failed due to error : " + err);
                 test.done();
             }            
+        });
+    },
+    // **Checking files before hitting cron job 3**
+    "Checking Files at FTP before hitting Cron job 3" : function(test){
+        fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
+            if (err) throw err;
+            var result = false;
+            var cnt = stats.length;
+            if(cnt == fileInFTPBefore)
+                result = true;
+            test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
+            test.done();
         });
     },
     // **Hitting Cron Job 3**
@@ -135,15 +120,16 @@ exports.group = {
             }            
         });
     },
-    // #### Closing connections
-    // 
-    // Reason behind putting closing connections in
-    // a test is, not to close connections
-    // before test execution.
-    "Closing Connections" : function(test){
-        connection.destroy();
-        int_connection.destroy();
-        test.ok(true, "Connections closed.");
-        test.done();
+    // **Checking SQS messages after hitting cron job 3**
+    "Checking Files at FTP after hitting Cron job 3" : function(test){
+        fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
+            if (err) throw err;
+            var result = false;
+            var cnt = stats.length;
+            if(cnt == fileInFTPAfter)
+                result = true;
+            test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
+            test.done();
+        });
     }
 };

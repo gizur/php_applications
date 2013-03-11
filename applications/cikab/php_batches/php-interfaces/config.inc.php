@@ -121,18 +121,18 @@ $dbconfigFtp['Host'] = "127.0.0.1";
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['port'] = "2121";
+$dbconfigFtp['port'] = "21";
 
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "anonymous";
+$dbconfigFtp['User'] = "prabhat";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "anonymous";
+$dbconfigFtp['Password'] = "essindia";
 
 /**
  *  @FTP Local files path
@@ -142,7 +142,7 @@ $dbconfigFtp['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "/";
+$dbconfigFtp['serverpath'] = "files/";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */

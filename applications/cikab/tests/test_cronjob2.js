@@ -65,9 +65,9 @@ int_connection.connect();
 // Configure Expected Test Result
 // ==============================
 
-var messagesInQueueBefore = 1, 
-    messagesInQueueAfter = 6,
-    salesOrderIntegrationBefore = 5,
+var messagesInQueueBefore = 0, 
+    messagesInQueueAfter = 1,
+    salesOrderIntegrationBefore = 1,
     salesOrderIntegrationAfter = 0;
 // Group all Tests
 // ===============
