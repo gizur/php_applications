@@ -58,47 +58,6 @@ var int_connection = mysql.createConnection({
     database: config.DB_I_NAME
 });
 
-// ### Function testPhpBatch
-// ========================
-// 
-// Used to test php batch files
-// Accept 2 parameters
-// test   : test case
-// batch  : path to file
-
-function testPhpBatch(test, batch){
-    
-    // Set the options
-    var options = {
-        hostname: config.HOSTNAME,
-        port: config.SERVER_PORT,
-        path: batch,
-        method: 'GET'
-    };
-
-    // Request the host
-    var req = http.request(options, function(res) {
-        var body = '';
-        // On success
-        res.on('data', function (chunk) {
-            body += chunk;            
-        });
-        res.on('end', function (){
-            test.ok(true, "Success : " + body.message);
-            test.done();
-        });
-    });
-    
-    // In case of error
-    req.on('error', function(e) {
-        test.ok(false, "Error : " + e.message);
-        test.done();
-    });
-    
-    //End the request
-    req.end();
-}
-
 // #### Connect with the databases.
 connection.connect();
 int_connection.connect();
@@ -137,7 +96,21 @@ exports.group = {
     },
     // **Hitting Cron Job 3**
     "Hitting Cron Job 3" : function(test){
-        testPhpBatch(test, config.PHP_BATCHES_3);
+        exec("chmod +x " + config.PHP_BATCHES_3, function (error, stdout, stderr) {
+            if (error !== null)
+                console.log("Error in chmod +x " + config.PHP_BATCHES_3);
+            else{
+                exec(config.PHP_BATCHES_3, function (error, stdout, stderr) {
+                    if (error !== null){
+                        test.ok(false, "Error executing " + config.PHP_BATCHES_3);
+                        test.done();
+                    }else{
+                        test.ok(true, "Executed : " + config.PHP_BATCHES_3 + " : " + stdout);
+                        test.done();
+                    }
+                });
+            }
+        });
     },
     // **Checking SQS messages after hitting cron job 3**
     "Checking SQS for messages after hitting Cron job 3" : function(test){

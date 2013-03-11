@@ -21,18 +21,3 @@ if(environments.indexOf(environment) >= 0){
 }else{
     console.log('Please specify the rignt environment : ' + environments.toString());
 }
-
-exec("chmod +x " + config.PHP_BATCHES_1, function (error, stdout, stderr) {
-    if (error !== null)
-        console.log("Error in chmod +x " + config.PHP_BATCHES_1);
-    else{
-        exec(config.PHP_BATCHES_1, function (error, stdout, stderr) {
-            if (error !== null)
-                console.log("Error executing " + config.PHP_BATCHES_1);
-            else
-                console.log("Error executing " + config.PHP_BATCHES_1);
-        });
-    }
-});
-/*
-*/

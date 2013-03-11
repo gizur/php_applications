@@ -58,19 +58,6 @@ var int_connection = mysql.createConnection({
     database: config.DB_I_NAME
 });
 
-// ### Function testPhpBatch
-// ========================
-// 
-// Used to test php batch files
-// Accept 2 parameters
-// test   : test case
-// batch  : path to file
-
-function testPhpBatch(test, batch){
-    
-    
-}
-
 // #### Connect with the databases.
 connection.connect();
 int_connection.connect();
@@ -124,15 +111,18 @@ exports.group = {
     "Hitting Cron Job 1" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_1, function (error, stdout, stderr) {
             if (error !== null)
-                test.ok(true, "Error in chmod +x " + batch);
-            else
+                console.log("Error in chmod +x " + config.PHP_BATCHES_1);
+            else{
                 exec(config.PHP_BATCHES_1, function (error, stdout, stderr) {
-                    if (error !== null)
-                        test.ok(false, "Error executing " + batch);
-                    else
-                        test.ok(true, "Error executing " + batch);
-                    test.done();
+                    if (error !== null){
+                        test.ok(false, "Error executing " + config.PHP_BATCHES_1);
+                        test.done();
+                    }else{
+                        test.ok(true, "Executed : " + config.PHP_BATCHES_1 + " : " + stdout);
+                        test.done();
+                    }
                 });
+            }
         });
     },
     // **Check sales orders in vtiger after hitting cron job 2**
