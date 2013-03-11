@@ -172,8 +172,8 @@ exports.group = {
     // #### Closing connections
     // 
     // Reason behind putting closing connections in
-    // a test is, not to close connections
-    // before test execution.
+    // a test is, not to close db connections
+    // before all tests get finished.
     "Closing Connections" : function(test){
         connection.destroy();
         int_connection.destroy();

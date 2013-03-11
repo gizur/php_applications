@@ -74,7 +74,8 @@ salesOrderIntegrationAfter = 1;
 // Before excuting this script,
 // Edit test cases for the expected value.
 exports.group = {
-    // **Check sales orders in vtiger before hitting cron job 1**
+    // #### Check sales orders in vtiger before hitting cron job 1
+    //
     "Checking Sales Orders in vTiger ('Created','Approved') before hitting cron job 1" : function(test){
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
@@ -90,7 +91,8 @@ exports.group = {
                 test.done();
             });
     },
-    // **Check sales orders in integration db before hitting cron job 1**
+    // #### Check sales orders in integration db before hitting cron job 1
+    //
     "Checking Sales Order In Integration Database before hitting Cron job 1" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
@@ -107,7 +109,8 @@ exports.group = {
                 test.done();
             });
     },
-    // **Hit cron job 1**
+    // #### Hit cron job 1
+    //
     "Hitting Cron Job 1" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_1, function (error, stdout, stderr) {
             if (error !== null)
@@ -125,7 +128,8 @@ exports.group = {
             }
         });
     },
-    // **Check sales orders in vtiger after hitting cron job 2**
+    // #### Check sales orders in vtiger after hitting cron job 2
+    //
     "Checking Sales Orders in vTiger ('Created','Approved') after hitting cron job 1" : function(test){
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
@@ -141,7 +145,8 @@ exports.group = {
                 test.done();
             });
     },
-    // **Check sales orders in integration db after hitting cron job 1**
+    // #### Check sales orders in integration db after hitting cron job 1
+    //
     "Checking Sales Order In Integration Database" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
@@ -161,8 +166,8 @@ exports.group = {
     // #### Closing connections
     // 
     // Reason behind putting closing connections in
-    // a test is, not to close connections
-    // before test execution.
+    // a test is, not to close db connections
+    // before all tests get finished.
     "Closing Connections" : function(test){
         connection.destroy();
         int_connection.destroy();

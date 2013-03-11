@@ -27,7 +27,7 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 var config  = require('./_secure/config.js').Config;
 
-//Get the argumanet from the command line
+// Read 3rd argument from the command line
 var environment = process.argv[2];
 
 // Expected environments
@@ -39,11 +39,13 @@ var environments = new Array('gc1-ireland', 'gc2-ireland', 'gc3-ireland');
 if(environments.indexOf(environment) >= 0){
     var envPath = '../../../instance-configuration/' + environment + '/';
     var localPath = '../../../';
+    
+    // List of files need to copy from environment
     var filesToCopy = new Array(
         'applications/cikab/php_batches/php-interfaces/config.inc.php',
         'applications/cikab/tests/_secure/config.js',
         'applications/cikab/tests/_secure/credentials.json'
-        );
+    );
 
     filesToCopy.forEach(function(file){
         console.log('Coping : ' + envPath + file);

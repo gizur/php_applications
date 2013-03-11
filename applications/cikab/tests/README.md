@@ -31,10 +31,12 @@ Usages
 * Check local FTP folder location which is being used for 
   SET files in config.js.
 
+>>>
 ### To set the environment (It will copy all the config files)
->>>node make.js gc1-ireland / gc2-ireland / gc3-ireland
+node make.js gc1-ireland / gc2-ireland / gc3-ireland
 ### To run the tests
->>>nodeunit test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
+nodeunit test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
+>>>
 
 ## License
 Copyright (c) 2012 Jonas Colmsjö  

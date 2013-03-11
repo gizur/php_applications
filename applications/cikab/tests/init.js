@@ -26,7 +26,7 @@
 
 var AWS = require('aws-sdk');
 var mysql = require("mysql");
-var http    = require('http');
+var fs = require('fs');
 
 // Configs
 // =======
@@ -35,11 +35,6 @@ AWS.config.loadFromPath('./_secure/credentials.json');
 
 // Load the configurations
 var config  = require('./_secure/config.js').Config;
-
-// If server requires secure connection
-// use https
-if(config.IS_HTTPS)
-    http = require('https');
 
 // Connection to vtiger MySQL db
 var connection = mysql.createConnection({
@@ -66,8 +61,6 @@ int_connection.connect();
 exports.group = {
     // #### Check sales order count in vTiger
     // 
-    // Test will pass in case of 0 number of sales order
-    // with status Created / Approved exists.
     "Checking Sales Orders in vTiger ('Created','Approved')" : function(test){
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
@@ -81,6 +74,8 @@ exports.group = {
                 console.log("Sales Order in vTiger : " + rows.length);
             });
     },
+    // #### Check sales order count in integration DB
+    // 
     "Checking Sales Order In Integration Database ('created', 'approved')" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
@@ -97,10 +92,6 @@ exports.group = {
     },
     // #### Check Queue for messages
     // 
-    // Test will pass if no message found in
-    // Amazon Queue.
-    // There is no method found in aws-sdk to get the
-    // approx number of messages in QUEUE.
     "Checking Queue" : function(test){
         var sqs = new AWS.SQS();
         var params = {
@@ -124,14 +115,22 @@ exports.group = {
     // #### Check files in FTP server
     // 
     "Checking FTP" : function(test){
-        test.ok(true, "This test will pass.");
-        test.done();
+        fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
+            if (err){
+                test.ok(false, err);
+                test.done();
+            }else{
+                test.ok(true, "OK");
+                test.done();
+                console.log('Files available in ' + config.LOCAL_FTP_FOLDER + ' : ' + stats.length);
+            }
+        });
     },
     // #### Closing connections
     // 
-    // Reason behind putting connection close in
-    // a test is not to close connections
-    // before test execution.
+    // Reason behind putting closing connections in
+    // a test is, not to close db connections
+    // before all tests get finished.
     "Closing Connections" : function(test){
         connection.destroy();
         int_connection.destroy();
