@@ -34,14 +34,14 @@
     var PHP_BATCHES_3 = Config.PHP_BATCHES_3 = '../../../applications/cikab/php_batches/php-interfaces/sales_orders/phpcronjob3.sh';
 
     //vTiger Database configurations
-    var DB_HOST = Config.DB_HOST = 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com';
-    var DB_NAME = Config.DB_NAME = 'vtiger_6beb7290';
-    var DB_USER = Config.DB_USER = 'user_7aeb7290';
-    var DB_PASSWORD = Config.DB_PASSWORD = 'faeb72908d05';
+    var DB_HOST = Config.DB_HOST = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com';
+    var DB_NAME = Config.DB_NAME = 'vtiger_5159ff6a';
+    var DB_USER = Config.DB_USER = 'user_2059ff6a';
+    var DB_PASSWORD = Config.DB_PASSWORD = 'c059ff6a3f05';
     var DB_PORT = Config.DB_PORT = '3306';
     
     //Amazon Queue configurations
-    var Q_URL = Config.Q_URL = 'https://sqs.eu-west-1.amazonaws.com/996313430626/cikab_queue';
+    var Q_URL = Config.Q_URL = 'https://sqs.eu-west-1.amazonaws.com/791200854364/cikab_queue';
     var AWS_REGION = Config.AWS_REGION = 'eu-west-1';
     
     // Integration Database configurations
