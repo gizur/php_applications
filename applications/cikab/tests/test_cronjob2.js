@@ -66,9 +66,9 @@ int_connection.connect();
 // ==============================
 
 var messagesInQueueBefore = 0, 
-    messagesInQueueAfter = 1,
-    salesOrderIntegrationBefore = 1,
-    salesOrderIntegrationAfter = 0;
+messagesInQueueAfter = 1,
+salesOrderIntegrationBefore = 1,
+salesOrderIntegrationAfter = 0;
 // Group all Tests
 // ===============
 exports.group = {
@@ -79,14 +79,17 @@ exports.group = {
             "FROM salesorder_interface " +
             "WHERE sostatus IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
-                if (err) throw err;
+                if (err){
+                    test.ok(false, "Error fetching sales orders : " + err);
+                    test.done();
+                }else{
+                    var result = false;
+                    if(rows.length == salesOrderIntegrationBefore)
+                        result = true;
                 
-                var result = false;
-                if(rows.length == salesOrderIntegrationBefore)
-                    result = true;
-                
-                test.ok(result, salesOrderIntegrationBefore + " sales orders expected, " + rows.length + " found.");
-                test.done();
+                    test.ok(result, salesOrderIntegrationBefore + " sales orders expected, " + rows.length + " found.");
+                    test.done();
+                }
             });
     },
     // **Check Queue before hitting cron job 2**
@@ -136,14 +139,17 @@ exports.group = {
             "FROM salesorder_interface " +
             "WHERE sostatus IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
-                if (err) throw err;
+                if (err){
+                    test.ok(false, "Error fetching sales orders : " + err);
+                    test.done();
+                }else{
+                    var result = false;
+                    if(rows.length == salesOrderIntegrationAfter)
+                        result = true;
                 
-                var result = false;
-                if(rows.length == salesOrderIntegrationAfter)
-                    result = true;
-                
-                test.ok(result, salesOrderIntegrationAfter + " sales orders expected, " + rows.length + " found.");
-                test.done();
+                    test.ok(result, salesOrderIntegrationAfter + " sales orders expected, " + rows.length + " found.");
+                    test.done();
+                }
             });
     },
     // **Check SQS messages after hitting cron job 2**
@@ -154,8 +160,7 @@ exports.group = {
             AttributeNames: new Array('All')
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
-            if (!err) {
-                
+            if (!err) {                
                 var result = false;
                 var cnt = data.Attributes.ApproximateNumberOfMessages;
                 if(cnt == messagesInQueueAfter)

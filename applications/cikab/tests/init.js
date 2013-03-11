@@ -117,7 +117,7 @@ exports.group = {
     "Checking FTP" : function(test){
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
             if (err){
-                test.ok(false, err);
+                test.ok(false, "Error reading directory : " + err);
                 test.done();
             }else{
                 test.ok(true, "OK");

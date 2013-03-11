@@ -81,14 +81,17 @@ exports.group = {
             "vtiger_salesorder SO " + 
             "WHERE SO.sostatus IN ('Created','Approved') " +
             "LIMIT 0, 10", function(err, rows, fields) {
-                if (err) throw err;
+                if (err){
+                    test.ok(false, "Error fetching sales orders : " + err);
+                    test.done();
+                }else{
+                    var result = false;
+                    if(rows.length == salesOrdervTigerBefore)
+                        result = true;
                 
-                var result = false;
-                if(rows.length == salesOrdervTigerBefore)
-                    result = true;
-                
-                test.ok(result, salesOrdervTigerBefore + " sales orders expected, " + rows.length + " found.");
-                test.done();
+                    test.ok(result, salesOrdervTigerBefore + " sales orders expected, " + rows.length + " found.");
+                    test.done();
+                }
             });
     },
     // #### Check sales orders in integration db before hitting cron job 1
@@ -99,14 +102,17 @@ exports.group = {
             "FROM salesorder_interface " +
             "WHERE sostatus IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
-                if (err) throw err;
+                if (err){
+                    test.ok(false, "Error fetching sales orders : " + err);
+                    test.done();
+                }else{
+                    var result = false;
+                    if(rows.length == salesOrderIntegrationBefore)
+                        result = true;
                 
-                var result = false;
-                if(rows.length == salesOrderIntegrationBefore)
-                    result = true;
-                
-                test.ok(result, salesOrderIntegrationBefore + " sales orders expected, " + rows.length + " found.");
-                test.done();
+                    test.ok(result, salesOrderIntegrationBefore + " sales orders expected, " + rows.length + " found.");
+                    test.done();
+                }
             });
     },
     // #### Hit cron job 1
@@ -135,14 +141,17 @@ exports.group = {
             "vtiger_salesorder SO " + 
             "WHERE SO.sostatus IN ('Created','Approved') " +
             "LIMIT 0, 10", function(err, rows, fields) {
-                if (err) throw err;
+                if (err){
+                    test.ok(false, "Error fetching sales orders : " + err);
+                    test.done();
+                }else{
+                    var result = false;
+                    if(rows.length == salesOrdervTigerAfter)
+                        result = true;
                 
-                var result = false;
-                if(rows.length == salesOrdervTigerAfter)
-                    result = true;
-                
-                test.ok(result, salesOrdervTigerAfter + " sales orders expected, " + rows.length + " found.");
-                test.done();
+                    test.ok(result, salesOrdervTigerAfter + " sales orders expected, " + rows.length + " found.");
+                    test.done();
+                }
             });
     },
     // #### Check sales orders in integration db after hitting cron job 1
@@ -153,14 +162,17 @@ exports.group = {
             "FROM salesorder_interface " +
             "WHERE sostatus IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
-                if (err) throw err;
+                if (err){
+                    test.ok(false, "Error fetching sales orders : " + err);
+                    test.done();
+                }else{
+                    var result = false;
+                    if(rows.length == salesOrderIntegrationAfter)
+                        result = true;
                 
-                var result = false;
-                if(rows.length == salesOrderIntegrationAfter)
-                    result = true;
-                
-                test.ok(result, salesOrderIntegrationAfter + " sales orders expected, " + rows.length + " found.");
-                test.done();
+                    test.ok(result, salesOrderIntegrationAfter + " sales orders expected, " + rows.length + " found.");
+                    test.done();
+                }
             });
     },
     // #### Closing connections

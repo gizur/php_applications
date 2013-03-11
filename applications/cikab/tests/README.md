@@ -24,6 +24,7 @@ tests
 Usages
 ### Things to do before running test script
 
+* Run node init.js to check the current status
 * Set expected results in each test case otherwise it may fail.
 * Run node make.js to set the environment.
 * Update local FTP details in config.inc.php at

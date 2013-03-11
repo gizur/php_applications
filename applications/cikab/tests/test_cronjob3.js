@@ -72,13 +72,17 @@ exports.group = {
     //
     "Checking Files at FTP before hitting Cron job 3" : function(test){
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
-            if (err) throw err;
-            var result = false;
-            var cnt = stats.length;
-            if(cnt == fileInFTPBefore)
-                result = true;
-            test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
-            test.done();
+            if (err){
+                test.ok(false, "Error reading directory : " + err);
+                test.done();
+            }else{
+                var result = false;
+                var cnt = stats.length;
+                if(cnt == fileInFTPBefore)
+                    result = true;
+                test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
+                test.done();
+            }
         });
     },
     // #### Hit Cron Job 3
@@ -109,8 +113,7 @@ exports.group = {
             AttributeNames: new Array('All')
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
-            if (!err) {
-                
+            if (!err) {                
                 var result = false;
                 var cnt = data.Attributes.ApproximateNumberOfMessages;
                 if(cnt == messagesInQueueAfter)
@@ -128,13 +131,17 @@ exports.group = {
     //
     "Checking Files at FTP after hitting Cron job 3" : function(test){
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
-            if (err) throw err;
-            var result = false;
-            var cnt = stats.length;
-            if(cnt == fileInFTPAfter)
-                result = true;
-            test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
-            test.done();
+            if (err){
+                test.ok(false, "Error reading directory : " + err);
+                test.done();
+            }else{
+                var result = false;
+                var cnt = stats.length;
+                if(cnt == fileInFTPAfter)
+                    result = true;
+                test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
+                test.done();
+            }
         });
     }
 };
