@@ -107,7 +107,7 @@ exports.group = {
                 test.done();
             });
     },
-    // **Hitting cron job 1**
+    // **Hit cron job 1**
     "Hitting Cron Job 1" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_1, function (error, stdout, stderr) {
             if (error !== null)

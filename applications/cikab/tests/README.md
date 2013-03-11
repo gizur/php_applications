@@ -25,6 +25,9 @@ Usages
 ### Things to do before running test script
 
 * Set expected results in each test case otherwise it may fail.
+* Run node make.js to set the environment.
+* Update local FTP details in config.inc.php at
+  cikab/php_batches/php-interfaces.
 * Check local FTP folder location which is being used for 
   SET files in config.js.
 

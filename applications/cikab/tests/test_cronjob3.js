@@ -67,7 +67,7 @@ exports.group = {
             }            
         });
     },
-    // **Checking files before hitting cron job 3**
+    // **Check files before hitting cron job 3**
     "Checking Files at FTP before hitting Cron job 3" : function(test){
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
             if (err) throw err;
@@ -79,7 +79,7 @@ exports.group = {
             test.done();
         });
     },
-    // **Hitting Cron Job 3**
+    // **Hit Cron Job 3**
     "Hitting Cron Job 3" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_3, function (error, stdout, stderr) {
             if (error !== null)
@@ -97,7 +97,7 @@ exports.group = {
             }
         });
     },
-    // **Checking SQS messages after hitting cron job 3**
+    // **Check SQS messages after hitting cron job 3**
     "Checking SQS for messages after hitting Cron job 3" : function(test){
         var sqs = new AWS.SQS();
         var params = {
@@ -120,7 +120,7 @@ exports.group = {
             }            
         });
     },
-    // **Checking SQS messages after hitting cron job 3**
+    // **Check SQS messages after hitting cron job 3**
     "Checking Files at FTP after hitting Cron job 3" : function(test){
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
             if (err) throw err;

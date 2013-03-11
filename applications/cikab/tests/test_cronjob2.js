@@ -111,7 +111,7 @@ exports.group = {
             }            
         });
     },
-    // **Hitting Cron Job 2**
+    // **Hit Cron Job 2**
     "Hitting Cron Job 2" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_2, function (error, stdout, stderr) {
             if (error !== null)
@@ -129,6 +129,7 @@ exports.group = {
             }
         });
     },
+    // **Check Sales Orders In Integration Database After hitting Cron job 2**
     "Checking Sales Order In Integration Database After hitting Cron job 2" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
@@ -145,7 +146,7 @@ exports.group = {
                 test.done();
             });
     },
-    // **Checking SQS messages after hitting cron job 2**
+    // **Check SQS messages after hitting cron job 2**
     "Checking SQS for messages" : function(test){
         var sqs = new AWS.SQS();
         var params = {

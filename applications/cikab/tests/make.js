@@ -50,7 +50,7 @@ if(environments.indexOf(environment) >= 0){
         fs.createReadStream(envPath + file).pipe(fs.createWriteStream(localPath + file));
     });
 }else{
-    // If entred environment is not in the list,
+    // If enterd environment is not in the list,
     // throw an error.
     console.log('Please specify the rignt environment : ' + environments.toString());
 }
