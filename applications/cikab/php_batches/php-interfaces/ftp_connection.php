@@ -11,7 +11,7 @@
 /**
  * Call Global Configration file
  */
-require_once 'config.inc.php';
+require_once __DIR__. '/config.inc.php';
 
 /**
  * ready state of syslog
@@ -50,7 +50,7 @@ if (!$ftpLoginResult) {
     exit;
 }
 
-ftp_pasv($ftpConnId, true);
+//ftp_pasv($ftpConnId, true);
 
 /* * *
  * Check FTP Connection and Auth will be success or not

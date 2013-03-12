@@ -141,7 +141,7 @@ try {
     /*
      * Update the success message
      */
-    $messages['message'] = "Total $noOfFiles files processed.";
+    $messages['message'] = "Total $noOfFiles queue items processed.";
 } catch (Exception $e) {
     $messages['message'] = $e->getMessage();
 }

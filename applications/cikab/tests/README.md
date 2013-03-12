@@ -33,11 +33,29 @@ Usages
   SET files in config.js.
 
 >>>
+### Run FTP
+node ftp.js
 ### To set the environment (It will copy all the config files)
 node make.js gc1-ireland / gc2-ireland / gc3-ireland
 ### To run the tests
 nodeunit test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
 >>>
+
+>>
+### Node FTP Credentials
+Clone it in node_modules
+git clone git@github.com:alanszlosek/nodeftpd.git
+
+**Please note, this FTP is working in active mode only with PHP.**
+
+**FTP configuration**
+
+Username: user (Anyname but folder with same name must be present in ./files)
+Password: 123456 (Anything but not blank)
+Host: 127.0.0.1
+serverpath: /
+
+>>
 
 ## License
 Copyright (c) 2012 Jonas Colmsjö  

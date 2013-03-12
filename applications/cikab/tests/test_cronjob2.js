@@ -66,8 +66,8 @@ int_connection.connect();
 // ==============================
 
 var messagesInQueueBefore = 0, 
-messagesInQueueAfter = 1,
-salesOrderIntegrationBefore = 1,
+messagesInQueueAfter = 2,
+salesOrderIntegrationBefore = 2,
 salesOrderIntegrationAfter = 0;
 // Group all Tests
 // ===============

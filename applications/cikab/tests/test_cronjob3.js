@@ -38,10 +38,10 @@ var config  = require('./_secure/config.js').Config;
 // Configure Expected Test Result
 // ==============================
 
-var messagesInQueueBefore = 0, 
+var messagesInQueueBefore = 2, 
 messagesInQueueAfter = 0,
-fileInFTPBefore = 3,
-fileInFTPAfter = 3;
+fileInFTPBefore = 5,
+fileInFTPAfter = 7;
 // Group all Tests
 // ===============
 exports.group = {
