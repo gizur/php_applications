@@ -21,20 +21,22 @@ tests
 
 ```
 
+
 ##Usages
 
+```
 ### Steps
 1. Make sure you have clonned FTP module in node_modules
 git clone git@github.com:alanszlosek/nodeftpd.git
+Please note, this FTP is working in active mode only with PHP.
 
-**Please note, this FTP is working in active mode only with PHP.**
 1. Configure the environment
 node make.js gc1-ireland / gc2-ireland / gc3-ireland
 
 1. Run FTP
 node ftp.js
 
-**FTP configuration**
+FTP configuration
 Username: user (Anyname but folder with same name must be present in ./files)
 Password: 123456 (Anything but not blank)
 Host: 127.0.0.1
