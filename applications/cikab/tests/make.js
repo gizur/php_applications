@@ -25,7 +25,6 @@
 // =========
 var fs = require('fs');
 var exec = require('child_process').exec;
-var config  = require('./_secure/config.js').Config;
 
 // Read 3rd argument from the command line
 var environment = process.argv[2];

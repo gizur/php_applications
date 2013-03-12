@@ -21,40 +21,36 @@ tests
 
 ```
 
-Usages
-### Things to do before running test script
+##Usages
 
-* Run node init.js to check the current status
-* Set expected results in each test case otherwise it may fail.
-* Run node make.js to set the environment.
-* Update local FTP details in config.inc.php at
-  cikab/php_batches/php-interfaces.
-* Check local FTP folder location which is being used for 
-  SET files in config.js.
-
->>>
-### Run FTP
-node ftp.js
-### To set the environment (It will copy all the config files)
-node make.js gc1-ireland / gc2-ireland / gc3-ireland
-### To run the tests
-nodeunit test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
->>>
-
-
-### Node FTP Credentials
-Clone it in node_modules
+### Steps
+1. Make sure you have clonned FTP module in node_modules
 git clone git@github.com:alanszlosek/nodeftpd.git
 
 **Please note, this FTP is working in active mode only with PHP.**
+1. Configure the environment
+node make.js gc1-ireland / gc2-ireland / gc3-ireland
+
+1. Run FTP
+node ftp.js
 
 **FTP configuration**
-
 Username: user (Anyname but folder with same name must be present in ./files)
 Password: 123456 (Anything but not blank)
 Host: 127.0.0.1
 serverpath: /
 
+1. Modify ../php_batches/php-interfaces/config.inc.php
+Update FTP details
+
+1. Run nodeunit init.js
+It will give you the current status
+
+1. Modify test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
+Update expected test results (Line 67, 68 and 42 respectively)
+
+1. Run nodeunit test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
+```
 ## License
 Copyright (c) 2012 Jonas Colmsjö  
 Licensed under the MIT license.
