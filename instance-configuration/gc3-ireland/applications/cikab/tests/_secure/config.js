@@ -52,6 +52,6 @@
     var DB_I_PORT = Config.DB_I_PORT = '3306';
     
     // Local FTP folder
-    var LOCAL_FTP_FOLDER = Config.LOCAL_FTP_FOLDER = './files';
+    var LOCAL_FTP_FOLDER = Config.LOCAL_FTP_FOLDER = './files/user';
 
 })();

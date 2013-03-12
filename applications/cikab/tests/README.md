@@ -41,7 +41,7 @@ node make.js gc1-ireland / gc2-ireland / gc3-ireland
 nodeunit test_cronjob1.js / test_cronjob2.js / test_cronjob2.js
 >>>
 
->>
+
 ### Node FTP Credentials
 Clone it in node_modules
 git clone git@github.com:alanszlosek/nodeftpd.git
@@ -54,8 +54,6 @@ Username: user (Anyname but folder with same name must be present in ./files)
 Password: 123456 (Anything but not blank)
 Host: 127.0.0.1
 serverpath: /
-
->>
 
 ## License
 Copyright (c) 2012 Jonas Colmsjö  
