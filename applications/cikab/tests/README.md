@@ -43,6 +43,8 @@ serverpath: /
 
 1. Modify ../php_batches/php-interfaces/config.inc.php
 Update FTP details
+Commentout line 53 in applications/cikab/php_batches/php-interfaces/ftp_connection.php
+to disable passive mode. (Node FTP is not working other wise)
 
 1. Run nodeunit init.js
 It will give you the current status

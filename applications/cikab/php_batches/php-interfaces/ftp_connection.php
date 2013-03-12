@@ -50,7 +50,7 @@ if (!$ftpLoginResult) {
     exit;
 }
 
-//ftp_pasv($ftpConnId, true);
+ftp_pasv($ftpConnId, true);
 
 /* * *
  * Check FTP Connection and Auth will be success or not
