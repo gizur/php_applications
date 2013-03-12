@@ -35,7 +35,6 @@ node make.js gc1-ireland / gc2-ireland / gc3-ireland
 
 1. Run FTP
 node ftp.js
-
 FTP configuration
 Username: user (Anyname but folder with same name must be present in ./files)
 Password: 123456 (Anything but not blank)
