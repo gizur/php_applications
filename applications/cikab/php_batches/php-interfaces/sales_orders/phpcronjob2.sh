@@ -208,10 +208,12 @@ if (!empty($numrows)) {
         /**
          *  close else
          */
+        $millisec = toTimestamp();
         /**
          *  Write SET Files
          */
-        $string = "HEADERGIZUR           " . $currentdate . "2800M256      RUTIN   .130KF27777100   mottagning initierad                                                                         001" . $finalformataccountname . "1+03751+038" . $ordernomber . "+226" . $futuredeliverydate . "+039" . $deliveryday . "+040" . $ordernomber . "+" . $finalformatproductname . "+C         RUTIN   .130KF51125185   Mottagning avslutad    BYTES/BLOCKS/RETRIES=1084 /5    /0";
+        
+        $string = "HEADERGIZUR           " . $currentdate . "{$millisec}M256      RUTIN   .130KF27777100   mottagning initierad                                                                         001" . $finalformataccountname . "1+03751+038" . $ordernomber . "+226" . $futuredeliverydate . "+039" . $deliveryday . "+040" . $ordernomber . "+" . $finalformatproductname . "+C         RUTIN   .130KF51125185   Mottagning avslutad    BYTES/BLOCKS/RETRIES=1084 /5    /0";
         /**
          * End Write Files
          */
@@ -299,7 +301,16 @@ if (!empty($numrows)) {
 ?>
 
 <?php
+/*
+ * Get 4 first digit from millisecond
+ */
+function toTimestamp()
+{
+    $seconds = round(microtime(true) * 1000);
+    $remainder = substr("$seconds",-4);
 
+    return $remainder;
+}
 /**
  * auto adding zero befor number  
  */
