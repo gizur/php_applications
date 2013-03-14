@@ -6,7 +6,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Coop Trailer App',
+	'name'=>'Demo Trailer App',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -67,7 +67,7 @@ return array(
 		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-            'errorAction'=>'site/error',
+                'errorAction'=>'site/error',
         ),
 		'log'=>array(
 			'class'=>'CLogRouter',
