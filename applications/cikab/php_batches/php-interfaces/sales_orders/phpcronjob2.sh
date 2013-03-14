@@ -23,17 +23,17 @@ try {
      * as per the settings.
      */
     $integrationConnect = new Connect(
-        $dbconfigIntegration['db_server'],
-        $dbconfigIntegration['db_username'],
-        $dbconfigIntegration['db_password'],
-        $dbconfigIntegration['db_name']
+            $dbconfigIntegration['db_server'],
+            $dbconfigIntegration['db_username'],
+            $dbconfigIntegration['db_password'],
+            $dbconfigIntegration['db_name']
     );
 
     /*
      * Message array to store log
      */
     $messages = array();
-    
+
     /*
      * $duplicateFile used to remove duplicacy in
      * file names, account wise.
@@ -58,7 +58,7 @@ try {
      */
     if (!$salesOrders)
         throw new Exception(
-            "Error executing sales order query : " . 
+            "Error executing sales order query : " .
             "($integrationConnect->errno) - $integrationConnect->error"
         );
 
@@ -85,12 +85,12 @@ try {
              * Set auto commit false for integration server.
              */
             $integrationConnect->autocommit(FALSE);
-            
+
             /*
              * Store sales order number in Message array.
              */
             $mess = array();
-            
+
             /*
              * $createdDate is being used in file name
              * and the following line of 
@@ -102,7 +102,7 @@ try {
              */
             if (empty($duplicateFile[$salesOrder->accountname]))
                 $createdDate = date("YmdHi");
-            else{
+            else {
                 $cnt = count($duplicateFile[$salesOrder->accountname]);
                 $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
             }
@@ -163,19 +163,19 @@ try {
 
                     if ($productlength < 6) {
                         $leadzeroproduct = Functions::leadingzero(
-                            $productlength
+                                $productlength
                         );
                     }
 
                     if ($productquantitylength < 3) {
                         $leadzeroproductquantity = Functions::leadingzero(
-                            3, $productquantitylength
+                                3, $productquantitylength
                         );
                     }
 
-                    $multiproduct[] = "189" . $leadzeroproduct . 
-                        $sOWProduct->productname . 
-                        $leadzeroproductquantity . 
+                    $multiproduct[] = "189" . $leadzeroproduct .
+                        $sOWProduct->productname .
+                        $leadzeroproductquantity .
                         $sOWProduct->productquantity;
                     $productnamearray[] = $sOWProduct->productname;
                 }
@@ -193,12 +193,12 @@ try {
                     if ($accountlenth < 6) {
                         $leadzero = Functions::leadingzero(6, $accountlenth);
                     }
-                    $finalformataccountname = $leadzero . 
+                    $finalformataccountname = $leadzero .
                         $sOWProduct->accountname;
                 }
 
                 $finalformatproductname = implode("+", $multiproduct);
-                $currentdate = date("Ymd");
+                $currentdate = date("YmdHi");
                 $originalordernomber = "7777" . $sOWProduct->salesorder_no;
 
                 /**
@@ -233,11 +233,12 @@ try {
              */
             $salesOrderWithProducts->close();
 
+            $milliSec = Functions::getMilliSecond();
             /*
              * Generate the file content
              */
             $contentF = "HEADERGIZUR           " . $currentdate .
-                "18022800M256      RUTIN   .130KF27777100   " .
+                "{$milliSec}M256      RUTIN   .130KF27777100   " .
                 "mottagning initierad                               " .
                 "                                          001" .
                 $finalformataccountname . "1+03751+038" . $ordernumber .
@@ -266,7 +267,7 @@ try {
              */
             if (!$updateStatus)
                 throw new Exception("Error updating status to delivered.");
-            
+
             /*
              * Initialise an array to store file name and content.
              */
@@ -288,24 +289,21 @@ try {
              */
             if ($responseQ->status !== 200)
                 throw new Exception("Error in sending file to messageQ.");
-            
+
             /*
              * If everything goes right update the sales order ststus to true 
              * in message array.
              */
 
             Functions::updateLogMessage(
-                &$messages, 
-                $salesOrder->salesorder_no, 
-                true, $fileName, 
-                "Successfully sent to messageQ."
+                &$messages, $salesOrder->salesorder_no, true, $fileName, "Successfully sent to messageQ."
             );
-            
+
             /*
              * Commit the changes.
              */
             $integrationConnect->commit();
-            
+
             /*
              * If any exception occurs during the process rollback the
              * connection and update message array.
@@ -313,10 +311,7 @@ try {
         } catch (Exception $e) {
             $integrationConnect->rollback();
             Functions::updateLogMessage(
-                &$messages, 
-                $salesOrder->salesorder_no, false, 
-                $fileName, 
-                $e->getMessage()
+                &$messages, $salesOrder->salesorder_no, false, $fileName, $e->getMessage()
             );
         }
     }
@@ -346,8 +341,9 @@ echo json_encode($messages);
 class Functions
 {
     /*
-    * updateLogMessage fuction is used to update the message array.
-    */
+     * updateLogMessage fuction is used to update the message array.
+     */
+
     static function updateLogMessage($m, $so, $status, $filename, $msg)
     {
         $m['sales_orders'][$so]['status'] = $status;
@@ -356,8 +352,8 @@ class Functions
     }
 
     /**
-    * auto adding zero befor number  
-    */
+     * auto adding zero befor number  
+     */
     static function leadingzero($limitnumber = 6, $number = 0)
     {
         $leadzero = "";
@@ -367,4 +363,17 @@ class Functions
         }
         return $leadzero;
     }
+
+    /*
+     * Get 4 first digit from millisecond
+     */
+
+    static function getMilliSecond()
+    {
+        $seconds = round(microtime(true) * 1000);
+        $remainder = substr("$seconds", -4);
+
+        return $remainder;
+    }
+
 }
