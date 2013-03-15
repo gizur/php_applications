@@ -9,6 +9,23 @@ var AccountModel = Stapes.subclass({
     "api_key_2" : '',
     "secret_key_1" : '',
     "secret_key_2" : '',
+    "password" : '',
+    "address_1" : '',
+    "address_2" : '',
+    "city" : '',
+    "state" : '',
+    "postalcode" : '',
+    "country" : "",
+    "phone_1" : "",
+    "active_1" : "",
+    "active_2" : "",
+    "server" : "",
+    "port" : "",
+    "username" : "",
+    "dbpassword" : "",
+    "databasename" : "",
+    "security_salt" : "",
+    "id_sequence" : '',
     constructor : function (){},
     'validate' : function(){
         return true;
@@ -17,8 +34,7 @@ var AccountModel = Stapes.subclass({
         $('#first_name').val(this.get('first_name'));
         $('#last_name').val(this.get('last_name'));
         $('#email').val(this.get('email'));
-        $('#old_email').val(this.get('email'));
-        
+        $('#old_email').val(this.get('email'));        
         $('#api_key_1').val(this.get('api_key_1'));
         $('#api_key_2').val(this.get('api_key_2'));
         $('#secret_key_1').text(this.get('secret_key_1'));

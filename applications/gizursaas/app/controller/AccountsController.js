@@ -29,7 +29,24 @@ var AccountsController = Stapes.subclass({
                         "api_key_1" : _data.result.apikey_1,
                         "api_key_2" : _data.result.apikey_2,
                         "secret_key_1" : _data.result.secretkey_1,
-                        "secret_key_2" : _data.result.secretkey_2
+                        "secret_key_2" : _data.result.secretkey_2,
+                        "password" : _data.result.password,
+                        "address_1" : _data.result.address_1,
+                        "address_2" : _data.result.address_2,
+                        "city" : _data.result.city,
+                        "state" : _data.result.state,
+                        "postalcode" : _data.result.postalcode,
+                        "country" : _data.result.country,
+                        "phone_1" : _data.result.phone_1,
+                        "active_1" : _data.result.active_1,
+                        "active_2" : _data.result.active_2,
+                        "server" : _data.result.server,
+                        "port" : _data.result.port,
+                        "username" : _data.result.username,
+                        "dbpassword" : _data.result.dbpassword,
+                        "databasename" : _data.result.databasename,
+                        "security_salt" : _data.result.security_salt,
+                        "id_sequence" : _data.result.id_sequence
                     });
                     self.model.map_values();
                 }else{
