@@ -1087,8 +1087,8 @@ class ApiController extends Controller
                 if ($_GET['action'] == 'login') {
                     
                     $post = json_decode(file_get_contents('php://input'), true);
-                    $_client_id = $post['id'];
-                    $_password = $post['password'];
+                    $clientID = $post['id'];
+                    $password = $post['password'];
                     
                     //Log
                     Yii::log(
@@ -1108,7 +1108,7 @@ class ApiController extends Controller
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
                                 array(
-                                    'HashKeyElement' => $_client_id,
+                                    'HashKeyElement' => $clientID,
                                 )
                             ),
                             'ConsistentRead' => 'true'
@@ -1118,12 +1118,12 @@ class ApiController extends Controller
                     if(empty($ddb_response->body->Item))
                         throw new Exception("Login Id / password incorrect.", 2003);
                         
-                    $_security_salt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
-                    $_h_password = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
+                    $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                    $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
                     
-                    $_g_password = (string)hash("sha256", $_password . $_security_salt);
+                    $hSPassword = (string)hash("sha256", $password . $securitySalt);
                     
-                    if($_g_password !== $_h_password)
+                    if($hSPassword !== $hPassword)
                         throw new Exception("Login Id / password incorrect.", 2003);
                     //Return response to client
                     $response = new stdClass();
@@ -2649,8 +2649,8 @@ class ApiController extends Controller
                     else
                         $original_password = $post['password'];
                     
-                    $post['security_salt'] = hash("sha256", uniqid("", true));
-                    $post['password'] = hash("sha256", $original_password . $post['security_salt']);
+                    //$post['security_salt'] = hash("sha256", uniqid("", true));
+                    //$post['password'] = hash("sha256", $original_password . $post['security_salt']);
                         
                     //Create User
                     //===========

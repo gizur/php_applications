@@ -34,12 +34,10 @@ var UsersController = Stapes.subclass({
     
                 self.view.success('Processing ...');
                 
-                /* 
-                    var hashObj1 = new jsSHA(Math.random(), "TEXT");
-                    var security_salt = hashObj1.getHash("SHA-256", "HEX");
-                    var hashObj = new jsSHA(self.model.get('password') + security_salt, "TEXT");
-                    var hashed_password = hashObj.getHash("SHA-256", "HEX"); 
-                 */
+                var hashObj1 = new jsSHA(Math.random(), "TEXT");
+                var security_salt = hashObj1.getHash("SHA-256", "HEX");
+                var hashObj = new jsSHA(self.model.get('password') + security_salt, "TEXT");
+                var hashed_password = hashObj.getHash("SHA-256", "HEX");                
 
                 var _url_create = __rest_server_url + 'User/';
                 $.ajax({
@@ -49,7 +47,7 @@ var UsersController = Stapes.subclass({
                     processData: false,
                     data: JSON.stringify({
                         "id":self.model.get('email'),
-                        "password":self.model.get('password'),
+                        "password":hashed_password,
                         "name_1":self.model.get('first_name'),
                         "name_2":self.model.get('last_name'),
                         "address_1":"",
@@ -70,7 +68,8 @@ var UsersController = Stapes.subclass({
                         "port":"",
                         "username":"",
                         "dbpassword":"",
-                        "databasename":""
+                        "databasename":"",
+                        "security_salt":security_salt
                     }),
                     error: function(jqXHR, textStatus, errorThrown ) {
                         var _data = JSON.parse(jqXHR.responseText);
