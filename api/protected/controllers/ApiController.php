@@ -1094,7 +1094,7 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST : User/login ($_client_id)", 
+                        " PROCESSING REQUEST : User/login ($clientID)", 
                         CLogger::LEVEL_TRACE
                     );
                     
