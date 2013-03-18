@@ -1,13 +1,13 @@
 'use strict';
 
 var AccountsController = Stapes.subclass({
-    constructor : function(DEFAULT_HASH) {
+    constructor : function(DEFAULT_HASH, client_email) {
         var self = this;
         
         this.model = new AccountModel();
         this.view = new AccountsView();
         
-        var _url = __rest_server_url + 'User/' + encodeURIComponent(__client_email);
+        var _url = __rest_server_url + 'User/' + encodeURIComponent(client_email);
     
         $.ajax({
             url: _url,
@@ -67,7 +67,7 @@ var AccountsController = Stapes.subclass({
             'generateAPIKeyAndSecret1' : function() {
                 console.log('generateAPIKeyAndSecret1');
             
-                var _url = __rest_server_url + 'User/keypair1/' + encodeURIComponent(__client_email);
+                var _url = __rest_server_url + 'User/keypair1/' + encodeURIComponent(self.model.get('email'));
     
                 $.ajax({
                     url: _url,
@@ -98,7 +98,7 @@ var AccountsController = Stapes.subclass({
             'generateAPIKeyAndSecret2': function() {
                 console.log('generateAPIKeyAndSecret2');
             
-                var _url = __rest_server_url + 'User/keypair2/' + encodeURIComponent(__client_email);
+                var _url = __rest_server_url + 'User/keypair2/' + encodeURIComponent(self.model.get('email'));
     
                 $.ajax({
                     url: _url,

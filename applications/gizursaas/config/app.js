@@ -5,7 +5,7 @@ var account_controller = null;
 $(function() {
     var DEFAULT_HASH = 'registration';
     //setup hasher
-    hasher.prependHash = __prepend_hash;
+    hasher.prependHash = "!";
     //setup crossroads
     var route1 = crossroads.addRoute('registration');
     var route2 = crossroads.addRoute('user/{client_id}/{session_id}');
@@ -14,22 +14,15 @@ $(function() {
     crossroads.routed.add(console.log, console); //log all routes
     
     route1.matched.add(function(){
-        console.log('handler 1');
         user_controller = new UsersController();
     });
     
     route3.matched.add(function(status){
-        console.log('In login');
         user_controller.login(status);
     });
     
-    route2.matched.add(function(client_id, session_id){
-        console.log('handler 2: '+ client_id + ' : ' + session_id);
-        
-        __client_email = client_id;
-        __session_id = session_id;
-        
-        account_controller = new AccountsController(DEFAULT_HASH);
+    route2.matched.add(function(client_id, session_id){     
+        account_controller = new AccountsController(DEFAULT_HASH, client_id);
     });
     
     //only required if you want to set a default value
