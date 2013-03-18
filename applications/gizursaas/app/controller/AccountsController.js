@@ -119,7 +119,7 @@ var AccountsController = Stapes.subclass({
                 });
             },
             'updateInformation': function() {
-                var _url = __rest_server_url + 'User/' + encodeURIComponent(self.model.get('email'));
+                var _url = __rest_server_url + 'User';
                 
                 $.ajax({
                     url: _url,
