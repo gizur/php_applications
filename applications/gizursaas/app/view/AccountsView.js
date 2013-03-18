@@ -38,5 +38,13 @@ AccountsView.proto({
         $('#generateNewAPIAndSecretKey2Button').on('click', function(e) {
             this.emit('generateAPIKeyAndSecret2');
         }.bind(this));
+        
+        $('#first_name').on('change', function(e){
+            this.emit('updateInformation');
+        }.bind(this));
+        
+        $('#last_name').on('change', function(e){
+            this.emit('updateInformation');
+        }.bind(this));
     }
 });

@@ -11,7 +11,8 @@ $(function() {
     var route2 = crossroads.addRoute('user/{client_id}/{session_id}');
     var route3 = crossroads.addRoute('login/:status:');
     
-    crossroads.routed.add(console.log, console); //log all routes
+    //To log all routes un-comment the following line
+    //crossroads.routed.add(console.log, console);
     
     route1.matched.add(function(){
         user_controller = new UsersController();
