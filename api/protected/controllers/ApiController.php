@@ -360,8 +360,44 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
-            if ($_GET['model'] == 'User')
+            if ($_GET['model'] == 'User'){
+                //These models do not require authentication
+                if(in_array($GET['action'], array('login', 'logout', 'forgotpassword')))
+                    return true;
+                
+                $clientID = $_SERVER['HTTP_X_USERNAME'];
+                $password = $_SERVER['HTTP_X_PASSWORD'];
+                
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+
+                // Get an item
+                $ddb_response = $dynamodb->get_item(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Key' => $dynamodb->attributes(
+                            array(
+                                'HashKeyElement' => $clientID,
+                            )
+                        ),
+                        'ConsistentRead' => 'true'
+                    )
+                );
+
+                if(empty($ddb_response->body->Item))
+                    throw new Exception("Login Id / password incorrect.", 2003);
+
+                $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
+
+                $hSPassword = (string)hash("sha256", $password . $securitySalt);
+
+                if($hSPassword !== $hPassword)
+                    throw new Exception("Login Id / password incorrect.", 2003);
+                    
                 return true;
+            }
             
             //Check Acceptable language of request
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
@@ -1143,6 +1179,21 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST ", 
+                        CLogger::LEVEL_TRACE
+                    );
+                }
+                break;
+                
+                if ($_GET['action'] == 'forgotpassword') {
+           
+                    $post = json_decode(file_get_contents('php://input'), true);
+                    $clientID = $post['id'];
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST : User/forgotpassword ($clientID)", 
                         CLogger::LEVEL_TRACE
                     );
                 }
@@ -2771,12 +2822,12 @@ class ApiController extends Controller
                             'Subject.Data' => 'Welcome to Gizur SaaS',
                             'Body.Text.Data' => 'Hi ' . $post['name_1'] . ' ' . $post['name_2'] . ', ' . PHP_EOL .
                             PHP_EOL .
-                            'Welcome to Gizur SaaS.' . PHP_EOL .
+                            'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
                             'Your username and password are as follows:' . PHP_EOL .
                             PHP_EOL .
                             'Portal Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/'  . PHP_EOL .
                             'Username: ' . $post['id']  . PHP_EOL .                            
-                            'Password: ' . $original_password . PHP_EOL .
+                            'Password: [Your Gizur SaaS Password]' . PHP_EOL .
                             PHP_EOL .
                             PHP_EOL .
                             '--' .
