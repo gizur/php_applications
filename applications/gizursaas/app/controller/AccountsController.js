@@ -14,8 +14,8 @@ var AccountsController = Stapes.subclass({
             type: "GET",
             dataType: "json",
             headers: {
-                "HTTP_X_USERNAME":user_controller.model.get('email'),
-                "HTTP_X_PASSWORD":user_controller.model.get('password')
+                "X_USERNAME":user_controller.model.get('email'),
+                "X_PASSWORD":user_controller.model.get('password')
             },
             error: function() {
                 self.view.error('Username or password is invalid.');
@@ -75,8 +75,8 @@ var AccountsController = Stapes.subclass({
                     type: "PUT",
                     dataType: "json",
                     headers: {
-                        "HTTP_X_USERNAME":user_controller.model.get('email'),
-                        "HTTP_X_PASSWORD":user_controller.model.get('password')
+                        "X_USERNAME":user_controller.model.get('email'),
+                        "X_PASSWORD":user_controller.model.get('password')
                     },
                     error: function() {
                         self.view.error('An error occured while re-generating the key pair. Please try again.');
@@ -106,8 +106,8 @@ var AccountsController = Stapes.subclass({
                     type: "PUT",
                     dataType: "json",
                     headers: {
-                        "HTTP_X_USERNAME":user_controller.model.get('email'),
-                        "HTTP_X_PASSWORD":user_controller.model.get('password')
+                        "X_USERNAME":user_controller.model.get('email'),
+                        "X_PASSWORD":user_controller.model.get('password')
                     },
                     error: function() {
                         self.view.error('An error occured while re-generating the key pair. Please try again.');
@@ -139,8 +139,8 @@ var AccountsController = Stapes.subclass({
                     dataType: "json",
                     processData: false,                    
                     headers: {
-                        "HTTP_X_USERNAME":user_controller.model.get('email'),
-                        "HTTP_X_PASSWORD":user_controller.model.get('password')
+                        "X_USERNAME":user_controller.model.get('email'),
+                        "X_PASSWORD":user_controller.model.get('password')
                     },
                     data: JSON.stringify({
                         "id": self.model.get('email'),

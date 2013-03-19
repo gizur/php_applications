@@ -133,7 +133,8 @@ class ApiController extends Controller
         1006 => "INVALID_SESSIONID",
         2001 => "CLIENT_ID_INVALID",
         2002 => "EMAIL_INVALID",
-        2003 => "LOGIN_INVALID"
+        2003 => "LOGIN_INVALID",
+        2004 => "WRONG_CREDENTIALS"
     );
 
     /**
@@ -366,10 +367,10 @@ class ApiController extends Controller
                     return true;
                 
                 if(empty($_SERVER['HTTP_X_USERNAME']))
-                    throw new Exception("Credentials are invalid.", 2003);
+                    throw new Exception("Credentials are invalid.", 2004);
                 
                 if(empty($_SERVER['HTTP_X_PASSWORD']))
-                    throw new Exception("Credentials are invalid.", 2003);
+                    throw new Exception("Credentials are invalid.", 2004);
                 
                 $clientID = $_SERVER['HTTP_X_USERNAME'];
                 $password = $_SERVER['HTTP_X_PASSWORD'];
@@ -401,7 +402,7 @@ class ApiController extends Controller
                 );
 
                 if(empty($ddb_response->body->Item))
-                    throw new Exception("Credentials are invalid.", 2003);
+                    throw new Exception("Credentials are invalid.", 2004);
 
                 $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
                 $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
@@ -409,7 +410,7 @@ class ApiController extends Controller
                 $hSPassword = (string)hash("sha256", $password . $securitySalt);
 
                 if($hSPassword !== $hPassword)
-                    throw new Exception("Credentials are invalid.", 2003);
+                    throw new Exception("Credentials are invalid.", 2004);
                     
                 return true;
             }
