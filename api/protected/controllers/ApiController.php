@@ -365,6 +365,12 @@ class ApiController extends Controller
                 if(in_array($_GET['action'], array('login', 'logout', 'forgotpassword')))
                     return true;
                 
+                if(empty($_SERVER['HTTP_X_USERNAME']))
+                    throw new Exception("Credentials are invalid.", 2003);
+                
+                if(empty($_SERVER['HTTP_X_PASSWORD']))
+                    throw new Exception("Credentials are invalid.", 2003);
+                
                 $clientID = $_SERVER['HTTP_X_USERNAME'];
                 $password = $_SERVER['HTTP_X_PASSWORD'];
                 
@@ -385,8 +391,17 @@ class ApiController extends Controller
                     )
                 );
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($ddb_response->body->Item) .
+                    " GET VAR " . json_encode($_GET), 
+                    CLogger::LEVEL_TRACE
+                );
+
                 if(empty($ddb_response->body->Item))
-                    throw new Exception("Login Id / password incorrect.", 2003);
+                    throw new Exception("Credentials are invalid.", 2003);
 
                 $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
                 $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
@@ -394,7 +409,7 @@ class ApiController extends Controller
                 $hSPassword = (string)hash("sha256", $password . $securitySalt);
 
                 if($hSPassword !== $hPassword)
-                    throw new Exception("Login Id / password incorrect.", 2003);
+                    throw new Exception("Credentials are invalid.", 2003);
                     
                 return true;
             }
