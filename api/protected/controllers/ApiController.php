@@ -362,7 +362,7 @@ class ApiController extends Controller
             //resources 
             if ($_GET['model'] == 'User'){
                 //These models do not require authentication
-                if(in_array($GET['action'], array('login', 'logout', 'forgotpassword')))
+                if(in_array($_GET['action'], array('login', 'logout', 'forgotpassword')))
                     return true;
                 
                 $clientID = $_SERVER['HTTP_X_USERNAME'];
