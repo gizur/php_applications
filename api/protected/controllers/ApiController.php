@@ -362,6 +362,9 @@ class ApiController extends Controller
             //First we validate the requests using logic do not consume
             //resources 
             if ($_GET['model'] == 'User'){
+                
+                if(Yii::app()->request->isPostRequest)
+                    return true;
                 //These models do not require authentication
                 if(in_array($_GET['action'], array('login', 'logout', 'forgotpassword')))
                     return true;
