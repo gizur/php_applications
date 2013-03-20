@@ -1142,6 +1142,10 @@ class ApiController extends Controller
                     $clientID = $post['id'];
                     $password = $post['password'];
                     
+                    //It match username sent in the header and email
+                    //sent in the POST request
+                    if($_SERVER['HTTP_X_USERNAME'] !== $clientID)
+                        throw new Exception("Credentials are invalid.", 2004);
                     //Log
                     Yii::log(
                         " TRACE(" . $this->_trace_id . "); " . 
@@ -2030,6 +2034,11 @@ class ApiController extends Controller
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
 
+                //It match username sent in the header and email
+                //sent in the GET request
+                if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
+                    throw new Exception("Credentials are invalid.", 2004);
+                    
                 // Get an item
                 $ddb_response = $dynamodb->get_item(
                     array(
@@ -3588,6 +3597,11 @@ class ApiController extends Controller
                 if (isset($_GET['field'])) {
                     $keyid = str_replace('keypair', '', $_GET['field']);
 
+                    //It match username sent in the header and email
+                    //sent in the GET request
+                    if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
+                        throw new Exception("Credentials are invalid.", 2004);
+                    
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
