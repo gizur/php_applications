@@ -1141,11 +1141,6 @@ class ApiController extends Controller
                     $post = json_decode(file_get_contents('php://input'), true);
                     $clientID = $post['id'];
                     $password = $post['password'];
-                    
-                    //It match username sent in the header and email
-                    //sent in the POST request
-                    if($_SERVER['HTTP_X_USERNAME'] !== $clientID)
-                        throw new Exception("Credentials are invalid.", 2004);
                     //Log
                     Yii::log(
                         " TRACE(" . $this->_trace_id . "); " . 
