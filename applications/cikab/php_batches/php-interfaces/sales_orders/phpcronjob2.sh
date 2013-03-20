@@ -172,7 +172,8 @@ if (!empty($numrows)) {
                     $finalformataccountname = $leadzero . $intfacerows['accountname'];
                 }
 
-                $finalformatproductname = implode("+", $multiproduct);
+                
+                
                 $currentdate = date("YmdHi");
                 $originalordernomber = "7777" . $intfacerows['salesorder_no'];
 
@@ -201,6 +202,9 @@ if (!empty($numrows)) {
 
                 $orderrefferenceno = "000" . $intfacerows['salesorder_no'];
             }
+            $finalformatproductname = implode("+", $multiproduct);
+            unset($multiproduct);
+            unset($productnamearray);
             /**
              * end of last while
              */
@@ -213,7 +217,12 @@ if (!empty($numrows)) {
          *  Write SET Files
          */
         
-        $string = "HEADERGIZUR           " . $currentdate . "{$millisec}M256      RUTIN   .130KF27777100   mottagning initierad                                                                         001" . $finalformataccountname . "1+03751+038" . $ordernomber . "+226" . $futuredeliverydate . "+039" . $deliveryday . "+040" . $ordernomber . "+" . $finalformatproductname . "+C         RUTIN   .130KF51125185   Mottagning avslutad    BYTES/BLOCKS/RETRIES=1084 /5    /0";
+        $string = "HEADERGIZUR           " . $currentdate . "{$millisec}M256      " . 
+            "RUTIN   .130KF27777100   mottagning initierad" . 
+            "                                                                         001" . 
+            $finalformataccountname . "1+03751+038" . $ordernomber . "+226" . 
+            $futuredeliverydate . "+039" . $deliveryday . "+040" . $ordernomber . "+" . 
+            $finalformatproductname . "+C         RUTIN   .130KF51125185   Mottagning avslutad    BYTES/BLOCKS/RETRIES=1084 /5    /0";
         /**
          * End Write Files
          */
