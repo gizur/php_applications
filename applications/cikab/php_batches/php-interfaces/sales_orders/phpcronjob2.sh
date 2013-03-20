@@ -197,8 +197,6 @@ try {
                         $sOWProduct->accountname;
                 }
 
-                $finalformatproductname = implode("+", $multiproduct);
-                $currentdate = date("YmdHi");
                 $originalordernomber = "7777" . $sOWProduct->salesorder_no;
 
                 /**
@@ -224,10 +222,12 @@ try {
                 );
                 $futuredeliverydate = date('ymd', $futuredeliveryDate);
 
-                unset($multiproduct);
-                unset($productnamearray);
+                
             }
-
+            $currentdate = date("YmdHi");                
+            $finalformatproductname = implode("+", $multiproduct);                
+            unset($multiproduct);
+            unset($productnamearray);
             /*
              * Free the product resultset.
              */
