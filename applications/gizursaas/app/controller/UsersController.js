@@ -16,14 +16,30 @@
 
 'use strict';
 
+// UserController
+//==================
+//
+// This class has user resistration and login method.
+// 
+
 var UsersController = Stapes.subclass({
+    // constructor
+    //===========
+    //
+    // This will load the home template and 
+    // initialise the event handlers
     constructor: function() {
+        //Alias this with self
         var self = this;
+        // Initialse model and view
+        // 
+        // On initialisation of view it will load the registration
+        // template.
         this.model = new UserModel();
         this.view = new UsersView(this.model);
 
         this.view.on('registrationSubmit', function() {
-            //Form
+            //Get values from the form on submission and assign it to model.
             this.$el = $("#registrationform");
             var $first_name = this.$el.find("#first_name");
             var $last_name = this.$el.find("#last_name");
@@ -43,16 +59,20 @@ var UsersController = Stapes.subclass({
                 "client_id": $client_id.val()
             });
 
-            //Validate the User
+            //Validate the User.
             if (self.model.validate()) {
 
                 self.view.success('Processing ...');
-
+                
+                //Hash the password with the security salt.
+                
                 var hashObj1 = new jsSHA(Math.random(), "TEXT");
                 var security_salt = hashObj1.getHash("SHA-256", "HEX");
                 var hashObj = new jsSHA(self.model.get('password') + security_salt, "TEXT");
                 var hashed_password = hashObj.getHash("SHA-256", "HEX");
 
+                //Make a registration request to the server
+                //
                 var _url_create = __rest_server_url + 'User/';
                 $.ajax({
                     url: _url_create,
@@ -85,12 +105,14 @@ var UsersController = Stapes.subclass({
                         "databasename": "",
                         "security_salt": security_salt
                     }),
+                    //If error occured, it will display the error msg.
                     error: function(jqXHR, textStatus, errorThrown) {
                         var _data = JSON.parse(jqXHR.responseText);
-                        //_data.error.code == "ERROR" && 
+                        
                         if (!_data.success)
                             self.view.error(__messages[_data.error.code]);
                     },
+                    // On success clean the form.
                     success: function(_data) {
                         if (_data.success) {
                             self.view.success('Your account has been created. You may login to your account.');
@@ -109,6 +131,10 @@ var UsersController = Stapes.subclass({
             }
         });
     },
+    // Login
+    // ======
+    // This function will be called when user will click on the
+    // login button.
     "login": function(status) {
         var self = this;
 

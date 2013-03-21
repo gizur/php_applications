@@ -16,6 +16,12 @@
 
 'use strict';
 
+// AccountModel
+//==================
+//
+// This class has model properties, validation function
+//
+
 var AccountModel = Stapes.subclass({
     "first_name" : '',
     "last_name" : '',
@@ -46,6 +52,11 @@ var AccountModel = Stapes.subclass({
     'validate' : function(){
         return true;
     },
+    // map_values function
+    // ===================
+    //
+    // This fuction is used to update values in html page.
+    
     'map_values' : function(){
         $('#first_name').val(this.get('first_name'));
         $('#last_name').val(this.get('last_name'));

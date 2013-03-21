@@ -16,6 +16,11 @@
 
 'use strict';
 
+// UserModel
+//==================
+//
+// This class has model properties and validation functions
+//
 var UserModel = Stapes.subclass({
     "first_name" : '',
     "last_name" : '',
