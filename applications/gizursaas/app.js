@@ -3,7 +3,7 @@
  * This file contains routing function used throughout Gizur SaaS.
  *
  * @package    Gizur SaaS
- * @subpackage config
+ * @subpackage 
  * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
  * @version    SVN: $Id$
  *
@@ -11,9 +11,11 @@
  * @copyright  Copyright (c) 2012, Gizur AB, 
  * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
  *
- * CSS Version 3
+ * JavaScript
  *
  */
+
+"use strict";
 
 //Instanciate the controllers
 var user_controller = null;

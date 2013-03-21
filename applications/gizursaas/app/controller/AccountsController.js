@@ -1,29 +1,62 @@
+/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage controller
+ * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ *
+ * JavaScript
+ *
+ */
+
 'use strict';
 
+// AccountController
+//==================
+//
+// This class is responsible for fetching and updating information
+// updated by the user
+
 var AccountsController = Stapes.subclass({
+    // Intitialise the object
     constructor: function(DEFAULT_HASH, client_email) {
+        //Create a alias of this
         var self = this;
 
+        //Initialise the model and view
         this.model = new AccountModel();
         this.view = new AccountsView();
 
+        //Prepare the url to fetch the account details
         var _url = __rest_server_url + 'User/' + encodeURIComponent(client_email);
 
+        //Make a Ajax request
         $.ajax({
             url: _url,
             type: "GET",
             dataType: "json",
             headers: {
+                //Add username and password in the headers
+                // to validate the request
                 "X_USERNAME":user_controller.model.get('email'),
                 "X_PASSWORD":user_controller.model.get('password')
             },
             error: function() {
+                // If an error occured show and error and
+                // take the user to the login page.
                 self.view.error('Username or password is invalid.');
                 setTimeout(function() {
                     hasher.setHash(DEFAULT_HASH);
                 }, 1000);
             },
             success: function(_data) {
+                // Map the values on sucess
+                // with model attributes
                 if (_data.success) {
                     self.model.set({
                         "first_name": _data.result.name_1,
@@ -54,6 +87,8 @@ var AccountsController = Stapes.subclass({
                     });
                     self.model.map_values();
                 } else {
+                    // If an error occured show and error and
+                    // take the user to the login page.
                     self.view.error('Username or password is invalid.');
                     setTimeout(function() {
                         hasher.setHash(DEFAULT_HASH);
@@ -62,12 +97,19 @@ var AccountsController = Stapes.subclass({
             }
         });
 
+        // This will prevent the forms not to submit by default
+        // 
         this.$el = $('form');
         this.$el.on('submit', function(e) {
             e.preventDefault();
         });
 
         this.view.on({
+            // Event to generate API and SECRET key 1
+            //=======================================
+            //
+            // This fuunction make PUT request to the server to
+            // generate API and SECRET key 1
             'generateAPIKeyAndSecret1': function() {
                 var _url = __rest_server_url + 'User/keypair1/' + encodeURIComponent(self.model.get('email'));
                 $.ajax({
@@ -75,14 +117,18 @@ var AccountsController = Stapes.subclass({
                     type: "PUT",
                     dataType: "json",
                     headers: {
+                        //Add username and password in the headers
+                        // to validate the request
                         "X_USERNAME":user_controller.model.get('email'),
                         "X_PASSWORD":user_controller.model.get('password')
                     },
                     error: function() {
+                        // Show the error in case error received.
                         self.view.error('An error occured while re-generating the key pair. Please try again.');
                     },
                     success: function(_data) {
                         if (_data.success) {
+                            // Update the values on success
                             self.view.success('Key pair has been generated successfully.');
 
                             //Set modified values to the Account Object
@@ -90,8 +136,9 @@ var AccountsController = Stapes.subclass({
                                 'api_key_1': _data.result.apikey_1,
                                 'secret_key_1': _data.result.secretkey_1
                             });
-                            //Map values to the page
+                            // Update page with the new values
                             self.model.map_values();
+                            // Close the model dialog
                             $('#generateNewAPIAndSecretKey1Close').click();
                         } else {
                             self.view.error('An error occured while re-generating the key pair. Please try again.');
@@ -99,6 +146,11 @@ var AccountsController = Stapes.subclass({
                     }
                 });
             },
+            // Event to generate API and SECRET key 2
+            //=======================================
+            //
+            // This fuunction make PUT request to the server to
+            // generate API and SECRET key 2
             'generateAPIKeyAndSecret2': function() {
                 var _url = __rest_server_url + 'User/keypair2/' + encodeURIComponent(self.model.get('email'));
                 $.ajax({
@@ -106,10 +158,13 @@ var AccountsController = Stapes.subclass({
                     type: "PUT",
                     dataType: "json",
                     headers: {
+                        //Add username and password in the headers
+                        // to validate the request
                         "X_USERNAME":user_controller.model.get('email'),
                         "X_PASSWORD":user_controller.model.get('password')
                     },
                     error: function() {
+                        // Show the error in case error received.
                         self.view.error('An error occured while re-generating the key pair. Please try again.');
                     },
                     success: function(_data) {
@@ -121,8 +176,9 @@ var AccountsController = Stapes.subclass({
                                 'api_key_2': _data.result.apikey_2,
                                 'secret_key_2': _data.result.secretkey_2
                             });
-                            //Map values to the page
+                            // Update page with the new values
                             self.model.map_values();
+                            // Close the model dialog
                             $('#generateNewAPIAndSecretKey2Close').click();
                         } else {
                             self.view.error('An error occured while re-generating the key pair. Please try again.');
@@ -130,6 +186,11 @@ var AccountsController = Stapes.subclass({
                     }
                 });
             },
+            // Event to update information
+            //============================
+            //
+            // This fuunction make PUT request to the server to
+            // information updated by the user
             'updateInformation': function() {
                 var _url = __rest_server_url + 'User';
                 
