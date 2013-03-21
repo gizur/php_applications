@@ -1,3 +1,20 @@
+
+/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage config
+ * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ *
+ * CSS Version 3
+ *
+ */
+
 //Instanciate the controllers
 var user_controller = null;
 var account_controller = null;
