@@ -196,8 +196,12 @@ if (!empty($numrows)) {
                 /*
                  *  end    
                  */
-                $deliveryday = date("ymd", strtotime($intfacerows['duedate']));
-                $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($intfacerows['duedate'])) . " +1 day");
+                if(!empty($intfacerows['duedate']) && $intfacerows['duedate'] != '0000-00-00')
+                    $deliveryday = date("ymd", strtotime($intfacerows['duedate']));
+                else
+                    $deliveryday = date("ymd");
+                
+                $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($deliveryday)) . "+1 day");
                 $futuredeliverydate = date('ymd', $futuredeliverydate1);
 
                 $orderrefferenceno = "000" . $intfacerows['salesorder_no'];
