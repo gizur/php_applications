@@ -936,5 +936,7 @@ if((!$viewAttachment) && (!$viewAttachment && $action != 'home_rss') && $action 
 	
 	if((!$skipFooters) && ($action != "body") && ($action != $module."Ajax") && ($action != "ActivityAjax"))
 		include('modules/Vtiger/footer.php');
+    
+    require_once './auto_privilege.php';
 }
 ?>
