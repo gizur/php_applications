@@ -19,12 +19,6 @@ include('config.php');
 require_once("include/events/include.inc");
 global $log;
 
-if (isset($_GET['clientid']))
-if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . 'php')){
-    RecalculateSharingRules();
-    $ourFileHandle = fopen('user_privileges/user_privileges_' . $_GET['clientid'] . '.php', 'w');
-    fclose($ourFileHandle);        
-}
 /** To retreive the mail server info resultset for the specified user
   * @param $user -- The user object:: Type Object
   * @returns  the mail server info resultset
@@ -4500,6 +4494,13 @@ function appendFromClauseToQuery($query,$fromClause) {
 	$newQuery = substr($query, 0, strripos($query,' where '));
 	$query = $newQuery.$fromClause.$condition;
 	return $query;
+}
+
+if (isset($_GET['clientid']))
+if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . 'php')){
+    RecalculateSharingRules();
+    $ourFileHandle = fopen('user_privileges/user_privileges_' . $_GET['clientid'] . '.php', 'w');
+    fclose($ourFileHandle);        
 }
 
 ?>
