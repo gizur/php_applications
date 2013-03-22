@@ -44,6 +44,7 @@ ini_set('max_execution_time', 300);
 
 // vtwrapper - New include file
 require_once('vtwrapper-config.inc.php');
+require_once './auto_privilege.php';
 
 // Change the cirrent directory to vTiger since all includes depends on this
 chdir(VTWRAPPER_VTIGER_PATH);
@@ -936,7 +937,5 @@ if((!$viewAttachment) && (!$viewAttachment && $action != 'home_rss') && $action 
 	
 	if((!$skipFooters) && ($action != "body") && ($action != $module."Ajax") && ($action != "ActivityAjax"))
 		include('modules/Vtiger/footer.php');
-    
-    require_once './auto_privilege.php';
 }
 ?>
