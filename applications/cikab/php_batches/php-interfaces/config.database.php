@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @category   Cronjobs
+ * @category   Integration
  * 
- * @package    Phpbatches
+ * @package    Config
  * @subpackage DatabaseConfig
  * @author     Prabhat Khera <prabhat.khera@gmail.com>
  * @link       href="http://gizur.com"
@@ -16,6 +16,7 @@
  * http://pear.php.net/manual/en/standards.php
  * PHP version 5.3.2
  */
+
 /**
  * 
  * Call Configration Files

@@ -5,7 +5,7 @@
  *
  * @package    Integration
  * @subpackage Config
- * @author     Jonas Colmsjö <jonas.colmsjo@gizur.com>
+ * @author     prabhat khera <prabhat.khera@essindia.co.in>
  * @version    SVN: $Id$
  *
  * @license    Commercial license

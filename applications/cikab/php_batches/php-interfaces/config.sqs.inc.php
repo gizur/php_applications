@@ -3,7 +3,7 @@
 /**
  * @category   Cronjobs
  * @package    Integration
- * @subpackage DatabaseConfig
+ * @subpackage SQSConfig
  * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
  * @version    SVN: $Id$
  * @link       href="http://gizur.com"
@@ -18,9 +18,10 @@
  * PHP version 5.3
  *
  */
-?>
-<?php
 
+/*
+ * Load the confid and Amazon SDK
+ */
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/../../../../lib/aws-php-sdk/sdk.class.php';
 

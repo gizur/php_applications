@@ -1,13 +1,24 @@
 <?php
 
 /**
- * created date : 02/06/2012
- * created by : anil singh
- * @author anil singh <anil-singh@essindia.co.in>
- * flow : Connect to your FTP Server 
- * 		  
- * modify date : 02/06/2012
+ * @category   Cronjobs
+ * @package    Integration
+ * @subpackage FTPConfig
+ * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @version    SVN: $Id$
+ * @link       href="http://gizur.com"
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ *
+ * purpose : Connect to Amazon SQS through aws-php-sdk
+ * Coding standards:
+ * http://pear.php.net/manual/en/standards.php
+ *
+ * PHP version 5.3
+ *
  */
+
 /**
  * Call Global Configration file
  */
