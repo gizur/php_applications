@@ -25,7 +25,7 @@
 require_once __DIR__. '/config.inc.php';
 
 /**
- * ready state of syslog
+ * Ready state of syslog
  */
 openlog("FTPConnectionCron", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
@@ -34,8 +34,10 @@ openlog("FTPConnectionCron", LOG_PID | LOG_PERROR, LOG_LOCAL0);
  * Check FTP Connection
  */
 $ftpConnId = ftp_connect($dbconfigFtp['Host'], $dbconfigFtp['port']);
+
 /**
- * Check FTP Connection if any issue in ftp then manage error in syslog
+ * If connection fails update syslog with the error message and display
+ * an error message.
  */
 if (!$ftpConnId) {
     $syslogmessage = "Some problem in FTP Connection.please check Host Name!";
@@ -47,11 +49,14 @@ if (!$ftpConnId) {
 
 
 /**
- *  After Connect to the FTP then Check Auth..
+ *  Check Authentication after connection
  */
 $ftpLoginResult = ftp_login(
     $ftpConnId, $dbconfigFtp['User'], $dbconfigFtp['Password']
 );
+/**
+ * If authentication fails update the syslog.
+ */
 if (!$ftpLoginResult) {
     $syslogmessage = "Some problem in FTP Connection.please " .
         "check username and password!";
@@ -61,10 +66,13 @@ if (!$ftpLoginResult) {
     exit;
 }
 
+/*
+ * Enable passive mode
+ */
 ftp_pasv($ftpConnId, true);
 
-/* * *
- * Check FTP Connection and Auth will be success or not
+/**
+ * Check FTP Connection and Authenticate the connection again
  */
 
 if ((!$ftpConnId ) || (!$ftpLoginResult )) {
