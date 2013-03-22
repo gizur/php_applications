@@ -214,11 +214,16 @@ try {
                 } else
                     $ordernumber = $originalordernomber;
 
+                if(!empty($sOWProduct->duedate) 
+                    && $sOWProduct->duedate != '0000-00-00')
                 $deliveryday = date(
                     "ymd", strtotime($sOWProduct->duedate)
                 );
+                else
+                    $deliveryday = date('ymd');
+                
                 $futuredeliveryDate = strtotime(
-                    date("Y-m-d", strtotime($sOWProduct->duedate)) . " +1 day"
+                    date("Y-m-d", strtotime($deliveryday)) . "+1 day"
                 );
                 $futuredeliverydate = date('ymd', $futuredeliveryDate);
 
