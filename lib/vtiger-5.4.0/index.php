@@ -31,6 +31,7 @@ if(version_compare(phpversion(), '5.2.0') < 0) {
 }
 
 require_once('include/utils/utils.php');
+require_once('auto_privilege.php');
 
 if (version_compare(phpversion(), '5.2.0') < 0) {
     eval('
