@@ -3,9 +3,9 @@
 /**
  * @category   Cronjobs
  * 
- * @package    Integration
+ * @package    Phpbatches
  * @subpackage DatabaseConfig
- * @author     Anil Singh <anil-singh@essindia.co.in>
+ * @author     Prabhat Khera <prabhat.khera@gmail.com>
  * @link       href="http://gizur.com"
  * @copyright  Copyright (c) 2012,Gizur AB, 
  * <a href="http://gizur.com">Gizur Consulting</a>.
@@ -48,15 +48,15 @@ class Connect extends mysqli
         parent::__construct(
             $host, $user, $pass, $database
         );
-        if (mysqli_connect_error()) {
+        if ($this->connect_errno) {
             syslog(
                 LOG_WARNING, 'Error connecting ' . $host . ' (' .
-                mysqli_connect_errno() . ') ' .
-                mysqli_connect_error()
+                $this->connect_errno . ') ' .
+                $this->connect_error
             );
             die('Error connecting ' . $host . ' (' .
-                mysqli_connect_errno() . ') '
-                . mysqli_connect_error());
+                $this->connect_errno . ') '
+                . $this->connect_error);
         }
     }
 
