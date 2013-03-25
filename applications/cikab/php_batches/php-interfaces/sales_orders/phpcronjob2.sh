@@ -175,7 +175,8 @@ if (!empty($numrows)) {
                 
                 
                 $currentdate = date("YmdHi");
-                $originalordernomber = "7777" . $intfacerows['salesorder_no'];
+                $salesID = preg_replace('/[A-Z]/', '', $intfacerows['salesorder_no']);
+                $originalordernomber = "7777" . $salesID;
 
                 /**
                  * for find the order no. total length if length will be greater then 6 then auto remove from the starting
@@ -203,8 +204,6 @@ if (!empty($numrows)) {
                 
                 $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($deliveryday)) . "+1 day");
                 $futuredeliverydate = date('ymd', $futuredeliverydate1);
-
-                $orderrefferenceno = "000" . $intfacerows['salesorder_no'];
             }
             $finalformatproductname = implode("+", $multiproduct);
             unset($multiproduct);
