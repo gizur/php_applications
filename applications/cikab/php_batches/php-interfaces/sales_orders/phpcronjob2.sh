@@ -216,7 +216,10 @@ try {
                         $sOWProduct->accountname;
                 }
 
-                $originalordernomber = "7777" . $sOWProduct->salesorder_no;
+                $salesID = preg_replace(
+                    '/[A-Z]/', '', $sOWProduct->salesorder_no
+                );
+                $originalordernomber = "7777" . $salesID;
 
                 /**
                  * for find the order no. total length if length 
