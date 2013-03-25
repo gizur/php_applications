@@ -21,7 +21,7 @@ require_once 'modules/Users/Users.php';
 require_once('include/utils/UserInfoUtil.php');
 
 if (isset($_GET['clientid']))
-if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . 'php')){
+if (!file_exists('user_privileges/user_privileges_' . $_GET['clientid'] . '.php')){
     RecalculateSharingRules();
     $ourFileHandle = fopen('user_privileges/user_privileges_' . $_GET['clientid'] . '.php', 'w');
     fclose($ourFileHandle);        

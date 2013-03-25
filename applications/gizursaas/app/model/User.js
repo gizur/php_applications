@@ -1,5 +1,26 @@
+/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage model
+ * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ *
+ * JavaScript
+ *
+ */
+
 'use strict';
 
+// UserModel
+//==================
+//
+// This class has model properties and validation functions
+//
 var UserModel = Stapes.subclass({
     "first_name" : '',
     "last_name" : '',

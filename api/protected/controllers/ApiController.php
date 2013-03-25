@@ -133,7 +133,8 @@ class ApiController extends Controller
         1006 => "INVALID_SESSIONID",
         2001 => "CLIENT_ID_INVALID",
         2002 => "EMAIL_INVALID",
-        2003 => "LOGIN_INVALID"
+        2003 => "LOGIN_INVALID",
+        2004 => "WRONG_CREDENTIALS"
     );
 
     /**
@@ -360,8 +361,62 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
-            if ($_GET['model'] == 'User')
+            if ($_GET['model'] == 'User'){
+                
+                if(Yii::app()->request->isPostRequest)
+                    return true;
+                //These models do not require authentication
+                if(in_array($_GET['action'], array('login', 'logout', 'forgotpassword')))
+                    return true;
+                
+                if(empty($_SERVER['HTTP_X_USERNAME']))
+                    throw new Exception("Credentials are invalid.", 2004);
+                
+                if(empty($_SERVER['HTTP_X_PASSWORD']))
+                    throw new Exception("Credentials are invalid.", 2004);
+                
+                $clientID = $_SERVER['HTTP_X_USERNAME'];
+                $password = $_SERVER['HTTP_X_PASSWORD'];
+                
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+
+                // Get an item
+                $ddb_response = $dynamodb->get_item(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Key' => $dynamodb->attributes(
+                            array(
+                                'HashKeyElement' => $clientID,
+                            )
+                        ),
+                        'ConsistentRead' => 'true'
+                    )
+                );
+
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_trace_id . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($ddb_response->body->Item) .
+                    " GET VAR " . json_encode($_GET), 
+                    CLogger::LEVEL_TRACE
+                );
+
+                if(empty($ddb_response->body->Item))
+                    throw new Exception("Credentials are invalid.", 2004);
+
+                $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
+
+                $hSPassword = (string)hash("sha256", $password . $securitySalt);
+
+                if($hSPassword !== $hPassword)
+                    throw new Exception("Credentials are invalid.", 2004);
+                    
                 return true;
+            }
             
             //Check Acceptable language of request
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
@@ -1087,14 +1142,13 @@ class ApiController extends Controller
                 if ($_GET['action'] == 'login') {
                     
                     $post = json_decode(file_get_contents('php://input'), true);
-                    $_client_id = $post['id'];
-                    $_password = $post['password'];
-                    
+                    $clientID = $post['id'];
+                    $password = $post['password'];
                     //Log
                     Yii::log(
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST : User/login ($_client_id)", 
+                        " PROCESSING REQUEST : User/login ($clientID)", 
                         CLogger::LEVEL_TRACE
                     );
                     
@@ -1108,7 +1162,7 @@ class ApiController extends Controller
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
                                 array(
-                                    'HashKeyElement' => $_client_id,
+                                    'HashKeyElement' => $clientID,
                                 )
                             ),
                             'ConsistentRead' => 'true'
@@ -1118,12 +1172,12 @@ class ApiController extends Controller
                     if(empty($ddb_response->body->Item))
                         throw new Exception("Login Id / password incorrect.", 2003);
                         
-                    $_security_salt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
-                    $_h_password = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
+                    $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                    $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
                     
-                    $_g_password = (string)hash("sha256", $_password . $_security_salt);
+                    $hSPassword = (string)hash("sha256", $password . $securitySalt);
                     
-                    if($_g_password !== $_h_password)
+                    if($hSPassword !== $hPassword)
                         throw new Exception("Login Id / password incorrect.", 2003);
                     //Return response to client
                     $response = new stdClass();
@@ -1143,6 +1197,21 @@ class ApiController extends Controller
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST ", 
+                        CLogger::LEVEL_TRACE
+                    );
+                }
+                break;
+                
+                if ($_GET['action'] == 'forgotpassword') {
+           
+                    $post = json_decode(file_get_contents('php://input'), true);
+                    $clientID = $post['id'];
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST : User/forgotpassword ($clientID)", 
                         CLogger::LEVEL_TRACE
                     );
                 }
@@ -1963,6 +2032,11 @@ class ApiController extends Controller
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
 
+                //It match username sent in the header and email
+                //sent in the GET request
+                if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
+                    throw new Exception("Credentials are invalid.", 2004);
+                    
                 // Get an item
                 $ddb_response = $dynamodb->get_item(
                     array(
@@ -2649,8 +2723,8 @@ class ApiController extends Controller
                     else
                         $original_password = $post['password'];
                     
-                    $post['security_salt'] = hash("sha256", uniqid("", true));
-                    $post['password'] = hash("sha256", $original_password . $post['security_salt']);
+                    //$post['security_salt'] = hash("sha256", uniqid("", true));
+                    //$post['password'] = hash("sha256", $original_password . $post['security_salt']);
                         
                     //Create User
                     //===========
@@ -2771,12 +2845,12 @@ class ApiController extends Controller
                             'Subject.Data' => 'Welcome to Gizur SaaS',
                             'Body.Text.Data' => 'Hi ' . $post['name_1'] . ' ' . $post['name_2'] . ', ' . PHP_EOL .
                             PHP_EOL .
-                            'Welcome to Gizur SaaS.' . PHP_EOL .
+                            'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
                             'Your username and password are as follows:' . PHP_EOL .
                             PHP_EOL .
                             'Portal Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/'  . PHP_EOL .
                             'Username: ' . $post['id']  . PHP_EOL .                            
-                            'Password: ' . $original_password . PHP_EOL .
+                            'Password: [Your Gizur SaaS Password]' . PHP_EOL .
                             PHP_EOL .
                             PHP_EOL .
                             '--' .
@@ -3521,6 +3595,11 @@ class ApiController extends Controller
                 if (isset($_GET['field'])) {
                     $keyid = str_replace('keypair', '', $_GET['field']);
 
+                    //It match username sent in the header and email
+                    //sent in the GET request
+                    if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
+                        throw new Exception("Credentials are invalid.", 2004);
+                    
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
@@ -3574,6 +3653,26 @@ class ApiController extends Controller
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
                     
+                    // Get an item
+                    $ddb_response = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $post['id'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+                    
+                    $_old_client_id = (string)$ddb_response->body->Item->clientid->{AmazonDynamoDB::TYPE_STRING};
+                    
+                    if($_old_client_id == $post['clientid'])
+                        $_no_to_match = 1;
+                    else
+                        $_no_to_match = 0;
+                    
                     //Validate Client ID
                     $ddb_response = $dynamodb->scan(
                         array(
@@ -3590,7 +3689,7 @@ class ApiController extends Controller
                         )
                     );
                     
-                    if(!empty($ddb_response->body->Items))
+                    if(!empty($ddb_response->body->Items) && $ddb_response->body->Count > $_no_to_match)
                         throw New Exception("Client id is not available.", 2001);
                     
                     $ddb_response = $dynamodb->put_item(

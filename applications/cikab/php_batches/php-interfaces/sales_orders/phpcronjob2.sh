@@ -172,9 +172,11 @@ if (!empty($numrows)) {
                     $finalformataccountname = $leadzero . $intfacerows['accountname'];
                 }
 
-                $finalformatproductname = implode("+", $multiproduct);
+                
+                
                 $currentdate = date("YmdHi");
-                $originalordernomber = "7777" . $intfacerows['salesorder_no'];
+                $salesID = preg_replace('/[A-Z]/', '', $intfacerows['salesorder_no']);
+                $originalordernomber = "7777" . $salesID;
 
                 /**
                  * for find the order no. total length if length will be greater then 6 then auto remove from the starting
@@ -195,12 +197,17 @@ if (!empty($numrows)) {
                 /*
                  *  end    
                  */
-                $deliveryday = date("ymd", strtotime($intfacerows['duedate']));
-                $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($intfacerows['duedate'])) . " +1 day");
+                if(!empty($intfacerows['duedate']) && $intfacerows['duedate'] != '0000-00-00')
+                    $deliveryday = date("ymd", strtotime($intfacerows['duedate']));
+                else
+                    $deliveryday = date("ymd");
+                
+                $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($deliveryday)) . "+1 day");
                 $futuredeliverydate = date('ymd', $futuredeliverydate1);
-
-                $orderrefferenceno = "000" . $intfacerows['salesorder_no'];
             }
+            $finalformatproductname = implode("+", $multiproduct);
+            unset($multiproduct);
+            unset($productnamearray);
             /**
              * end of last while
              */
@@ -208,10 +215,23 @@ if (!empty($numrows)) {
         /**
          *  close else
          */
+        $millisec = toTimestamp();
         /**
          *  Write SET Files
          */
-        $string = "HEADERGIZUR           " . $currentdate . "2800M256      RUTIN   .130KF27777100   mottagning initierad                                                                         001" . $finalformataccountname . "1+03751+038" . $ordernomber . "+226" . $futuredeliverydate . "+039" . $deliveryday . "+040" . $ordernomber . "+" . $finalformatproductname . "+C         RUTIN   .130KF51125185   Mottagning avslutad    BYTES/BLOCKS/RETRIES=1084 /5    /0";
+        
+        $string = "HEADERGIZUR           " . $currentdate . "{$millisec}M256      " . 
+            "RUTIN   .130KF27777100   mottagning initierad" . 
+            "                                                                         001" . 
+            $finalformataccountname . "1+03751+038" . $ordernomber . "+226" . 
+            $futuredeliverydate . "+039" . $deliveryday . "+040" . $ordernomber . "+" . 
+            $finalformatproductname . "+C         RUTIN   .130KF51125185   " . 
+            "Mottagning avslutad    BYTES/BLOCKS/RETRIES=1084 /5    /0";
+        /**
+         * Split line and place \n at every 80 chars
+         */
+        $pieces = str_split($string, 80);
+        $string = join("\n", $pieces);
         /**
          * End Write Files
          */
@@ -299,7 +319,16 @@ if (!empty($numrows)) {
 ?>
 
 <?php
+/*
+ * Get 4 first digit from millisecond
+ */
+function toTimestamp()
+{
+    $seconds = round(microtime(true) * 1000);
+    $remainder = substr("$seconds",-4);
 
+    return $remainder;
+}
 /**
  * auto adding zero befor number  
  */
