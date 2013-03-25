@@ -25,10 +25,10 @@
  */
 require_once 'config.inc.php';
 require_once 'lib/nusoap.php';
-global $_session_id;
-global $_customer_id;
-global $_customer_name;
-global $_customer_account_id;
+global $sessionId;
+global $customerId;
+global $customerName;
+global $customerAccountId;
 
 /**
  * Gizur Test inherist PHP Unit Tests Framework
@@ -49,7 +49,7 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
     private $_config = Array();
     private $_version = '5.4.0';
     private $_client = null;
-    private $_default_charset = 'UTF-8';
+    private $_defaultCharset = 'UTF-8';
 
     public function Girur_SOAP_API_Test()
     {
@@ -69,8 +69,10 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         $this->_url = $this->_config['url'];
         $this->_credentials = $this->_config['credentials'];
         $this->_version = $this->_config['version'];
-        $this->_client = new soapclient2($this->_url . "/vtigerservice.php?service=customerportal", false);
-        $this->_client->soap_defencoding = $this->_default_charset;
+        $this->_client = new soapclient2(
+            $this->_url . "/vtigerservice.php?service=customerportal", false
+        );
+        $this->_client->soap_defencoding = $this->$defaultCharset;
         $this->_login();
     }
     /**
@@ -79,7 +81,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
      * @return void
      */
     
-    public function testLogin(){
+    public function testLogin()
+    {
         
     }
     /**
@@ -90,15 +93,15 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
     private function _login()
     {
 
-        global $_session_id;
-        global $_customer_id;
-        global $_customer_name;
-        global $_customer_account_id;
+        global $sessionId;
+        global $customerId;
+        global $customerName;
+        global $customerAccountId;
 
         //Request parameters
         $action = 'authenticate_user';
 
-        $invalid_credentials = Array(
+        $invalidCredentials = Array(
             'cloud3@gizur.com' => false,
             'test@test.com' => false
         );
@@ -108,23 +111,31 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
             'version' => "$this->_version", 'true');
 
         echo " calling authenticate_user " . PHP_EOL;
-        $result = $this->_client->call('authenticate_user', $params, $this->_url, $this->_url);
+        $result = $this->_client->call(
+            'authenticate_user', $params, $this->_url, $this->_url
+        );
         echo " end calling authenticate_user " . PHP_EOL;
         
-        $this->assertEquals(count($result), 1, " Eaither no or more than one contacts have been sent.");
-        $this->assertEquals($result[0]['id'], $this->_credentials[0]['id'], " User is invalid.");
+        $this->assertEquals(
+            count($result), 1, 
+            " Eaither no or more than one contacts have been sent."
+        );
+        $this->assertEquals(
+            $result[0]['id'], $this->_credentials[0]['id'], 
+            " User is invalid."
+             );
 
         if (!empty($result)) {
-            $_customer_id = $result[0]['id'];
-            $_customer_name = $result[0]['user_name'];
-            $_session_id = $result[0]['sessionid'];
+            $customerId = $result[0]['id'];
+            $customerName = $result[0]['user_name'];
+            $sessionId = $result[0]['sessionid'];
 
-            $params2 = Array('id' => $_customer_id);
-            $_customer_account_id = $this->_client->call('get_check_account_id', 
+            $params2 = Array('id' => $customerId);
+            $customerAccountId = $this->_client->call('get_check_account_id', 
                 $params2, $this->_url, $this->_url);
 
-            $params1 = Array(Array('id' => "$_customer_id",
-                    'sessionid' => "$_session_id", 'flag' => "login"));
+            $params1 = Array(Array('id' => "$customerId",
+                    'sessionid' => "$sessionId", 'flag' => "login"));
 
             $result2 = $this->_client->call('update_login_details', 
                 $params1, $this->_url, $this->_url);
@@ -139,10 +150,10 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
     public function testSalesOrderList()
     {
 
-        global $_session_id;
-        global $_customer_id;
-        global $_customer_name;
-        global $_customer_account_id;
+        global $sessionId;
+        global $customerId;
+        global $customerName;
+        global $customerAccountId;
 
         $valid_product_ids = array(94);
         $valid_quote_ids = array(265);
@@ -151,8 +162,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         $action = 'get_list_preorder';
 
         $module = 'CikabTroubleTicket';
-        $params = Array('id' => $_customer_id, 'module' => $module,
-            'sessionid' => $_session_id, 'onlymine' => $onlymine);
+        $params = Array('id' => $customerId, 'module' => $module,
+            'sessionid' => $sessionId, 'onlymine' => $onlymine);
 
         echo " calling $action " . PHP_EOL;
         $result = $this->_client->call($action, $params);
@@ -172,10 +183,10 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
     public function testSalesOrderCallOffs()
     {
 
-        global $_session_id;
-        global $_customer_id;
-        global $_customer_name;
-        global $_customer_account_id;
+        global $sessionId;
+        global $customerId;
+        global $customerName;
+        global $customerAccountId;
 
         $onlymine = true;
         $action = 'create_salesorder';
@@ -189,13 +200,13 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         
         foreach ($valid_products as $product) {
             $params = Array(Array(
-                'id' => $_customer_id,
+                'id' => $customerId,
                 'module' => $module,
-                'sessionid' => $_session_id,
+                'sessionid' => $sessionId,
                 'title' => 'Call off',
-                'parent_id' => $_customer_id,
+                'parent_id' => $customerId,
                 'product_id' => $product['id'],
-                'customer_account_id' => $_customer_account_id,
+                'customer_account_id' => $customerAccountId,
                 'product_name' => $product['product_name'],
                 'product_quantity' => $product['product_quantity'],
                 'product_no' => $product['product_no'],
@@ -218,10 +229,10 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
     public function testSalesOrderDecrease()
     {
 
-        global $_session_id;
-        global $_customer_id;
-        global $_customer_name;
-        global $_customer_account_id;
+        global $sessionId;
+        global $customerId;
+        global $customerName;
+        global $customerAccountId;
 
         $onlymine = true;
         $action = 'create_custom_ticket';
@@ -235,13 +246,13 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         
         foreach ($valid_products as $product) {
             $params = Array(Array(
-                'id' => $_customer_id,
+                'id' => $customerId,
                 'module' => $module,
-                'sessionid' => $_session_id,
+                'sessionid' => $sessionId,
                 'title' => 'Release',
-                'parent_id' => $_customer_id,
+                'parent_id' => $customerId,
                 'product_id' => $product['id'],
-                'customer_account_id' => $_customer_account_id,
+                'customer_account_id' => $customerAccountId,
                 'product_name' => $product['product_name'],
                 'product_quantity' => $product['product_quantity'],
                 'product_no' => $product['product_no'],
@@ -264,10 +275,10 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
     public function testSalesOrderIncrease()
     {
 
-        global $_session_id;
-        global $_customer_id;
-        global $_customer_name;
-        global $_customer_account_id;
+        global $sessionId;
+        global $customerId;
+        global $customerName;
+        global $customerAccountId;
 
         $onlymine = true;
         $action = 'create_custom_ticket';
@@ -281,13 +292,13 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         
         foreach ($valid_products as $product) {
             $params = Array(Array(
-                'id' => $_customer_id,
+                'id' => $customerId,
                 'module' => $module,
-                'sessionid' => $_session_id,
+                'sessionid' => $sessionId,
                 'title' => 'Increase',
-                'parent_id' => $_customer_id,
+                'parent_id' => $customerId,
                 'product_id' => $product['id'],
-                'customer_account_id' => $_customer_account_id,
+                'customer_account_id' => $customerAccountId,
                 'product_name' => $product['product_name'],
                 'product_quantity' => $product['product_quantity'],
                 'product_no' => $product['product_no'],
