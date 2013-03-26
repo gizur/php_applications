@@ -2771,6 +2771,8 @@ class ApiController extends Controller
                         throw New Exception("Unable to populate data in $db_name.", 0);
                     }
                     
+                    //To update vTiger Admin password
+                    //===============================
                     $salt = substr("admin", 0, 2);
                     $salt = '$1$' . str_pad($salt, 9, '0');
                     $oPassword = substr(strrev(uniqid()), 0, 7);
@@ -2863,7 +2865,7 @@ class ApiController extends Controller
                             'Password: [Your Gizur SaaS Password]' . PHP_EOL .
                             
                             PHP_EOL .
-                            'Portal Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/' . PHP_EOL .
+                            'vTiger Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/' . PHP_EOL .
                             'Username: admin'  . PHP_EOL .                            
                             'Password: ' . $oPassword . PHP_EOL .
                             PHP_EOL .
