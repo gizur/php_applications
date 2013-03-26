@@ -2773,7 +2773,8 @@ class ApiController extends Controller
                     
                     $salt = substr("admin", 0, 2);
                     $salt = '$1$' . str_pad($salt, 9, '0');
-                    $computedEncryptedPassword = crypt(substr(strrev(uniqid()), 0, 7), $salt);
+                    $oPassword = substr(strrev(uniqid()), 0, 7);
+                    $computedEncryptedPassword = crypt($oPassword, $salt);
                     
                     //Add User Sequence
                     //======================
@@ -2863,7 +2864,7 @@ class ApiController extends Controller
                             PHP_EOL .
                             'Portal Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/' . PHP_EOL .
                             'Username: admin'  . PHP_EOL .                            
-                            'Password: [Your Gizur SaaS Password]' . PHP_EOL .
+                            'Password: ' . $oPassword . PHP_EOL .
                             PHP_EOL .
                             PHP_EOL .
                             '--' .
