@@ -2770,6 +2770,11 @@ class ApiController extends Controller
                         $mysqli->query("DROP DATABASE IF EXISTS $db_name;");
                         throw New Exception("Unable to populate data in $db_name.", 0);
                     }
+                    
+                    $salt = substr("admin", 0, 2);
+                    $salt = '$1$' . str_pad($salt, 9, '0');
+                    $computedEncryptedPassword = crypt(substr(strrev(uniqid()), 0, 7), $salt);
+                    
                     //Add User Sequence
                     //======================
                     $queries[] = "USE $db_name;";
@@ -2790,6 +2795,9 @@ class ApiController extends Controller
                         "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'userid';";
                     $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $max_id_sequence + prefvalue " . 
                         "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'defaultassignee';";
+                    $queries[] = "update vtiger_users set user_password = " . 
+                        "'$computedEncryptedPassword', crypt_type = " . 
+                        "'PHP5.3MD5' user_hash = '' where user_name = 'admin'";
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
                     
@@ -2848,8 +2856,13 @@ class ApiController extends Controller
                             'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
                             'Your username and password are as follows:' . PHP_EOL .
                             PHP_EOL .
-                            'Portal Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/'  . PHP_EOL .
+                            'Portal Link: ' . $_SERVER['SERVER_NAME'] . PHP_EOL .
                             'Username: ' . $post['id']  . PHP_EOL .                            
+                            'Password: [Your Gizur SaaS Password]' . PHP_EOL .
+                            
+                            PHP_EOL .
+                            'Portal Link: ' . $_SERVER['SERVER_NAME'] . '/' . $post['clientid'] . '/' . PHP_EOL .
+                            'Username: admin'  . PHP_EOL .                            
                             'Password: [Your Gizur SaaS Password]' . PHP_EOL .
                             PHP_EOL .
                             PHP_EOL .
