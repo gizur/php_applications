@@ -2798,7 +2798,7 @@ class ApiController extends Controller
                         "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'defaultassignee';";
                     $queries[] = "update vtiger_users set user_password = " . 
                         "'$computedEncryptedPassword', crypt_type = " . 
-                        "'PHP5.3MD5', user_hash = '' where user_name = 'admin'";
+                        "'PHP5.3MD5', user_hash = NULL where user_name = 'admin'";
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
                     
