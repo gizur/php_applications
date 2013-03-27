@@ -202,7 +202,7 @@ if (!empty($numrows)) {
                 else
                     $deliveryday = date("ymd");
                 
-                $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($deliveryday)) . "+1 day");
+                $futuredeliverydate1 = strtotime(date("Y-m-d", strtotime($deliveryday)) . "+2 day");
                 $futuredeliverydate = date('ymd', $futuredeliverydate1);
             }
             $finalformatproductname = implode("+", $multiproduct);

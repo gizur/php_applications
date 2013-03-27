@@ -2775,7 +2775,7 @@ class ApiController extends Controller
                     //===============================
                     $salt = substr("admin", 0, 2);
                     $salt = '$1$' . str_pad($salt, 9, '0');
-                    $oPassword = substr(strrev(uniqid()), 0, 7);
+                    $oPassword = substr(strrev(uniqid()), 0, 9);
                     $user_hash = strtolower(md5($oPassword));
                     $computedEncryptedPassword = crypt($oPassword, $salt);
                     
