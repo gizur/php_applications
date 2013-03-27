@@ -123,22 +123,28 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $result[0]['id'], $this->_credentials[0]['id'], 
             " User is invalid."
-             );
+        );
 
         if (!empty($result)) {
             $customerId = $result[0]['id'];
             $customerName = $result[0]['user_name'];
             $sessionId = $result[0]['sessionid'];
 
-            $params2 = Array('id' => $customerId);
-            $customerAccountId = $this->_client->call('get_check_account_id', 
-                $params2, $this->_url, $this->_url);
+            $paramsTwo = Array(
+            'id' => $customerId
+            );
+            $customerAccountId = $this->_client->call(
+                'get_check_account_id', 
+                $paramsTwo, $this->_url, $this->_url
+            );
 
-            $params1 = Array(Array('id' => "$customerId",
+            $paramsOne = Array(Array('id' => "$customerId",
                     'sessionid' => "$sessionId", 'flag' => "login"));
 
-            $result2 = $this->_client->call('update_login_details', 
-                $params1, $this->_url, $this->_url);
+            $resultTwo = $this->_client->call(
+                'update_login_details', 
+                $paramsOne, $this->_url, $this->_url
+            );
         }
         echo PHP_EOL . PHP_EOL;
     }
@@ -155,8 +161,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         global $customerName;
         global $customerAccountId;
 
-        $valid_product_ids = array(94);
-        $valid_quote_ids = array(265);
+        $validProductIds = array(94);
+        $validQuoteIds = array(265);
 
         $onlymine = true;
         $action = 'get_list_preorder';
@@ -170,8 +176,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         echo " end calling $action " . PHP_EOL;
 
         $this->assertNotEmpty($result);
-        $this->assertContains($result[0]['quoteid'], $valid_quote_ids);
-        $this->assertContains($result[0]['productid'], $valid_product_ids);
+        $this->assertContains($result[0]['quoteid'], $validQuoteIds);
+        $this->assertContains($result[0]['productid'], $validProductIds);
 
         echo PHP_EOL . PHP_EOL;
     }
@@ -193,12 +199,12 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
 
         $module = 'CikabTroubleTicket';
 
-        $valid_products = array(
+        $validProducts = array(
             array('id' => 5, 'product_name' => 'PRODUCT-1',
                 'product_no' => 'PRO1', 'product_quantity' => 10)
         );
         
-        foreach ($valid_products as $product) {
+        foreach ($validProducts as $product) {
             $params = Array(Array(
                 'id' => $customerId,
                 'module' => $module,
@@ -212,7 +218,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
                 'product_no' => $product['product_no'],
                 'user_name' => $this->_credentials[0]['user_name']));
             
-            echo " calling $action for product : " . json_encode($product) . PHP_EOL;
+            echo " calling $action for product : " . json_encode($product) . 
+            PHP_EOL;
             $result = $this->_client->call($action, $params);
             echo " end calling $action " . PHP_EOL;
 
@@ -239,12 +246,12 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
 
         $module = 'CikabTroubleTicket';
 
-        $valid_products = array(
+        $validProducts = array(
             array('id' => 192, 'product_name' => '202035',
                 'product_no' => 'PRO3', 'product_quantity' => 2)
         );
         
-        foreach ($valid_products as $product) {
+        foreach ($validProducts as $product) {
             $params = Array(Array(
                 'id' => $customerId,
                 'module' => $module,
@@ -258,7 +265,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
                 'product_no' => $product['product_no'],
                 'user_name' => $this->_credentials[0]['user_name']));
             
-            echo " calling $action for product : " . json_encode($product) . PHP_EOL;
+            echo " calling $action for product : " . json_encode($product) 
+            . PHP_EOL;
             $result = $this->_client->call($action, $params);
             echo " end calling $action " . PHP_EOL;
 
@@ -285,12 +293,12 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
 
         $module = 'CikabTroubleTicket';
 
-        $valid_products = array(
+        $validProducts = array(
             array('id' => 94, 'product_name' => '202035',
                 'product_no' => 'PRO1', 'product_quantity' => 10)
         );
         
-        foreach ($valid_products as $product) {
+        foreach ($validProducts as $product) {
             $params = Array(Array(
                 'id' => $customerId,
                 'module' => $module,
@@ -304,7 +312,8 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
                 'product_no' => $product['product_no'],
                 'user_name' => $this->_credentials[0]['user_name']));
             
-            echo " calling $action for product : " . json_encode($product) . PHP_EOL;
+            echo " calling $action for product : " . json_encode($product) 
+            . PHP_EOL;
             $result = $this->_client->call($action, $params);
             echo " end calling $action " . PHP_EOL;
 
