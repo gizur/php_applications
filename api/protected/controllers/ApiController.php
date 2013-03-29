@@ -1247,7 +1247,6 @@ class ApiController extends Controller
                     $result['password'] = $newHashedPassword;                    
                     
                     // Update the password
-                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
                     $ddb_response = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
