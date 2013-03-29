@@ -155,14 +155,18 @@ var UsersController = Stapes.subclass({
                         
                         if (!_data.success)
                             self.view.error(__messages[_data.error.code]);
+                        
+                        $('#forgotPasswordClose').click();
                     },
                     // On success clean the form.
                     success: function(_data) {
                         if (_data.success) {
                             self.view.success('An email has been sent to your registered email for further instruction.');
                             $('#login_id').val('');
+                            $('#forgotPasswordClose').click();
                         } else {
                             self.view.error('An error occured while resetting your password. Please contact administrator.');
+                            $('#forgotPasswordClose').click();
                         }
                     }
                 });
