@@ -56,6 +56,6 @@ UsersView.proto({
         }.bind(this));
         $('#forgotPasswordButton').on('click', function(e){
             this.emit('forgotPassword');
-        });
+        }.bind(this));
     }
 });
