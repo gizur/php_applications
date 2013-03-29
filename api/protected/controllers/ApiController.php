@@ -1200,7 +1200,6 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );
                 }
-                break;
                 
                 if ($_GET['action'] == 'forgotpassword') {
            
