@@ -1238,9 +1238,10 @@ class ApiController extends Controller
                     $password = substr(uniqid("", true), 0, 7);
                     $newHashedPassword = (string)hash("sha256", $password . $securitySalt);
                     
+                    $result = array();
                     foreach ($ddb_response->body->Item->children()
                     as $key => $item) {
-                        $result->{$key} 
+                        $result[$key] 
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
                     }
                     
@@ -1289,7 +1290,7 @@ class ApiController extends Controller
                     } else {
                         $response->success = false;
                         $response->error->code = "ERROR";
-                        $response->error->message = "Problem resetting the password.";
+                        $response->error->message = "Problem reseting the password.";
                         $response->error->trace_id = $this->_trace_id;
                         $this->_sendResponse(400, json_encode($response));
                     }
