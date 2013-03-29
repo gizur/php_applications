@@ -130,6 +130,44 @@ var UsersController = Stapes.subclass({
                 });
             }
         });
+        this.view.on('forgotPassword', function() {
+            var $login_id = $('#login_id').val();
+            if($login_id.length === 0){
+                $('#forgotPasswordError').addClass('alert alert-error')
+                        .empty()
+                        .html("Please enter login id.");
+                return false;
+            }else{
+                //Make a forgotpassword request to the server
+                //
+                var _url_forgot = __rest_server_url + 'User/forgotpassword';
+                $.ajax({
+                    url: _url_forgot,
+                    type: "POST",
+                    dataType: "json",
+                    processData: false,
+                    data: JSON.stringify({
+                        "id": $login_id
+                    }),
+                    //If error occured, it will display the error msg.
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        var _data = JSON.parse(jqXHR.responseText);
+                        
+                        if (!_data.success)
+                            self.view.error(__messages[_data.error.code]);
+                    },
+                    // On success clean the form.
+                    success: function(_data) {
+                        if (_data.success) {
+                            self.view.success('An email has been sent to your registered email for further instruction.');
+                            $('#login_id').val('');
+                        } else {
+                            self.view.error('An error occured while resetting your password. Please contact administrator.');
+                        }
+                    }
+                });
+            }                
+        });
     },
     // Login
     // ======

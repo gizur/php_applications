@@ -54,5 +54,8 @@ UsersView.proto({
             e.preventDefault();
             this.emit('registrationSubmit');
         }.bind(this));
+        $('#forgotPasswordButton').on('click', function(e){
+            this.emit('forgotPassword');
+        });
     }
 });
