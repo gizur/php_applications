@@ -1216,6 +1216,8 @@ class ApiController extends Controller
                     
                     // Get an item
                     $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    
                     $ddb_response = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
@@ -2052,7 +2054,7 @@ class ApiController extends Controller
             //Generating error response
             $response = new stdClass();
             $response->success = false;
-            $response->error->code = "ERROR";
+            $response->error->code = $this->_errors[$e->getCode()];
             $response->error->message = $e->getMessage();
             $response->error->trace_id = $this->_trace_id;
             $response->error->vtresponse = $this->_vtresponse;
