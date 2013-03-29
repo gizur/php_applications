@@ -1254,20 +1254,7 @@ class ApiController extends Controller
                         )
                     );
 
-                    // Get an item
-                    $ddb_response = $dynamodb->get_item(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                            'Key' => $dynamodb->attributes(
-                                array(
-                                    'HashKeyElement' => $result['id'],
-                                )
-                            ),
-                            'ConsistentRead' => 'true'
-                        )
-                    );
-
-                    if (isset($ddb_response->body->Item)) {
+                    if ($ddb_response->isOK()) {
                         //SEND THE EMAIL TO USER
                         $email = new AmazonSES();
                         //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
@@ -1297,7 +1284,7 @@ class ApiController extends Controller
                         );
 
                         $response = new stdClass();
-                        $response->success = true;
+                        $response->success = $ddb_response->isOK();
                         $this->_sendResponse(200, json_encode($response));
                     } else {
                         $response->success = false;
