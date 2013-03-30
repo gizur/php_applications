@@ -20,9 +20,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^cikab/seasonportal/(.*) applications/cikab/seasonportal/$1 [QSA,L]
 
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
-#RewriteRule ^lib/(.*) lib/$1 [QSA,L]
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
@@ -36,9 +33,6 @@ RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
 RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
 RewriteRule ^([^\/]*)/([^?]*) /lib/vtiger-5.4.0/$2?clientid=$1 [QSA]
-
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
-#RewriteRule ^applications/(.*) applications/$1 [QSA,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
