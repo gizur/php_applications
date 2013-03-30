@@ -150,3 +150,8 @@ $dbconfigFtp['serverpath'] = "files/";
  */
 $amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' . 
     '996313430626/cikab_queue';
+
+/*
+ * Amazon S3 Bucket
+ */
+$amazonSThree['bucket'] = "gc1-archive-qa";

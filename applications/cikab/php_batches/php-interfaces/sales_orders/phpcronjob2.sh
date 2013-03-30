@@ -245,14 +245,14 @@ try {
                     $deliveryday = date('ymd');
                 
                 $futuredeliveryDate = strtotime(
-                    date("Y-m-d", strtotime($deliveryday)) . "+1 day"
+                    date("Y-m-d", strtotime($deliveryday)) . "+2 day"
                 );
                 $futuredeliverydate = date('ymd', $futuredeliveryDate);
 
                 
             }
             $currentdate = date("YmdHi");                
-            $finalformatproductname = implode("+", $multiproduct);                
+            $finalformatproductname = implode("+", $multiproduct);
             unset($multiproduct);
             unset($productnamearray);
             /*
@@ -272,7 +272,7 @@ try {
                 "+226" . $futuredeliverydate . "+039" .
                 $deliveryday . "+040" . $ordernumber . "+" .
                 $finalformatproductname . "+C         RUTIN   " .
-                ".130KF51125185   Mottagning avslutad    " .
+                ".130KF27777100   Mottagning avslutad    " .
                 "BYTES/BLOCKS/RETRIES=1084 /5    /0";
 
             /*
@@ -318,12 +318,39 @@ try {
                 throw new Exception("Error in sending file to messageQ.");
 
             /*
+             * Store file in S3 Bucket
+             */
+            $sThree = new AmazonS3();
+            $responseSThree = $sThree->create_object(
+                $amazonSThree['bucket'], 
+                $fileName, 
+                array(
+                    'body' => $contentF,
+                    'contentType' => 'plain/text',
+                    'headers' => array(
+                        'Cache-Control' => 'max-age',
+                        'Content-Language' => 'en-US',
+                        'Expires' =>
+                        'Thu, 01 Dec 1994 16:00:00 GMT',
+                    ))
+            );
+            
+            if (!$responseSThree->isOK()) {
+                throw new Exception(
+                    "Unable to save file in S3 bucket " . 
+                    "(" . $amazonSThree['bucket'] . ")"
+                );
+            }
+            /*
              * If everything goes right update the sales order ststus to true 
              * in message array.
              */
 
             Functions::updateLogMessage(
-                &$messages, $salesOrder->salesorder_no, true, $fileName, "Successfully sent to messageQ."
+                &$messages, $salesOrder->salesorder_no, 
+                true, 
+                $fileName, 
+                "Successfully sent to messageQ."
             );
 
             /*
@@ -338,7 +365,11 @@ try {
         } catch (Exception $e) {
             $integrationConnect->rollback();
             Functions::updateLogMessage(
-                &$messages, $salesOrder->salesorder_no, false, $fileName, $e->getMessage()
+                &$messages, 
+                $salesOrder->salesorder_no, 
+                false, 
+                $fileName, 
+                $e->getMessage()
             );
         }
     }
