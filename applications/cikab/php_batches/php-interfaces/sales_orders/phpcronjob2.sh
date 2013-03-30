@@ -276,6 +276,11 @@ try {
                 "BYTES/BLOCKS/RETRIES=1084 /5    /0.";
 
             /*
+             * Add next line character at every 80 length
+             */
+            $pieces = str_split($contentF, 80);
+            $contentF = join("\n", $pieces);
+            /*
              * Get the message from the responce.
              */
             $messageID = $responseQ->body->SendMessageResult->MessageId;
