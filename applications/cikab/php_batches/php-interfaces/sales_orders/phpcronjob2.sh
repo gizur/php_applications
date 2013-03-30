@@ -273,7 +273,7 @@ try {
                 $deliveryday . "+040" . $ordernumber . "+" .
                 $finalformatproductname . "+C         RUTIN   " .
                 ".130KF27777100   Mottagning avslutad    " .
-                "BYTES/BLOCKS/RETRIES=1084 /5    /0";
+                "BYTES/BLOCKS/RETRIES=1084 /5    /0.";
 
             /*
              * Get the message from the responce.
