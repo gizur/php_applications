@@ -225,7 +225,7 @@ if (!empty($numrows)) {
             "                                                                         001" . 
             $finalformataccountname . "1+03751+038" . $ordernomber . "+226" . 
             $futuredeliverydate . "+039" . $deliveryday . "+040" . $ordernomber . "+" . 
-            $finalformatproductname . "+C         RUTIN   .130KF51125185   " . 
+            $finalformatproductname . "+C         RUTIN   .130KF27777100   " . 
             "Mottagning avslutad    BYTES/BLOCKS/RETRIES=1084 /5    /0";
         /**
          * Split line and place \n at every 80 chars
