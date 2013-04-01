@@ -197,6 +197,8 @@ var AccountsController = Stapes.subclass({
             // This fuunction make PUT request to the server to
             // information updated by the user
             'updateInformation': function() {
+                
+                self.view.success('Please wait ...');
                 var _url = __rest_server_url + 'User';
                 
                 $.ajax({
