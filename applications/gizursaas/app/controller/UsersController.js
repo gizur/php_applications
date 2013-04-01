@@ -43,9 +43,9 @@ var UsersController = Stapes.subclass({
         // This event will be called when user will click on the
         // logout link.
         this.view.on('logout', function() {
-            this.model = null;
-            this.view.success('You have been successfully logged-out.');
-            this.view = null;
+            self.model = null;
+            self.view.success('You have been successfully logged-out.');
+            self.view = null;
             account_controller.model = null;
             account_controller.view = null;
             hasher.setHash('logout');
