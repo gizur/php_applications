@@ -59,6 +59,7 @@ UsersView.proto({
         }.bind(this));
         $('#logout-btn').on('click', function(e){
             this.emit('logout');
+            $('#logout-btn').hide();
         }.bind(this));
     }
 });
