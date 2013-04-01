@@ -19,7 +19,7 @@
 var UsersView = Stapes.subclass({
     constructor : function(model) {
         var self = this;
-        $.get('templates/registration.tmp.html?_=' + Math.random(),{},function(html){
+        $.get('./applications/gizursaas/templates/registration.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
             self.bindEventHandlers();
         });
