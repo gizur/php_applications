@@ -30,7 +30,6 @@ var AccountsView = Stapes.subclass({
     // initialise the event handlers
     constructor : function() {
         var self = this;
-        self.bindEventHandlers();
     },
     // success
     //===========
