@@ -38,6 +38,19 @@ var UsersController = Stapes.subclass({
         this.model = new UserModel();
         this.view = new UsersView(this.model);
 
+        // Logout
+        // ======
+        // This event will be called when user will click on the
+        // logout link.
+        this.view.on('logout', function() {
+            this.model = null;
+            this.view.success('You have been successfully logged-out.');
+            this.view = null;
+            account_controller.model = null;
+            account_controller.view = null;
+            hasher.setHash('logout');
+        });
+        
         this.view.on('registrationSubmit', function() {
             //Get values from the form on submission and assign it to model.
             this.$el = $("#registrationform");
