@@ -30,10 +30,7 @@ var AccountsView = Stapes.subclass({
     // initialise the event handlers
     constructor : function() {
         var self = this;
-        $.get('./applications/gizursaas/templates/home.tmp.html?_=' + Math.random(),{},function(html){
-            $('#container').empty().html(html);
-            self.bindEventHandlers();
-        });
+        self.bindEventHandlers();
     },
     // success
     //===========

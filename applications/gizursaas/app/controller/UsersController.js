@@ -50,7 +50,8 @@ var UsersController = Stapes.subclass({
         });
         
         this.view.on('registrationSubmit', function() {
-            //Get values from the form on submission and assign it to model.
+            //Get values from the form on submission 
+            //and assign it to model.
             this.$el = $("#registrationform");
             var $first_name = this.$el.find("#first_name");
             var $last_name = this.$el.find("#last_name");
