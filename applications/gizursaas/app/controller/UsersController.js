@@ -190,7 +190,7 @@ var UsersController = Stapes.subclass({
                 'password':$password.val()
             });
             setTimeout(function() {
-                hasher.setHash('user/' + $email.val() + '/test');
+                hasher.setHash('user/' + $email.val() + '/' + Math.random());
             }, 500);
         } else if (status ==='fail') {
             self.view.error('Username or password is invalid.');
