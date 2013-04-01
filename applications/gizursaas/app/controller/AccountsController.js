@@ -86,7 +86,7 @@ var AccountsController = Stapes.subclass({
                         "id_sequence": _data.result.id_sequence
                     });
                     self.model.map_values();
-                    $('#logout-btn').hide();
+                    $('#logout-btn').show();
                 } else {
                     // If an error occured show and error and
                     // take the user to the login page.
