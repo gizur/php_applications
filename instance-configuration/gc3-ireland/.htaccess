@@ -5,6 +5,11 @@ ErrorDocument 500 /lib/error-documents/500.html
 
 RewriteEngine On
 
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^$ applications/gizursaas/index.html [L]
+
+RewriteRule ^applications/gizursaas(.*)$ / [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
