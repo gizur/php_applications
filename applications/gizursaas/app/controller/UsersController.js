@@ -45,9 +45,7 @@ var UsersController = Stapes.subclass({
         this.view.on('logout', function() {
             self.model = null;
             self.view.success('You have been successfully logged-out.');
-            self.view = null;
             account_controller.model = null;
-            account_controller.view = null;
             hasher.setHash('logout');
         });
         
