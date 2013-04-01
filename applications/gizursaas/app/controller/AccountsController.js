@@ -88,7 +88,7 @@ var AccountsController = Stapes.subclass({
                     $.get('./applications/gizursaas/templates/home.tmp.html?_=' + Math.random(),{},function(html){
                         $('#container').empty().html(html);
                         self.model.map_values();
-                        self.bindEventHandlers();
+                        self.view.bindEventHandlers();
                         $('#logout-btn').show();
                     });                    
                 } else {
