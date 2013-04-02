@@ -1,5 +1,9 @@
 Options -Indexes
 RewriteEngine On
+
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^$ applications/gizursaas/index.html [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RedirectMatch 301 ^(\/|)$ http://www.gizur.com
