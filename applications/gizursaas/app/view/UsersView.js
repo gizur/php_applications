@@ -19,7 +19,7 @@
 var UsersView = Stapes.subclass({
     constructor : function(model) {
         var self = this;
-        $.get('templates/registration.tmp.html?_=' + Math.random(),{},function(html){
+        $.get('./applications/gizursaas/templates/registration.tmp.html?_=' + Math.random(),{},function(html){
             $('#container').empty().html(html);
             self.bindEventHandlers();
         });
@@ -53,6 +53,13 @@ UsersView.proto({
         $('#registrationform').on('submit', function(e) {
             e.preventDefault();
             this.emit('registrationSubmit');
+        }.bind(this));
+        $('#forgotPasswordButton').on('click', function(e){
+            this.emit('forgotPassword');
+        }.bind(this));
+        $('#logout-btn').on('click', function(e){
+            this.emit('logout');
+            $('#logout-btn').hide();
         }.bind(this));
     }
 });

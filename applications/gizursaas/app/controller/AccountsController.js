@@ -85,7 +85,12 @@ var AccountsController = Stapes.subclass({
                         "security_salt": _data.result.security_salt,
                         "id_sequence": _data.result.id_sequence
                     });
-                    self.model.map_values();
+                    $.get('./applications/gizursaas/templates/home.tmp.html?_=' + Math.random(),{},function(html){
+                        $('#container').empty().html(html);
+                        self.model.map_values();
+                        self.view.bindEventHandlers();
+                        $('#logout-btn').show();
+                    });                    
                 } else {
                     // If an error occured show and error and
                     // take the user to the login page.
@@ -192,6 +197,8 @@ var AccountsController = Stapes.subclass({
             // This fuunction make PUT request to the server to
             // information updated by the user
             'updateInformation': function() {
+                
+                self.view.success('Please wait ...');
                 var _url = __rest_server_url + 'User';
                 
                 $.ajax({

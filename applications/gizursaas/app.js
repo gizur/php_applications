@@ -29,6 +29,7 @@ $(function() {
     var route1 = crossroads.addRoute('registration');
     var route2 = crossroads.addRoute('user/{client_id}/{session_id}');
     var route3 = crossroads.addRoute('login/:status:');
+    var route4 = crossroads.addRoute('logout');
     
     //To log all routes un-comment the following line
     //crossroads.routed.add(console.log, console);
@@ -39,6 +40,10 @@ $(function() {
     
     route3.matched.add(function(status){
         user_controller.login(status);
+    });
+    
+    route4.matched.add(function(){
+        hasher.setHash(DEFAULT_HASH);
     });
     
     route2.matched.add(function(client_id, session_id){     

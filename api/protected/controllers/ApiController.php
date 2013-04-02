@@ -1200,7 +1200,6 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );
                 }
-                break;
                 
                 if ($_GET['action'] == 'forgotpassword') {
            
@@ -1214,6 +1213,87 @@ class ApiController extends Controller
                         " PROCESSING REQUEST : User/forgotpassword ($clientID)", 
                         CLogger::LEVEL_TRACE
                     );
+                    
+                    // Get an item
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    
+                    $ddb_response = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $clientID,
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+                    
+                    if(empty($ddb_response->body->Item))
+                        throw new Exception("Invalid Login Id.", 2001);
+                    
+                    $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                                        
+                    $password = substr(uniqid("", true), 0, 7);
+                    $newHashedPassword = (string)hash("sha256", $password . $securitySalt);
+                    
+                    $result = array();
+                    foreach ($ddb_response->body->Item->children()
+                    as $key => $item) {
+                        $result[$key] 
+                            = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                    }
+                    
+                    $result['password'] = $newHashedPassword;                    
+                    
+                    // Update the password
+                    $ddb_response = $dynamodb->put_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                             'Item' => $dynamodb->attributes($result)
+                        )
+                    );
+
+                    if ($ddb_response->isOK()) {
+                        //SEND THE EMAIL TO USER
+                        $email = new AmazonSES();
+                        //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
+                        $SESresponse = $email->send_email(
+                            Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
+                            array(
+                                'ToAddresses' => array(// Destination (aka To)
+                                    $result['id']
+                                )
+                            ), 
+                            array(// sesMessage (short form)
+                                'Subject.Data' => 'Gizur SaaS',
+                                'Body.Text.Data' => 'Hi ' . $result['name_1'] . ' ' . $result['name_2'] . ', ' . PHP_EOL .
+                                PHP_EOL .
+                                'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
+                                'Your username and password has been updated and are as follows:' . PHP_EOL .
+                                PHP_EOL .
+                                'Portal Link: ' . $_SERVER['SERVER_NAME'] . PHP_EOL .
+                                'Username: ' . $result['id']  . PHP_EOL .                            
+                                'Password: ' . $password . PHP_EOL .
+                                PHP_EOL .
+                                PHP_EOL .
+                                '--' .
+                                PHP_EOL .
+                                'Gizur Admin'
+                            )
+                        );
+
+                        $response = new stdClass();
+                        $response->success = $ddb_response->isOK();
+                        $this->_sendResponse(200, json_encode($response));
+                    } else {
+                        $response->success = false;
+                        $response->error->code = "ERROR";
+                        $response->error->message = "Problem reseting the password.";
+                        $response->error->trace_id = $this->_trace_id;
+                        $this->_sendResponse(400, json_encode($response));
+                    }
                 }
                 break;
             /*
@@ -1974,7 +2054,7 @@ class ApiController extends Controller
             //Generating error response
             $response = new stdClass();
             $response->success = false;
-            $response->error->code = "ERROR";
+            $response->error->code = $this->_errors[$e->getCode()];
             $response->error->message = $e->getMessage();
             $response->error->trace_id = $this->_trace_id;
             $response->error->vtresponse = $this->_vtresponse;
@@ -2775,7 +2855,7 @@ class ApiController extends Controller
                     //===============================
                     $salt = substr("admin", 0, 2);
                     $salt = '$1$' . str_pad($salt, 9, '0');
-                    $oPassword = substr(strrev(uniqid()), 0, 7);
+                    $oPassword = substr(strrev(uniqid()), 0, 9);
                     $user_hash = strtolower(md5($oPassword));
                     $computedEncryptedPassword = crypt($oPassword, $salt);
                     

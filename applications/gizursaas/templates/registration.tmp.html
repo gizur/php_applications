@@ -22,9 +22,25 @@
                     <legend>Sign In</legend>
                     <div class="control-group"><input type="text" placeholder="Email" name="email" id="login_email"/></div>
                     <div class="control-group"><input type="password" placeholder="Password" name="password" id="login_password"/></div>
-                    <div class="control-group"><input type="button" value="Login" class="btn btn-success" id="loginButton"/></div>
+                    <div class="control-group"><input type="button" value="Login" class="btn btn-success" id="loginButton"/><a style="margin-left: 4px;" href="#forgotPassword" data-toggle="modal">Forgot Password</a></div>
                 </fieldset>
             </form>
         </div>
+    </div>
+</div>
+
+<div id="forgotPassword" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="forgotPassword" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="forgotPasswordLabel">Forgot Password</h3>
+    </div>
+    <div class="modal-body">
+        <p id="forgotPasswordError"></p>
+        <p>Please enter your login id:</p>
+        <div class="control-group"><input type="text" placeholder="Login Id" name="login_id" id="login_id"/></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" id="forgotPasswordClose">Close</button>
+        <button class="btn btn-primary" id="forgotPasswordButton">Reset Password</button>
     </div>
 </div>

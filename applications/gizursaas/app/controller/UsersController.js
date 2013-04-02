@@ -38,8 +38,20 @@ var UsersController = Stapes.subclass({
         this.model = new UserModel();
         this.view = new UsersView(this.model);
 
+        // Logout
+        // ======
+        // This event will be called when user will click on the
+        // logout link.
+        this.view.on('logout', function() {
+            self.model = null;
+            self.view.success('You have been successfully logged-out.');
+            account_controller.model = null;
+            hasher.setHash('logout');
+        });
+        
         this.view.on('registrationSubmit', function() {
-            //Get values from the form on submission and assign it to model.
+            //Get values from the form on submission 
+            //and assign it to model.
             this.$el = $("#registrationform");
             var $first_name = this.$el.find("#first_name");
             var $last_name = this.$el.find("#last_name");
@@ -130,6 +142,48 @@ var UsersController = Stapes.subclass({
                 });
             }
         });
+        this.view.on('forgotPassword', function() {
+            var $login_id = $('#login_id').val();
+            if($login_id.length === 0){
+                $('#forgotPasswordError').addClass('alert alert-error')
+                        .empty()
+                        .html("Please enter login id.");
+                return false;
+            }else{
+                //Make a forgotpassword request to the server
+                //
+                var _url_forgot = __rest_server_url + 'User/forgotpassword';
+                $.ajax({
+                    url: _url_forgot,
+                    type: "POST",
+                    dataType: "json",
+                    processData: false,
+                    data: JSON.stringify({
+                        "id": $login_id
+                    }),
+                    //If error occured, it will display the error msg.
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        var _data = JSON.parse(jqXHR.responseText);
+                        
+                        if (!_data.success)
+                            self.view.error(__messages[_data.error.code]);
+                        
+                        $('#forgotPasswordClose').click();
+                    },
+                    // On success clean the form.
+                    success: function(_data) {
+                        if (_data.success) {
+                            self.view.success('An email has been sent to your registered email for further instruction.');
+                            $('#login_id').val('');
+                            $('#forgotPasswordClose').click();
+                        } else {
+                            self.view.error('An error occured while resetting your password. Please contact administrator.');
+                            $('#forgotPasswordClose').click();
+                        }
+                    }
+                });
+            }                
+        });
     },
     // Login
     // ======
@@ -148,7 +202,7 @@ var UsersController = Stapes.subclass({
                 'password':$password.val()
             });
             setTimeout(function() {
-                hasher.setHash('user/' + $email.val() + '/test');
+                hasher.setHash('user/' + $email.val() + '/' + Math.random());
             }, 500);
         } else if (status ==='fail') {
             self.view.error('Username or password is invalid.');
