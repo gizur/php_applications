@@ -45,16 +45,17 @@ require_once realpath(__DIR__ . '/../lib/aws-php-sdk/sdk.class.php');
 
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
-    private $_GIZURCLOUD_SECRET_KEY = "";
-    private $_GIZURCLOUD_API_KEY = "";
+    private $_gizurCloudSecretKey = "";
+    private $_gizurCloudApiKey = "";
 
-    private $_API_VERSION = "0.1";
+    private $_apiVersion = "0.1";
     
     private $_rest;
 
     private $_credentials = Array();
 
-    private $_url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/";
+    private $_url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com"
+                    ."/api/";
 
     /**
      * Generates Signature for request
@@ -62,35 +63,36 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
      * @param string $method      The Http method used to send the request
      * @param string $model       Model which is being accessed
      * @param string $timestamp   Time of the format date("c")
-     * @param string $unique_salt Any unique string 
+     * @param string $uniqueSalt Any unique string 
      * 
      * @return string signature
      */
     private function _generateSignature($method, $model, $timestamp, 
-        $unique_salt
-    ) {
+        $uniqueSalt
+    ) 
+    {
         //Build array
         $params = array(
             'Verb'          => $method,
             'Model'         => $model,
-            'Version'       => $this->_API_VERSION,
+            'Version'       => $this->_apiVersion,
             'Timestamp'     => $timestamp,
-            'KeyID'         => $this->_GIZURCLOUD_API_KEY,
-            'UniqueSalt'    => $unique_salt
+            'KeyID'         => $this->gizurCloudApiKey,
+            'UniqueSalt'    => $uniqueSalt
         );
         
         // Sorg arguments
         ksort($params);
 
         // Generate string for sign
-        $string_to_sign = "";
+        $stringToSign = "";
         foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";   
-        //echo PHP_EOL . $string_to_sign;
+            $stringToSign .= "{$k}{$v}";   
+        //echo PHP_EOL . $stringToSign;
                  
         // Generate signature
         $signature = base64_encode(
-            hash_hmac('SHA256', $string_to_sign, $this->_GIZURCLOUD_SECRET_KEY, 1)
+            hash_hmac('SHA256', $stringToSign, $this->_gizurcloudSecretKey, 1)
         );    
         
         return array($params, $signature);
@@ -113,8 +115,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $this->_rest->set_header('X_PASSWORD', $password);
         $this->_rest->set_header('X_TIMESTAMP', $params['Timestamp']);
         $this->_rest->set_header('X_SIGNATURE', $signature);                   
-        $this->_rest->set_header('X_GIZURCLOUD_API_KEY', $this->_GIZURCLOUD_API_KEY);
-        $this->_rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);        
+        $this->_rest->set_header(
+            'X_GIZURCLOUD_API_KEY', $this->gizurCloudApiKey
+        );
+        $this->_rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
     }
     
     /**
@@ -133,9 +137,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         $configuration = $config->get();
 
         $this->_url = $configuration['url'];
-        $this->_GIZURCLOUD_API_KEY = $configuration['GIZURCLOUD_API_KEY'];
-        $this->_GIZURCLOUD_SECRET_KEY = $configuration['GIZURCLOUD_SECRET_KEY'];
-        $this->_API_VERSION = $configuration['API_VERSION'];
+        $this->_gizurCloudApiKey = $configuration['GIZURCLOUD_API_KEY'];
+        $this->_gizurcloudSecretKey = $configuration['GIZURCLOUD_SECRET_KEY'];
+        $this->_apiVersion = $configuration['API_VERSION'];
         $this->_credentials = $configuration['credentials'];
         
     }
@@ -187,9 +191,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //Set Header
             $this->_setHeader($username, $password, $params, $signature);  
             
-            echo PHP_EOL . " Attempt No: $i Response: " . $response = $this->_rest->post(
-                $this->_url.$model."/".$action
-            );
+            echo PHP_EOL . " Attempt No: $i Response: " . 
+                $response = $this->_rest->post(
+                    $this->_url.$model."/".$action
+                );
             
             $response = json_decode($response);
             if ($response->success == false) {
@@ -205,7 +210,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //check if response is valid
             if (isset($response->success)) {
                 //echo json_encode($response) . PHP_EOL;
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -240,7 +247,7 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             'test@test.com' => '123456'
         );
         
-        $valid_credentials = Array(
+        $validCredentials = Array(
             'user1' => false,
             'user2' => false,
             'user3' => false,
@@ -291,7 +298,10 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //check if response is valid
             if (isset($response->success)) {
                 //echo json_encode($response) . PHP_EOL;
-                $this->assertEquals($response->success, $valid_credentials[$username], " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, $validCredentials[$username], 
+                    " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -339,7 +349,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //check if response is valid
             if (isset($response->success)) {
                 //echo json_encode($response) . PHP_EOL;
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -372,7 +384,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //Set Header
         $this->_setHeader('', '', $params, $signature);
         
-        echo PHP_EOL . " Response:  " . $response = $this->_rest->put($this->_url.$model."/".$action);
+        echo PHP_EOL . " Response:  " . $response = $this->_rest->put(
+            $this->_url.$model."/".$action
+        );
         
         echo PHP_EOL . PHP_EOL;
     }
@@ -402,11 +416,15 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //$this->_rest->set_header('X_USERNAME', $username);
         //$this->_rest->set_header('X_PASSWORD', $password);
         //$this->_rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-        //$this->_rest->set_header('X_SIGNATURE', $signature);                   
-        //$this->_rest->set_header('X_GIZURCLOUD_API_KEY', $this->_GIZURCLOUD_API_KEY);
-        $this->_rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);        
+        //$this->_rest->set_header('X_SIGNATURE', $signature);
+        //$this->_rest->set_header(
+        //'X_GIZURCLOUD_API_KEY', $this->gizurCloudApiKey
+        //);
+        $this->_rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $this->_rest->format('json');  
-        echo PHP_EOL . " Response:  " . $response = $this->_rest->get($this->_url.$model);
+        echo PHP_EOL . " Response:  " . $response = $this->_rest->get(
+            $this->_url.$model
+        );
         
         echo PHP_EOL . PHP_EOL;
     }
@@ -444,12 +462,17 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $this->_setHeader($username, $password, $params, $signature);
         
             //Show the response
-            echo PHP_EOL . " Response:  " . $response = $this->_rest->put($this->_url.$model."/".$action, array('newpassword' => $newpassword));
+            echo PHP_EOL . " Response:  " . $response = $this->_rest->put(
+                $this->_url.$model."/".$action, array(
+                'newpassword' => $newpassword)
+            );
             $response = json_decode($response);
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -488,13 +511,20 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $this->_setHeader($username, $password, $params, $signature);
         
             //Show the reponse
-            echo PHP_EOL . " Response:  " . $response = $this->_rest->put($this->_url.$model."/".$id, array('assetstatus' => 'In Service'));
+            echo PHP_EOL . " Response:  " . $response = $this->_rest->put(
+                $this->_url.$model."/".$id, array('assetstatus' => 'In Service')
+            );
             $response = json_decode($response);
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->result->assetstatus, 'In Service', " Checking validity of response");
-                $this->assertEquals($response->success, true, " Checking validity of response");   
+                $this->assertEquals(
+                    $response->result->assetstatus, 'In Service', 
+                    " Checking validity of response"
+                );
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );   
             } else {
                 $this->assertInstanceOf('stdClass', $response);     
             }
@@ -509,13 +539,22 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             $this->_setHeader($username, $password, $params, $signature);
         
             //Show the response
-            echo PHP_EOL . " Response: " . $response = $this->_rest->put($this->_url.$model."/".$id, array('assetstatus' => 'Out-of-service'));
+            echo PHP_EOL . " Response: " . $response = $this->_rest->put(
+                $this->_url.$model."/".$id, array(
+                    'assetstatus' => 'Out-of-service'
+                )
+            );
             $response = json_decode($response);
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->result->assetstatus, 'Out-of-service', " Checking validity of response");
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->result->assetstatus, 'Out-of-service', 
+                    " Checking validity of response"
+                );
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -549,7 +588,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         );
 
         //Set Reset Pasword credentials
-        $this->_credentials = array('anshuk-kumar@essindia.co.in' => 'ik13qfek');
+        $this->_credentials = array(
+                'anshuk-kumar@essindia.co.in' => 'ik13qfek'
+            );
 
         //login using each credentials
         foreach ($this->_credentials as $username => $password) {            
@@ -607,12 +648,16 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //Set Header
             $this->_setHeader($username, $password, $params, $signature);
         
-            echo " Response: " . $response = $this->_rest->get($this->_url.$model."/$id");
+            echo " Response: " . $response = $this->_rest->get(
+                $this->_url.$model."/$id"
+            );
             $response = json_decode($response);
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -655,7 +700,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -698,7 +745,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -760,7 +809,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -798,12 +849,16 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //Set Header
             $this->_setHeader($username, $password, $params, $signature);
         
-            echo " Response: " . $response = $this->_rest->get($this->_url.$model."/$category");
+            echo " Response: " . $response = $this->_rest->get(
+                $this->_url.$model."/$category"
+            );
             $response = json_decode($response);
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -842,12 +897,16 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //Set Header
             $this->_setHeader($username, $password, $params, $signature);
         
-            echo " Response: " . $response = $this->_rest->get($this->_url.$model."/$id");
+            echo " Response: " . $response = $this->_rest->get(
+                $this->_url.$model."/$id"
+            );
             $response = json_decode($response);
             
             //check if response is valid
             if (isset($response->success)) {
-                $this->assertEquals($response->success, true, " Checking validity of response");
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -904,7 +963,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //check if response is valid
             if (isset($response->success)) {
                 $message = '';
-                if (isset($response->error->message)) $message = $response->error->message;
+                if (isset($response->error->message)) 
+                    $message = $response->error->message;
+
                 $this->assertEquals($response->success, true, $message);
             } else {
                 $this->assertInstanceOf('stdClass', $response);
@@ -963,14 +1024,18 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //Set Header
             $this->_setHeader($username, $password, $params, $signature);
         
-            echo PHP_EOL . " Response: " . $response = $this->_rest->post($this->_url.$model, $fields);
+            echo PHP_EOL . " Response: " . $response = $this->_rest->post(
+                $this->_url.$model, $fields
+            );
             $response = json_decode($response);
             
             //check if response is valid
             if (isset($response->success)) {
                 echo " Generated Ticket ID " . $response->result->id . PHP_EOL;
                 $message = '';
-                if (isset($response->error->message)) $message = $response->error->message;
+                if (isset($response->error->message)) 
+                    $message = $response->error->message;
+
                 $this->assertEquals($response->success, true, $message);
                 $this->assertNotEmpty($response->result->documents);
             } else {
@@ -1008,8 +1073,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             '1980550879'
         );
         print_r($params);
-        $signature_generated = 'gjkXqfwN67RCI+bTz+Riq6LSTeCpJ5AKd4YBIYrf2Mw=';
-        $this->assertEquals($signature, $signature_generated);
+        $signatureGenerated = 'gjkXqfwN67RCI+bTz+Riq6LSTeCpJ5AKd4YBIYrf2Mw=';
+        $this->assertEquals($signature, $signatureGenerated);
     }
 
     /**
@@ -1022,13 +1087,13 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
     {
         echo " Uploading File To Amazons3" . PHP_EOL;
         $this->markTestSkipped('');
-                        $s3 = new AmazonS3();
+                        $sThree = new AmazonS3();
                         
                         $file = Array(
                             'name' => getcwd().'/images/image-to-upload.jpg'
                         );
 
-                        $response = $s3->create_object(
+                        $response = $sThree->create_object(
                             'gizurcloud-gc', 
                             'image-to-upload.jpg', 
                             array(
@@ -1079,19 +1144,26 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
             //Set Header
             $this->_setHeader($username, $password, $params, $signature);
 
-            echo " Response: " . $response = $this->_rest->get($this->_url.$model."/".$notesid);
+            echo " Response: " . $response = $this->_rest->get(
+                $this->_url.$model."/".$notesid
+            );
             $response = json_decode($response);
 
             //check if response is valid
             if (isset($response->success)) {
                 $message = '';
-                if (isset($response->error->message)) $message = $response->error->message;
+                if (isset($response->error->message)) 
+                    $message = $response->error->message;
+
                 $this->assertEquals($response->success, true, $message);
                 $this->assertNotEmpty($response->result->filecontent);
                 $fp = fopen('downloaded_'.$response->result->filename, 'w');
                 fwrite($fp, base64_decode($response->result->filecontent));
                 fclose($fp);
-                $this->assertFileEquals('downloaded_'.$response->result->filename, $response->result->filename);
+                $this->assertFileEquals(
+                    'downloaded_'.$response->result->filename, 
+                    $response->result->filename
+                );
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
@@ -1147,16 +1219,18 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                 $this->_setHeader($username, $password, $params, $signature);
 
                 //Show the response
-                echo PHP_EOL . " Response ($fieldname): " .$response = $this->_rest->get(
-                    $this->_url.$model."/".$fieldname
-                );
+                echo PHP_EOL . " Response ($fieldname): " .$response = 
+                    $this->_rest->get(
+                        $this->_url.$model."/".$fieldname
+                    );
 
                 $response = json_decode($response);
                 
                 //check if response is valid
                 if (isset($response->success)) {
                     $message = '';
-                    if (isset($response->error->message)) $message = $response->error->message;
+                    if (isset($response->error->message)) 
+                        $message = $response->error->message;
                     $this->assertEquals($response->success, true, $message);
                 } else {
                     $this->assertInstanceOf('stdClass', $response);
@@ -1215,7 +1289,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
                 //check if response is valid
                 if (isset($response->success)) {
                     $message = '';
-                    if (isset($response->error->message)) $message = $response->error->message;
+                    if (isset($response->error->message)) 
+                        $message = $response->error->message;
                     $this->assertEquals($response->success, true, $message);
                 } else {
                     $this->assertInstanceOf('stdClass', $response);
@@ -1237,18 +1312,18 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //Request Parameters
         $method = 'GET';
         $model = 'User';
-        $user_email = 'cloud3%40gizur.com';
+        $userEmail = 'cloud3%40gizur.com';
         
         //Label the test
         echo " Getting Details of User" . PHP_EOL;        
 
-        echo $this->_url.$model."/".$user_email;
+        echo $this->_url.$model."/".$userEmail;
 
         $this->_rest->set_header('X_UNIQUE_SALT', uniqid());        
 
         //Show the response
         echo PHP_EOL . " Response: " .$response = $this->_rest->get(
-            $this->_url.$model."/".$user_email
+            $this->_url.$model."/".$userEmail
         );
 
         $response = json_decode($response);
@@ -1256,7 +1331,8 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //check if response is valid
         if (isset($response->success)) {
             $message = '';
-            if (isset($response->error->message)) $message = $response->error->message;
+            if (isset($response->error->message)) 
+                $message = $response->error->message;
             $this->assertEquals($response->success, true, $message);
         } else {
             $this->assertInstanceOf('stdClass', $response);
@@ -1276,21 +1352,23 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //Request Parameters
         $method = 'POST';
         $model = 'User';
-        $unique_name = substr(strrev(uniqid()), 1, 8);
-        $user_email = "cloud_{$unique_name}%40gizur.com";
+        $uniqueName = substr(strrev(uniqid()), 1, 8);
+        $userEmail = "cloud_{$uniqueName}%40gizur.com";
         
         //Label the test
-        echo " Creating New User $user_email" . PHP_EOL;        
+        echo " Creating New User $userEmail" . PHP_EOL;        
 
-        echo $this->_url.$model."/".$user_email;
+        echo $this->_url.$model."/".$userEmail;
 
         $this->_rest->set_header('X_UNIQUE_SALT', uniqid());        
 
         //Show the response
         echo PHP_EOL . " Response: " .$response = $this->_rest->post(
-            $this->_url.$model, json_encode(array(
-                'id' => $user_email
-            ))
+            $this->_url.$model, json_encode(
+                array(
+                'id' => $userEmail
+                )
+            )
         );
 
         $response = json_decode($response);
@@ -1298,7 +1376,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
         //check if response is valid
         if (isset($response->success)) {
             $message = '';
-            if (isset($response->error->message)) $message = $response->error->message;
+            if (isset($response->error->message)) 
+                $message = $response->error->message;
+
             $this->assertEquals($response->success, true, $message);
         } else {
             $this->assertInstanceOf('stdClass', $response);
