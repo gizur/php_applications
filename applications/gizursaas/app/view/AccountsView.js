@@ -19,15 +19,14 @@
 // AccountView
 //==================
 //
-// This class has event listeners and fire controller functions
-// and also it is responsible for updating error messages in the page.
+// This class has event listeners and controller functions
+// and also this class is responsible for 
+// updating error messages in the page.
 
 var AccountsView = Stapes.subclass({
     // constructor
     //===========
     //
-    // This will load the home template and 
-    // initialise the event handlers
     constructor : function() {
         var self = this;
     },
@@ -67,14 +66,14 @@ var AccountsView = Stapes.subclass({
 // AccountsView prototype
 // ======================
 //
-// Here we are adding some methods to the AccountView 
+// Here we are adding some methods to the AccountsView 
 // prototype to handle events
 //
 AccountsView.proto({
     'bindEventHandlers' : function() {
         // Handle user request to generate API and Secret key 1
         // 
-        // This function will emit the generateAPIKeyAndSecret1
+        // This will emit the generateAPIKeyAndSecret1
         // event of this view.
         $('#generateNewAPIAndSecretKey1Button').on('click', function(e) {
             this.emit('generateAPIKeyAndSecret1');
@@ -82,7 +81,7 @@ AccountsView.proto({
 
         // Handle user request to generate API and Secret key 2
         // 
-        // This function will emit the generateAPIKeyAndSecret2
+        // This will emit the generateAPIKeyAndSecret2
         // event of this view.
         $('#generateNewAPIAndSecretKey2Button').on('click', function(e) {
             this.emit('generateAPIKeyAndSecret2');
@@ -90,7 +89,7 @@ AccountsView.proto({
         
         // Handle user request to change the first name
         // 
-        // This function will emit the updateInformation
+        // This will emit the updateInformation
         // event of this view.
         $('#first_name').on('change', function(e){
             this.emit('updateInformation');
@@ -98,7 +97,7 @@ AccountsView.proto({
         
         // Handle user request to change the last name
         // 
-        // This function will emit the updateInformation
+        // This will emit the updateInformation
         // event of this view.
         $('#last_name').on('change', function(e){
             this.emit('updateInformation');

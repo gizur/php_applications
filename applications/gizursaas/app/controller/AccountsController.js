@@ -33,7 +33,8 @@ var AccountsController = Stapes.subclass({
         this.view = new AccountsView();
 
         //Prepare the url to fetch the account details
-        var _url = __rest_server_url + 'User/' + encodeURIComponent(client_email);
+        var _url = __rest_server_url + 'User/' + 
+                encodeURIComponent(client_email);
 
         //Make a Ajax request
         $.ajax({
@@ -85,7 +86,8 @@ var AccountsController = Stapes.subclass({
                         "security_salt": _data.result.security_salt,
                         "id_sequence": _data.result.id_sequence
                     });
-                    $.get('./applications/gizursaas/templates/home.tmp.html?_=' + Math.random(),{},function(html){
+                    $.get('./applications/gizursaas/templates/home.tmp.html?_=' + 
+                            Math.random(),{},function(html){
                         $('#container').empty().html(html);
                         self.model.map_values();
                         self.view.bindEventHandlers();
@@ -102,7 +104,8 @@ var AccountsController = Stapes.subclass({
             }
         });
 
-        // This will prevent the forms not to submit by default
+        // The following code will prevent 
+        // the forms not to submit by default.
         // 
         this.$el = $('form');
         this.$el.on('submit', function(e) {
@@ -116,7 +119,8 @@ var AccountsController = Stapes.subclass({
             // This fuunction make PUT request to the server to
             // generate API and SECRET key 1
             'generateAPIKeyAndSecret1': function() {
-                var _url = __rest_server_url + 'User/keypair1/' + encodeURIComponent(self.model.get('email'));
+                var _url = __rest_server_url + 'User/keypair1/' + 
+                        encodeURIComponent(self.model.get('email'));
                 $.ajax({
                     url: _url,
                     type: "PUT",
@@ -129,12 +133,17 @@ var AccountsController = Stapes.subclass({
                     },
                     error: function() {
                         // Show the error in case error received.
-                        self.view.error('An error occured while re-generating the key pair. Please try again.');
+                        self.view.error(
+                                'An error occured while re-generating ' +
+                                'the key pair. Please try again.'
+                        );
                     },
                     success: function(_data) {
                         if (_data.success) {
                             // Update the values on success
-                            self.view.success('Key pair has been generated successfully.');
+                            self.view.success(
+                                    'Key pair has been generated successfully.'
+                            );
 
                             //Set modified values to the Account Object
                             self.model.set({
@@ -146,7 +155,10 @@ var AccountsController = Stapes.subclass({
                             // Close the model dialog
                             $('#generateNewAPIAndSecretKey1Close').click();
                         } else {
-                            self.view.error('An error occured while re-generating the key pair. Please try again.');
+                            self.view.error(
+                                    'An error occured while re-generating ' + 
+                                    'the key pair. Please try again.'
+                            );
                         }
                     }
                 });
@@ -157,7 +169,8 @@ var AccountsController = Stapes.subclass({
             // This fuunction make PUT request to the server to
             // generate API and SECRET key 2
             'generateAPIKeyAndSecret2': function() {
-                var _url = __rest_server_url + 'User/keypair2/' + encodeURIComponent(self.model.get('email'));
+                var _url = __rest_server_url + 'User/keypair2/' + 
+                        encodeURIComponent(self.model.get('email'));
                 $.ajax({
                     url: _url,
                     type: "PUT",
@@ -170,11 +183,15 @@ var AccountsController = Stapes.subclass({
                     },
                     error: function() {
                         // Show the error in case error received.
-                        self.view.error('An error occured while re-generating the key pair. Please try again.');
+                        self.view.error(
+                                'An error occured while re-generating the' +
+                                ' key pair. Please try again.');
                     },
                     success: function(_data) {
                         if (_data.success) {
-                            self.view.success('Key pair has been generated successfully.');
+                            self.view.success(
+                                    'Key pair has been generated successfully.'
+                            );
 
                             //Set modified values to the Account Object
                             self.model.set({
@@ -186,7 +203,10 @@ var AccountsController = Stapes.subclass({
                             // Close the model dialog
                             $('#generateNewAPIAndSecretKey2Close').click();
                         } else {
-                            self.view.error('An error occured while re-generating the key pair. Please try again.');
+                            self.view.error(
+                                    'An error occured while re-generating the' +
+                                    ' key pair. Please try again.'
+                            );
                         }
                     }
                 });
@@ -238,13 +258,18 @@ var AccountsController = Stapes.subclass({
                         "id_sequence": self.model.get('id_sequence')
                     }),
                     error: function() {
-                        self.view.error('An error occured while updating the information. Please try again.');
+                        self.view.error(
+                                'An error occured while updating ' +
+                                'the information. Please try again.'
+                        );
                         //Revert back the values
                         self.model.map_values();
                     },
                     success: function(_data) {
                         if (_data.success) {
-                            self.view.success('Information updated successfully.');
+                            self.view.success(
+                                    'Information updated successfully.'
+                            );
 
                             self.model.set({
                                 'first_name': $('#first_name').val(),
@@ -253,7 +278,10 @@ var AccountsController = Stapes.subclass({
                             //Map values to the page
                             self.model.map_values();
                         } else {
-                            self.view.error('An error occuredwhile updating the information. Please try again.');
+                            self.view.error(
+                                    'An error occuredwhile updating the' +
+                                    ' information. Please try again.'
+                            );
                         }
                     }
                 });

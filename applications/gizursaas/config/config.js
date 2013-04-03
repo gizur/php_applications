@@ -17,7 +17,23 @@
 
 "use strict";
 
+// Config
+// =======
+// 
+// This file stores all the configuration needed through-out
+// the application.
+
+// Server URL
+// ==========
+// This is where all request will be made.
+// This URL is actually, where this apllication will be host
+// with the api path.
 var __rest_server_url = 'http://localhost/php_applications/api/';
+
+// Messages
+// ========
+// Following are the set of messages showed to 
+// user on perticular response / error code.
 var __messages = {
     "CLIENT_ID_INVALID" : 'Client ID is not available.',
     "EMAIL_INVALID" : 'Email is already registred.',

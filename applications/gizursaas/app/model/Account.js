@@ -49,6 +49,11 @@ var AccountModel = Stapes.subclass({
     "security_salt" : "",
     "id_sequence" : '',
     constructor : function (){},
+    // Validate
+    // ========
+    // This function is valodating the User model
+    // for the the above properties.
+    // 
     'validate' : function(){
         return true;
     },

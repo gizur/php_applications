@@ -49,6 +49,10 @@ var UsersController = Stapes.subclass({
             hasher.setHash('logout');
         });
         
+        // Registration Submit
+        // ===================
+        // This will be emitted when user will submit the 
+        // registration form.
         this.view.on('registrationSubmit', function() {
             //Get values from the form on submission 
             //and assign it to model.
@@ -80,7 +84,9 @@ var UsersController = Stapes.subclass({
                 
                 var hashObj1 = new jsSHA(Math.random(), "TEXT");
                 var security_salt = hashObj1.getHash("SHA-256", "HEX");
-                var hashObj = new jsSHA(self.model.get('password') + security_salt, "TEXT");
+                var hashObj = new jsSHA(
+                        self.model.get('password') + security_salt, "TEXT"
+                );
                 var hashed_password = hashObj.getHash("SHA-256", "HEX");
 
                 //Make a registration request to the server
@@ -127,7 +133,10 @@ var UsersController = Stapes.subclass({
                     // On success clean the form.
                     success: function(_data) {
                         if (_data.success) {
-                            self.view.success('Your account has been created. You may login to your account.');
+                            self.view.success(
+                                    'Your account has been created. ' +
+                                    'You may login to your account.'
+                            );
                             $first_name.val('');
                             $last_name.val('');
                             $email.val('');
@@ -136,12 +145,19 @@ var UsersController = Stapes.subclass({
                             $client_id.val('');
                             $terms.attr('checked', false);
                         } else {
-                            self.view.error('An error occured while creating your account. Please contact administrator.');
+                            self.view.error(
+                                    'An error occured while creating your' +
+                                    ' account. Please contact administrator.'
+                            );
                         }
                     }
                 });
             }
         });
+        // Forgot Password
+        // ===============
+        // This will be emitted when user will request for
+        // the forgot password.
         this.view.on('forgotPassword', function() {
             var $login_id = $('#login_id').val();
             if($login_id.length === 0){
@@ -173,11 +189,19 @@ var UsersController = Stapes.subclass({
                     // On success clean the form.
                     success: function(_data) {
                         if (_data.success) {
-                            self.view.success('An email has been sent to your registered email for further instruction.');
+                            self.view.success(
+                                    'An email has been sent to' +
+                                    ' your registered email for ' +
+                                    'further instruction.'
+                            );
                             $('#login_id').val('');
                             $('#forgotPasswordClose').click();
                         } else {
-                            self.view.error('An error occured while resetting your password. Please contact administrator.');
+                            self.view.error(
+                                    'An error occured while ' +
+                                    'resetting your password. Please ' +
+                                    'contact administrator.'
+                            );
                             $('#forgotPasswordClose').click();
                         }
                     }
