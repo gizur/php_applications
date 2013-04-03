@@ -43,12 +43,6 @@ module.exports = function(grunt) {
                 $: true
             }
         },
-        min: {
-            dist: {
-                src: ['app.js', 'app/**/*.js'],
-                dest: 'dist/built.min.js'
-            }
-        },
 
         // Plugin tasks
         //-------------

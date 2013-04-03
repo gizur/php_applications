@@ -1,46 +1,32 @@
 {
-  "name"        : "gizursaas",
-  "description" : "Gizur SaaS",
-  "version"     : "0.0.1",
-  "author": {
-    "name": "Prabhat Khera",
-    "email": "prabhat.khera@essindia.co.in"
-  },
-  "repository": {
-    "type" : "git",
-    "url"  : "git://github.com/gizur/gizur-cron.git"
-  },
-  "bugs": {
-    "url": "https://github.com/gizur/gizur-cron/issues"
-  },
-  "licenses": [
-    {
-      "type" : "MIT",
-      "url"  : "https://github.com/gizur/gizur-cron/blob/master/LICENSE-MIT"
-    }
-  ],
-  "main": "app.js",
-  "dependencies": {
-    "grunt-exec"   : "~0.3.0",
-    "nodeunit"     : "0.7.4",
-    "grunt-doccoh" : "0.1.3",
-    "grunt-clean"  : "0.3.0"
-  },
-  "engines": {
-    "node" : "0.8.x",
-    "npm"  : "1.1.x"
-  },
-   "bin": {
-    "server": "./bin/server"
-  },
-  "scripts": {
-    "test"       : "grunt test"
-  },
-  "devDependencies": {
-    "grunt"          : "~0.3.16"
-  },
-  "bundleDependencies": [
-    "helpers"
-  ], 
-  "keywords": ["saas", "gizur"]
+    "name": "gizursaas",
+    "description": "Gizur SaaS",
+    "version": "0.0.1",
+    "author": {
+        "name": "Prabhat Khera",
+        "email": "prabhat.khera@essindia.co.in"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/gizur/gizur-cron.git"
+    },
+    "bugs": {
+        "url": "https://github.com/gizur/gizur-cron/issues"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/gizur/gizur-cron/blob/master/LICENSE-MIT"
+        }
+    ],
+    "dependencies": {
+        "grunt-exec": "~0.3.0",
+        "grunt-doccoh": "0.1.3",
+        "grunt-clean": "0.3.0"
+    },
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    },
+    "keywords": ["saas", "gizur"]
 }
