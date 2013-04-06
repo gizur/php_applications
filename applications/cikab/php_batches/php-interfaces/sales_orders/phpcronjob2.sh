@@ -69,7 +69,7 @@ try {
          FROM salesorder_interface
          WHERE sostatus IN ('created', 'approved') 
          GROUP BY salesorder_no, accountname 
-         LIMIT 0, " . $dbconfigBatchVariable['batch_valiable']
+         LIMIT 0, " . $dbconfigBatchVariable['batch_variable']
     );
 
     /*

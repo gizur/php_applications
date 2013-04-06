@@ -65,7 +65,7 @@ try {
     $salesOrdersQuery = "SELECT SO.salesorderid, SO.salesorder_no 
         FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
         WHERE SO.sostatus IN ('Created','Approved') LIMIT 0," .
-        $dbconfigBatchVariable['batch_valiable'] . "";
+        $dbconfigBatchVariable['batch_variable'] . "";
 
     $salesOrders = $vTigerConnect->query($salesOrdersQuery);
 
@@ -137,7 +137,7 @@ try {
             while ($salesOrderProduct = $salesOrderProducts->fetch_object()) {
 
                 $batchNo = $salesOrderProduct->salesorder_no . '-' . 
-                    $dbconfigBatchVariable['batch_valiable'];
+                    $dbconfigBatchVariable['batch_variable'];
 
                 /*
                  * Insert product into integration table.
