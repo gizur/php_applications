@@ -33,12 +33,14 @@ openlog("FTPConnectionCron", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 /**
  * Check FTP Connection
  */
-$ftpConnId = ftp_connect($dbconfigFtp['Host'], $dbconfigFtp['port']);
+
+$ftpConnId = ftp_connect($dbconfigFtp['Host'], $dbconfigFtp['port'], 10);
 
 /**
  * If connection fails update syslog with the error message and display
  * an error message.
  */
+
 if (!$ftpConnId) {
     $syslogmessage = "Some problem in FTP Connection.please check Host Name!";
     syslog(
