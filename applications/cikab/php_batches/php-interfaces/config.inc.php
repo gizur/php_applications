@@ -5,7 +5,7 @@
  *
  * @package    Integration
  * @subpackage Config
- * @author     prabhat khera <prabhat.khera@essindia.co.in>
+ * @author     Jonas Colmsjö <jonas.colmsjo@gizur.com>
  * @version    SVN: $Id$
  *
  * @license    Commercial license
@@ -115,29 +115,33 @@ $dbconfigBatchVariable['batch_valiable'] = 10;
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['Host'] = "127.0.0.1";
-
+$dbconfigFtp['Host'] = "10.58.226.192";
 
 /**
- *  @FTP Host Name 
+ *  @FTP Host Port 
  */
-$dbconfigFtp['port'] = "7001";
+$dbconfigFtp['port'] = 21;
 
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "prabhat";
+$dbconfigFtp['User'] = "gizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "123456";
+$dbconfigFtp['Password'] = "gizur";
+
+/**
+ *  @FTP Local files path
+ */
+$dbconfigFtp['localpath'] = "cronsetfiles/";
 
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "/";
+$dbconfigFtp['serverpath'] = "files/";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */
