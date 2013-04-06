@@ -103,11 +103,11 @@ $dbconfigVtiger['db_type'] = 'mysql';
 /* * ***************** BATCH CONFIGURATION **************** */
 
 /**
- *  Set Batch Valiable
+ *  Set Batch Variable
  * 
  * 
  */
-$dbconfigBatchVariable['batch_valiable'] = 10;
+$dbconfigBatchVariable['batch_variable'] = 10;
 
 /* * ********** FTP CONFIGURATION ************ */
 
