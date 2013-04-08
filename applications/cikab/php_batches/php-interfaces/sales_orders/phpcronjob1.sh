@@ -36,11 +36,22 @@ openlog(
  * Try to connect to vTiger database as per setting 
  * defined in config files.
  */
+syslog(
+    LOG_INFO, "Try to connect to vTiger database as " .
+        "per setting defined in config files."
+);
+
 $vTigerConnect = new Connect(
     $dbconfigVtiger['db_server'],
     $dbconfigVtiger['db_username'],
     $dbconfigVtiger['db_password'],
     $dbconfigVtiger['db_name']
+);
+
+
+syslog(
+    LOG_INFO, "Try to connect to integration database as " .
+        "per setting defined in config files."
 );
 
 /*
@@ -67,6 +78,8 @@ try {
         WHERE SO.sostatus IN ('Created','Approved') LIMIT 0," .
         $dbconfigBatchVariable['batch_variable'] . "";
 
+    syslog(LOG_INFO, "Executing Query: " . $salesOrdersQuery);
+    
     $salesOrders = $vTigerConnect->query($salesOrdersQuery);
 
     /*
@@ -79,18 +92,29 @@ try {
      * In case of unable to fetch sales orders
      * throw exception.
      */
-    if (!$salesOrders)
+    if (!$salesOrders){
         throw new Exception(
             "Error executing sales order query : " . 
             "($vTigerConnect->errno) - $vTigerConnect->error"
         );
+        syslog(
+            LOG_WARNING, 
+            "Error executing sales order query : ($vTigerConnect->errno) - " .
+                "$vTigerConnect->error"
+        );
+    }
 
     /*
      * If no pending sales orders found
      * throw exception. 
      */
-    if ($salesOrders->num_rows == 0)
+    if ($salesOrders->num_rows == 0){
         throw new Exception("No Sales Order Found!");
+        syslog(
+            LOG_INFO, 
+            "No Sales Order Found!"
+        );
+    }
 
     /*
      * Update message array with number of sales orders.
@@ -100,6 +124,11 @@ try {
     /*
      * Iterate through sales orders
      */
+    syslog(
+        LOG_INFO, 
+        "Iterate through sales orders"
+    );
+    
     while ($salesOrder = $salesOrders->fetch_object()) {
 
         /*
@@ -109,6 +138,10 @@ try {
             /*
              * Disable auto commit.
              */
+            syslog(
+                LOG_INFO, 
+                "Disable auto commit"
+            );
             $vTigerConnect->autocommit(FALSE);
             $integrationConnect->autocommit(FALSE);
 
@@ -131,6 +164,10 @@ try {
                 WHERE SO.salesorder_no = '$salesOrder->salesorder_no'"
             );
 
+            syslog(
+                LOG_INFO, 
+                "Fetch sales order products: " . $salesOrderProducts
+            );
             /*
              * Iterate through products.
              */
@@ -158,6 +195,11 @@ try {
                         sostatus = '$salesOrderProduct->sostatus', 
                         batchno = '$batchNo', createdate = now()"
                 );
+                
+                syslog(
+                    LOG_INFO, 
+                    "Inserting product: " . $interfaceQuery
+                );
 
                 /*
                  * If insertion failed, Close resultset and raise exception.
@@ -165,6 +207,14 @@ try {
                 if (!$interfaceQuery) {
                     $salesOrderProducts->close();
                     throw new Exception(
+                        "Error inserting product " .
+                        "$salesOrderProduct->productname in " . 
+                        "interface table. " . 
+                        "($integrationConnect->errno) - " . 
+                        "$integrationConnect->error"
+                    );
+                    syslog(
+                        LOG_WARNING, 
                         "Error inserting product " .
                         "$salesOrderProduct->productname in " . 
                         "interface table. " . 
@@ -185,8 +235,15 @@ try {
             }
 
             /*
-             * Update sales order in case of all products get inserted.
+             * Update sales order in case of 
+             * all products get inserted.
              */
+            
+            syslog(
+                LOG_INFO, 
+                "Updating sales order $salesOrder->salesorderid Delivered"
+            );
+            
             $updateSaleOrder = $vTigerConnect->query(
                 "UPDATE vtiger_salesorder SET " .
                 "sostatus = 'Delivered' WHERE salesorderid = " . 
@@ -199,6 +256,12 @@ try {
             if (!$updateSaleOrder) {
                 $salesOrderProducts->close();
                 throw new Exception(
+                    "Error updating sales order " . 
+                    "$salesOrder->salesorder_no in vTiger " . 
+                    "($vTigerConnect->errno) - $vTigerConnect->error."
+                );
+                syslog(
+                    LOG_WARNING, 
                     "Error updating sales order " . 
                     "$salesOrder->salesorder_no in vTiger " . 
                     "($vTigerConnect->errno) - $vTigerConnect->error."
