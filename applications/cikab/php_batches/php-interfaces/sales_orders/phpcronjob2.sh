@@ -41,6 +41,10 @@ try {
      * Try to connect to integration database,
      * as per the settings.
      */
+    syslog(
+        LOG_INFO, 
+        "Try to connect to integration database."
+    );
     $integrationConnect = new Connect(
             $dbconfigIntegration['db_server'],
             $dbconfigIntegration['db_username'],
@@ -63,29 +67,46 @@ try {
      * Fetch all pending (created, approved) sales 
      * orders from integration database.
      */
-    $salesOrders = $integrationConnect->query(
-        "SELECT salesorder_no,
+    $salesOrderQuery = "SELECT salesorder_no,
          accountname 
          FROM salesorder_interface
          WHERE sostatus IN ('created', 'approved') 
          GROUP BY salesorder_no, accountname 
-         LIMIT 0, " . $dbconfigBatchVariable['batch_variable']
+         LIMIT 0, " . $dbconfigBatchVariable['batch_variable'];
+    
+    $salesOrders = $integrationConnect->query(
+        $salesOrderQuery
     );
 
+    syslog(
+        LOG_INFO, 
+        "Excuting Query: " . $salesOrderQuery
+    );
     /*
      * If query return false / error, raise the exception.
      */
-    if (!$salesOrders)
+    if (!$salesOrders) {
         throw new Exception(
             "Error executing sales order query : " .
             "($integrationConnect->errno) - $integrationConnect->error"
         );
+        syslog(
+            LOG_WARNING, 
+            "Error executing sales order query : " .
+            "($integrationConnect->errno) - $integrationConnect->error"
+        );
+    }
 
     /*
      * If number of sales order fetched is 0, raise the exception.
      */
-    if ($salesOrders->num_rows == 0)
+    if ($salesOrders->num_rows == 0) {
         throw new Exception("No SalesOrder Found!");
+        syslog(
+            LOG_INFO, 
+            "No SalesOrder Found!"
+        );
+    }
 
     /*
      * Store sales order numbers in message array.
@@ -94,6 +115,10 @@ try {
     /*
      * Iterate through sales orders.
      */
+    syslog(
+        LOG_INFO,
+        "Iterate through sales orders"
+    );
     while ($salesOrder = $salesOrders->fetch_object()) {
 
         /*
@@ -137,10 +162,18 @@ try {
             /*
              * Get all the products of current sales order
              */
-            $salesOrderWithProducts = $integrationConnect->query(
-                "SELECT * FROM salesorder_interface " .
+            $salesOrdersWithProductQuery = "SELECT * FROM " .
+                "salesorder_interface " .
                 "WHERE salesorder_no = '$salesOrder->salesorder_no'" .
-                " AND sostatus in ('created', 'approved')"
+                " AND sostatus in ('created', 'approved')";
+            
+            syslog(
+                LOG_INFO,
+                "Executing Query: " . $salesOrdersWithProductQuery
+            );
+            
+            $salesOrderWithProducts = $integrationConnect->query(
+                $salesOrdersWithProductQuery
             );
 
             /*
@@ -157,17 +190,22 @@ try {
             $leadzeroproductquantity = "";
 
             /*
+             * If error executing the query, raise the exception.
+             */
+            if (!$salesOrderWithProducts) {
+                throw new Exception("Problem in fetching products.");
+                syslog(
+                    LOG_WARNING,
+                    "Problem in fetching products."
+                );
+            }
+
+            /*
              * Store number of products in sales order.
              */
             $mess['no_products'] = $salesOrderWithProducts->num_rows;
             $messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
-
-            /*
-             * If error executing the query, raise the exception.
-             */
-            if (!$salesOrderWithProducts)
-                throw new Exception("Problem in fetching products.");
-
+            
             while ($sOWProduct = $salesOrderWithProducts->fetch_object()) {
 
                 /**
@@ -248,8 +286,6 @@ try {
                     date("Y-m-d", strtotime($deliveryday)) . "+2 day"
                 );
                 $futuredeliverydate = date('ymd', $futuredeliveryDate);
-
-                
             }
             $currentdate = date("YmdHi");                
             $finalformatproductname = implode("+", $multiproduct);
@@ -275,30 +311,52 @@ try {
                 ".130KF27777100   Mottagning avslutad    " .
                 "BYTES/BLOCKS/RETRIES=1084 /5    /0.";
 
+            syslog(
+                LOG_INFO,
+                "File $fileName content generated"
+            );
             /*
              * Add next line character at every 80 length
              */
+            syslog(
+                LOG_INFO,
+                "Adding next line char $fileName at every 80 chars"
+            );
             $pieces = str_split($contentF, 80);
             $contentF = join("\n", $pieces);
-            /*
-             * Get the message from the responce.
-             */
-            $messageID = $responseQ->body->SendMessageResult->MessageId;
+            
+            syslog(
+                LOG_INFO,
+                "File $fileName contents: " . $contentF
+            );
             /*
              * Update sales order status to Delivered.
              */
-            $updateStatus = $integrationConnect->query(
-                "UPDATE salesorder_interface
+            
+            $updateIntegrationQuery = "UPDATE salesorder_interface
                 SET sostatus = 'Delivered' 
-                where salesorder_no = '$salesOrder->salesorder_no'"
+                where salesorder_no = '$salesOrder->salesorder_no'";
+            
+            syslog(
+                LOG_INFO,
+                "Executing Query : " . $updateIntegrationQuery
+            );
+            
+            $updateStatus = $integrationConnect->query(
+                $updateIntegrationQuery
             );
 
             /*
              * If unable to update status, raise the exception and
              * delete the file content from message queue.
              */
-            if (!$updateStatus)
+            if (!$updateStatus) {
                 throw new Exception("Error updating status to delivered.");
+                syslog(
+                    LOG_WARNING,
+                    "Error updating status to delivered."
+                );
+            }
 
             /*
              * Initialise an array to store file name and content.
@@ -311,6 +369,11 @@ try {
             /*
              * Store file name and file content to messageQ.
              */
+            syslog(
+                LOG_INFO,
+                "Store file name and file content to messageQ."
+            );
+            
             $responseQ = $sqs->send_message(
                 $amazonqueueConfig['_url'], json_encode($messageQ)
             );
@@ -319,12 +382,22 @@ try {
              * If unable to store file content at queue,
              * raise the exception
              */
-            if ($responseQ->status !== 200)
+            if ($responseQ->status !== 200) {
                 throw new Exception("Error in sending file to messageQ.");
+                syslog(
+                    LOG_WARNING,
+                    "Error in sending file to messageQ."
+                );
+            }
 
             /*
              * Store file in S3 Bucket
              */
+            syslog(
+                LOG_INFO,
+                "Store file in S3 Bucket"
+            );
+            
             $sThree = new AmazonS3();
             $responseSThree = $sThree->create_object(
                 $amazonSThree['bucket'], 
@@ -342,7 +415,12 @@ try {
             
             if (!$responseSThree->isOK()) {
                 throw new Exception(
-                    "Unable to save file in S3 bucket " . 
+                    "Unable to save file $fileName in S3 bucket " . 
+                    "(" . $amazonSThree['bucket'] . ")"
+                );
+                syslog(
+                    LOG_WARNING,
+                   "Unable to save file $fileName in S3 bucket " . 
                     "(" . $amazonSThree['bucket'] . ")"
                 );
             }
