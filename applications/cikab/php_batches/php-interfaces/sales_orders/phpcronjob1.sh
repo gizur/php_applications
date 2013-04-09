@@ -140,7 +140,7 @@ try {
              */
             syslog(
                 LOG_INFO, 
-                "Disable auto commit"
+                "Disabling auto commit"
             );
             $vTigerConnect->autocommit(FALSE);
             $integrationConnect->autocommit(FALSE);
@@ -166,7 +166,8 @@ try {
 
             syslog(
                 LOG_INFO, 
-                "Fetch sales order products: " . $salesOrderProducts
+                "Fetched products ($salesOrder->salesorder_no): " . 
+                $salesOrderProducts->num_rows
             );
             /*
              * Iterate through products.
