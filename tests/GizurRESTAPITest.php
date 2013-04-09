@@ -54,8 +54,9 @@ class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 
     private $_credentials = Array();
 
-    private $_url = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com" . 
-                    "/api/";
+    private $_url = <<<URL
+"http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/"
+URL;
 
     /**
      * Generates Signature for request
