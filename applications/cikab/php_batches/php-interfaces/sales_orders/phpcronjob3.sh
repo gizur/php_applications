@@ -43,20 +43,33 @@ try {
     /*
      * Get number of files stored in message queue.
      */
+    syslog(
+        LOG_INFO,
+        "Geting number of files stored in message queue"
+    );
     $messageCount = $sqs->get_queue_size($amazonqueueConfig['_url']);
     $noOfFiles = $messageCount;
 
     /*
      * If number of files are 0, throw the exception
      */
-    if ($messageCount <= 0)
+    if ($messageCount <= 0) {
         throw new Exception("messageQ is empty.");
+        syslog(
+            LOG_INFO,
+            "messageQ is empty."
+        );
+    }
 
     /*
      * Iterate till $messageCount becomes 0.
      */
     while ($messageCount > 0) {
 
+        syslog(
+            LOG_INFO,
+            "Number of messages found in messageQ : $messageCount."
+        );
         /*
          * Inner try catch to catch the message specific exceptions.
          */
@@ -64,15 +77,24 @@ try {
             /*
              * Get the single message from the messageQ.
              */
+            syslog(
+                LOG_INFO,
+                "Get the single message from the messageQ"
+            );
             $responseQ = $sqs->receive_message($amazonqueueConfig['_url']);
 
             /*
              * If response is 200, Throw exception.
              */
-            if (!$responseQ->status == 200)
+            if ($responseQ->status !== 200){
                 throw new Exception(
                     "Message not recieved from the messageQ server."
                 );
+                syslog(
+                    LOG_INFO,
+                    "Message not recieved from the messageQ server"
+                );
+            }
 
             /*
              * Get the message body.
@@ -82,11 +104,21 @@ try {
             /*
              * If message body is empty, raise the exception.
              */
-            if (empty($msgObj))
+            if (empty($msgObj)) { 
                 throw new Exception(
                     "Received an empty message from messageQ."
                 );
+                syslog(
+                    LOG_INFO,
+                    "Received an empty message from messageQ."
+                );
+            }
 
+            syslog(
+                LOG_INFO,
+                "Message Received: " . $msgObj->Body
+            );
+            
             /*
              * File name and content were json encoded so decode it.
              */
@@ -101,20 +133,30 @@ try {
             /*
              * If file content are empty raise the exception.
              */
-            if(empty($fileJson->content))
+            if(empty($fileJson->content)) {
                 throw new Exception(
                     "$fileJson->file content is empty in messageQ."
                 );
+                syslog(
+                    LOG_WARNING,
+                    "$fileJson->file content is empty in messageQ."
+                );
+            }
             
             $ftpPath = $dbconfigFtp['serverpath'] . $fileJson->file;
             
             /*
              * If file exists at FTP, raise the Exception.
              */
-            if (file_exists($ftpPath))
+            if (file_exists($ftpPath)) {
                 throw new Exception(
                     "$fileJson->file file already exists at FTP server."
                 );
+                syslog(
+                    LOG_WARNING,
+                    "$fileJson->file file already exists at FTP server."
+                );
+            }
             
             /*
              * Prepare file in temp dir locally.
@@ -133,14 +175,22 @@ try {
             /*
              * If file upload process fails, throw the exception.
              */
-            if(!$uploaded)
+            if(!$uploaded) {
                 throw new Exception(
                     "Error copying file $fileJson->file on FTP server."
                 );
-
+                syslog(
+                    LOG_WARNING,
+                    "Error copying file $fileJson->file on FTP server."
+                );
+            }
             /*
              * If file processed, delete message from messageQ.
              */
+            syslog(
+                LOG_INFO,
+                "Deleting message from messageQ : $fileJson->file."
+            );
             $sqs->delete_message(
                 $amazonqueueConfig['_url'], $receiptQ
             );
