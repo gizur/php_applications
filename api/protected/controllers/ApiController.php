@@ -435,192 +435,199 @@ class ApiController extends Controller
                                 throw new Exception('Mime-Type not supported', 1005); 
                         }
             }
-            
-            //Check if timestamp is present in the header
-            if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
+    
+            if (!isset($_SERVER['HTTP_X_CLIENTID'])) {        
+                //Check if timestamp is present in the header
+                //Part of API Key validation
+                if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Timestamp not found in request');
 
-            //Check if signature is present in the header
-            if (!isset($_SERVER['HTTP_X_SIGNATURE']))
+                //Part of API Key validation
+                //Check if signature is present in the header
+                if (!isset($_SERVER['HTTP_X_TIMESTAMP']))
+                if (!isset($_SERVER['HTTP_X_SIGNATURE']))
                 throw new Exception('Signature not found');
 
-            //Check if Unique Salt is present in request
-            if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
+                //Part of API Key validation
+                //Check if Unique Salt is present in request
+                if (!isset($_SERVER['HTTP_X_UNIQUE_SALT']))
                 throw new Exception('Unique Salt not found');
 
-            //check if public key exists
-            if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
+                //Part of API Key validation
+                //check if public key exists
+                if (!isset($_SERVER['HTTP_X_GIZURCLOUD_API_KEY']))
                 throw new Exception('Public Key Not Found in request');
-            
-            //Check if request is in acceptable timestamp negative error
-            if ($_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+                
+                //Part of API Key validation
+                //Check if request is in acceptable timestamp negative error
+                if ($_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > strtotime($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Stale request', 1003);
 
-            //Check if request is in acceptable timestamp positive error
-            if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError < strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+                //Part of API Key validation
+                //Check if request is in acceptable timestamp positive error
+                if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError < strtotime($_SERVER['HTTP_X_TIMESTAMP']))
                 throw new Exception('Oh, Oh, Oh, request from the FUTURE! ', 1003);
 
-            //Log
-            Yii::log(
+                //Log
+                Yii::log(
                 " TRACE(" . $this->_trace_id . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)", 
                 CLogger::LEVEL_TRACE
-            );
-
-            //Fetch API Key details from Dynamodb, resource  intensive validation
-            if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])) === false) {
-                // Retreive Key pair from Amazon Dynamodb
-                $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
-
-                //Log
-                Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
-                    " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " VALIDATION (Scan API KEY 1)", 
-                    CLogger::LEVEL_TRACE
                 );
-                
-                //Scan for API KEYS
-                $ddb_response = $dynamodb->scan(
-                    array(
-                    'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                    'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid', 'databasename', 'dbpassword', 'username', 'server'),
-                    'ScanFilter' => array(
-                        'apikey_1' => array(
-                            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-                            'AttributeValueList' => array(
-                                array(AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])
-                            )
-                        )
-                    )
-                        )
-                );
-                
-                //If API Keys are not found for apikey_1 then look in apikey_2
-                //can this be done in a better way?
-                if ($publicKeyNotFound = ($ddb_response->body->Count == 0)) {
-                    
+
+                //Part of API Key validation
+                //Fetch API Key details from Dynamodb, resource  intensive validation
+                if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])) === false) {
+                    // Retreive Key pair from Amazon Dynamodb
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+
                     //Log
                     Yii::log(
                         " TRACE(" . $this->_trace_id . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " VALIDATION (Scan API KEY 2)", 
+                        " VALIDATION (Scan API KEY 1)", 
                         CLogger::LEVEL_TRACE
-                    );                    
+                    );
                     
                     //Scan for API KEYS
                     $ddb_response = $dynamodb->scan(
                         array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid', 'databasename', 'dbpassword', 'username', 'server'),
+                        'ScanFilter' => array(
+                        'apikey_1' => array(
+                            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                            'AttributeValueList' => array(
+                            array(AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])
+                            )
+                        )
+                        )
+                        )
+                    );
+                    
+                    //If API Keys are not found for apikey_1 then look in apikey_2
+                    //can this be done in a better way?
+                    if ($publicKeyNotFound = ($ddb_response->body->Count == 0)) {
+                        
+                        //Log
+                        Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " VALIDATION (Scan API KEY 2)", 
+                        CLogger::LEVEL_TRACE
+                        );                    
+                        
+                        //Scan for API KEYS
+                        $ddb_response = $dynamodb->scan(
+                        array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
                         'AttributesToGet' => array('id', 'apikey_2', 'secretkey_2', 'clientid', 'databasename', 'dbpassword', 'username', 'server'),
                         'ScanFilter' => array(
                             'apikey_2' => array(
-                                'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-                                'AttributeValueList' => array(
-                                    array(AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])
-                                )
+                            'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                            'AttributeValueList' => array(
+                                array(AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])
+                            )
                             )
                         )
                             )
-                    );
-                    
-                    //Check if public key is found in apikey_2
-                    if (!($publicKeyNotFound = ($ddb_response->body->Count == 0)))
+                        );
+                        
+                        //Check if public key is found in apikey_2
+                        if (!($publicKeyNotFound = ($ddb_response->body->Count == 0)))
                         $GIZURCLOUD_SECRET_KEY = (string) $ddb_response->body->Items->secretkey_2->{AmazonDynamoDB::TYPE_STRING};
-                } else {
-                    //Get secret key which belongs to apikey_1
-                    $GIZURCLOUD_SECRET_KEY = (string) $ddb_response->body->Items->secretkey_1->{AmazonDynamoDB::TYPE_STRING};
-                }
+                    } else {
+                        //Get secret key which belongs to apikey_1
+                        $GIZURCLOUD_SECRET_KEY = (string) $ddb_response->body->Items->secretkey_1->{AmazonDynamoDB::TYPE_STRING};
+                    }
 
-                //If public key is not found throw an exception
-                if ($publicKeyNotFound)
-                    throw new Exception('Could not identify public key'); 
+                    //If public key is not found throw an exception
+                    if ($publicKeyNotFound)
+                        throw new Exception('Could not identify public key'); 
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " VALIDATION (Client ID retrived)" . (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
+                        CLogger::LEVEL_TRACE
+                    );                
+                    
+                    $this->_clientid = (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
+                    
+                    $this->_dbuser = (string) $ddb_response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_dbpassword = (string) $ddb_response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_dbhost = (string) $ddb_response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_dbname = (string) $ddb_response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
+                        
+                    //Store the public key and secret key combination in cache to
+                    //avoid repeated calls to Dynamo DB
+                    Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
+                    Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid", $this->_clientid);
+                    
+                    Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbpassword", $this->_dbpassword);
+                    Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbhost", $this->_dbhost);
+                    Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbuser", $this->_dbuser);
+                    Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbname", $this->_dbname);
+                } else {
+                    $this->_clientid = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid");
+                    
+                    $this->_dbhost = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbhost");
+                    $this->_dbname = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbname");
+                    $this->_dbuser = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbuser");
+                    $this->_dbpassword = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbpassword");
+                }
+                
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
-                    " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " VALIDATION (Client ID retrived)" . (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
-                    CLogger::LEVEL_TRACE
-                );                
-                
-                $this->_clientid = (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
-                
-                $this->_dbuser = (string) $ddb_response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
-                $this->_dbpassword = (string) $ddb_response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
-                $this->_dbhost = (string) $ddb_response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
-                $this->_dbname = (string) $ddb_response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
-                    
-                //Store the public key and secret key combination in cache to
-                //avoid repeated calls to Dynamo DB
-                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'], $GIZURCLOUD_SECRET_KEY);
-                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid", $this->_clientid);
-                
-                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbpassword", $this->_dbpassword);
-                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbhost", $this->_dbhost);
-                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbuser", $this->_dbuser);
-                Yii::app()->cache->set($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbname", $this->_dbname);
-            } else {
-                $this->_clientid = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid");
-                
-                $this->_dbhost = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbhost");
-                $this->_dbname = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbname");
-                $this->_dbuser = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbuser");
-                $this->_dbpassword = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbpassword");
-            }
-            
-            //Check the string
-            $this->_vtresturl = str_replace('{clientid}', $this->_clientid, Yii::app()->params->vtRestUrl);            
-            
-            //Log
-            Yii::log(
                 " TRACE(" . $this->_trace_id . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Generating Signature)", 
                 CLogger::LEVEL_TRACE
-            );                
+                );                
 
-            // Build query arguments list
-            $params = array(
+                // Build query arguments list
+                $params = array(
                 'Verb' => Yii::App()->request->getRequestType(),
                 'Model' => $_GET['model'],
                 'Version' => self::API_VERSION,
                 'Timestamp' => $_SERVER['HTTP_X_TIMESTAMP'],
                 'KeyID' => $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'],
                 'UniqueSalt' => $_SERVER['HTTP_X_UNIQUE_SALT']
-            );
+                );
 
-            // Sorg arguments
-            ksort($params);
+                // Sorg arguments
+                ksort($params);
 
-            // Generate string for sign
-            $string_to_sign = "";
-            foreach ($params as $k => $v)
+                // Generate string for sign
+                $string_to_sign = "";
+                foreach ($params as $k => $v)
                 $string_to_sign .= "{$k}{$v}";
 
-            // Generate signature
-            $verify_signature = base64_encode(hash_hmac('SHA256', $string_to_sign, $GIZURCLOUD_SECRET_KEY, 1));
-            
-            //Log
-            Yii::log(
+                // Generate signature
+                $verify_signature = base64_encode(hash_hmac('SHA256', $string_to_sign, $GIZURCLOUD_SECRET_KEY, 1));
+                
+                //Log
+                Yii::log(
                 " TRACE(" . $this->_trace_id . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Signature Dump) STRING_TO_SIGN: $string_to_sign" .
                 "    GENERATED SIGNATURE: " . $verify_signature .
                 "    SIGNATURE RECEIVED:" . $_SERVER['HTTP_X_SIGNATURE'] , 
                 CLogger::LEVEL_TRACE
-            );             
+                );             
 
-            //Verify if the signature is valid
-            if ($_SERVER['HTTP_X_SIGNATURE'] != $verify_signature)
+                //Verify if the signature is valid
+                if ($_SERVER['HTTP_X_SIGNATURE'] != $verify_signature)
                 throw new Exception('Could not verify signature ');
 
-            //Check if the signature has been used before
-            //This is a security loop hole to reply attacks in case memcache
-            //is not working
-            if ($who = Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE']) !== false) {
+                //Check if the signature has been used before
+                //This is a security loop hole to reply attacks in case memcache
+                //is not working
+                if ($who = Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE']) !== false) {
                 //Log
                 Yii::log(
                     " TRACE(" . $this->_trace_id . "); " . 
@@ -629,19 +636,82 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );             
                 throw new Exception('Used signature');
+                }
+
+                //Save the signature for 10 minutes            
+                Yii::app()->cache->set(
+                    $_SERVER['HTTP_X_SIGNATURE'], 
+                    json_encode(
+                        array(
+                            "trace" => $this->_trace_id,
+                            "instance" => $this->_instanceid
+                        )
+                    ), 
+                    600
+                );
+            } else {
+                //Check if clientid exists in dynamoDB
+                if ( ($this->_dbuser = Yii::app()->cache->get($_SERVER['HTTP_X_CLIENTID'] . "_dbuser")) === false )  {
+                    //Retreive Key pair from Amazon Dynamodb
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_trace_id . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " VALIDATION (Scan Client ID)", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
+                    //Scan for ClientID
+                    $ddb_response = $dynamodb->scan(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid', 'databasename', 'dbpassword', 'username', 'server','key_free'),
+                            'ScanFilter' => array(
+                                'clientid' => array(
+                                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                                    'AttributeValueList' => array(
+                                        array(AmazonDynamoDB::TYPE_STRING => $_SERVER['HTTP_X_CLIENTID'])
+                                    )
+                                )
+                            )
+                        )
+                    );
+                   
+                    $this->_clientid = $_SERVER['HTTP_X_CLIENTID'];
+     
+                    //Check if client id was found
+                    if ($ddb_response->body->Count != 0) {
+
+                        if ((string) $ddb_response->body->Items->key_free->{AmazonDynamoDB::TYPE_STRING} != 'true') 
+                            throw new Exception('API Key free access is not allowed for this account');
+
+                        $this->_dbuser = (string) $ddb_response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
+                        $this->_dbpassword = (string) $ddb_response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
+                        $this->_dbhost = (string) $ddb_response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
+                        $this->_dbname = (string) $ddb_response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
+                            
+                        //Store the public key and secret key combination in cache to
+                        //avoid repeated calls to Dynamo DB
+                        Yii::app()->cache->set($_SERVER['HTTP_X_CLIENTID'] . "_dbpassword", $this->_dbpassword);
+                        Yii::app()->cache->set($_SERVER['HTTP_X_CLIENTID'] . "_dbhost", $this->_dbhost);
+                        Yii::app()->cache->set($_SERVER['HTTP_X_CLIENTID'] . "_dbuser", $this->_dbuser);
+                        Yii::app()->cache->set($_SERVER['HTTP_X_CLIENTID'] . "_dbname", $this->_dbname);
+                    } else {
+                        throw new Exception('Client ID not found');                        
+                    }
+                } else {
+                                          
+                    $this->_dbhost = Yii::app()->cache->get($_SERVER['HTTP_X_CLIENTID'] . "_dbhost");
+                    $this->_dbname = Yii::app()->cache->get($_SERVER['HTTP_X_CLIENTID'] . "_dbname");
+                    $this->_dbpassword = Yii::app()->cache->get($_SERVER['HTTP_X_CLIENTID'] . "_dbpassword");
+                }
             }
 
-            //Save the signature for 10 minutes            
-            Yii::app()->cache->set(
-                $_SERVER['HTTP_X_SIGNATURE'], 
-                json_encode(
-                    array(
-                        "trace" => $this->_trace_id,
-                        "instance" => $this->_instanceid
-                    )
-                ), 
-                600
-            );
+            //Check the string
+            $this->_vtresturl = str_replace('{clientid}', $this->_clientid, Yii::app()->params->vtRestUrl);            
 
             //If request is for Model About or Cron stop validating
             if ($_GET['model'] == 'About' || $_GET['model'] == 'Cron')
