@@ -255,7 +255,7 @@ var UsersController = Stapes.subclass({
                             hasher.setHash('login/success');
                         else
                             hasher.setHash('login/fail');
-                    }
+                        }
                 });
             } else {
                 hasher.setHash('login/empty');

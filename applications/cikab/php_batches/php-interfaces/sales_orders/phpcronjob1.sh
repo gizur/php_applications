@@ -1,217 +1,321 @@
 #!/usr/bin/php
-
 <?php
 /**
- * 
- * 
- * Created date : 09/04/2012
- * Created By : Anil Singh
- * @author Anil Singh <anil-singh@essindia.co.in>
- * Flow : The basic flow of this page is extract all salesorder record from the vtigercrm and insert into the interface table. 
- * 		if any issues in the query then auto roleback.
- * Modify date : 27/04/2012
+ * @category   Cronjobs
+ * @package    Integration
+ * @subpackage CronJob
+ * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @version    SVN: $Id$
+ * @link       href="http://gizur.com"
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ *
+ * purpose : Connect to Amazon SQS through aws-php-sdk
+ * Coding standards:
+ * http://pear.php.net/manual/en/standards.php
+ *
+ * PHP version 5.3
+ *
  */
-/**
- * using of $salesordertable
- * The purpuse of using first query '$salesordertable' of the all fetch record into the master table when status will be Created 
- * and Approved.
- */
-/**
- * Use of While 
- * While use for multiple Rows
- */
-/**
- * Use of mysql_error () 
- * The purpose of use mysql_error function because we can track which type error in this query.
- */
-/**
- * using of Query $salesordermaptable into the first while loop
- * The purpose of using of the query '$salesordermaptable' when fetched saleoredrid and saleorder_no above query from the master table
- * and get product name,productid,accountname,duedate,product quantity from above saleorderid.
- * we know that one salesorderid or salesorder_no has been multiple product or items.
- * if any issues in related saleorderid query then it will be rollback all record(related to saleorderid). 
- * After rollback we can see error report into the syslog file.
- * path : /home/var/log/syslog
- */
-/**
- * For Use GLOBAL Valiable
+
+/*
+ * Load configuration files
  */
 require_once __DIR__ . '/../config.inc.php';
-/**
- * For Use Databse Connection
- */
 require_once __DIR__ . '/../config.database.php';
 
-/* * ***
- * Set autocommit OFF
+/*
+ * Open connection to system logger
  */
-mysql_query("SET autocommit = 0");
+openlog(
+    "phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0
+);
 
-/* * ***
- * Set satrt trasaction ON
+/*
+ * Try to connect to vTiger database as per setting 
+ * defined in config files.
  */
-mysql_query("START TRANSACTION");
+syslog(
+    LOG_INFO, "Try to connect to vTiger database as " .
+        "per setting defined in config files."
+);
 
-/* * ***
- * Ready state of syslog
+$vTigerConnect = new Connect(
+    $dbconfigVtiger['db_server'],
+    $dbconfigVtiger['db_username'],
+    $dbconfigVtiger['db_password'],
+    $dbconfigVtiger['db_name']
+);
+
+
+syslog(
+    LOG_INFO, "Try to connect to integration database as " .
+        "per setting defined in config files."
+);
+
+/*
+ * Try to connect to integration database as per 
+ * setting defined in config files.
  */
-openlog("phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+$integrationConnect = new Connect(
+    $dbconfigIntegration['db_server'],
+    $dbconfigIntegration['db_username'],
+    $dbconfigIntegration['db_password'],
+    $dbconfigIntegration['db_name']
+);
 
-$salesordertable = "SELECT SO.salesorderid,SO.salesorder_no 
-        FROM " . $dbconfig_vtiger['db_name'] . ".vtiger_salesorder SO 
-        WHERE SO.sostatus IN ('Created','Approved') LIMIT 0," . $dbconfig_batchvaliable['batch_valiable'] . "";
-$exequery = mysql_query($salesordertable, $obj2->link);
+/*
+ * Open try to catch exceptions
+ */
 
-if (!$exequery) {
-    /**
-     * Write which type Error into the query 
+try {
+    /*
+     * Try to fetch pending sales orders fron vTiger database 
      */
-    $queryerror = mysql_error();
-    mysql_close($obj2->link);
-    $access = date("Y/m/d H:i:s");
+    $salesOrdersQuery = "SELECT SO.salesorderid, SO.salesorder_no 
+        FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
+        WHERE SO.sostatus IN ('Created','Approved') LIMIT 0," .
+        $dbconfigBatchVariable['batch_variable'] . "";
 
-    /**
-     * Set Syslog Message
+    syslog(LOG_INFO, "Executing Query: " . $salesOrdersQuery);
+    
+    $salesOrders = $vTigerConnect->query($salesOrdersQuery);
+
+    /*
+     * Message array to store error / success messages
+     * through out end.
      */
-    $message = "Sorry ! - Some Problem into the query No.1. Query Error is : " . $queryerror . " ";
+    $messages = array();
 
-    /**
-     *  Write Error Message into the syslog	
+    /*
+     * In case of unable to fetch sales orders
+     * throw exception.
      */
-    syslog(LOG_WARNING, "" . $message . ": " . $access . "");
-} else {
-    $NumRows = @mysql_num_rows($exequery);
-}
-if (!empty($NumRows)) {
-
-    while ($CrmOrderId = mysql_fetch_array($exequery)) {
-
-        /**
-         *  Get productname,productid,duedate,quantity data into master table with related saleorder_no  
-         */
-        $salesordermaptable = " SELECT SO.salesorderid,SO.salesorder_no,SO.contactid,SO.duedate,
-            SO.sostatus,ACCO.accountname,ACCO.accountid,PRO.productid,PRO.productname,IVP.quantity 
-            FROM " . $dbconfig_vtiger['db_name'] . ".vtiger_salesorder SO 
-            INNER JOIN " . $dbconfig_vtiger['db_name'] . ".vtiger_account ACCO on ACCO.accountid=SO.accountid
-            INNER JOIN " . $dbconfig_vtiger['db_name'] . ".vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid
-            INNER JOIN " . $dbconfig_vtiger['db_name'] . ".vtiger_products PRO on PRO.productid=IVP.productid
-            WHERE SO.salesorder_no='" . $CrmOrderId['salesorder_no'] . "'";
-
-        $findproblemsalesorderid = "";
-        $queryerror = "";
-        $allOK = true;
-        $ExecuteQuery = @mysql_query($salesordermaptable, $obj2->link);
-
-        /**
-         *   Above Query not success then write Error into syslog 
-         */
-        if (!$ExecuteQuery) {
-            /**
-             * Write which type Error into the query 
-             */
-            $queryerror = mysql_error();
-
-            /**
-             * 	Set Syslog Message
-             */
-            $message = "Sorry ! - Some Problem into the query No.2. Query Error is : " . $queryerror . " ";
-
-            /**
-             * Set $allOK is false
-             */
-            $allOK = false;
-        }
-
-        while ($CrmRows = @mysql_fetch_array($ExecuteQuery)) {
-
-            /**
-             *  Insert data in interface table 
-             */
-            $interfase_query = "INSERT INTO `" . $dbconfig_integration['db_name'] . "`.`salesorder_interface` 
-                SET salesorderid='" . $CrmRows['salesorderid'] . "',salesorder_no='" . $CrmRows['salesorder_no'] . "',
-                contactid='" . $CrmRows['contactid'] . "',
-                productname='" . $CrmRows['productname'] . "',productid='" . $CrmRows['productid'] . "',
-                productquantity='" . $CrmRows['quantity'] . "',duedate='" . $CrmRows['duedate'] . "',
-                accountname='" . $CrmRows['accountname'] . "',accountid='" . $CrmRows['accountid'] . "',
-                sostatus='" . $CrmRows['sostatus'] . "',
-                batchno='" . $CrmRows['salesorder_no'] . "-" . $dbconfig_batchvaliable['batch_valiable'] . "'";
-
-            $interfaceExequery = @mysql_query($interfase_query, $obj1->link);
-
-            if (!$interfaceExequery) {
-                /**
-                 * Write Error Messasge into syslog file   
-                 */
-                $findproblemsalesorderid = $CrmRows['salesorderid'] . " And Batch No  is : '" 
-                    . $CrmRows['salesorder_no'] . "-" . $dbconfig_batchvaliable['batch_valiable'] . "' ";
-
-                /**
-                 *  Write which type Error into the query 
-                 */
-                $queryerror = mysql_error();
-
-                /**  Set $allOK is false
-                 */
-                $allOK = false;
-
-                /**
-                 * Set Syslog Message 
-                 */
-                $message = "Sorry ! - Some problem in salesorder id :" . $findproblemsalesorderid 
-                    . " record. Error is : " . $queryerror . "";
-            }
-            /**
-             * Change Status after data suessfully updated into interface table
-             */ else {
-                $updatemastertablestatus = "UPDATE `" . $dbconfig_vtiger['db_name'] 
-                    . "`.`vtiger_salesorder` SET sostatus='Delivered' WHERE salesorderid='" 
-                    . $CrmRows['salesorderid'] . "'";
-                $Updatemasterstatus = @mysql_query($updatemastertablestatus, $obj2->link);
-                if (!$Updatemasterstatus) {
-                    $allOK = false;
-                    $queryerror = mysql_error();
-                    $message = "Sorry ! - Some problem in master table vtiger_salesorder  :" 
-                    . $findproblemsalesorderid . " record. Error is : " . $queryerror . "";
-                }
-            }
-
-            /**
-             * for all row succussfully inserted into the interface table 
-             * then autometic commit commance execute other wise rollback 
-             * command execute
-             */
-            $allOK = ($allOK && $interfaceExequery);
-        }
-        /**
-         * If the query successfull then COMMIT comand Execute here 
-         */
-        if ($allOK) {
-            mysql_query("COMMIT");
-            mysql_close($obj2->link);
-            mysql_close($obj1->link);
-            echo "Succussfilly inserted \n";
-        }
-
-        /**
-         * if the Query not successfull the ROLLBACK command Execute here
-         */ else {
-            mysql_query("ROLLBACK");
-            mysql_close($obj2->link);
-            mysql_close($obj1->link);
-            $access = date("Y/m/d H:i:s");
-
-            /**
-             *  Write Error Message into the syslog	
-             */
-            syslog(LOG_WARNING, "" . $message . ": " . $access . "");
-        }
+    if (!$salesOrders){
+        throw new Exception(
+            "Error executing sales order query : " . 
+            "($vTigerConnect->errno) - $vTigerConnect->error"
+        );
+        syslog(
+            LOG_WARNING, 
+            "Error executing sales order query : ($vTigerConnect->errno) - " .
+                "$vTigerConnect->error"
+        );
     }
-}
-/**
- *  if record will be empty 
- */ else {
-    echo "No Record Found!!!!";
-}
-?>
 
+    /*
+     * If no pending sales orders found
+     * throw exception. 
+     */
+    if ($salesOrders->num_rows == 0){
+        throw new Exception("No Sales Order Found!");
+        syslog(
+            LOG_INFO, 
+            "No Sales Order Found!"
+        );
+    }
 
+    /*
+     * Update message array with number of sales orders.
+     */
+    $messages['no_sales_orders'] = $salesOrders->num_rows;
+
+    /*
+     * Iterate through sales orders
+     */
+    syslog(
+        LOG_INFO, 
+        "Iterate through sales orders"
+    );
+    
+    while ($salesOrder = $salesOrders->fetch_object()) {
+
+        /*
+         * Open try to catch sales order specific errors.
+         */
+        try {
+            /*
+             * Disable auto commit.
+             */
+            syslog(
+                LOG_INFO, 
+                "Disable auto commit"
+            );
+            $vTigerConnect->autocommit(FALSE);
+            $integrationConnect->autocommit(FALSE);
+
+            $mess = array();
+
+            /*
+             * Fetch current sales order products.
+             */
+            $salesOrderProducts = $vTigerConnect->query(
+                "SELECT " .
+                "SO.salesorderid, SO.salesorder_no, SO.contactid,
+                SO.duedate, SO.sostatus, ACCO.accountname, " .
+                "ACCO.accountid, PRO.productid, " .
+                "PRO.productname,IVP.quantity " . 
+                "FROM " . $dbconfigVtiger['db_name'] . ".vtiger_salesorder SO 
+                INNER JOIN vtiger_account ACCO on ACCO.accountid = " . 
+                "SO.accountid INNER JOIN vtiger_inventoryproductrel IVP " . 
+                "on IVP.id=SO.salesorderid INNER JOIN vtiger_products PRO " .
+                "on PRO.productid=IVP.productid
+                WHERE SO.salesorder_no = '$salesOrder->salesorder_no'"
+            );
+
+            syslog(
+                LOG_INFO, 
+                "Fetch sales order products: " . $salesOrderProducts
+            );
+            /*
+             * Iterate through products.
+             */
+            while ($salesOrderProduct = $salesOrderProducts->fetch_object()) {
+
+                $batchNo = $salesOrderProduct->salesorder_no . '-' . 
+                    $dbconfigBatchVariable['batch_variable'];
+
+                /*
+                 * Insert product into integration table.
+                 */
+                $interfaceQuery = $integrationConnect->query(
+                    "INSERT 
+                    INTO salesorder_interface
+                    SET id = NULL, 
+                    salesorderid = $salesOrderProduct->salesorderid, 
+                        salesorder_no = '$salesOrderProduct->salesorder_no',
+                        contactid = $salesOrderProduct->contactid, 
+                        productname = '$salesOrderProduct->productname',
+                        productid = $salesOrderProduct->productid,
+                        productquantity = '$salesOrderProduct->quantity', 
+                        duedate = '$salesOrderProduct->duedate',
+                        accountname = '$salesOrderProduct->accountname',
+                        accountid = $salesOrderProduct->accountid,
+                        sostatus = '$salesOrderProduct->sostatus', 
+                        batchno = '$batchNo', createdate = now()"
+                );
+                
+                syslog(
+                    LOG_INFO, 
+                    "Inserting product: " . $interfaceQuery
+                );
+
+                /*
+                 * If insertion failed, Close resultset and raise exception.
+                 */
+                if (!$interfaceQuery) {
+                    $salesOrderProducts->close();
+                    throw new Exception(
+                        "Error inserting product " .
+                        "$salesOrderProduct->productname in " . 
+                        "interface table. " . 
+                        "($integrationConnect->errno) - " . 
+                        "$integrationConnect->error"
+                    );
+                    syslog(
+                        LOG_WARNING, 
+                        "Error inserting product " .
+                        "$salesOrderProduct->productname in " . 
+                        "interface table. " . 
+                        "($integrationConnect->errno) - " . 
+                        "$integrationConnect->error"
+                    );
+                }
+
+                /*
+                 * Update message array with the inserted product.
+                 */
+                $mess['products'][$salesOrderProduct->productname] = true;
+
+                /*
+                 * Iterate till either no exception raise or all 
+                 * sales order product get inserted into integration database.
+                 */
+            }
+
+            /*
+             * Update sales order in case of 
+             * all products get inserted.
+             */
+            
+            syslog(
+                LOG_INFO, 
+                "Updating sales order $salesOrder->salesorderid Delivered"
+            );
+            
+            $updateSaleOrder = $vTigerConnect->query(
+                "UPDATE vtiger_salesorder SET " .
+                "sostatus = 'Delivered' WHERE salesorderid = " . 
+                "'$salesOrder->salesorderid'"
+            );
+
+            /*
+             * If updation fails throw exception.
+             */
+            if (!$updateSaleOrder) {
+                $salesOrderProducts->close();
+                throw new Exception(
+                    "Error updating sales order " . 
+                    "$salesOrder->salesorder_no in vTiger " . 
+                    "($vTigerConnect->errno) - $vTigerConnect->error."
+                );
+                syslog(
+                    LOG_WARNING, 
+                    "Error updating sales order " . 
+                    "$salesOrder->salesorder_no in vTiger " . 
+                    "($vTigerConnect->errno) - $vTigerConnect->error."
+                );
+            }
+
+            /*
+             * Close the products resultset.
+             */
+            $salesOrderProducts->close();
+
+            /*
+             * Set sales status true, since it has processed without error.
+             */
+            $mess['status'] = true;
+
+            /*
+             * Commit the databases.
+             */
+            $integrationConnect->commit();
+            $vTigerConnect->commit();
+        } catch (Exception $e) {
+            /*
+             * Store the messages
+             */
+            $mess['error'] = $e->getMessage();
+            $mess['products'][$salesOrderProduct->productname] = false;
+            /*
+             * Rollback the connections
+             */
+            $integrationConnect->rollback();
+            $vTigerConnect->rollback();
+        }
+        
+        $messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
+        unset($mess);
+    }
+} catch (Exception $e) {
+    /*
+     * Store the message and rollbach the connections.
+     */
+    $messages['message'] = $e->getMessage();
+    $integrationConnect->rollback();
+    $vTigerConnect->rollback();
+}
+
+/*
+ * Close the connections
+ */
+$vTigerConnect->close();
+$integrationConnect->close();
+
+/*
+ * Log the message
+ */
+syslog(LOG_WARNING, json_encode($messages));
+echo json_encode($messages);

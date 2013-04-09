@@ -2,7 +2,8 @@
 
 <?php
 /**
- * This file contains common functions used throughout the Integration package.
+ * This file contains common functions used 
+ * throughout the Integration package.
  *
  * @package    Integration
  * @subpackage Config
@@ -10,7 +11,8 @@
  * @version    SVN: $Id$
  *
  * @license    Commercial license
- * @copyright  Copyright (c) 2012, Gizur AB, <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
  *
  * Coding standards:
  * http://pear.php.net/manual/en/standards.php
@@ -23,65 +25,64 @@ include("../config.inc.php");
 /**
  * Connect to MySQL database. 
  */
-$_mysqli = new mysqli($dbconfig_integration['db_server'],
-        $dbconfig_integration['db_username'],
-        $dbconfig_integration['db_password'],
-        $dbconfig_integration['db_name'],
-        $dbconfig_integration['db_port']);
+$mysqlI = new mysqli(
+    $dbconfigIntegration['db_server'],
+    $dbconfigIntegration['db_username'],
+    $dbconfigIntegration['db_password'],
+    $dbconfigIntegration['db_name'],
+    $dbconfigIntegration['db_port']
+);
 
 /**
  * Print error message in case of connection error.
  */
-if ($_mysqli->connect_errno) {
+if ($mysqlI->connect_errno) {
     echo "Failed to connect to MySQL: (" .
-    $_mysqli->connect_errno . ") " . $_mysqli->connect_error;
+    $mysqlI->connect_errno . ") " . $mysqlI->connect_error;
     exit();
-}else{
-    echo "Connected with MySQL : " . $dbconfig_integration['db_server'] . '\n';
+} else {
+    echo "Connected with MySQL : " . $dbconfigIntegration['db_server'] . '\n';
 }
 
-/**
- * Create the saleorder_interface table 
- *
- * @param mixed $_mysqli
- * @return int
- */
-function createTable(&$mysqli)
+// Call the function to crete the tables
+$result = setUp::createTable($mysqlI);
+
+// Close the connnection
+$mysqlI->close();
+
+print "Table created successfully!\n";
+
+class setUp
 {
 
-    echo "In createTable function.\n";
     /**
-     * First drop the table if it exists
+     * Create the saleorder_interface table 
+     *
+     * @param mixed $mysqlI
+     * @return int
      */
-    $query = "DROP TABLE IF EXISTS `salesorder_interface`";
+    static function createTable(&$mysqli)
+    {
 
-    // Execute the query
-    $result = $mysqli->query($query);
-    
-    // check if the query was executed properly
-    if ($result !== TRUE) {
-        echo ($result . ' : ' . $mysqli->error);
-        exit();
-    }
+        echo "In createTable function.\n";
+        /**
+         * First drop the table if it exists
+         */
+        $query = "DROP TABLE IF EXISTS `salesorder_interface`";
 
-    /**
-     * First drop the table if it exists
-     */
-    $query2 = "DROP TABLE IF EXISTS `saleorder_msg_que`";
+        // Execute the query
+        $result = $mysqli->query($query);
 
-    // Execute the query
-    $result = $mysqli->query($query2);
+        // check if the query was executed properly
+        if ($result !== TRUE) {
+            echo ($result . ' : ' . $mysqli->error);
+            exit();
+        }
 
-    // Check if the query was executed properly
-    if ($result !== TRUE) {
-        echo ($result . ' : ' . $mysqli->error);
-        exit();
-    }
-
-    /**
-     * Then create the table
-     */
-    $query = "CREATE TABLE `salesorder_interface` (
+        /**
+         * Then create the table
+         */
+        $query = "CREATE TABLE `salesorder_interface` (
                      `id` int(19) NOT NULL AUTO_INCREMENT,
                      `salesorderid` int(19) NOT NULL DEFAULT '0',
                      `salesorder_no` varchar(100) DEFAULT NULL,
@@ -99,43 +100,14 @@ function createTable(&$mysqli)
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
-    // Execute the query
-    $result = $mysqli->query($query);
+        // Execute the query
+        $result = $mysqli->query($query);
 
-    // check if the query was executed properly
-    if ($result !== TRUE) {
-        echo ($result . ' : ' . $mysqli->error);
-        exit();
+        // check if the query was executed properly
+        if ($result !== TRUE) {
+            echo ($result . ' : ' . $mysqli->error);
+            exit();
+        }
     }
 
-    /**
-     * Then create the table saleorder_msg_que
-     */
-    $query2 = "CREATE TABLE `saleorder_msg_que` (
-                     `id` int(19) NOT NULL AUTO_INCREMENT,
-                     `accountname` varchar(100) DEFAULT NULL,
-                     `ftpfilename` varchar (200) DEFAULT NULL,
-                     `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                     `status` int(1) DEFAULT '0',
-        PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
-
-    // Execute the query
-    $result = $mysqli->query($query2);
-
-    // check if the query was executed properly
-    if ($result !== TRUE) {
-        echo ($result . ' : ' . $mysqli->error);
-        exit();
-    }
-    return 0;
 }
-
-// Call the function to crete the tables
-$result = createTable($_mysqli);
-
-// Close the connnection
-$_mysqli->close();
-
-print "Table created successfully!\n";
-?>

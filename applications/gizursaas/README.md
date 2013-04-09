@@ -1,6 +1,4 @@
-# gizursaas
-
-Gizur SaaS
+# Gizur SaaS
 
 ## Getting Started
 Install the module with: `npm install gizursaas`
@@ -23,5 +21,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2013 Prabhat Khera  
+Copyright (c) 2013 Gizur SaaS
 Licensed under the MIT license.

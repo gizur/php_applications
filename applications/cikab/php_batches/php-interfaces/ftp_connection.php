@@ -1,20 +1,31 @@
 <?php
 
 /**
- * created date : 02/06/2012
- * created by : anil singh
- * @author anil singh <anil-singh@essindia.co.in>
- * flow : Connect to your FTP Server 
- * 		  
- * modify date : 02/06/2012
+ * @category   Cronjobs
+ * @package    Integration
+ * @subpackage FTPConfig
+ * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @version    SVN: $Id$
+ * @link       href="http://gizur.com"
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * <a href="http://gizur.com">Gizur Consulting</a>, All rights reserved.
+ *
+ * purpose : Connect to Amazon SQS through aws-php-sdk
+ * Coding standards:
+ * http://pear.php.net/manual/en/standards.php
+ *
+ * PHP version 5.3
+ *
  */
+
 /**
  * Call Global Configration file
  */
-require_once 'config.inc.php';
+require_once __DIR__. '/config.inc.php';
 
 /**
- * ready state of syslog
+ * Ready state of syslog
  */
 openlog("FTPConnectionCron", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 
@@ -22,36 +33,54 @@ openlog("FTPConnectionCron", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 /**
  * Check FTP Connection
  */
-$conn_id = ftp_connect($dbconfig_ftphost['Host']);
+
+$ftpConnId = ftp_connect($dbconfigFtp['Host'], $dbconfigFtp['port'], 10);
+
 /**
- * Check FTP Connection if any issue in ftp then manage error in syslog
+ * If connection fails update syslog with the error message and display
+ * an error message.
  */
-if (!$conn_id) {
+
+if (!$ftpConnId) {
     $syslogmessage = "Some problem in FTP Connection.please check Host Name!";
-    syslog(LOG_WARNING, "" . $syslogmessage . "");
+    syslog(
+        LOG_WARNING, "" . $syslogmessage . ""
+    );
     exit;
 }
 
 
 /**
- *  After Connect to the FTP then Check Auth..
+ *  Check Authentication after connection
  */
-$login_result = ftp_login($conn_id, $dbconfig_ftpuser['User'], $dbconfig_ftppassword['Password']);
-if (!$login_result) {
-    $syslogmessage = "Some problem in FTP Connection.please check username and password!";
-    syslog(LOG_WARNING, "" . $syslogmessage . "");
+$ftpLoginResult = ftp_login(
+    $ftpConnId, $dbconfigFtp['User'], $dbconfigFtp['Password']
+);
+/**
+ * If authentication fails update the syslog.
+ */
+if (!$ftpLoginResult) {
+    $syslogmessage = "Some problem in FTP Connection.please " .
+        "check username and password!";
+    syslog(
+        LOG_WARNING, "" . $syslogmessage . ""
+    );
     exit;
 }
 
-ftp_pasv($conn_id, true);
+/*
+ * Enable passive mode
+ */
+ftp_pasv($ftpConnId, true);
 
-/* * *
- * Check FTP Connection and Auth will be success or not
+/**
+ * Check FTP Connection and Authenticate the connection again
  */
 
-if ((!$conn_id ) || (!$login_result )) {
+if ((!$ftpConnId ) || (!$ftpLoginResult )) {
     $syslogmessage = "Some problem in FTP Connection failed!";
-    syslog(LOG_WARNING, "" . $syslogmessage . "");
+    syslog(
+        LOG_WARNING, "" . $syslogmessage . ""
+    );
     exit;
 }
-?>
