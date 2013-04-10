@@ -23,7 +23,7 @@ error_reporting(E_ALL);
 $output = null;
 
 if (isset($_GET['action'])) {
-    @shell_exec('sudo chmod +x ' . __DIR__ . $_GET['action'] . '.sh');
+    //@shell_exec('sudo chmod +x ' . __DIR__ . $_GET['action'] . '.sh');
     switch ($_GET['action']) {
         case 'setup-tables':            
             $output = shell_exec(__DIR__ . '/setup-tables.sh');
@@ -41,6 +41,6 @@ if (isset($_GET['action'])) {
             phpinfo();
             break;
     }
-    @shell_exec('sudo chmod -x ' . __DIR__ . $_GET['action'] . '.sh');
+    //@shell_exec('sudo chmod -x ' . __DIR__ . $_GET['action'] . '.sh');
     echo $output;
 }
