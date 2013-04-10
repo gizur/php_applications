@@ -46,6 +46,8 @@ require_once realpath(__DIR__ . '/../../lib/aws-php-sdk/sdk.class.php');
 class WithOutAPIKeyTest extends PHPUnit_Framework_TestCase
 {
     private $_rest;
+    
+    private $_clientid;
 
     private $_credentials = Array();
 
@@ -149,9 +151,7 @@ URL;
 
             //Set Header
 
-            $clientid = 'demo';
-
-            $this->_setHeader($username, $password, $clientid);  
+            $this->_setHeader($username, $password, $this->_clientid);  
             
             echo PHP_EOL . " Response: " . $response = $this->_rest->post(
                 $this->_url.$model."/".$action
