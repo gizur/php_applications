@@ -37,8 +37,7 @@ openlog(
  * defined in config files.
  */
 syslog(
-    LOG_INFO, "Try to connect to vTiger database as " .
-        "per setting defined in config files."
+    LOG_INFO, "Try to connect to vTiger database"
 );
 
 $vTigerConnect = new Connect(
@@ -48,10 +47,12 @@ $vTigerConnect = new Connect(
     $dbconfigVtiger['db_name']
 );
 
+syslog(
+    LOG_INFO, "Connected to vTiger database"
+);
 
 syslog(
-    LOG_INFO, "Try to connect to integration database as " .
-        "per setting defined in config files."
+    LOG_INFO, "Try to connect to integration database"
 );
 
 /*
@@ -65,6 +66,9 @@ $integrationConnect = new Connect(
     $dbconfigIntegration['db_name']
 );
 
+syslog(
+    LOG_INFO, "Connected with integration db"
+);
 /*
  * Open try to catch exceptions
  */
@@ -242,7 +246,7 @@ try {
             
             syslog(
                 LOG_INFO, 
-                "Updating sales order $salesOrder->salesorderid Delivered"
+                "Updating sales order ($salesOrder->salesorder_no) Delivered"
             );
             
             $updateSaleOrder = $vTigerConnect->query(
