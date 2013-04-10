@@ -52,6 +52,10 @@ try {
             $dbconfigIntegration['db_name']
     );
 
+    syslog(
+        LOG_INFO, 
+        "Connected to integration database."
+    );
     /*
      * Message array to store log
      */

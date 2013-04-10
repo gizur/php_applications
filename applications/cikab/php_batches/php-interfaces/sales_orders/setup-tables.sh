@@ -25,30 +25,41 @@ include("../config.inc.php");
 /**
  * Connect to MySQL database. 
  */
-$mysqlI = new mysqli(
+syslog(
+    LOG_INFO, "Try to connect to integration database"
+);
+
+/*
+ * Try to connect to integration database as per 
+ * setting defined in config files.
+ */
+$integrationConnect = new Connect(
     $dbconfigIntegration['db_server'],
     $dbconfigIntegration['db_username'],
     $dbconfigIntegration['db_password'],
-    $dbconfigIntegration['db_name'],
-    $dbconfigIntegration['db_port']
+    $dbconfigIntegration['db_name']
+);
+
+syslog(
+    LOG_INFO, "Connected with integration db"
 );
 
 /**
  * Print error message in case of connection error.
  */
-if ($mysqlI->connect_errno) {
+if ($integrationConnect->connect_errno) {
     echo "Failed to connect to MySQL: (" .
-    $mysqlI->connect_errno . ") " . $mysqlI->connect_error;
+    $integrationConnect->connect_errno . ") " . $integrationConnect->connect_error;
     exit();
 } else {
     echo "Connected with MySQL : " . $dbconfigIntegration['db_server'] . '\n';
 }
 
 // Call the function to crete the tables
-$result = setUp::createTable($mysqlI);
+$result = setUp::createTable($integrationConnect);
 
 // Close the connnection
-$mysqlI->close();
+$integrationConnect->close();
 
 print "Table created successfully!\n";
 
