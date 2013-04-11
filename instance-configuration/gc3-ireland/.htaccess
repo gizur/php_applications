@@ -1,6 +1,5 @@
 Options -Indexes
 
-DocumentRoot /var/www/html
 ErrorDocument 404 /lib/error-documents/404.html
 ErrorDocument 500 /lib/error-documents/500.html
 
