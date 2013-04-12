@@ -35,31 +35,39 @@ var AccountsView = Stapes.subclass({
     //
     // This will be called to update the success msg
     'success' : function(msg){
-        $('#errorMessageBox').removeClass('alert-error')
-        .addClass('alert alert-success')
-        .empty()
-        .html('<div><button data-dismiss="alert" class="close" type="button">×</button>' + msg + "</div>");
+        $('#errorMessageBox').empty()
+        .html(
+            '<div class="alert alert-success">' + 
+            '<button data-dismiss="alert" class="close" ' + 
+            'type="button">×</button>' +
+            msg + "</div>"
+        );
     },
     // error
     //===========
     //
     // This will be called to update the error msg
     'error' : function(msg){
-        $('#errorMessageBox').removeClass('alert-success')
-        .addClass('alert alert-error')
-        .empty()
-        .html('<div><button data-dismiss="alert" class="close" type="button">×</button>' + msg + "</div>");
+        $('#errorMessageBox')
+        .html(
+            '<div class="alert alert-error">' + 
+            '<button data-dismiss="alert" class="close" ' + 
+            'type="button">×</button>' +
+            msg + "</div>"
+        );
     },
     // alert
     //===========
     //
     // This will be called to update the alert msg
     'alert' : function(msg){
-        $('#errorMessageBox').removeClass('alert-error')
-        .removeClass('alert-success')
-        .addClass('alert')
-        .empty()
-        .html('<div><button data-dismiss="alert" class="close" type="button">×</button>' + msg + "</div>");
+        $('#errorMessageBox')
+        .html(
+            '<div class="alert">' + 
+            '<button data-dismiss="alert" class="close" ' + 
+            'type="button">×</button>' +
+            msg + "</div>"
+        );
     }
 });
 
