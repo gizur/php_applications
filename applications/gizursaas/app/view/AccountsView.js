@@ -38,7 +38,7 @@ var AccountsView = Stapes.subclass({
         $('#errorMessageBox').removeClass('alert-error')
         .addClass('alert alert-success')
         .empty()
-        .html('<button data-dismiss="alert" class="close" type="button">×</button>' + msg);
+        .html('<div><button data-dismiss="alert" class="close" type="button">×</button>' + msg + "</div>");
     },
     // error
     //===========
@@ -48,7 +48,7 @@ var AccountsView = Stapes.subclass({
         $('#errorMessageBox').removeClass('alert-success')
         .addClass('alert alert-error')
         .empty()
-        .html('<button data-dismiss="alert" class="close" type="button">×</button>' + msg);
+        .html('<div><button data-dismiss="alert" class="close" type="button">×</button>' + msg + "</div>");
     },
     // alert
     //===========
@@ -59,7 +59,7 @@ var AccountsView = Stapes.subclass({
         .removeClass('alert-success')
         .addClass('alert')
         .empty()
-        .html('<button data-dismiss="alert" class="close" type="button">×</button>' + msg);
+        .html('<div><button data-dismiss="alert" class="close" type="button">×</button>' + msg + "</div>");
     }
 });
 
