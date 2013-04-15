@@ -248,15 +248,17 @@ class ApiController extends Controller
      * @return string message body
      */    
     private function _sendResponse($status = 200, $body = '', 
-        $content_type = 'text/json'
-    ) {
+        $contentType = 'text/json'
+    ) 
+    {
         // set the status
-        $status_header = 'HTTP/1.1 ' . $status . ' '
-                . ((isset($this->_codes[$status])) ? $this->_codes[$status] : '');
-        header($status_header);
+        $statusHeader = 'HTTP/1.1 ' . 
+            $status . ' ' . 
+            ((isset($this->_codes[$status])) ? $this->_codes[$status] : '');
+        header($statusHeader);
 
         // and the content type
-        header('Content-type: ' . $content_type);
+        header('Content-type: ' . $contentType);
 
         // pages with body are easy
         if ($body != '') {
@@ -273,8 +275,8 @@ class ApiController extends Controller
                             . ' was not found.';
                 break;
             case 500:
-                $message 
-                    = 'The server encountered an error processing your request.';
+                $message = 'The server encountered an error ' . 
+                    'processing your request.';
                 break;
             case 501:
                 $message = 'The requested method is not implemented.';
@@ -288,15 +290,19 @@ class ApiController extends Controller
 
             // this should be templated in a real-world solution
             $body = '
-            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" ' . 
+                '"http://www.w3.org/TR/html4/strict.dtd">
             <html>
             <head>
-                <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+                <meta http-equiv="Content-Type" content="text/html; ' . 
+                'charset=iso-8859-1">
                 <title>' . $status . ' ' . ((isset($this->_codes[$status])) ?
                             $codes[$status] : '') . '</title>
             </head>
             <body>
-                <h1>' . ((isset($this->_codes[$status])) ? $codes[$status] : '') . '</h1>
+                <h1>' . 
+                ((isset($this->_codes[$status])) ? $codes[$status] : '') . 
+                '</h1>
                 <h2> Trace ID:' . $this->_traceId . '</h2>
                 <p>' . $message . '</p>
                 <hr />
@@ -308,7 +314,10 @@ class ApiController extends Controller
         }
         
         //Log
-        Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); DISPATCH RESPONSE: " . $body, CLogger::LEVEL_TRACE);
+        Yii::log(
+            "TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . 
+            "); DISPATCH RESPONSE: " . $body, CLogger::LEVEL_TRACE
+        );
         
         Yii::app()->end();
     }
@@ -349,7 +358,8 @@ class ApiController extends Controller
             Yii::log(
                 " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
-                " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($_SERVER) .
+                " RECEIVED REQUEST, STARTING VALIDATION " . 
+                json_encode($_SERVER) .
                 " GET VAR " . json_encode($_GET), 
                 CLogger::LEVEL_TRACE
             );
@@ -363,12 +373,14 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
-            if ($_GET['model'] == 'User'){
+            if ($_GET['model'] == 'User') {
                 
                 if(Yii::app()->request->isPostRequest)
                     return true;
                 //These models do not require authentication
-                if(in_array($_GET['action'], array('login', 'logout', 'forgotpassword')))
+                if(in_array(
+                    $_GET['action'], array('login', 'logout', 'forgotpassword')
+                ))
                     return true;
                 
                 if(empty($_SERVER['HTTP_X_USERNAME']))
@@ -382,10 +394,15 @@ class ApiController extends Controller
                 
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" . 
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
 
                 // Get an item
-                $ddb_response = $dynamodb->get_item(
+                $ddbResponse = $dynamodb->get_item(
                     array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
                         'Key' => $dynamodb->attributes(
@@ -401,16 +418,17 @@ class ApiController extends Controller
                 Yii::log(
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($ddb_response->body->Item) .
+                    " RECEIVED REQUEST, STARTING VALIDATION " . 
+                    json_encode($ddbResponse->body->Item) .
                     " GET VAR " . json_encode($_GET), 
                     CLogger::LEVEL_TRACE
                 );
 
-                if(empty($ddb_response->body->Item))
+                if(empty($ddbResponse->body->Item))
                     throw new Exception("Credentials are invalid.", 2004);
 
-                $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
-                $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
+                $securitySalt = (string)$ddbResponse->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                $hPassword = (string)$ddbResponse->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
 
                 $hSPassword = (string)hash("sha256", $password . $securitySalt);
 
@@ -494,7 +512,7 @@ class ApiController extends Controller
                     );
                     
                     //Scan for API KEYS
-                    $ddb_response = $dynamodb->scan(
+                    $ddbResponse = $dynamodb->scan(
                         array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
                         'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid', 'databasename', 'dbpassword', 'username', 'server'),
@@ -511,7 +529,7 @@ class ApiController extends Controller
                     
                     //If API Keys are not found for apikey_1 then look in apikey_2
                     //can this be done in a better way?
-                    if ($publicKeyNotFound = ($ddb_response->body->Count == 0)) {
+                    if ($publicKeyNotFound = ($ddbResponse->body->Count == 0)) {
                         
                         //Log
                         Yii::log(
@@ -522,7 +540,7 @@ class ApiController extends Controller
                         );                    
                         
                         //Scan for API KEYS
-                        $ddb_response = $dynamodb->scan(
+                        $ddbResponse = $dynamodb->scan(
                         array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
                         'AttributesToGet' => array('id', 'apikey_2', 'secretkey_2', 'clientid', 'databasename', 'dbpassword', 'username', 'server'),
@@ -538,11 +556,11 @@ class ApiController extends Controller
                         );
                         
                         //Check if public key is found in apikey_2
-                        if (!($publicKeyNotFound = ($ddb_response->body->Count == 0)))
-                        $GIZURCLOUD_SECRET_KEY = (string) $ddb_response->body->Items->secretkey_2->{AmazonDynamoDB::TYPE_STRING};
+                        if (!($publicKeyNotFound = ($ddbResponse->body->Count == 0)))
+                        $GIZURCLOUD_SECRET_KEY = (string) $ddbResponse->body->Items->secretkey_2->{AmazonDynamoDB::TYPE_STRING};
                     } else {
                         //Get secret key which belongs to apikey_1
-                        $GIZURCLOUD_SECRET_KEY = (string) $ddb_response->body->Items->secretkey_1->{AmazonDynamoDB::TYPE_STRING};
+                        $GIZURCLOUD_SECRET_KEY = (string) $ddbResponse->body->Items->secretkey_1->{AmazonDynamoDB::TYPE_STRING};
                     }
 
                     //If public key is not found throw an exception
@@ -553,16 +571,16 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " VALIDATION (Client ID retrived)" . (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
+                        " VALIDATION (Client ID retrived)" . (string) $ddbResponse->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
                         CLogger::LEVEL_TRACE
                     );                
                     
-                    $this->_clientid = (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_clientid = (string) $ddbResponse->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
                     
-                    $this->_dbuser = (string) $ddb_response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
-                    $this->_dbpassword = (string) $ddb_response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
-                    $this->_dbhost = (string) $ddb_response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
-                    $this->_dbname = (string) $ddb_response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_dbuser = (string) $ddbResponse->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_dbpassword = (string) $ddbResponse->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_dbhost = (string) $ddbResponse->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
+                    $this->_dbname = (string) $ddbResponse->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
                         
                     //Store the public key and secret key combination in cache to
                     //avoid repeated calls to Dynamo DB
@@ -667,7 +685,7 @@ class ApiController extends Controller
                     );
                     
                     //Scan for ClientID
-                    $ddb_response = $dynamodb->scan(
+                    $ddbResponse = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'AttributesToGet' => array('id', 'apikey_1', 'secretkey_1', 'clientid', 'databasename', 'dbpassword', 'username', 'server','key_free'),
@@ -685,15 +703,15 @@ class ApiController extends Controller
                     $this->_clientid = $_SERVER['HTTP_X_CLIENTID'];
      
                     //Check if client id was found
-                    if ($ddb_response->body->Count != 0) {
+                    if ($ddbResponse->body->Count != 0) {
 
-                        if ((string) $ddb_response->body->Items->key_free->{AmazonDynamoDB::TYPE_STRING} != 'true') 
+                        if ((string) $ddbResponse->body->Items->key_free->{AmazonDynamoDB::TYPE_STRING} != 'true') 
                             throw new Exception('API Key free access is not allowed for this account');
 
-                        $this->_dbuser = (string) $ddb_response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
-                        $this->_dbpassword = (string) $ddb_response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
-                        $this->_dbhost = (string) $ddb_response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
-                        $this->_dbname = (string) $ddb_response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
+                        $this->_dbuser = (string) $ddbResponse->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
+                        $this->_dbpassword = (string) $ddbResponse->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
+                        $this->_dbhost = (string) $ddbResponse->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
+                        $this->_dbname = (string) $ddbResponse->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
                             
                         //Store the public key and secret key combination in cache to
                         //avoid repeated calls to Dynamo DB
@@ -1229,7 +1247,7 @@ class ApiController extends Controller
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
 
                     // Get an item
-                    $ddb_response = $dynamodb->get_item(
+                    $ddbResponse = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
@@ -1241,11 +1259,11 @@ class ApiController extends Controller
                         )
                     );
                     
-                    if(empty($ddb_response->body->Item))
+                    if(empty($ddbResponse->body->Item))
                         throw new Exception("Login Id / password incorrect.", 2003);
                         
-                    $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
-                    $hPassword = (string)$ddb_response->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
+                    $securitySalt = (string)$ddbResponse->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                    $hPassword = (string)$ddbResponse->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
                     
                     $hSPassword = (string)hash("sha256", $password . $securitySalt);
                     
@@ -1290,7 +1308,7 @@ class ApiController extends Controller
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
                     
-                    $ddb_response = $dynamodb->get_item(
+                    $ddbResponse = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
@@ -1302,16 +1320,16 @@ class ApiController extends Controller
                         )
                     );
                     
-                    if(empty($ddb_response->body->Item))
+                    if(empty($ddbResponse->body->Item))
                         throw new Exception("Invalid Login Id.", 2001);
                     
-                    $securitySalt = (string)$ddb_response->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
+                    $securitySalt = (string)$ddbResponse->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
                                         
                     $password = substr(uniqid("", true), 0, 7);
                     $newHashedPassword = (string)hash("sha256", $password . $securitySalt);
                     
                     $result = array();
-                    foreach ($ddb_response->body->Item->children()
+                    foreach ($ddbResponse->body->Item->children()
                     as $key => $item) {
                         $result[$key] 
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
@@ -1320,14 +1338,14 @@ class ApiController extends Controller
                     $result['password'] = $newHashedPassword;                    
                     
                     // Update the password
-                    $ddb_response = $dynamodb->put_item(
+                    $ddbResponse = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                              'Item' => $dynamodb->attributes($result)
                         )
                     );
 
-                    if ($ddb_response->isOK()) {
+                    if ($ddbResponse->isOK()) {
                         //SEND THE EMAIL TO USER
                         $email = new AmazonSES();
                         //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
@@ -1357,7 +1375,7 @@ class ApiController extends Controller
                         );
 
                         $response = new stdClass();
-                        $response->success = $ddb_response->isOK();
+                        $response->success = $ddbResponse->isOK();
                         $this->_sendResponse(200, json_encode($response));
                     } else {
                         $response->success = false;
@@ -2190,7 +2208,7 @@ class ApiController extends Controller
                     throw new Exception("Credentials are invalid.", 2004);
                     
                 // Get an item
-                $ddb_response = $dynamodb->get_item(
+                $ddbResponse = $dynamodb->get_item(
                     array(
                     'TableName' => Yii::app()->params->awsDynamoDBTableName,
                     'Key' => $dynamodb->attributes(
@@ -2203,10 +2221,10 @@ class ApiController extends Controller
                 );
 
                 //Checking if DynamoDB response has items
-                if (isset($ddb_response->body->Item)) {
+                if (isset($ddbResponse->body->Item)) {
                     
                     //create response
-                    foreach ($ddb_response->body->Item->children()
+                    foreach ($ddbResponse->body->Item->children()
                     as $key => $item) {
                         $result->{$key} 
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
@@ -2781,7 +2799,7 @@ class ApiController extends Controller
                     //Validations
                     
                     //Validate Client ID
-                    $ddb_response = $dynamodb->scan(
+                    $ddbResponse = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'AttributesToGet' => array('clientid'),
@@ -2796,11 +2814,11 @@ class ApiController extends Controller
                         )
                     );
                     
-                    if(!empty($ddb_response->body->Items))
+                    if(!empty($ddbResponse->body->Items))
                         throw New Exception("Client id is not available.", 2001);
                     
                     // Validate Email
-                    $ddb_response = $dynamodb->get_item(
+                    $ddbResponse = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
@@ -2811,10 +2829,10 @@ class ApiController extends Controller
                             'ConsistentRead' => 'true'
                         )
                     );
-                    if (isset($ddb_response->body->Item))
+                    if (isset($ddbResponse->body->Item))
                         throw New Exception("Email is already registered.", 2002);
                     
-                    $ddb_response = $dynamodb->scan(
+                    $ddbResponse = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'AttributesToGet' => array('id_sequence'),
@@ -2822,7 +2840,7 @@ class ApiController extends Controller
                     );                  
 
                     $max_id_sequence = 1000;
-                    foreach ($ddb_response->body->Items
+                    foreach ($ddbResponse->body->Items
                     as $key => $item) {
                         $id_sequence
                             = intval((string) $item->id_sequence->{AmazonDynamoDB::TYPE_STRING});
@@ -2971,7 +2989,7 @@ class ApiController extends Controller
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
-                    $ddb_response = $dynamodb->put_item(
+                    $ddbResponse = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                              'Item' => $dynamodb->attributes($post)
@@ -2979,7 +2997,7 @@ class ApiController extends Controller
                     );
 
                     // Get an item
-                    $ddb_response = $dynamodb->get_item(
+                    $ddbResponse = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
@@ -2991,7 +3009,7 @@ class ApiController extends Controller
                         )
                     );
 
-                if (isset($ddb_response->body->Item)) {
+                if (isset($ddbResponse->body->Item)) {
                     Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
                     Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
                     
@@ -3028,7 +3046,7 @@ class ApiController extends Controller
                         )
                     );
                     
-                    foreach ($ddb_response->body->Item->children()
+                    foreach ($ddbResponse->body->Item->children()
                     as $key => $item) {
                         $result_ddb->{$key} 
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
@@ -3778,7 +3796,7 @@ class ApiController extends Controller
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
 
                     // Get an item
-                    $ddb_response = $dynamodb->get_item(
+                    $ddbResponse = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
@@ -3790,7 +3808,7 @@ class ApiController extends Controller
                         )
                     );
 
-                    foreach ($ddb_response->body->Item->children()
+                    foreach ($ddbResponse->body->Item->children()
                     as $key => $item) {
                         $result[$key] 
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
@@ -3808,7 +3826,7 @@ class ApiController extends Controller
 
                     Yii::app()->cache->set($result['apikey_' . $keyid], $result['secretkey_' . $keyid]);
 
-                    $ddb_response = $dynamodb->put_item(
+                    $ddbResponse = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Item' => $dynamodb->attributes($result)
@@ -3816,7 +3834,7 @@ class ApiController extends Controller
                     );
 
 
-                    if ($response->success = $ddb_response->isOK())
+                    if ($response->success = $ddbResponse->isOK())
                         $response->result = $result;
 
                     $this->_sendResponse(200, json_encode($response));
@@ -3827,7 +3845,7 @@ class ApiController extends Controller
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
                     
                     // Get an item
-                    $ddb_response = $dynamodb->get_item(
+                    $ddbResponse = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
@@ -3839,7 +3857,7 @@ class ApiController extends Controller
                         )
                     );
                     
-                    $_old_client_id = (string)$ddb_response->body->Item->clientid->{AmazonDynamoDB::TYPE_STRING};
+                    $_old_client_id = (string)$ddbResponse->body->Item->clientid->{AmazonDynamoDB::TYPE_STRING};
                     
                     if($_old_client_id == $post['clientid'])
                         $_no_to_match = 1;
@@ -3847,7 +3865,7 @@ class ApiController extends Controller
                         $_no_to_match = 0;
                     
                     //Validate Client ID
-                    $ddb_response = $dynamodb->scan(
+                    $ddbResponse = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'AttributesToGet' => array('clientid'),
@@ -3862,17 +3880,17 @@ class ApiController extends Controller
                         )
                     );
                     
-                    if(!empty($ddb_response->body->Items) && $ddb_response->body->Count > $_no_to_match)
+                    if(!empty($ddbResponse->body->Items) && $ddbResponse->body->Count > $_no_to_match)
                         throw New Exception("Client id is not available.", 2001);
                     
-                    $ddb_response = $dynamodb->put_item(
+                    $ddbResponse = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Item' => $dynamodb->attributes($post)
                         )
                     );
                     $response = new stdClass();
-                    $response->success = $ddb_response->isOK();
+                    $response->success = $ddbResponse->isOK();
                     $this->_sendResponse(200, json_encode($response));
                 }
                 break;
