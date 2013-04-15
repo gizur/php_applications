@@ -77,7 +77,8 @@ spl_autoload_register(array('YiiBase', 'autoload'));
  * 
  * Following is the format of the HTTP request which is to be followed
  * 
- * (GET|POST) /url/to/gizur/rest/api/$model/($id|$fieldname|$action|$category) HTTP/1.1
+ * (GET|POST) /url/to/gizur/rest/api/$model/($id|$fieldname|$action|$category) 
+ *      HTTP/1.1
  * Host: giruz.com
  * Http_x_username: $username
  * Http_x_password: $password
@@ -85,7 +86,8 @@ spl_autoload_register(array('YiiBase', 'autoload'));
  * Http_x_gizurcloud_api_key: $GIZURCLOUD_API_KEY
  * Http_x_signature: $signature
  * Http_x_unique_salt: $unique_string
- * User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:12.0) Gecko/20100101 Firefox/12.0
+ * User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:12.0) 
+ *      Gecko/20100101 Firefox/12.0
  * Accept: text/json
  * Accept-Language: sv,en-us,en;q=0.5
  * Connection: keep-alive
@@ -140,7 +142,7 @@ class ApiController extends Controller
     /**
      * The vTiger REST Web Services Entities
      */
-    private $_ws_entities = Array(
+    private $_wsEntities = Array(
         'Documents' => 15,
         'Contacts' => 12
     );
@@ -148,7 +150,7 @@ class ApiController extends Controller
     /**
      * List of valid models
      */
-    private $_valid_models = Array(
+    private $_validModels = Array(
         'User',
         'HelpDesk',
         'Assets',
@@ -175,12 +177,12 @@ class ApiController extends Controller
     /**
      * Cache Key Used to store session in Cache
      */
-    private $_cache_key = "";
+    private $_cacheKey = "";
     
     /**
      * Trace ID
      */
-    private $_trace_id = "";  
+    private $_traceId = "";  
     
     /**
      * vTiger Response
@@ -295,7 +297,7 @@ class ApiController extends Controller
             </head>
             <body>
                 <h1>' . ((isset($this->_codes[$status])) ? $codes[$status] : '') . '</h1>
-                <h2> Trace ID:' . $this->_trace_id . '</h2>
+                <h2> Trace ID:' . $this->_traceId . '</h2>
                 <p>' . $message . '</p>
                 <hr />
                 <address>' . $signature . '</address>
@@ -306,7 +308,7 @@ class ApiController extends Controller
         }
         
         //Log
-        Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); DISPATCH RESPONSE: " . $body, CLogger::LEVEL_TRACE);
+        Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); DISPATCH RESPONSE: " . $body, CLogger::LEVEL_TRACE);
         
         Yii::app()->end();
     }
@@ -341,11 +343,11 @@ class ApiController extends Controller
 
         try {
             //Will use this to tag all traces to associate to a request
-            $this->_trace_id = uniqid();
+            $this->_traceId = uniqid();
             
             //Log
             Yii::log(
-                " TRACE(" . $this->_trace_id . "); " . 
+                " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($_SERVER) .
                 " GET VAR " . json_encode($_GET), 
@@ -356,7 +358,7 @@ class ApiController extends Controller
             if (!isset($_GET['model']))
                 throw new Exception('Model not present');
             
-            if (in_array($_GET['model'], $this->_valid_models)===false)
+            if (in_array($_GET['model'], $this->_validModels)===false)
                 throw new Exception('Model not supported');            
             
             //First we validate the requests using logic do not consume
@@ -397,7 +399,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " RECEIVED REQUEST, STARTING VALIDATION " . json_encode($ddb_response->body->Item) .
                     " GET VAR " . json_encode($_GET), 
@@ -470,7 +472,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                " TRACE(" . $this->_trace_id . "); " . 
+                " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Fetch API Key details from Dynamodb, resource  intensive validation)", 
                 CLogger::LEVEL_TRACE
@@ -485,7 +487,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " VALIDATION (Scan API KEY 1)", 
                         CLogger::LEVEL_TRACE
@@ -513,7 +515,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " VALIDATION (Scan API KEY 2)", 
                         CLogger::LEVEL_TRACE
@@ -549,7 +551,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " VALIDATION (Client ID retrived)" . (string) $ddb_response->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING}, 
                         CLogger::LEVEL_TRACE
@@ -583,7 +585,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                " TRACE(" . $this->_trace_id . "); " . 
+                " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Generating Signature)", 
                 CLogger::LEVEL_TRACE
@@ -612,7 +614,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                " TRACE(" . $this->_trace_id . "); " . 
+                " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Signature Dump) STRING_TO_SIGN: $string_to_sign" .
                 "    GENERATED SIGNATURE: " . $verify_signature .
@@ -630,7 +632,7 @@ class ApiController extends Controller
                 if ($who = Yii::app()->cache->get($_SERVER['HTTP_X_SIGNATURE']) !== false) {
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     "    WHO USED THE SIGNATURE:" . $who, 
                     CLogger::LEVEL_TRACE
@@ -643,7 +645,7 @@ class ApiController extends Controller
                     $_SERVER['HTTP_X_SIGNATURE'], 
                     json_encode(
                         array(
-                            "trace" => $this->_trace_id,
+                            "trace" => $this->_traceId,
                             "instance" => $this->_instanceid
                         )
                     ), 
@@ -658,7 +660,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " VALIDATION (Scan Client ID)", 
                         CLogger::LEVEL_TRACE
@@ -735,7 +737,7 @@ class ApiController extends Controller
             );
 
             //Create a cache key for saving session
-            $this->_cache_key = json_encode(
+            $this->_cacheKey = json_encode(
                 array(
                 'clientid' => $this->_clientid,
                 'instanceid' => $this->_instanceid,
@@ -749,20 +751,20 @@ class ApiController extends Controller
             //Check if the session stored in the cache key is valid 
             //as per vtiger a session can be valid till 1 day max
             //and unused session for 1800 seconds
-            $last_used = Yii::app()->cache->get($this->_instanceid . "_last_used_" . $this->_cache_key);
+            $last_used = Yii::app()->cache->get($this->_instanceid . "_last_used_" . $this->_cacheKey);
 
             if ($last_used !== false) {
                 if ($last_used < (time() - 1790)) {
-                    Yii::app()->cache->delete($this->_cache_key);
+                    Yii::app()->cache->delete($this->_cacheKey);
                 } else {
-                    $cache_value = Yii::app()->cache->get($this->_cache_key);
-                    Yii::app()->cache->set($this->_instanceid . "_last_used_" . $this->_cache_key, time());
+                    $cache_value = Yii::app()->cache->get($this->_cacheKey);
+                    Yii::app()->cache->set($this->_instanceid . "_last_used_" . $this->_cacheKey, time());
                 }
             }
 
             //Log
             Yii::log(
-                " TRACE(" . $this->_trace_id . "); " . 
+                " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Logging into vtiger REST API or using preused session)", 
                 CLogger::LEVEL_TRACE
@@ -773,7 +775,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " VALIDATION (No value in cache found: Logging in)" .
                     " (sending POST request to vt url: " .
@@ -798,7 +800,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .
@@ -826,7 +828,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " VALIDATION (sending GET request to vt url: " .
                     $this->_vtresturl .
@@ -846,7 +848,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .                          
@@ -870,7 +872,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending request to vt url: " . 
                     $this->_vtresturl .
@@ -892,7 +894,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .                          
@@ -929,7 +931,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
                     $this->_vtresturl . "?$params" .                            
@@ -946,7 +948,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $contact .                          
@@ -987,7 +989,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
                     $this->_vtresturl . "?$params" .                            
@@ -1003,7 +1005,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $account .                          
@@ -1032,13 +1034,13 @@ class ApiController extends Controller
 
                 //Save userid and session id against customerportal 
                 //credentials
-                Yii::app()->cache->set($this->_cache_key, $cache_value, 86000);
-                Yii::app()->cache->set($this->_instanceid . "_last_used_" . $this->_cache_key, time());
+                Yii::app()->cache->set($this->_cacheKey, $cache_value, 86000);
+                Yii::app()->cache->set($this->_instanceid . "_last_used_" . $this->_cacheKey, time());
             }
 
             //Log
             Yii::log(
-                " TRACE(" . $this->_trace_id . "); " . 
+                " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Storing session)", 
                 CLogger::LEVEL_TRACE
@@ -1055,7 +1057,7 @@ class ApiController extends Controller
             
             //Log
             Yii::log(
-                " TRACE(" . $this->_trace_id . "); " . 
+                " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
                 " VALIDATION (Some error occured during validation/Authentication)" . 
                 " ERROR ( " . $e->getMessage() . ") ", 
@@ -1070,7 +1072,7 @@ class ApiController extends Controller
                 $response->success = false;
                 $response->error->code = $this->_errors[$e->getCode()];
                 $response->error->message = $e->getMessage();
-                $response->error->trace_id = $this->_trace_id;
+                $response->error->trace_id = $this->_traceId;
                 $response->error->instance_id = $this->_instanceid;
                 $response->error->vtresponse = $this->_vtresponse;
 
@@ -1100,7 +1102,7 @@ class ApiController extends Controller
                     $response->success = false;
                     $response->error->code = $this->_errors[$e->getCode()];
                     $response->error->message = $e->getMessage();
-                    $response->error->trace_id = $this->_trace_id;
+                    $response->error->trace_id = $this->_traceId;
                     $response->error->instance_id = $this->_instanceid;
                     $response->error->vtresponse = $this->_vtresponse;
                     $this->_sendResponse(403, json_encode($response));
@@ -1165,7 +1167,7 @@ class ApiController extends Controller
 
         //Log
         Yii::log(
-            " TRACE(" . $this->_trace_id . "); " . 
+            " TRACE(" . $this->_traceId . "); " . 
             " FUNCTION(" . __FUNCTION__ . "); " . 
             " PROCESSING REQUEST (" . json_encode($_GET) . ")", 
             CLogger::LEVEL_TRACE
@@ -1216,7 +1218,7 @@ class ApiController extends Controller
                     $password = $post['password'];
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST : User/login ($clientID)", 
                         CLogger::LEVEL_TRACE
@@ -1264,7 +1266,7 @@ class ApiController extends Controller
            
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST ", 
                         CLogger::LEVEL_TRACE
@@ -1278,7 +1280,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST : User/forgotpassword ($clientID)", 
                         CLogger::LEVEL_TRACE
@@ -1361,7 +1363,7 @@ class ApiController extends Controller
                         $response->success = false;
                         $response->error->code = "ERROR";
                         $response->error->message = "Problem reseting the password.";
-                        $response->error->trace_id = $this->_trace_id;
+                        $response->error->trace_id = $this->_traceId;
                         $this->_sendResponse(400, json_encode($response));
                     }
                 }
@@ -1392,7 +1394,7 @@ class ApiController extends Controller
            
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending request to vt url: " . 
                         $this->_vtresturl .
@@ -1411,7 +1413,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $response .                          
@@ -1453,7 +1455,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (Getting Value from cache for " . 
                         $this->_clientid . 
@@ -1488,7 +1490,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (sending GET request to vt url: " . 
                             $this->_vtresturl . "?$params" .                            
@@ -1505,7 +1507,7 @@ class ApiController extends Controller
 
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (response received: " . 
                             $response .                          
@@ -1567,7 +1569,7 @@ class ApiController extends Controller
                                 
                                 //Log
                                 Yii::log(
-                                    " TRACE(" . $this->_trace_id . "); " . 
+                                    " TRACE(" . $this->_traceId . "); " . 
                                     " FUNCTION(" . __FUNCTION__ . "); " . 
                                     " PROCESSING REQUEST (Setting Value to cache for " . 
                                     'picklist_'
@@ -1621,7 +1623,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST ( FROM CACHE " . 
                             $cached_value .                            
@@ -1702,7 +1704,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "?$params" .                            
@@ -1720,7 +1722,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $response .                          
@@ -1746,7 +1748,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "?$params" .                            
@@ -1764,7 +1766,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $accounts .                          
@@ -1795,7 +1797,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "?$params" .                            
@@ -1813,7 +1815,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $contacts .                          
@@ -1907,7 +1909,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (sending GET request to vt url: " . 
                             $this->_vtresturl . "?$params" .                            
@@ -1924,7 +1926,7 @@ class ApiController extends Controller
 
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (response received: " . 
                             $response .                          
@@ -2026,7 +2028,7 @@ class ApiController extends Controller
 
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (sending GET request to vt url: " . 
                             $this->_vtresturl . "?$params" .                            
@@ -2044,7 +2046,7 @@ class ApiController extends Controller
 
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (response received: " . 
                             $response .                          
@@ -2110,7 +2112,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model " . $_GET['model'];
-                $response->error->trace_id = $this->_trace_id;
+                $response->error->trace_id = $this->_traceId;
                 $this->_sendResponse(405, json_encode($response));
 
                 break;
@@ -2119,14 +2121,14 @@ class ApiController extends Controller
             
             if (isset($this->_vtresponse->error->code))
                 if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
-                    Yii::app()->cache->delete($this->_cache_key);            
+                    Yii::app()->cache->delete($this->_cacheKey);            
             
             //Generating error response
             $response = new stdClass();
             $response->success = false;
             $response->error->code = $this->_errors[$e->getCode()];
             $response->error->message = $e->getMessage();
-            $response->error->trace_id = $this->_trace_id;
+            $response->error->trace_id = $this->_traceId;
             $response->error->vtresponse = $this->_vtresponse;
             $response->error->instance_id = $this->_instanceid;
             $this->_sendResponse(400, json_encode($response));
@@ -2166,7 +2168,7 @@ class ApiController extends Controller
         try {
             
             //Log
-            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
+            Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
             
             switch ($_GET['model']) {
             /*
@@ -2221,7 +2223,7 @@ class ApiController extends Controller
                     $response->error->code = "NOT_FOUND";
                     $response->error->message = $_GET['email'] . " was " .
                             " not found";
-                    $response->error->trace_id = $this->_trace_id;
+                    $response->error->trace_id = $this->_traceId;
                     $this->_sendResponse(404, json_encode($response));
                 }
                 break;
@@ -2236,7 +2238,7 @@ class ApiController extends Controller
             case 'HelpDesk':
                 
                 Yii::log(
-                   "TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST " .
+                   "TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST " .
                    json_encode($_GET),
                    CLogger::LEVEL_TRACE
                 );                
@@ -2258,7 +2260,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
                     $this->_vtresturl . "?$params" .                            
@@ -2275,7 +2277,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .                          
@@ -2298,7 +2300,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
                     $this->_vtresturl . "?$params" .                            
@@ -2315,7 +2317,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $documentids .                          
@@ -2335,10 +2337,10 @@ class ApiController extends Controller
                 
                     //Building query for fetching documents
                     $query = "select * from Documents" .
-                            " where id in (" . $this->_ws_entities['Documents']
+                            " where id in (" . $this->_wsEntities['Documents']
                             . "x" .
                             implode(
-                                ", " . $this->_ws_entities['Documents']
+                                ", " . $this->_wsEntities['Documents']
                                 . "x", $documentids
                             ) . ");";
 
@@ -2351,7 +2353,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "?$params" .                            
@@ -2368,7 +2370,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $documents .                          
@@ -2400,7 +2402,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "?$params" .                            
@@ -2417,7 +2419,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $contacts .                          
@@ -2449,7 +2451,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "?$params" .                            
@@ -2466,7 +2468,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $account .                          
@@ -2527,7 +2529,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "?$params" .                            
@@ -2545,7 +2547,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $response .                          
@@ -2590,7 +2592,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
                     $this->_vtresturl . "?$params" .                            
@@ -2608,7 +2610,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .                          
@@ -2630,7 +2632,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending request to s3 to get file: " . 
                     $response->result->filename .                            
@@ -2648,7 +2650,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received from s3: " . 
                     json_encode($s3response) .                          
@@ -2681,7 +2683,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model " . $_GET['model'];
-                $response->error->trace_id = $this->_trace_id;
+                $response->error->trace_id = $this->_traceId;
                 $this->_sendResponse(405, json_encode($response));
                 break;
             }
@@ -2689,13 +2691,13 @@ class ApiController extends Controller
             
             if (isset($this->_vtresponse->error->code))
                 if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
-                    Yii::app()->cache->delete($this->_cache_key);            
+                    Yii::app()->cache->delete($this->_cacheKey);            
             
             $response = new stdClass();
             $response->success = false;
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
-            $response->error->trace_id = $this->_trace_id;
+            $response->error->trace_id = $this->_traceId;
             $this->_sendResponse(400, json_encode($response));
         }
     }
@@ -2725,7 +2727,7 @@ class ApiController extends Controller
         //Tasks include detail view of a specific Troubleticket and Assets
         try {
             
-            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
+            Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
             
             switch ($_GET['model']) {
                 /*
@@ -2740,7 +2742,7 @@ class ApiController extends Controller
                     error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
                     ini_set('display_errors', 'On');
                     Yii::log(
-                        "TRACE(" . $this->_trace_id . ");" . 
+                        "TRACE(" . $this->_traceId . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
                         " CREATING MDB OBJECT ", 
                          CLogger::LEVEL_TRACE
@@ -2839,7 +2841,7 @@ class ApiController extends Controller
                     );
                     
                     Yii::log(
-                        "TRACE(" . $this->_trace_id . ");" . 
+                        "TRACE(" . $this->_traceId . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
                         " CREATING MDB OBJECT ", 
                          CLogger::LEVEL_TRACE
@@ -3041,7 +3043,7 @@ class ApiController extends Controller
                     $response->error->code = "NOT_CREATED";
                     $response->error->message = $_GET['email'] . " could "
                             . " not be created";
-                    $response->error->trace_id = $this->_trace_id;
+                    $response->error->trace_id = $this->_traceId;
                     $this->_sendResponse(400, json_encode($response));
                 }
                 break;
@@ -3110,7 +3112,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending POST request to vt url: " . 
                     $this->_vtresturl . "  " .
@@ -3141,7 +3143,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .                          
@@ -3199,7 +3201,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (sending POST request to vt url: " . 
                             $this->_vtresturl . "  " .
@@ -3230,7 +3232,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (response received: " . 
                             $document .                          
@@ -3244,7 +3246,7 @@ class ApiController extends Controller
                             
                             //Log
                             Yii::log(
-                                " TRACE(" . $this->_trace_id . "); " . 
+                                " TRACE(" . $this->_traceId . "); " . 
                                 " FUNCTION(" . __FUNCTION__ . "); " . 
                                 " PROCESSING REQUEST (sending POST request to vt url: " . 
                                 $this->_vtresturl . "  " .
@@ -3276,7 +3278,7 @@ class ApiController extends Controller
                             
                             //Log
                             Yii::log(
-                                " TRACE(" . $this->_trace_id . "); " . 
+                                " TRACE(" . $this->_traceId . "); " . 
                                 " FUNCTION(" . __FUNCTION__ . "); " . 
                                 " PROCESSING REQUEST (response received: " . 
                                 $response .                          
@@ -3381,7 +3383,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model " . $_GET['model'];
-                $response->error->trace_id = $this->_trace_id;
+                $response->error->trace_id = $this->_traceId;
                 $this->_sendResponse(405, json_encode($response));
                 break;
             }
@@ -3389,13 +3391,13 @@ class ApiController extends Controller
             
             if (isset($this->_vtresponse->error->code))
                 if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
-                    Yii::app()->cache->delete($this->_cache_key);
+                    Yii::app()->cache->delete($this->_cacheKey);
             
             $response = new stdClass();
             $response->success = false;
             $response->error->code = $this->_errors[$e->getCode()];
             $response->error->message = $e->getMessage();
-            $response->error->trace_id = $this->_trace_id;
+            $response->error->trace_id = $this->_traceId;
             $this->_sendResponse(400, json_encode($response));
         }
     }
@@ -3413,21 +3415,21 @@ class ApiController extends Controller
     public function actionError()
     {
         
-        Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); ERROR IN REQUEST ", CLogger::LEVEL_TRACE);
+        Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); ERROR IN REQUEST ", CLogger::LEVEL_TRACE);
         
         $response = new stdClass();
         $response->success = false;
-        if (isset($this->_valid_models[$_GET['model']])) {
+        if (isset($this->_validModels[$_GET['model']])) {
             $response->error->code = $this->_errors[1004];
             $response->error->message = "Not a valid method" .
                     " for model " . $_GET['model'];
-            $response->error->trace_id = $this->_trace_id;
+            $response->error->trace_id = $this->_traceId;
             $this->_sendResponse(405, json_encode($response));
         } else {
             $response->error->code = "NOT_FOUND";
             $response->error->message = "Such a service is not provided by" .
                     " this REST service";
-            $response->error->trace_id = $this->_trace_id;
+            $response->error->trace_id = $this->_traceId;
             $this->_sendResponse(404, json_encode($response));
         }
     }
@@ -3475,7 +3477,7 @@ class ApiController extends Controller
         //Tasks include detail updating Troubleticket
         try {
             
-            Yii::log("TRACE(" . $this->_trace_id . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);
+            Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);
             
             switch ($_GET['model']) {
                 /*
@@ -3521,7 +3523,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " Command to be executed " . 
                         $command .                          
@@ -3538,7 +3540,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " File has been created " . 
                             $filename .                          
@@ -3605,7 +3607,7 @@ class ApiController extends Controller
                         
                         //Log
                         Yii::log(
-                            " TRACE(" . $this->_trace_id . "); " . 
+                            " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (List of Verified Email Addresses: " . 
                             json_encode($verifiedEmailAddresses) . "  From Email Address" .
@@ -3626,7 +3628,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending POST request to vt url: " . 
                         $this->_vtresturl . "  " .
@@ -3654,7 +3656,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $response .                          
@@ -3705,7 +3707,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending POST request to vt url: " . 
                         $this->_vtresturl . "  " .
@@ -3738,7 +3740,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $response .                          
@@ -3750,7 +3752,7 @@ class ApiController extends Controller
                     if ($response->success == false)
                         throw new Exception($response->error->message);
                     
-                    Yii::app()->cache->delete($this->_cache_key);
+                    Yii::app()->cache->delete($this->_cacheKey);
                     
                     $this->_sendResponse(200, json_encode($response));
                 }
@@ -3886,7 +3888,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending GET request to vt url: " . 
                         $this->_vtresturl . "  " .
@@ -3915,7 +3917,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $response .                          
@@ -3931,7 +3933,7 @@ class ApiController extends Controller
                     
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (sending POST request to vt url: " . 
                         $this->_vtresturl . "  " .
@@ -3960,7 +3962,7 @@ class ApiController extends Controller
 
                     //Log
                     Yii::log(
-                        " TRACE(" . $this->_trace_id . "); " . 
+                        " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
                         $response .                          
@@ -4002,7 +4004,7 @@ class ApiController extends Controller
                 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
                     $this->_vtresturl . "  " .
@@ -4035,7 +4037,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .                          
@@ -4054,7 +4056,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending POST request to vt url: " . 
                     $this->_vtresturl . "  " .
@@ -4083,7 +4085,7 @@ class ApiController extends Controller
 
                 //Log
                 Yii::log(
-                    " TRACE(" . $this->_trace_id . "); " . 
+                    " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
                     $response .                          
@@ -4120,7 +4122,7 @@ class ApiController extends Controller
                 $response->error->code = $this->_errors[1004];
                 $response->error->message = "Not a valid method" .
                         " for model ";
-                $response->error->trace_id = $this->_trace_id;
+                $response->error->trace_id = $this->_traceId;
                 $this->_sendResponse(405, json_encode($response));
                 break;
             }
@@ -4128,13 +4130,13 @@ class ApiController extends Controller
             
             if (isset($this->_vtresponse->error->code))
                 if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
-                    Yii::app()->cache->delete($this->_cache_key);            
+                    Yii::app()->cache->delete($this->_cacheKey);            
             
             $response = new stdClass();
             $response->success = false;
             $response->error->code = "ERROR";
             $response->error->message = $e->getMessage();
-            $response->error->trace_id = $this->_trace_id;
+            $response->error->trace_id = $this->_traceId;
             $this->_sendResponse(400, json_encode($response));
         }
     }
