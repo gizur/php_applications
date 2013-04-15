@@ -3333,6 +3333,32 @@ class ApiController extends Controller
                 if ($globalresponse['result']['drivercauseddamage']=='No')
                     $globalresponse['result']['drivercauseddamage'] == 'Nej';                
                 
+                $SESBody = 'Hej ' . $this->_session->contactname . ', ' . PHP_EOL .
+                    PHP_EOL .
+                    'En skaderapport har skapats.' . PHP_EOL .
+                    PHP_EOL .
+                    'Datum och tid: ' . date("Y-m-d H:i") . PHP_EOL .                        
+                    'Ticket ID: ' . $globalresponse['result']['ticket_no'] . PHP_EOL .
+                    PHP_EOL .
+                    '- Besiktningsuppgifter -' . PHP_EOL .
+                    'Trailer ID: ' . $globalresponse['result']['trailerid'] . PHP_EOL .
+                    'Plats: ' . $globalresponse['result']['damagereportlocation'] . PHP_EOL .
+                    'Plomerad: ' . $globalresponse['result']['sealed'] . PHP_EOL;
+                
+                if($globalresponse['result']['sealed'] == 'No' || $globalresponse['result']['sealed'] == 'Nej')
+                    $SESBody .= 'Skivor: ' . $globalresponse['result']['plates'] . PHP_EOL .
+                        'Spännband: ' . $globalresponse['result']['straps'] . PHP_EOL;
+                    
+                $SESBody .= PHP_EOL .
+                    '- Skadeuppgifter -' . PHP_EOL .
+                    'Position: ' . $globalresponse['result']['damageposition'] . PHP_EOL .
+                    'Skada orsakad av chaufför: ' . $globalresponse['result']['drivercauseddamage'] . PHP_EOL .
+                    PHP_EOL .
+                    PHP_EOL .
+                    '--' .
+                    PHP_EOL .
+                    'Gizur Admin';
+                
                 $SESresponse = $email->send_email(
                     Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
                     array(
@@ -3343,28 +3369,7 @@ class ApiController extends Controller
                     ), 
                     array(// sesMessage (short form)
                         'Subject.Data' => date("F j, Y") . ': Besiktningsprotokoll för  ' . $globalresponse['result']['ticket_no'],
-                        'Body.Text.Data' => 'Hej ' . $this->_session->contactname . ', ' . PHP_EOL .
-                        PHP_EOL .
-                        'En skaderapport har skapats.' . PHP_EOL .
-                        PHP_EOL .
-                        'Datum och tid: ' . date("Y-m-d H:i") . PHP_EOL .                        
-                        'Ticket ID: ' . $globalresponse['result']['ticket_no'] . PHP_EOL .
-                        PHP_EOL .
-                        '- Besiktningsuppgifter -' . PHP_EOL .
-                        'Trailer ID: ' . $globalresponse['result']['trailerid'] . PHP_EOL .
-                        'Plats: ' . $globalresponse['result']['damagereportlocation'] . PHP_EOL .
-                        'Plomerad: ' . $globalresponse['result']['sealed'] . PHP_EOL .
-                        'Skivor: ' . $globalresponse['result']['plates'] . PHP_EOL .
-                        'Spännband: ' . $globalresponse['result']['straps'] . PHP_EOL .
-                        PHP_EOL .
-                        '- Skadeuppgifter -' . PHP_EOL .
-                        'Position: ' . $globalresponse['result']['damageposition'] . PHP_EOL .
-                        'Skada orsakad av chaufför: ' . $globalresponse['result']['drivercauseddamage'] . PHP_EOL .
-                        PHP_EOL .
-                        PHP_EOL .
-                        '--' .
-                        PHP_EOL .
-                        'Gizur Admin'
+                        'Body.Text.Data' => $SESBody
                     )
                 );
             }
