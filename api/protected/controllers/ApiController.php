@@ -3363,8 +3363,7 @@ class ApiController extends Controller
                     Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
                     array(
                         'ToAddresses' => array(// Destination (aka To)
-                            $_SERVER['HTTP_X_USERNAME'],
-                            Yii::app()->params->awsSESClientEmailAddress
+                            $_SERVER['HTTP_X_USERNAME']
                         )
                     ), 
                     array(// sesMessage (short form)
