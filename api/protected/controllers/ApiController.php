@@ -157,7 +157,8 @@ class ApiController extends Controller
         'About',
         'DocumentAttachments',
         'Authenticate',
-        'Cron'
+        'Cron',
+        'Users' // GizurSaaSAdmin
     );
 
     /**
@@ -373,6 +374,16 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
+            
+            if($_GET['model'] == 'Users') {
+                // Authentication for GizurSaaSAdmin
+                // Username: gizuradmin
+                // Password: gizurpassword
+                
+                if($clientID == 'gizuradmin' && $password == 'gizurpassword')
+                    return true;
+            }
+            
             if ($_GET['model'] == 'User') {
                 
                 if(Yii::app()->request->isPostRequest)
@@ -391,7 +402,7 @@ class ApiController extends Controller
                 
                 $clientID = $_SERVER['HTTP_X_USERNAME'];
                 $password = $_SERVER['HTTP_X_PASSWORD'];
-                
+                               
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(

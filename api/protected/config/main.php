@@ -74,6 +74,11 @@ return array(
                     'verb' => 'GET'
                 ),
                 array(
+                    'api/view', 
+                    'pattern' => '/<model:(Users)>', 
+                    'verb' => 'GET'
+                ),
+                array(
                     'api/list', 
                     'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 
                     'verb' => 'GET'

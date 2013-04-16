@@ -70,6 +70,12 @@ $(function() {
     // to logout the user.
     var route4 = crossroads.addRoute('logout');
     
+    // Route5 : Admin part
+    // ======================
+    //
+    // Gizur SaaS Admin
+    var route5 = crossroads.addRoute('GizurSaaSAdmin');
+    
     // Log All Routes
     // ==============
     // 
@@ -97,7 +103,7 @@ $(function() {
     // Route3
     // ======
     // 
-    // If route1 matched, the following function
+    // If route3 matched, the following function
     // gets executed.
     route3.matched.add(function(status){
         user_controller.login(status);
@@ -106,9 +112,18 @@ $(function() {
     // Route4
     // ======
     // 
-    // If route1 matched, the following function
+    // If route4 matched, the following function
     // gets executed.
     route4.matched.add(function(){
+        hasher.setHash(DEFAULT_HASH);
+    });
+    
+    // Route5
+    // ======
+    // 
+    // If route5 matched, the following function
+    // gets executed.
+    route5.matched.add(function(){
         hasher.setHash(DEFAULT_HASH);
     });
     
@@ -117,7 +132,7 @@ $(function() {
     // 
     // Set a default hash value
     if(! hasher.getHash()){
-        hasher.setHash(DEFAULT_HASH);
+        hasher.setHash('GizurSaaSAdmin');
     }
 
     // ParseHash
