@@ -484,12 +484,15 @@ class ApiController extends Controller
                 
                 //Part of API Key validation
                 //Check if request is in acceptable timestamp negative error
-                if ($_SERVER["REQUEST_TIME"] - Yii::app()->params->acceptableTimestampError > strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+                $aTE = Yii::app()->params->acceptableTimestampError;
+                $rTime = strtotime($_SERVER['HTTP_X_TIMESTAMP']);
+                
+                if ($_SERVER["REQUEST_TIME"] - $aTE > $rTime)
                 throw new Exception('Stale request', 1003);
 
                 //Part of API Key validation
                 //Check if request is in acceptable timestamp positive error
-                if ($_SERVER["REQUEST_TIME"] + Yii::app()->params->acceptableTimestampError < strtotime($_SERVER['HTTP_X_TIMESTAMP']))
+                if ($_SERVER["REQUEST_TIME"] + $aTE < $rTime)
                 throw new Exception(
                     'Oh, Oh, Oh, request from the FUTURE! ', 1003
                 );
@@ -506,7 +509,10 @@ class ApiController extends Controller
                 //Part of API Key validation
                 //Fetch API Key details from Dynamodb, resource  
                 //intensive validation
-                if (($GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($_SERVER['HTTP_X_GIZURCLOUD_API_KEY'])) === false) {
+                $httpGAKey = $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'];
+                $GIZURCLOUD_SECRET_KEY = Yii::app()->cache->get($httpGAKey);
+                
+                if ($GIZURCLOUD_SECRET_KEY === false) {
                     // Retreive Key pair from Amazon Dynamodb
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(
@@ -2359,19 +2365,19 @@ class ApiController extends Controller
                 //It match username sent in the header and email
                 //sent in the GET request
                 if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
-                    throw new Exception("Credentials are invalid.", 2004);
+            throw new Exception("Credentials are invalid.", 2004);
                     
                 // Get an item
                 $ddbResponse = $dynamodb->get_item(
                     array(
-                    'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                    'Key' => $dynamodb->attributes(
-                        array(
-                                     'HashKeyElement' => $_GET['email'],
-                                 )
-                    ),
-                    'ConsistentRead' => 'true'
-                        )
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Key' => $dynamodb->attributes(
+                            array(
+                                'HashKeyElement' => $_GET['email'],
+                            )
+                        ),
+                        'ConsistentRead' => 'true'
+                    )
                 );
 
                 //Checking if DynamoDB response has items
@@ -2417,7 +2423,7 @@ class ApiController extends Controller
                 );                
                 
                 if (preg_match('/[0-9]?x[0-9]?/i', $_GET['id'])==0)
-                    throw new Exception('Invalid format of Id');
+            throw new Exception('Invalid format of Id');
 
                 //Get HelpDesk details 
                 //Creating vTiger Query
@@ -2687,7 +2693,7 @@ class ApiController extends Controller
             case 'Assets':
                 
                     if (preg_match('[0-9]?x[0-9]?', $_GET['id'])==0)
-                        throw new Exception('Invalid format of Id');                
+                throw new Exception('Invalid format of Id');                
 
                     //Send request to vtiger REST service
                     $query = "select * from " . $_GET['model'] .
@@ -2798,7 +2804,7 @@ class ApiController extends Controller
 
                 $uniqueId = uniqid();
 
-                $file_resource = fopen(
+                $fileResource = fopen(
                     'protected/data/' . $uniqueId . 
                     $response->result->filename, 'x'
                 );
@@ -2817,7 +2823,7 @@ class ApiController extends Controller
                     Yii::app()->params->awsS3Bucket, 
                     $response->result->filename, 
                     array(
-                        'fileDownload' => $file_resource
+                        'fileDownload' => $fileResource
                     )
                 );
 
@@ -2935,7 +2941,7 @@ class ApiController extends Controller
                     );
                     
                     if ($mysqli->connect_error) 
-                        throw New Exception($mysqli->connect_error);
+                throw New Exception($mysqli->connect_error);
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB(); 
@@ -3017,7 +3023,7 @@ class ApiController extends Controller
                         "TRACE(" . $this->_traceId . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
                         " CREATING MDB OBJECT ", 
-                         CLogger::LEVEL_TRACE
+                        CLogger::LEVEL_TRACE
                     );                                       
                     
                     //Create Default DB credentials

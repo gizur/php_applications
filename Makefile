@@ -31,7 +31,7 @@ test2:
 lint2:
 	./vendor/bin/phpcs --standard=Zend api/protected/components/*.php \
 					   api/protected/config/*.php \
-					   api/protected/controllers/*.php \
+					   # api/protected/controllers/*.php \
 					   api/protected/models/*.php \
 					   api/protected/tests/*.php \
 					   tests/*.php
