@@ -79,7 +79,7 @@ var ClientsView = Stapes.subclass({
 // Here we are adding some methods to the UsersView 
 // prototype to handle events
 //
-UsersView.proto({
+ClientsView.proto({
     'bindEventHandlers' : function() {        
         // Handle click event on logout-btn
         // 
