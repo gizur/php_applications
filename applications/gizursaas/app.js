@@ -21,6 +21,7 @@
 //
 var user_controller = null;
 var account_controller = null;
+var clients_controller = null;
 
 $(function() {
     // DEFAULT HASH
@@ -124,7 +125,7 @@ $(function() {
     // If route5 matched, the following function
     // gets executed.
     route5.matched.add(function(){
-        hasher.setHash(DEFAULT_HASH);
+        hasher.setHash('GizurSaaSAdmin');
     });
     
     // Default Hash
@@ -132,7 +133,7 @@ $(function() {
     // 
     // Set a default hash value
     if(! hasher.getHash()){
-        hasher.setHash('GizurSaaSAdmin');
+        clients_controller = new ClientsController();
     }
 
     // ParseHash

@@ -43,8 +43,8 @@ var ClientsController = Stapes.subclass({
             headers: {
                 //Add username and password in the headers
                 // to validate the request
-                "X_USERNAME":user_controller.model.get('gizuradmin'),
-                "X_PASSWORD":user_controller.model.get('gizurpassword')
+                "X_USERNAME":'gizuradmin',
+                "X_PASSWORD":'gizurpassword'
             },
             error: function() {
                 // If an error occured show and error and

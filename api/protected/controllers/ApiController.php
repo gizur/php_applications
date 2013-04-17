@@ -1373,22 +1373,22 @@ class ApiController extends Controller
                 //Get all the clients
                 $ddbResponse = $dynamodb->scan(
                     array(
-                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                        'AttributesToGet' => array(),
-                        'ScanFilter' => array(
-                            
-                        )
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName
                     )
                 );
 
-                var_dump($ddbResponse->body->Item->children());
                 $result = array();
-                foreach ($ddbResponse->body->Item->children()
+                $x = 0;
+                foreach ($ddbResponse->body->Items
                 as $key => $item) {
-                    $result[$key] 
-                        = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                    $item = get_object_vars($item);
+                    foreach($item as $k => $v){
+                        $v = get_object_vars($v);
+                        $result[$x][$k] = $v[AmazonDynamoDB::TYPE_STRING];
+                    }
+                    $x++;
                 }
-                
+                echo json_encode($result);
                 break;
             /*
              * *****************************************************************
