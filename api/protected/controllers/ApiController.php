@@ -1388,7 +1388,11 @@ class ApiController extends Controller
                     }
                     $x++;
                 }
-                echo json_encode($result);
+                $response = new stdClass();
+                $response->success = true;
+                $response->result = $result;
+
+                $this->_sendResponse(200, json_encode($response));
                 break;
             /*
              * *****************************************************************

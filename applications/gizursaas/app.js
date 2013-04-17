@@ -21,6 +21,7 @@
 //
 var user_controller = null;
 var account_controller = null;
+var clients_controller = null;
 
 $(function() {
     // DEFAULT HASH
