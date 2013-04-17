@@ -63,7 +63,6 @@ var ClientsController = Stapes.subclass({
                             'clients.tmp.html?_=' + 
                             Math.random(),{},function(html){
                         $('#container').empty().html(html);
-                        self.bindEventHandlers();
                     });                   
                 } else {
                     // If an error occured show and error and
@@ -90,8 +89,19 @@ var ClientsController = Stapes.subclass({
             //
             // This fuunction make PUT request to the server to
             // generate API and SECRET key 1
-            'generateAPIKeyAndSecret1': function() {
-                
+            'tabulateData': function() {
+                self.model.each(function(client,key) {
+                    var $html = "<tr><td>" +
+                        "<input type='radio' id='client_key'" +
+                        " name='client' value='" + key + "'/>" + 
+                        "</td>" +
+                        "<td>" + client.clientid + "</td>" +
+                        "<td>" + client.name_1 + "</td>" +
+                        "<td>" + client.name_2 + "</td>" +
+                        "<td>" + client.id + "</td>" +
+                    "</tr>";
+                    $('#clientTabularDiv:table tbody').append($html);
+                });
             }
         });
     }

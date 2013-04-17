@@ -10,12 +10,20 @@
                     <form id="userinfoform" class="form-horizontal">
                         <fieldset>
                             <legend>Clients</legend>
-                            <label for="inputFirstName">First Name</label>
-                            <input type="text" name="first_name" id="first_name" value=""/>
-                            <label for="inputLastName">Last Name</label>
-                            <input type="text" name="last_name" id="last_name" value=""/>
-                            <label for="inputEmail">Email</label>
-                            <input type="text" name="email" id="email" value="" readonly="readonly"/>
+                            <div class="span12" id="clientTabularDiv">
+                                <table class="span10">
+                                    <thead>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>Client Id</td>
+                                            <td>First Name</td>
+                                            <td>Last Name</td>
+                                            <td>Email</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
