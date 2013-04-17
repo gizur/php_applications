@@ -24,7 +24,7 @@
 
 var ClientsController = Stapes.subclass({
     // Intitialise the object
-    constructor: function() {
+    constructor: function(DEFAULT_HASH) {
         //Create a alias of this
         var self = this;
 
