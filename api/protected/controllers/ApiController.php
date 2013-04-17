@@ -1381,6 +1381,7 @@ class ApiController extends Controller
                     )
                 );
 
+                var_dump($ddbResponse->body->Item->children());
                 $result = array();
                 foreach ($ddbResponse->body->Item->children()
                 as $key => $item) {
