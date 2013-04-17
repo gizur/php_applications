@@ -379,6 +379,14 @@ class ApiController extends Controller
                 // Authentication for GizurSaaSAdmin
                 // Username: gizuradmin
                 // Password: gizurpassword
+                if(empty($_SERVER['HTTP_X_USERNAME']))
+                    throw new Exception("Credentials are invalid.", 2004);
+                
+                if(empty($_SERVER['HTTP_X_PASSWORD']))
+                    throw new Exception("Credentials are invalid.", 2004);
+                
+                $clientID = $_SERVER['HTTP_X_USERNAME'];
+                $password = $_SERVER['HTTP_X_PASSWORD'];
                 
                 if($clientID == 'gizuradmin' && $password == 'gizurpassword')
                     return true;
@@ -1352,6 +1360,35 @@ class ApiController extends Controller
                 
                 break;
             
+            case 'Users':
+                
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" . 
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
+                //Get all the clients
+                $ddbResponse = $dynamodb->scan(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'AttributesToGet' => array(),
+                        'ScanFilter' => array(
+                            
+                        )
+                    )
+                );
+
+                $result = array();
+                foreach ($ddbResponse->body->Item->children()
+                as $key => $item) {
+                    $result[$key] 
+                        = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                }
+                
+                break;
             /*
              * *****************************************************************
              * *****************************************************************
