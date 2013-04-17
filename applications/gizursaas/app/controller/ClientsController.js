@@ -98,8 +98,8 @@ var ClientsController = Stapes.subclass({
                         " name='client_key' value='" + key + "'/>" + 
                         "</td>" +
                         "<td>" + client.clientid + "</td>" +
-                        "<td>" + (client.name_1 === 'undefined' ? '-': client.name_1) + "</td>" +
-                        "<td>" + (client.name_2 === 'undefined' ? '-': client.name_2) + "</td>" +
+                        "<td>" + (client.name_1 === undedined ? '-': client.name_1) + "</td>" +
+                        "<td>" + (client.name_2 === undefined ? '-': client.name_2) + "</td>" +
                         "<td>" + client.id + "</td>" +
                     "</tr>";
                     $('#clientTabularDiv tbody').append($html);
@@ -107,7 +107,8 @@ var ClientsController = Stapes.subclass({
             },
             'selectClient': function() {
                 var $client_key = $('input[name=client_key]:radio:checked').val();
-                console.log(self.model.get($client_key));
+                var $client = self.model.get($client_key);
+                $('#from_id').attr('value', $client.id);
             }
         });
     }

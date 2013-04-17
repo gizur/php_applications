@@ -136,7 +136,8 @@ class ApiController extends Controller
         2001 => "CLIENT_ID_INVALID",
         2002 => "EMAIL_INVALID",
         2003 => "LOGIN_INVALID",
-        2004 => "WRONG_CREDENTIALS"
+        2004 => "WRONG_CREDENTIALS",
+        2005 => "WRONG_FROM_CLIENT"
     );
 
     /**
@@ -3282,6 +3283,295 @@ class ApiController extends Controller
                             . " not be created";
                     $response->error->trace_id = $this->_traceId;
                     $this->_sendResponse(400, json_encode($response));
+                }
+                break;
+                
+            case 'Users':
+                
+                if ($_GET['action'] == 'copyuser') {
+                    error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
+                    ini_set('display_errors', 'On');
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING MDB OBJECT ", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    include("protected/config/config.inc.php");
+
+                    /**
+                    * Database connection 
+                    *
+                    */                    
+
+                    $mysqli = new mysqli(
+                        $dbconfig['db_server'] . $dbconfig['db_port'],
+                        $dbconfig['db_username'],
+                        $dbconfig['db_password'],
+                        $dbconfig['db_name']
+                    );
+                    
+                    if ($mysqli->connect_error) 
+                throw New Exception($mysqli->connect_error);
+                    
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB(); 
+                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    
+                    $post = json_decode(file_get_contents('php://input'), true);
+                    
+                    //GET THE CLIENT ID
+                    if(empty($post['clientid']))
+                        $post['clientid'] = array_shift(explode('@', $post['id']));
+                    
+                    //REPLACE UN-WANTED CHARS FROM CLIENTID
+                    $replacable = array('_', '.', '#', '-');
+                    $post['clientid'] = str_replace($replacable, '', $post['clientid']);
+                    
+                    //Validations
+                    
+                    //Validate Client ID
+                    $ddbResponse = $dynamodb->scan(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'AttributesToGet' => array('clientid'),
+                            'ScanFilter' => array(
+                                'clientid' => array(
+                                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                                    'AttributeValueList' => array(
+                                        array( AmazonDynamoDB::TYPE_STRING => $post['clientid'] )
+                                    )
+                                )
+                            )
+                        )
+                    );
+                    
+                    if(!empty($ddbResponse->body->Items))
+                        throw New Exception("Client id is not available.", 2001);
+                    
+                    // Validate Email
+                    $ddbResponse = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $post['id'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+                    if (isset($ddbResponse->body->Item))
+                        throw New Exception("Email is already registered.", 2002);
+                    
+                    $ddbResponse = $dynamodb->scan(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'AttributesToGet' => array('id_sequence'),
+                        )
+                    );                  
+
+                    $maxIdSequence = 1000;
+                    foreach ($ddbResponse->body->Items
+                    as $key => $item) {
+                        $idSequence
+                            = intval((string) $item->id_sequence->{AmazonDynamoDB::TYPE_STRING});
+                        if ($idSequence > $maxIdSequence) {
+                            $maxIdSequence = $idSequence;
+                        }
+                    }  
+                    $maxIdSequence += 1000;
+
+                    // GET FROM CLIENT DETAIL
+                    $ddbResponse = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $post['fromid'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+                    if (!isset($ddbResponse->body->Item))
+                        throw New Exception("From client is not available.", 2005);
+                    
+                    $oldClient = $ddbResponse->body->Item;
+                    $oldClient = get_object_vars($oldClient);
+                    
+                    $clientArr = array();
+                    foreach($oldClient as $k => $val){
+                        $clientArr[$k] = $val->{AmazonDynamoDB::TYPE_STRING}; 
+                    }
+                    
+                    $post = array_merge($post, $clientArr);
+                    
+                    $clientIdSequence = $clientArr['id_sequence'];
+                    $plusSequence = $maxIdSequence - $clientIdSequence;
+                    /**
+                    * Database connection options
+                    * @global string $options
+                    */
+                    $options = array(
+                        'persistent' => true,
+                    );
+                    
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING MDB OBJECT ", 
+                        CLogger::LEVEL_TRACE
+                    );                                       
+                    
+                    //Create Default DB credentials
+                    
+                    $dbServer     = $dbconfig['db_server'];
+                    $dbPort       = str_replace(":", "", $dbconfig['db_port']);
+                    $dbUsername   = 'user_' . substr($post['clientid'], 0, 5) . '_' . substr(strrev(uniqid()), 1, 5);
+                    $dbPassword   = substr(strrev(uniqid()), 1, 16);
+                    $dbName       = 'vtiger_' . substr($post['clientid'], 0, 7) . '_' . substr(strrev(uniqid()), 1, 8);                    
+
+                    $post['databasename'] = $dbName;
+                    $post['server'] = $dbServer;
+                    $post['port'] = $dbPort;
+                    $post['username'] = $dbUsername;
+                    $post['dbpassword'] = $dbPassword;
+                    $post['port'] = $dbPort;
+                    $post['id_sequence'] = (String)$maxIdSequence;
+                        
+                    //Create User
+                    //===========
+                    $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%' IDENTIFIED BY '$dbPassword' ";
+                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;";                    
+                    
+                    // Execute the query
+                    // check if the query was executed properly
+                    if ($mysqli->query($query)===false)
+                        throw New Exception("Unable to create user and grant permission: " . $mysqli->error, 0);
+                    
+                    //Create Database
+                    //===============
+                    $query = "CREATE DATABASE IF NOT EXISTS `$dbName`;";
+                    
+                    // Execute the query
+                    // check if the query was executed properly
+                    if ($mysqli->query($query)===false) {
+                        $mysqli->query("DROP USER $dbUsername;");
+                        throw New Exception("Unable to create database " . $mysqli->error, 0);                    
+                    }
+
+                    //Grant Permission
+                    //================
+                    $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO '$dbUsername'@'%';";
+                    
+                    // Execute the query
+                    // check if the query was executed properly
+                    if ($mysqli->query($query)===false) {
+                        $mysqli->query("DROP USER $dbUsername;");
+                        $mysqli->query("DROP DATABASE IF EXISTS $dbUsername;");
+                        throw New Exception($mysqli->error, 0);
+                    }
+
+                    //Import Database
+                    //===============
+                    $execStmt = "mysql -u$dbUsername -p$dbPassword -h$dbServer -P $dbPort $dbName < ../lib/vtiger-5.4.0-database.sql";
+
+                    $output = shell_exec($execStmt);
+                    
+                    if ($output === false) {
+                        $mysqli->query("DROP USER $dbUsername;");
+                        $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
+                        throw New Exception("Unable to populate data in $dbName.", 0);
+                    }
+                    
+                    //To update vTiger Admin password
+                    //===============================
+                    $salt = substr("admin", 0, 2);
+                    $salt = '$1$' . str_pad($salt, 9, '0');
+                    $oPassword = substr(strrev(uniqid()), 0, 9);
+                    $userHash = strtolower(md5($oPassword));
+                    $computedEncryptedPassword = crypt($oPassword, $salt);
+                    
+                    //Add User Sequence
+                    //======================
+                    $queries[] = "USE $dbName;";
+                    $queries[] = "START TRANSACTION;";
+                    $queries[] = "SET foreign_key_checks = 0;";
+                    $queries[] = "update vtiger_users2group set userid = $plusSequence + userid;";
+                    $queries[] = "update vtiger_user2role set userid = $plusSequence + userid;";
+                    $queries[] = "update vtiger_users set id = $plusSequence + id;";
+                    $queries[] = "update vtiger_users_seq set id = $plusSequence + id;";
+                    $queries[] = "update vtiger_crmentity set smcreatorid = $plusSequence + smcreatorid, smownerid = smownerid + $plusSequence, modifiedby = modifiedby + $plusSequence;";
+                    $queries[] = "update vtiger_homestuff set userid = $plusSequence + userid;";
+                    $queries[] = "update vtiger_mail_accounts set user_id = $plusSequence + user_id;";
+                    $queries[] = "update vtiger_user2mergefields set userid = $plusSequence + userid;";
+                    $queries[] = "update vtiger_user_module_preferences set userid = $plusSequence + userid;";
+                    $queries[] = "update vtiger_users_last_import set assigned_user_id = $plusSequence + assigned_user_id;";
+                    $queries[] = "update vtiger_customview set userid = $plusSequence + userid;";
+                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $plusSequence + prefvalue " . 
+                        "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'userid';";
+                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $plusSequence + prefvalue " . 
+                        "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'defaultassignee';";
+                    $queries[] = "SET foreign_key_checks = 1;";
+                    $queries[] = "COMMIT;";
+                    
+                    foreach ($queries as $query) {
+                        // Execute the query
+                        // check if the query was executed properly
+                        if ($mysqli->query($query)===false) {
+                            $mysqli->query('ROLLBACK;');
+                            throw New Exception($mysqli->error . " Query:" . $query, 0);                        
+                        }
+                    }
+                    
+                    $mysqli->close();                    
+                    
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    $ddbResponse = $dynamodb->put_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                             'Item' => $dynamodb->attributes($post)
+                        )
+                    );
+
+                    // Get an item
+                    $ddbResponse = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $post['id'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+
+                    if (isset($ddbResponse->body->Item)) {
+                        Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
+                        Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
+
+                        foreach ($ddbResponse->body->Item->children()
+                        as $key => $item) {
+                            $resultDdb->{$key} 
+                                = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                        }
+                        $resultDdb->execStmt = $execStmt;
+                        $resultDdb->output = $output;
+                        $response->success = true;
+                        $response->result = $resultDdb;
+                        $this->_sendResponse(200, json_encode($response));
+                    } else {
+                        $response->success = false;
+                        $response->error->code = "NOT_CREATED";
+                        $response->error->message = $_GET['email'] . " could "
+                                . " not be created";
+                        $response->error->trace_id = $this->_traceId;
+                        $this->_sendResponse(400, json_encode($response));
+                    }
                 }
                 break;
                 /*

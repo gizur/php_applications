@@ -119,6 +119,11 @@ return array(
                     'verb' => 'POST'
                 ),
                 array(
+                    'api/create', 
+                    'pattern' => '/<model:(Users)/action:(copyuser)>',
+                    'verb' => 'POST'
+                ),
+                array(
                     'api/update',
                     'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>',
                     'verb' => 'PUT'

@@ -7,9 +7,9 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="userinfo">
-                    <fieldset>
-                        <legend>Clients</legend>
-                        <div class="span6" id="clientTabularDiv">
+                    <div class="span6" id="clientTabularDiv">
+                        <fieldset>
+                            <legend>Clients</legend>
                             <table class="span10">
                                 <thead>
                                     <tr style="font-weight: bold;">
@@ -22,19 +22,20 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                        </div>
-                        <div class="span6" style="background-color: none; padding: 4px;">
-                            <form id="copyClient" class="form-horizontal">
-                                <fieldset>
-                                    <legend>Create an account</legend>
-                                    <div class="control-group"><input type="text" placeholder="Client ID" name="client_id" id="client_id"/></div>
-                                    <div class="control-group"><input type="text" placeholder="Email" name="email" id="email"/></div>
-                                    <div class="control-group"><input type="password" placeholder="Gizur SaaS Password" name="password" id="password"/></div>
-                                    <div class="control-group"><input type="submit" id="copyClientFormSubmit" value="Copy Account" class="btn btn-success"/></div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </fieldset>
+                        </fieldset>
+                    </div>
+                    <div class="span6" style="background-color: none; padding: 4px;">
+                        <form id="copyClient" class="form-horizontal">
+                            <fieldset>
+                                <legend>New Information</legend>
+                                <input type="hidden" name="from_id" id="from_id"/>
+                                <div class="control-group"><input type="text" placeholder="Client ID" name="client_id" id="client_id"/></div>
+                                <div class="control-group"><input type="text" placeholder="Email" name="email" id="email"/></div>
+                                <div class="control-group"><input type="password" placeholder="Gizur SaaS Password" name="password" id="password"/></div>
+                                <div class="control-group"><input type="submit" id="copyClientFormSubmit" value="Copy Account" class="btn btn-success"/></div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
