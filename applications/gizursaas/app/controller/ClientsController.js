@@ -63,7 +63,9 @@ var ClientsController = Stapes.subclass({
                             'clients.tmp.html?_=' + 
                             Math.random(),{},function(html){
                         $('#container').empty().html(html);
-                    });                   
+                        self.view.emit('tabulateData');
+                        self.view.bindEventHandlers();
+                    });
                 } else {
                     // If an error occured show and error and
                     // take the user to the login page.
@@ -84,16 +86,16 @@ var ClientsController = Stapes.subclass({
         });
 
         this.view.on({
-            // Event to generate API and SECRET key 1
-            //=======================================
+            // Event to tabulate client data
+            //===============================
             //
-            // This fuunction make PUT request to the server to
-            // generate API and SECRET key 1
+            // This fuunction tabulate data in the view.
+            //
             'tabulateData': function() {
                 self.model.each(function(client,key) {
                     var $html = "<tr><td>" +
-                        "<input type='radio' id='client_key'" +
-                        " name='client' value='" + key + "'/>" + 
+                        "<input type='radio'" +
+                        " name='client_key' value='" + key + "'/>" + 
                         "</td>" +
                         "<td>" + client.clientid + "</td>" +
                         "<td>" + client.name_1 + "</td>" +
@@ -102,6 +104,10 @@ var ClientsController = Stapes.subclass({
                     "</tr>";
                     $('#clientTabularDiv:table tbody').append($html);
                 });
+            },
+            'selectClient': function() {
+                var $client_key = $('input[name=client_key]:radio:checked').val();
+                console.log(self.model.get($client_key));
             }
         });
     }

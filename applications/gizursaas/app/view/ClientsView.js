@@ -85,9 +85,8 @@ UsersView.proto({
         // 
         // This will emit the logout event
         // bound to the view.
-        $('#logout-btn').on('click', function(e){
-            this.emit('logout');
-            $('#logout-btn').hide();
+        $('input[name=client_key]:radio').on('click', function(e){
+            this.emit('selectClient');
         }.bind(this));
     }
 });
