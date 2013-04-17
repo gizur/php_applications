@@ -102,7 +102,7 @@ var ClientsController = Stapes.subclass({
                         "<td>" + client.name_2 + "</td>" +
                         "<td>" + client.id + "</td>" +
                     "</tr>";
-                    $('#clientTabularDiv:table tbody').append($html);
+                    $('#clientTabularDiv tbody').append($html);
                 });
             },
             'selectClient': function() {
