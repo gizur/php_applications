@@ -3444,13 +3444,16 @@ class ApiController extends Controller
                         " GET FROM CLIENT (WHICH IS BEING COPIED TO NEW) DETAILS. ", 
                         CLogger::LEVEL_TRACE
                     );
+                    
+                    $oldClientId = $post['fromid'];
+                    unset($post['fromid']);
                     // GET FROM CLIENT DETAIL
                     $ddbResponse = $dynamodb->get_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
                             'Key' => $dynamodb->attributes(
                                 array(
-                                    'HashKeyElement' => $post['fromid'],
+                                    'HashKeyElement' => $oldClientId,
                                 )
                             ),
                             'ConsistentRead' => 'true'

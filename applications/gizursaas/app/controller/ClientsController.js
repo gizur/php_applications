@@ -113,6 +113,7 @@ var ClientsController = Stapes.subclass({
             'copyClientFormSubmit': function() {
                 
                 self.view.success('Processing ...');
+                var fromid = $('#from_id').val();
                 var password = $('#password').val();
                 var client_id = $('#client_id').val();
                 var email = $('#email').val();
@@ -133,6 +134,7 @@ var ClientsController = Stapes.subclass({
                     dataType: "json",
                     processData: false,
                     data: JSON.stringify({
+                        "fromid":fromid,
                         "id": email,
                         "password": hashed_password,
                         "clientid": client_id,
