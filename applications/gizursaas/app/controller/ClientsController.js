@@ -135,6 +135,7 @@ var ClientsController = Stapes.subclass({
         });
     },
     'loadView': function(adminUsername, adminPassword, DEFAULT_HASH) {
+        var self = this;
         //Prepare the url to fetch the account details
         var _url = __rest_server_url + 'Users';
 
