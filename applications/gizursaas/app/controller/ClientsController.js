@@ -27,7 +27,8 @@ var ClientsController = Stapes.subclass({
     constructor: function(DEFAULT_HASH) {
         //Create a alias of this
         var self = this;
-
+        var adminUsername = 'gizuradmin';
+        var adminPassword = 'gizurpassword';
         //Initialise the model and view
         this.model = new ClientModel();
         this.view = new ClientsView();
@@ -43,8 +44,8 @@ var ClientsController = Stapes.subclass({
             headers: {
                 //Add username and password in the headers
                 // to validate the request
-                "X_USERNAME":'gizuradmin',
-                "X_PASSWORD":'gizurpassword'
+                "X_USERNAME":adminUsername,
+                "X_PASSWORD":adminPassword
             },
             error: function() {
                 // If an error occured show and error and
@@ -140,6 +141,12 @@ var ClientsController = Stapes.subclass({
                         "clientid": client_id,
                         "security_salt": security_salt
                     }),
+                    headers: {
+                        //Add username and password in the headers
+                        // to validate the request
+                        "X_USERNAME":adminUsername,
+                        "X_PASSWORD":adminPassword
+                    },
                     //If error occured, it will display the error msg.
                     error: function(jqXHR, textStatus, errorThrown) {
                         var _data = JSON.parse(jqXHR.responseText);

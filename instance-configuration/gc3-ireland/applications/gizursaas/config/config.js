@@ -38,5 +38,6 @@ var __messages = {
     "CLIENT_ID_INVALID" : 'Client ID is not available.',
     "EMAIL_INVALID" : 'Email is already registred.',
     "ERROR" : 'An error occured, Please contact administrator.',
-    "WRONG_CREDENTIALS" : 'Credentials are in valid.'
+    "WRONG_CREDENTIALS" : 'Credentials are invalid.',
+    "WRONG_FROM_CLIENT" : 'From client is incorrect.'
 };
