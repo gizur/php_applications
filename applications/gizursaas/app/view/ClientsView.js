@@ -88,5 +88,10 @@ ClientsView.proto({
         $('input[name=client_key]:radio').on('click', function(e){
             this.emit('selectClient');
         }.bind(this));
+        
+        $('#copyClientFormSubmit').on('click', function(e){
+            e.preventDefault();
+            this.emit('copyClientFormSubmit');
+        }.bind(this));
     }
 });

@@ -109,6 +109,57 @@ var ClientsController = Stapes.subclass({
                 var $client_key = $('input[name=client_key]:radio:checked').val();
                 var $client = self.model.get($client_key);
                 $('#from_id').attr('value', $client.id);
+            },
+            'copyClientFormSubmit': function() {
+                
+                self.view.success('Processing ...');
+                var password = $('#password').val();
+                var client_id = $('#client_id').val();
+                var email = $('#email').val();
+                
+                var hashObj1 = new jsSHA(Math.random(), "TEXT");
+                var security_salt = hashObj1.getHash("SHA-256", "HEX");
+                var hashObj = new jsSHA(
+                        password + security_salt, "TEXT"
+                );
+                var hashed_password = hashObj.getHash("SHA-256", "HEX");
+
+                //Make a registration request to the server
+                //
+                var _url_create = __rest_server_url + 'Users/copyuser';
+                $.ajax({
+                    url: _url_create,
+                    type: "POST",
+                    dataType: "json",
+                    processData: false,
+                    data: JSON.stringify({
+                        "id": email,
+                        "password": hashed_password,
+                        "clientid": client_id,
+                        "security_salt": security_salt
+                    }),
+                    //If error occured, it will display the error msg.
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        var _data = JSON.parse(jqXHR.responseText);
+                        
+                        if (!_data.success)
+                            self.view.error(__messages[_data.error.code]);
+                    },
+                    // On success clean the form.
+                    success: function(_data) {
+                        if (_data.success) {
+                            self.view.success('Account has been copied.');
+                            $email.val('');
+                            $password.val('');
+                            $client_id.val('');
+                        } else {
+                            self.view.error(
+                                    'An error occured while creating your' +
+                                    ' account. Please contact administrator.'
+                            );
+                        }
+                    }
+                });
             }
         });
     }

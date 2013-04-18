@@ -3482,7 +3482,6 @@ class ApiController extends Controller
                     );
                     
                     $post = array_merge($clientArr, $post);
-                    $post['id_sequence'] = $maxIdSequence;
                     
                     $clientIdSequence = $clientArr['id_sequence'];
                     $plusSequence = $maxIdSequence - $clientIdSequence;
