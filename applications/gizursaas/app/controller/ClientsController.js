@@ -98,7 +98,7 @@ var ClientsController = Stapes.subclass({
                         " name='client_key' value='" + key + "'/>" + 
                         "</td>" +
                         "<td>" + client.clientid + "</td>" +
-                        "<td>" + (client.name_1 === undedined ? '-': client.name_1) + "</td>" +
+                        "<td>" + (client.name_1 === undefined ? '-': client.name_1) + "</td>" +
                         "<td>" + (client.name_2 === undefined ? '-': client.name_2) + "</td>" +
                         "<td>" + client.id + "</td>" +
                     "</tr>";
