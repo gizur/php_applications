@@ -3668,9 +3668,6 @@ class ApiController extends Controller
                     if (isset($ddbResponse->body->Item)) {
                         Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
                         Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
-
-                        $resultDdb->execStmt = $execStmt;
-                        $resultDdb->output = $output;
                         $response->success = true;
                         $this->_sendResponse(200, json_encode($response));
                     } else {
