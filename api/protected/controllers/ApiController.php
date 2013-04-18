@@ -3669,15 +3669,9 @@ class ApiController extends Controller
                         Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
                         Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
 
-                        foreach ($ddbResponse->body->Item->children()
-                        as $key => $item) {
-                            $resultDdb->{$key} 
-                                = (string) $item->{AmazonDynamoDB::TYPE_STRING};
-                        }
                         $resultDdb->execStmt = $execStmt;
                         $resultDdb->output = $output;
                         $response->success = true;
-                        $response->result = $resultDdb;
                         $this->_sendResponse(200, json_encode($response));
                     } else {
                         $response->success = false;
