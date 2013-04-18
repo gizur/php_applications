@@ -3304,6 +3304,13 @@ class ApiController extends Controller
                     *
                     */                    
 
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING DATABASE CONNNECTION TO " . 
+                        $dbconfig['db_server'], 
+                        CLogger::LEVEL_TRACE
+                    );
                     $mysqli = new mysqli(
                         $dbconfig['db_server'] . $dbconfig['db_port'],
                         $dbconfig['db_username'],
@@ -3314,12 +3321,30 @@ class ApiController extends Controller
                     if ($mysqli->connect_error) 
                 throw New Exception($mysqli->connect_error);
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING AmazonDynamoDB CONNNECTION ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB(); 
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " GET POST VALUES ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     $post = json_decode(file_get_contents('php://input'), true);
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " RECEIVED POST : " . json_encode($post), 
+                        CLogger::LEVEL_TRACE
+                    );
                     //GET THE CLIENT ID
                     if(empty($post['clientid']))
                         $post['clientid'] = array_shift(explode('@', $post['id']));
@@ -3330,6 +3355,12 @@ class ApiController extends Controller
                     
                     //Validations
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " VALIDATE NEW CLIENT ID " . $post['clientid'], 
+                        CLogger::LEVEL_TRACE
+                    );
                     //Validate Client ID
                     $ddbResponse = $dynamodb->scan(
                         array(
@@ -3349,6 +3380,12 @@ class ApiController extends Controller
                     if(!empty($ddbResponse->body->Items))
                         throw New Exception("Client id is not available.", 2001);
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " VALIDATE NEW CLIENT EMAIL " . $post['id'], 
+                        CLogger::LEVEL_TRACE
+                    );
                     // Validate Email
                     $ddbResponse = $dynamodb->get_item(
                         array(
@@ -3364,6 +3401,19 @@ class ApiController extends Controller
                     if (isset($ddbResponse->body->Item))
                         throw New Exception("Email is already registered.", 2002);
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " EMAIL and CLIENT ID are uqique, so processing further. ", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " GETING ID_SEQUENCE FROM DYNAMO_DB. ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     $ddbResponse = $dynamodb->scan(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
@@ -3382,6 +3432,18 @@ class ApiController extends Controller
                     }  
                     $maxIdSequence += 1000;
 
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " NEW ID_SEQUENCE FOR THE CLIENT IS $maxIdSequence.", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " GET FROM CLIENT (WHICH IS BEING COPIED TO NEW) DETAILS. ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     // GET FROM CLIENT DETAIL
                     $ddbResponse = $dynamodb->get_item(
                         array(
@@ -3397,6 +3459,13 @@ class ApiController extends Controller
                     if (!isset($ddbResponse->body->Item))
                         throw New Exception("From client is not available.", 2005);
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " FROM CLIENT (WHICH IS BEING COPIED TO NEW) " .
+                        " DETAILS FETCHED FROM DYNAMODB. ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     $oldClient = $ddbResponse->body->Item;
                     $oldClient = get_object_vars($oldClient);
                     
@@ -3404,8 +3473,16 @@ class ApiController extends Controller
                     foreach($oldClient as $k => $val){
                         $clientArr[$k] = $val->{AmazonDynamoDB::TYPE_STRING}; 
                     }
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " FROM CLIENT (WHICH IS BEING COPIED TO NEW)" .
+                        " DETAILS : " . json_encode($clientArr), 
+                        CLogger::LEVEL_TRACE
+                    );
                     
-                    $post = array_merge($post, $clientArr);
+                    $post = array_merge($clientArr, $post);
+                    $post['id_sequence'] = $maxIdSequence;
                     
                     $clientIdSequence = $clientArr['id_sequence'];
                     $plusSequence = $maxIdSequence - $clientIdSequence;
@@ -3439,7 +3516,21 @@ class ApiController extends Controller
                     $post['dbpassword'] = $dbPassword;
                     $post['port'] = $dbPort;
                     $post['id_sequence'] = (String)$maxIdSequence;
-                        
+                       
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " NEW CLIENT DETAILS : " . json_encode($post), 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING USER ($dbUsername) IN MYSQL FOR NEW CLIENT ", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
                     //Create User
                     //===========
                     $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%' IDENTIFIED BY '$dbPassword' ";
@@ -3450,6 +3541,12 @@ class ApiController extends Controller
                     if ($mysqli->query($query)===false)
                         throw New Exception("Unable to create user and grant permission: " . $mysqli->error, 0);
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " CREATING DATABASE ($dbName) IN MYSQL FOR NEW CLIENT ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     //Create Database
                     //===============
                     $query = "CREATE DATABASE IF NOT EXISTS `$dbName`;";
@@ -3461,6 +3558,12 @@ class ApiController extends Controller
                         throw New Exception("Unable to create database " . $mysqli->error, 0);                    
                     }
 
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " GRANTING PRIVILEGES ON $dbName TO $dbUsername ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     //Grant Permission
                     //================
                     $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO '$dbUsername'@'%';";
@@ -3473,6 +3576,12 @@ class ApiController extends Controller
                         throw New Exception($mysqli->error, 0);
                     }
 
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " IMPORTING DATABASE DUMP TO $dbName ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     //Import Database
                     //===============
                     $execStmt = "mysql -u$dbUsername -p$dbPassword -h$dbServer -P $dbPort $dbName < ../lib/vtiger-5.4.0-database.sql";
@@ -3484,14 +3593,6 @@ class ApiController extends Controller
                         $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
                         throw New Exception("Unable to populate data in $dbName.", 0);
                     }
-                    
-                    //To update vTiger Admin password
-                    //===============================
-                    $salt = substr("admin", 0, 2);
-                    $salt = '$1$' . str_pad($salt, 9, '0');
-                    $oPassword = substr(strrev(uniqid()), 0, 9);
-                    $userHash = strtolower(md5($oPassword));
-                    $computedEncryptedPassword = crypt($oPassword, $salt);
                     
                     //Add User Sequence
                     //======================
@@ -3516,6 +3617,12 @@ class ApiController extends Controller
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " UPDATING $dbName USERS IDs with $maxIdSequence ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     foreach ($queries as $query) {
                         // Execute the query
                         // check if the query was executed properly
@@ -3527,6 +3634,12 @@ class ApiController extends Controller
                     
                     $mysqli->close();                    
                     
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " INSERTING INTO DYNAMODB ", 
+                        CLogger::LEVEL_TRACE
+                    );
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
