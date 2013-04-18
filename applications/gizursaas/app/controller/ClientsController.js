@@ -52,9 +52,6 @@ var ClientsController = Stapes.subclass({
             'tabulateData': function() {
                 $('#clientTabularDiv tbody').empty();
                 self.model.each(function(client, key) {
-                    self.model.remove(key);
-                });
-                self.model.each(function(client, key) {
                     var $html = "<tr><td>" +
                             "<input type='radio'" +
                             " name='client_key' value='" + key + "'/>" +
@@ -121,13 +118,16 @@ var ClientsController = Stapes.subclass({
                             self.view.success('Account has been copied.');
                             $email.val('');
                             $password.val('');
-                            $client_id.val('');
+                            $client_id.val('');                            
+                            self.model.each(function(client, key) {
+                                self.model.remove(key);
+                            });
                             self.loadView(adminUsername, adminPassword, DEFAULT_HASH);
                         } else {
                             self.view.error(
-                                    'An error occured while creating your' +
-                                    ' account. Please contact administrator.'
-                                    );
+                                'An error occured while creating your' +
+                                ' account. Please contact administrator.'
+                            );
                         }
                     }
                 });
