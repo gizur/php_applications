@@ -3513,6 +3513,12 @@ class ApiController extends Controller
                     $dbPassword   = substr(strrev(uniqid()), 1, 16);
                     $dbName       = 'vtiger_' . substr($post['clientid'], 0, 7) . '_' . substr(strrev(uniqid()), 1, 8);                    
 
+                    $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
+                    $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
+
+                    $post['secretkey_2'] = uniqid("", true) . uniqid("", true);
+                    $post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
+                    
                     $post['databasename'] = $dbName;
                     $post['server'] = $dbServer;
                     $post['port'] = $dbPort;
