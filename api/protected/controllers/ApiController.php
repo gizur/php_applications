@@ -3593,7 +3593,7 @@ class ApiController extends Controller
                     );
                     //Import Database
                     //===============
-                    $execStmt = "mysql -u" . $clientArr['username'] . 
+                    $execStmt = "mysqldump -u" . $clientArr['username'] . 
                         " -p" . $clientArr['dbpassword'] . 
                         " -h" . $clientArr['server'] . 
                         " -P " . $clientArr['port'] . 
@@ -3642,6 +3642,8 @@ class ApiController extends Controller
                         // check if the query was executed properly
                         if ($mysqli->query($query)===false) {
                             $mysqli->query('ROLLBACK;');
+                            $mysqli->query("DROP USER $dbUsername;");
+                            $mysqli->query("DROP DATABASE IF EXISTS $dbName;");                        
                             throw New Exception($mysqli->error . " Query:" . $query, 0);                        
                         }
                     }
