@@ -2,7 +2,7 @@
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../../../lib/yii-1.1.10.r3566/framework/yii.php';
-if (substr($_SERVER['REQUEST_URI'], 'demo') < 0)
+if (substr($_SERVER['REQUEST_URI'], 'demo/trailer-app-portal') >= 0)
     $config=dirname(__FILE__).'/protected/config/main.php';
 else
     $config=dirname(__FILE__).'/protected/config/demo.main.php';
