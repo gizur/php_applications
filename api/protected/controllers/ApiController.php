@@ -3195,6 +3195,8 @@ class ApiController extends Controller
                         // check if the query was executed properly
                         if ($mysqli->query($query)===false) {
                             $mysqli->query('ROLLBACK;');
+                            $mysqli->query("DROP USER $dbUsername;");
+                            $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
                             throw New Exception($mysqli->error . " Query:" . $query, 0);                        
                         }
                     }
