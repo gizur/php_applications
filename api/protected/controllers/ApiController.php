@@ -3524,7 +3524,6 @@ class ApiController extends Controller
                     $post['port'] = $dbPort;
                     $post['username'] = $dbUsername;
                     $post['dbpassword'] = $dbPassword;
-                    $post['port'] = $dbPort;
                     $post['id_sequence'] = (String)$maxIdSequence;
                        
                     Yii::log(
@@ -3594,7 +3593,12 @@ class ApiController extends Controller
                     );
                     //Import Database
                     //===============
-                    $execStmt = "mysql -u$dbUsername -p$dbPassword -h$dbServer -P $dbPort $dbName < ../lib/vtiger-5.4.0-database.sql";
+                    $execStmt = "mysql -u" . $clientArr['username'] . 
+                        " -p" . $clientArr['dbpassword'] . 
+                        " -h" . $clientArr['server'] . 
+                        " -P " . $clientArr['port'] . 
+                        " " . $clientArr['databasename'] . 
+                        " | mysql -u$dbUsername -p$dbPassword -h$dbServer -P $dbPort $dbName";
 
                     $output = shell_exec($execStmt);
                     
