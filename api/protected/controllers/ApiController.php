@@ -3476,7 +3476,7 @@ class ApiController extends Controller
                     
                     $clientArr = array();
                     foreach($oldClient as $k => $val){
-                        $clientArr[$k] = $val->{AmazonDynamoDB::TYPE_STRING}; 
+                        $clientArr[$k] = (string)$val->{AmazonDynamoDB::TYPE_STRING}; 
                     }
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
