@@ -3488,7 +3488,10 @@ class ApiController extends Controller
                     
                     $post = array_merge($clientArr, $post);
                     
-                    $clientIdSequence = $clientArr['id_sequence'];
+                    if(!empty($clientArr['id_sequence']))
+                        $clientIdSequence = $clientArr['id_sequence'];
+                    else
+                        $clientIdSequence = 0;
                     $plusSequence = $maxIdSequence - $clientIdSequence;
                     /**
                     * Database connection options
@@ -3683,6 +3686,7 @@ class ApiController extends Controller
                         Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
                         Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
                         $response->success = true;
+                        $response->stmt = $execStmt;
                         $this->_sendResponse(200, json_encode($response));
                     } else {
                         $response->success = false;
