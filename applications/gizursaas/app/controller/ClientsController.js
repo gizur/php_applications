@@ -118,7 +118,8 @@ var ClientsController = Stapes.subclass({
                             self.view.success('Account has been copied.');
                             $('#email').val('');
                             $('#password').val('');
-                            $('#client_id').val('');                            
+                            $('#client_id').val('');
+                            $('#from_id').val('');
                             self.model.each(function(client, key) {
                                 self.model.remove(key);
                             });
