@@ -371,30 +371,6 @@ try {
             $messageQ['content'] = $contentF;
 
             /*
-             * Store file name and file content to messageQ.
-             */
-            syslog(
-                LOG_INFO,
-                "Store file name and file content to messageQ."
-            );
-            
-            $responseQ = $sqs->send_message(
-                $amazonqueueConfig['_url'], json_encode($messageQ)
-            );
-
-            /*
-             * If unable to store file content at queue,
-             * raise the exception
-             */
-            if ($responseQ->status !== 200) {
-                throw new Exception("Error in sending file to messageQ.");
-                syslog(
-                    LOG_WARNING,
-                    "Error in sending file to messageQ."
-                );
-            }
-
-            /*
              * Store file in S3 Bucket
              */
             syslog(
@@ -426,6 +402,29 @@ try {
                     LOG_WARNING,
                    "Unable to save file $fileName in S3 bucket " . 
                     "(" . $amazonSThree['bucket'] . ")"
+                );
+            }
+            /*
+             * Store file name and file content to messageQ.
+             */
+            syslog(
+                LOG_INFO,
+                "Store file name and file content to messageQ."
+            );
+            
+            $responseQ = $sqs->send_message(
+                $amazonqueueConfig['_url'], json_encode($messageQ)
+            );
+
+            /*
+             * If unable to store file content at queue,
+             * raise the exception
+             */
+            if ($responseQ->status !== 200) {
+                throw new Exception("Error in sending file to messageQ.");
+                syslog(
+                    LOG_WARNING,
+                    "Error in sending file to messageQ."
                 );
             }
             /*
