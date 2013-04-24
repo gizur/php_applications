@@ -405,10 +405,9 @@ try {
             $sThree = new AmazonS3();
             $responseSThree = $sThree->create_object(
                 $amazonSThree['bucket'], 
-                $fileName, 
+                $amazonSThree['fileFolder'] . $fileName, 
                 array(
                     'body' => $contentF,
-                    //'fileUpload' => $amazonSThree['fileUpload'],
                     'contentType' => 'plain/text',
                     'headers' => array(
                         'Cache-Control' => 'max-age',

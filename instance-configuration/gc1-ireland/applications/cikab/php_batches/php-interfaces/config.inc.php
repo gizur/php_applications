@@ -156,4 +156,4 @@ $amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' .
  * Amazon S3 Bucket
  */
 $amazonSThree['bucket'] = "gc1-archive";
-$amazonSThree['fileUpload'] = "seasonportal/SET-files";
+$amazonSThree['fileFolder'] = "seasonportal/SET-files/";
