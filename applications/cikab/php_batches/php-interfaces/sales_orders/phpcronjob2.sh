@@ -408,7 +408,7 @@ try {
                 $fileName, 
                 array(
                     'body' => $contentF,
-                    'fileUpload' => $amazonSThree['fileUpload'],
+                    //'fileUpload' => $amazonSThree['fileUpload'],
                     'contentType' => 'plain/text',
                     'headers' => array(
                         'Cache-Control' => 'max-age',
