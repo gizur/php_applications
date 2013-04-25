@@ -201,5 +201,6 @@ return array(
                 'trailertype' => 'cf_650'
             )
         ),
+        'serverProtocol' => 'http://',
     ),
 );
