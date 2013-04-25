@@ -1543,6 +1543,11 @@ class ApiController extends Controller
                         $email = new AmazonSES();
                         //$email->set_region(constant("AmazonSES::" . 
                         //Yii::app()->params->awsSESRegion));
+                        $protocol = ((!empty($_SERVER['HTTPS']) && 
+                            $_SERVER['HTTPS'] != 'off') || 
+                            $_SERVER['SERVER_PORT'] == 443) ? 
+                            "https://" : "http://";
+                        
                         $sesResponse = $email->send_email(
                             // Source (aka From)
                             Yii::app()->params->awsSESFromEmailAddress,
@@ -1560,7 +1565,8 @@ class ApiController extends Controller
                                 'Your username and password has been ' .
                                 'updated and are as follows:' . PHP_EOL .
                                 PHP_EOL .
-                                'Portal Link: ' . $_SERVER['SERVER_NAME'] . 
+                                'Portal Link: ' . $protocol . 
+                                $_SERVER['HTTP_HOST'] . 
                                 PHP_EOL .
                                 'Username: ' . $result['id']  . PHP_EOL .                            
                                 'Password: ' . $password . PHP_EOL .
