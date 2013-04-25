@@ -6,7 +6,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Coop Trailer App',
+	'name'=>'Demo Trailer App',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -93,8 +93,8 @@ return array(
 		'adminEmail'=>'webmaster@example.com',
                 'protocol'=>'https://',
                 'createTroubleTicket'=> false,
-		'GIZURCLOUD_SECRET_KEY' => '50694086b18cd0.9497426050694086b18fa8.66729980',
-		'GIZURCLOUD_API_KEY' => 'GZCLD50694086B196F50694086B19E7',
+		'GIZURCLOUD_SECRET_KEY' => '50ee9d44beb2d0.0165098250ee9d44beb591.45044222',
+		'GIZURCLOUD_API_KEY' => 'GZCLD50EE9D44BEBD450EE9D44BEC50',
 		'API_VERSION' => '0.1',
 		'URL' => 'https://api.gizur.com/api/',
                 'loggable_account' => 'ACC1',
