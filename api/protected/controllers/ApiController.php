@@ -224,8 +224,13 @@ class ApiController extends Controller
     /**
      * vTiger REST URL
      */
-    private $_vtresturl = "";     
-
+    private $_vtresturl = "";
+    
+    /**
+     * Server Protocol
+     */
+    private $_protocol = "http://";
+    
     /**
      * Filters executable action on permission basis
      * 
@@ -353,6 +358,9 @@ class ApiController extends Controller
     {
 
         try {
+            $this->_protocol = (
+                    stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true
+                ) ? 'https://' : 'http://';
             //Will use this to tag all traces to associate to a request
             $this->_traceId = uniqid();
             
@@ -1543,11 +1551,6 @@ class ApiController extends Controller
                         $email = new AmazonSES();
                         //$email->set_region(constant("AmazonSES::" . 
                         //Yii::app()->params->awsSESRegion));
-                        $protocol = ((!empty($_SERVER['HTTPS']) && 
-                            $_SERVER['HTTPS'] != 'off') || 
-                            $_SERVER['SERVER_PORT'] == 443) ? 
-                            "https://" : "http://";
-                        
                         $sesResponse = $email->send_email(
                             // Source (aka From)
                             Yii::app()->params->awsSESFromEmailAddress,
@@ -1565,7 +1568,7 @@ class ApiController extends Controller
                                 'Your username and password has been ' .
                                 'updated and are as follows:' . PHP_EOL .
                                 PHP_EOL .
-                                'Portal Link: ' . $protocol . 
+                                'Portal Link: ' . $this->_protocol . 
                                 $_SERVER['HTTP_HOST'] . 
                                 PHP_EOL .
                                 'Username: ' . $result['id']  . PHP_EOL .                            
@@ -3256,13 +3259,15 @@ class ApiController extends Controller
                             'Your username and password are as follows:' .
                             PHP_EOL .
                             PHP_EOL .
-                            'Portal Link: ' . $_SERVER['SERVER_NAME'] . 
+                            'Portal Link: ' . $this->_protocol . 
+                            $_SERVER['HTTP_HOST'] . 
                             PHP_EOL .
                             'Username: ' . $post['id']  . PHP_EOL .                            
                             'Password: [Your Gizur SaaS Password]' . PHP_EOL .
                             
                             PHP_EOL .
-                            'vTiger Link: ' . $_SERVER['SERVER_NAME'] . '/' . 
+                            'vTiger Link: ' . $this->_protocol .
+                            $_SERVER['HTTP_HOST'] . '/' . 
                             $post['clientid'] . '/' . PHP_EOL .
                             'Username: admin'  . PHP_EOL .                            
                             'Password: ' . $oPassword . PHP_EOL .
