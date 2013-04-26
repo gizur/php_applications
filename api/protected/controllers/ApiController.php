@@ -376,7 +376,7 @@ class ApiController extends Controller
             //First we validate the requests using logic do not consume
             //resources 
             
-            if($_GET['model'] == 'Users') {
+            if ($_GET['model'] == 'Users') {
                 // Authentication for GizurSaaSAdmin
                 // Username: gizuradmin
                 // Password: gizurpassword
@@ -462,7 +462,7 @@ class ApiController extends Controller
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
                 if (!is_null($_SERVER['HTTP_ACCEPT_LANGUAGE']))
                     if ($_SERVER['HTTP_ACCEPT_LANGUAGE'] != 'null')
-                        if (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en')===false)
+                        if (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'en') === false)
                             throw new Exception('Language not supported');
                
             //Check Acceptable mime-type of request    
@@ -590,7 +590,7 @@ class ApiController extends Controller
                             array(
                                 'TableName' => Yii::app()->params->awsDynamoDBTableName,
                                 'AttributesToGet' => array(
-                                    'id', 'apikey_2', 'secretkey_2', 'clientid', 
+                                    'id', 'apikey_2', 'secretkey_2', 'clientid',
                                     'databasename', 'dbpassword', 
                                     'username', 'server'
                                 ),
@@ -905,7 +905,8 @@ class ApiController extends Controller
             Yii::log(
                 " TRACE(" . $this->_traceId . "); " . 
                 " FUNCTION(" . __FUNCTION__ . "); " . 
-                " VALIDATION (Logging into vtiger REST API or using preused session)", 
+                " VALIDATION (Logging into vtiger REST API" .
+                " or using preused session)", 
                 CLogger::LEVEL_TRACE
             );              
             
@@ -1383,7 +1384,7 @@ class ApiController extends Controller
                 foreach ($ddbResponse->body->Items
                 as $key => $item) {
                     $item = get_object_vars($item);
-                    foreach($item as $k => $v){
+                    foreach ($item as $k => $v) {
                         $v = get_object_vars($v);
                         $result[$x][$k] = $v[AmazonDynamoDB::TYPE_STRING];
                     }
@@ -1486,7 +1487,7 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST : User/forgotpassword ($clientID)", 
+                        " PROCESSING REQUEST : User/forgotpassword ($clientID)",
                         CLogger::LEVEL_TRACE
                     );
                     
@@ -1528,7 +1529,7 @@ class ApiController extends Controller
                             = (string) $item->{AmazonDynamoDB::TYPE_STRING};
                     }
                     
-                    $result['password'] = $newHashedPassword;                    
+                    $result['password'] = $newHashedPassword;
                     
                     // Update the password
                     $ddbResponse = $dynamodb->put_item(
@@ -1691,13 +1692,15 @@ class ApiController extends Controller
                         
                         //flip custome fields array
                         $flippedCustomFields 
-                            = array_flip(Yii::app()->params[$this->_clientid . '_customFields'][$_GET['model']]);
+                            = array_flip(Yii::app()->params[$this->_clientid . 
+                                '_customFields'][$_GET['model']]);
                         
                         //Check if the requested field name is a vtiger
                         //custom field
                         if (in_array($_GET['fieldname'], $flippedCustomFields)) {
                             $fieldname 
-                                = Yii::app()->params[$this->_clientid . '_customFields'][$_GET['model']][$_GET['fieldname']];
+                                = Yii::app()->params[$this->_clientid .
+                                    '_customFields'][$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
@@ -1773,10 +1776,13 @@ class ApiController extends Controller
                                         as $depFieldname => $dependency) {
                                         if (in_array(
                                             $depFieldname, 
-                                            Yii::app()->params[$this->_clientid . '_customFields']['HelpDesk']
+                                            Yii::app()->params[$this->_clientid .
+                                                '_customFields']['HelpDesk']
                                         )) {
-                                                $newFieldname = $flippedCustomFields[$depFieldname];
-                                                $option['dependency'][$newFieldname] = $option['dependency'][$depFieldname];
+                                                $newFieldname = 
+                                                    $flippedCustomFields[$depFieldname];
+                                                $option['dependency'][$newFieldname] = 
+                                                    $option['dependency'][$depFieldname];
                                                 unset($option['dependency'][$depFieldname]);
                                         }
                                     }
@@ -1820,8 +1826,8 @@ class ApiController extends Controller
                                     '_picklist_'
                                     . $_GET['model']
                                     . '_'
-                                    . $flippedCustomFields[$field['name']]
-                                    , $content
+                                    . $flippedCustomFields[$field['name']],
+                                    $content
                                 );
                                 
                                 if ($fieldname == $field['name']) {
@@ -1886,7 +1892,8 @@ class ApiController extends Controller
 
                     if (isset($_GET['reportdamage']))
                     if ($_GET['reportdamage'] != 'all') {
-                        $whereClause[] = Yii::app()->params['customFields'][$_GET['model']]['reportdamage'] . " = '" . ucwords($_GET['reportdamage']) . "'";
+                        $whereClause[] = Yii::app()->params['customFields'][$_GET['model']]['reportdamage'] . 
+                            " = '" . ucwords($_GET['reportdamage']) . "'";
                     }
 
                     //Adding date range filter
@@ -1939,8 +1946,8 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        $this->_vtresturl . "?$params" .                            
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -1983,11 +1990,11 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        $this->_vtresturl . "?$params" .                            
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .    
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                      
+                    );
 
                     //Receive response from vtiger REST service
                     //Return response to client  
@@ -2002,10 +2009,10 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
-                        $accounts .                          
+                        $accounts .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                    
+                    );
                     
                     //Objectify the response and check its success
                     $accounts = json_decode($accounts, true);
@@ -2032,11 +2039,11 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        $this->_vtresturl . "?$params" .                            
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                      
+                    );
 
                     //Receive response from vtiger REST service
                     //Return response to client  
@@ -2062,14 +2069,18 @@ class ApiController extends Controller
                         $tmpContacts = array();
                         if (isset($contacts['result']))
                         foreach ($contacts['result'] as $contact) {
-                            $tmpContacts[$contact['id']]['contactname'] = $contact['firstname'] . ' ' . $contact['lastname'];
-                            $tmpContacts[$contact['id']]['accountname'] = $tmpAccounts[$contact['account_id']];
+                            $tmpContacts[$contact['id']]['contactname'] = 
+                                $contact['firstname'] . ' ' . 
+                                $contact['lastname'];
+                            $tmpContacts[$contact['id']]['accountname'] = 
+                                $tmpAccounts[$contact['account_id']];
                         }
                     }
 
                     //Before sending response santise custom fields names to 
                     //human readable field names
-                    $customFields = Yii::app()->params[$this->_clientid . '_customFields']['HelpDesk'];
+                    $customFields = Yii::app()->params[$this->_clientid . 
+                        '_customFields']['HelpDesk'];
 
                     foreach ($response['result'] as &$troubleticket) {
                         unset($troubleticket['update_log']);
@@ -2079,19 +2090,23 @@ class ApiController extends Controller
                         unset($troubleticket['from_portal']);
                         if (isset($tmpContacts)) {
                             if (isset($tmpContacts[$troubleticket['parent_id']])) {
-                                $troubleticket['contactname'] = $tmpContacts[$troubleticket['parent_id']]['contactname'];
-                                $troubleticket['accountname'] = $tmpContacts[$troubleticket['parent_id']]['accountname'];
+                                $troubleticket['contactname'] = 
+                                    $tmpContacts[$troubleticket['parent_id']]['contactname'];
+                                $troubleticket['accountname'] = 
+                                    $tmpContacts[$troubleticket['parent_id']]['accountname'];
                             } else {
                                 $troubleticket['contactname'] = '';
                                 $troubleticket['accountname'] = '';
                             }
                         }
                         foreach ($troubleticket as $fieldname => $value) {
-                            $keyToReplace = array_search($fieldname, $customFields);
+                            $keyToReplace = array_search(
+                                $fieldname, $customFields
+                            );
                             if ($keyToReplace) {
                                 unset($troubleticket[$fieldname]);
                                 $troubleticket[$keyToReplace] = $value;
-                                //unset($customFields[$keyToReplace]);                                
+                                //unset($customFields[$keyToReplace]);
                             }
                         }
                     }
@@ -2123,13 +2138,15 @@ class ApiController extends Controller
                         
                         //flip custome fields array
                         $flippedCustomFields 
-                            = array_flip(Yii::app()->params[$this->_clientid . '_customFields']['Assets']);
+                            = array_flip(Yii::app()->params[$this->_clientid .
+                                '_customFields']['Assets']);
                         
                         //Check if the requested field name is a vtiger
                         //custom field
                         if (in_array($_GET['fieldname'], $flippedCustomFields)) {
                             $fieldname 
-                                = Yii::app()->params[$this->_clientid . '_customFields'][$_GET['model']][$_GET['fieldname']];
+                                = Yii::app()->params[$this->_clientid . 
+                                    '_customFields'][$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
@@ -2143,12 +2160,13 @@ class ApiController extends Controller
                         //Log
                         Yii::log(
                             " TRACE(" . $this->_traceId . "); " . 
-                            " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " PROCESSING REQUEST (sending GET request to vt url: " . 
-                            $this->_vtresturl . "?$params" .                            
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending GET request " .
+                            "to vt url: " . 
+                            $this->_vtresturl . "?$params" .
                             ")", 
                             CLogger::LEVEL_TRACE
-                        );                        
+                        );
                         
                         //Send request to vtiger
                         $rest = new RESTClient();
@@ -2162,16 +2180,17 @@ class ApiController extends Controller
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (response received: " . 
-                            $response .                          
-                            ")", 
+                            $response .
+                            ")",
                             CLogger::LEVEL_TRACE
                         );
                         
                         //Save vtiger response
-                        $this->_vtresponse = $response;                
+                        $this->_vtresponse = $response;
 
                         if ($response == '' || $response == null)
-                            throw new Exception("Blank response received from vtiger: Asset Picklist");                         
+                            throw new Exception("Blank response received from" .
+                                " vtiger: Asset Picklist");
                         
                         //Objectify the response and check its success
                         $response = json_decode($response, true);
@@ -2189,7 +2208,8 @@ class ApiController extends Controller
                                 if ($field['type']['name'] == 'picklist') {
                                     
                                     //Loop through all values of the pick list
-                                    foreach ($field['type']['picklistValues'] as &$option)
+                                    foreach ($field['type']['picklistValues'] as
+                                        &$option)
                                         
                                     //Check if there is a dependency setup
                                     //for the picklist value
@@ -2208,10 +2228,10 @@ class ApiController extends Controller
                                     //format
                                     $content = json_encode(
                                         array(
-                                        'success' => true,
-                                        'result' =>
-                                        $field['type']['picklistValues']
-                                            )
+                                            'success' => true,
+                                            'result' =>
+                                            $field['type']['picklistValues']
+                                        )
                                     );
                                     
                                     //Save the response in cache
@@ -2263,11 +2283,12 @@ class ApiController extends Controller
                         Yii::log(
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " PROCESSING REQUEST (sending GET request to vt url: " . 
-                            $this->_vtresturl . "?$params" .                            
+                            " PROCESSING REQUEST (sending GET request " .
+                            "to vt url: " . 
+                            $this->_vtresturl . "?$params" .
                             ")", 
                             CLogger::LEVEL_TRACE
-                        );                  
+                        );
 
                         //Receive response from vtiger REST service
                         //Return response to client  
@@ -2282,16 +2303,19 @@ class ApiController extends Controller
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (response received: " . 
-                            $response .                          
+                            $response .
                             ")", 
                             CLogger::LEVEL_TRACE
                         );
 
                         if ($response == '' || $response == null)
-                            throw new Exception("Blank response received from vtiger: Get Asset List");                
+                            throw new Exception(
+                                "Blank response received from " .
+                                "vtiger: Get Asset List"
+                            );
 
                         //Save vtiger response
-                        $this->_vtresponse = $response;                    
+                        $this->_vtresponse = $response;
 
                         //Objectify the response and check its success
                         $response = json_decode($response, true);
@@ -2299,7 +2323,8 @@ class ApiController extends Controller
                         if ($response['success'] == false)
                         throw new Exception('Unable to fetch details');
 
-                        $customFields = Yii::app()->params[$this->_clientid . '_customFields']['Assets'];
+                        $customFields = Yii::app()->params[$this->_clientid .
+                            '_customFields']['Assets'];
 
                         //Before sending response santise custom fields names to 
                         //human readable field names                
@@ -2310,11 +2335,13 @@ class ApiController extends Controller
                             unset($asset['modifiedtime']);
                             unset($asset['from_portal']);
                             foreach ($asset as $fieldname => $value) {
-                                $keyToReplace = array_search($fieldname, $customFields);
+                                $keyToReplace = array_search(
+                                    $fieldname, $customFields
+                                );
                                 if ($keyToReplace) {
                                     unset($asset[$fieldname]);
                                     $asset[$keyToReplace] = $value;
-                                    //unset($customFields[$keyToReplace]);                                
+                                    //unset($customFields[$keyToReplace]);
                                 }
                             }
                         }
@@ -2327,7 +2354,7 @@ class ApiController extends Controller
                             $_GET['model']
                             . '_'
                             . 'list', $cachedValue
-                        );                    
+                        );
                     }
                     
                     //Send the response
@@ -2354,7 +2381,7 @@ class ApiController extends Controller
             
             if (isset($this->_vtresponse->error->code))
                 if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
-                    Yii::app()->cache->delete($this->_cacheKey);            
+                    Yii::app()->cache->delete($this->_cacheKey);
             
             //Generating error response
             $response = new stdClass();
@@ -2391,7 +2418,8 @@ class ApiController extends Controller
      *       Response Type : json
      *       Subactions    : $id
      *
-     * Notes: $id is vTiger webservice ID and is of the form [modelid]x[entityid]
+     * Notes: $id is vTiger webservice ID and is of 
+     * the form [modelid]x[entityid]
      * 
      * @return appropriate details
      */
@@ -2401,21 +2429,31 @@ class ApiController extends Controller
         try {
             
             //Log
-            Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
+            Yii::log(
+                "TRACE(" . $this->_traceId . 
+                "); FUNCTION(" . __FUNCTION__ . 
+                "); PROCESSING REQUEST ", 
+                CLogger::LEVEL_TRACE
+            );
             
             switch ($_GET['model']) {
             /*
-                * ******************************************************************
-                * ******************************************************************
+                * **************************************************************
+                * **************************************************************
                 * * User MODEL
                 * * Accepts id
-                * ******************************************************************
-                * ******************************************************************
+                * **************************************************************
+                * **************************************************************
                 */
             case 'User':
                 // Instantiate the class for Dynamo DB
                 $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" . 
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
 
                 //It match username sent in the header and email
                 //sent in the GET request
@@ -2461,12 +2499,12 @@ class ApiController extends Controller
                 }
                 break;
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * HelpDesk MODEL
                  * * Accepts id
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'HelpDesk':
                 
@@ -2497,7 +2535,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    $this->_vtresturl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                  
@@ -2514,7 +2552,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
-                    $response .                          
+                    $response .
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                
@@ -2537,7 +2575,7 @@ class ApiController extends Controller
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    $this->_vtresturl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                  
@@ -2554,10 +2592,10 @@ class ApiController extends Controller
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
-                    $documentids .                          
+                    $documentids .
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                
+                );
                 
                 //Arrayfy the response and check its success 
                 $documentids = json_decode($documentids, true);
@@ -2589,8 +2627,8 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        $this->_vtresturl . "?$params" .                            
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -2607,10 +2645,10 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
-                        $documents .                          
+                        $documents .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                    
+                    );
                     
                     //Objectify the response and check its success
                     $documents = json_decode($documents, true);
@@ -2638,11 +2676,11 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        $this->_vtresturl . "?$params" .                            
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                     
+                    );
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
@@ -2656,10 +2694,10 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
-                        $contacts .                          
+                        $contacts .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                    
+                    );
                     
                     //Objectify the response and check its success
                     $contact = json_decode($contact, true);
@@ -2687,11 +2725,11 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        $this->_vtresturl . "?$params" .                            
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                     
+                    );
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
@@ -2705,10 +2743,10 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
-                        $account .                          
+                        $account .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                    
+                    );
                     
                     $account = json_decode($account, true);
                     if (!$account['success'])
@@ -2717,7 +2755,8 @@ class ApiController extends Controller
                         = $account['result'][0]['accountname'];
                 }
 
-                $customFields = Yii::app()->params[$this->_clientid . '_customFields']['HelpDesk'];
+                $customFields = Yii::app()->params[$this->_clientid . 
+                    '_customFields']['HelpDesk'];
 
                 unset($response['result']['update_log']);
                 unset($response['result']['hours']);
@@ -2738,17 +2777,17 @@ class ApiController extends Controller
                 break;
 
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * Assets MODEL
                  * * Accepts id
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'Assets':
                 
                     if (preg_match('[0-9]?x[0-9]?', $_GET['id'])==0)
-                throw new Exception('Invalid format of Id');                
+                throw new Exception('Invalid format of Id');
 
                     //Send request to vtiger REST service
                     $query = "select * from " . $_GET['model'] .
@@ -2765,8 +2804,8 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending GET request to vt url: " . 
-                        $this->_vtresturl . "?$params" .                            
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                     
@@ -2784,22 +2823,23 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " PROCESSING REQUEST (response received: " . 
-                        $response .                          
+                        $response .
                         ")", 
                         CLogger::LEVEL_TRACE
-                    );                    
+                    );
                     
                     $response = json_decode($response, true);
                     $response['result'] = $response['result'][0];
 
-                    $customFields = Yii::app()->params[$this->_clientid . '_customFields']['Assets'];
+                    $customFields = Yii::app()->params[$this->_clientid . 
+                        '_customFields']['Assets'];
 
                 foreach ($response['result'] as $fieldname => $value) {
                     $keyToReplace = array_search($fieldname, $customFields);
                     if ($keyToReplace) {
                         unset($response['result'][$fieldname]);
                         $response['result'][$keyToReplace] = $value;
-                        //unset($customFields[$keyToReplace]);                                
+                        //unset($customFields[$keyToReplace]); 
                     }
                 }
 
@@ -2807,12 +2847,12 @@ class ApiController extends Controller
                 break;
 
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * DocumentAttachments MODEL
                  * * Accepts notesid
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'DocumentAttachments':
 
@@ -2829,10 +2869,10 @@ class ApiController extends Controller
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (sending GET request to vt url: " . 
-                    $this->_vtresturl . "?$params" .                            
+                    $this->_vtresturl . "?$params" .
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                 
+                );
                 
                 //Receive response from vtiger REST service
                 //Return response to client  
@@ -2855,7 +2895,9 @@ class ApiController extends Controller
                 $response = json_decode($response);                
                 
                 $sThree = new AmazonS3();
-                $sThree->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
+                $sThree->set_region(
+                    constant("AmazonS3::" . Yii::app()->params->awsS3Region)
+                );
 
                 $uniqueId = uniqid();
 
@@ -2868,8 +2910,8 @@ class ApiController extends Controller
                 Yii::log(
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " PROCESSING REQUEST (sending request to s3 to get file: " . 
-                    $response->result->filename .                            
+                    " PROCESSING REQUEST (sending request to s3 to get file: " .
+                    $response->result->filename .
                     ")", 
                     CLogger::LEVEL_TRACE
                 );                 
@@ -2887,10 +2929,10 @@ class ApiController extends Controller
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received from s3: " . 
-                    json_encode($sThreeResponse) .                          
+                    json_encode($sThreeResponse) .
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                
+                );
                 
                 if (!$sThreeResponse->isOK())
                 throw new Exception("File not found.");
@@ -2902,7 +2944,9 @@ class ApiController extends Controller
                             $response->result->filename
                         )
                     );
-                unlink('protected/data/' . $uniqueId . $response->result->filename);
+                unlink(
+                    'protected/data/' . $uniqueId . $response->result->filename
+                );
 
                 $filenameSanitizer = explode("_", $response->result->filename);
                 unset($filenameSanitizer[0]);
@@ -2925,7 +2969,7 @@ class ApiController extends Controller
             
             if (isset($this->_vtresponse->error->code))
                 if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
-                    Yii::app()->cache->delete($this->_cacheKey);            
+                    Yii::app()->cache->delete($this->_cacheKey);
             
             $response = new stdClass();
             $response->success = false;
@@ -2961,16 +3005,21 @@ class ApiController extends Controller
         //Tasks include detail view of a specific Troubleticket and Assets
         try {
             
-            Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);            
+            Yii::log(
+                "TRACE(" . $this->_traceId . 
+                "); FUNCTION(" . __FUNCTION__ . 
+                "); PROCESSING REQUEST ",
+                CLogger::LEVEL_TRACE
+            );            
             
             switch ($_GET['model']) {
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * User MODEL
                  * * Accepts id
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'User':
                     error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
@@ -3000,17 +3049,26 @@ class ApiController extends Controller
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB(); 
-                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" .
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
                     
                     $post = json_decode(file_get_contents('php://input'), true);
                     
                     //GET THE CLIENT ID
                     if(empty($post['clientid']))
-                        $post['clientid'] = array_shift(explode('@', $post['id']));
+                        $post['clientid'] = array_shift(
+                            explode('@', $post['id'])
+                        );
                     
                     //REPLACE UN-WANTED CHARS FROM CLIENTID
                     $replacable = array('_', '.', '#', '-');
-                    $post['clientid'] = str_replace($replacable, '', $post['clientid']);
+                    $post['clientid'] = str_replace(
+                        $replacable, '', $post['clientid']
+                    );
                     
                     //Validations
                     
@@ -3031,7 +3089,9 @@ class ApiController extends Controller
                     );
                     
                     if(!empty($ddbResponse->body->Items))
-                        throw New Exception("Client id is not available.", 2001);
+                        throw New Exception(
+                            "Client id is not available.", 2001
+                        );
                     
                     // Validate Email
                     $ddbResponse = $dynamodb->get_item(
@@ -3046,7 +3106,9 @@ class ApiController extends Controller
                         )
                     );
                     if (isset($ddbResponse->body->Item))
-                        throw New Exception("Email is already registered.", 2002);
+                        throw New Exception(
+                            "Email is already registered.", 2002
+                        );
                     
                     $ddbResponse = $dynamodb->scan(
                         array(
@@ -3085,9 +3147,12 @@ class ApiController extends Controller
                     
                     $dbServer     = $dbconfig['db_server'];
                     $dbPort       = str_replace(":", "", $dbconfig['db_port']);
-                    $dbUsername   = 'user_' . substr($post['clientid'], 0, 5) . '_' . substr(strrev(uniqid()), 1, 5);
+                    $dbUsername   = 'user_' . substr($post['clientid'], 0, 5) .
+                        '_' . substr(strrev(uniqid()), 1, 5);
                     $dbPassword   = substr(strrev(uniqid()), 1, 16);
-                    $dbName       = 'vtiger_' . substr($post['clientid'], 0, 7) . '_' . substr(strrev(uniqid()), 1, 8);                    
+                    $dbName       = 'vtiger_' . 
+                        substr($post['clientid'], 0, 7) . 
+                        '_' . substr(strrev(uniqid()), 1, 8);  
 
                     $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
                     $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
@@ -3110,17 +3175,25 @@ class ApiController extends Controller
                         $originalPassword = $post['password'];
                     
                     //$post['security_salt'] = hash("sha256", uniqid("", true));
-                    //$post['password'] = hash("sha256", $originalPassword . $post['security_salt']);
+                    //$post['password'] = hash("sha256", 
+                    //$originalPassword . $post['security_salt']);
                         
                     //Create User
                     //===========
-                    $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%' IDENTIFIED BY '$dbPassword' ";
-                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;";                    
+                    $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%'" .
+                        " IDENTIFIED BY '$dbPassword' ";
+                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 " .
+                        "MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0" .
+                        " MAX_USER_CONNECTIONS 0;";
                     
                     // Execute the query
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false)
-                        throw New Exception("Unable to create user and grant permission: " . $mysqli->error, 0);
+                        throw New Exception(
+                            "Unable to create user and grant permission: " . 
+                            $mysqli->error, 
+                            0
+                        );
                     
                     //Create Database
                     //===============
@@ -3130,12 +3203,16 @@ class ApiController extends Controller
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false) {
                         $mysqli->query("DROP USER $dbUsername;");
-                        throw New Exception("Unable to create database " . $mysqli->error, 0);                    
+                        throw New Exception(
+                            "Unable to create database " . $mysqli->error, 
+                            0
+                        );                    
                     }
 
                     //Grant Permission
                     //================
-                    $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO '$dbUsername'@'%';";
+                    $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO" .
+                        " '$dbUsername'@'%';";
                     
                     // Execute the query
                     // check if the query was executed properly
@@ -3226,7 +3303,7 @@ class ApiController extends Controller
                         }
                     }
                     
-                    $mysqli->close();                    
+                    $mysqli->close();
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
@@ -3287,14 +3364,14 @@ class ApiController extends Controller
                             'Portal Link: ' . Yii::app()->params->serverProtocol
                             . $_SERVER['HTTP_HOST'] . 
                             PHP_EOL .
-                            'Username: ' . $post['id']  . PHP_EOL .                            
+                            'Username: ' . $post['id']  . PHP_EOL .
                             'Password: [Your Gizur SaaS Password]' . PHP_EOL .
                             
                             PHP_EOL .
                             'vTiger Link: ' . Yii::app()->params->serverProtocol
                             . $_SERVER['HTTP_HOST'] . '/' . 
                             $post['clientid'] . '/' . PHP_EOL .
-                            'Username: admin'  . PHP_EOL .                            
+                            'Username: admin'  . PHP_EOL .
                             'Password: ' . $oPassword . PHP_EOL .
                             PHP_EOL .
                             PHP_EOL .
@@ -3572,7 +3649,7 @@ class ApiController extends Controller
                     $dbPassword   = substr(strrev(uniqid()), 1, 16);
                     $dbName       = 'vtiger_' . 
                         substr($post['clientid'], 0, 7) . '_' . 
-                        substr(strrev(uniqid()), 1, 8);                    
+                        substr(strrev(uniqid()), 1, 8);
 
                     $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
                     $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
@@ -3733,14 +3810,14 @@ class ApiController extends Controller
                         if ($mysqli->query($query)===false) {
                             $mysqli->query('ROLLBACK;');
                             $mysqli->query("DROP USER $dbUsername;");
-                            $mysqli->query("DROP DATABASE IF EXISTS $dbName;");                        
+                            $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
                             throw New Exception(
                                 $mysqli->error . " Query:" . $query, 0
                             );                        
                         }
                     }
                     
-                    $mysqli->close();                    
+                    $mysqli->close();
                     
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
@@ -3836,7 +3913,8 @@ class ApiController extends Controller
                 /** Creating Touble Ticket* */
                 $post = $_POST;
                 $customFields = array_flip(
-                    Yii::app()->params[$this->_clientid . '_customFields']['HelpDesk']
+                    Yii::app()->params[$this->_clientid . 
+                        '_customFields']['HelpDesk']
                 );
 
             foreach ($post as $k => $v) {
@@ -3871,9 +3949,8 @@ class ApiController extends Controller
                             'operation' => 'create',
                             'element' => $dataJson,
                             'elementType' => $_GET['model']
-                        )                            
-                    ) .                            
-                    ")", 
+                        )
+                    ) . ")", 
                     CLogger::LEVEL_TRACE
                 );                 
                 
@@ -3887,7 +3964,7 @@ class ApiController extends Controller
                         'operation' => 'create',
                         'element' => $dataJson,
                         'elementType' => $_GET['model']
-                        )
+                    )
                 );
 
                 //Log
@@ -3895,10 +3972,10 @@ class ApiController extends Controller
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
                     " PROCESSING REQUEST (response received: " . 
-                    $response .                          
+                    $response .
                     ")", 
                     CLogger::LEVEL_TRACE
-                );                
+                );
                 
                 if ($response == '' | $response == null)
                     throw new Exception(
@@ -3906,7 +3983,7 @@ class ApiController extends Controller
                     ); 
                 
                 $globalresponse = json_decode($response);
-                /*                     * Creating Document* */
+                /* * Creating Document* */
 
                 if ($globalresponse->success == false)
                     throw new Exception($globalresponse->error->message);
@@ -3969,10 +4046,9 @@ class ApiController extends Controller
                                     'element' => json_encode($dataJson),
                                     'elementType' => 'Documents'
                                 )                           
-                            ) .                            
-                            ")", 
+                            ) . ")", 
                             CLogger::LEVEL_TRACE
-                        );                         
+                        );
                         
                         //Create document
                         $rest = new RESTClient();
@@ -3992,10 +4068,9 @@ class ApiController extends Controller
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " PROCESSING REQUEST (response received: " . 
-                            $document .                          
-                            ")", 
+                            $document . ")", 
                             CLogger::LEVEL_TRACE
-                        );                        
+                        );
                         
                         $document = json_decode($document);
                         if ($document->success) {
@@ -4015,11 +4090,10 @@ class ApiController extends Controller
                                         'relatetroubleticketdocument',
                                         'crmid' => $crmid,
                                         'notesid' => $notesid
-                                    )                        
-                                ) .                            
-                                ")", 
+                                    )
+                                ) . ")", 
                                 CLogger::LEVEL_TRACE
-                            );                               
+                            );
 
                             //Relate Document with Trouble Ticket
                             $rest = new RESTClient();
@@ -4042,7 +4116,7 @@ class ApiController extends Controller
                                 " PROCESSING REQUEST (response received: " . 
                                 $response . ")", 
                                 CLogger::LEVEL_TRACE
-                            );                            
+                            );
                             
                             $response = json_decode($response);
                             if ($response->success) {
@@ -4050,15 +4124,18 @@ class ApiController extends Controller
                                     = $document->result;
                             } else {
                                 $globalresponse->result->documents[]
-                                    = 'not uploaded - relating document failed:' . $file['name'];
+                                    = 'not uploaded - relating ' .
+                                    'document failed:' . $file['name'];
                             }
                         } else {
                             $globalresponse->result->documents[]
-                                = 'not uploaded - creating document failed:' . $file['name'];
+                                = 'not uploaded - creating document failed:' . 
+                                $file['name'];
                         }
                     } else {
                         $globalresponse->result->documents[]
-                            = 'not uploaded - upload to storage service failed:' . $file['name'];
+                            = 'not uploaded - upload to storage ' .
+                            'service failed:' . $file['name'];
                     }
                 }
             }
@@ -4066,7 +4143,8 @@ class ApiController extends Controller
                 $globalresponse = json_encode($globalresponse);
                 $globalresponse = json_decode($globalresponse, true);
 
-                $customFields = Yii::app()->params[$this->_clientid . '_customFields']['HelpDesk'];
+                $customFields = Yii::app()->params[$this->_clientid . 
+                    '_customFields']['HelpDesk'];
 
 
                 unset($globalresponse['result']['update_log']);
@@ -4079,40 +4157,52 @@ class ApiController extends Controller
                 if ($keyToReplace) {
                     unset($globalresponse['result'][$fieldname]);
                     $globalresponse['result'][$keyToReplace] = $value;
-                    //unset($customFields[$keyToReplace]);                                
+                    //unset($customFields[$keyToReplace]);
                 }
             }
 
             if ($post['ticketstatus'] != 'Closed') {
                 $email = new AmazonSES();
-                //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
+                //$email->set_region(constant("AmazonSES::" . 
+                //Yii::app()->params->awsSESRegion));
                 
                 if ($globalresponse['result']['drivercauseddamage']=='Yes')
                     $globalresponse['result']['drivercauseddamage'] == 'Ja';
 
                 if ($globalresponse['result']['drivercauseddamage']=='No')
-                    $globalresponse['result']['drivercauseddamage'] == 'Nej';                
+                    $globalresponse['result']['drivercauseddamage'] == 'Nej';
                 
-                $sesBody = 'Hej ' . $this->_session->contactname . ', ' . PHP_EOL .
+                $sesBody = 'Hej ' . $this->_session->contactname .
+                    ', ' . PHP_EOL .
                     PHP_EOL .
                     'En skaderapport har skapats.' . PHP_EOL .
                     PHP_EOL .
-                    'Datum och tid: ' . date("Y-m-d H:i") . PHP_EOL .                        
-                    'Ticket ID: ' . $globalresponse['result']['ticket_no'] . PHP_EOL .
+                    'Datum och tid: ' . date("Y-m-d H:i") . PHP_EOL .
+                    'Ticket ID: ' . 
+                    $globalresponse['result']['ticket_no'] . PHP_EOL .
                     PHP_EOL .
                     '- Besiktningsuppgifter -' . PHP_EOL .
-                    'Trailer ID: ' . $globalresponse['result']['trailerid'] . PHP_EOL .
-                    'Plats: ' . $globalresponse['result']['damagereportlocation'] . PHP_EOL .
-                    'Plomerad: ' . $globalresponse['result']['sealed'] . PHP_EOL;
+                    'Trailer ID: ' . 
+                    $globalresponse['result']['trailerid'] . PHP_EOL .
+                    'Plats: ' . 
+                    $globalresponse['result']['damagereportlocation'] . 
+                    PHP_EOL .
+                    'Plomerad: ' . $globalresponse['result']['sealed'] . 
+                    PHP_EOL;
                 
-                if($globalresponse['result']['sealed'] == 'No' || $globalresponse['result']['sealed'] == 'Nej')
-                    $sesBody .= 'Skivor: ' . $globalresponse['result']['plates'] . PHP_EOL .
-                        'Spännband: ' . $globalresponse['result']['straps'] . PHP_EOL;
+                if($globalresponse['result']['sealed'] == 'No' || 
+                    $globalresponse['result']['sealed'] == 'Nej')
+                    $sesBody .= 'Skivor: ' . 
+                        $globalresponse['result']['plates'] . PHP_EOL .
+                        'Spännband: ' . $globalresponse['result']['straps'] . 
+                        PHP_EOL;
                     
                 $sesBody .= PHP_EOL .
                     '- Skadeuppgifter -' . PHP_EOL .
-                    'Position: ' . $globalresponse['result']['damageposition'] . PHP_EOL .
-                    'Skada orsakad av chaufför: ' . $globalresponse['result']['drivercauseddamage'] . PHP_EOL .
+                    'Position: ' . $globalresponse['result']['damageposition'] .
+                    PHP_EOL .
+                    'Skada orsakad av chaufför: ' . 
+                    $globalresponse['result']['drivercauseddamage'] . PHP_EOL .
                     PHP_EOL .
                     PHP_EOL .
                     '--' .
@@ -4120,7 +4210,7 @@ class ApiController extends Controller
                     'Gizur Admin';
                 
                 $sesResponse = $email->send_email(
-                    Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
+                    Yii::app()->params->awsSESFromEmailAddress, 
                     array(
                         'ToAddresses' => array(// Destination (aka To)
                             $_SERVER['HTTP_X_USERNAME']
@@ -4298,8 +4388,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " Command to be executed " . 
-                        $command .                          
-                        ")", 
+                        $command . ")", 
                         CLogger::LEVEL_TRACE
                     );                    
                     
@@ -4315,8 +4404,7 @@ class ApiController extends Controller
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
                             " File has been created " . 
-                            $filename .                          
-                            ")", 
+                            $filename . ")", 
                             CLogger::LEVEL_TRACE
                         );                        
                         
@@ -4365,18 +4453,19 @@ class ApiController extends Controller
                 
                 break;
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * Authenticate MODEL
                  * * Accepts reset / changepw
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'Authenticate':
                 if ($_GET['action'] == 'reset') {
 
                     $email = new AmazonSES();
-                    //$email->set_region(constant("AmazonSES::" . Yii::app()->params->awsSESRegion));
+                    //$email->set_region(constant("AmazonSES::" . 
+                    //Yii::app()->params->awsSESRegion));
                     $response = $email->list_verified_email_addresses();
 
                     if ($response->isOK()) {
