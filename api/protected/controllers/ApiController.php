@@ -3147,14 +3147,18 @@ class ApiController extends Controller
 
                     //Import Database
                     //===============
-                    $execStmt = "mysql -u$dbUsername -p$dbPassword -h$dbServer -P $dbPort $dbName < ../lib/vtiger-5.4.0-database.sql";
+                    $execStmt = "mysql -u$dbUsername -p$dbPassword " . 
+                        "-h$dbServer -P $dbPort $dbName" .
+                        " < /var/www/html/lib/vtiger-5.4.0-database.sql";
 
                     $output = shell_exec($execStmt);
                     
                     if ($output === false) {
                         $mysqli->query("DROP USER $dbUsername;");
                         $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
-                        throw New Exception("Unable to populate data in $dbName.", 0);
+                        throw New Exception(
+                            "Unable to populate data in $dbName.", 0
+                        );
                     }
                     
                     //To update vTiger Admin password
@@ -3170,24 +3174,42 @@ class ApiController extends Controller
                     $queries[] = "USE $dbName;";
                     $queries[] = "START TRANSACTION;";
                     $queries[] = "SET foreign_key_checks = 0;";
-                    $queries[] = "update vtiger_users2group set userid = $maxIdSequence + userid;";
-                    $queries[] = "update vtiger_user2role set userid = $maxIdSequence + userid;";
-                    $queries[] = "update vtiger_users set id = $maxIdSequence + id;";
-                    $queries[] = "update vtiger_users_seq set id = $maxIdSequence + id;";
-                    $queries[] = "update vtiger_crmentity set smcreatorid = $maxIdSequence + smcreatorid, smownerid = smownerid + $maxIdSequence, modifiedby = modifiedby + $maxIdSequence;";
-                    $queries[] = "update vtiger_homestuff set userid = $maxIdSequence + userid;";
-                    $queries[] = "update vtiger_mail_accounts set user_id = $maxIdSequence + user_id;";
-                    $queries[] = "update vtiger_user2mergefields set userid = $maxIdSequence + userid;";
-                    $queries[] = "update vtiger_user_module_preferences set userid = $maxIdSequence + userid;";
-                    $queries[] = "update vtiger_users_last_import set assigned_user_id = $maxIdSequence + assigned_user_id;";
-                    $queries[] = "update vtiger_customview set userid = $maxIdSequence + userid;";
-                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $maxIdSequence + prefvalue " . 
-                        "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'userid';";
-                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $maxIdSequence + prefvalue " . 
-                        "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'defaultassignee';";
+                    $queries[] = "update vtiger_users2group set " . 
+                        "userid = $maxIdSequence + userid;";
+                    $queries[] = "update vtiger_user2role set userid = " . 
+                        "$maxIdSequence + userid;";
+                    $queries[] = "update vtiger_users set id = " .
+                        "$maxIdSequence + id;";
+                    $queries[] = "update vtiger_users_seq set id = " .
+                        "$maxIdSequence + id;";
+                    $queries[] = "update vtiger_crmentity set smcreatorid = " .
+                        "$maxIdSequence + smcreatorid, smownerid = smownerid" .
+                        " + $maxIdSequence, modifiedby = modifiedby" .
+                        " + $maxIdSequence;";
+                    $queries[] = "update vtiger_homestuff set userid = " .
+                        "$maxIdSequence + userid;";
+                    $queries[] = "update vtiger_mail_accounts set user_id = " .
+                        "$maxIdSequence + user_id;";
+                    $queries[] = "update vtiger_user2mergefields set userid =" .
+                        " $maxIdSequence + userid;";
+                    $queries[] = "update vtiger_user_module_preferences set" .
+                        " userid = $maxIdSequence + userid;";
+                    $queries[] = "update vtiger_users_last_import set " .
+                        "assigned_user_id = $maxIdSequence + assigned_user_id;";
+                    $queries[] = "update vtiger_customview set userid =" .
+                        " $maxIdSequence + userid;";
+                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET" .
+                        " `prefvalue` = $maxIdSequence + prefvalue " . 
+                        "WHERE `vtiger_customerportal_prefs`.`prefkey` " .
+                        "= 'userid';";
+                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET " .
+                        "`prefvalue` = $maxIdSequence + prefvalue " . 
+                        "WHERE `vtiger_customerportal_prefs`.`prefkey`" .
+                        " = 'defaultassignee';";
                     $queries[] = "update vtiger_users set user_password = " . 
                         "'$computedEncryptedPassword', crypt_type = " . 
-                        "'PHP5.3MD5', user_hash = '$userHash' where user_name = 'admin'";
+                        "'PHP5.3MD5', user_hash = '$userHash' where " .
+                        "user_name = 'admin'";
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
                     
@@ -3198,7 +3220,9 @@ class ApiController extends Controller
                             $mysqli->query('ROLLBACK;');
                             $mysqli->query("DROP USER $dbUsername;");
                             $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
-                            throw New Exception($mysqli->error . " Query:" . $query, 0);                        
+                            throw New Exception(
+                                $mysqli->error . " Query:" . $query, 0
+                            );                        
                         }
                     }
                     
@@ -3206,7 +3230,12 @@ class ApiController extends Controller
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" .
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
                     $ddbResponse = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
@@ -3228,8 +3257,12 @@ class ApiController extends Controller
                     );
 
                 if (isset($ddbResponse->body->Item)) {
-                    Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
-                    Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
+                    Yii::app()->cache->set(
+                        $post['apikey_1'], $post['secretkey_1']
+                    );
+                    Yii::app()->cache->set(
+                        $post['apikey_2'], $post['secretkey_2']
+                    );
                     
                     //SEND THE EMAIL TO USER
                     $email = new AmazonSES();
@@ -3334,7 +3367,12 @@ class ApiController extends Controller
                     );
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB(); 
-                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" . 
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
                     
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
@@ -3352,11 +3390,15 @@ class ApiController extends Controller
                     );
                     //GET THE CLIENT ID
                     if(empty($post['clientid']))
-                        $post['clientid'] = array_shift(explode('@', $post['id']));
+                        $post['clientid'] = array_shift(
+                            explode('@', $post['id'])
+                        );
                     
                     //REPLACE UN-WANTED CHARS FROM CLIENTID
                     $replacable = array('_', '.', '#', '-');
-                    $post['clientid'] = str_replace($replacable, '', $post['clientid']);
+                    $post['clientid'] = str_replace(
+                        $replacable, '', $post['clientid']
+                    );
                     
                     //Validations
                     
@@ -3375,7 +3417,9 @@ class ApiController extends Controller
                                 'clientid' => array(
                                     'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
                                     'AttributeValueList' => array(
-                                        array( AmazonDynamoDB::TYPE_STRING => $post['clientid'] )
+                                        array(
+                                            AmazonDynamoDB::TYPE_STRING => $post['clientid']
+                                        )
                                     )
                                 )
                             )
@@ -3383,7 +3427,9 @@ class ApiController extends Controller
                     );
                     
                     if(!empty($ddbResponse->body->Items))
-                        throw New Exception("Client id is not available.", 2001);
+                        throw New Exception(
+                            "Client id is not available.", 2001
+                        );
                     
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
@@ -3404,12 +3450,15 @@ class ApiController extends Controller
                         )
                     );
                     if (isset($ddbResponse->body->Item))
-                        throw New Exception("Email is already registered.", 2002);
+                        throw New Exception(
+                            "Email is already registered.", 2002
+                        );
                     
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " EMAIL and CLIENT ID are uqique, so processing further. ", 
+                        " EMAIL and CLIENT ID are uqique," .
+                        " so processing further. ", 
                         CLogger::LEVEL_TRACE
                     );
                     
@@ -3446,7 +3495,8 @@ class ApiController extends Controller
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " GET FROM CLIENT (WHICH IS BEING COPIED TO NEW) DETAILS. ", 
+                        " GET FROM CLIENT (WHICH IS BEING COPIED " .
+                        "TO NEW) DETAILS. ", 
                         CLogger::LEVEL_TRACE
                     );
                     
@@ -3465,7 +3515,9 @@ class ApiController extends Controller
                         )
                     );
                     if (!isset($ddbResponse->body->Item))
-                        throw New Exception("From client is not available.", 2005);
+                        throw New Exception(
+                            "From client is not available.", 2005
+                        );
                     
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
@@ -3515,9 +3567,12 @@ class ApiController extends Controller
                     
                     $dbServer     = $dbconfig['db_server'];
                     $dbPort       = str_replace(":", "", $dbconfig['db_port']);
-                    $dbUsername   = 'user_' . substr($post['clientid'], 0, 5) . '_' . substr(strrev(uniqid()), 1, 5);
+                    $dbUsername   = 'user_' . substr($post['clientid'], 0, 5) . 
+                        '_' . substr(strrev(uniqid()), 1, 5);
                     $dbPassword   = substr(strrev(uniqid()), 1, 16);
-                    $dbName       = 'vtiger_' . substr($post['clientid'], 0, 7) . '_' . substr(strrev(uniqid()), 1, 8);                    
+                    $dbName       = 'vtiger_' . 
+                        substr($post['clientid'], 0, 7) . '_' . 
+                        substr(strrev(uniqid()), 1, 8);                    
 
                     $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
                     $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
@@ -3548,13 +3603,19 @@ class ApiController extends Controller
                     
                     //Create User
                     //===========
-                    $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%' IDENTIFIED BY '$dbPassword' ";
-                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;";                    
+                    $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%' " .
+                        "IDENTIFIED BY '$dbPassword' ";
+                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 " .
+                        "MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR " .
+                        "0 MAX_USER_CONNECTIONS 0;";                    
                     
                     // Execute the query
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false)
-                        throw New Exception("Unable to create user and grant permission: " . $mysqli->error, 0);
+                        throw New Exception(
+                            "Unable to create user and grant permission: " . 
+                            $mysqli->error, 0
+                        );
                     
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
@@ -3570,7 +3631,9 @@ class ApiController extends Controller
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false) {
                         $mysqli->query("DROP USER $dbUsername;");
-                        throw New Exception("Unable to create database " . $mysqli->error, 0);                    
+                        throw New Exception(
+                            "Unable to create database " . $mysqli->error, 0
+                        );                    
                     }
 
                     Yii::log(
@@ -3581,7 +3644,8 @@ class ApiController extends Controller
                     );
                     //Grant Permission
                     //================
-                    $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO '$dbUsername'@'%';";
+                    $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO " .
+                        "'$dbUsername'@'%';";
                     
                     // Execute the query
                     // check if the query was executed properly
@@ -3604,14 +3668,17 @@ class ApiController extends Controller
                         " -h" . $clientArr['server'] . 
                         " -P " . $clientArr['port'] . 
                         " " . $clientArr['databasename'] . 
-                        " | mysql -u$dbUsername -p$dbPassword -h$dbServer -P $dbPort $dbName";
+                        " | mysql -u$dbUsername -p$dbPassword -h$dbServer" .
+                        " -P $dbPort $dbName";
 
                     $output = shell_exec($execStmt);
                     
                     if ($output === false) {
                         $mysqli->query("DROP USER $dbUsername;");
                         $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
-                        throw New Exception("Unable to populate data in $dbName.", 0);
+                        throw New Exception(
+                            "Unable to populate data in $dbName.", 0
+                        );
                     }
                     
                     //Add User Sequence
@@ -3619,21 +3686,38 @@ class ApiController extends Controller
                     $queries[] = "USE $dbName;";
                     $queries[] = "START TRANSACTION;";
                     $queries[] = "SET foreign_key_checks = 0;";
-                    $queries[] = "update vtiger_users2group set userid = $plusSequence + userid;";
-                    $queries[] = "update vtiger_user2role set userid = $plusSequence + userid;";
-                    $queries[] = "update vtiger_users set id = $plusSequence + id;";
-                    $queries[] = "update vtiger_users_seq set id = $plusSequence + id;";
-                    $queries[] = "update vtiger_crmentity set smcreatorid = $plusSequence + smcreatorid, smownerid = smownerid + $plusSequence, modifiedby = modifiedby + $plusSequence;";
-                    $queries[] = "update vtiger_homestuff set userid = $plusSequence + userid;";
-                    $queries[] = "update vtiger_mail_accounts set user_id = $plusSequence + user_id;";
-                    $queries[] = "update vtiger_user2mergefields set userid = $plusSequence + userid;";
-                    $queries[] = "update vtiger_user_module_preferences set userid = $plusSequence + userid;";
-                    $queries[] = "update vtiger_users_last_import set assigned_user_id = $plusSequence + assigned_user_id;";
-                    $queries[] = "update vtiger_customview set userid = $plusSequence + userid;";
-                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $plusSequence + prefvalue " . 
-                        "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'userid';";
-                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET `prefvalue` = $plusSequence + prefvalue " . 
-                        "WHERE `vtiger_customerportal_prefs`.`prefkey` = 'defaultassignee';";
+                    $queries[] = "update vtiger_users2group set userid = " .
+                        "$plusSequence + userid;";
+                    $queries[] = "update vtiger_user2role set userid = " .
+                        "$plusSequence + userid;";
+                    $queries[] = "update vtiger_users set id = " .
+                        "$plusSequence + id;";
+                    $queries[] = "update vtiger_users_seq set id = " .
+                        "$plusSequence + id;";
+                    $queries[] = "update vtiger_crmentity set smcreatorid = " .
+                        "$plusSequence + smcreatorid, smownerid = smownerid +" .
+                        " $plusSequence, modifiedby = modifiedby" .
+                        " + $plusSequence;";
+                    $queries[] = "update vtiger_homestuff set userid = ".
+                        "$plusSequence + userid;";
+                    $queries[] = "update vtiger_mail_accounts set user_id =" .
+                        " $plusSequence + user_id;";
+                    $queries[] = "update vtiger_user2mergefields set userid =" .
+                        " $plusSequence + userid;";
+                    $queries[] = "update vtiger_user_module_preferences set" .
+                        " userid = $plusSequence + userid;";
+                    $queries[] = "update vtiger_users_last_import set" .
+                        " assigned_user_id = $plusSequence + assigned_user_id;";
+                    $queries[] = "update vtiger_customview set userid =" .
+                        " $plusSequence + userid;";
+                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET" .
+                        " `prefvalue` = $plusSequence + prefvalue " . 
+                        "WHERE `vtiger_customerportal_prefs`.`prefkey` =" .
+                        " 'userid';";
+                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET" .
+                        " `prefvalue` = $plusSequence + prefvalue " . 
+                        "WHERE `vtiger_customerportal_prefs`.`prefkey` =" .
+                        " 'defaultassignee';";
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
                     
@@ -3650,7 +3734,9 @@ class ApiController extends Controller
                             $mysqli->query('ROLLBACK;');
                             $mysqli->query("DROP USER $dbUsername;");
                             $mysqli->query("DROP DATABASE IF EXISTS $dbName;");                        
-                            throw New Exception($mysqli->error . " Query:" . $query, 0);                        
+                            throw New Exception(
+                                $mysqli->error . " Query:" . $query, 0
+                            );                        
                         }
                     }
                     
@@ -3664,7 +3750,12 @@ class ApiController extends Controller
                     );
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" . 
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
                     $ddbResponse = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
@@ -3686,8 +3777,12 @@ class ApiController extends Controller
                     );
 
                     if (isset($ddbResponse->body->Item)) {
-                        Yii::app()->cache->set($post['apikey_1'], $post['secretkey_1']);
-                        Yii::app()->cache->set($post['apikey_2'], $post['secretkey_2']);
+                        Yii::app()->cache->set(
+                            $post['apikey_1'], $post['secretkey_1']
+                        );
+                        Yii::app()->cache->set(
+                            $post['apikey_2'], $post['secretkey_2']
+                        );
                         $response->success = true;
                         $response->stmt = $execStmt;
                         $this->_sendResponse(200, json_encode($response));
@@ -3806,7 +3901,9 @@ class ApiController extends Controller
                 );                
                 
                 if ($response == '' | $response == null)
-                    throw new Exception('Blank response received from vtiger: Creating TT'); 
+                    throw new Exception(
+                        'Blank response received from vtiger: Creating TT'
+                    ); 
                 
                 $globalresponse = json_decode($response);
                 /*                     * Creating Document* */
@@ -3830,16 +3927,21 @@ class ApiController extends Controller
                 foreach ($_FILES as $key => $file) {
                     $uniqueid = uniqid();
 
-                    $dataJson['filename'] = $crmid . "_" . $uniqueid . "_" . $file['name'];
+                    $dataJson['filename'] = $crmid . "_" . $uniqueid . 
+                        "_" . $file['name'];
                     $dataJson['filesize'] = $file['size'];
                     $dataJson['filetype'] = $file['type'];
 
                     //Upload file to Amazon S3
                     $sThree = new AmazonS3();
-                    $sThree->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
+                    $sThree->set_region(
+                        constant("AmazonS3::" . Yii::app()->params->awsS3Region)
+                    );
 
                     $response = $sThree->create_object(
-                        Yii::app()->params->awsS3Bucket, $crmid . '_' . $uniqueid . '_' . $file['name'], array(
+                        Yii::app()->params->awsS3Bucket, 
+                        $crmid . '_' . $uniqueid . '_' . $file['name'], 
+                        array(
                             'fileUpload' => $file['tmp_name'],
                             'contentType' => $file['type'],
                             'headers' => array(
@@ -3857,7 +3959,8 @@ class ApiController extends Controller
                         Yii::log(
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " PROCESSING REQUEST (sending POST request to vt url: " . 
+                            " PROCESSING REQUEST (sending POST request" .
+                            " to vt url: " . 
                             $this->_vtresturl . "  " .
                             json_encode(
                                 array(
@@ -3902,7 +4005,8 @@ class ApiController extends Controller
                             Yii::log(
                                 " TRACE(" . $this->_traceId . "); " . 
                                 " FUNCTION(" . __FUNCTION__ . "); " . 
-                                " PROCESSING REQUEST (sending POST request to vt url: " . 
+                                " PROCESSING REQUEST (sending POST " .
+                                "request to vt url: " . 
                                 $this->_vtresturl . "  " .
                                 json_encode(
                                     array(
@@ -3921,7 +4025,8 @@ class ApiController extends Controller
                             $rest = new RESTClient();
                             $rest->format('json');
                             $response = $rest->post(
-                                $this->_vtresturl, array(
+                                $this->_vtresturl, 
+                                array(
                                     'sessionName' => $this->_session->sessionName,
                                     'operation' =>
                                     'relatetroubleticketdocument',
@@ -3935,8 +4040,7 @@ class ApiController extends Controller
                                 " TRACE(" . $this->_traceId . "); " . 
                                 " FUNCTION(" . __FUNCTION__ . "); " . 
                                 " PROCESSING REQUEST (response received: " . 
-                                $response .                          
-                                ")", 
+                                $response . ")", 
                                 CLogger::LEVEL_TRACE
                             );                            
                             
@@ -4023,7 +4127,9 @@ class ApiController extends Controller
                         )
                     ), 
                     array(// sesMessage (short form)
-                        'Subject.Data' => date("F j, Y") . ': Besiktningsprotokoll för  ' . $globalresponse['result']['ticket_no'],
+                        'Subject.Data' => date("F j, Y") . 
+                        ': Besiktningsprotokoll för  ' . 
+                        $globalresponse['result']['ticket_no'],
                         'Body.Text.Data' => $sesBody
                     )
                 );
@@ -4069,7 +4175,11 @@ class ApiController extends Controller
     public function actionError()
     {
         
-        Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); ERROR IN REQUEST ", CLogger::LEVEL_TRACE);
+        Yii::log(
+            "TRACE(" . $this->_traceId . "); FUNCTION(" .
+            __FUNCTION__ . "); ERROR IN REQUEST ",
+            CLogger::LEVEL_TRACE
+        );
         
         $response = new stdClass();
         $response->success = false;
@@ -4131,22 +4241,27 @@ class ApiController extends Controller
         //Tasks include detail updating Troubleticket
         try {
             
-            Yii::log("TRACE(" . $this->_traceId . "); FUNCTION(" . __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE);
+            Yii::log(
+                "TRACE(" . $this->_traceId . "); FUNCTION(" .
+                __FUNCTION__ . "); PROCESSING REQUEST ", 
+                CLogger::LEVEL_TRACE
+            );
             
             switch ($_GET['model']) {
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * ************************************************************
+                 * ************************************************************
                  * * Cron MODEL
                  * * Accepts as action mailscan
-                 * ******************************************************************
-                 * ******************************************************************
+                 * ************************************************************
+                 * ************************************************************
                  */
             case 'Cron':
                 
                 if ($_GET['action'] == 'mailscan') {
                     
-                    $filename = Yii::app()->params->vtCronPath . 'MailScannerCron.sh';
+                    $filename = Yii::app()->params->vtCronPath . 
+                        'MailScannerCron.sh';
                     $response = new stdClass();
                     if (file_exists($filename))
                         $response->fileexists = true;
@@ -4171,9 +4286,12 @@ class ApiController extends Controller
                     $httpStatus = 200;
                     
                     $path = Yii::getPathOfAlias('application') . '/data/';
-                    $filename = 'backup-' . $this->_clientid . "_" . date("c") . '.sql';
+                    $filename = 'backup-' . $this->_clientid . 
+                        "_" . date("c") . '.sql';
                     
-                    $command = "mysqldump --host={$this->_dbhost} -u {$this->_dbuser} -p{$this->_dbpassword} {$this->_dbname}> {$path}{$filename}";
+                    $command = "mysqldump --host={$this->_dbhost} -u " .
+                        "{$this->_dbuser} -p{$this->_dbpassword} " .
+                        "{$this->_dbname}> {$path}{$filename}";
                     
                     //Log
                     Yii::log(
@@ -4204,7 +4322,11 @@ class ApiController extends Controller
                         
                         //Upload file to Amazon S3
                         $sThree = new AmazonS3();
-                        $sThree->set_region(constant("AmazonS3::" . Yii::app()->params->awsS3Region));
+                        $sThree->set_region(
+                            constant(
+                                "AmazonS3::" . Yii::app()->params->awsS3Region
+                            )
+                        );
 
                         $responseSThree = $sThree->create_object(
                             Yii::app()->params->awsS3BackupBucket, 
@@ -4265,8 +4387,10 @@ class ApiController extends Controller
                         Yii::log(
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " PROCESSING REQUEST (List of Verified Email Addresses: " . 
-                            json_encode($verifiedEmailAddresses) . "  From Email Address" .
+                            " PROCESSING REQUEST (List of Verified Email" .
+                            " Addresses: " . 
+                            json_encode($verifiedEmailAddresses) . 
+                            "  From Email Address" .
                             json_encode(Yii::app()->params->awsSESFromEmailAddress) .                            
                             ")", 
                             CLogger::LEVEL_TRACE
@@ -4278,7 +4402,10 @@ class ApiController extends Controller
                         
                         if (in_array(Yii::app()->params->awsSESFromEmailAddress, $verifiedEmailAddresses) == false) {
                             $email->verify_email_address(Yii::app()->params->awsSESFromEmailAddress);
-                            throw new Exception('From Email Address not verified. Contact Gizur Admin.');
+                            throw new Exception(
+                                'From Email Address not verified. ' .
+                                'Contact Gizur Admin.'
+                            );
                         }
                     }
 
@@ -4286,7 +4413,8 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending POST request to vt url: " . 
+                        " PROCESSING REQUEST (sending POST request " .
+                        "to vt url: " . 
                         $this->_vtresturl . "  " .
                         json_encode(
                             array(
@@ -4326,9 +4454,9 @@ class ApiController extends Controller
                         throw new Exception("Unable to reset password");
 
                     $sesResponse = $email->send_email(
-                        Yii::app()->params->awsSESFromEmailAddress, // Source (aka From)
+                        Yii::app()->params->awsSESFromEmailAddress,
                         array(
-                            'ToAddresses' => array(// Destination (aka To)
+                            'ToAddresses' => array(
                                 $_SERVER['HTTP_X_USERNAME']
                             )
                         ), 
@@ -4351,7 +4479,9 @@ class ApiController extends Controller
                     if ($sesResponse->isOK()) {
                         $this->_sendResponse(200, json_encode($response));
                     } else {
-                        throw new Exception('Password has been reset but unable to send email.');
+                        throw new Exception(
+                            'Password has been reset but unable to send email.'
+                        );
                     }
                 }
 
@@ -4431,7 +4561,12 @@ class ApiController extends Controller
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" . 
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
 
                     // Get an item
                     $ddbResponse = $dynamodb->get_item(
@@ -4462,7 +4597,10 @@ class ApiController extends Controller
                         uniqid("GZCLD" . uniqid())
                     );
 
-                    Yii::app()->cache->set($result['apikey_' . $keyid], $result['secretkey_' . $keyid]);
+                    Yii::app()->cache->set(
+                        $result['apikey_' . $keyid],
+                        $result['secretkey_' . $keyid]
+                    );
 
                     $ddbResponse = $dynamodb->put_item(
                         array(
@@ -4480,7 +4618,12 @@ class ApiController extends Controller
                     $post = json_decode(file_get_contents('php://input'), true);
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(constant("AmazonDynamoDB::" . Yii::app()->params->awsDynamoDBRegion));
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" .
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
                     
                     // Get an item
                     $ddbResponse = $dynamodb->get_item(
@@ -4533,12 +4676,12 @@ class ApiController extends Controller
                 }
                 break;
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * HelpDesk MODEL
                  * * Accepts id
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'HelpDesk':
 
@@ -4628,7 +4771,8 @@ class ApiController extends Controller
                     
                     $response = json_decode($response, true);
 
-                    $customFields = Yii::app()->params[$this->_clientid . '_customFields']['HelpDesk'];
+                    $customFields = Yii::app()->params[$this->_clientid . 
+                        '_customFields']['HelpDesk'];
 
 
                     unset($response['result']['update_log']);
@@ -4649,12 +4793,12 @@ class ApiController extends Controller
 
                 break;
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * HelpDesk MODEL
                  * * Accepts id
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'Assets':
                 
@@ -4754,7 +4898,8 @@ class ApiController extends Controller
                 if ($response['success'] == false)
                 throw new Exception($response['error']['message']);
 
-                $customFields = Yii::app()->params[$this->_clientid . '_customFields']['Assets'];
+                $customFields = Yii::app()->params[$this->_clientid . 
+                    '_customFields']['Assets'];
 
                 unset($response['result']['update_log']);
                 unset($response['result']['hours']);
