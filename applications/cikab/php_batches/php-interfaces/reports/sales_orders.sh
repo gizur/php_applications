@@ -17,7 +17,6 @@
  *
  * PHP version 5.3
  *
- *
  */
 
 /*
@@ -104,11 +103,11 @@ try {
      * throw exception. 
      */
     if ($salesOrders->num_rows == 0){
+        throw new Exception("No Sales Order Found!");
         syslog(
             LOG_INFO, 
             "No Sales Order Found!"
         );
-        throw new Exception("No Sales Order Found!");
     }
 
     /*
