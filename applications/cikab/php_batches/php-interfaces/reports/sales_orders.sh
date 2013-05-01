@@ -178,8 +178,8 @@ try {
                 "Content-Type: text/plain\n\n".
                 "PFA\n" .
                 "--NextPart\n" .
-                "Content-Type: text/plain; charset=ISO-8859-15; name=\"sales.txt\"\n" .
-                "Content-Disposition: attachment; filename=\"sales.txt\"\n" .
+                "Content-Type: text/plain; charset=ISO-8859-15; name=\"sales_order_report_" . date('ymd') . ".txt\"\n" .
+                "Content-Disposition: attachment; filename=\"sales_order_report_" . date('ymd') . ".txt\"\n" .
                 "Content-Transfer-Encoding: base64\n\n" .
                 base64_encode($SOData) .
                 "--NextPart"
