@@ -38,7 +38,7 @@ if (isset($_GET['action'])) {
             $output = shell_exec(__DIR__ . '/phpcronjob3.sh');
             break;
         case 'mail_report':
-            $output = shell_exec(__DIR__ . '../report/sales_orders.sh');
+            $output = shell_exec(__DIR__ . '/../report/sales_orders.sh');
             break;            
         case 'phpinfo':
             phpinfo();
