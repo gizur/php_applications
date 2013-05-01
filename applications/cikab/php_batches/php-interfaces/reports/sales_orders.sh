@@ -24,6 +24,7 @@
  */
 require_once __DIR__ . '/../config.inc.php';
 require_once __DIR__ . '/../config.database.php';
+require_once __DIR__ . '/../../../../../api/protected/vendors/aws-php-sdk/sdk.class.php';
 
 /*
  * Open connection to system logger
@@ -162,6 +163,10 @@ try {
     /*
      * Send the Email as attachment
      */
+    syslog(
+        LOG_INFO, 
+        "Send the Email as attachment"
+    );     
     $email = new AmazonSES();
     $sesResponse = $email->send_raw_email(
         array(
