@@ -61,7 +61,7 @@ try {
      * Try to fetch pending sales orders fron vTiger database 
      */
 
-    $salesOrderQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject, " .
+    $salesOrdersQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject, " .
                         "SO.sostatus, ACCO.accountname, PRO.productname, IVP.quantity " .
                         "FROM vtiger_salesorder SO " .
                         "INNER JOIN vtiger_crmentity ENT on ENT.crmid = SO.salesorderid " .
