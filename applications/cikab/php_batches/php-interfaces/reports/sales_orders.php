@@ -61,17 +61,16 @@ try {
      * Try to fetch pending sales orders fron vTiger database 
      */
 
-    $salesOrdersQuery = "SELECT SO.salesorderid, SO.salesorder_no, SO.subject," .
-                        "SO.sostatus, SO.contactid, SO.duedate, SO.sostatus," .
-                        "ACCO.accountname, ACCO.accountid, PRO.productid," .
-                        "PRO.productname, IVP.quantity" . 
-                        "FROM vtiger_salesorder SO" .
-                        "INNER JOIN vtiger_account ACCO on ACCO.accountid = SO.accountid" .
-                        "INNER JOIN vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid" .
-                        "INNER JOIN vtiger_products PRO on PRO.productid=IVP.productid" .
-                        "WHERE SO.sostatus<>'Closed' AND lower(SO.subject)<>'initial push'" .
-                        "    AND lower(SO.subject)<>'Intial Push'" .
-                        "ORDER BY SO.salesorder_no";
+    $salesOrderQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject, " .
+                        "SO.sostatus, ACCO.accountname, PRO.productname, IVP.quantity " .
+                        "FROM vtiger_salesorder SO " .
+                        "INNER JOIN vtiger_crmentity ENT on ENT.crmid = SO.salesorderid " .
+                        "INNER JOIN vtiger_account ACCO on ACCO.accountid = SO.accountid " .
+                        "INNER JOIN vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid " .
+                        "INNER JOIN vtiger_products PRO on PRO.productid=IVP.productid " .
+                        "WHERE SO.sostatus<>'Closed' " .
+                        "AND lower(SO.subject)<>'initial push' AND lower(SO.subject)<>'Intial Push' " .
+                        "ORDER BY ENT.createdtime, SO.salesorder_no";
 
     syslog(LOG_INFO, "Executing Query: " . $salesOrdersQuery);
     
@@ -88,14 +87,14 @@ try {
      * throw exception.
      */
     if (!$salesOrders){
-        throw new Exception(
-            "Error executing sales order query : " . 
-            "($vTigerConnect->errno) - $vTigerConnect->error"
-        );
         syslog(
             LOG_WARNING, 
             "Error executing sales order query : ($vTigerConnect->errno) - " .
                 "$vTigerConnect->error"
+        );
+        throw new Exception(
+            "Error executing sales order query : " . 
+            "($vTigerConnect->errno) - $vTigerConnect->error"
         );
     }
 
@@ -104,11 +103,11 @@ try {
      * throw exception. 
      */
     if ($salesOrders->num_rows == 0){
-        throw new Exception("No Sales Order Found!");
         syslog(
             LOG_INFO, 
             "No Sales Order Found!"
         );
+        throw new Exception("No Sales Order Found!");
     }
 
     /*
@@ -123,22 +122,82 @@ try {
         LOG_INFO, 
         "Iterate through sales orders"
     );
-    
+
+    /*
+     * Header of the CSV file content
+     */
+    $SOData = "Sales Order ID;" .
+        "Sales Order No;" .
+        "Subject;" .
+        "SO Status;" .
+        "Contact Id;" .
+        "Due Date;" .
+        "SO Status;" .
+        "Account Name;" .
+        "Account Id;" .
+        "Product Id;" .
+        "Product Name;" .
+        "Quantity\n";
+
+    /*
+     * Generate the CSV content
+     */    
     while ($salesOrder = $salesOrders->fetch_object()) {
 
-        print   "$salesOrder->SO.salesorderid;" .
-                "$salesOrder->SO.salesorder_no;" .
-                "$salesOrder->SO.subject;" .
-                "$salesOrder->SO.sostatus;" .
-                "$salesOrder->SO.contactid;" .
-                "$salesOrder->SO.duedate;" .
-                "$salesOrder->SO.sostatus;" .
-                "$salesOrder->ACCO.accountname;" .
-                "$salesOrder->ACCO.accountid;" .
-                "$salesOrder->PRO.productid;" .
-                "$salesOrder->PRO.productname;" .
-                "$salesOrder->IVP.quantity\n";
+        $SOData = $SOData . "$salesOrder->salesorderid;" .
+                "$salesOrder->salesorder_no;" .
+                "$salesOrder->subject;" .
+                "$salesOrder->sostatus;" .
+                "$salesOrder->contactid;" .
+                "$salesOrder->duedate;" .
+                "$salesOrder->sostatus;" .
+                "$salesOrder->accountname;" .
+                "$salesOrder->accountid;" .
+                "$salesOrder->productid;" .
+                "$salesOrder->productname;" .
+                "$salesOrder->quantity\n";
+
     }
+
+    /*
+     * Send the Email as attachment
+     */
+    $email = new AmazonSES();
+    $sesResponse = $email->send_raw_email(
+        array(
+            'Data' => base64_encode(
+                "Subject: Sales order Report\n".
+                "MIME-Version: 1.0\n".
+                "Content-type: Multipart/Mixed; boundary=\"NextPart\"\n\n".
+                "--NextPart\n".
+                "Content-Type: text/plain\n\n".
+                "PFA\n" .
+                "--NextPart\n" .
+                "Content-Type: text/plain; charset=ISO-8859-15; name=\"sales.txt\"\n" .
+                "Content-Disposition: attachment; filename=\"sales.txt\"\n" .
+                "Content-Transfer-Encoding: base64\n\n" .
+                base64_encode($SOData) .
+                "--NextPart"
+            )
+        ), 
+        array(
+           "Source" => "noreply@gizur.com",
+           "Destinations" => array(
+               "anshuk.kumar@essindia.co.in",
+               "anshukk@gmail.com"
+            ),
+        )
+    );
+
+    /*
+     * Hooray! All done now check if the mail was sent
+     */
+    if ($sesResponse->isOK()) {
+        echo "Mail Sent";
+    } else {
+        echo "Mail Not Sent";
+    }
+
 } catch (Exception $e) {
     /*
      * Store the message and rollbach the connections.
