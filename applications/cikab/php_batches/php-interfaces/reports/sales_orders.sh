@@ -183,8 +183,7 @@ try {
         array(
            "Source" => "noreply@gizur.com",
            "Destinations" => array(
-               "anshuk.kumar@essindia.co.in",
-               "anshukk@gmail.com"
+               "jonas.colmsjo@gizur.com"
             ),
         )
     );
@@ -193,9 +192,9 @@ try {
      * Hooray! All done now check if the mail was sent
      */
     if ($sesResponse->isOK()) {
-        echo "Mail Sent";
+        echo '{"status": "Mail Sent"}';
     } else {
-        echo "Mail Not Sent";
+        echo '{"status": "Mail Not Sent"}';
     }
 
 } catch (Exception $e) {
