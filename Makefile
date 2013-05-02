@@ -57,4 +57,5 @@ coverage2:
 lint3:
 	./vendor/bin/phpcs --standard=Zend applications/cikab/php_batches/php-interfaces/sales_orders/*.php \
 					   applications/cikab/php_batches/php-interfaces/*.php \
+                                           applications/cikab/php_batches/php-interfaces/reports/*.sh \
                                            applications/cikab/php_batches/php-interfaces/sales_orders/*.sh \

@@ -86,7 +86,7 @@ try {
             /*
              * If response is 200, Throw exception.
              */
-            if ($responseQ->status !== 200){
+            if ($responseQ->status !== 200) {
                 throw new Exception(
                     "Message not recieved from the messageQ server."
                 );
@@ -133,7 +133,7 @@ try {
             /*
              * If file content are empty raise the exception.
              */
-            if(empty($fileJson->content)) {
+            if (empty($fileJson->content)) {
                 throw new Exception(
                     "$fileJson->file content is empty in messageQ."
                 );
@@ -175,7 +175,7 @@ try {
             /*
              * If file upload process fails, throw the exception.
              */
-            if(!$uploaded) {
+            if (!$uploaded) {
                 throw new Exception(
                     "Error copying file $fileJson->file on FTP server."
                 );

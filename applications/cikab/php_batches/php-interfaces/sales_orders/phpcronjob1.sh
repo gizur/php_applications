@@ -96,7 +96,7 @@ try {
      * In case of unable to fetch sales orders
      * throw exception.
      */
-    if (!$salesOrders){
+    if (!$salesOrders) {
         throw new Exception(
             "Error executing sales order query : " . 
             "($vTigerConnect->errno) - $vTigerConnect->error"
@@ -104,7 +104,7 @@ try {
         syslog(
             LOG_WARNING, 
             "Error executing sales order query : ($vTigerConnect->errno) - " .
-                "$vTigerConnect->error"
+            "$vTigerConnect->error"
         );
     }
 
@@ -112,7 +112,7 @@ try {
      * If no pending sales orders found
      * throw exception. 
      */
-    if ($salesOrders->num_rows == 0){
+    if ($salesOrders->num_rows == 0) {
         throw new Exception("No Sales Order Found!");
         syslog(
             LOG_INFO, 
