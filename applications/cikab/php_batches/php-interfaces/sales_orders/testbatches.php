@@ -37,6 +37,11 @@ if (isset($_GET['action'])) {
         case 'phpcronjob3':
             $output = shell_exec(__DIR__ . '/phpcronjob3.sh');
             break;
+        case 'mail_report':  
+            @shell_exec('sudo chmod +x ' . __DIR__ . '/../reports/sales_orders.sh');
+            $output = shell_exec(__DIR__ . '/../reports/sales_orders.sh');
+            @shell_exec('sudo chmod -x ' . __DIR__ . '/../reports/sales_orders.sh');
+            break;            
         case 'phpinfo':
             phpinfo();
             break;
