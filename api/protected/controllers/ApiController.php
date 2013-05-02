@@ -2217,9 +2217,9 @@ class ApiController extends Controller
                                         
                                         foreach ($option['dependency'] as $depFieldname => $dependency) {
                                             if (in_array($depFieldname, Yii::app()->params[$this->_clientid . '_customFields']['Assets'])) {
-                                                    $newFieldname = $flippedCustomFields[$depFieldname];
-                                                    $option['dependency'][$newFieldname] = $option['dependency'][$depFieldname];
-                                                    unset($option['dependency'][$depFieldname]);
+                                                $newFieldname = $flippedCustomFields[$depFieldname];
+                                                $option['dependency'][$newFieldname] = $option['dependency'][$depFieldname];
+                                                unset($option['dependency'][$depFieldname]);
                                             }
                                         }
                                     }
@@ -4584,7 +4584,8 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST (sending POST request to vt url: " . 
+                        " PROCESSING REQUEST (sending POST request " .
+                        "to vt url: " . 
                         $this->_vtresturl . "  " .
                         json_encode(
                             array(
@@ -4632,12 +4633,12 @@ class ApiController extends Controller
                     $this->_sendResponse(200, json_encode($response));
                 }
                 /*
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  * * User MODEL
                  * * Accepts id
-                 * ******************************************************************
-                 * ******************************************************************
+                 * *************************************************************
+                 * *************************************************************
                  */
             case 'User':
                 if (isset($_GET['field'])) {
