@@ -78,7 +78,7 @@ URL;
             'Model'         => $model,
             'Version'       => $this->_apiVersion,
             'Timestamp'     => $timestamp,
-            'KeyID'         => $this->gizurCloudApiKey,
+            'KeyID'         => $this->_gizurCloudApiKey,
             'UniqueSalt'    => $uniqueSalt
         );
         
@@ -117,7 +117,7 @@ URL;
         $this->_rest->set_header('X_TIMESTAMP', $params['Timestamp']);
         $this->_rest->set_header('X_SIGNATURE', $signature);                   
         $this->_rest->set_header(
-            'X_GIZURCLOUD_API_KEY', $this->gizurCloudApiKey
+            'X_GIZURCLOUD_API_KEY', $this->_gizurCloudApiKey
         );
         $this->_rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
     }
