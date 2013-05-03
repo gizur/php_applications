@@ -197,7 +197,6 @@ try {
      * Store the message and rollbach the connections.
      */
     $messages['message'] = $e->getMessage();
-    $integrationConnect->rollback();
     $vTigerConnect->rollback();
 }
 
@@ -205,7 +204,6 @@ try {
  * Close the connections
  */
 $vTigerConnect->close();
-$integrationConnect->close();
 
 /*
  * Log the message
