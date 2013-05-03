@@ -7,7 +7,7 @@ require_once('modules/Emails/mail.php');
 require_once('modules/HelpDesk/language/en_us.lang.php');
 require_once('include/utils/CommonUtils.php');
 require_once('include/utils/VtlibUtils.php');
-require_once 'modules/Users/Users.php';
+require_once('modules/Users/Users.php');
 require_once('include/utils/UserInfoUtil.php');
 
 if (isset($_GET['clientid']))

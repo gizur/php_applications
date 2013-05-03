@@ -18,7 +18,7 @@
  * PHP version 5
  *
  */
-/* **************** INTEGRATION DATABASE ******************** */
+/* * *************** INTEGRATION DATABASE ******************** */
 
 /**
  * DNS of database server to use 
@@ -65,7 +65,7 @@ $dbconfigIntegration['db_type'] = 'mysql';
  * DNS of database server to use 
  * @global string $dbconfigVtiger['db_server']
  */
-$dbconfigVtiger['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.' . 
+$dbconfigVtiger['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.' .
     'rds.amazonaws.com';
 
 /**
@@ -148,7 +148,7 @@ $dbconfigFtp['serverpath'] = "files/";
 /**
  * Queue URL
  */
-$amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' . 
+$amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' .
     '065717488322/cikab_queue';
 
 /*
@@ -156,3 +156,46 @@ $amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' .
  */
 $amazonSThree['bucket'] = "gc3-archive";
 $amazonSThree['fileFolder'] = "seasonportal/SET-files/";
+
+class Config
+{
+
+    public static $dbconfigIntegration = array(
+        'db_server' => 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com',
+        'db_port' => 3306,
+        'db_username' => 'vtiger_integrati',
+        'db_password' => 'ALaXEryCwSFyW5jQ',
+        'db_name' => 'vtiger_integration',
+        'db_type' => 'mysql'
+    );
+    public static $dbconfigVtiger = array(
+        'db_server' => 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com',
+        'db_port' => 3306,
+        'db_username' => 'user_6bd70dc3',
+        'db_password' => 'fbd70dc30c05',
+        'db_name' => 'vtiger_7cd70dc3',
+        'db_type' => 'mysql'
+    );
+    public static $batchVariable = 10;
+    public static $dbconfigFtp = array(
+        'Host' => "10.58.226.192",
+        'port' => 21,
+        'User' => "gizur",
+        'Password' => "gizur",
+        'localpath' => "cronsetfiles/",
+        'serverpath' => "files/"
+    );
+    public static $amazonqueueConfig = array(
+        '_url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
+    );
+    public static $amazonSThree = array(
+        'bucket' => "gc3-archive",
+        'fileFolder' => "seasonportal/SET-files/"
+    );
+    public static $customFields = array(
+        'setFiles' => 'cf_664',
+        'mosFiles' => 'cf_665',
+        'basProductId' => 'cf_666'
+    );
+
+}
