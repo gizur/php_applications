@@ -46,10 +46,10 @@ try {
         "Try to connect to integration database."
     );
     $integrationConnect = new Connect(
-            $dbconfigIntegration['db_server'],
-            $dbconfigIntegration['db_username'],
-            $dbconfigIntegration['db_password'],
-            $dbconfigIntegration['db_name']
+        $dbconfigIntegration['db_server'],
+        $dbconfigIntegration['db_username'],
+        $dbconfigIntegration['db_password'],
+        $dbconfigIntegration['db_name']
     );
 
     syslog(
@@ -224,13 +224,13 @@ try {
 
                     if ($productlength < 6) {
                         $leadzeroproduct = Functions::leadingzero(
-                                $productlength
+                            $productlength
                         );
                     }
 
                     if ($productquantitylength < 3) {
                         $leadzeroproductquantity = Functions::leadingzero(
-                                3, $productquantitylength
+                            3, $productquantitylength
                         );
                     }
 
@@ -401,7 +401,7 @@ try {
                 syslog(
                     LOG_WARNING,
                    "Unable to save file $fileName in S3 bucket " . 
-                    "(" . $amazonSThree['bucket'] . ")"
+                   "(" . $amazonSThree['bucket'] . ")"
                 );
             }
             /*
