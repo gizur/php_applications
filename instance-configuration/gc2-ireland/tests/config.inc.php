@@ -12,7 +12,8 @@ class configuration {
 	       'credentials' => array(
 		    //'portal_user@gizur.com' => '2hxrftmd',
 		    'mobile_user@gizur.com' => 'ivry34aq',
-	       )
+	       ),
+           'clientid' =>  'clab'
 	    );
     }
     
