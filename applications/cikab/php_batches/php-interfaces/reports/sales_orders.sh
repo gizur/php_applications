@@ -30,7 +30,7 @@ require_once __DIR__ . '/../../../../../api/protected/vendors/aws-php-sdk/sdk.cl
  * Open connection to system logger
  */
 openlog(
-    "phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0
+    "sales_orders_report", LOG_PID | LOG_PERROR, LOG_LOCAL0
 );
 
 /*
@@ -127,16 +127,11 @@ try {
     /*
      * Header of the CSV file content
      */
-    $SOData = "Sales Order ID;" .
+    $SOData = "Created time;" .
         "Sales Order No;" .
         "Subject;" .
         "SO Status;" .
-        "Contact Id;" .
-        "Due Date;" .
-        "SO Status;" .
         "Account Name;" .
-        "Account Id;" .
-        "Product Id;" .
         "Product Name;" .
         "Quantity\n";
 
@@ -145,16 +140,11 @@ try {
      */    
     while ($salesOrder = $salesOrders->fetch_object()) {
 
-        $SOData = $SOData . "$salesOrder->salesorderid;" .
+        $SOData = $SOData . "$salesOrder->createdtime;" .
                 "$salesOrder->salesorder_no;" .
                 "$salesOrder->subject;" .
                 "$salesOrder->sostatus;" .
-                "$salesOrder->contactid;" .
-                "$salesOrder->duedate;" .
-                "$salesOrder->sostatus;" .
                 "$salesOrder->accountname;" .
-                "$salesOrder->accountid;" .
-                "$salesOrder->productid;" .
                 "$salesOrder->productname;" .
                 "$salesOrder->quantity\n";
 
@@ -207,7 +197,6 @@ try {
      * Store the message and rollbach the connections.
      */
     $messages['message'] = $e->getMessage();
-    $integrationConnect->rollback();
     $vTigerConnect->rollback();
 }
 
@@ -215,7 +204,6 @@ try {
  * Close the connections
  */
 $vTigerConnect->close();
-$integrationConnect->close();
 
 /*
  * Log the message
