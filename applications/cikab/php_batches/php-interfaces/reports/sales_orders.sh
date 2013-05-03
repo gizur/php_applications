@@ -30,7 +30,7 @@ require_once __DIR__ . '/../../../../../api/protected/vendors/aws-php-sdk/sdk.cl
  * Open connection to system logger
  */
 openlog(
-    "phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0
+    "sales_orders_report", LOG_PID | LOG_PERROR, LOG_LOCAL0
 );
 
 /*
