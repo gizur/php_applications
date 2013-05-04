@@ -34,15 +34,15 @@ if (!empty($result)) {
         }
         $accountname = $value1['accountname'];
         $list.="<tr class='" . $class . "'> 
-            <td>" . $value1['productno'] . "</td><td>" 
+            <td>" . $value1['productno'] . "</td><td>"
             . $value1['productname'] . "</td>
 	        <td>" . $value1['productsheet'] . "</td>
 	        <td>" . number_format($value1['totalquotes']) . "</td> 
 	        <td>" . number_format($value1['totalsales']) . "</td>
 	        <td>" . number_format($bal) . "</td>
 	        <td>
-	          <select name='saleaction' id='" . $value1['quoteid'] 
-                  . '_' . $value1['productname'] . "'
+	          <select name='saleaction' id='" . $value1['quoteid']
+            . '_' . $value1['productname'] . "'
                   onchange=calllightbox(this.value,$bal,'{$value1['productno']}','{$value1['accountno']}',this.id,{$value1['quoteid']},'{$value1['productname']}')>
 	          <option value=''>" . getTranslatedString('Select') . "</option>
 	          <option value='Call off'>" . getTranslatedString('Call off') . "</option>
@@ -56,8 +56,8 @@ if (!empty($result)) {
 } else {
     $list.="<tr><td colspan='6' align='center'>" . getTranslatedString('No record found') . "</td></tr>";
 }
-echo '<tr><td><span class="lvtHeaderText">' 
-    . getTranslatedString("Order") . '</span</td>';
+echo '<tr><td><span class="lvtHeaderText">'
+ . getTranslatedString("Order") . '</span</td>';
 $allow_all = $client->call('show_all', array('module' => 'Products'), $Server_Path, $Server_Path);
 /// <option value="mine" '. $mine_selected .'>'.getTranslatedString('MINE').'</option> By Anil Singh
 if ($allow_all == 'true') {
@@ -110,17 +110,17 @@ echo '<tr align="center">
 </div>
 
 <script>
-    var __trans = { 
-            'Call off' : '<?php echo getTranslatedString('Call off'); ?>',
-            'Release' : '<?php echo getTranslatedString('Release'); ?>',
-            'Increase' : '<?php echo getTranslatedString('Increase'); ?>'
-        };
-    function calllightbox(value,bal,prodno,accountno,tid,quoteid,productname)
+    var __trans = {
+        'Call off': '<?php echo getTranslatedString('Call off'); ?>',
+        'Release': '<?php echo getTranslatedString('Release'); ?>',
+        'Increase': '<?php echo getTranslatedString('Increase'); ?>'
+    };
+    function calllightbox(value, bal, prodno, accountno, tid, quoteid, productname)
     {
-        var titlevalue="";
-        var prenumber="";
+        var titlevalue = "";
+        var prenumber = "";
         $('#number').val(prenumber)
-        if(value!="")
+        if (value != "")
         {
             $('#dialog').dialog('open');
             $('#title').val(value);
@@ -129,45 +129,41 @@ echo '<tr align="center">
             $('#productname').val(productname);
             $('#accountno').val(accountno);
             $('#quoteid').val(quoteid);
-            
-            titlevalue=__trans[value]+' : '+prodno+' '+productname;
+
+            titlevalue = __trans[value] + ' : ' + prodno + ' ' + productname;
             $('#ui-dialog-title-dialog').html(titlevalue);
             return false;
-        }	
+        }
     }
- 
     function Checkvalidation()
     {
-        var newquantity=parseInt(trim($('#number').val()));
-        var balancequantity=parseInt(trim($('#bal').val()));
-        var value=$('#title').val();
-        if(trim($('#number').val())=="")
-        { 
+        var newquantity = parseInt(trim($('#number').val()));
+        var balancequantity = parseInt(trim($('#bal').val()));
+        var value = $('#title').val();
+        if (trim($('#number').val()) == "")
+        {
             alert("<?php echo getTranslatedString('The number box should not be empty'); ?>.");
             $('#number').focus();
             return false;
         }
-        if($('#number').val() != "")
+        if ($('#number').val() != "")
         {
-            if(!$('#number').val().match('^(0|[1-9][0-9]*)$'))
+            if (!$('#number').val().match('^(0|[1-9][0-9]*)$'))
             {
                 alert("<?php echo getTranslatedString('Field must be numeric'); ?>.");
                 $('#number').focus();
                 return false;
             }
-        
-            if(value!='<?php echo getTranslatedString('Increase'); ?>')
+            if (value != 'Increase')
             {
-                if(newquantity > balancequantity)
+                if (newquantity > balancequantity)
                 {
                     alert("<?php echo getTranslatedString('The number box should less than balance quantity'); ?>");
                     $('#number').focus();
                     return false;
-                } 
-            }	
+                }
+            }
         }
-     
         return true;
     }
-
 </script>
