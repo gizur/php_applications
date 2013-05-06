@@ -216,7 +216,7 @@ var UsersController = Stapes.subclass({
         this.view.on('showTermsCondition', function() {
             // Load terns of services to the server
             //
-            $.get('./applications/gizursaas/templates/terms-of-service.txt?_=' + 
+            $.get('./applications/gizursaas/terms-of-service.txt?_=' + 
                     Math.random(),{},function(html){
                 $('#termsConditionBody').empty().html(html);
             });
