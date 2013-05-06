@@ -218,7 +218,7 @@ var UsersController = Stapes.subclass({
             //
             $.get('./applications/gizursaas/terms-of-service.txt?_=' +
                     Math.random(), {}, function(html) {
-                $('#termsConditionBody').empty().html(this.nl2br(html, true));
+                $('#termsConditionBody').empty().html(self.nl2br(html, true));
             });
         });
 
