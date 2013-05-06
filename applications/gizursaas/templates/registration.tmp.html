@@ -5,11 +5,11 @@
             <div class="span12">
                 <img src="./applications/gizursaas/images/gizur-logo-700x700-no-text.png" alt="Gizur Logo"/>
                 <br/>
-                <h2>Free CRM based on open source software</h2>
+                <h1>Free CRM based on open source software</h1>
                 <br/>
-                <h2>Free CRM based on open source software</h2>
+                <h2><a href="http://getsatisfaction.com/gizur" target="_blank">Community Support</a></h2>
                 <br/>
-                <h2>Free CRM based on open source software</h2>
+                <h2>Delivered by <a href="http://www.gizur.com" target="_blank">Gizur AB</a></h2>
             </div>
         </div>
         <div class="span6">
@@ -19,7 +19,8 @@
                         <legend>Sign In</legend>
                         <div class="control-group"><input type="text" placeholder="Email" name="email" id="login_email"/></div>
                         <div class="control-group"><input type="password" placeholder="Password" name="password" id="login_password"/></div>
-                        <div class="control-group"><input type="button" value="Login" class="btn btn-success" id="loginButton"/><a style="margin-left: 4px;" href="#forgotPassword" data-toggle="modal">Forgot Password</a></div>
+                        <div class="control-group"><input type="button" value="Login" class="btn btn-success" id="loginButton"/>
+                            <a style="margin-left: 4px;" href="#forgotPassword" data-toggle="modal">Forgot Password</a></div>
                     </fieldset>
                 </form>
             </div>
@@ -33,7 +34,10 @@
                         <div class="control-group"><input type="text" placeholder="Email" name="email" id="email"/></div>
                         <div class="control-group"><input type="password" placeholder="Password" name="password" id="password"/></div>
                         <div class="control-group"><input type="password" placeholder="Repeat Password" name="re_password" id="re_password"/></div>
-                        <div style="padding-bottom: 14px;" class="control-group"><input type="checkbox" name="terms" id="terms" value="y"/> I agree to Gizur SaaS Terms &AMP; Services.</div>
+                        <div style="padding-bottom: 14px;" class="control-group">
+                            <input type="checkbox" name="terms" id="terms" value="y"/> I agree to Gizur SaaS 
+                            <a href="#termsCondition" id="showTermsCondition" data-toggle="modal">Terms &amp; Services</a>.
+                        </div>
                         <div class="control-group"><input type="submit" id="registrationformSubmit" value="Create Account" class="btn btn-success"/></div>
                     </fieldset>
                 </form>
@@ -55,5 +59,17 @@
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true" id="forgotPasswordClose">Close</button>
         <button class="btn btn-primary" id="forgotPasswordButton">Reset Password</button>
+    </div>
+</div>
+<div id="termsCondition" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="termsCondition" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="forgotPasswordLabel">Gizur SaaS Terms of Service</h3>
+    </div>
+    <div class="modal-body">
+        <div class="control-group" id="termsConditionBody">Loading ...</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" id="forgotPasswordClose">Close</button>
     </div>
 </div>

@@ -208,6 +208,20 @@ var UsersController = Stapes.subclass({
                 });
             }                
         });
+        
+        // Show Terms of Services
+        // ======================
+        // This will be emitted when user will request to view 
+        // terms of services.
+        this.view.on('showTermsCondition', function() {
+            // Load terns of services to the server
+            //
+            $.get('./applications/gizursaas/templates/terms-of-service.txt?_=' + 
+                    Math.random(),{},function(html){
+                $('#termsConditionBody').empty().html(html);
+            });
+        });
+        
     },
     // Login
     // ======

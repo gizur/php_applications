@@ -22,7 +22,6 @@
  * Load configuration files
  */
 require_once __DIR__ . '/../config.inc.php';
-require_once __DIR__ . '/../config.database.php';
 
 class PhpBatchOne
 {
@@ -107,13 +106,14 @@ class PhpBatchOne
         if (!$salesOrders) {
             throw new Exception(
                 "In getSalesOrders() : Error executing sales order query : " .
-                "($this->vTigerConnect->errno) - $this->vTigerConnect->error"
+                "({$this->vTigerConnect->errno}) - " .
+                "{$this->vTigerConnect->error}"
             );
             syslog(
                 LOG_WARNING, 
                 "In getSalesOrders() : Error executing sales order query :" .
-                " ($this->vTigerConnect->errno) - " .
-                "$this->vTigerConnect->error"
+                " ({$this->vTigerConnect->errno}) - " .
+                "{$this->vTigerConnect->error}"
             );
         }
 
@@ -246,13 +246,13 @@ class PhpBatchOne
             syslog(
                 LOG_WARNING, 
                 "Error inserting product $salesOrderProduct->productname in " .
-                "integration db ($this->integrationConnect->errno) - " .
-                "$this->integrationConnect->error"
+                "integration db ({$this->integrationConnect->errno}) - " .
+                "{$this->integrationConnect->error}"
             );
             throw new Exception(
                 "Error inserting product $salesOrderProduct->productname in " .
-                "integration db ($this->integrationConnect->errno) - " .
-                "$this->integrationConnect->error"
+                "integration db ({$this->integrationConnect->errno}) - " .
+                "{$this->integrationConnect->error}"
             );
         }
 

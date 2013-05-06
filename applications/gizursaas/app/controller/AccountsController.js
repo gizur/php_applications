@@ -92,7 +92,7 @@ var AccountsController = Stapes.subclass({
                         self.model.map_values();
                         self.view.bindEventHandlers();
                         $('#logout-btn').show();
-                    });                    
+                    });
                 } else {
                     // If an error occured show and error and
                     // take the user to the login page.

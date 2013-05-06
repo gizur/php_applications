@@ -120,5 +120,11 @@ UsersView.proto({
             this.emit('logout');
             $('#logout-btn').hide();
         }.bind(this));
+        
+        // Handle showing terms of services
+        // 
+        $('#showTermsCondition').on('click', function(e){
+            this.emit('showTermsCondition');
+        }.bind(this));
     }
 });

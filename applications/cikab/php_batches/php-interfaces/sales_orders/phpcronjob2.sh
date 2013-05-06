@@ -23,6 +23,8 @@
  * Load the required files.
  */
 require_once __DIR__ . '/../config.inc.php';
+require_once __DIR__ . '/../../../../lib/aws-php-sdk/sdk.class.php';
+
 require_once __DIR__ . '/../config.database.php';
 require_once __DIR__ . '/../config.sqs.inc.php';
 
@@ -84,7 +86,7 @@ try {
 
     syslog(
         LOG_INFO, 
-        "Excuting Query: " . $salesOrderQuery
+        "Excuting Query: $salesOrderQuery"
     );
     /*
      * If query return false / error, raise the exception.
@@ -481,6 +483,389 @@ $integrationConnect->close();
  */
 syslog(LOG_WARNING, json_encode($messages));
 echo json_encode($messages);
+
+class PhpBatchTwo
+{
+
+    private $integrationConnect;
+    private $sqs;
+    private $messages = array();
+    private $duplicateFile = array();
+
+    public function __construct()
+    {
+        openlog(
+            "phpcronjob2", LOG_PID | LOG_PERROR, LOG_LOCAL0
+        );
+
+        syslog(
+            LOG_INFO, "Trying to connect to integration database"
+        );
+
+        /*
+         * Trying to connect to integration database
+         */
+        $this->integrationConnect = new mysqli(
+            Config::$dbconfigIntegration['db_server'], 
+            Config::$dbconfigIntegration['db_username'], 
+            Config::$dbconfigIntegration['db_password'], 
+            Config::$dbconfigIntegration['db_name'], 
+            Config::$dbconfigIntegration['db_port']
+        );
+
+        if ($this->integrationConnect->connect_errno)
+            throw new Exception('Unable to connect with integration DB');
+        
+        syslog(
+            LOG_INFO, "Connected with integration db"
+        );
+        
+        syslog(
+            LOG_INFO, "Trying connecting with Amazon SQS"
+        );
+        
+        $this->sqs = new AmazonSQS();
+        
+        syslog(
+            LOG_INFO, "Connected with Amazon SQS"
+        );
+    }
+
+    protected function getSalesOrders()
+    {
+        syslog(LOG_INFO, "In getSalesOrders() : Preparing sales order query");
+        
+        $salesOrdersQuery = "SELECT * FROM sales_orders SO 
+            WHERE SO.sostatus IN ('Created','Approved')
+            LIMIT 0, " . Config::$batchVariable;
+
+        syslog(
+            LOG_INFO,
+            "In getSalesOrders() : Executing Query: " . $salesOrdersQuery
+        );
+
+        $salesOrders = $this->integrationConnect->query($salesOrdersQuery);
+
+        if (!$salesOrders) {
+            throw new Exception(
+                "In getSalesOrders() : Error executing sales order query : " .
+                "({$this->integrationConnect->errno}) - " .
+                "{$this->integrationConnect->error}"
+            );
+            syslog(
+                LOG_WARNING, 
+                "In getSalesOrders() : Error executing sales order query :" .
+                " ({$this->vTigerConnect->errno}) - " .
+                "{$this->vTigerConnect->error}"
+            );
+        }
+
+        /*
+         * Update message array with number of sales orders.
+         */
+        $this->messages['no_sales_orders'] = $salesOrders->num_rows;
+    
+        if ($salesOrders->num_rows == 0) {
+            throw new Exception("In getSalesOrders() : No Sales Order Found!");
+            syslog(
+                LOG_WARNING, "In getSalesOrders() : No Sales Order Found!"
+            );
+        }
+
+        return $salesOrders;
+    }
+
+    protected function getProductsBySalesOrderId($salesOrderId)
+    {
+        syslog(
+            LOG_INFO, 
+            "In getProductsBySalesOrderId($salesOrderId) : Fetching products"
+        );
+        /*
+         * Fetch current sales order products.
+         */
+        $salesOrderProducts = $this->vTigerConnect->query(
+            "SELECT *" .
+            "FROM sales_order_products SO " .
+            "WHERE SO.sales_order_id = '$salesOrderId'"
+        );
+
+        syslog(
+            LOG_INFO, "Total number of products ($salesOrderId): " .
+            $salesOrderProducts->num_rows
+        );
+
+        return $salesOrderProducts;
+    }
+
+    protected function updateIntegrationSalesOrder(
+        $salesOrderID, $status = 'Delivered'
+    )
+    {
+        syslog(
+            LOG_INFO, 
+            "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
+            "Updating sales order ($salesOrderID) $status"
+        );
+
+        $updateSaleOrder = $this->integrationConnect->query(
+            "UPDATE sales_orders SET " .
+            "status = '$status' WHERE salesorderid = " .
+            "'$salesOrderID'"
+        );
+
+        if (!$updateSaleOrder) {
+            syslog(
+                LOG_WARNING,
+                "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
+                "Error updating salesorder"
+            );
+            throw new Exception(
+                "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
+                "Error updating salesorder"
+            );
+        }
+        
+        return $updateSaleOrder;
+    }
+
+    protected function createSETFile($salesOrder){
+        $cnt = 0;
+        
+        $soProducts = $this->getProductsBySalesOrderId(
+            $salesOrder->id
+        );                    
+                    
+        /*
+         * $createdDate is being used in file name
+         * and the following line of 
+         * code is preventing the duplicacy of file name by 
+         * increasing 1 minute for every salesorder for the same client.
+         * check issue:
+         * https://github.com/gizur/gizurcloud/
+         * issues/225#issuecomment-14158434
+         */
+        if (empty($this->duplicateFile[$salesOrder->accountname]))
+            $createdDate = date("YmdHi");
+        else {
+            $cnt = count($this->duplicateFile[$salesOrder->accountname]);
+            $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
+        }
+        
+        $this->duplicateFile[$salesOrder->accountname][] = $createdDate;
+        
+        /*
+         * Generate the file name.
+         */
+        $fileName = "SET.GZ.FTP.IN.BST.$createdDate." .
+            "$salesOrder->accountname";
+
+        /*
+         * Initialise variables used in creating SET file contents.
+         */
+        $leadzero = "";
+        $productnamearray = array();
+        $multiproduct = array();
+        $productlength = "";
+        $leadzeroproduct = "";
+        $productquantitylength = "";
+        $leadzeroproductquantity = "";
+        
+        /*
+         * Store number of products in sales order.
+         */
+        $mess['no_products'] = $soProducts->num_rows;
+        $this->messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
+
+        while ($sOWProduct = $soProducts->fetch_object()) {
+
+            /**
+             * for check duplicate product and 
+             * write productname in set file with+
+             */
+            if (!in_array($sOWProduct->productname, $productnamearray)) {
+                $productlength = strlen($sOWProduct->productname);
+                $productquantitylength = strlen(
+                    $sOWProduct->productquantity
+                );
+
+                if ($productlength < 6) {
+                    $leadzeroproduct = Functions::leadingzero(
+                        $productlength
+                    );
+                }
+
+                if ($productquantitylength < 3) {
+                    $leadzeroproductquantity = Functions::leadingzero(
+                        3, $productquantitylength
+                    );
+                }
+
+                $multiproduct[] = "189" . $leadzeroproduct .
+                    $sOWProduct->productname .
+                    $leadzeroproductquantity .
+                    $sOWProduct->productquantity;
+                
+                $productnamearray[] = $sOWProduct->productname;
+            }
+        }
+        
+        $accountlenth = strlen($salesOrder->accountname);
+        if ($accountlenth < 6) {
+            $leadzero = Functions::leadingzero(6, $accountlenth);
+        }
+        $finalformataccountname = $leadzero .
+            $salesOrder->accountname;
+
+        $salesID = preg_replace(
+            '/[A-Z]/', '', $salesOrder->salesorder_no
+        );
+        $originalordernomber = "7777" . $salesID;
+
+        /**
+         * for find the order no. total length if length 
+         * will be greater then 6 then auto remove from the starting
+         */
+        $orderlength = strlen($originalordernomber);
+
+        if ($orderlength > 6) {
+            $accessorderlength = $orderlength - 6;
+
+            $ordernumber = substr(
+                $originalordernomber, $accessorderlength
+            );
+        } else
+            $ordernumber = $originalordernomber;
+
+        if(!empty($salesOrder->duedate) 
+            && $salesOrder->duedate != '0000-00-00')
+            $deliveryday = date(
+                "ymd", strtotime($salesOrder->duedate)
+            );
+        else
+            $deliveryday = date('ymd');
+
+        $futuredeliveryDate = strtotime(
+            date("Y-m-d", strtotime($deliveryday)) . "+2 day"
+        );
+        $futuredeliverydate = date('ymd', $futuredeliveryDate);
+
+        $currentdate = date("YmdHi");                
+        $finalformatproductname = implode("+", $multiproduct);
+        unset($multiproduct);
+        unset($productnamearray);
+
+        $milliSec = Functions::getMilliSecond();
+        /*
+         * Generate the file content
+         */
+        $contentF = "HEADERGIZUR           " . $currentdate .
+            "{$milliSec}M256      RUTIN   .130KF27777100   " .
+            "mottagning initierad                               " .
+            "                                          001" .
+            $finalformataccountname . "1+03751+038" . $ordernumber .
+            "+226" . $futuredeliverydate . "+039" .
+            $deliveryday . "+040" . $ordernumber . "+" .
+            $finalformatproductname . "+C         RUTIN   " .
+            ".130KF27777100   Mottagning avslutad    " .
+            "BYTES/BLOCKS/RETRIES=1084 /5    /0.";
+
+        syslog(
+            LOG_INFO,
+            "File $fileName content generated"
+        );
+        /*
+         * Add next line character at every 80 length
+         */
+        syslog(
+            LOG_INFO,
+            "Adding next line char $fileName at every 80 chars"
+        );
+        $pieces = str_split($contentF, 80);
+        $contentF = join("\n", $pieces);
+
+        syslog(
+            LOG_INFO,
+            "File $fileName contents: " . $contentF
+        );
+        
+        $messageQ = array();
+
+        $messageQ['file'] = $fileName;
+        $messageQ['content'] = $contentF;
+        $messageQ['type'] = 'SET';
+        
+        return $messageQ;
+    }
+    
+    protected function createMOSFile(){
+        
+    }
+    
+    public function init()
+    {
+        try {
+            $salesOrders = $this->getSalesOrders();
+            $numberSalesOrders = $salesOrders->num_rows;
+            
+            while ($salesOrder = $salesOrders->fetch_object()) {
+                try {
+                    /*
+                     * Disable auto commit.
+                     */
+                    syslog(
+                        LOG_INFO, "Disabling auto commit"
+                    );
+                    $this->integrationConnect->autocommit(FALSE);
+
+                    $this->messages[$salesOrder->salesorder_no] = 
+                        array();
+                    
+                    $setFile = $this->createSETFile($salesOrder);
+                    /*
+                     * Commit the databases.
+                     */
+                    $this->integrationConnect->commit();
+                    $this->vTigerConnect->commit();
+                    
+                } catch (Exception $e) {
+                    $numberSalesOrders--;
+                    /*
+                     * Store the messages
+                     */
+                    $mess['error'] = $e->getMessage();
+                    $mess['products'][$salesOrderProduct->productname] = false;
+                    /*
+                     * Rollback the connections
+                     */
+                    $this->integrationConnect->rollback();
+                    $this->vTigerConnect->rollback();
+                }
+            }
+            
+            $this->messages['message'] = "$numberSalesOrders number " .
+                        "of sales orders processed.";
+            
+            syslog(
+                LOG_INFO, 
+                json_encode($this->messages)
+            );
+            echo json_encode($this->messages);
+            
+        } catch (Exception $e) {
+            /*
+             * Store the message and rollbach the connections.
+             */
+            $this->messages['message'] = $e->getMessage();
+            /*
+             * Rollback the connections
+             */
+            $this->integrationConnect->rollback();
+            $this->vTigerConnect->rollback();
+        }
+    }
+
+}
 
 class Functions
 {
