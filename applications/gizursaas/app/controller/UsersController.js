@@ -48,7 +48,7 @@ var UsersController = Stapes.subclass({
             account_controller.model = null;
             hasher.setHash('logout');
         });
-        
+
         // Registration Submit
         // ===================
         // This will be emitted when user will submit the 
@@ -79,14 +79,14 @@ var UsersController = Stapes.subclass({
             if (self.model.validate()) {
 
                 self.view.success('Processing ...');
-                
+
                 //Hash the password with the security salt.
-                
+
                 var hashObj1 = new jsSHA(Math.random(), "TEXT");
                 var security_salt = hashObj1.getHash("SHA-256", "HEX");
                 var hashObj = new jsSHA(
                         self.model.get('password') + security_salt, "TEXT"
-                );
+                        );
                 var hashed_password = hashObj.getHash("SHA-256", "HEX");
 
                 //Make a registration request to the server
@@ -126,7 +126,7 @@ var UsersController = Stapes.subclass({
                     //If error occured, it will display the error msg.
                     error: function(jqXHR, textStatus, errorThrown) {
                         var _data = JSON.parse(jqXHR.responseText);
-                        
+
                         if (!_data.success)
                             self.view.error(__messages[_data.error.code]);
                     },
@@ -136,7 +136,7 @@ var UsersController = Stapes.subclass({
                             self.view.success(
                                     'Your account has been created. ' +
                                     'You may login to your account.'
-                            );
+                                    );
                             $first_name.val('');
                             $last_name.val('');
                             $email.val('');
@@ -148,7 +148,7 @@ var UsersController = Stapes.subclass({
                             self.view.error(
                                     'An error occured while creating your' +
                                     ' account. Please contact administrator.'
-                            );
+                                    );
                         }
                     }
                 });
@@ -160,12 +160,12 @@ var UsersController = Stapes.subclass({
         // the forgot password.
         this.view.on('forgotPassword', function() {
             var $login_id = $('#login_id').val();
-            if($login_id.length === 0){
+            if ($login_id.length === 0) {
                 $('#forgotPasswordError').addClass('alert alert-error')
                         .empty()
                         .html("Please enter login id.");
                 return false;
-            }else{
+            } else {
                 //Make a forgotpassword request to the server
                 //
                 var _url_forgot = __rest_server_url + 'User/forgotpassword';
@@ -180,10 +180,10 @@ var UsersController = Stapes.subclass({
                     //If error occured, it will display the error msg.
                     error: function(jqXHR, textStatus, errorThrown) {
                         var _data = JSON.parse(jqXHR.responseText);
-                        
+
                         if (!_data.success)
                             self.view.error(__messages[_data.error.code]);
-                        
+
                         $('#forgotPasswordClose').click();
                     },
                     // On success clean the form.
@@ -193,7 +193,7 @@ var UsersController = Stapes.subclass({
                                     'An email has been sent to' +
                                     ' your registered email for ' +
                                     'further instruction.'
-                            );
+                                    );
                             $('#login_id').val('');
                             $('#forgotPasswordClose').click();
                         } else {
@@ -201,14 +201,14 @@ var UsersController = Stapes.subclass({
                                     'An error occured while ' +
                                     'resetting your password. Please ' +
                                     'contact administrator.'
-                            );
+                                    );
                             $('#forgotPasswordClose').click();
                         }
                     }
                 });
-            }                
+            }
         });
-        
+
         // Show Terms of Services
         // ======================
         // This will be emitted when user will request to view 
@@ -216,12 +216,12 @@ var UsersController = Stapes.subclass({
         this.view.on('showTermsCondition', function() {
             // Load terns of services to the server
             //
-            $.get('./applications/gizursaas/terms-of-service.txt?_=' + 
-                    Math.random(),{},function(html){
-                $('#termsConditionBody').empty().html(html);
+            $.get('./applications/gizursaas/terms-of-service.txt?_=' +
+                    Math.random(), {}, function(html) {
+                $('#termsConditionBody').empty().html(nl2br(html, true));
             });
         });
-        
+
     },
     // Login
     // ======
@@ -236,13 +236,13 @@ var UsersController = Stapes.subclass({
         if (status === 'success') {
             self.view.success('Login successfull. Please wait...');
             self.model.set({
-                'email':$email.val(),
-                'password':$password.val()
+                'email': $email.val(),
+                'password': $password.val()
             });
             setTimeout(function() {
                 hasher.setHash('user/' + $email.val() + '/' + Math.random());
             }, 500);
-        } else if (status ==='fail') {
+        } else if (status === 'fail') {
             self.view.error('Username or password is invalid.');
         } else if (status === 'empty') {
             self.view.alert('Username or password can\'t be left blank.');
@@ -269,11 +269,16 @@ var UsersController = Stapes.subclass({
                             hasher.setHash('login/success');
                         else
                             hasher.setHash('login/fail');
-                        }
+                    }
                 });
             } else {
                 hasher.setHash('login/empty');
             }
         }
+    },
+    
+    'nl2br': function(str, is_xhtml) {
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
     }
 });
