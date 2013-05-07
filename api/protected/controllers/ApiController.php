@@ -261,6 +261,7 @@ class ApiController extends Controller
 
         // and the content type
         header('Content-type: ' . $contentType);
+        header('Access-Control-Allow-Origin: *');
 
         // pages with body are easy
         if ($body != '') {
