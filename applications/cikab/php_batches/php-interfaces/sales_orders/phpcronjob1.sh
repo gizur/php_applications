@@ -44,11 +44,11 @@ class PhpBatchOne
         );
 
         $this->vTigerConnect = new mysqli(
-            Config::$dbconfigVtiger['db_server'], 
-            Config::$dbconfigVtiger['db_username'], 
-            Config::$dbconfigVtiger['db_password'], 
-            Config::$dbconfigVtiger['db_name'], 
-            Config::$dbconfigVtiger['db_port']
+            Config::$dbVtiger['db_server'], 
+            Config::$dbVtiger['db_username'], 
+            Config::$dbVtiger['db_password'], 
+            Config::$dbVtiger['db_name'], 
+            Config::$dbVtiger['db_port']
         );
 
         if ($this->vTigerConnect->connect_errno)
@@ -66,11 +66,11 @@ class PhpBatchOne
          * Trying to connect to integration database
          */
         $this->integrationConnect = new mysqli(
-            Config::$dbconfigIntegration['db_server'], 
-            Config::$dbconfigIntegration['db_username'], 
-            Config::$dbconfigIntegration['db_password'], 
-            Config::$dbconfigIntegration['db_name'], 
-            Config::$dbconfigIntegration['db_port']
+            Config::$dbIntegration['db_server'], 
+            Config::$dbIntegration['db_username'], 
+            Config::$dbIntegration['db_password'], 
+            Config::$dbIntegration['db_name'], 
+            Config::$dbIntegration['db_port']
         );
 
         if ($this->integrationConnect->connect_errno)

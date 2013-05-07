@@ -160,7 +160,7 @@ $amazonSThree['fileFolder'] = "seasonportal/SET-files/";
 class Config
 {
 
-    public static $dbconfigIntegration = array(
+    public static $dbIntegration = array(
         'db_server' => 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com',
         'db_port' => 3306,
         'db_username' => 'vtiger_integrati',
@@ -168,7 +168,7 @@ class Config
         'db_name' => 'vtiger_integration',
         'db_type' => 'mysql'
     );
-    public static $dbconfigVtiger = array(
+    public static $dbVtiger = array(
         'db_server' => 'gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com',
         'db_port' => 3306,
         'db_username' => 'user_6bd70dc3',
@@ -176,10 +176,8 @@ class Config
         'db_name' => 'vtiger_7cd70dc3',
         'db_type' => 'mysql'
     );
-    
     public static $batchVariable = 10;
-    
-    public static $dbconfigFtp = array(
+    public static $setFtp = array(
         'Host' => "10.58.226.192",
         'port' => 21,
         'User' => "gizur",
@@ -187,12 +185,20 @@ class Config
         'localpath' => "cronsetfiles/",
         'serverpath' => "files/"
     );
-    public static $amazonqueueConfig = array(
+    public static $mosFtp = array(
+        'Host' => "10.58.226.192",
+        'port' => 21,
+        'User' => "gizur",
+        'Password' => "gizur",
+        'localpath' => "cronsetfiles/",
+        'serverpath' => "files/"
+    );
+    public static $amazonQ = array(
         '_url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
     );
     public static $amazonSThree = array(
         'bucket' => "gc3-archive",
-        'fileFolder' => "seasonportal/SET-files/"
+        'setFolder' => "seasonportal/SET-files/"
     );
     public static $customFields = array(
         'setFiles' => 'cf_664',
