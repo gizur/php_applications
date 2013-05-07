@@ -758,6 +758,18 @@ class ApiController extends Controller
                     600
                 );
             } else {
+
+                   
+                $this->_clientid = $_SERVER['HTTP_X_CLIENTID'];
+
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " VALIDATION (IN PRIVATE VAR) " . $this->_clientid, 
+                    CLogger::LEVEL_TRACE
+                );    
+                
                 //Check if clientid exists in dynamoDB
                 if ( ($this->_dbuser = Yii::app()->cache->get($_SERVER['HTTP_X_CLIENTID'] . "_dbuser")) === false ) {
                     //Retreive Key pair from Amazon Dynamodb
@@ -790,9 +802,7 @@ class ApiController extends Controller
                                 )
                             )
                         )
-                    );
-                   
-                    $this->_clientid = $_SERVER['HTTP_X_CLIENTID'];
+                    );                                    
      
                     //Check if client id was found
                     if ($ddbResponse->body->Count != 0) {
