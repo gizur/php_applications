@@ -448,7 +448,11 @@ class PhpBatchTwo
                      */
 
                     Functions::updateLogMessage(
-                        $this->messages, $salesOrder->salesorder_no, true, $setFile['file'], "Successfully sent to messageQ."
+                        $this->messages, 
+                        $salesOrder->salesorder_no, 
+                        true, 
+                        $setFile['file'], 
+                        "Successfully sent to messageQ."
                     );
                     /*
                      * Commit the databases.
@@ -461,7 +465,11 @@ class PhpBatchTwo
                      * Store the message and rollbach the connections.
                      */
                     Functions::updateLogMessage(
-                        $this->messages, $salesOrder->salesorder_no, false, $setFile['file'], $e->getMessage()
+                        $this->messages, 
+                        $salesOrder->salesorder_no, 
+                        false, 
+                        $setFile['file'], 
+                        $e->getMessage()
                     );
                     /*
                      * Rollback the connections
@@ -473,17 +481,17 @@ class PhpBatchTwo
 
             $this->messages['message'] = "$numberSalesOrders number " .
                 "of sales orders processed.";
-
-            syslog(
-                LOG_INFO, json_encode($this->messages)
-            );
-            echo json_encode($this->messages);
         } catch (Exception $e) {
             /*
              * Rollback the connections
              */
             $this->integrationConnect->rollback();
         }
+        
+        syslog(
+            LOG_INFO, json_encode($this->messages)
+        );
+        echo json_encode($this->messages);
     }
 
 }
