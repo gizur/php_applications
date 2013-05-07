@@ -178,7 +178,8 @@ try {
         array(
            "Source" => "noreply@gizur.com",
            "Destinations" => array(
-               "jonas.colmsjo@gizur.com"
+               "jonas.colmsjo@gizur.com",
+               "sofia.meijer@coop.se"
             ),
         )
     );
