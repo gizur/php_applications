@@ -340,7 +340,34 @@ class PhpBatchTwo
 
     protected function createMOSFile()
     {
+        $cnt = 0;
+
+        $soProducts = $this->getProductsBySalesOrderId(
+            $salesOrder->id
+        );
         
+        $createdDate = date("YmdHi");
+
+        /*
+         * Generate the file name.
+         */
+        $fileName = "MOS.GZ.FTP.IN.BST.$createdDate." .
+            "$salesOrder->accountname";
+        
+        //00002 30958940410300025241013170000005100013180000000
+        
+        /*
+         * Store number of products in sales order.
+         */
+        $mess['no_products'] = $soProducts->num_rows;
+        $this->messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
+
+        while ($sOWProduct = $soProducts->fetch_object()) {
+
+            $leadzeroproduct = Functions::leadingzero(
+                    $productlength
+            );
+        }
     }
 
     protected function storeFileInSThree(
