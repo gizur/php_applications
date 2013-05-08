@@ -31,6 +31,7 @@ class PhpBatchTwo
     private $sqs;
     private $messages = array();
     private $duplicateFile = array();
+    private $mosDuplicateFile = array();
     private $sThree;
 
     public function __construct()
@@ -234,13 +235,13 @@ class PhpBatchTwo
 
                 if ($productlength < 6) {
                     $leadzeroproduct = Functions::leadingzero(
-                            $productlength
+                        6, $productlength
                     );
                 }
 
                 if ($productquantitylength < 3) {
                     $leadzeroproductquantity = Functions::leadingzero(
-                            3, $productquantitylength
+                        3, $productquantitylength
                     );
                 }
 
@@ -338,15 +339,31 @@ class PhpBatchTwo
         return $messageQ;
     }
 
-    protected function createMOSFile()
+    protected function createMOSFile($salesOrder)
     {
         $cnt = 0;
-
+        
         $soProducts = $this->getProductsBySalesOrderId(
             $salesOrder->id
         );
         
-        $createdDate = date("YmdHi");
+        /*
+         * $createdDate is being used in file name
+         * and the following line of 
+         * code is preventing the duplicacy of file name by 
+         * increasing 1 minute for every salesorder for the same client.
+         * check issue:
+         * https://github.com/gizur/gizurcloud/
+         * issues/225#issuecomment-14158434
+         */
+        if (empty($this->mosDuplicateFile[$salesOrder->accountname]))
+            $createdDate = date("YmdHi");
+        else {
+            $cnt = count($this->mosDuplicateFile[$salesOrder->accountname]);
+            $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
+        }
+
+        $this->mosDuplicateFile[$salesOrder->accountname][] = $createdDate;
 
         /*
          * Generate the file name.
@@ -362,12 +379,58 @@ class PhpBatchTwo
         $mess['no_products'] = $soProducts->num_rows;
         $this->messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
 
+        $sequence = 1;
+        $contentF = "";
+        
         while ($sOWProduct = $soProducts->fetch_object()) {
+            $seqZero = Functions::leadingzero(5, strlen((string)$sequence));
+            
+            if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00')
+                $deliveryday = date(
+                    "ymd", strtotime($salesOrder->duedate)
+                );
+            else
+                $deliveryday = date('ymd');
+        
+            $week = date('W', strtotime($deliveryday));
 
-            $leadzeroproduct = Functions::leadingzero(
-                    $productlength
+            $campaignWeek = date('W', strtotime(
+                date("ymd", strtotime($deliveryday)) . "+2 day"
+            ));
+            $weekZero = Functions::leadingzero(4, strlen((string)$week));
+            $campWeekZero = Functions::leadingzero(
+                4, strlen((string)$campaignWeek)
             );
+            
+            $dummy = 3095;
+            $vgr = '000';
+            $art = '000';
+            $varubet = '0000';
+            $store = $salesOrder->accountname;
+            
+            $quantity = $sOWProduct->productquantity;
+            $qtnZero = Functions::leadingzero(7, strlen((string)$quantity));
+            
+            $reservationId = '0000000';
+            
+            $contentF .= "{$seqZero}{$sequence}{$dummy}" .
+                "{$vgr}{$art}{$varubet}{$store}" .
+                "{$weekZero}{$week}{$qtnZero}{$quantity}" . 
+                "{$campWeekZero}{$campaignWeek}{$reservationId}\n";
+            $sequence++;
         }
+        
+        syslog(
+            LOG_INFO, "File $fileName contents: " . $contentF
+        );
+
+        $messageQ = array();
+
+        $messageQ['file'] = $fileName;
+        $messageQ['content'] = $contentF;
+        $messageQ['type'] = 'MOS';
+
+        return $messageQ;
     }
 
     protected function storeFileInSThree(
@@ -423,11 +486,11 @@ class PhpBatchTwo
          * If unable to store file content at queue,
          * raise the exception
          */
-        if ($responseQ->status !== 200) {
-            throw new Exception("Error in sending file to messageQ.");
+        if ($responseQ->status !== 200) {            
             syslog(
                 LOG_WARNING, "Error in sending file to messageQ."
             );
+            throw new Exception("Error in sending file to messageQ.");
         }
 
         return $responseQ;
@@ -451,6 +514,22 @@ class PhpBatchTwo
 
                     $this->messages[$salesOrder->salesorder_no] = array();
 
+                    $fileName = "";
+                    
+                    if ($salesOrder->set == 'No' && $salesOrder->mos == 'No') {
+                        syslog(
+                            LOG_WARNING, 
+                            "SET and MOS both are set NO for sales order " .
+                            "$salesOrder->salesorder_no " .
+                            "($salesOrder->accountname)."
+                        );
+                        throw new Exception(
+                            "SET and MOS both are set NO for sales order " .
+                            "$salesOrder->salesorder_no " .
+                            "($salesOrder->accountname)."
+                        );
+                    }
+                    
                     if ($salesOrder->set == 'Yes') {
                         $setFile = $this->createSETFile($salesOrder);
 
@@ -464,7 +543,27 @@ class PhpBatchTwo
                         $this->storeFileInMessageQ(
                             Config::$amazonQ['_url'], json_encode($setFile)
                         );
+                        
+                        $fileName = $setFile['file'];
+                    } 
+                    
+                    if($salesOrder->mos == 'Yes') {
+                        $mosFile = $this->createMOSFile($salesOrder);
+
+                        $this->storeFileInSThree(
+                            Config::$amazonSThree['bucket'], 
+                            Config::$amazonSThree['setFolder'], 
+                            $mosFile['file'], 
+                            $mosFile['content']
+                        );
+
+                        $this->storeFileInMessageQ(
+                            Config::$amazonQ['_url'], json_encode($mosFile)
+                        );
+                        
+                        $fileName = $mosFile['file'];
                     }
+                    
                     $this->updateIntegrationSalesOrder(
                         $salesOrder->id, 'Delivered'
                     );
@@ -479,7 +578,7 @@ class PhpBatchTwo
                         $this->messages, 
                         $salesOrder->salesorder_no, 
                         true, 
-                        $setFile['file'], 
+                        $fileName, 
                         "Successfully sent to messageQ."
                     );
                     /*
@@ -496,7 +595,7 @@ class PhpBatchTwo
                         $this->messages, 
                         $salesOrder->salesorder_no, 
                         false, 
-                        $setFile['file'], 
+                        $fileName, 
                         $e->getMessage()
                     );
                     /*
@@ -545,7 +644,7 @@ class Functions
         $leadzero = "";
         $leadingzero = $limitnumber - $number;
         for ($i = 0; $i < $leadingzero; $i++) {
-            $leadzero.= 0;
+            $leadzero .= '0';
         }
         return $leadzero;
     }
