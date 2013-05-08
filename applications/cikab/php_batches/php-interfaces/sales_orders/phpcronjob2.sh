@@ -402,21 +402,23 @@ class PhpBatchTwo
                 4, strlen((string)$campaignWeek)
             );
             
-            $dummy = 3095;
-            $vgr = '000';
-            $art = '000';
-            $varubet = '0000';
-            $store = $salesOrder->accountname;
+            $dummyOne = (string)'3095';
+            $vgr = (string)'000';
+            $art = (string)'0000';
+            $varubet = (string)'0000';
+            $store = (string)$salesOrder->accountname;
             
-            $quantity = $sOWProduct->productquantity;
+            $quantity = (string)$sOWProduct->productquantity;
             $qtnZero = Functions::leadingzero(7, strlen((string)$quantity));
             
-            $reservationId = '0000000';
+            $dummyTwo = (string)'1000';
             
-            $contentF .= "{$seqZero}{$sequence}{$dummy}" .
+            $reservationId = (string)'0000000';
+            
+            $contentF .= "{$seqZero}{$sequence}{$dummyOne}" .
                 "{$vgr}{$art}{$varubet}{$store}" .
                 "{$weekZero}{$week}{$qtnZero}{$quantity}" . 
-                "{$campWeekZero}{$campaignWeek}{$reservationId}\n";
+                "{$dummyTwo}{$campWeekZero}{$campaignWeek}{$reservationId}\n";
             $sequence++;
         }
         
