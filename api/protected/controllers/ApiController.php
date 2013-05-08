@@ -1704,14 +1704,14 @@ class ApiController extends Controller
                         //flip custome fields array
                         $flippedCustomFields 
                             = array_flip(Yii::app()->params[$this->_clientid . 
-                                '_customFields'][$_GET['model']]);
+                                '_custom_fields'][$_GET['model']]);
                         
                         //Check if the requested field name is a vtiger
                         //custom field
                         if (in_array($_GET['fieldname'], $flippedCustomFields)) {
                             $fieldname 
                                 = Yii::app()->params[$this->_clientid .
-                                    '_customFields'][$_GET['model']][$_GET['fieldname']];
+                                    '_custom_fields'][$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
@@ -1788,7 +1788,7 @@ class ApiController extends Controller
                                         if (in_array(
                                             $depFieldname, 
                                             Yii::app()->params[$this->_clientid .
-                                                '_customFields']['HelpDesk']
+                                                '_custom_fields']['HelpDesk']
                                         )) {
                                                 $newFieldname = 
                                                     $flippedCustomFields[$depFieldname];
@@ -1933,7 +1933,7 @@ class ApiController extends Controller
                     //Adding trailer filter
                     if (isset($_GET['trailerid'])) {
                         if ($_GET['trailerid'] != '0')
-                            $whereClause[] = Yii::app()->params[$this->_clientid . '_customFields']
+                            $whereClause[] = Yii::app()->params[$this->_clientid . '_custom_fields']
                                 ['HelpDesk']['trailerid'] .
                                 " = '" . $_GET['trailerid'] . "'";
                     }
@@ -2091,7 +2091,7 @@ class ApiController extends Controller
                     //Before sending response santise custom fields names to 
                     //human readable field names
                     $customFields = Yii::app()->params[$this->_clientid . 
-                        '_customFields']['HelpDesk'];
+                        '_custom_fields']['HelpDesk'];
 
                     foreach ($response['result'] as &$troubleticket) {
                         unset($troubleticket['update_log']);
@@ -2150,14 +2150,14 @@ class ApiController extends Controller
                         //flip custome fields array
                         $flippedCustomFields 
                             = array_flip(Yii::app()->params[$this->_clientid .
-                                '_customFields']['Assets']);
+                                '_custom_fields']['Assets']);
                         
                         //Check if the requested field name is a vtiger
                         //custom field
                         if (in_array($_GET['fieldname'], $flippedCustomFields)) {
                             $fieldname 
                                 = Yii::app()->params[$this->_clientid . 
-                                    '_customFields'][$_GET['model']][$_GET['fieldname']];
+                                    '_custom_fields'][$_GET['model']][$_GET['fieldname']];
                         } else {
                             $fieldname = $_GET['fieldname'];
                         }
@@ -2227,7 +2227,7 @@ class ApiController extends Controller
                                     if (isset($option['dependency'])) {
                                         
                                         foreach ($option['dependency'] as $depFieldname => $dependency) {
-                                            if (in_array($depFieldname, Yii::app()->params[$this->_clientid . '_customFields']['Assets'])) {
+                                            if (in_array($depFieldname, Yii::app()->params[$this->_clientid . '_custom_fields']['Assets'])) {
                                                 $newFieldname = $flippedCustomFields[$depFieldname];
                                                 $option['dependency'][$newFieldname] = $option['dependency'][$depFieldname];
                                                 unset($option['dependency'][$depFieldname]);
@@ -2335,7 +2335,7 @@ class ApiController extends Controller
                         throw new Exception('Unable to fetch details');
 
                         $customFields = Yii::app()->params[$this->_clientid .
-                            '_customFields']['Assets'];
+                            '_custom_fields']['Assets'];
 
                         //Before sending response santise custom fields names to 
                         //human readable field names                
@@ -2767,7 +2767,7 @@ class ApiController extends Controller
                 }
 
                 $customFields = Yii::app()->params[$this->_clientid . 
-                    '_customFields']['HelpDesk'];
+                    '_custom_fields']['HelpDesk'];
 
                 unset($response['result']['update_log']);
                 unset($response['result']['hours']);
@@ -2843,7 +2843,7 @@ class ApiController extends Controller
                     $response['result'] = $response['result'][0];
 
                     $customFields = Yii::app()->params[$this->_clientid . 
-                        '_customFields']['Assets'];
+                        '_custom_fields']['Assets'];
 
                 foreach ($response['result'] as $fieldname => $value) {
                     $keyToReplace = array_search($fieldname, $customFields);
@@ -3925,7 +3925,7 @@ class ApiController extends Controller
                 $post = $_POST;
                 $customFields = array_flip(
                     Yii::app()->params[$this->_clientid . 
-                        '_customFields']['HelpDesk']
+                        '_custom_fields']['HelpDesk']
                 );
 
             foreach ($post as $k => $v) {
@@ -4155,7 +4155,7 @@ class ApiController extends Controller
                 $globalresponse = json_decode($globalresponse, true);
 
                 $customFields = Yii::app()->params[$this->_clientid . 
-                    '_customFields']['HelpDesk'];
+                    '_custom_fields']['HelpDesk'];
 
 
                 unset($globalresponse['result']['update_log']);
@@ -4873,7 +4873,7 @@ class ApiController extends Controller
                     $response = json_decode($response, true);
 
                     $customFields = Yii::app()->params[$this->_clientid . 
-                        '_customFields']['HelpDesk'];
+                        '_custom_fields']['HelpDesk'];
 
 
                     unset($response['result']['update_log']);
@@ -5000,7 +5000,7 @@ class ApiController extends Controller
                 throw new Exception($response['error']['message']);
 
                 $customFields = Yii::app()->params[$this->_clientid . 
-                    '_customFields']['Assets'];
+                    '_custom_fields']['Assets'];
 
                 unset($response['result']['update_log']);
                 unset($response['result']['hours']);
