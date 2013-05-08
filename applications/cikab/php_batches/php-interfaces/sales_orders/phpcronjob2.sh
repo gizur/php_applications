@@ -443,7 +443,8 @@ class PhpBatchTwo
                     );
 
                     /*
-                     * If everything goes right update the sales order ststus to true 
+                     * If everything goes right update the sales order 
+                     * status to true 
                      * in message array.
                      */
 
