@@ -340,7 +340,34 @@ class PhpBatchTwo
 
     protected function createMOSFile()
     {
+        $cnt = 0;
+
+        $soProducts = $this->getProductsBySalesOrderId(
+            $salesOrder->id
+        );
         
+        $createdDate = date("YmdHi");
+
+        /*
+         * Generate the file name.
+         */
+        $fileName = "MOS.GZ.FTP.IN.BST.$createdDate." .
+            "$salesOrder->accountname";
+        
+        //00002 30958940410300025241013170000005100013180000000
+        
+        /*
+         * Store number of products in sales order.
+         */
+        $mess['no_products'] = $soProducts->num_rows;
+        $this->messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
+
+        while ($sOWProduct = $soProducts->fetch_object()) {
+
+            $leadzeroproduct = Functions::leadingzero(
+                    $productlength
+            );
+        }
     }
 
     protected function storeFileInSThree(
@@ -443,12 +470,17 @@ class PhpBatchTwo
                     );
 
                     /*
-                     * If everything goes right update the sales order ststus to true 
+                     * If everything goes right update the sales order 
+                     * status to true 
                      * in message array.
                      */
 
                     Functions::updateLogMessage(
-                        $this->messages, $salesOrder->salesorder_no, true, $setFile['file'], "Successfully sent to messageQ."
+                        $this->messages, 
+                        $salesOrder->salesorder_no, 
+                        true, 
+                        $setFile['file'], 
+                        "Successfully sent to messageQ."
                     );
                     /*
                      * Commit the databases.
@@ -461,7 +493,11 @@ class PhpBatchTwo
                      * Store the message and rollbach the connections.
                      */
                     Functions::updateLogMessage(
-                        $this->messages, $salesOrder->salesorder_no, false, $setFile['file'], $e->getMessage()
+                        $this->messages, 
+                        $salesOrder->salesorder_no, 
+                        false, 
+                        $setFile['file'], 
+                        $e->getMessage()
                     );
                     /*
                      * Rollback the connections
@@ -473,17 +509,17 @@ class PhpBatchTwo
 
             $this->messages['message'] = "$numberSalesOrders number " .
                 "of sales orders processed.";
-
-            syslog(
-                LOG_INFO, json_encode($this->messages)
-            );
-            echo json_encode($this->messages);
         } catch (Exception $e) {
             /*
              * Rollback the connections
              */
             $this->integrationConnect->rollback();
         }
+        
+        syslog(
+            LOG_INFO, json_encode($this->messages)
+        );
+        echo json_encode($this->messages);
     }
 
 }

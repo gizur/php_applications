@@ -103,16 +103,16 @@ class PhpBatchOne
 
         $salesOrders = $this->vTigerConnect->query($salesOrdersQuery);
 
-        if (!$salesOrders) {
-            throw new Exception(
-                "In getSalesOrders() : Error executing sales order query : " .
-                "({$this->vTigerConnect->errno}) - " .
-                "{$this->vTigerConnect->error}"
-            );
+        if (!$salesOrders) {            
             syslog(
                 LOG_WARNING, 
                 "In getSalesOrders() : Error executing sales order query :" .
                 " ({$this->vTigerConnect->errno}) - " .
+                "{$this->vTigerConnect->error}"
+            );
+            throw new Exception(
+                "In getSalesOrders() : Error executing sales order query : " .
+                "({$this->vTigerConnect->errno}) - " .
                 "{$this->vTigerConnect->error}"
             );
         }
@@ -122,11 +122,11 @@ class PhpBatchOne
          */
         $this->messages['no_sales_orders'] = $salesOrders->num_rows;
     
-        if ($salesOrders->num_rows == 0) {
-            throw new Exception("In getSalesOrders() : No Sales Order Found!");
+        if ($salesOrders->num_rows == 0) {            
             syslog(
                 LOG_WARNING, "In getSalesOrders() : No Sales Order Found!"
             );
+            throw new Exception("In getSalesOrders() : No Sales Order Found!");
         }
 
         return $salesOrders;
@@ -357,12 +357,6 @@ class PhpBatchOne
             $this->messages['message'] = "$numberSalesOrders number " .
                         "of sales orders processed.";
             
-            syslog(
-                LOG_INFO, 
-                json_encode($this->messages)
-            );
-            echo json_encode($this->messages);
-            
         } catch (Exception $e) {
             /*
              * Store the message and rollbach the connections.
@@ -374,6 +368,12 @@ class PhpBatchOne
             $this->integrationConnect->rollback();
             $this->vTigerConnect->rollback();
         }
+        
+        syslog(
+            LOG_INFO, 
+            json_encode($this->messages)
+        );
+        echo json_encode($this->messages);
     }
 
 }
