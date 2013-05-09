@@ -117,12 +117,7 @@ class PhpBatchOne
             );
         }
 
-        /*
-         * Update message array with number of sales orders.
-         */
-        $this->messages['no_sales_orders'] = $salesOrders->num_rows;
-    
-        if ($salesOrders->num_rows == 0) {            
+        if ($salesOrders->num_rows == 0) {
             syslog(
                 LOG_WARNING, "In getSalesOrders() : No Sales Order Found!"
             );
@@ -291,6 +286,10 @@ class PhpBatchOne
         try {
             $salesOrders = $this->getSalesOrders();
             $numberSalesOrders = $salesOrders->num_rows;
+            
+            /*
+             * Update message array with number of sales orders.
+             */
             $this->messages['count'] = $numberSalesOrders;
             $msg = &$this->messages['salesorders'];
             

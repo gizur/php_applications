@@ -106,11 +106,6 @@ class PhpBatchTwo
             );
         }
 
-        /*
-         * Update message array with number of sales orders.
-         */
-        $this->messages['no_sales_orders'] = $salesOrders->num_rows;
-
         if ($salesOrders->num_rows == 0) {
             syslog(
                 LOG_WARNING, "In getSalesOrders() : No Sales Order Found!"
@@ -172,23 +167,17 @@ class PhpBatchTwo
         return $updateSaleOrder;
     }
 
-    protected function createSETFile($salesOrder)
+    protected function createSETFile($salesOrder, &$msg)
     {
         $cnt = 0;
 
         $soProducts = $this->getProductsBySalesOrderId(
             $salesOrder->id
         );
+        
+        $msg[$salesOrder->salesorder_no]['count']
+            = $soProducts->num_rows;
 
-        /*
-         * $createdDate is being used in file name
-         * and the following line of 
-         * code is preventing the duplicacy of file name by 
-         * increasing 1 minute for every salesorder for the same client.
-         * check issue:
-         * https://github.com/gizur/gizurcloud/
-         * issues/225#issuecomment-14158434
-         */
         if (empty($this->duplicateFile[$salesOrder->accountname]))
             $createdDate = date("YmdHi");
         else {
@@ -203,7 +192,8 @@ class PhpBatchTwo
          */
         $fileName = "SET.GZ.FTP.IN.BST.$createdDate." .
             "$salesOrder->accountname";
-
+        
+        $msg[$salesOrder->salesorder_no]['set']['file'] = $fileName;
         /*
          * Initialise variables used in creating SET file contents.
          */
@@ -214,12 +204,6 @@ class PhpBatchTwo
         $leadzeroproduct = "";
         $productquantitylength = "";
         $leadzeroproductquantity = "";
-
-        /*
-         * Store number of products in sales order.
-         */
-        $mess['no_products'] = $soProducts->num_rows;
-        $this->messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
 
         while ($sOWProduct = $soProducts->fetch_object()) {
 
@@ -339,7 +323,7 @@ class PhpBatchTwo
         return $messageQ;
     }
 
-    protected function createMOSFile($salesOrder)
+    protected function createMOSFile($salesOrder, &$msg)
     {
         $cnt = 0;
         
@@ -347,15 +331,9 @@ class PhpBatchTwo
             $salesOrder->id
         );
         
-        /*
-         * $createdDate is being used in file name
-         * and the following line of 
-         * code is preventing the duplicacy of file name by 
-         * increasing 1 minute for every salesorder for the same client.
-         * check issue:
-         * https://github.com/gizur/gizurcloud/
-         * issues/225#issuecomment-14158434
-         */
+        $msg[$salesOrder->salesorder_no]['count']
+            = $soProducts->num_rows;
+        
         if (empty($this->mosDuplicateFile[$salesOrder->accountname]))
             $createdDate = date("YmdHi");
         else {
@@ -370,14 +348,7 @@ class PhpBatchTwo
          */
         $fileName = "MOS.GZ.FTP.IN.BST.$createdDate." .
             "$salesOrder->accountname";
-        
-        //00002 30958940410300025241013170000005100013180000000
-        
-        /*
-         * Store number of products in sales order.
-         */
-        $mess['no_products'] = $soProducts->num_rows;
-        $this->messages['sales_orders'][$salesOrder->salesorder_no] = $mess;
+        $msg[$salesOrder->salesorder_no]['mos']['file'] = $fileName;
 
         $sequence = 1;
         $contentF = "";
@@ -504,6 +475,12 @@ class PhpBatchTwo
             $salesOrders = $this->getSalesOrders();
             $numberSalesOrders = $salesOrders->num_rows;
 
+            /*
+             * Update message array with number of sales orders.
+             */
+            $this->messages['count'] = $numberSalesOrders;
+            $msg = &$this->messages['salesorders'];
+            
             while ($salesOrder = $salesOrders->fetch_object()) {
                 try {
                     /*
@@ -513,8 +490,6 @@ class PhpBatchTwo
                         LOG_INFO, "Disabling auto commit"
                     );
                     $this->integrationConnect->autocommit(FALSE);
-
-                    $this->messages[$salesOrder->salesorder_no] = array();
 
                     $fileName = "";
                     
@@ -533,7 +508,10 @@ class PhpBatchTwo
                     }
                     
                     if ($salesOrder->set == 'Yes') {
-                        $setFile = $this->createSETFile($salesOrder);
+                        
+                        $msg[$salesOrder->salesorder_no]['set']['status'] = false;
+                        
+                        $setFile = $this->createSETFile($salesOrder, $msg);
 
                         $this->storeFileInSThree(
                             Config::$amazonSThree['bucket'], 
@@ -546,11 +524,14 @@ class PhpBatchTwo
                             Config::$amazonQ['_url'], json_encode($setFile)
                         );
                         
+                        $msg[$salesOrder->salesorder_no]['set']['status'] = true;
                         $fileName = $setFile['file'];
                     } 
                     
                     if($salesOrder->mos == 'Yes') {
-                        $mosFile = $this->createMOSFile($salesOrder);
+                        $msg[$salesOrder->salesorder_no]['mos']['status'] = false;
+                        
+                        $mosFile = $this->createMOSFile($salesOrder, $msg);
 
                         $this->storeFileInSThree(
                             Config::$amazonSThree['bucket'], 
@@ -563,47 +544,22 @@ class PhpBatchTwo
                             Config::$amazonQ['_url'], json_encode($mosFile)
                         );
                         
+                        $msg[$salesOrder->salesorder_no]['mos']['status'] = true;
                         $fileName = $mosFile['file'];
                     }
                     
                     $this->updateIntegrationSalesOrder(
                         $salesOrder->id, 'Delivered'
                     );
-
-                    /*
-                     * If everything goes right update the sales order 
-                     * status to true 
-                     * in message array.
-                     */
-
-                    Functions::updateLogMessage(
-                        $this->messages, 
-                        $salesOrder->salesorder_no, 
-                        true, 
-                        $fileName, 
-                        "Successfully sent to messageQ."
-                    );
                     /*
                      * Commit the databases.
                      */
                     $this->integrationConnect->commit();
-                    $this->integrationConnect->commit();
                 } catch (Exception $e) {
-
-                    /*
-                     * Store the message and rollbach the connections.
-                     */
-                    Functions::updateLogMessage(
-                        $this->messages, 
-                        $salesOrder->salesorder_no, 
-                        false, 
-                        $fileName, 
-                        $e->getMessage()
-                    );
+                    $numberSalesOrders--;
                     /*
                      * Rollback the connections
                      */
-                    $this->integrationConnect->rollback();
                     $this->integrationConnect->rollback();
                 }
             }
@@ -611,6 +567,7 @@ class PhpBatchTwo
             $this->messages['message'] = "$numberSalesOrders number " .
                 "of sales orders processed.";
         } catch (Exception $e) {
+            $this->messages['message'] = $e->getMessage();
             /*
              * Rollback the connections
              */
@@ -627,17 +584,6 @@ class PhpBatchTwo
 
 class Functions
 {
-    /*
-     * updateLogMessage fuction is used to update the message array.
-     */
-
-    static function updateLogMessage(&$m, $so, $status, $filename, $msg)
-    {
-        $m['sales_orders'][$so]['status'] = $status;
-        $m['sales_orders'][$so]['file'] = $filename;
-        $m['sales_orders'][$so]['message'] = $msg;
-    }
-
     /**
      * auto adding zero befor number  
      */
@@ -652,7 +598,7 @@ class Functions
     }
 
     /*
-     * Get 4 first digit from millisecond
+     * Get 4 last digit from microtime
      */
 
     static function getMilliSecond()
