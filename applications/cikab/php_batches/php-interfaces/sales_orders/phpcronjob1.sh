@@ -382,5 +382,10 @@ class PhpBatchOne
 
 }
 
-$phpBatchOne = new PhpBatchOne();
-$phpBatchOne->init();
+try{
+    $phpBatchOne = new PhpBatchOne();
+    $phpBatchOne->init();
+}catch(Exception $e){
+    syslog(LOG_WARNING, $e->getMessage());
+    echo $e->getMessage();
+}

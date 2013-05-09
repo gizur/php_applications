@@ -18,7 +18,6 @@
  * PHP version 5.3
  *
  */
-
 /*
  * Load the configuration files.
  */
@@ -44,8 +43,7 @@ try {
      * Get number of files stored in message queue.
      */
     syslog(
-        LOG_INFO,
-        "Geting number of files stored in message queue"
+        LOG_INFO, "Geting number of files stored in message queue"
     );
     $messageCount = $sqs->get_queue_size($amazonqueueConfig['_url']);
     $noOfFiles = $messageCount;
@@ -56,8 +54,7 @@ try {
     if ($messageCount <= 0) {
         throw new Exception("messageQ is empty.");
         syslog(
-            LOG_INFO,
-            "messageQ is empty."
+            LOG_INFO, "messageQ is empty."
         );
     }
 
@@ -67,8 +64,7 @@ try {
     while ($messageCount > 0) {
 
         syslog(
-            LOG_INFO,
-            "Number of messages found in messageQ : $messageCount."
+            LOG_INFO, "Number of messages found in messageQ : $messageCount."
         );
         /*
          * Inner try catch to catch the message specific exceptions.
@@ -78,8 +74,7 @@ try {
              * Get the single message from the messageQ.
              */
             syslog(
-                LOG_INFO,
-                "Get the single message from the messageQ"
+                LOG_INFO, "Get the single message from the messageQ"
             );
             $responseQ = $sqs->receive_message($amazonqueueConfig['_url']);
 
@@ -88,11 +83,10 @@ try {
              */
             if ($responseQ->status !== 200) {
                 throw new Exception(
-                    "Message not recieved from the messageQ server."
+                "Message not recieved from the messageQ server."
                 );
                 syslog(
-                    LOG_INFO,
-                    "Message not recieved from the messageQ server"
+                    LOG_INFO, "Message not recieved from the messageQ server"
                 );
             }
 
@@ -104,21 +98,19 @@ try {
             /*
              * If message body is empty, raise the exception.
              */
-            if (empty($msgObj)) { 
+            if (empty($msgObj)) {
                 throw new Exception(
-                    "Received an empty message from messageQ."
+                "Received an empty message from messageQ."
                 );
                 syslog(
-                    LOG_INFO,
-                    "Received an empty message from messageQ."
+                    LOG_INFO, "Received an empty message from messageQ."
                 );
             }
 
             syslog(
-                LOG_INFO,
-                "Message Received: " . $msgObj->Body
+                LOG_INFO, "Message Received: " . $msgObj->Body
             );
-            
+
             /*
              * File name and content were json encoded so decode it.
              */
@@ -135,29 +127,27 @@ try {
              */
             if (empty($fileJson->content)) {
                 throw new Exception(
-                    "$fileJson->file content is empty in messageQ."
+                "$fileJson->file content is empty in messageQ."
                 );
                 syslog(
-                    LOG_WARNING,
-                    "$fileJson->file content is empty in messageQ."
+                    LOG_WARNING, "$fileJson->file content is empty in messageQ."
                 );
             }
-            
+
             $ftpPath = $dbconfigFtp['serverpath'] . $fileJson->file;
-            
+
             /*
              * If file exists at FTP, raise the Exception.
              */
             if (file_exists($ftpPath)) {
                 throw new Exception(
-                    "$fileJson->file file already exists at FTP server."
+                "$fileJson->file file already exists at FTP server."
                 );
                 syslog(
-                    LOG_WARNING,
-                    "$fileJson->file file already exists at FTP server."
+                    LOG_WARNING, "$fileJson->file file already exists at FTP server."
                 );
             }
-            
+
             /*
              * Prepare file in temp dir locally.
              */
@@ -170,31 +160,29 @@ try {
             $uploaded = ftp_fput(
                 $ftpConnId, $ftpPath, $fp, FTP_BINARY
             );
-            
+
             fclose($fp);
             /*
              * If file upload process fails, throw the exception.
              */
             if (!$uploaded) {
                 throw new Exception(
-                    "Error copying file $fileJson->file on FTP server."
+                "Error copying file $fileJson->file on FTP server."
                 );
                 syslog(
-                    LOG_WARNING,
-                    "Error copying file $fileJson->file on FTP server."
+                    LOG_WARNING, "Error copying file $fileJson->file on FTP server."
                 );
             }
             /*
              * If file processed, delete message from messageQ.
              */
             syslog(
-                LOG_INFO,
-                "Deleting message from messageQ : $fileJson->file."
+                LOG_INFO, "Deleting message from messageQ : $fileJson->file."
             );
             $sqs->delete_message(
                 $amazonqueueConfig['_url'], $receiptQ
             );
-            
+
             $messages['files'][$fileJson->file] = true;
             /*
              * Catch the exceptions
@@ -219,3 +207,102 @@ try {
  */
 syslog(LOG_WARNING, json_encode($messages));
 echo json_encode($messages);
+
+class PhpBatchThree
+{
+
+    private $messages = array();
+    private $messageCount = 0;
+    private $noOfFiles = 0;
+    private $setFtpConn;
+    private $mosFtpConn;
+
+    function __construct()
+    {
+        /*
+         * Open connection to the system logger
+         */
+        openlog(
+            "phpcronjob3", LOG_PID | LOG_PERROR, LOG_LOCAL0
+        );
+
+        $this->messageCount = $sqs->get_queue_size(Config::$amazonQ['url']);
+        $this->noOfFiles = $this->messageCount;
+        
+        $this->setFtpConn = $this->getftpConnection(
+            Config::$setFtp['host'], 
+            Config::$setFtp['port'], 
+            Config::$setFtp['username'], 
+            Config::$setFtp['password']
+        );
+        
+        $this->mosFtpConn = $this->getftpConnection(
+            Config::$mosFtp['host'], 
+            Config::$mosFtp['port'], 
+            Config::$mosFtp['username'], 
+            Config::$mosFtp['password']
+        );
+    }
+    
+    protected function getftpConnection($host, $port, $username, $password, $timeout = 10){
+        /**
+         * Check FTP Connection
+         */
+        $ftpConn = ftp_connect(
+            $host, $port, $timeout
+        );
+
+        /**
+         * If connection fails update syslog with 
+         * the error message and display
+         * an error message.
+         */
+        if (!setFtpConn) {
+            $syslogmessage = "Some problem in FTP Connection ($host:$port). " .
+                "Please check Host Name!";
+            syslog(
+                LOG_WARNING, $syslogmessage
+            );
+            throw new Exception($syslogmessage);
+        }
+
+        /**
+         *  Check Authentication after connection
+         */
+        $ftpLoginResult = ftp_login(
+            $ftpConn, 
+            $username, 
+            $password
+        );
+        /**
+         * If authentication fails update the syslog.
+         */
+        if (!$ftpLoginResult) {
+            $syslogmessage = "Some problem in FTP Connection ($host:$port)" .
+                ". Please check username and password!";
+            syslog(
+                LOG_WARNING, $syslogmessage
+            );
+            throw new Exception($syslogmessage);
+        }
+
+        /*
+         * Enable passive mode
+         */
+        ftp_pasv($ftpConn, true);
+
+        /**
+         * Check FTP Connection and Authenticate the connection again
+         */
+        if (!$ftpConn || !$ftpLoginResult) {
+            $syslogmessage = "Some problem in FTP Connection ($host:$port)!";
+            syslog(
+                LOG_WARNING, $syslogmessage
+            );
+            throw new Exception($syslogmessage);
+        }
+        
+        return $ftpConn;
+    }
+
+}

@@ -521,7 +521,7 @@ class PhpBatchTwo
                         );
 
                         $this->storeFileInMessageQ(
-                            Config::$amazonQ['_url'], json_encode($setFile)
+                            Config::$amazonQ['url'], json_encode($setFile)
                         );
                         
                         $msg[$salesOrder->salesorder_no]['set']['status'] = true;
@@ -541,7 +541,7 @@ class PhpBatchTwo
                         );
 
                         $this->storeFileInMessageQ(
-                            Config::$amazonQ['_url'], json_encode($mosFile)
+                            Config::$amazonQ['url'], json_encode($mosFile)
                         );
                         
                         $msg[$salesOrder->salesorder_no]['mos']['status'] = true;
@@ -611,5 +611,10 @@ class Functions
 
 }
 
-$phpBatchTwo = new PhpBatchTwo();
-$phpBatchTwo->init();
+try{
+    $phpBatchTwo = new PhpBatchTwo();
+    $phpBatchTwo->init();
+}catch(Exception $e){
+    syslog(LOG_WARNING, $e->getMessage());
+    echo $e->getMessage();
+}
