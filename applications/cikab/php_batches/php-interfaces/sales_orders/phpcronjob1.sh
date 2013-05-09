@@ -291,6 +291,8 @@ class PhpBatchOne
         try {
             $salesOrders = $this->getSalesOrders();
             $numberSalesOrders = $salesOrders->num_rows;
+            $this->messages['count'] = $numberSalesOrders;
+            $msg = &$this->messages['salesorders'];
             
             while ($salesOrder = $salesOrders->fetch_object()) {
                 try {
@@ -303,28 +305,29 @@ class PhpBatchOne
                     $this->vTigerConnect->autocommit(FALSE);
                     $this->integrationConnect->autocommit(FALSE);
 
-                    $this->messages[$salesOrder->salesorder_no] = 
-                        array();
-                    
                     $this->createIntegrationSalesOrder($salesOrder);
 
                     $soId = $this->integrationConnect->insert_id;
 
-                    $this->messages[$salesOrder->salesorder_no]['id'] = $soId;
-                    $mess = &$this->messages[$salesOrder->salesorder_no];
-                    
                     $salesOrderProducts = $this->getProductsBySalesOrders(
                         $salesOrder->salesorder_no
                     );
-
+                    
+                    $msg[$salesOrder->salesorder_no]['count']
+                        = $salesOrderProducts->num_rows;
+                    $msgP = &$msg[$salesOrder->salesorder_no]['products'];
+                    
                     $flag = true;
 
                     while ($flag && $salesOrderProduct = $salesOrderProducts->fetch_object()) {
-                        $mess['products'][$salesOrderProduct->productname] 
-                            = true;
+                        $msgP[$salesOrderProduct->productname]['qtn']
+                            = $salesOrderProduct->quantity;
+                        
                         $flag = $flag && $this->createIntegrationProduct(
                                 $soId, $salesOrderProduct
                         );
+                        
+                        $msgP[$salesOrderProduct->productname]['status'] = true;
                     }
 
                     if ($flag)
@@ -333,6 +336,7 @@ class PhpBatchOne
                             'Delivered'
                         );
                         
+                    $msg[$salesOrder->salesorder_no]['status'] = true;
                     /*
                      * Commit the databases.
                      */
@@ -344,8 +348,9 @@ class PhpBatchOne
                     /*
                      * Store the messages
                      */
-                    $mess['error'] = $e->getMessage();
-                    $mess['products'][$salesOrderProduct->productname] = false;
+                    $msgP[$salesOrderProduct->productname]['error'] 
+                        = $e->getMessage();
+                    $msgP[$salesOrderProduct->productname]['status'] = false;
                     /*
                      * Rollback the connections
                      */
