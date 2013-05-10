@@ -182,7 +182,6 @@ class Config
         'port' => 21,
         'username' => "gizur",
         'password' => "gizur",
-        'localpath' => "cronsetfiles/",
         'serverpath' => "files/"
     );
     public static $mosFtp = array(
@@ -190,7 +189,6 @@ class Config
         'port' => 21,
         'username' => "gizur",
         'password' => "gizur",
-        'localpath' => "cronsetfiles/",
         'serverpath' => "files/"
     );
     public static $amazonQ = array(

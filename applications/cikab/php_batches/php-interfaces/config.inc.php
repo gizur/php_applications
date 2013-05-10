@@ -178,20 +178,18 @@ class Config
     );
     public static $batchVariable = 10;
     public static $setFtp = array(
-        'host' => "10.58.226.192",
+        'host' => "localhost",
         'port' => 21,
-        'username' => "gizur",
-        'password' => "gizur",
-        'localpath' => "cronsetfiles/",
-        'serverpath' => "files/"
+        'username' => "prabhat",
+        'password' => "essindia",
+        'serverpath' => "/"
     );
     public static $mosFtp = array(
-        'host' => "10.58.226.192",
+        'host' => "localhost",
         'port' => 21,
-        'username' => "gizur",
-        'password' => "gizur",
-        'localpath' => "cronsetfiles/",
-        'serverpath' => "files/"
+        'username' => "prabhat",
+        'password' => "essindia",
+        'serverpath' => "/"
     );
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
