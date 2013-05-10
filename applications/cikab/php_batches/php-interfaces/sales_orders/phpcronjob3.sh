@@ -177,7 +177,7 @@ class PhpBatchThree
         /*
          * If number of files are 0, throw the exception
          */
-        if ($this->messageCount <= 10) {
+        if ($this->messageCount <= 0) {
             syslog(
                 LOG_INFO, "messageQ is empty."
             );
