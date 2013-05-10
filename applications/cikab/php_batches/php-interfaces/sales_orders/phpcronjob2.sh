@@ -452,7 +452,7 @@ class PhpBatchTwo
         );
 
         $responseQ = $this->sqs->send_message(
-            $qUrl, json_encode($messageQ)
+            $qUrl, $messageQ
         );
 
         /*

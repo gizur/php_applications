@@ -177,7 +177,7 @@ class PhpBatchThree
         /*
          * If number of files are 0, throw the exception
          */
-        if ($this->messageCount <= 0) {
+        if ($this->messageCount <= 10) {
             syslog(
                 LOG_INFO, "messageQ is empty."
             );
@@ -206,67 +206,77 @@ class PhpBatchThree
                 $responseQ = $this->sqs->receive_message(
                     Config::$amazonQ['url']
                 );
-
+                
                 /*
                  * If response is 200, Throw exception.
                  */
                 if ($responseQ->status !== 200) {
-                    throw new Exception(
-                    "Message not recieved from the messageQ server."
-                    );
                     syslog(
                         LOG_INFO, 
-                        "Message not recieved from the messageQ server"
+                        "Message not received from the messageQ server"
                     );
-                }
-
-                /*
-                 * Get the message body.
-                 */
-                $msgObj = $responseQ->body->ReceiveMessageResult->Message;
-
-                /*
-                 * If message body is empty, raise the exception.
-                 */
-                if (empty($msgObj)) {
                     throw new Exception(
-                    "Received an empty message from messageQ."
-                    );
-                    syslog(
-                        LOG_INFO, "Received an empty message from messageQ."
+                    "Message not received from the messageQ server."
                     );
                 }
 
                 syslog(
-                    LOG_INFO, "Message Received: " . $msgObj->Body
+                    LOG_INFO, 
+                    "Message received from the messageQ server"
+                );
+                /*
+                 * Get the message body.
+                 */
+                $msgObj = $responseQ->body->ReceiveMessageResult->Message;
+                /*
+                 * If message body is empty, raise the exception.
+                 */
+                if (empty($msgObj)) {
+                    syslog(
+                        LOG_INFO, "Received an empty message from messageQ."
+                    );
+                    throw new Exception(
+                    "Received an empty message from messageQ."
+                    );
+                }
+                $msgBody = (array)$msgObj->Body;
+                $msgBody = $msgBody[0];
+                
+                syslog(
+                    LOG_INFO, "Message Received: " . $msgBody
                 );
 
                 /*
                  * File name and content were json encoded so decode it.
                  */
-                $fileJson = json_decode($msgObj->Body);
+                
+                $fileJson = json_decode($msgBody);
+                if(!is_object($fileJson))
+                    $fileJson = json_decode($fileJson);
+                //print_r($fileJson); die;
                 /*
                  * Get the message receipt
                  */
-                $receiptQ = $msgObj->ReceiptHandle;
-
+                $receiptQ = (array)$msgObj->ReceiptHandle;
+                $receiptQ = (string)$receiptQ[0];
+                
                 /*
                  * If file content are empty raise the exception.
                  */
                 if (empty($fileJson->content)) {
-                    throw new Exception(
-                    "$fileJson->file content is empty in messageQ."
-                    );
                     syslog(
                         LOG_WARNING, "$fileJson->file content is empty in messageQ."
                     );
+                    throw new Exception(
+                    "$fileJson->file content is empty in messageQ."
+                    );
                 }
 
-                if ($fileJson->type == 'set' || !isset($fileJson->type)) {
+                if ($fileJson->type == 'SET' || !isset($fileJson->type)) {
                     $this->saveToFtp(
                         $this->setFtpConn, Config::$setFtp['serverpath'], $fileJson
                     );
-                } else if ($fileJson->type == 'mos') {
+                } else if ($fileJson->type == 'MOS') {
                     $this->saveToFtp(
                         $this->mosFtpConn, Config::$mosFtp['serverpath'], $fileJson
                     );
@@ -281,19 +291,23 @@ class PhpBatchThree
                     Config::$amazonQ['url'], $receiptQ
                 );
 
-                $this->messages['files'][$fileJson->file] = true;
+                $this->messages['files'][$fileJson->file]['status'] = true;
             } catch (Exception $e) {
-                $this->messages['files'][$fileJson->file] = false;
-                $this->messages['message'] = $e->getMessage();
+                $this->messages['files'][$fileJson->file]['status'] = false;
+                $this->messages['files'][$fileJson->file]['error'] = $e->getMessage();
             }
             /*
              * Decrease $messageCount by 1
              */
             $this->messageCount--;
         }
+        $this->messages['message'] = "$this->noOfFiles no of files processed.";
+        syslog(
+            LOG_INFO, json_encode($this->messages)
+        );
+        echo json_encode($this->messages);
     }
 }
-
 
 try{
     $phpBatchThree = new phpBatchThree();
