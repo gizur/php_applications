@@ -79,6 +79,11 @@ return array(
                     'verb' => 'GET'
                 ),
                 array(
+                    'api/list', 
+                    'pattern' => '/<model:(Batches)>', 
+                    'verb' => 'GET'
+                ),
+                array(
                     'api/list',
                     'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>',
                     'verb' => 'GET'
@@ -178,6 +183,7 @@ return array(
         'awsS3Bucket' => 'gizurcloud',
         'awsS3BackupBucket' => 'gc3-backups',
         'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
+        'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
         'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
         'acceptableTimestampError' => 60,
