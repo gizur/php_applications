@@ -1422,7 +1422,7 @@ class ApiController extends Controller
                         Yii::app()->params->awsDynamoDBRegion
                     )
                 );
-                //Get all the clients
+                //Get all the batches
                 $ddbResponse = $dynamodb->scan(
                     array(
                         'TableName' => Yii::app()->params->awsBatchDynamoDBTableName
