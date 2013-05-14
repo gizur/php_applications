@@ -1412,7 +1412,7 @@ class ApiController extends Controller
                 $this->_sendResponse(200, json_encode($response));
                 break;
                 
-            case 'Users':
+            case 'Batches':
                 
                 // Instantiate the class
                 $dynamodb = new AmazonDynamoDB();
