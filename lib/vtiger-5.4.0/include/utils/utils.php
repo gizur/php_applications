@@ -47,7 +47,6 @@ require_once('include/fields/CurrencyField.php');
 require_once('data/CRMEntity.php');
 require_once 'vtlib/Vtiger/Language.php';
 
-require_once 'auto_privilege.php';
 // Constants to be defined here
 
 // For Migration status.

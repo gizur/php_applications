@@ -50,4 +50,6 @@ if (isset($_cache) && !empty($_cache)) {
     eval("\$action_id_array=" . $_cache['action_id_array'] . ";");
     eval("\$action_name_array=" . $_cache['action_name_array'] . ";");
 }
+
+require_once 'auto_privilege.php';
 ?>
