@@ -155,3 +155,52 @@ $amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' .
  * Amazon S3 Bucket
  */
 $amazonSThree['bucket'] = "gc2-archive";
+
+class Config
+{
+
+    public static $dbIntegration = array(
+        'db_server' => 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com',
+        'db_port' => 3306,
+        'db_username' => 'vtiger_integrati',
+        'db_password' => 'ALaXEryCwSFyW5jQ',
+        'db_name' => 'vtiger_integration',
+        'db_type' => 'mysql'
+    );
+    public static $dbVtiger = array(
+        'db_server' => 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com',
+        'db_port' => 3306,
+        'db_username' => 'user_7aeb7290',
+        'db_password' => 'faeb72908d05',
+        'db_name' => 'vtiger_6beb7290',
+        'db_type' => 'mysql'
+    );
+    public static $batchVariable = 10;
+    public static $setFtp = array(
+        'host' => "10.58.226.192",
+        'port' => 21,
+        'username' => "gizur",
+        'password' => "gizur",
+        'serverpath' => "files/"
+    );
+    public static $mosFtp = array(
+        'host' => "10.58.226.192",
+        'port' => 21,
+        'username' => "gizur",
+        'password' => "gizur",
+        'serverpath' => "files/"
+    );
+    public static $amazonQ = array(
+        'url' => 'https://sqs.eu-west-1.amazonaws.com/996313430626/cikab_queue'
+    );
+    public static $amazonSThree = array(
+        'bucket' => "gc2-archive",
+        'setFolder' => "seasonportal/SET-files/"
+    );
+    public static $customFields = array(
+        'setFiles' => 'cf_664',
+        'mosFiles' => 'cf_665',
+        'basProductId' => 'cf_666'
+    );
+
+}
