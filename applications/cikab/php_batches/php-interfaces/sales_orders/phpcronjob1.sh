@@ -167,17 +167,18 @@ class PhpBatchOne
          */
         $interfaceQuery = $this->integrationConnect->query(
             "INSERT INTO sales_orders
-            SET `id` = NULL, 
-            `salesorderid` = $salesOrder->salesorderid, 
+            SET `id` = NULL,
+            `salesorderid` = $salesOrder->salesorderid,
             `salesorder_no` = '$salesOrder->salesorder_no',
-            `contactid` = $salesOrder->contactid, 
+            `contactid` = $salesOrder->contactid,
             `duedate` = '$salesOrder->duedate',
             `accountname` = '$salesOrder->accountname',
-            `accountid` = $salesOrder->accountid,            
+            `accountid` = $salesOrder->accountid,
             `batchno` = '$batchNo', 
             `set` = '" . $salesOrder->{Config::$customFields['setFiles']} . "',
             `mos` = '" . $salesOrder->{Config::$customFields['mosFiles']} . "',
-            `status` = '$salesOrder->sostatus', 
+            `set_status` = '$salesOrder->sostatus',
+            `mos_status` = '$salesOrder->sostatus',
             `created` = now()"
         );
 
