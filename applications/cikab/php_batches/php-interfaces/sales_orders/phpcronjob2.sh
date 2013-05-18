@@ -420,8 +420,6 @@ class PhpBatchTwo
 
     protected function createMOSFile($account, &$msg)
     {
-        $cnt = 0;
-
         $soProducts = $this->getProductsByAccountName(
             $account->accountname
         );
@@ -430,7 +428,7 @@ class PhpBatchTwo
             = $account->num_rows;
 
         $createdDate = date("YmdHi");
-
+        $dt = date("Ymd");
         /*
          * Generate the file name.
          */
@@ -439,8 +437,17 @@ class PhpBatchTwo
         $msg[$account->accountname]['file'] = $fileName;
 
         $sequence = 1;
-        $contentF = "";
-
+        
+        $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
+        $cntZero = Functions::leadingzero(5, strlen((string) $account->num_rows));
+        
+        $header = "{$seqZero}{$sequence}0000" .
+            "{$cntZero}{$account->num_rows}{$dt}1727130700518" .
+            "000000000000000000000000000000000000000000000";
+        $contentF = $header;
+        
+        $sequence++;
+        
         while ($sOWProduct = $soProducts->fetch_object()) {
             $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
 
@@ -461,9 +468,11 @@ class PhpBatchTwo
                     4, strlen((string) $campaignWeek)
             );
 
+            $basProId = explode('-', $sOWProduct->bas_product_id);
+            
             $dummyOne = (string) '3095';
-            $vgr = (string) '000';
-            $art = (string) '0000';
+            $vgr = (string) $basProId[0];
+            $art = (string) $basProId[1];
             $varubet = (string) '0000';
             $store = (string) $sOWProduct->accountname;
 
@@ -481,6 +490,14 @@ class PhpBatchTwo
             $sequence++;
         }
 
+        $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
+        $cntZero = Functions::leadingzero(5, strlen((string) $account->num_rows));
+        
+        $header = "{$seqZero}{$sequence}9999" .
+            "{$cntZero}{$account->num_rows}{$dt}1727130700518" .
+            "000000000000000000000000000000000000000000000";
+        $contentF .= $header;
+        
         syslog(
             LOG_INFO, "File $fileName contents: " . $contentF
         );
