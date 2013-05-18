@@ -195,8 +195,10 @@ class Config
         'url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
     );
     public static $amazonSThree = array(
-        'bucket' => "gc3-archive",
-        'setFolder' => "seasonportal/SET-files/"
+        'setBucket' => "gc3-archive",
+        'setFolder' => "seasonportal/SET-files/",
+        'mosBucket' => "gc3-archive",
+        'mosFolder' => "seasonportal/SET-files/"
     );
     public static $customFields = array(
         'setFiles' => 'cf_664',

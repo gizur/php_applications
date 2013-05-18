@@ -29,9 +29,12 @@ class PhpBatchOne
     private $vTigerConnect;
     private $integrationConnect;
     private $messages = array();
-
+    private $basProductID;
+    
     public function __construct()
     {
+        $this->basProductID = Config::$customFields['basProductId'];
+        
         openlog(
             "phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0
         );
@@ -137,12 +140,14 @@ class PhpBatchOne
             "SO.salesorderid, SO.salesorder_no, SO.contactid," .
             "SO.duedate, SO.sostatus, ACCO.accountname, " .
             "ACCO.accountid, PRO.productid, " .
-            "PRO.productname,IVP.quantity " .
+            "PRO.productname, IVP.quantity, " .
+            "PCF." . Config::$customFields['basProductId'] . " " .
             "FROM vtiger_salesorder SO " .
             "INNER JOIN vtiger_account ACCO on ACCO.accountid = SO.accountid " .
             "INNER JOIN vtiger_inventoryproductrel IVP on IVP.id = " .
             "SO.salesorderid " .
             "INNER JOIN vtiger_products PRO on PRO.productid = IVP.productid " .
+            "INNER JOIN vtiger_productcf PCF ON PRO.productid = PCF.productid " .
             "WHERE SO.salesorder_no = '$salesOrderNo'"
         );
 
@@ -226,6 +231,7 @@ class PhpBatchOne
             productquantity = $salesOrderProduct->quantity,
             featurdate = NULL,
             sales_order_id = $salesOrderId,
+            bas_product_id = '$salesOrderProduct->{$this->basProductID}',
             created = now()"
         );
 

@@ -31,7 +31,7 @@ class PhpBatchTwo
     private $sqs;
     private $messages = array();
     private $duplicateFile = array();
-    private $mosDuplicateFile = array();
+    private $mosStoreFiles = array();
     private $sThree;
 
     public function __construct()
@@ -79,28 +79,28 @@ class PhpBatchTwo
         );
     }
 
-    protected function getSalesOrders()
+    protected function getSalesOrdersForSet()
     {
-        syslog(LOG_INFO, "In getSalesOrders() : Preparing sales order query");
+        syslog(LOG_INFO, "In getSalesOrdersForSet() : Preparing sales order query");
 
         $salesOrdersQuery = "SELECT * FROM sales_orders SO 
-            WHERE SO.status IN ('Created','Approved')
+            WHERE SO.set_status IN ('Created','Approved') AND SO.set = 'Yes'
             LIMIT 0, " . Config::$batchVariable;
 
         syslog(
-            LOG_INFO, "In getSalesOrders() : Executing Query: " . $salesOrdersQuery
+            LOG_INFO, "In getSalesOrdersForSet() : Executing Query: " . $salesOrdersQuery
         );
 
         $salesOrders = $this->integrationConnect->query($salesOrdersQuery);
 
         if (!$salesOrders) {
             syslog(
-                LOG_WARNING, "In getSalesOrders() : Error executing sales order query :" .
+                LOG_WARNING, "In getSalesOrdersForSet() : Error executing sales order query :" .
                 " ({$this->integrationConnect->errno}) - " .
                 "{$this->integrationConnect->error}"
             );
             throw new Exception(
-            "In getSalesOrders() : Error executing sales order query : " .
+            "In getSalesOrdersForSet() : Error executing sales order query : " .
             "({$this->integrationConnect->errno}) - " .
             "{$this->integrationConnect->error}"
             );
@@ -108,9 +108,46 @@ class PhpBatchTwo
 
         if ($salesOrders->num_rows == 0) {
             syslog(
-                LOG_WARNING, "In getSalesOrders() : No Sales Order Found!"
+                LOG_WARNING, "In getSalesOrdersForSet() : No Sales Order Found!"
             );
-            throw new Exception("In getSalesOrders() : No Sales Order Found!");
+            throw new Exception("In getSalesOrdersForSet() : No Sales Order Found!");
+        }
+
+        return $salesOrders;
+    }
+
+    protected function getAccountsForMos()
+    {
+        syslog(LOG_INFO, "In getAccountsForMos() : Preparing sales order query");
+
+        $salesOrdersQuery = "SELECT DISTINCT SO.accountname FROM sales_orders SO 
+            WHERE SO.mos_status IN ('Created','Approved') AND SO.mos = 'Yes'
+            LIMIT 0, " . Config::$batchVariable;
+
+        syslog(
+            LOG_INFO, "In getAccountsForMos() : Executing Query: " . $salesOrdersQuery
+        );
+
+        $salesOrders = $this->integrationConnect->query($salesOrdersQuery);
+
+        if (!$salesOrders) {
+            syslog(
+                LOG_WARNING, "In getAccountsForMos() : Error executing sales order query :" .
+                " ({$this->integrationConnect->errno}) - " .
+                "{$this->integrationConnect->error}"
+            );
+            throw new Exception(
+            "In getAccountsForMos() : Error executing sales order query : " .
+            "({$this->integrationConnect->errno}) - " .
+            "{$this->integrationConnect->error}"
+            );
+        }
+
+        if ($salesOrders->num_rows == 0) {
+            syslog(
+                LOG_WARNING, "In getAccountsForMos() : No Sales Order Found!"
+            );
+            throw new Exception("In getAccountsForMos() : No Sales Order Found!");
         }
 
         return $salesOrders;
@@ -138,18 +175,45 @@ class PhpBatchTwo
         return $salesOrderProducts;
     }
 
+    protected function getProductsByAccountName($accountname)
+    {
+        syslog(
+            LOG_INFO, "In getProductsByAccountName($accountname) : Fetching products"
+        );
+        /*
+         * Fetch current sales order products.
+         */
+        $query = "SELECT * " .
+            "FROM sales_order_products SOP LEFT JOIN sales_orders SO ON " .
+            "SO.id = SOP.sales_order_id " .
+            "WHERE SO.accountname = '$accountname'";
+        
+        syslog(
+            LOG_INFO, "Fetching products ($accountname): $query"
+        );
+        
+        $products = $this->integrationConnect->query($query);
+
+        syslog(
+            LOG_INFO, "Total number of products ($accountname): " .
+            $products->num_rows
+        );
+
+        return $products;
+    }
+
     protected function updateIntegrationSalesOrder(
-    $salesOrderID, $status = 'Delivered'
+    $salesOrderID, $column, $status = 'Delivered'
     )
     {
         syslog(
             LOG_INFO, "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
-            "Updating sales order ($salesOrderID) $status"
+            "Updating sales order ($salesOrderID) column $column to $status"
         );
 
         $updateSaleOrder = $this->integrationConnect->query(
             "UPDATE sales_orders SET " .
-            "status = '$status' WHERE id = " .
+            "$column = '$status' WHERE id = " .
             "'$salesOrderID' LIMIT 1"
         );
 
@@ -166,6 +230,37 @@ class PhpBatchTwo
 
         return $updateSaleOrder;
     }
+    
+    protected function updateIntegrationSalesOrderByAccountName(
+    $accountname, $column, $status = 'Delivered'    
+    ){
+        syslog(
+            LOG_INFO, "In updateIntegrationSalesOrderByAccountName(" .
+            "$accountname, $column, $status) : " .
+            "Updating store ($accountname) column $column to $status"
+        );
+
+        $updateSaleOrder = $this->integrationConnect->query(
+            "UPDATE sales_orders SO SET " .
+            "SO.$column = '$status' WHERE SO.accountname = " .
+            "'$accountname'"
+        );
+
+        if (!$updateSaleOrder) {
+            syslog(
+                LOG_WARNING, "In updateIntegrationSalesOrderByAccountName(
+                    $accountname, $column, $status) : " .
+                "Error updating salesorders"
+            );
+            throw new Exception(
+            "In updateIntegrationSalesOrderByAccountName(
+                $accountname, $column, $status) : " .
+            "Error updating salesorders"
+            );
+        }
+
+        return $updateSaleOrder;
+    }
 
     protected function createSETFile($salesOrder, &$msg)
     {
@@ -174,7 +269,7 @@ class PhpBatchTwo
         $soProducts = $this->getProductsBySalesOrderId(
             $salesOrder->id
         );
-        
+
         $msg[$salesOrder->salesorder_no]['count']
             = $soProducts->num_rows;
 
@@ -192,8 +287,8 @@ class PhpBatchTwo
          */
         $fileName = "SET.GZ.FTP.IN.BST.$createdDate." .
             "$salesOrder->accountname";
-        
-        $msg[$salesOrder->salesorder_no]['set']['file'] = $fileName;
+
+        $msg[$salesOrder->salesorder_no]['file'] = $fileName;
         /*
          * Initialise variables used in creating SET file contents.
          */
@@ -219,13 +314,13 @@ class PhpBatchTwo
 
                 if ($productlength < 6) {
                     $leadzeroproduct = Functions::leadingzero(
-                        6, $productlength
+                            6, $productlength
                     );
                 }
 
                 if ($productquantitylength < 3) {
                     $leadzeroproductquantity = Functions::leadingzero(
-                        3, $productquantitylength
+                            3, $productquantitylength
                     );
                 }
 
@@ -323,76 +418,69 @@ class PhpBatchTwo
         return $messageQ;
     }
 
-    protected function createMOSFile($salesOrder, &$msg)
+    protected function createMOSFile($account, &$msg)
     {
         $cnt = 0;
-        
-        $soProducts = $this->getProductsBySalesOrderId(
-            $salesOrder->id
-        );
-        
-        $msg[$salesOrder->salesorder_no]['count']
-            = $soProducts->num_rows;
-        
-        if (empty($this->mosDuplicateFile[$salesOrder->accountname]))
-            $createdDate = date("YmdHi");
-        else {
-            $cnt = count($this->mosDuplicateFile[$salesOrder->accountname]);
-            $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
-        }
 
-        $this->mosDuplicateFile[$salesOrder->accountname][] = $createdDate;
+        $soProducts = $this->getProductsByAccountName(
+            $account->accountname
+        );
+
+        $msg[$account->accountname]['count']
+            = $account->num_rows;
+
+        $createdDate = date("YmdHi");
 
         /*
          * Generate the file name.
          */
         $fileName = "MOS.GZ.FTP.IN.BST.$createdDate." .
-            "$salesOrder->accountname";
-        $msg[$salesOrder->salesorder_no]['mos']['file'] = $fileName;
+            "$account->accountname";
+        $msg[$account->accountname]['file'] = $fileName;
 
         $sequence = 1;
         $contentF = "";
-        
+
         while ($sOWProduct = $soProducts->fetch_object()) {
-            $seqZero = Functions::leadingzero(5, strlen((string)$sequence));
-            
-            if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00')
+            $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
+
+            if (!empty($sOWProduct->duedate) && $sOWProduct->duedate != '0000-00-00')
                 $deliveryday = date(
-                    "ymd", strtotime($salesOrder->duedate)
+                    "ymd", strtotime($sOWProduct->duedate)
                 );
             else
                 $deliveryday = date('ymd');
-        
+
             $week = date('W', strtotime($deliveryday));
 
             $campaignWeek = date('W', strtotime(
-                date("ymd", strtotime($deliveryday)) . "+2 day"
+                    date("ymd", strtotime($deliveryday)) . "+2 day"
             ));
-            $weekZero = Functions::leadingzero(4, strlen((string)$week));
+            $weekZero = Functions::leadingzero(4, strlen((string) $week));
             $campWeekZero = Functions::leadingzero(
-                4, strlen((string)$campaignWeek)
+                    4, strlen((string) $campaignWeek)
             );
-            
-            $dummyOne = (string)'3095';
-            $vgr = (string)'000';
-            $art = (string)'0000';
-            $varubet = (string)'0000';
-            $store = (string)$salesOrder->accountname;
-            
-            $quantity = (string)$sOWProduct->productquantity;
-            $qtnZero = Functions::leadingzero(7, strlen((string)$quantity));
-            
-            $dummyTwo = (string)'1000';
-            
-            $reservationId = (string)'0000000';
-            
+
+            $dummyOne = (string) '3095';
+            $vgr = (string) '000';
+            $art = (string) '0000';
+            $varubet = (string) '0000';
+            $store = (string) $sOWProduct->accountname;
+
+            $quantity = (string) $sOWProduct->productquantity;
+            $qtnZero = Functions::leadingzero(7, strlen((string) $quantity));
+
+            $dummyTwo = (string) '1000';
+
+            $reservationId = (string) '0000000';
+
             $contentF .= "{$seqZero}{$sequence}{$dummyOne}" .
                 "{$vgr}{$art}{$varubet}{$store}" .
-                "{$weekZero}{$week}{$qtnZero}{$quantity}" . 
+                "{$weekZero}{$week}{$qtnZero}{$quantity}" .
                 "{$dummyTwo}{$campWeekZero}{$campaignWeek}{$reservationId}\n";
             $sequence++;
         }
-        
+
         syslog(
             LOG_INFO, "File $fileName contents: " . $contentF
         );
@@ -459,7 +547,7 @@ class PhpBatchTwo
          * If unable to store file content at queue,
          * raise the exception
          */
-        if ($responseQ->status !== 200) {            
+        if ($responseQ->status !== 200) {
             syslog(
                 LOG_WARNING, "Error in sending file to messageQ."
             );
@@ -471,16 +559,19 @@ class PhpBatchTwo
 
     public function init()
     {
+        /*
+         * Process SET Files
+         */            
         try {
-            $salesOrders = $this->getSalesOrders();
+            $salesOrders = $this->getSalesOrdersForSet();
             $numberSalesOrders = $salesOrders->num_rows;
 
             /*
              * Update message array with number of sales orders.
              */
-            $this->messages['count'] = $numberSalesOrders;
-            $msg = &$this->messages['salesorders'];
-            
+            $this->messages['set']['count'] = $numberSalesOrders;
+            $msg = &$this->messages['set']['salesorders'];
+
             while ($salesOrder = $salesOrders->fetch_object()) {
                 try {
                     /*
@@ -491,65 +582,23 @@ class PhpBatchTwo
                     );
                     $this->integrationConnect->autocommit(FALSE);
 
-                    $fileName = "";
-                    
-                    if ($salesOrder->set == 'No' && $salesOrder->mos == 'No') {
-                        syslog(
-                            LOG_WARNING, 
-                            "SET and MOS both are set NO for sales order " .
-                            "$salesOrder->salesorder_no " .
-                            "($salesOrder->accountname)."
-                        );
-                        throw new Exception(
-                            "SET and MOS both are set NO for sales order " .
-                            "$salesOrder->salesorder_no " .
-                            "($salesOrder->accountname)."
-                        );
-                    }
-                    
-                    if ($salesOrder->set == 'Yes') {
-                        
-                        $msg[$salesOrder->salesorder_no]['set']['status'] = false;
-                        
-                        $setFile = $this->createSETFile($salesOrder, $msg);
+                    $msg[$salesOrder->salesorder_no]['status'] = false;
 
-                        $this->storeFileInSThree(
-                            Config::$amazonSThree['bucket'], 
-                            Config::$amazonSThree['setFolder'], 
-                            $setFile['file'], 
-                            $setFile['content']
-                        );
+                    $setFile = $this->createSETFile($salesOrder, $msg);
 
-                        $this->storeFileInMessageQ(
-                            Config::$amazonQ['url'], json_encode($setFile)
-                        );
-                        
-                        $msg[$salesOrder->salesorder_no]['set']['status'] = true;
-                        $fileName = $setFile['file'];
-                    } 
-                    
-                    if($salesOrder->mos == 'Yes') {
-                        $msg[$salesOrder->salesorder_no]['mos']['status'] = false;
-                        
-                        $mosFile = $this->createMOSFile($salesOrder, $msg);
+                    $this->storeFileInSThree(
+                        Config::$amazonSThree['setBucket'], Config::$amazonSThree['setFolder'], $setFile['file'], $setFile['content']
+                    );
 
-                        $this->storeFileInSThree(
-                            Config::$amazonSThree['bucket'], 
-                            Config::$amazonSThree['setFolder'], 
-                            $mosFile['file'], 
-                            $mosFile['content']
-                        );
+                    $this->storeFileInMessageQ(
+                        Config::$amazonQ['url'], json_encode($setFile)
+                    );
 
-                        $this->storeFileInMessageQ(
-                            Config::$amazonQ['url'], json_encode($mosFile)
-                        );
-                        
-                        $msg[$salesOrder->salesorder_no]['mos']['status'] = true;
-                        $fileName = $mosFile['file'];
-                    }
-                    
+                    $msg[$salesOrder->salesorder_no]['status'] = true;
+                    $fileName = $setFile['file'];
+
                     $this->updateIntegrationSalesOrder(
-                        $salesOrder->id, 'Delivered'
+                        $salesOrder->id, 'set_status', 'Delivered'
                     );
                     /*
                      * Commit the databases.
@@ -564,8 +613,9 @@ class PhpBatchTwo
                 }
             }
 
-            $this->messages['message'] = "$numberSalesOrders number " .
-                "of sales orders processed.";
+            $this->messages['set']['message'] = "$numberSalesOrders number " .
+                "of sales orders processed for SET files.";
+            
         } catch (Exception $e) {
             $this->messages['message'] = $e->getMessage();
             /*
@@ -574,6 +624,70 @@ class PhpBatchTwo
             $this->integrationConnect->rollback();
         }
         
+        /*
+         * Process MOS files
+         */
+        try {
+            $accounts = $this->getAccountsForMos();
+            $numberAccounts = $accounts->num_rows;
+
+            /*
+             * Update message array with number of sales orders.
+             */
+            $this->messages['mos']['count'] = $numberAccounts;
+            $msg = &$this->messages['mos']['accounts'];
+
+            while ($account = $accounts->fetch_object()) {
+                try {
+                    /*
+                     * Disable auto commit.
+                     */
+                    syslog(
+                        LOG_INFO, "Disabling auto commit"
+                    );
+                    $this->integrationConnect->autocommit(FALSE);
+
+                    $msg[$account->accountname]['status'] = false;
+
+                    $mosFile = $this->createMOSFile($account, $msg);
+
+                    $this->storeFileInSThree(
+                        Config::$amazonSThree['mosBucket'], Config::$amazonSThree['mosFolder'], $mosFile['file'], $mosFile['content']
+                    );
+
+                    $this->storeFileInMessageQ(
+                        Config::$amazonQ['url'], json_encode($mosFile)
+                    );
+
+                    $msg[$account->accountname]['status'] = true;
+                    $fileName = $mosFile['file'];
+                    
+                    $this->updateIntegrationSalesOrderByAccountName(
+                        $account->accountname, 'mos_status', 'Delivered'
+                    );
+                    /*
+                     * Commit the databases.
+                     */
+                    $this->integrationConnect->commit();
+                } catch (Exception $e) {
+                    $numberSalesOrders--;
+                    /*
+                     * Rollback the connections
+                     */
+                    $this->integrationConnect->rollback();
+                }
+            }
+
+            $this->messages['mos']['message'] = "$numberAccounts number " .
+                "of accounts processed for MOS files.";
+        } catch (Exception $e) {
+            $this->messages['message'] = $e->getMessage();
+            /*
+             * Rollback the connections
+             */
+            $this->integrationConnect->rollback();
+        }
+
         syslog(
             LOG_INFO, json_encode($this->messages)
         );
@@ -584,6 +698,7 @@ class PhpBatchTwo
 
 class Functions
 {
+
     /**
      * auto adding zero befor number  
      */
@@ -611,10 +726,10 @@ class Functions
 
 }
 
-try{
+try {
     $phpBatchTwo = new PhpBatchTwo();
     $phpBatchTwo->init();
-}catch(Exception $e){
+} catch (Exception $e) {
     syslog(LOG_WARNING, $e->getMessage());
     echo $e->getMessage();
 }
