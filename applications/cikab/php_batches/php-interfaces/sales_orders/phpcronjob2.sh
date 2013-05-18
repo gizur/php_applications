@@ -424,8 +424,7 @@ class PhpBatchTwo
             $account->accountname
         );
 
-        $msg[$account->accountname]['count']
-            = $account->num_rows;
+        $msg[$account->accountname]['count'] = $soProducts->num_rows;
 
         $createdDate = date("YmdHi");
         $dt = date("Ymd");
@@ -439,11 +438,11 @@ class PhpBatchTwo
         $sequence = 1;
         
         $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
-        $cntZero = Functions::leadingzero(5, strlen((string) $account->num_rows));
+        $cntZero = Functions::leadingzero(5, strlen((string) $soProducts->num_rows));
         
         $header = "{$seqZero}{$sequence}0000" .
-            "{$cntZero}{$account->num_rows}{$dt}1727130700518" .
-            "000000000000000000000000000000000000000000000";
+            "{$cntZero}{$soProducts->num_rows}{$dt}1727130700518" .
+            "000000000000000000000000000000000000000000000\n";
         $contentF = $header;
         
         $sequence++;
@@ -491,10 +490,10 @@ class PhpBatchTwo
         }
 
         $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
-        $cntZero = Functions::leadingzero(5, strlen((string) $account->num_rows));
+        $cntZero = Functions::leadingzero(5, strlen((string) $soProducts->num_rows));
         
         $header = "{$seqZero}{$sequence}9999" .
-            "{$cntZero}{$account->num_rows}{$dt}1727130700518" .
+            "{$cntZero}{$soProducts->num_rows}{$dt}1727130700518" .
             "000000000000000000000000000000000000000000000";
         $contentF .= $header;
         
@@ -687,7 +686,7 @@ class PhpBatchTwo
                      */
                     $this->integrationConnect->commit();
                 } catch (Exception $e) {
-                    $numberSalesOrders--;
+                    $numberAccounts--;
                     /*
                      * Rollback the connections
                      */
