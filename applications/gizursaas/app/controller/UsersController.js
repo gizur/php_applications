@@ -164,8 +164,14 @@ var UsersController = Stapes.subclass({
                 $('#forgotPasswordError').addClass('alert alert-error')
                         .empty()
                         .html("Please enter login id.");
+                setTimeout(function() {
+                    $('#forgotPasswordError').removeClass('alert alert-error')
+                        .empty();
+                }, 1000);
                 return false;
             } else {
+                $('#forgotPasswordError').addClass('alert alert-error')
+                        .empty().html('Processing ...');
                 //Make a forgotpassword request to the server
                 //
                 var _url_forgot = __rest_server_url + 'User/forgotpassword';
@@ -181,6 +187,8 @@ var UsersController = Stapes.subclass({
                     error: function(jqXHR, textStatus, errorThrown) {
                         var _data = JSON.parse(jqXHR.responseText);
 
+                        $('#forgotPasswordError').addClass('alert alert-error')
+                            .empty();
                         if (!_data.success)
                             self.view.error(__messages[_data.error.code]);
 
@@ -188,6 +196,8 @@ var UsersController = Stapes.subclass({
                     },
                     // On success clean the form.
                     success: function(_data) {
+                        $('#forgotPasswordError').addClass('alert alert-error')
+                            .empty();
                         if (_data.success) {
                             self.view.success(
                                     'An email has been sent to' +
