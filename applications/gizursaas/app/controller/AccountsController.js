@@ -292,6 +292,10 @@ var AccountsController = Stapes.subclass({
             // This fuunction make PUT request to the server to
             // reset vtiger admin password
             'vtigerResetPasswordButton': function(){
+                
+                if(!confirm('Would you like to reset your vTiger admin password?'))
+                    return false;
+                
                 self.view.success('Please wait ...');
                 var _url = __rest_server_url + 'User/vtiger/' + 
                         user_controller.model.get('email');
