@@ -4692,7 +4692,124 @@ class ApiController extends Controller
                  * *************************************************************
                  */
             case 'User':
-                if (isset($_GET['field'])) {
+                if (isset($_GET['action'])) {
+                    if($_GET['action'] == 'vtiger'){
+                        $result = array();
+                        // Instantiate the class
+                        $dynamodb = new AmazonDynamoDB();
+                        $dynamodb->set_region(
+                            constant(
+                                "AmazonDynamoDB::" . 
+                                Yii::app()->params->awsDynamoDBRegion
+                            )
+                        );
+
+                        // Get an item
+                        $ddbResponse = $dynamodb->get_item(
+                            array(
+                                'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                                'Key' => $dynamodb->attributes(
+                                    array(
+                                        'HashKeyElement' => $_GET['email'],
+                                    )
+                                ),
+                                'ConsistentRead' => 'true'
+                            )
+                        );
+                        
+                        foreach ($ddbResponse->body->Item->children()
+                        as $key => $item) {
+                            $result[$key] 
+                                = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                        }
+                        
+                        //To update vTiger Admin password
+                        //===============================
+                        $salt = substr("admin", 0, 2);
+                        $salt = '$1$' . str_pad($salt, 9, '0');
+                        $oPassword = substr(strrev(uniqid()), 0, 9);
+                        $userHash = strtolower(md5($oPassword));
+                        $computedEncryptedPassword = crypt($oPassword, $salt);
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " CREATING DATABASE CONNNECTION TO " . 
+                            $dbconfig['db_server'], 
+                            CLogger::LEVEL_TRACE
+                        );
+                        $mysqli = new mysqli(
+                            $result['server'],
+                            $result['username'],
+                            $result['dbpassword'],
+                            $result['databasename'],
+                            $result['port']
+                        );
+
+                        if ($mysqli->connect_error) 
+                            throw New Exception($mysqli->connect_error);
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " CREATING AmazonDynamoDB CONNNECTION ", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        //Add User Sequence
+                        //======================
+                        $query = "update vtiger_users set user_password = " . 
+                            "'$computedEncryptedPassword', crypt_type = " . 
+                            "'PHP5.3MD5', user_hash = '$userHash' where " .
+                            "user_name = 'admin'";
+
+                        if ($mysqli->query($query)===false) {
+                            throw New Exception(
+                                $mysqli->error . " Query:" . $query, 0
+                            );                        
+                        }
+
+                        $mysqli->close();
+                        
+                        //SEND THE EMAIL TO USER
+                        $email = new AmazonSES();
+                        //$email->set_region(constant("AmazonSES::" . 
+                        //Yii::app()->params->awsSESRegion));
+                        $sesResponse = $email->send_email(
+                            // Source (aka From)
+                            Yii::app()->params->awsSESFromEmailAddress,
+                            array(
+                                'ToAddresses' => array(// Destination (aka To)
+                                    $result['id']
+                                )
+                            ), 
+                            array(// sesMessage (short form)
+                                'Subject.Data' => 'Gizur SaaS',
+                                'Body.Text.Data' => 'Hi ' . $result['name_1'] . 
+                                ' ' . $result['name_2'] . ', ' . PHP_EOL .
+                                PHP_EOL .
+                                'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
+                                'Your vTiger admin password has been ' .
+                                'updated and is as follows:' . PHP_EOL .
+                                PHP_EOL .
+                                'vTiger Link: ' .
+                                Yii::app()->params->serverProtocol .
+                                $_SERVER['HTTP_HOST'] .
+                                '/' . $result['clientid'] . '/' .  
+                                PHP_EOL .
+                                'Username: admin' . PHP_EOL .                            
+                                'Password: ' . $oPassword . PHP_EOL .
+                                PHP_EOL .
+                                PHP_EOL .
+                                '--' .
+                                PHP_EOL .
+                                'Gizur Admin'
+                            )
+                        );
+                        $response = new stdClass();
+                        $response->success = true;
+                        $this->_sendResponse(200, json_encode($response));
+                    }
+                } else if (isset($_GET['field'])) {
                     $keyid = str_replace('keypair', '', $_GET['field']);
 
                     //It match username sent in the header and email

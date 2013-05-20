@@ -119,6 +119,11 @@ return array(
                     'verb' => 'PUT'
                 ),
                 array(
+                    'api/update',
+                    'pattern' => '/<model:(User)>/<action:(vtiger)>/<email:.+>',
+                    'verb' => 'PUT'
+                ),
+                array(
                     'api/create', 
                     'pattern' => '/<model:(HelpDesk|User)>',
                     'verb' => 'POST'
