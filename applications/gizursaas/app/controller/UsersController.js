@@ -170,7 +170,7 @@ var UsersController = Stapes.subclass({
                 }, 1000);
                 return false;
             } else {
-                $('#forgotPasswordError').addClass('alert alert-error')
+                $('#forgotPasswordError').addClass('alert alert-success')
                         .empty().html('Processing ...');
                 //Make a forgotpassword request to the server
                 //
@@ -198,6 +198,7 @@ var UsersController = Stapes.subclass({
                     success: function(_data) {
                         $('#forgotPasswordError').addClass('alert alert-error')
                             .empty();
+                        $('#login_id').val('');
                         if (_data.success) {
                             self.view.success(
                                     'An email has been sent to' +
