@@ -137,7 +137,8 @@ class ApiController extends Controller
         2002 => "EMAIL_INVALID",
         2003 => "LOGIN_INVALID",
         2004 => "WRONG_CREDENTIALS",
-        2005 => "WRONG_FROM_CLIENT"
+        2005 => "WRONG_FROM_CLIENT",
+        2006 => 'INVALID_EMAIL'
     );
 
     /**
@@ -1563,7 +1564,7 @@ class ApiController extends Controller
                     );
                     
                     if(empty($ddbResponse->body->Item))
-                        throw new Exception("Invalid Login Id.", 2001);
+                        throw new Exception("Invalid Login Id.", 2006);
                     
                     $securitySalt = (string)$ddbResponse->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
                                         

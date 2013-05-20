@@ -35,8 +35,9 @@ var __rest_server_url = 'http://localhost/php_applications/api/';
 // Following are the set of messages showed to 
 // user on perticular response / error code.
 var __messages = {
-    "CLIENT_ID_INVALID" : 'Client ID is not available.',
+    "CLIENT_ID_INVALID" : 'Client id is not available.',
     "EMAIL_INVALID" : 'Email is already registred.',
     "ERROR" : 'An error occured, Please contact administrator.',
-    "WRONG_CREDENTIALS" : 'Credentials are in valid.'
+    "WRONG_CREDENTIALS" : 'Credentials are in valid.',
+    "INVALID_EMAIL" : "Wrong email id provided."
 };

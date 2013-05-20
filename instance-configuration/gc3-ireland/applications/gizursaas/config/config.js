@@ -39,5 +39,6 @@ var __messages = {
     "EMAIL_INVALID" : 'Email is already registred.',
     "ERROR" : 'An error occured, Please contact administrator.',
     "WRONG_CREDENTIALS" : 'Credentials are invalid.',
-    "WRONG_FROM_CLIENT" : 'From client is incorrect.'
+    "WRONG_FROM_CLIENT" : 'From client is incorrect.',
+    "INVALID_EMAIL" : "Wrong email id provided."
 };
