@@ -187,7 +187,7 @@ var UsersController = Stapes.subclass({
                     error: function(jqXHR, textStatus, errorThrown) {
                         var _data = JSON.parse(jqXHR.responseText);
 
-                        $('#forgotPasswordError').addClass('alert alert-error')
+                        $('#forgotPasswordError').removeClass('alert alert-error alert-success')
                             .empty();
                         if (!_data.success)
                             self.view.error(__messages[_data.error.code]);
@@ -196,23 +196,22 @@ var UsersController = Stapes.subclass({
                     },
                     // On success clean the form.
                     success: function(_data) {
-                        $('#forgotPasswordError').addClass('alert alert-error')
+                        $('#forgotPasswordError').removeClass('alert alert-error alert-success')
                             .empty();
-                        $('#login_id').val('');
                         if (_data.success) {
                             self.view.success(
-                                    'An email has been sent to' +
-                                    ' your registered email for ' +
-                                    'further instruction.'
-                                    );
+                                'An email has been sent to' +
+                                ' your registered email for ' +
+                                'further instruction.'
+                            );
                             $('#login_id').val('');
                             $('#forgotPasswordClose').click();
                         } else {
                             self.view.error(
-                                    'An error occured while ' +
-                                    'resetting your password. Please ' +
-                                    'contact administrator.'
-                                    );
+                                'An error occured while ' +
+                                'resetting your password. Please ' +
+                                'contact administrator.'
+                            );
                             $('#forgotPasswordClose').click();
                         }
                     }
