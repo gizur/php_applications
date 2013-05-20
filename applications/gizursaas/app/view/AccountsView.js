@@ -110,5 +110,13 @@ AccountsView.proto({
         $('#last_name').on('change', function(e){
             this.emit('updateInformation');
         }.bind(this));
+        
+        // Handle user request to change the last name
+        // 
+        // This will emit the updateInformation
+        // event of this view.
+        $('#vtigerResetPasswordButton').on('click', function(e){
+            this.emit('vtigerResetPasswordButton');
+        }.bind(this));
     }
 });

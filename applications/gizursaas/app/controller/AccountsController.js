@@ -285,6 +285,47 @@ var AccountsController = Stapes.subclass({
                         }
                     }
                 });
+            },
+            // Event to reset vTiger admin password
+            //=====================================
+            //
+            // This fuunction make PUT request to the server to
+            // reset vtiger admin password
+            'vtigerResetPasswordButton': function(){
+                self.view.success('Please wait ...');
+                var _url = __rest_server_url + 'User/vtiger/' + 
+                        user_controller.model.get('email');
+                
+                $.ajax({
+                    url: _url,
+                    type: "PUT",
+                    dataType: "json",
+                    processData: false,                    
+                    headers: {
+                        "X_USERNAME":user_controller.model.get('email'),
+                        "X_PASSWORD":user_controller.model.get('password')
+                    },
+                    data: JSON.stringify({}),
+                    error: function() {
+                        self.view.error(
+                            'An error occured while resetting ' +
+                            'the password. Please try again.'
+                        );
+                    },
+                    success: function(_data) {
+                        if (_data.success) {
+                            self.view.success(
+                                'Password has been reset successfully.' +
+                                ' Please check your email.'
+                            );
+                        } else {
+                            self.view.error(
+                                'An error occured while resetting the' +
+                                ' password. Please try again.'
+                            );
+                        }
+                    }
+                });
             }
         });
     }
