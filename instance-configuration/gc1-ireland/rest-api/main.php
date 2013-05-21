@@ -61,6 +61,11 @@ return array(
                     'verb' => 'GET'
                 ),
                 array(
+                    'api/list', 
+                    'pattern' => '/<model:(Batches)>', 
+                    'verb' => 'GET'
+                ),
+                array(
                     'api/create', 
                     'pattern' => '/<model:(Users)>/<action:(copyuser)>',
                     'verb' => 'POST'
