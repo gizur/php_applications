@@ -89,7 +89,9 @@ class PhpBatchOne
         syslog(LOG_INFO, "In getSalesOrders() : Preparing sales order query");
         
         $salesOrdersQuery = "SELECT SO.salesorderid, SO.salesorder_no, 
-            ACCF.cf_664, ACCF.cf_665, ACCO.accountname, SO.contactid,
+            ACCF." . Config::$customFields['setFiles'] . ", " .
+            "ACCF." . Config::$customFields['mosFiles'] . ", " . 
+            "ACCO.accountname, SO.contactid,
             SO.duedate, SO.sostatus, ACCO.accountid
             FROM vtiger_salesorder SO 
             LEFT JOIN vtiger_account ACCO on ACCO.accountid = SO.accountid
