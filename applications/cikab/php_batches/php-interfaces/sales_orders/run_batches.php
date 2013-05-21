@@ -42,19 +42,19 @@ if (isset($_GET['action'])) {
              * Cron Job 1
              */
             @shell_exec('sudo chmod +x ' . __DIR__ . '/phpcronjob1.sh');
-            $output = shell_exec(__DIR__ . '/phpcronjob1.sh');
+            $output .= shell_exec(__DIR__ . '/phpcronjob1.sh');
             @shell_exec('sudo chmod -x ' . __DIR__ . '/phpcronjob1.sh');
             /*
              * Cron Job 2
              */
             @shell_exec('sudo chmod +x ' . __DIR__ . '/phpcronjob2.sh');
-            $output = shell_exec(__DIR__ . '/phpcronjob2.sh');
+            $output .= shell_exec(__DIR__ . '/phpcronjob2.sh');
             @shell_exec('sudo chmod -x ' . __DIR__ . '/phpcronjob2.sh');
             /*
              * Cron Job 3
              */
             @shell_exec('sudo chmod +x ' . __DIR__ . '/phpcronjob3.sh');
-            $output = shell_exec(__DIR__ . '/phpcronjob3.sh');
+            $output .= shell_exec(__DIR__ . '/phpcronjob3.sh');
             @shell_exec('sudo chmod -x ' . __DIR__ . '/phpcronjob3.sh');
             break;
         case 'mail_report':  
