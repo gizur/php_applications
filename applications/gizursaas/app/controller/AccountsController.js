@@ -93,9 +93,9 @@ var AccountsController = Stapes.subclass({
                         self.view.bindEventHandlers();
                         $('#logout-btn').show();
                         var vLink = window.location.protocol + '//' + window.location.host +
-                                self.model.get('client_id') + "/";
+                                '/' + self.model.get('client_id') + '/';
                         $('#vtigerLink').empty().html(
-                                "<a href='" + vLink + "' target=_blank>Login to vTiger</a>"
+                                "<a href='" + vLink + "' target='_blank'>Login to vTiger</a>"
                         );
                     });
                 } else {
