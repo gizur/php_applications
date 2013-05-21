@@ -29,12 +29,9 @@ class PhpBatchOne
     private $_vTigerConnect;
     private $_integrationConnect;
     private $_messages = array();
-    private $_basProductID;
     
     public function __construct()
     {
-        $this->_basProductID = Config::$customFields['basProductId'];
-        
         openlog(
             "phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0
         );
@@ -223,11 +220,14 @@ class PhpBatchOne
         syslog(
             LOG_INFO, 
             "In createIntegrationProduct($salesOrderId)" .
-            " Preparing insert product query.: "
+            " Preparing insert product query."
         );
         /*
          * Insert sales order into integration table.
          */
+        
+        $basProductId = Config::$customFields['basProductId'];
+        $cf = (string)$salesOrderProduct->$basProductId;
         $interfaceQuery = $this->_integrationConnect->query(
             "INSERT INTO sales_order_products
             SET id = NULL, 
@@ -236,14 +236,14 @@ class PhpBatchOne
             productquantity = $salesOrderProduct->quantity,
             featurdate = NULL,
             sales_order_id = $salesOrderId,
-            bas_product_id = '$salesOrderProduct->{$this->_basProductID}',
+            bas_product_id = '$cf',
             created = now()"
         );
 
         syslog(
             LOG_INFO, 
             "In createIntegrationProduct($salesOrderId) " .
-            "Inserting product: " . $interfaceQuery
+            "Inserting products "
         );
 
         /*
