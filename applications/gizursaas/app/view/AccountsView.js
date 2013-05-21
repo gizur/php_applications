@@ -28,12 +28,7 @@ var AccountsView = Stapes.subclass({
     //===========
     //
     constructor : function() {
-        var self = this;
-        var vLink = window.location.protocol + '//' + window.location.hostname +
-                account_controller.model.get('client_id') + "/";
-        $('#vtigerLink').empty().html(
-                "<a href='" + vLink + "' target=_blank>Login to vTiger</a>"
-        );
+        var self = this;        
     },
     // success
     //===========
