@@ -177,7 +177,14 @@ class Config
         'db_name' => 'vtiger_5159ff6a',
         'db_type' => 'mysql'
     );
-    public static $batchVariable = 10;
+    /*
+     * $batchVariable should be less than the frequency of
+     * batch job in minutes.
+     * If you want to run batch jobs in every 15 min, It should
+     * be set to 14 max, otherwise file header duplicate issue may
+     * occure. 
+     */
+    public static $batchVariable = 99;
     public static $setFtp = array(
         'host' => "ftp-hp.coop.se",
         'port' => 21,
@@ -186,11 +193,11 @@ class Config
         'serverpath' => "in/"
     );
     public static $mosFtp = array(
-        'host' => "",
+        'host' => "ftp-hp.coop.se",
         'port' => 21,
-        'username' => "",
-        'password' => "",
-        'serverpath' => "in/"
+        'username' => "ftpSETGizur",
+        'password' => "Sk4nsk4113",
+        'serverpath' => "MOS-in/"
     );
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/791200854364/cikab_queue'
@@ -199,7 +206,7 @@ class Config
         'setBucket' => "gc1-archive",
         'setFolder' => "seasonportal/SET-files/",
         'mosBucket' => "gc1-archive",
-        'mosFolder' => "seasonportal/SET-files/"
+        'mosFolder' => "seasonportal/MOS-files/"
     );
     public static $customFields = array(
         'setFiles' => 'cf_650',
