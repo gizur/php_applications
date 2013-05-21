@@ -28,12 +28,12 @@ require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
 class PhpBatchThree
 {
 
-    private $messages = array();
-    private $messageCount = 0;
-    private $noOfFiles = 0;
-    private $setFtpConn;
-    private $mosFtpConn;
-    private $sqs;
+    private $_messages = array();
+    private $_messageCount = 0;
+    private $_noOfFiles = 0;
+    private $_setFtpConn;
+    private $_mosFtpConn;
+    private $_sqs;
 
     function __construct()
     {
@@ -48,22 +48,30 @@ class PhpBatchThree
             LOG_INFO, "Trying connecting with Amazon SQS"
         );
 
-        $this->sqs = new AmazonSQS();
+        $this->_sqs = new AmazonSQS();
 
         syslog(
             LOG_INFO, "Connected with Amazon SQS"
         );
 
-        $this->setFtpConn = $this->getftpConnection(
-            Config::$setFtp['host'], Config::$setFtp['port'], Config::$setFtp['username'], Config::$setFtp['password']
+        $this->_setFtpConn = $this->getftpConnection(
+            Config::$setFtp['host'], 
+            Config::$setFtp['port'], 
+            Config::$setFtp['username'], 
+            Config::$setFtp['password']
         );
 
-        $this->mosFtpConn = $this->getftpConnection(
-            Config::$mosFtp['host'], Config::$mosFtp['port'], Config::$mosFtp['username'], Config::$mosFtp['password']
+        $this->_mosFtpConn = $this->getftpConnection(
+            Config::$mosFtp['host'], 
+            Config::$mosFtp['port'],
+            Config::$mosFtp['username'],
+            Config::$mosFtp['password']
         );
     }
 
-    protected function getftpConnection($host, $port, $username, $password, $timeout = 10)
+    protected function getftpConnection(
+    $host, $port, $username, $password, $timeout = 10
+    )
     {
         /**
          * Check FTP Connection
@@ -132,10 +140,11 @@ class PhpBatchThree
          */
         if (ftp_size($ftpConnId, $ftpPath) != -1) {
             syslog(
-                LOG_WARNING, "$fileJson->file file already exists at FTP server."
+                LOG_WARNING,
+                "$fileJson->file file already exists at FTP server."
             );
             throw new Exception(
-            "$fileJson->file file already exists at FTP server."
+                "$fileJson->file file already exists at FTP server."
             );
         }
 
@@ -161,7 +170,7 @@ class PhpBatchThree
                 LOG_WARNING, "Error copying file $fileJson->file on FTP server."
             );
             throw new Exception(
-            "Error copying file $fileJson->file on FTP server."
+                "Error copying file $fileJson->file on FTP server."
             );
         }
 
@@ -170,28 +179,30 @@ class PhpBatchThree
 
     public function init()
     {
-        $this->messageCount = $this->sqs->get_queue_size(Config::$amazonQ['url']);
-        $this->noOfFiles = $this->messageCount;
+        $this->_messageCount = $this->_sqs->get_queue_size(
+            Config::$amazonQ['url']
+        );
+        $this->_noOfFiles = $this->_messageCount;
 
 
         /*
          * If number of files are 0, throw the exception
          */
-        if ($this->messageCount <= 0) {
+        if ($this->_messageCount <= 0) {
             syslog(
                 LOG_INFO, "messageQ is empty."
             );
             throw new Exception("messageQ is empty.");
         }
         /*
-         * Iterate till $messageCount becomes 0.
+         * Iterate till $_messageCount becomes 0.
          */
         syslog(
             LOG_INFO, 
-            "Number of messages found in messageQ : $this->messageCount."
+            "Number of messages found in messageQ : $this->_messageCount."
         );
             
-        while ($this->messageCount > 0) {
+        while ($this->_messageCount > 0) {
             /*
              * Inner try catch to catch the message specific exceptions.
              */
@@ -203,7 +214,7 @@ class PhpBatchThree
                     LOG_INFO,
                     "Get the single message from the messageQ"
                 );
-                $responseQ = $this->sqs->receive_message(
+                $responseQ = $this->_sqs->receive_message(
                     Config::$amazonQ['url']
                 );
                 
@@ -216,7 +227,7 @@ class PhpBatchThree
                         "Message not received from the messageQ server"
                     );
                     throw new Exception(
-                    "Message not received from the messageQ server."
+                        "Message not received from the messageQ server."
                     );
                 }
 
@@ -236,7 +247,7 @@ class PhpBatchThree
                         LOG_INFO, "Received an empty message from messageQ."
                     );
                     throw new Exception(
-                    "Received an empty message from messageQ."
+                        "Received an empty message from messageQ."
                     );
                 }
                 $msgBody = (array)$msgObj->Body;
@@ -265,47 +276,55 @@ class PhpBatchThree
                  */
                 if (empty($fileJson->content)) {
                     syslog(
-                        LOG_WARNING, "$fileJson->file content is empty in messageQ."
+                        LOG_WARNING,
+                        "$fileJson->file content is empty in messageQ."
                     );
                     throw new Exception(
-                    "$fileJson->file content is empty in messageQ."
+                        "$fileJson->file content is empty in messageQ."
                     );
                 }
 
                 if ($fileJson->type == 'SET' || !isset($fileJson->type)) {
                     $this->saveToFtp(
-                        $this->setFtpConn, Config::$setFtp['serverpath'], $fileJson
+                        $this->_setFtpConn,
+                        Config::$setFtp['serverpath'],
+                        $fileJson
                     );
                 } else if ($fileJson->type == 'MOS') {
                     $this->saveToFtp(
-                        $this->mosFtpConn, Config::$mosFtp['serverpath'], $fileJson
+                        $this->_mosFtpConn,
+                        Config::$mosFtp['serverpath'],
+                        $fileJson
                     );
                 }
                 /*
                  * Delete message from messageQ.
                  */
                 syslog(
-                    LOG_INFO, "Deleting message from messageQ : $fileJson->file."
+                    LOG_INFO, 
+                    "Deleting message from messageQ : $fileJson->file."
                 );
-                $this->sqs->delete_message(
+                $this->_sqs->delete_message(
                     Config::$amazonQ['url'], $receiptQ
                 );
 
-                $this->messages['files'][$fileJson->file]['status'] = true;
+                $this->_messages['files'][$fileJson->file]['status'] = true;
             } catch (Exception $e) {
-                $this->messages['files'][$fileJson->file]['status'] = false;
-                $this->messages['files'][$fileJson->file]['error'] = $e->getMessage();
+                $this->_messages['files'][$fileJson->file]['status'] = false;
+                $this->_messages['files'][$fileJson->file]['error'] = 
+                    $e->getMessage();
             }
             /*
-             * Decrease $messageCount by 1
+             * Decrease $_messageCount by 1
              */
-            $this->messageCount--;
+            $this->_messageCount--;
         }
-        $this->messages['message'] = "$this->noOfFiles no of files processed.";
+        $this->_messages['message'] = "$this->_noOfFiles no " .
+            "of files processed.";
         syslog(
-            LOG_INFO, json_encode($this->messages)
+            LOG_INFO, json_encode($this->_messages)
         );
-        echo json_encode($this->messages);
+        echo json_encode($this->_messages);
     }
 }
 

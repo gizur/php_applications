@@ -92,10 +92,12 @@ var AccountsController = Stapes.subclass({
                         self.model.map_values();
                         self.view.bindEventHandlers();
                         $('#logout-btn').show();
-                        var vLink = window.location.protocol + '//' + window.location.host +
+                        var vLink = window.location.protocol + '//' +
+                                window.location.host +
                                 '/' + self.model.get('client_id') + '/';
                         $('#vtigerLink').empty().html(
-                                "<a href='" + vLink + "' target='_blank'>Login to vTiger CRM</a>"
+                                "<a href='" + vLink + 
+                                "' target='_blank'>Login to vTiger CRM</a>"
                         );
                     });
                 } else {

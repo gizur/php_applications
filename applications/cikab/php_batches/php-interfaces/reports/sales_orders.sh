@@ -63,15 +63,15 @@ try {
      */
 
     $salesOrdersQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject, " .
-                        "SO.sostatus, ACCO.accountname, PRO.productname, IVP.quantity " .
-                        "FROM vtiger_salesorder SO " .
-                        "INNER JOIN vtiger_crmentity ENT on ENT.crmid = SO.salesorderid " .
-                        "INNER JOIN vtiger_account ACCO on ACCO.accountid = SO.accountid " .
-                        "INNER JOIN vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid " .
-                        "INNER JOIN vtiger_products PRO on PRO.productid=IVP.productid " .
-                        "WHERE SO.sostatus<>'Closed' " .
-                        "AND lower(SO.subject)<>'initial push' AND lower(SO.subject)<>'Intial Push' " .
-                        "ORDER BY ENT.createdtime, SO.salesorder_no";
+        "SO.sostatus, ACCO.accountname, PRO.productname, IVP.quantity " .
+        "FROM vtiger_salesorder SO " .
+        "INNER JOIN vtiger_crmentity ENT on ENT.crmid = SO.salesorderid " .
+        "INNER JOIN vtiger_account ACCO on ACCO.accountid = SO.accountid " .
+        "INNER JOIN vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid " .
+        "INNER JOIN vtiger_products PRO on PRO.productid=IVP.productid " .
+        "WHERE SO.sostatus<>'Closed' " .
+        "AND lower(SO.subject)<>'initial push' AND lower(SO.subject)<>'Intial Push' " .
+        "ORDER BY ENT.createdtime, SO.salesorder_no";
 
     syslog(LOG_INFO, "Executing Query: " . $salesOrdersQuery);
     
@@ -104,11 +104,11 @@ try {
      * throw exception. 
      */
     if ($salesOrders->num_rows == 0){
-        throw new Exception("No Sales Order Found!");
         syslog(
             LOG_INFO, 
             "No Sales Order Found!"
         );
+        throw new Exception("No Sales Order Found!");        
     }
 
     /*

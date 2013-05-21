@@ -26,14 +26,14 @@ require_once __DIR__ . '/../config.inc.php';
 class PhpBatchOne
 {
 
-    private $vTigerConnect;
-    private $integrationConnect;
-    private $messages = array();
-    private $basProductID;
+    private $_vTigerConnect;
+    private $_integrationConnect;
+    private $_messages = array();
+    private $_basProductID;
     
     public function __construct()
     {
-        $this->basProductID = Config::$customFields['basProductId'];
+        $this->_basProductID = Config::$customFields['basProductId'];
         
         openlog(
             "phpcronjob1", LOG_PID | LOG_PERROR, LOG_LOCAL0
@@ -46,7 +46,7 @@ class PhpBatchOne
             LOG_INFO, "Trying to connect to vTiger database"
         );
 
-        $this->vTigerConnect = new mysqli(
+        $this->_vTigerConnect = new mysqli(
             Config::$dbVtiger['db_server'], 
             Config::$dbVtiger['db_username'], 
             Config::$dbVtiger['db_password'], 
@@ -54,7 +54,7 @@ class PhpBatchOne
             Config::$dbVtiger['db_port']
         );
 
-        if ($this->vTigerConnect->connect_errno)
+        if ($this->_vTigerConnect->connect_errno)
             throw new Exception('Unable to connect with vTiger DB');
 
         syslog(
@@ -68,7 +68,7 @@ class PhpBatchOne
         /*
          * Trying to connect to integration database
          */
-        $this->integrationConnect = new mysqli(
+        $this->_integrationConnect = new mysqli(
             Config::$dbIntegration['db_server'], 
             Config::$dbIntegration['db_username'], 
             Config::$dbIntegration['db_password'], 
@@ -76,7 +76,7 @@ class PhpBatchOne
             Config::$dbIntegration['db_port']
         );
 
-        if ($this->integrationConnect->connect_errno)
+        if ($this->_integrationConnect->connect_errno)
             throw new Exception('Unable to connect with integration DB');
         
         syslog(
@@ -104,19 +104,19 @@ class PhpBatchOne
             "In getSalesOrders() : Executing Query: " . $salesOrdersQuery
         );
 
-        $salesOrders = $this->vTigerConnect->query($salesOrdersQuery);
+        $salesOrders = $this->_vTigerConnect->query($salesOrdersQuery);
 
         if (!$salesOrders) {            
             syslog(
                 LOG_WARNING, 
                 "In getSalesOrders() : Error executing sales order query :" .
-                " ({$this->vTigerConnect->errno}) - " .
-                "{$this->vTigerConnect->error}"
+                " ({$this->_vTigerConnect->errno}) - " .
+                "{$this->_vTigerConnect->error}"
             );
             throw new Exception(
                 "In getSalesOrders() : Error executing sales order query : " .
-                "({$this->vTigerConnect->errno}) - " .
-                "{$this->vTigerConnect->error}"
+                "({$this->_vTigerConnect->errno}) - " .
+                "{$this->_vTigerConnect->error}"
             );
         }
 
@@ -135,7 +135,7 @@ class PhpBatchOne
         /*
          * Fetch current sales order products.
          */
-        $salesOrderProducts = $this->vTigerConnect->query(
+        $salesOrderProducts = $this->_vTigerConnect->query(
             "SELECT " .
             "SO.salesorderid, SO.salesorder_no, SO.contactid," .
             "SO.duedate, SO.sostatus, ACCO.accountname, " .
@@ -147,7 +147,8 @@ class PhpBatchOne
             "INNER JOIN vtiger_inventoryproductrel IVP on IVP.id = " .
             "SO.salesorderid " .
             "INNER JOIN vtiger_products PRO on PRO.productid = IVP.productid " .
-            "INNER JOIN vtiger_productcf PCF ON PRO.productid = PCF.productid " .
+            "INNER JOIN vtiger_productcf PCF " .
+            "ON PRO.productid = PCF.productid " .
             "WHERE SO.salesorder_no = '$salesOrderNo'"
         );
 
@@ -170,7 +171,7 @@ class PhpBatchOne
         /*
          * Insert sales order into integration table.
          */
-        $interfaceQuery = $this->integrationConnect->query(
+        $interfaceQuery = $this->_integrationConnect->query(
             "INSERT INTO sales_orders
             SET `id` = NULL,
             `salesorderid` = $salesOrder->salesorderid,
@@ -200,20 +201,22 @@ class PhpBatchOne
             syslog(
                 LOG_WARNING, 
                 "Error inserting salesorder $salesOrder->salesorder_no in " .
-                "integration db ({$this->integrationConnect->errno}) - " .
-                "{$this->integrationConnect->error}"
+                "integration db ({$this->_integrationConnect->errno}) - " .
+                "{$this->_integrationConnect->error}"
             );
             throw new Exception(
                 "Error inserting salesorder $salesOrder->salesorder_no in " .
-                "integration db ({$this->integrationConnect->errno}) - " .
-                "$this->integrationConnect->error"
+                "integration db ({$this->_integrationConnect->errno}) - " .
+                "$this->_integrationConnect->error"
             );
         }
 
         return $interfaceQuery;
     }
 
-    protected function createIntegrationProduct($salesOrderId, $salesOrderProduct)
+    protected function createIntegrationProduct(
+    $salesOrderId, $salesOrderProduct
+    )
     {
         syslog(
             LOG_INFO, 
@@ -223,7 +226,7 @@ class PhpBatchOne
         /*
          * Insert sales order into integration table.
          */
-        $interfaceQuery = $this->integrationConnect->query(
+        $interfaceQuery = $this->_integrationConnect->query(
             "INSERT INTO sales_order_products
             SET id = NULL, 
             productname = '$salesOrderProduct->productname',
@@ -231,7 +234,7 @@ class PhpBatchOne
             productquantity = $salesOrderProduct->quantity,
             featurdate = NULL,
             sales_order_id = $salesOrderId,
-            bas_product_id = '$salesOrderProduct->{$this->basProductID}',
+            bas_product_id = '$salesOrderProduct->{$this->_basProductID}',
             created = now()"
         );
 
@@ -248,26 +251,28 @@ class PhpBatchOne
             syslog(
                 LOG_WARNING, 
                 "Error inserting product $salesOrderProduct->productname in " .
-                "integration db ({$this->integrationConnect->errno}) - " .
-                "{$this->integrationConnect->error}"
+                "integration db ({$this->_integrationConnect->errno}) - " .
+                "{$this->_integrationConnect->error}"
             );
             throw new Exception(
                 "Error inserting product $salesOrderProduct->productname in " .
-                "integration db ({$this->integrationConnect->errno}) - " .
-                "{$this->integrationConnect->error}"
+                "integration db ({$this->_integrationConnect->errno}) - " .
+                "{$this->_integrationConnect->error}"
             );
         }
 
         return $interfaceQuery;
     }
 
-    protected function updateVtigerSalesOrder($salesOrderID, $status = 'Delivered')
+    protected function updateVtigerSalesOrder(
+    $salesOrderID, $status = 'Delivered'
+    )
     {
         syslog(
             LOG_INFO, "Updating sales order ($salesOrderID) $status"
         );
 
-        $updateSaleOrder = $this->vTigerConnect->query(
+        $updateSaleOrder = $this->_vTigerConnect->query(
             "UPDATE vtiger_salesorder SET " .
             "sostatus = '$status' WHERE salesorderid = " .
             "'$salesOrderID'"
@@ -297,8 +302,8 @@ class PhpBatchOne
             /*
              * Update message array with number of sales orders.
              */
-            $this->messages['count'] = $numberSalesOrders;
-            $msg = &$this->messages['salesorders'];
+            $this->_messages['count'] = $numberSalesOrders;
+            $msg = &$this->_messages['salesorders'];
             
             while ($salesOrder = $salesOrders->fetch_object()) {
                 try {
@@ -308,12 +313,12 @@ class PhpBatchOne
                     syslog(
                         LOG_INFO, "Disabling auto commit"
                     );
-                    $this->vTigerConnect->autocommit(FALSE);
-                    $this->integrationConnect->autocommit(FALSE);
+                    $this->_vTigerConnect->autocommit(FALSE);
+                    $this->_integrationConnect->autocommit(FALSE);
 
                     $this->createIntegrationSalesOrder($salesOrder);
 
-                    $soId = $this->integrationConnect->insert_id;
+                    $soId = $this->_integrationConnect->insert_id;
 
                     $salesOrderProducts = $this->getProductsBySalesOrders(
                         $salesOrder->salesorder_no
@@ -325,12 +330,14 @@ class PhpBatchOne
                     
                     $flag = true;
 
-                    while ($flag && $salesOrderProduct = $salesOrderProducts->fetch_object()) {
+                    while ($flag && 
+                        $salesOrderProduct = $salesOrderProducts->fetch_object()
+                    ) {
                         $msgP[$salesOrderProduct->productname]['qtn']
                             = $salesOrderProduct->quantity;
                         
                         $flag = $flag && $this->createIntegrationProduct(
-                                $soId, $salesOrderProduct
+                            $soId, $salesOrderProduct
                         );
                         
                         $msgP[$salesOrderProduct->productname]['status'] = true;
@@ -346,13 +353,13 @@ class PhpBatchOne
                     /*
                      * Commit the databases.
                      */
-                    $this->integrationConnect->commit();
-                    $this->vTigerConnect->commit();
+                    $this->_integrationConnect->commit();
+                    $this->_vTigerConnect->commit();
                     
                 } catch (Exception $e) {
                     $numberSalesOrders--;
                     /*
-                     * Store the messages
+                     * Store the _messages
                      */
                     $msgP[$salesOrderProduct->productname]['error'] 
                         = $e->getMessage();
@@ -360,33 +367,32 @@ class PhpBatchOne
                     /*
                      * Rollback the connections
                      */
-                    $this->integrationConnect->rollback();
-                    $this->vTigerConnect->rollback();
+                    $this->_integrationConnect->rollback();
+                    $this->_vTigerConnect->rollback();
                 }
             }
             
-            $this->messages['message'] = "$numberSalesOrders number " .
+            $this->_messages['message'] = "$numberSalesOrders number " .
                         "of sales orders processed.";
             
         } catch (Exception $e) {
             /*
              * Store the message and rollbach the connections.
              */
-            $this->messages['message'] = $e->getMessage();
+            $this->_messages['message'] = $e->getMessage();
             /*
              * Rollback the connections
              */
-            $this->integrationConnect->rollback();
-            $this->vTigerConnect->rollback();
+            $this->_integrationConnect->rollback();
+            $this->_vTigerConnect->rollback();
         }
         
         syslog(
             LOG_INFO, 
-            json_encode($this->messages)
+            json_encode($this->_messages)
         );
-        echo json_encode($this->messages);
+        echo json_encode($this->_messages);
     }
-
 }
 
 try{

@@ -27,12 +27,11 @@ require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
 class PhpBatchTwo
 {
 
-    private $integrationConnect;
-    private $sqs;
-    private $messages = array();
-    private $duplicateFile = array();
-    private $mosStoreFiles = array();
-    private $sThree;
+    private $_integrationConnect;
+    private $_sqs;
+    private $_messages = array();
+    private $_duplicateFile = array();
+    private $_sThree;
 
     public function __construct()
     {
@@ -47,11 +46,15 @@ class PhpBatchTwo
         /*
          * Trying to connect to integration database
          */
-        $this->integrationConnect = new mysqli(
-            Config::$dbIntegration['db_server'], Config::$dbIntegration['db_username'], Config::$dbIntegration['db_password'], Config::$dbIntegration['db_name'], Config::$dbIntegration['db_port']
+        $this->_integrationConnect = new mysqli(
+            Config::$dbIntegration['db_server'], 
+            Config::$dbIntegration['db_username'], 
+            Config::$dbIntegration['db_password'], 
+            Config::$dbIntegration['db_name'], 
+            Config::$dbIntegration['db_port']
         );
 
-        if ($this->integrationConnect->connect_errno)
+        if ($this->_integrationConnect->connect_errno)
             throw new Exception('Unable to connect with integration DB');
 
         syslog(
@@ -62,47 +65,54 @@ class PhpBatchTwo
             LOG_INFO, "Trying connecting with Amazon SQS"
         );
 
-        $this->sqs = new AmazonSQS();
+        $this->_sqs = new AmazonSQS();
 
         syslog(
             LOG_INFO, "Connected with Amazon SQS"
         );
 
         syslog(
-            LOG_INFO, "Trying connecting with Amazon sThree"
+            LOG_INFO, "Trying connecting with Amazon _sThree"
         );
 
-        $this->sThree = new AmazonS3();
+        $this->_sThree = new AmazonS3();
 
         syslog(
-            LOG_INFO, "Connected with Amazon sThree"
+            LOG_INFO, "Connected with Amazon _sThree"
         );
     }
 
     protected function getSalesOrdersForSet()
     {
-        syslog(LOG_INFO, "In getSalesOrdersForSet() : Preparing sales order query");
+        syslog(
+            LOG_INFO, 
+            "In getSalesOrdersForSet() : Preparing sales order query"
+        );
 
         $salesOrdersQuery = "SELECT * FROM sales_orders SO 
             WHERE SO.set_status IN ('Created','Approved') AND SO.set = 'Yes'
             LIMIT 0, " . Config::$batchVariable;
 
         syslog(
-            LOG_INFO, "In getSalesOrdersForSet() : Executing Query: " . $salesOrdersQuery
+            LOG_INFO, 
+            "In getSalesOrdersForSet() : Executing Query: " . $salesOrdersQuery
         );
 
-        $salesOrders = $this->integrationConnect->query($salesOrdersQuery);
+        $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
 
         if (!$salesOrders) {
             syslog(
-                LOG_WARNING, "In getSalesOrdersForSet() : Error executing sales order query :" .
-                " ({$this->integrationConnect->errno}) - " .
-                "{$this->integrationConnect->error}"
+                LOG_WARNING,
+                "In getSalesOrdersForSet() : " .
+                "Error executing sales order query :" .
+                " ({$this->_integrationConnect->errno}) - " .
+                "{$this->_integrationConnect->error}"
             );
             throw new Exception(
-            "In getSalesOrdersForSet() : Error executing sales order query : " .
-            "({$this->integrationConnect->errno}) - " .
-            "{$this->integrationConnect->error}"
+                "In getSalesOrdersForSet() : Error " .
+                "executing sales order query : " .
+                "({$this->_integrationConnect->errno}) - " .
+                "{$this->_integrationConnect->error}"
             );
         }
 
@@ -110,7 +120,9 @@ class PhpBatchTwo
             syslog(
                 LOG_WARNING, "In getSalesOrdersForSet() : No Sales Order Found!"
             );
-            throw new Exception("In getSalesOrdersForSet() : No Sales Order Found!");
+            throw new Exception(
+                "In getSalesOrdersForSet() : No Sales Order Found!"
+            );
         }
 
         return $salesOrders;
@@ -118,28 +130,34 @@ class PhpBatchTwo
 
     protected function getAccountsForMos()
     {
-        syslog(LOG_INFO, "In getAccountsForMos() : Preparing sales order query");
+        syslog(
+            LOG_INFO,
+            "In getAccountsForMos() : Preparing sales order query"
+        );
 
-        $salesOrdersQuery = "SELECT DISTINCT SO.accountname FROM sales_orders SO 
+        $salesOrdersQuery = "SELECT DISTINCT SO.accountname FROM sales_orders SO
             WHERE SO.mos_status IN ('Created','Approved') AND SO.mos = 'Yes'
             LIMIT 0, " . Config::$batchVariable;
 
         syslog(
-            LOG_INFO, "In getAccountsForMos() : Executing Query: " . $salesOrdersQuery
+            LOG_INFO,
+            "In getAccountsForMos() : Executing Query: " . $salesOrdersQuery
         );
 
-        $salesOrders = $this->integrationConnect->query($salesOrdersQuery);
+        $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
 
         if (!$salesOrders) {
             syslog(
-                LOG_WARNING, "In getAccountsForMos() : Error executing sales order query :" .
-                " ({$this->integrationConnect->errno}) - " .
-                "{$this->integrationConnect->error}"
+                LOG_WARNING, 
+                "In getAccountsForMos() : Error executing sales order query :" .
+                " ({$this->_integrationConnect->errno}) - " .
+                "{$this->_integrationConnect->error}"
             );
             throw new Exception(
-            "In getAccountsForMos() : Error executing sales order query : " .
-            "({$this->integrationConnect->errno}) - " .
-            "{$this->integrationConnect->error}"
+                "In getAccountsForMos() : " .
+                "Error executing sales order query : " .
+                "({$this->_integrationConnect->errno}) - " .
+                "{$this->_integrationConnect->error}"
             );
         }
 
@@ -147,7 +165,9 @@ class PhpBatchTwo
             syslog(
                 LOG_WARNING, "In getAccountsForMos() : No Sales Order Found!"
             );
-            throw new Exception("In getAccountsForMos() : No Sales Order Found!");
+            throw new Exception(
+                "In getAccountsForMos() : No Sales Order Found!"
+            );
         }
 
         return $salesOrders;
@@ -156,12 +176,13 @@ class PhpBatchTwo
     protected function getProductsBySalesOrderId($salesOrderId)
     {
         syslog(
-            LOG_INFO, "In getProductsBySalesOrderId($salesOrderId) : Fetching products"
+            LOG_INFO, 
+            "In getProductsBySalesOrderId($salesOrderId) : Fetching products"
         );
         /*
          * Fetch current sales order products.
          */
-        $salesOrderProducts = $this->integrationConnect->query(
+        $salesOrderProducts = $this->_integrationConnect->query(
             "SELECT *" .
             "FROM sales_order_products SO " .
             "WHERE SO.sales_order_id = '$salesOrderId'"
@@ -178,7 +199,8 @@ class PhpBatchTwo
     protected function getProductsByAccountName($accountname)
     {
         syslog(
-            LOG_INFO, "In getProductsByAccountName($accountname) : Fetching products"
+            LOG_INFO,
+            "In getProductsByAccountName($accountname) : Fetching products"
         );
         /*
          * Fetch current sales order products.
@@ -192,7 +214,7 @@ class PhpBatchTwo
             LOG_INFO, "Fetching products ($accountname): $query"
         );
         
-        $products = $this->integrationConnect->query($query);
+        $products = $this->_integrationConnect->query($query);
 
         syslog(
             LOG_INFO, "Total number of products ($accountname): " .
@@ -207,11 +229,12 @@ class PhpBatchTwo
     )
     {
         syslog(
-            LOG_INFO, "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
+            LOG_INFO, 
+            "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
             "Updating sales order ($salesOrderID) column $column to $status"
         );
 
-        $updateSaleOrder = $this->integrationConnect->query(
+        $updateSaleOrder = $this->_integrationConnect->query(
             "UPDATE sales_orders SET " .
             "$column = '$status' WHERE id = " .
             "'$salesOrderID' LIMIT 1"
@@ -219,12 +242,13 @@ class PhpBatchTwo
 
         if (!$updateSaleOrder) {
             syslog(
-                LOG_WARNING, "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
+                LOG_WARNING,
+                "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
                 "Error updating salesorder"
             );
             throw new Exception(
-            "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
-            "Error updating salesorder"
+                "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
+                "Error updating salesorder"
             );
         }
 
@@ -233,14 +257,16 @@ class PhpBatchTwo
     
     protected function updateIntegrationSalesOrderByAccountName(
     $accountname, $column, $status = 'Delivered'    
-    ){
+    )
+    {
         syslog(
-            LOG_INFO, "In updateIntegrationSalesOrderByAccountName(" .
+            LOG_INFO,
+            "In updateIntegrationSalesOrderByAccountName(" .
             "$accountname, $column, $status) : " .
             "Updating store ($accountname) column $column to $status"
         );
 
-        $updateSaleOrder = $this->integrationConnect->query(
+        $updateSaleOrder = $this->_integrationConnect->query(
             "UPDATE sales_orders SO SET " .
             "SO.$column = '$status' WHERE SO.accountname = " .
             "'$accountname'"
@@ -248,14 +274,15 @@ class PhpBatchTwo
 
         if (!$updateSaleOrder) {
             syslog(
-                LOG_WARNING, "In updateIntegrationSalesOrderByAccountName(
-                    $accountname, $column, $status) : " .
+                LOG_WARNING,
+                "In updateIntegrationSalesOrderByAccountName(" .
+                " $accountname, $column, $status) : " .
                 "Error updating salesorders"
             );
             throw new Exception(
-            "In updateIntegrationSalesOrderByAccountName(
-                $accountname, $column, $status) : " .
-            "Error updating salesorders"
+                "In updateIntegrationSalesOrderByAccountName(" .
+                " $accountname, $column, $status) : " .
+                "Error updating salesorders"
             );
         }
 
@@ -273,14 +300,14 @@ class PhpBatchTwo
         $msg[$salesOrder->salesorder_no]['count']
             = $soProducts->num_rows;
 
-        if (empty($this->duplicateFile[$salesOrder->accountname]))
+        if (empty($this->_duplicateFile[$salesOrder->accountname]))
             $createdDate = date("YmdHi");
         else {
-            $cnt = count($this->duplicateFile[$salesOrder->accountname]);
+            $cnt = count($this->_duplicateFile[$salesOrder->accountname]);
             $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
         }
 
-        $this->duplicateFile[$salesOrder->accountname][] = $createdDate;
+        $this->_duplicateFile[$salesOrder->accountname][] = $createdDate;
 
         /*
          * Generate the file name.
@@ -314,13 +341,13 @@ class PhpBatchTwo
 
                 if ($productlength < 6) {
                     $leadzeroproduct = Functions::leadingzero(
-                            6, $productlength
+                        6, $productlength
                     );
                 }
 
                 if ($productquantitylength < 3) {
                     $leadzeroproductquantity = Functions::leadingzero(
-                            3, $productquantitylength
+                        3, $productquantitylength
                     );
                 }
 
@@ -361,7 +388,8 @@ class PhpBatchTwo
         else
             $ordernumber = $originalordernomber;
 
-        if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00')
+        if (!empty($salesOrder->duedate) 
+            && $salesOrder->duedate != '0000-00-00')
             $deliveryday = date(
                 "ymd", strtotime($salesOrder->duedate)
             );
@@ -438,7 +466,9 @@ class PhpBatchTwo
         $sequence = 1;
         
         $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
-        $cntZero = Functions::leadingzero(5, strlen((string) $soProducts->num_rows));
+        $cntZero = Functions::leadingzero(
+            5, strlen((string) $soProducts->num_rows)
+        );
         
         $header = "{$seqZero}{$sequence}0000" .
             "{$cntZero}{$soProducts->num_rows}{$dt}1727130700518" .
@@ -450,7 +480,8 @@ class PhpBatchTwo
         while ($sOWProduct = $soProducts->fetch_object()) {
             $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
 
-            if (!empty($sOWProduct->duedate) && $sOWProduct->duedate != '0000-00-00')
+            if (!empty($sOWProduct->duedate) && 
+                $sOWProduct->duedate != '0000-00-00')
                 $deliveryday = date(
                     "ymd", strtotime($sOWProduct->duedate)
                 );
@@ -459,12 +490,13 @@ class PhpBatchTwo
 
             $week = date('W', strtotime($deliveryday));
 
-            $campaignWeek = date('W', strtotime(
-                    date("ymd", strtotime($deliveryday)) . "+2 day"
-            ));
+            $campaignWeek = date(
+                'W', 
+                strtotime(date("ymd", strtotime($deliveryday)) . "+2 day")
+            );
             $weekZero = Functions::leadingzero(4, strlen((string) $week));
             $campWeekZero = Functions::leadingzero(
-                    4, strlen((string) $campaignWeek)
+                4, strlen((string) $campaignWeek)
             );
 
             $basProId = explode('-', $sOWProduct->bas_product_id);
@@ -490,7 +522,9 @@ class PhpBatchTwo
         }
 
         $seqZero = Functions::leadingzero(5, strlen((string) $sequence));
-        $cntZero = Functions::leadingzero(5, strlen((string) $soProducts->num_rows));
+        $cntZero = Functions::leadingzero(
+            5, strlen((string) $soProducts->num_rows)
+        );
         
         $header = "{$seqZero}{$sequence}9999" .
             "{$cntZero}{$soProducts->num_rows}{$dt}1727130700518" .
@@ -521,7 +555,7 @@ class PhpBatchTwo
             LOG_INFO, "Store file in S3 Bucket"
         );
 
-        $responseSThree = $this->sThree->create_object(
+        $responseSThree = $this->_sThree->create_object(
             $bucket, $fileFolder . $fileName, array(
             'body' => $contentF,
             'contentType' => 'plain/text',
@@ -535,8 +569,8 @@ class PhpBatchTwo
 
         if (!$responseSThree->isOK()) {
             throw new Exception(
-            "Unable to save file $fileName in S3 bucket " .
-            "($bucket)"
+                "Unable to save file $fileName in S3 bucket " .
+                "($bucket)"
             );
             syslog(
                 LOG_WARNING, "Unable to save file $fileName in S3 bucket " .
@@ -555,7 +589,7 @@ class PhpBatchTwo
             LOG_INFO, "Store file name and file content to messageQ."
         );
 
-        $responseQ = $this->sqs->send_message(
+        $responseQ = $this->_sqs->send_message(
             $qUrl, $messageQ
         );
 
@@ -585,8 +619,8 @@ class PhpBatchTwo
             /*
              * Update message array with number of sales orders.
              */
-            $this->messages['set']['count'] = $numberSalesOrders;
-            $msg = &$this->messages['set']['salesorders'];
+            $this->_messages['set']['count'] = $numberSalesOrders;
+            $msg = &$this->_messages['set']['salesorders'];
 
             while ($salesOrder = $salesOrders->fetch_object()) {
                 try {
@@ -596,14 +630,17 @@ class PhpBatchTwo
                     syslog(
                         LOG_INFO, "Disabling auto commit"
                     );
-                    $this->integrationConnect->autocommit(FALSE);
+                    $this->_integrationConnect->autocommit(FALSE);
 
                     $msg[$salesOrder->salesorder_no]['status'] = false;
 
                     $setFile = $this->createSETFile($salesOrder, $msg);
 
                     $this->storeFileInSThree(
-                        Config::$amazonSThree['setBucket'], Config::$amazonSThree['setFolder'], $setFile['file'], $setFile['content']
+                        Config::$amazonSThree['setBucket'], 
+                        Config::$amazonSThree['setFolder'], 
+                        $setFile['file'], 
+                        $setFile['content']
                     );
 
                     $this->storeFileInMessageQ(
@@ -619,25 +656,25 @@ class PhpBatchTwo
                     /*
                      * Commit the databases.
                      */
-                    $this->integrationConnect->commit();
+                    $this->_integrationConnect->commit();
                 } catch (Exception $e) {
                     $numberSalesOrders--;
                     /*
                      * Rollback the connections
                      */
-                    $this->integrationConnect->rollback();
+                    $this->_integrationConnect->rollback();
                 }
             }
 
-            $this->messages['set']['message'] = "$numberSalesOrders number " .
+            $this->_messages['set']['message'] = "$numberSalesOrders number " .
                 "of sales orders processed for SET files.";
             
         } catch (Exception $e) {
-            $this->messages['message'] = $e->getMessage();
+            $this->_messages['message'] = $e->getMessage();
             /*
              * Rollback the connections
              */
-            $this->integrationConnect->rollback();
+            $this->_integrationConnect->rollback();
         }
         
         /*
@@ -650,8 +687,8 @@ class PhpBatchTwo
             /*
              * Update message array with number of sales orders.
              */
-            $this->messages['mos']['count'] = $numberAccounts;
-            $msg = &$this->messages['mos']['accounts'];
+            $this->_messages['mos']['count'] = $numberAccounts;
+            $msg = &$this->_messages['mos']['accounts'];
 
             while ($account = $accounts->fetch_object()) {
                 try {
@@ -661,14 +698,17 @@ class PhpBatchTwo
                     syslog(
                         LOG_INFO, "Disabling auto commit"
                     );
-                    $this->integrationConnect->autocommit(FALSE);
+                    $this->_integrationConnect->autocommit(FALSE);
 
                     $msg[$account->accountname]['status'] = false;
 
                     $mosFile = $this->createMOSFile($account, $msg);
 
                     $this->storeFileInSThree(
-                        Config::$amazonSThree['mosBucket'], Config::$amazonSThree['mosFolder'], $mosFile['file'], $mosFile['content']
+                        Config::$amazonSThree['mosBucket'], 
+                        Config::$amazonSThree['mosFolder'], 
+                        $mosFile['file'], 
+                        $mosFile['content']
                     );
 
                     $this->storeFileInMessageQ(
@@ -684,30 +724,30 @@ class PhpBatchTwo
                     /*
                      * Commit the databases.
                      */
-                    $this->integrationConnect->commit();
+                    $this->_integrationConnect->commit();
                 } catch (Exception $e) {
                     $numberAccounts--;
                     /*
                      * Rollback the connections
                      */
-                    $this->integrationConnect->rollback();
+                    $this->_integrationConnect->rollback();
                 }
             }
 
-            $this->messages['mos']['message'] = "$numberAccounts number " .
+            $this->_messages['mos']['message'] = "$numberAccounts number " .
                 "of accounts processed for MOS files.";
         } catch (Exception $e) {
-            $this->messages['message'] = $e->getMessage();
+            $this->_messages['message'] = $e->getMessage();
             /*
              * Rollback the connections
              */
-            $this->integrationConnect->rollback();
+            $this->_integrationConnect->rollback();
         }
 
         syslog(
-            LOG_INFO, json_encode($this->messages)
+            LOG_INFO, json_encode($this->_messages)
         );
-        echo json_encode($this->messages);
+        echo json_encode($this->_messages);
     }
 
 }
