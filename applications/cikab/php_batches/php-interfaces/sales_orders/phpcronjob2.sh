@@ -488,15 +488,11 @@ class PhpBatchTwo
             else
                 $deliveryday = date('ymd');
 
-            $week = date('W', strtotime($deliveryday));
+            $week = date('yW', strtotime($deliveryday));
 
             $campaignWeek = date(
-                'W', 
-                strtotime(date("ymd", strtotime($deliveryday)) . "+2 day")
-            );
-            $weekZero = Functions::leadingzero(4, strlen((string) $week));
-            $campWeekZero = Functions::leadingzero(
-                4, strlen((string) $campaignWeek)
+                'yW', 
+                strtotime($deliveryday . "+1 week")
             );
 
             $basProId = explode('-', $sOWProduct->bas_product_id);
@@ -516,8 +512,8 @@ class PhpBatchTwo
 
             $contentF .= "{$seqZero}{$sequence}{$dummyOne}" .
                 "{$vgr}{$art}{$varubet}{$store}" .
-                "{$weekZero}{$week}{$qtnZero}{$quantity}" .
-                "{$dummyTwo}{$campWeekZero}{$campaignWeek}{$reservationId}\n";
+                "{$week}{$qtnZero}{$quantity}" .
+                "{$dummyTwo}{$campaignWeek}{$reservationId}\n";
             $sequence++;
         }
 
