@@ -205,6 +205,6 @@ class Config
         'mosFiles' => 'cf_665',
         'basProductId' => 'cf_666'
     );
-    public static $lineBreak = '\n';
+    public static $lineBreak = '\r\n';
 
 }
