@@ -431,7 +431,7 @@ class PhpBatchTwo
             LOG_INFO, "Adding next line char $fileName at every 80 chars"
         );
         $pieces = str_split($contentF, 80);
-        $contentF = join("\n", $pieces);
+        $contentF = join(Config::$lineBreak, $pieces);
 
         syslog(
             LOG_INFO, "File $fileName contents: " . $contentF
