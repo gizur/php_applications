@@ -55,7 +55,14 @@ $languageArr = array(
     'About' => 'About',
     'Welcome' => 'Welcome',
     'Status of damage' => 'Status of damage',
-    'Damage' => 'Damage'
+    'Damage' => 'Damage',
+    /* Custom Variables */
+    'Anteckningar' => 'Notes',
+    'Damage Status' => 'Damage Status',
+    'Ej påbörjat' => 'Not started',
+    'Under utredning' => 'Under investigation',
+    'Väntar på kompletterande uppgifter' => 'Waiting for information',
+    'Ärende stängt' => 'Closed'
 );
 
 function getTranslatedString($str)

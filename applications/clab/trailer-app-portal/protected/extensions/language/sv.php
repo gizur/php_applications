@@ -65,6 +65,13 @@ $languageArr = array(
     'Enter new password' => 'Ange nytt lösenord',
     'Confirm Password' => 'Bekräfta lösenord',
     'Confirm new password' => 'Bekräfta nytt lösenord',
+    /* Custom Variables */
+    'Anteckningar' => 'Anteckningar',
+    'Damage Status' => 'Damage Status',
+    'Ej påbörjat' => 'Ej påbörjat',
+    'Under utredning' => 'Under utredning',
+    'Väntar på kompletterande uppgifter' => 'Väntar på kompletterande uppgifter',
+    'Ärende stängt' => 'Ärende stängt'
 );
 
 function getTranslatedString($str)

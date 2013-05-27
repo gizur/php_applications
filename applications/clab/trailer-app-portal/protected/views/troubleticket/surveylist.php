@@ -100,8 +100,8 @@ foreach ($Assets as $key => $val) {
                     <th><?php echo getTranslatedString('Account'); ?></th>
                     <th><?php echo getTranslatedString('Contact'); ?></th>
                     <th><?php echo getTranslatedString('Place'); ?></th>
-                    <th><?php echo getTranslatedString('Plates'); ?></th>
-                    <th><?php echo getTranslatedString('Straps'); ?></th>
+                    <th><?php echo getTranslatedString('Damage Status'); ?></th>
+                    <th><?php echo getTranslatedString('Anteckningar'); ?></th>
                     <th><?php echo getTranslatedString('Damage Reported'); ?></th>
                     <th><?php echo getTranslatedString('Type of damage'); ?></th>
                     <th><?php echo getTranslatedString('Position on trailer'); ?></th>
@@ -122,8 +122,8 @@ foreach ($Assets as $key => $val) {
                         <td><?php echo $viewdteails; ?></td>
                         <td><?php echo $data['contactname']; ?></td>
                         <td><?php echo htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"); ?></td>
-                        <td><?php echo htmlentities($data['plates'], ENT_QUOTES, "UTF-8"); ?></td>
-                        <td><?php echo htmlentities($data['straps'], ENT_QUOTES, "UTF-8"); ?></td>
+                        <td><?php echo htmlentities($data['notes'], ENT_QUOTES, "UTF-8"); ?></td>
+                        <td><?php echo getTranslatedString(htmlentities($data['damagestatus'], ENT_QUOTES, "UTF-8")); ?></td>
                         <td><?php echo $data['reportdamage']; ?></td>
                         <td><?php echo htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"); ?></td>
                         <td><?php echo htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"); ?></td>
