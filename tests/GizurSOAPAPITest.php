@@ -72,7 +72,7 @@ class Girur_SOAP_API_Test extends PHPUnit_Framework_TestCase
         $this->_client = new soapclient2(
             $this->_url . "/vtigerservice.php?service=customerportal", false
         );
-        $this->_client->soap_defencoding = $this->$defaultCharset;
+        $this->_client->soap_defencoding = $this->_defaultCharset;
         $this->_login();
     }
     /**
