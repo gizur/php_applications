@@ -11,7 +11,7 @@ class configuration {
 	       'credentials' => array(
 		    //'portal_user@gizur.com' => 'skcx0r0i',
 		    //'jonas.colmsjo@gizur.com' => '0a34c625',
-               'portal_user@gizur.com' => '2hxrftmd'
+            'portal_user@gizur.com' => '2hxrftmd'
 	       )
 	    );
     }
