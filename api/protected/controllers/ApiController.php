@@ -137,8 +137,7 @@ class ApiController extends Controller
         2002 => "EMAIL_INVALID",
         2003 => "LOGIN_INVALID",
         2004 => "WRONG_CREDENTIALS",
-        2005 => "WRONG_FROM_CLIENT",
-        2006 => 'INVALID_EMAIL'
+        2005 => "WRONG_FROM_CLIENT"
     );
 
     /**
@@ -160,8 +159,7 @@ class ApiController extends Controller
         'DocumentAttachments',
         'Authenticate',
         'Cron',
-        'Users', // GizurSaaSAdmin
-        'Batches' // Batch Integration
+        'Users' // GizurSaaSAdmin
     );
 
     /**
@@ -202,6 +200,11 @@ class ApiController extends Controller
      * Client ID
      */
     private $_clientid = "";
+
+    /**
+     * Contact Info
+     */
+    private $_contactinfo = "";    
     
     /**
      * Db User
@@ -378,9 +381,6 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
-            if ($_GET['model'] == 'Batches') {
-                return true;
-            }
             
             if ($_GET['model'] == 'Users') {
                 // Authentication for GizurSaaSAdmin
@@ -563,7 +563,7 @@ class ApiController extends Controller
                             'AttributesToGet' => array(
                                 'id', 'apikey_1', 'secretkey_1', 
                                 'clientid', 'databasename', 
-                                'dbpassword', 'username', 'server'
+                                'dbpassword', 'username', 'server', 'contactinfo'
                             ),
                             'ScanFilter' => array(
                                 'apikey_1' => array(
@@ -635,7 +635,8 @@ class ApiController extends Controller
                     );                
                     
                     $this->_clientid = (string) $ddbResponse->body->Items->clientid->{AmazonDynamoDB::TYPE_STRING};
-                    
+
+                    $this->_contactinfo = (string) $ddbResponse->body->Items->contactinfo->{AmazonDynamoDB::TYPE_STRING};                    
                     $this->_dbuser = (string) $ddbResponse->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
                     $this->_dbpassword = (string) $ddbResponse->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
                     $this->_dbhost = (string) $ddbResponse->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
@@ -669,6 +670,10 @@ class ApiController extends Controller
                         $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbname", 
                         $this->_dbname
                     );
+                    Yii::app()->cache->set(
+                        $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_contactinfo", 
+                        $this->_contactinfo
+                    );                    
                 } else {
                     $this->_clientid = Yii::app()->cache->get(
                         $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_clientid"
@@ -686,6 +691,9 @@ class ApiController extends Controller
                     $this->_dbpassword = Yii::app()->cache->get(
                         $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_dbpassword"
                     );
+                    $this->_contactinfo = Yii::app()->cache->get(
+                        $_SERVER['HTTP_X_GIZURCLOUD_API_KEY'] . "_contactinfo"
+                    );                    
                 }
                 
                 
@@ -796,7 +804,7 @@ class ApiController extends Controller
                             'AttributesToGet' => array(
                                 'id', 'apikey_1', 'secretkey_1', 
                                 'clientid', 'databasename', 'dbpassword', 
-                                'username', 'server','key_free'
+                                'username', 'server','key_free', 'contactinfo'
                             ),
                             'ScanFilter' => array(
                                 'clientid' => array(
@@ -818,6 +826,7 @@ class ApiController extends Controller
                                 'allowed for this account'
                             );
 
+                        $this->_contactinfo = (string) $ddbResponse->body->Items->contactinfo->{AmazonDynamoDB::TYPE_STRING};
                         $this->_dbuser = (string) $ddbResponse->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
                         $this->_dbpassword = (string) $ddbResponse->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
                         $this->_dbhost = (string) $ddbResponse->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
@@ -841,6 +850,10 @@ class ApiController extends Controller
                             $_SERVER['HTTP_X_CLIENTID'] . "_dbname", 
                             $this->_dbname
                         );
+                        Yii::app()->cache->set(
+                            $_SERVER['HTTP_X_CLIENTID'] . "_contactinfo", 
+                            $this->_contactinfo
+                        );                        
                     } else {
                         throw new Exception(
                             'Client ID not found'
@@ -857,6 +870,9 @@ class ApiController extends Controller
                     $this->_dbpassword = Yii::app()->cache->get(
                         $_SERVER['HTTP_X_CLIENTID'] . "_dbpassword"
                     );
+                    $this->_contactinfo = Yii::app()->cache->get(
+                        $_SERVER['HTTP_X_CLIENTID'] . "_contactinfo"
+                    );                    
                 }
             }
 
@@ -1412,41 +1428,6 @@ class ApiController extends Controller
 
                 $this->_sendResponse(200, json_encode($response));
                 break;
-                
-            case 'Batches':
-                
-                // Instantiate the class
-                $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(
-                    constant(
-                        "AmazonDynamoDB::" . 
-                        Yii::app()->params->awsDynamoDBRegion
-                    )
-                );
-                //Get all the batches
-                $ddbResponse = $dynamodb->scan(
-                    array(
-                        'TableName' => Yii::app()->params->awsBatchDynamoDBTableName
-                    )
-                );
-
-                $result = array();
-                $x = 0;
-                foreach ($ddbResponse->body->Items
-                as $key => $item) {
-                    $item = get_object_vars($item);
-                    foreach ($item as $k => $v) {
-                        $v = get_object_vars($v);
-                        $result[$x][$k] = $v[AmazonDynamoDB::TYPE_STRING];
-                    }
-                    $x++;
-                }
-                $response = new stdClass();
-                $response->success = true;
-                $response->result = $result;
-
-                $this->_sendResponse(200, json_encode($response));
-                break;
             /*
              * *****************************************************************
              * *****************************************************************
@@ -1564,7 +1545,7 @@ class ApiController extends Controller
                     );
                     
                     if(empty($ddbResponse->body->Item))
-                        throw new Exception("Invalid Login Id.", 2006);
+                        throw new Exception("Invalid Login Id.", 2001);
                     
                     $securitySalt = (string)$ddbResponse->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
                                         
@@ -1655,6 +1636,7 @@ class ApiController extends Controller
                     $response->contactname = $this->_session->contactname;
                     $response->accountname = $this->_session->accountname;
                     $response->account_no = $this->_session->account_no;
+                    $response->contactinfo = $this->_contactinfo;
 
                     //Send response
                     $this->_sendResponse(200, json_encode($response));
@@ -4692,124 +4674,7 @@ class ApiController extends Controller
                  * *************************************************************
                  */
             case 'User':
-                if (isset($_GET['action'])) {
-                    if($_GET['action'] == 'vtiger'){
-                        $result = array();
-                        // Instantiate the class
-                        $dynamodb = new AmazonDynamoDB();
-                        $dynamodb->set_region(
-                            constant(
-                                "AmazonDynamoDB::" . 
-                                Yii::app()->params->awsDynamoDBRegion
-                            )
-                        );
-
-                        // Get an item
-                        $ddbResponse = $dynamodb->get_item(
-                            array(
-                                'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                                'Key' => $dynamodb->attributes(
-                                    array(
-                                        'HashKeyElement' => $_GET['email'],
-                                    )
-                                ),
-                                'ConsistentRead' => 'true'
-                            )
-                        );
-                        
-                        foreach ($ddbResponse->body->Item->children()
-                        as $key => $item) {
-                            $result[$key] 
-                                = (string) $item->{AmazonDynamoDB::TYPE_STRING};
-                        }
-                        
-                        //To update vTiger Admin password
-                        //===============================
-                        $salt = substr("admin", 0, 2);
-                        $salt = '$1$' . str_pad($salt, 9, '0');
-                        $oPassword = substr(strrev(uniqid()), 0, 9);
-                        $userHash = strtolower(md5($oPassword));
-                        $computedEncryptedPassword = crypt($oPassword, $salt);
-
-                        Yii::log(
-                            "TRACE(" . $this->_traceId . ");" . 
-                            " FUNCTION(" . __FUNCTION__ . ");" . 
-                            " CREATING DATABASE CONNNECTION TO " . 
-                            $dbconfig['db_server'], 
-                            CLogger::LEVEL_TRACE
-                        );
-                        $mysqli = new mysqli(
-                            $result['server'],
-                            $result['username'],
-                            $result['dbpassword'],
-                            $result['databasename'],
-                            $result['port']
-                        );
-
-                        if ($mysqli->connect_error) 
-                            throw New Exception($mysqli->connect_error);
-
-                        Yii::log(
-                            "TRACE(" . $this->_traceId . ");" . 
-                            " FUNCTION(" . __FUNCTION__ . ");" . 
-                            " CREATING AmazonDynamoDB CONNNECTION ", 
-                            CLogger::LEVEL_TRACE
-                        );
-                        //Add User Sequence
-                        //======================
-                        $query = "update vtiger_users set user_password = " . 
-                            "'$computedEncryptedPassword', crypt_type = " . 
-                            "'PHP5.3MD5', user_hash = '$userHash' where " .
-                            "user_name = 'admin'";
-
-                        if ($mysqli->query($query)===false) {
-                            throw New Exception(
-                                $mysqli->error . " Query:" . $query, 0
-                            );                        
-                        }
-
-                        $mysqli->close();
-                        
-                        //SEND THE EMAIL TO USER
-                        $email = new AmazonSES();
-                        //$email->set_region(constant("AmazonSES::" . 
-                        //Yii::app()->params->awsSESRegion));
-                        $sesResponse = $email->send_email(
-                            // Source (aka From)
-                            Yii::app()->params->awsSESFromEmailAddress,
-                            array(
-                                'ToAddresses' => array(// Destination (aka To)
-                                    $result['id']
-                                )
-                            ), 
-                            array(// sesMessage (short form)
-                                'Subject.Data' => 'Gizur SaaS',
-                                'Body.Text.Data' => 'Hi ' . $result['name_1'] . 
-                                ' ' . $result['name_2'] . ', ' . PHP_EOL .
-                                PHP_EOL .
-                                'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
-                                'Your vTiger admin password has been ' .
-                                'updated and is as follows:' . PHP_EOL .
-                                PHP_EOL .
-                                'vTiger Link: ' .
-                                Yii::app()->params->serverProtocol .
-                                $_SERVER['HTTP_HOST'] .
-                                '/' . $result['clientid'] . '/' .  
-                                PHP_EOL .
-                                'Username: admin' . PHP_EOL .                            
-                                'Password: ' . $oPassword . PHP_EOL .
-                                PHP_EOL .
-                                PHP_EOL .
-                                '--' .
-                                PHP_EOL .
-                                'Gizur Admin'
-                            )
-                        );
-                        $response = new stdClass();
-                        $response->success = true;
-                        $this->_sendResponse(200, json_encode($response));
-                    }
-                } else if (isset($_GET['field'])) {
+                if (isset($_GET['field'])) {
                     $keyid = str_replace('keypair', '', $_GET['field']);
 
                     //It match username sent in the header and email
