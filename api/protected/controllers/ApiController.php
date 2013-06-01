@@ -5046,6 +5046,9 @@ class ApiController extends Controller
                 //Loop through all Files
                 //Attach file to trouble ticket
 
+                error_reporting(E_ALL);
+                ini_set('display_errors','On');
+
                 $crmid = $_GET['id'];
 
                 $dataJson = array(
