@@ -5179,23 +5179,23 @@ class ApiController extends Controller
                             
                             $response = json_decode($response);
                             if ($response->success) {
-                                $globalresponse->success = true;
+                                //$globalresponse->success = true;
                                 $globalresponse->result->documents[]
                                     = $document->result);
                             } else {
-                                $globalresponse->success = false;                                
+                                //$globalresponse->success = false;                                
                                 $globalresponse->result->documents[]
                                     = 'not uploaded - relating ' .
                                     'document failed:' . $file['name'];
                             }
                         } else {
-                            $globalresponse->success = false;
+                            //$globalresponse->success = false;
                             $globalresponse->result->documents[]
                                 = 'not uploaded - creating document failed:' . 
                                 $file['name'];
                         }
                     } else {
-                        $globalresponse->success = false;
+                        //$globalresponse->success = false;
                         $globalresponse->result->documents[]
                             = 'not uploaded - upload to storage ' .
                             'service failed:' . $file['name'];
