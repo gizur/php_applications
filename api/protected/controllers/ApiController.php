@@ -5045,7 +5045,21 @@ class ApiController extends Controller
 
                 //Loop through all Files
                 //Attach file to trouble ticket
-                echo "asdfadsfasd";
+                $crmid = $_GET['id'];
+
+                $dataJson = array(
+                    'notes_title' => 'Attachement',
+                    'assigned_user_id' => $this->_session->userId,
+                    'notecontent' => 'Attachement',
+                    'filelocationtype' => 'I',
+                    'filedownloadcount' => null,
+                    'filestatus' => 1,
+                    'fileversion' => ''
+                );
+
+                $globalresponse =  new stdClass(); 
+
+
 
             break;
 
