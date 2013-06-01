@@ -5046,6 +5046,7 @@ class ApiController extends Controller
                 //Loop through all Files
                 //Attach file to trouble ticket
                 echo "Your have reached here";
+                echo "No of files received" . count($_FILES);
 
             break;
 

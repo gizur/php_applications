@@ -88,6 +88,7 @@ URL;
 
         $this->_url = $configuration['url'];
         $this->_credentials = $configuration['credentials'];
+        $this->_clientid = $configuration['clientid'];
         
     }
     
