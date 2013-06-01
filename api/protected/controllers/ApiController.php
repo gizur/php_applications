@@ -5045,9 +5045,162 @@ class ApiController extends Controller
 
                 //Loop through all Files
                 //Attach file to trouble ticket
-                echo "Your have reached here";
-                echo "No of files received " . count($_FILES);
-                echo file_get_contents('php://input');
+
+                $crmid = $_GET['id'];
+
+                $dataJson = array(
+                    'notes_title' => 'Attachement',
+                    'assigned_user_id' => $this->_session->userId,
+                    'notecontent' => 'Attachement',
+                    'filelocationtype' => 'I',
+                    'filedownloadcount' => null,
+                    'filestatus' => 1,
+                    'fileversion' => '',
+                );
+
+                $globalresponse =  new stdClass();                
+
+                foreach ($_FILES as $key => $file) {
+                    $uniqueid = uniqid();
+
+                    $dataJson['filename'] = $crmid . "_" . $uniqueid . 
+                        "_" . $file['name'];
+                    $dataJson['filesize'] = $file['size'];
+                    $dataJson['filetype'] = $file['type'];
+
+                    //Upload file to Amazon S3
+                    $sThree = new AmazonS3();
+                    $sThree->set_region(
+                        constant("AmazonS3::" . Yii::app()->params->awsS3Region)
+                    );
+
+                    $response = $sThree->create_object(
+                        Yii::app()->params->awsS3Bucket, 
+                        $crmid . '_' . $uniqueid . '_' . $file['name'], 
+                        array(
+                            'fileUpload' => $file['tmp_name'],
+                            'contentType' => $file['type'],
+                            'headers' => array(
+                                'Cache-Control' => 'max-age',
+                                'Content-Language' => 'en-US',
+                                'Expires' =>
+                                'Thu, 01 Dec 1994 16:00:00 GMT',
+                            )
+                        )
+                    );
+
+                    if ($response->isOK()) {
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (sending POST request" .
+                            " to vt url: " . 
+                            $this->_vtresturl . "  " .
+                            json_encode(
+                                array(
+                                    'sessionName' => $this->_session->sessionName,
+                                    'operation' => 'create',
+                                    'element' => json_encode($dataJson),
+                                    'elementType' => 'Documents'
+                                )                           
+                            ) . ")", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        
+                        //Create document
+                        $rest = new RESTClient();
+                        $rest->format('json');
+                        $document = $rest->post(
+                            $this->_vtresturl, array(
+                                'sessionName' => $this->_session->sessionName,
+                                'operation' => 'create',
+                                'element' =>
+                                json_encode($dataJson),
+                                'elementType' => 'Documents'
+                            )
+                        );
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (response received: " . 
+                            $document . ")", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        
+                        $document = json_decode($document);
+                        if ($document->success) {
+                            $notesid = $document->result->id;
+                            
+                            //Log
+                            Yii::log(
+                                " TRACE(" . $this->_traceId . "); " . 
+                                " FUNCTION(" . __FUNCTION__ . "); " . 
+                                " PROCESSING REQUEST (sending POST " .
+                                "request to vt url: " . 
+                                $this->_vtresturl . "  " .
+                                json_encode(
+                                    array(
+                                        'sessionName' => $this->_session->sessionName,
+                                        'operation' =>
+                                        'relatetroubleticketdocument',
+                                        'crmid' => $crmid,
+                                        'notesid' => $notesid
+                                    )
+                                ) . ")", 
+                                CLogger::LEVEL_TRACE
+                            );
+
+                            //Relate Document with Trouble Ticket
+                            $rest = new RESTClient();
+                            $rest->format('json');
+                            $response = $rest->post(
+                                $this->_vtresturl, 
+                                array(
+                                    'sessionName' => $this->_session->sessionName,
+                                    'operation' =>
+                                    'relatetroubleticketdocument',
+                                    'crmid' => $crmid,
+                                    'notesid' => $notesid
+                                )
+                            );
+                            
+                            //Log
+                            Yii::log(
+                                " TRACE(" . $this->_traceId . "); " . 
+                                " FUNCTION(" . __FUNCTION__ . "); " . 
+                                " PROCESSING REQUEST (response received: " . 
+                                $response . ")", 
+                                CLogger::LEVEL_TRACE
+                            );
+                            
+                            $response = json_decode($response);
+                            if ($response->success) {
+                                $globalresponse->success = true;
+                                $globalresponse->result->documents[]
+                                    = $document->result);
+                            } else {
+                                $globalresponse->success = false;                                
+                                $globalresponse->result->documents[]
+                                    = 'not uploaded - relating ' .
+                                    'document failed:' . $file['name'];
+                            }
+                        } else {
+                            $globalresponse->success = false;
+                            $globalresponse->result->documents[]
+                                = 'not uploaded - creating document failed:' . 
+                                $file['name'];
+                        }
+                    } else {
+                        $globalresponse->success = false;
+                        $globalresponse->result->documents[]
+                            = 'not uploaded - upload to storage ' .
+                            'service failed:' . $file['name'];
+                    }
+                }                
 
             break;
 

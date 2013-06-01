@@ -115,20 +115,21 @@ URL;
         $model = 'DocumentAttachment';
         $action = '17x275';
         $method = 'PUT';
+        $files = array('filename'=>'@'.realpath(getcwd().'/images/image-to-upload.jpg'));
         
         
         echo " Adding Document to Trouble Ticket" . PHP_EOL; 
+
 
         //login using each credentials
         foreach ($this->_credentials as $username => $password) {  
 
             //Set Header
-            $this->_setHeader($username, $password, $this->_clientid);  
-
-            echo PHP_EOL . " URL " . $this->_url.$model."/".$action;
+            $this->_setHeader($username, $password, $this->_clientid);
             
-            echo PHP_EOL . " Response: " . $response = $this->_rest->put(
-                $this->_url.$model."/".$action, array('filename'=>'@'.realpath(getcwd().'/../images/image-to-upload.png'))
+            echo PHP_EOL . " Response: " . $response = $this->_rest->post(
+                $this->_url.$model."/".$action, 
+                $files
             );
             
             $response = json_decode($response);
