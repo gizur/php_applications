@@ -5047,23 +5047,7 @@ class ApiController extends Controller
                 //Attach file to trouble ticket
 
                 error_reporting(E_ALL);
-                ini_set('display_errors','On');
-
-                $crmid = $_GET['id'];
-
-                $dataJson = array(
-                    'notes_title' => 'Attachement',
-                    'assigned_user_id' => $this->_session->userId,
-                    'notecontent' => 'Attachement',
-                    'filelocationtype' => 'I',
-                    'filedownloadcount' => null,
-                    'filestatus' => 1,
-                    'fileversion' => '',
-                );
-
-                $globalresponse =  new stdClass();                
-
-                foreach ($_FILES as $key => $file) {}                
+                ini_set('display_errors','On');              
 
             break;
 
