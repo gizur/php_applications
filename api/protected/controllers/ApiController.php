@@ -157,6 +157,7 @@ class ApiController extends Controller
         'Assets',
         'About',
         'DocumentAttachments',
+        'DocumentAttachment',
         'Authenticate',
         'Cron',
         'Users' // GizurSaaSAdmin
@@ -3078,7 +3079,7 @@ class ApiController extends Controller
                     );
                     
                     if ($mysqli->connect_error) 
-                throw New Exception($mysqli->connect_error);
+                        throw New Exception($mysqli->connect_error);
                     
                     // Instantiate the class
                     $dynamodb = new AmazonDynamoDB(); 
@@ -5039,6 +5040,14 @@ class ApiController extends Controller
 
                 $this->_sendResponse(200, json_encode($response));
                 break;
+
+            case 'DocumentAttachment' :
+
+                //Loop through all Files
+                //Attach file to trouble ticket
+                echo "Your have reached here";
+
+            break;
 
             default :
                 $response = new stdClass();

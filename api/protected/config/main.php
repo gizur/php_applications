@@ -100,7 +100,7 @@ return array(
                 ),
                 array(
                     'api/update', 
-                    'pattern' => '/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 
+                    'pattern' => '/<model:(HelpDesk|Assets|DocumentAttachment)>/<id:[0-9x]+>', 
                     'verb' => 'PUT'
                 ),
                 array(
