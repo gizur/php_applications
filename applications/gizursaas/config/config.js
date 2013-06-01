@@ -28,16 +28,17 @@
 // This is where all request will be made.
 // This URL is actually, where this apllication will be host
 // with the api path.
-var __rest_server_url = 'http://localhost/php_applications/api/';
+var __rest_server_url = 'https://c2.gizur.com/api/';
 
 // Messages
 // ========
 // Following are the set of messages showed to 
 // user on perticular response / error code.
 var __messages = {
-    "CLIENT_ID_INVALID" : 'Client id is not available.',
+    "CLIENT_ID_INVALID" : 'Client ID is not available.',
     "EMAIL_INVALID" : 'Email is already registred.',
     "ERROR" : 'An error occured, Please contact administrator.',
     "WRONG_CREDENTIALS" : 'Credentials are in valid.',
+    "WRONG_FROM_CLIENT" : 'From client is incorrect.',
     "INVALID_EMAIL" : "Wrong email id provided."
 };

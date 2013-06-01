@@ -92,11 +92,11 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
                 'protocol'=>'https://',
-                'createTroubleTicket'=> false,
-		'GIZURCLOUD_SECRET_KEY' => '50694086b18cd0.9497426050694086b18fa8.66729980',
-		'GIZURCLOUD_API_KEY' => 'GZCLD50694086B196F50694086B19E7',
+                'createTroubleTicket'=> true,
+		'GIZURCLOUD_SECRET_KEY' => '50826a54755009.5822592450826a54755292.56509362',
+		'GIZURCLOUD_API_KEY' => 'GZCLD50826A54755AB50826A5475624',
 		'API_VERSION' => '0.1',
-		'URL' => 'https://api.gizur.com/api/',
+		'URL' => 'https://c2.gizur.com/api/index.php/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',
