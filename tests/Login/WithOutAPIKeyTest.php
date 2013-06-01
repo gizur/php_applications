@@ -85,7 +85,7 @@ URL;
         $this->_rest->language(array('en-us;q=0.5','sv'));        
         $config = new Configuration();
         $configuration = $config->get();
-
+        $this->_clientid = $configuration['clientid'];
         $this->_url = $configuration['url'];
         $this->_credentials = $configuration['credentials'];
         

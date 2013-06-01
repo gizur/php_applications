@@ -128,7 +128,7 @@ URL;
             echo PHP_EOL . " URL " . $this->_url.$model."/".$action;
             
             echo PHP_EOL . " Response: " . $response = $this->_rest->put(
-                $this->_url.$model."/".$action, array('filename'=>'@'.getcwd().'/../images/image-to-upload.png')
+                $this->_url.$model."/".$action, array('filename'=>'@'.realpath(getcwd().'/../images/image-to-upload.png'))
             );
             
             $response = json_decode($response);
