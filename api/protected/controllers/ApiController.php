@@ -5197,7 +5197,6 @@ class ApiController extends Controller
                             'service failed:' . $file['name'];
                     }                    
                 }
-                }
 
 
             break;
