@@ -1,7 +1,7 @@
 Options -Indexes
 
-ErrorDocument 404 /lib/error-documents/404.html
-ErrorDocument 500 /lib/error-documents/500.html
+ErrorDocument 404 https://c2.gizur.com/lib/error-documents/404.html
+ErrorDocument 500 https://c2.gizur.com/lib/error-documents/500.html
 
 RewriteEngine On
 
@@ -16,12 +16,12 @@ RewriteRule ^api/(.*)$ api/index.php/api/$1 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
-RewriteRule ^applications/cikab/bikeportal/ /cikab/seasonportal/ [R,L]
+RewriteRule ^applications/cikab/bikeportal(.*)$ /cikab/seasonportal$1 [R,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
-RewriteRule ^cikab/seasonportal/(.*) applications/cikab/seasonportal/$1 [QSA,L]
+RewriteRule ^cikab/seasonportal(.*) applications/cikab/seasonportal$1 [QSA,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -37,7 +37,7 @@ RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
 RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
 RewriteRule ^([^\/]*)/([^?]*) /lib/vtiger-5.4.0/$2?clientid=$1 [QSA]
 
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
-#RewriteRule ^applications/([^demo|clab]*)/trailer-app-portal/([^?]*) applications/clab/trailer-app-portal/$1?clientid=demo [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^applications/demo/trailer-app-portal/([^?]*) applications/clab/trailer-app-portal/$1?clientid=demo [QSA,L]

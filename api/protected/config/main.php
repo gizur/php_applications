@@ -37,7 +37,7 @@ return array(
             'class' => 'CMemCache',
             'servers' => array(
                 array(
-                    'host' => '10.235.54.94', //'memcached.int.gizur.com',
+                    'host' => 'gc2-memcache.oztphl.cfg.euw1.cache.amazonaws.com',
                     'port' => 11211,
                     'weight' => 100,
                 ),
@@ -48,87 +48,49 @@ return array(
             'urlFormat' => 'path',
             'rules' => array(
                 // REST patterns
+                array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About)>', 'verb' => 'GET'),
+                array('api/list',
+                    'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>',
+                    'verb' => 'GET'),
+                array('api/list',
+                    'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>',
+                    'verb' => 'GET'),
                 array(
                     'api/list', 
-                    'pattern' => '/<model:(HelpDesk|Assets|About)>', 
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/view', 
-                    'pattern' => '/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/view', 
-                    'pattern' => '/<model:(User)>/<email:.+>', 
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/view', 
                     'pattern' => '/<model:(Users)>', 
                     'verb' => 'GET'
                 ),
                 array(
                     'api/list', 
-                    'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 
+                    'pattern' => '/<model:(Batches)>', 
                     'verb' => 'GET'
                 ),
                 array(
-                    'api/list', 
-                    'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 
-                    'verb' => 'POST'
-                ),
-                array(
-                    'api/list', 
-                    'pattern' => '/<model:(User)>/<action:(login|forgotpassword)>', 
-                    'verb' => 'POST'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(Authenticate)>/<action:(reset|changepw)>',
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update', 
-                    'pattern' => '/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(User)>/',
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>',
-                    'verb' => 'PUT'
-                ),
-                array(
                     'api/create', 
-                    'pattern' => '/<model:(HelpDesk|User)>',
+                    'pattern' => '/<model:(Users)>/<action:(copyuser)>',
                     'verb' => 'POST'
                 ),
+                array('api/view', 'pattern' => '/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb' => 'GET'),
+                array('api/view', 'pattern' => '/<model:(User)>/<email:.+>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 'verb' => 'POST'),
+                array('api/list', 'pattern' => '/<model:(User)>/<action:(login|forgotpassword)>', 'verb' => 'POST'),
+                array('api/update', 'pattern' => '/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(User)>/', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb' => 'PUT'),
                 array(
                     'api/update',
-                    'pattern' => '/<model:(Cron)>/<action:(mailscan)>',
+                    'pattern' => '/<model:(User)>/<action:(vtiger)>/<email:.+>',
                     'verb' => 'PUT'
                 ),
+                array('api/create', 'pattern' => '/<model:(HelpDesk|User)>', 'verb' => 'POST'),
+                array('api/update', 'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>', 'verb' => 'PUT'),
                 array('api/error', 'pattern' => '.*?')
             ),
         ),
         'db' => array(
-            'connectionString' => 'sqlite:' . 
-                dirname(__FILE__) . '/../data/testdrive.db',
+            'connectionString' => 'sqlite:' . dirname(__FILE__) . '/../data/testdrive.db',
         ),
         // uncomment the following to use a MySQL database
         /*
@@ -149,7 +111,7 @@ return array(
             'routes' => array(
                 array(
                     'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning, trace, info',
+                    'levels' => 'error, warning, trace',
                 ),
                 array(
                     'class' => 'CLiveLogRoute',
@@ -169,41 +131,43 @@ return array(
     // using Yii::app()->params['paramName']
     'params' => array(
         // this is used in contact page
-        'vtRestUrl' => 'http://127.0.0.1/{clientid}/vtiger/webservice.php',
+        'vtRestUrl' => 'http://127.0.0.1/{clientid}/webservice.php',
         'vtCronPath' => '/var/www/html/lib/vtiger-5.4.0/cron/',
-        'awsS3Bucket' => 'gizurcloud-clab',
+        'awsS3Bucket' => 'gizurcloud-gc2',
+        'awsS3BackupBucket' => 'gc2-backups',
         'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
+        'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
-        'awsSESClientEmailAddress' => 'admin@gizur.com',
+        'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',
         'awsSESRegion' => 'REGION_EU_W1',
         'clab_custom_fields' => Array(
             'HelpDesk' => Array(
-                'tickettype' => 'cf_649',
-                'trailerid' => 'cf_640',
-                'damagereportlocation' => 'cf_661',
-                'sealed' => 'cf_651',
-                'plates' => 'cf_662',
-                'straps' => 'cf_663',
+                'tickettype' => 'cf_640',
+                'trailerid' => 'cf_641',
+                'damagereportlocation' => 'cf_653',
+                'sealed' => 'cf_643',
+                'plates' => 'cf_652',
+                'straps' => 'cf_651',
                 'reportdamage' => 'cf_654',
-                'damagetype' => 'cf_659',
-                'damageposition' => 'cf_658',
-                'drivercauseddamage' => 'cf_657'
+                'damagetype' => 'cf_647',
+                'damageposition' => 'cf_648',
+                'drivercauseddamage' => 'cf_649'
             ),
             'Assets' => Array(
-                'trailertype' => 'cf_660'
+                'trailertype' => 'cf_650'
             )
         ),
         'demo_custom_fields' => Array(
             'HelpDesk' => Array(
                 'tickettype' => 'cf_649',
                 'trailerid' => 'cf_640',
-                'damagereportlocation' => 'cf_661',
+                'damagereportlocation' => 'cf_650',
                 'sealed' => 'cf_651',
-                'plates' => 'cf_662',
-                'straps' => 'cf_663',
+                'plates' => 'cf_652',
+                'straps' => 'cf_653',
                 'reportdamage' => 'cf_654',
                 'damagetype' => 'cf_659',
                 'damageposition' => 'cf_658',
@@ -213,5 +177,6 @@ return array(
                 'trailertype' => 'cf_660'
             )
         ),
+        'serverProtocol' => 'https://',
     ),
 );

@@ -8,7 +8,7 @@
  * 
  * @category   Test
  * @package    Gizur
- * @subpackage Login
+ * @subpackage DocumentAttachment
  * @author     Anshuk Kumar <anshuk-kumar@essindia.co.in>
  * @copyright  2012 &copy; Gizur AB
  * @license    Gizur Private Licence
@@ -85,9 +85,10 @@ URL;
         $this->_rest->language(array('en-us;q=0.5','sv'));        
         $config = new Configuration();
         $configuration = $config->get();
-        $this->_clientid = $configuration['clientid'];
+
         $this->_url = $configuration['url'];
         $this->_credentials = $configuration['credentials'];
+        $this->_clientid = $configuration['clientid'];
         
     }
     
@@ -108,60 +109,33 @@ URL;
      * @return void
      */     
     
-    public function testLoginSingle()
+    public function testAddDocumentToTroubleticket()
     {
         //Request parameters
-        $model = 'Authenticate';
-        $action = 'login';
-        $method = 'POST';
-        $delta = 0;
+        $model = 'DocumentAttachment';
+        $action = '17x275';
+        $method = 'PUT';
+        $files = array('filename'=>'@'.realpath(getcwd().'/images/image-to-upload.jpg'));
         
         
-        echo " Authenticating Login without API Keys" . PHP_EOL;        
-  
-        //set credentials
-        $this->_credentials += Array(
-            'user1' => 'password1',
-            'user2' => 'password2',
-            'user3' => 'password3',
-            'user4' => 'password4',
-            'test@test.com' => '123456'
-        );
-        
-        $validCredentials = Array(
-            'user1' => false,
-            'user2' => false,
-            'user3' => false,
-            'user4' => false,
-            'cloud3@gizur.com' => true,
-            'test@test.com' => false,
-            'anil-singh@essindia.co.in' => true,
-            'mobile_app@gizur.com' => true,
-            'mobile_user@gizur.com' => true,
-            'portal_user@gizur.com' => true,
-            'jonas.colmsjo@gizur.com' => true,
-            'demo@gizur.com' => true
-        );        
+        echo " Adding Document to Trouble Ticket" . PHP_EOL; 
+
 
         //login using each credentials
         foreach ($this->_credentials as $username => $password) {  
 
-            //Create REST handle
-            $this->setUp();            
-
             //Set Header
-
-            $this->_setHeader($username, $password, $this->_clientid);  
+            $this->_setHeader($username, $password, $this->_clientid);
             
             echo PHP_EOL . " Response: " . $response = $this->_rest->post(
-                $this->_url.$model."/".$action
+                $this->_url.$model."/".$action, 
+                $files
             );
             
             $response = json_decode($response);
 
             //check if response is valid
             if (isset($response->success)) {
-                //echo json_encode($response) . PHP_EOL;
                 $this->assertEquals(
                     $response->success, $validCredentials[$username], 
                     " Checking validity of response"
@@ -169,7 +143,9 @@ URL;
             } else {
                 $this->assertInstanceOf('stdClass', $response);
             }
+
         }
+
         echo PHP_EOL . PHP_EOL;
     }
 }
