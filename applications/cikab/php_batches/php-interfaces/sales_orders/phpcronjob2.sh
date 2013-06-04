@@ -632,12 +632,12 @@ class PhpBatchTwo
 
                     $setFile = $this->createSETFile($salesOrder, $msg);
 
-                    /*$this->storeFileInSThree(
+                    $this->storeFileInSThree(
                         Config::$amazonSThree['setBucket'], 
                         Config::$amazonSThree['setFolder'], 
                         $setFile['file'], 
                         $setFile['content']
-                    );*/
+                    );
 
                     $this->storeFileInMessageQ(
                         Config::$amazonQ['url'], json_encode($setFile)
