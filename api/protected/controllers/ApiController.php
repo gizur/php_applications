@@ -1434,6 +1434,41 @@ class ApiController extends Controller
 
                 $this->_sendResponse(200, json_encode($response));
                 break;
+                
+            case 'Batches':
+                
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" . 
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
+                //Get all the batches
+                $ddbResponse = $dynamodb->scan(
+                    array(
+                        'TableName' => Yii::app()->params->awsBatchDynamoDBTableName
+                    )
+                );
+
+                $result = array();
+                $x = 0;
+                foreach ($ddbResponse->body->Items
+                as $key => $item) {
+                    $item = get_object_vars($item);
+                    foreach ($item as $k => $v) {
+                        $v = get_object_vars($v);
+                        $result[$x][$k] = $v[AmazonDynamoDB::TYPE_STRING];
+                    }
+                    $x++;
+                }
+                $response = new stdClass();
+                $response->success = true;
+                $response->result = $result;
+
+                $this->_sendResponse(200, json_encode($response));
+                break;
             /*
              * *****************************************************************
              * *****************************************************************
