@@ -137,7 +137,8 @@ class ApiController extends Controller
         2002 => "EMAIL_INVALID",
         2003 => "LOGIN_INVALID",
         2004 => "WRONG_CREDENTIALS",
-        2005 => "WRONG_FROM_CLIENT"
+        2005 => "WRONG_FROM_CLIENT",
+        2006 => 'INVALID_EMAIL'
     );
 
     /**
@@ -160,8 +161,8 @@ class ApiController extends Controller
         'DocumentAttachment',
         'Authenticate',
         'Cron',
-        'Batches',
-        'Users' // GizurSaaSAdmin
+        'Users', // GizurSaaSAdmin
+        'Batches' // Batch Integration
     );
 
     /**
@@ -383,6 +384,9 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
+            if ($_GET['model'] == 'Batches') {
+                return true;
+            }
             
             if ($_GET['model'] == 'Users') {
                 // Authentication for GizurSaaSAdmin
