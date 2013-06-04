@@ -160,6 +160,7 @@ class ApiController extends Controller
         'DocumentAttachment',
         'Authenticate',
         'Cron',
+        'Batches',
         'Users' // GizurSaaSAdmin
     );
 
