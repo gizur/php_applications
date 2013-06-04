@@ -67,7 +67,7 @@ return array(
 		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-                'errorAction'=>'site/error',
+            'errorAction'=>'site/error',
         ),
 		'log'=>array(
 			'class'=>'CLogRouter',
@@ -92,11 +92,11 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
                 'protocol'=>'https://',
-                'createTroubleTicket'=> true,
-		'GIZURCLOUD_SECRET_KEY' => '50826a54755009.5822592450826a54755292.56509362',
-		'GIZURCLOUD_API_KEY' => 'GZCLD50826A54755AB50826A5475624',
+                'createTroubleTicket'=> false,
+		'GIZURCLOUD_SECRET_KEY' => '50ee9d44beb2d0.0165098250ee9d44beb591.45044222',
+		'GIZURCLOUD_API_KEY' => 'GZCLD50EE9D44BEBD450EE9D44BEC50',
 		'API_VERSION' => '0.1',
-		'URL' => 'https://c2.gizur.com/api/index.php/api/',
+		'URL' => 'https://api.gizur.com/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',

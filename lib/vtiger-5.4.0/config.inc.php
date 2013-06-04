@@ -29,7 +29,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = 'https://c2.gizur.com/cikab/seasonportal';
+$PORTAL_URL = 'https://gizur.com/cikab/seasonportal';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
 $HELPDESK_SUPPORT_EMAIL_ID = 'admin@gizur.com';
@@ -50,7 +50,7 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  */
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
-    $memcache_url = 'gc2-memcache.oztphl.cfg.euw1.cache.amazonaws.com';
+    $memcache_url = '10.235.54.94';
     $memcache = new Memcache;
     if ($memcache->connect($memcache_url, 11211)) {
         $dbconfig_cache = $memcache->get($gizur_client_id . "_connection_details");
@@ -92,11 +92,6 @@ if ($response->body->Count!=0) {
     if (isset($memcache)){
         $memcache->set($gizur_client_id . "_connection_details", $dbconfig);
     }
-}
-
-if (!isset($dbconfig['db_server'])) {
-    echo file_get_contents('http://127.0.0.1/lib/error-documents/404.html');
-    die;
 }
 
 // TODO: test if port is empty

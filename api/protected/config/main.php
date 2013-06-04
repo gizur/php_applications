@@ -37,7 +37,7 @@ return array(
             'class' => 'CMemCache',
             'servers' => array(
                 array(
-                    'host' => 'gc2-memcache.oztphl.cfg.euw1.cache.amazonaws.com',
+                    'host' => '10.235.54.94', //'memcached.int.gizur.com',
                     'port' => 11211,
                     'weight' => 100,
                 ),
@@ -111,7 +111,7 @@ return array(
             'routes' => array(
                 array(
                     'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning, trace',
+                    'levels' => 'error, warning, trace, info',
                 ),
                 array(
                     'class' => 'CLiveLogRoute',
@@ -133,45 +133,49 @@ return array(
         // this is used in contact page
         'vtRestUrl' => 'http://127.0.0.1/{clientid}/webservice.php',
         'vtCronPath' => '/var/www/html/lib/vtiger-5.4.0/cron/',
-        'awsS3Bucket' => 'gizurcloud-gc2',
-        'awsS3BackupBucket' => 'gc2-backups',
+        'awsS3Bucket' => 'gizurcloud-clab',
+        'awsS3BackupBucket' => 'gc1-backups',
         'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
         'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
-        'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
+        'awsSESClientEmailAddress' => 'log@gizur.com',
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',
         'awsSESRegion' => 'REGION_EU_W1',
         'clab_custom_fields' => Array(
             'HelpDesk' => Array(
-                'tickettype' => 'cf_640',
-                'trailerid' => 'cf_641',
-                'damagereportlocation' => 'cf_653',
-                'sealed' => 'cf_643',
-                'plates' => 'cf_652',
-                'straps' => 'cf_651',
+                'tickettype' => 'cf_649',
+                'trailerid' => 'cf_640',
+                'damagereportlocation' => 'cf_661',
+                'sealed' => 'cf_651',
+                'plates' => 'cf_662',
+                'straps' => 'cf_663',
                 'reportdamage' => 'cf_654',
-                'damagetype' => 'cf_647',
-                'damageposition' => 'cf_648',
-                'drivercauseddamage' => 'cf_649'
+                'damagetype' => 'cf_659',
+                'damageposition' => 'cf_658',
+                'drivercauseddamage' => 'cf_657',
+                'notes' => 'cf_664',
+                'damagestatus' => 'cf_665'
             ),
             'Assets' => Array(
-                'trailertype' => 'cf_650'
+                'trailertype' => 'cf_660'
             )
         ),
         'demo_custom_fields' => Array(
             'HelpDesk' => Array(
                 'tickettype' => 'cf_649',
                 'trailerid' => 'cf_640',
-                'damagereportlocation' => 'cf_650',
+                'damagereportlocation' => 'cf_661',
                 'sealed' => 'cf_651',
-                'plates' => 'cf_652',
-                'straps' => 'cf_653',
+                'plates' => 'cf_662',
+                'straps' => 'cf_663',
                 'reportdamage' => 'cf_654',
                 'damagetype' => 'cf_659',
                 'damageposition' => 'cf_658',
-                'drivercauseddamage' => 'cf_657'
+                'drivercauseddamage' => 'cf_657',
+                'notes' => 'cf_664',
+                'damagestatus' => 'cf_665'
             ),
             'Assets' => Array(
                 'trailertype' => 'cf_660'

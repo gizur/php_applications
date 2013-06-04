@@ -5180,7 +5180,7 @@ class ApiController extends Controller
                             $response = json_decode($response);
                             if ($response->success) {
                                 $globalresponse->result->documents[]
-                                    = $document->result);
+                                    = $document->result;
                             } else {
                                 $globalresponse->result->documents[]
                                     = 'not uploaded - relating ' .

@@ -114,7 +114,7 @@ URL;
         //Request parameters
         $model = 'DocumentAttachment';
         $action = '17x275';
-        $method = 'PUT';
+        $method = 'POST';
         $files = array('filename'=>'@'.realpath(getcwd().'/images/image-to-upload.jpg'));
         
         

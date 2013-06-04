@@ -28,7 +28,7 @@
 // This is where all request will be made.
 // This URL is actually, where this apllication will be host
 // with the api path.
-var __rest_server_url = 'https://c2.gizur.com/api/';
+var __rest_server_url = 'https://gizur.com/api/';
 
 // Messages
 // ========

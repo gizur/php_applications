@@ -18,13 +18,13 @@
  * PHP version 5
  *
  */
-/* * ***************** INTEGRATION DATABASE ******************* */
+/* * **************** INTEGRATION DATABASE *********** */
 
 /**
  * DNS of database server to use 
  * @global string $dbconfigIntegration['db_server']
  */
-$dbconfigIntegration['db_server'] = 'gc2-mysql1.cxzjzseongqk.eu-west-1.' . 
+$dbconfigIntegration['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.' . 
     'rds.amazonaws.com';
 
 /**
@@ -58,14 +58,14 @@ $dbconfigIntegration['db_name'] = 'vtiger_integration';
 $dbconfigIntegration['db_type'] = 'mysql';
 
 
-/* * ******************* VTIGER DATABASE ******************* */
+/* * ******************** VTIGER DATABASE ********************** */
 
 
 /**
  * DNS of database server to use 
  * @global string $dbconfigVtiger['db_server']
  */
-$dbconfigVtiger['db_server'] = 'gc2-mysql1.cxzjzseongqk.eu-west-1.' . 
+$dbconfigVtiger['db_server'] = 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.' . 
     'rds.amazonaws.com';
 
 /**
@@ -78,19 +78,19 @@ $dbconfigVtiger['db_port'] = 3306;
  * The usename to use when logging into the database
  * @global string $dbconfigVtiger['db_username']  
  */
-$dbconfigVtiger['db_username'] = 'user_7aeb7290';
+$dbconfigVtiger['db_username'] = 'user_2059ff6a';
 
 /**
  * The password to use when logging into the database
  * @global string $dbconfigVtiger['db_password']
  */
-$dbconfigVtiger['db_password'] = 'faeb72908d05';
+$dbconfigVtiger['db_password'] = 'c059ff6a3f05';
 
 /**
  * The name of the database
  * @global string $dbconfigVtiger['db_name']
  */
-$dbconfigVtiger['db_name'] = 'vtiger_6beb7290';
+$dbconfigVtiger['db_name'] = 'vtiger_5159ff6a';
 
 /**
  * The type of database (currently is only mysql supported)
@@ -100,7 +100,7 @@ $dbconfigVtiger['db_type'] = 'mysql';
 
 
 
-/* * ****************** BATCH CONFIGURATION **************** */
+/* * ***************** BATCH CONFIGURATION **************** */
 
 /**
  *  Set Batch Variable
@@ -109,13 +109,14 @@ $dbconfigVtiger['db_type'] = 'mysql';
  */
 $dbconfigBatchVariable['batch_variable'] = 10;
 
-/* * ****************** FTP CONFIGURATION ****************** */
+/* * ********** FTP CONFIGURATION ************ */
 
 
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['Host'] = "10.58.226.192";
+$dbconfigFtp['Host'] = "ftp-hp.coop.se";
+
 
 /**
  *  @FTP Host Port 
@@ -125,13 +126,13 @@ $dbconfigFtp['port'] = 21;
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "gizur";
+$dbconfigFtp['User'] = "ftpSETGizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "gizur";
+$dbconfigFtp['Password'] = "Sk4nsk4113";
 
 /**
  *  @FTP Local files path
@@ -141,7 +142,7 @@ $dbconfigFtp['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "files/";
+$dbconfigFtp['serverpath'] = "in/";
 
 
 /** * ******************* Amazon SQS Configuration ********************** * */
@@ -149,18 +150,19 @@ $dbconfigFtp['serverpath'] = "files/";
  * Queue URL
  */
 $amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' . 
-    '996313430626/cikab_queue';
+    '791200854364/cikab_queue';
 
 /*
  * Amazon S3 Bucket
  */
-$amazonSThree['bucket'] = "gc2-archive";
+$amazonSThree['bucket'] = "gc1-archive";
+$amazonSThree['fileFolder'] = "seasonportal/SET-files/";
 
 class Config
 {
 
     public static $dbIntegration = array(
-        'db_server' => 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com',
+        'db_server' => 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com',
         'db_port' => 3306,
         'db_username' => 'vtiger_integrati',
         'db_password' => 'ALaXEryCwSFyW5jQ',
@@ -168,41 +170,48 @@ class Config
         'db_type' => 'mysql'
     );
     public static $dbVtiger = array(
-        'db_server' => 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com',
+        'db_server' => 'gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com',
         'db_port' => 3306,
-        'db_username' => 'user_7aeb7290',
-        'db_password' => 'faeb72908d05',
-        'db_name' => 'vtiger_6beb7290',
+        'db_username' => 'user_2059ff6a',
+        'db_password' => 'c059ff6a3f05',
+        'db_name' => 'vtiger_5159ff6a',
         'db_type' => 'mysql'
     );
-    public static $batchVariable = 10;
+    /*
+     * $batchVariable should be less than the frequency of
+     * batch job in minutes.
+     * If you want to run batch jobs in every 15 min, It should
+     * be set to 14 max, otherwise file header duplicate issue may
+     * occure. 
+     */
+    public static $batchVariable = 99;
     public static $setFtp = array(
-        'host' => "10.58.226.192",
+        'host' => "ftp-hp.coop.se",
         'port' => 21,
-        'username' => "gizur",
-        'password' => "gizur",
-        'serverpath' => "files/"
+        'username' => "ftpSETGizur",
+        'password' => "Sk4nsk4113",
+        'serverpath' => "in/"
     );
     public static $mosFtp = array(
-        'host' => "10.58.226.192",
+        'host' => "ftp-hp.coop.se",
         'port' => 21,
-        'username' => "gizur",
-        'password' => "gizur",
-        'serverpath' => "files/"
+        'username' => "ftpSETGizur",
+        'password' => "Sk4nsk4113",
+        'serverpath' => "MOS-in/"
     );
     public static $amazonQ = array(
-        'url' => 'https://sqs.eu-west-1.amazonaws.com/996313430626/cikab_queue'
+        'url' => 'https://sqs.eu-west-1.amazonaws.com/791200854364/cikab_queue'
     );
     public static $amazonSThree = array(
-        'setBucket' => "gc2-archive",
+        'setBucket' => "gc1-archive",
         'setFolder' => "seasonportal/SET-files/",
-        'mosBucket' => "gc2-archive",
-        'mosFolder' => "seasonportal/SET-files/"
+        'mosBucket' => "gc1-archive",
+        'mosFolder' => "seasonportal/MOS-files/"
     );
     public static $customFields = array(
-        'setFiles' => 'cf_664',
-        'mosFiles' => 'cf_665',
-        'basProductId' => 'cf_666'
+        'setFiles' => 'cf_650',
+        'mosFiles' => 'cf_651',
+        'basProductId' => 'cf_652'
     );
     public static $lineBreak = '\r\n';
 
