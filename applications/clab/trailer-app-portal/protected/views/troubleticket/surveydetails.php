@@ -71,11 +71,11 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
-            <td bgcolor="e3f0f7"><?php echo $form->dropDownList($model, getTranslatedString('Damage Status'), $damagestatus); ?></td>
+            <td bgcolor="e3f0f7"><?php echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select')); ?></td>
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
-            <td bgcolor="e3f0f7"><?php echo $form->textField($model, getTranslatedString('Anteckningar'), array('value' => $result['result']['notes'])); ?></td>
+            <td bgcolor="e3f0f7"><?php echo $form->textField($model, array('value' => $result['result']['notes'])); ?></td>
         </tr>  
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Account'); ?></strong></td>
