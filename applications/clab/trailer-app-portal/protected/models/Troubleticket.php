@@ -42,6 +42,7 @@ class Troubleticket extends CFormModel {
     public $reportdamage;
     public $ticketstatus;
     public $damagestatus;
+    public $notes;
 
     public function rules() {
         return array(
