@@ -57,11 +57,11 @@ $this->breadcrumbs = array(
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
-            <td bgcolor="e3f0f7"><?php echo getTranslatedString($result['result']['damagestatus']); ?></td>
+            <td bgcolor="e3f0f7"><?php echo $form->dropDownList($model, getTranslatedString('Damage Status'), $damagestatus); ?></td>
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
-            <td bgcolor="e3f0f7"><?php echo getTranslatedString($result['result']['notes']); ?></td>
+            <td bgcolor="e3f0f7"><?php echo $form->textField($model, getTranslatedString('Anteckningar'), array('value' => $result['result']['notes'])); ?></td>
         </tr>  
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Account'); ?></strong></td>

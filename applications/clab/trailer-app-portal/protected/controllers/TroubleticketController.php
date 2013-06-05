@@ -54,13 +54,22 @@ class TroubleticketController extends Controller {
         $picklist_drivercauseddamage = $model->getpickList('drivercauseddamage');
         $picklist_reportdamage = $model->getpickList('reportdamage');
         $picklist_ticketstatus = $model->getpickList('ticketstatus');
+        $picklist_damagestatus = $model->getpickList('damagestatus');
+        
         $Asset_List = $model->findAssets('Assets');
         $postdata = @$_POST['Troubleticket'];
-        $this->render('survey', array('model' => $model, 'Sealed' => $pickList_sealed, 'category' => $pickList_category,
-            'damagetype' => $pickList_damagetype, 'damagepos' => $pickList_damagepostion,
+        $this->render('survey', array('model' => $model, 
+            'Sealed' => $pickList_sealed, 
+            'category' => $pickList_category,
+            'damagetype' => $pickList_damagetype,
+            'damagepos' => $pickList_damagepostion,
             'drivercauseddamageList' => $picklist_drivercauseddamage,
-            'reportdamage' => $picklist_reportdamage, 'Assets' => $Asset_List,
-            'ticketstatus' => $picklist_ticketstatus, 'postdata' => $postdata));
+            'reportdamage' => $picklist_reportdamage,
+            'Assets' => $Asset_List,
+            'ticketstatus' => $picklist_ticketstatus,
+            'postdata' => $postdata,
+            'damagestatus' => $picklist_damagestatus)
+       );
     }
 
     /* This Action are Filter Ajax base Record */
