@@ -137,34 +137,25 @@ $this->breadcrumbs = array(
     <table width="100%" border="0" cellspacing="5" style="border:#589fc8 solid 1px; padding:5px;" cellpadding="0">
         <tr>
             <td width="50%" valign="top">
-                <table width="100%" border="0" cellspacing="5" style="border:#589fc8 solid 1px; padding:5px;" cellpadding="0">
+                <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">                                
                     <tr>
-                        <td width="50%" valign="top">
-                            <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">                                
-                                <tr>
-                                    <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
-                                    <td bgcolor="e3f0f7">
-                                    <?php 
-                                    foreach($damagestatus as $k => $v):
-                                        $damagestatus[$k] = getTranslatedString($v);
-                                    endforeach;
-                                    echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false));
-                                    ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
-                                    <td bgcolor="e3f0f7"><?php echo $form->textField($model, 'notes', array('value' => $result['result']['notes'])); ?></td>
-                                </tr> 
-                            </table>
-                            <br>
-                            <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'submit', 'name' => 'submit')); ?>
+                        <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
+                        <td bgcolor="e3f0f7">
+                            <?php
+                            echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false, 'value' => $result['result']['damagestatus']));
+                            ?>
                         </td>
                     </tr>
-                </table>    
+                    <tr>
+                        <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
+                        <td bgcolor="e3f0f7"><?php echo $form->textField($model, 'notes', array('value' => $result['result']['notes'])); ?></td>
+                    </tr> 
+                </table>
+                <br>
+                <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'submit', 'name' => 'submit')); ?>
             </td>
         </tr>
-    </table>
+    </table> 
     <?php echo CHtml::endForm(); ?>
     <?php $this->endWidget(); ?>
 </div>
