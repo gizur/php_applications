@@ -65,8 +65,7 @@ class TroubleticketController extends Controller {
             'reportdamage' => $picklist_reportdamage,
             'Assets' => $Asset_List,
             'ticketstatus' => $picklist_ticketstatus,
-            'postdata' => $postdata,
-            'damagestatus' => $picklist_damagestatus)
+            'postdata' => $postdata)
        );
     }
 

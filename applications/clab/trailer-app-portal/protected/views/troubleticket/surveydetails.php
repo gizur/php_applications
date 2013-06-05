@@ -31,8 +31,22 @@ $this->breadcrumbs = array(
     <a href="index.php?r=troubleticket/surveylist/"><?php echo getTranslatedString('Trouble ticket List'); ?></a></div>
 
 <div style="background:#E5E5E5; width:550px"><strong>Ticket Information : <?php echo $result['result']['ticket_title']; ?></strong></div>	
+<?php
+$form = $this->beginWidget('CActiveForm', array(
+    'id' => 'troubleticketsurvey',
+    'htmlOptions' => array('enctype' => 'multipart/form-data'),
+    'enableClientValidation' => true,
+    'clientOptions' => array(
+        'validateOnSubmit' => true,
+    ),
+    ));
+?>
+<?php
+foreach (Yii::app()->user->getFlashes() as $key => $message) {
+    echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+}
+?>
 <div class="Survey">
-
     <h2><?php echo getTranslatedString('Survey'); ?></h2>
     <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
         <tr>
@@ -75,7 +89,9 @@ $this->breadcrumbs = array(
         </tr>
     </table>
 </div>
-
+<?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'submit', 'name' => 'submit')); ?>
+<?php echo CHtml::endForm(); ?>
+<?php $this->endWidget(); ?>
 <div class="Damage">
 
     <h2><?php echo getTranslatedString('Damage'); ?></h2>
