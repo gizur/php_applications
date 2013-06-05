@@ -143,7 +143,14 @@ $this->breadcrumbs = array(
                             <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">                                
                                 <tr>
                                     <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
-                                    <td bgcolor="e3f0f7"><?php echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false)); ?></td>
+                                    <td bgcolor="e3f0f7">
+                                    <?php 
+                                    foreach($damagestatus as $k => $v):
+                                        $damagestatus[$k] = getTranslatedString($v);
+                                    endforeach;
+                                    echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false));
+                                    ?>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
