@@ -94,7 +94,8 @@ $this->breadcrumbs = array(
 
 
             </td>
-            <td width="15%" valign="top"><table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
+            <td width="15%" valign="top">
+                <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
                     <tr>
                         <td colspan="2" bgcolor="7eb6d5"  valign="top"><strong><?php echo getTranslatedString('Pictures'); ?></strong></td>
                     </tr>
@@ -112,24 +113,30 @@ $this->breadcrumbs = array(
                         }
                         ?> 
                     </tr>
-                </table>
-                <?php
-                $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'troubleticketsurvey',
-                    'htmlOptions' => array('enctype' => 'multipart/form-data'),
-                    'enableClientValidation' => true,
-                    'clientOptions' => array(
-                        'validateOnSubmit' => true,
-                    ),
-                    ));
-                ?>
-                <?php
-                foreach (Yii::app()->user->getFlashes() as $key => $message) {
-                    echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
-                }
-                ?>
-                <h2><?php echo getTranslatedString('Damage Status'); ?></h2>
+                </table>                
+            </td>
+        </tr>
+    </table>
 
+    <?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'troubleticketsurvey',
+        'htmlOptions' => array('enctype' => 'multipart/form-data'),
+        'enableClientValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+        ),
+    ));
+    ?>
+    <?php
+    foreach (Yii::app()->user->getFlashes() as $key => $message) {
+        echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+    }
+    ?>
+    <h2><?php echo getTranslatedString('Damage Status'); ?></h2>
+    <table width="100%" border="0" cellspacing="5" style="border:#589fc8 solid 1px; padding:5px;" cellpadding="0">
+        <tr>
+            <td width="50%" valign="top">
                 <table width="100%" border="0" cellspacing="5" style="border:#589fc8 solid 1px; padding:5px;" cellpadding="0">
                     <tr>
                         <td width="50%" valign="top">
@@ -147,28 +154,28 @@ $this->breadcrumbs = array(
                             <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'submit', 'name' => 'submit')); ?>
                         </td>
                     </tr>
-                </table>                
-                <?php echo CHtml::endForm(); ?>
-                <?php $this->endWidget(); ?>
+                </table>    
             </td>
         </tr>
     </table>
+    <?php echo CHtml::endForm(); ?>
+    <?php $this->endWidget(); ?>
 </div>
 
 <script>
 
-    function AjaxMarkDamage(id)
-    {
-        $('#markdamagebutton').html('Please wait...');
-        $("#markdamagebutton").addClass("waitprocess2");
-        $.post('index.php?r=troubleticket/markdamagestatus/', {ticketid: id},
-        function(data)
-        {
-            $("#markdamagebutton").removeClass("waitprocess2");
-            $('#markdamagebutton').html(data);
-        });
+                    function AjaxMarkDamage(id)
+                    {
+                        $('#markdamagebutton').html('Please wait...');
+                        $("#markdamagebutton").addClass("waitprocess2");
+                        $.post('index.php?r=troubleticket/markdamagestatus/', {ticketid: id},
+                        function(data)
+                        {
+                            $("#markdamagebutton").removeClass("waitprocess2");
+                            $('#markdamagebutton').html(data);
+                        });
 
-    }
+                    }
 
 </script>
 
