@@ -53,9 +53,7 @@ class TroubleticketController extends Controller {
         $pickList_damagepostion = $model->getpickList('damageposition');
         $picklist_drivercauseddamage = $model->getpickList('drivercauseddamage');
         $picklist_reportdamage = $model->getpickList('reportdamage');
-        $picklist_ticketstatus = $model->getpickList('ticketstatus');
-        $picklist_damagestatus = $model->getpickList('damagestatus');
-        
+        $picklist_ticketstatus = $model->getpickList('ticketstatus');         
         $Asset_List = $model->findAssets('Assets');
         $postdata = @$_POST['Troubleticket'];
         $this->render('survey', array('model' => $model, 
@@ -104,7 +102,12 @@ class TroubleticketController extends Controller {
         $paraArr = explode("/", $urlquerystring);
         $ticketId = $paraArr['2'];
         $storedata = $model->findById($module, $ticketId);
-        $this->render('surveydetails', array('result' => $storedata));
+        
+        $picklist_damagestatus = $model->getpickList('damagestatus');
+        $this->render('surveydetails', array('model' => $model,
+            'result' => $storedata,
+            'damagestatus' => $picklist_damagestatus)
+        );
     }
 
     /*
