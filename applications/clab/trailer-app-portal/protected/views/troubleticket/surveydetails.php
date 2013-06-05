@@ -142,7 +142,7 @@ $this->breadcrumbs = array(
                         <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
                         <td bgcolor="e3f0f7">
                             <?php
-                            echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false, 'value' => $result['result']['damagestatus']));
+                            echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false, 'options' => array($result['result']['damagestatus'] => array('selected' => true))));
                             ?>
                         </td>
                     </tr>
