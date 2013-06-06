@@ -5254,8 +5254,8 @@ class ApiController extends Controller
                     }                    
                 }
 
-
-            break;
+                $this->_sendResponse(200, json_encode($globalresponse));
+                break;
 
             default :
                 $response = new stdClass();
