@@ -131,7 +131,7 @@ class TroubleticketController extends Controller {
         $model = new Troubleticket;
         $this->LoginCheck();
         $ticketID = $_POST['id'];
-        $storedata = $model->Markdamagerequired($ticketID, $_POST);
+        $storedata = $model->updateDamageStatusAndNotes($ticketID, $_POST);
         echo $storedata['result']['ticketstatus'];
     }
 

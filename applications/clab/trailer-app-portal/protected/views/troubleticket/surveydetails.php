@@ -136,6 +136,9 @@ $this->breadcrumbs = array(
     <h2><?php echo getTranslatedString('Damage Status'); ?></h2>
     <table width="100%" border="0" cellspacing="5" style="border:#589fc8 solid 1px; padding:5px;" cellpadding="0">
         <tr>
+            <td width="50%" valign="top"><div id="damage_status"></div></td>
+        </tr>
+        <tr>
             <td width="50%" valign="top">
                 <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">                                
                     <tr>
@@ -143,6 +146,9 @@ $this->breadcrumbs = array(
                         <td bgcolor="e3f0f7">
                             <?php
                             echo $form->hiddenField($model, 'id', array('type' => "hidden", 'value' => $result['result']['id']));
+                            foreach($damagestatus as $k => $v):
+                                $damagestatus[$k] = getTranslatedString(htmlentities($v, ENT_QUOTES, "UTF-8"));
+                            endforeach;
                             echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false, 'options' => array($result['result']['damagestatus'] => array('selected' => true))));
                             ?>
                         </td>
@@ -177,15 +183,15 @@ $this->breadcrumbs = array(
                     
                     $('#updatedamagesubmit').click(function(e){
                         e.preventDefault();
-                        $('#updatedamagesubmit').html('Please wait...');
-                        $("#updatedamagesubmit").addClass("waitprocess2");
+                        $('#damage_status').html('Please wait...');
+                        $("#damage_status").addClass("waitprocess2");
                         $.post('index.php?r=troubleticket/damagestatusandnotes', {
                             'id': $('#Troubleticket_id').val(),
                             'damagestatus': $('#Troubleticket_damagestatus').val(),
                             'notes': $('#Troubleticket_notes').val(),
                         }, function(data) {
-                            $("#updatedamagesubmit").removeClass("waitprocess2");
-                            $('#updatedamagesubmit').html(data);
+                            $("#damage_status").removeClass("waitprocess2");
+                            $('#damage_status').html("Updated.");
                         });
                     });
 
