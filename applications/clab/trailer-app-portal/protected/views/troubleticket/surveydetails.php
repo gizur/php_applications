@@ -120,7 +120,7 @@ $this->breadcrumbs = array(
 
     <?php
     $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'troubleticketsurvey',
+        'id' => 'updatedamagestatusandnotes',
         'htmlOptions' => array('enctype' => 'multipart/form-data'),
         'enableClientValidation' => true,
         'clientOptions' => array(
@@ -142,6 +142,7 @@ $this->breadcrumbs = array(
                         <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
                         <td bgcolor="e3f0f7">
                             <?php
+                            echo $form->hiddenField($model, 'id', array('type' => "hidden", 'value' => $result['result']['id']));
                             echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false, 'options' => array($result['result']['damagestatus'] => array('selected' => true))));
                             ?>
                         </td>
@@ -152,7 +153,7 @@ $this->breadcrumbs = array(
                     </tr> 
                 </table>
                 <br>
-                <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'submit', 'name' => 'submit')); ?>
+                <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'updatedamagesubmit', 'name' => 'submit', 'class' => "button")); ?>
             </td>
         </tr>
     </table> 
@@ -172,8 +173,21 @@ $this->breadcrumbs = array(
                             $("#markdamagebutton").removeClass("waitprocess2");
                             $('#markdamagebutton').html(data);
                         });
-
                     }
+                    
+                    $('#updatedamagesubmit').click(function(e){
+                        e.preventDefault();
+                        $('#updatedamagesubmit').html('Please wait...');
+                        $("#updatedamagesubmit").addClass("waitprocess2");
+                        $.post('index.php?r=troubleticket/updatedamagestatusandnotes', {
+                            'id': $('#Troubleticket_id').val(),
+                            'damagestatus': $('#Troubleticket_damagestatus').val(),
+                            'notes': $('#Troubleticket_notes').val(),
+                        }, function(data) {
+                            $("#updatedamagesubmit").removeClass("waitprocess2");
+                            $('#updatedamagesubmit').html(data);
+                        });
+                    });
 
 </script>
 
