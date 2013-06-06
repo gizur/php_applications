@@ -147,7 +147,8 @@ $this->breadcrumbs = array(
                             <?php
                             echo $form->hiddenField($model, 'id', array('type' => "hidden", 'value' => $result['result']['id']));
                             foreach($damagestatus as $k => $v):
-                                $damagestatus[$k] = getTranslatedString(html_entity_decode($v, ENT_QUOTES, "UTF-8"));
+                                unset($damagestatus[$k]);
+                                $damagestatus[html_entity_decode($k, ENT_QUOTES, "UTF-8")] = getTranslatedString(html_entity_decode($v, ENT_QUOTES, "UTF-8"));
                             endforeach;
                             echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false, 'options' => array($result['result']['damagestatus'] => array('selected' => true))));
                             ?>
