@@ -122,6 +122,18 @@ class TroubleticketController extends Controller {
         echo $storedata['result']['ticketstatus'];
         //$this->render('surveydetails',array('result'=>$storedata));  
     }
+    
+    /*
+     * Update Damage Status and Notes
+     */
+    
+    public function actiondamagestatusandnotes(){
+        $model = new Troubleticket;
+        $this->LoginCheck();
+        $ticketID = $_POST['id'];
+        $storedata = $model->updateDamageStatusAndNotes($ticketID, $_POST);
+        echo $storedata['result']['ticketstatus'];
+    }
 
     /**
      * This is the action to handle images.

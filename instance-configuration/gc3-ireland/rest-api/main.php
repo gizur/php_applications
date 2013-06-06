@@ -109,6 +109,11 @@ return array(
                     'verb' => 'PUT'
                 ),
                 array(
+                    'api/update', 
+                    'pattern' => '/<model:(HelpDesk)>/<action:(updatedamagenotes)>/<id:[0-9x]+>', 
+                    'verb' => 'PUT'
+                ),
+                array(
                     'api/update',
                     'pattern' => '/<model:(User)>/',
                     'verb' => 'PUT'

@@ -4892,8 +4892,21 @@ class ApiController extends Controller
 
                     //get data json 
                     $retrivedObject = $response['result'];
-                    $retrivedObject['ticketstatus'] = 'Closed';
                     
+                    /*
+                     * UPDATE DAMAGE STATUS AND NOTES
+                     * UPPER CODE IS COMMON FOR BOTH
+                     */
+                    
+                    if($_GET['action'] == 'updatedamagenotes') {
+                        $_PUT = Array();
+                        parse_str(file_get_contents('php://input'), $_PUT);
+                        
+                        $retrivedObject['damagestatus'] = $_PUT['damagestatus'];
+                        $retrivedObject['notes'] = $_PUT['notes'];
+                    } else {
+                        $retrivedObject['ticketstatus'] = 'Closed';
+                    }
                     //Log
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
