@@ -82,6 +82,7 @@ return array(
                     'pattern' => '/<model:(HelpDesk)>/<action:(updatedamagenotes)>/<id:[0-9x]+>', 
                     'verb' => 'PUT'
                 ),
+                array('api/update', 'pattern' => '/<model:(DocumentAttachment)>/<id:[0-9x]+>', 'verb' => 'POST'),                
                 array('api/update', 'pattern' => '/<model:(User)>/', 'verb' => 'PUT'),
                 array('api/update', 'pattern' => '/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb' => 'PUT'),
                 array(
