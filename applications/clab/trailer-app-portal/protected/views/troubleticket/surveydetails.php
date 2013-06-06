@@ -179,7 +179,7 @@ $this->breadcrumbs = array(
                         e.preventDefault();
                         $('#updatedamagesubmit').html('Please wait...');
                         $("#updatedamagesubmit").addClass("waitprocess2");
-                        $.post('index.php?r=troubleticket/updatedamagestatusandnotes', {
+                        $.post('index.php?r=troubleticket/damagestatusandnotes', {
                             'id': $('#Troubleticket_id').val(),
                             'damagestatus': $('#Troubleticket_damagestatus').val(),
                             'notes': $('#Troubleticket_notes').val(),

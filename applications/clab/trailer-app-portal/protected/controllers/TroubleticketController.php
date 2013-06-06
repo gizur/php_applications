@@ -127,7 +127,7 @@ class TroubleticketController extends Controller {
      * Update Damage Status and Notes
      */
     
-    public function updatedamagestatusandnotes(){
+    public function actiondamagestatusandnotes(){
         $model = new Troubleticket;
         $this->LoginCheck();
         $ticketID = $_POST['id'];
