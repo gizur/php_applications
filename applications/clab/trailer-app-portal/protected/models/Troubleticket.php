@@ -423,7 +423,7 @@ class Troubleticket extends CFormModel {
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-        $response = $rest->put(Yii::app()->params->URL . "HelpDesk/updatedamagenotes" . $ticketID, $data);
+        $response = $rest->put(Yii::app()->params->URL . "HelpDesk/updatedamagenotes/" . $ticketID, $data);
         return $result = json_decode($response, true);
     }
 

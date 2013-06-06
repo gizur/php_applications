@@ -4902,8 +4902,11 @@ class ApiController extends Controller
                         $_PUT = Array();
                         parse_str(file_get_contents('php://input'), $_PUT);
                         
-                        $retrivedObject['damagestatus'] = $_PUT['damagestatus'];
-                        $retrivedObject['notes'] = $_PUT['notes'];
+                        $customFields = Yii::app()->params[$this->_clientid . 
+                        '_custom_fields']['HelpDesk'];
+                        
+                        $retrivedObject[$customFields['damagestatus']] = $_PUT['damagestatus'];
+                        $retrivedObject[$customFields['notes']] = $_PUT['notes'];
                     } else {
                         $retrivedObject['ticketstatus'] = 'Closed';
                     }
