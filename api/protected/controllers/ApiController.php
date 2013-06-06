@@ -137,7 +137,8 @@ class ApiController extends Controller
         2002 => "EMAIL_INVALID",
         2003 => "LOGIN_INVALID",
         2004 => "WRONG_CREDENTIALS",
-        2005 => "WRONG_FROM_CLIENT"
+        2005 => "WRONG_FROM_CLIENT",
+        2006 => 'INVALID_EMAIL'
     );
 
     /**
@@ -160,8 +161,8 @@ class ApiController extends Controller
         'DocumentAttachment',
         'Authenticate',
         'Cron',
-        'Batches',
-        'Users' // GizurSaaSAdmin
+        'Users', // GizurSaaSAdmin
+        'Batches' // Batch Integration
     );
 
     /**
@@ -383,6 +384,9 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
+            if ($_GET['model'] == 'Batches') {
+                return true;
+            }
             
             if ($_GET['model'] == 'Users') {
                 // Authentication for GizurSaaSAdmin
@@ -1410,6 +1414,41 @@ class ApiController extends Controller
                 $ddbResponse = $dynamodb->scan(
                     array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName
+                    )
+                );
+
+                $result = array();
+                $x = 0;
+                foreach ($ddbResponse->body->Items
+                as $key => $item) {
+                    $item = get_object_vars($item);
+                    foreach ($item as $k => $v) {
+                        $v = get_object_vars($v);
+                        $result[$x][$k] = $v[AmazonDynamoDB::TYPE_STRING];
+                    }
+                    $x++;
+                }
+                $response = new stdClass();
+                $response->success = true;
+                $response->result = $result;
+
+                $this->_sendResponse(200, json_encode($response));
+                break;
+                
+            case 'Batches':
+                
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" . 
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
+                //Get all the batches
+                $ddbResponse = $dynamodb->scan(
+                    array(
+                        'TableName' => Yii::app()->params->awsBatchDynamoDBTableName
                     )
                 );
 

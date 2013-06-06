@@ -41,6 +41,8 @@ class Troubleticket extends CFormModel {
     public $drivercauseddamage;
     public $reportdamage;
     public $ticketstatus;
+    public $damagestatus;
+    public $notes;
 
     public function rules() {
         return array(
@@ -168,7 +170,8 @@ class Troubleticket extends CFormModel {
         }
     }
 
-    function findAll($module, $tickettype, $year = '0000', $month = '00', $trailer = '0', $reportdamage = 'all') {
+    function findAll($module, $tickettype, $year = '0000', $month = '00', $trailer = '0', 
+        $reportdamage = 'all') {
         $params = array(
             'Verb' => 'GET',
             'Model' => $module,

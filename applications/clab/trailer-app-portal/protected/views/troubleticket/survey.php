@@ -80,17 +80,13 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
             </td><td>
                 <?php echo $form->dropDownList($model, 'Sealed', $Sealed); ?>
             </td>
-
             <td>
                 <?php echo $form->labelEx($model, getTranslatedString('Plates')); ?>
             </td><td>
                 <?php echo $form->textField($model, 'Plates', array('value' => $postdata['Plates'])); ?>
                 <?php echo $form->error($model, 'Plates'); ?>
-            </td> 
-
+            </td>
         </tr>
-
-
         <tr>
             <td>
                 <?php echo $form->labelEx($model, getTranslatedString('Straps')); ?>&nbsp;<span style="color:red">*</span>
@@ -124,14 +120,12 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
             </td>	
         </tr>
         <tr>
-
             <td>
                 <?php echo $form->labelEx($model, getTranslatedString('Damage Reported')); ?>
             </td>
             <td>
                 <?php echo $form->dropDownList($model, 'reportdamage', $reportdamage); ?>
             </td>
-
             <td><?php echo $form->labelEx($model, getTranslatedString('Ticket Status')); ?></td>
             <td><?php
                 $ticketstatus2 = array();
@@ -148,7 +142,6 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
             <td>
                 <?php echo $form->labelEx($model, getTranslatedString('Upload Pictures')); ?>
             </td>
-
             <td>
                 <?php
                 echo $form->fileField($model, 'image');

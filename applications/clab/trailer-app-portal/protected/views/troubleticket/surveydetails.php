@@ -31,8 +31,8 @@ $this->breadcrumbs = array(
     <a href="index.php?r=troubleticket/surveylist/"><?php echo getTranslatedString('Trouble ticket List'); ?></a></div>
 
 <div style="background:#E5E5E5; width:550px"><strong>Ticket Information : <?php echo $result['result']['ticket_title']; ?></strong></div>	
-<div class="Survey">
 
+<div class="Survey">
     <h2><?php echo getTranslatedString('Survey'); ?></h2>
     <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
         <tr>
@@ -54,15 +54,7 @@ $this->breadcrumbs = array(
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Place'); ?> </strong></td>
             <td bgcolor="e3f0f7"><?php echo $result['result']['damagereportlocation']; ?></td>
-        </tr>
-        <tr>
-            <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
-            <td bgcolor="e3f0f7"><?php echo getTranslatedString($result['result']['damagestatus']); ?></td>
-        </tr>
-        <tr>
-            <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
-            <td bgcolor="e3f0f7"><?php echo getTranslatedString($result['result']['notes']); ?></td>
-        </tr>  
+        </tr> 
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Account'); ?></strong></td>
             <td bgcolor="e3f0f7"><?php echo $result['result']['accountname']; ?></td>
@@ -75,7 +67,6 @@ $this->breadcrumbs = array(
         </tr>
     </table>
 </div>
-
 <div class="Damage">
 
     <h2><?php echo getTranslatedString('Damage'); ?></h2>
@@ -103,27 +94,70 @@ $this->breadcrumbs = array(
 
 
             </td>
-            <td width="15%" valign="top"><table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
+            <td width="15%" valign="top">
+                <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
                     <tr>
                         <td colspan="2" bgcolor="7eb6d5"  valign="top"><strong><?php echo getTranslatedString('Pictures'); ?></strong></td>
                     </tr>
-                    <?php
-                    $i = 1;
-                    if (count($result['result']['documents']) > 0) {
-                        foreach ($result['result']['documents'] as $image) {
-                            echo '<td width="50%" bgcolor="e3f0f7" align="center"><img src="' . Yii::app()->request->baseUrl . '/index.php?r=troubleticket/images/' . $image['id'] . '" width="100px" height="100px"></td>';
-                            if ($i % 2 == 0) {
-                                echo "</tr><tr>";
+                    <tr>
+                        <?php
+                        $i = 1;
+                        if (count($result['result']['documents']) > 0) {
+                            foreach ($result['result']['documents'] as $image) {
+                                echo '<td width="50%" bgcolor="e3f0f7" align="center"><img src="' . Yii::app()->request->baseUrl . '/index.php?r=troubleticket/images/' . $image['id'] . '" width="100px" height="100px"></td>';
+                                if ($i % 2 == 0) {
+                                    echo "</tr><tr>";
+                                }
+                                $i++;
                             }
-                            $i++;
                         }
-                    }
-                    ?> 
+                        ?> 
+                    </tr>
+                </table>                
+            </td>
         </tr>
     </table>
-</td>
-</tr>
-</table>
+
+    <?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'troubleticketsurvey',
+        'htmlOptions' => array('enctype' => 'multipart/form-data'),
+        'enableClientValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+        ),
+    ));
+    ?>
+    <?php
+    foreach (Yii::app()->user->getFlashes() as $key => $message) {
+        echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+    }
+    ?>
+    <h2><?php echo getTranslatedString('Damage Status'); ?></h2>
+    <table width="100%" border="0" cellspacing="5" style="border:#589fc8 solid 1px; padding:5px;" cellpadding="0">
+        <tr>
+            <td width="50%" valign="top">
+                <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">                                
+                    <tr>
+                        <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
+                        <td bgcolor="e3f0f7">
+                            <?php
+                            echo $form->dropDownList($model, 'damagestatus', $damagestatus, array('prompt' => 'Select', 'encode' => false, 'options' => array($result['result']['damagestatus'] => array('selected' => true))));
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
+                        <td bgcolor="e3f0f7"><?php echo $form->textField($model, 'notes', array('value' => $result['result']['notes'])); ?></td>
+                    </tr> 
+                </table>
+                <br>
+                <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'submit', 'name' => 'submit')); ?>
+            </td>
+        </tr>
+    </table> 
+    <?php echo CHtml::endForm(); ?>
+    <?php $this->endWidget(); ?>
 </div>
 
 <script>
