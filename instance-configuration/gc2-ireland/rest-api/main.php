@@ -160,7 +160,9 @@ return array(
                 'reportdamage' => 'cf_654',
                 'damagetype' => 'cf_647',
                 'damageposition' => 'cf_648',
-                'drivercauseddamage' => 'cf_649'
+                'drivercauseddamage' => 'cf_649',
+                'notes' => 'cf_664',
+                'damagestatus' => 'cf_665'
             ),
             'Assets' => Array(
                 'trailertype' => 'cf_650'
@@ -177,7 +179,9 @@ return array(
                 'reportdamage' => 'cf_654',
                 'damagetype' => 'cf_659',
                 'damageposition' => 'cf_658',
-                'drivercauseddamage' => 'cf_657'
+                'drivercauseddamage' => 'cf_657',
+                'notes' => 'cf_664',
+                'damagestatus' => 'cf_665'
             ),
             'Assets' => Array(
                 'trailertype' => 'cf_660'
