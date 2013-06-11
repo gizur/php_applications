@@ -2,12 +2,11 @@
 -- version 3.5.2
 -- http://www.phpmyadmin.net
 --
--- Host: gizurcloud.colm85rhpnd4.eu-west-1.rds.amazonaws.com
--- Generation Time: Jun 03, 2013 at 08:08 AM
--- Server version: 5.5.27
--- PHP Version: 5.3.15
+-- Värd: gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com
+-- Skapad: 02 okt 2012 kl 12:48
+-- Serverversion: 5.5.25a-log
+-- PHP-version: 5.3.15
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -18,16 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `vtiger_gizurcl_48548ab3`
+-- Databas: `clabgizurcom`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflows`
+-- Tabellstruktur `com_vtiger_workflows`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflows`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflows` (
   `workflow_id` int(11) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(100) DEFAULT NULL,
@@ -41,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `com_vtiger_workflows` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `com_vtiger_workflows`
+-- Dumpning av Data i tabell `com_vtiger_workflows`
 --
 
 INSERT INTO `com_vtiger_workflows` (`workflow_id`, `module_name`, `summary`, `test`, `execution_condition`, `defaultworkflow`, `type`) VALUES
@@ -60,16 +58,15 @@ INSERT INTO `com_vtiger_workflows` (`workflow_id`, `module_name`, `summary`, `te
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflows_seq`
+-- Tabellstruktur `com_vtiger_workflows_seq`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflows_seq`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflows_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `com_vtiger_workflows_seq`
+-- Dumpning av Data i tabell `com_vtiger_workflows_seq`
 --
 
 INSERT INTO `com_vtiger_workflows_seq` (`id`) VALUES
@@ -78,10 +75,9 @@ INSERT INTO `com_vtiger_workflows_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflowtasks`
+-- Tabellstruktur `com_vtiger_workflowtasks`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtasks` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `workflow_id` int(11) DEFAULT NULL,
@@ -92,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtasks` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
--- Dumping data for table `com_vtiger_workflowtasks`
+-- Dumpning av Data i tabell `com_vtiger_workflowtasks`
 --
 
 INSERT INTO `com_vtiger_workflowtasks` (`task_id`, `workflow_id`, `summary`, `task`) VALUES
@@ -112,10 +108,9 @@ INSERT INTO `com_vtiger_workflowtasks` (`task_id`, `workflow_id`, `summary`, `ta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflowtasks_entitymethod`
+-- Tabellstruktur `com_vtiger_workflowtasks_entitymethod`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks_entitymethod`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtasks_entitymethod` (
   `workflowtasks_entitymethod_id` int(11) NOT NULL,
   `module_name` varchar(100) DEFAULT NULL,
@@ -127,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtasks_entitymethod` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `com_vtiger_workflowtasks_entitymethod`
+-- Dumpning av Data i tabell `com_vtiger_workflowtasks_entitymethod`
 --
 
 INSERT INTO `com_vtiger_workflowtasks_entitymethod` (`workflowtasks_entitymethod_id`, `module_name`, `method_name`, `function_path`, `function_name`) VALUES
@@ -142,16 +137,15 @@ INSERT INTO `com_vtiger_workflowtasks_entitymethod` (`workflowtasks_entitymethod
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflowtasks_entitymethod_seq`
+-- Tabellstruktur `com_vtiger_workflowtasks_entitymethod_seq`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks_entitymethod_seq`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtasks_entitymethod_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `com_vtiger_workflowtasks_entitymethod_seq`
+-- Dumpning av Data i tabell `com_vtiger_workflowtasks_entitymethod_seq`
 --
 
 INSERT INTO `com_vtiger_workflowtasks_entitymethod_seq` (`id`) VALUES
@@ -160,16 +154,15 @@ INSERT INTO `com_vtiger_workflowtasks_entitymethod_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflowtasks_seq`
+-- Tabellstruktur `com_vtiger_workflowtasks_seq`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks_seq`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtasks_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `com_vtiger_workflowtasks_seq`
+-- Dumpning av Data i tabell `com_vtiger_workflowtasks_seq`
 --
 
 INSERT INTO `com_vtiger_workflowtasks_seq` (`id`) VALUES
@@ -178,10 +171,9 @@ INSERT INTO `com_vtiger_workflowtasks_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflowtask_queue`
+-- Tabellstruktur `com_vtiger_workflowtask_queue`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtask_queue`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtask_queue` (
   `task_id` int(11) DEFAULT NULL,
   `entity_id` varchar(100) DEFAULT NULL,
@@ -192,10 +184,9 @@ CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtask_queue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflowtemplates`
+-- Tabellstruktur `com_vtiger_workflowtemplates`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtemplates`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtemplates` (
   `template_id` int(11) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(100) DEFAULT NULL,
@@ -207,10 +198,9 @@ CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtemplates` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `com_vtiger_workflow_activatedonce`
+-- Tabellstruktur `com_vtiger_workflow_activatedonce`
 --
 
-DROP TABLE IF EXISTS `com_vtiger_workflow_activatedonce`;
 CREATE TABLE IF NOT EXISTS `com_vtiger_workflow_activatedonce` (
   `workflow_id` int(11) NOT NULL,
   `entity_id` int(11) NOT NULL,
@@ -220,10 +210,9 @@ CREATE TABLE IF NOT EXISTS `com_vtiger_workflow_activatedonce` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_account`
+-- Tabellstruktur `vtiger_account`
 --
 
-DROP TABLE IF EXISTS `vtiger_account`;
 CREATE TABLE IF NOT EXISTS `vtiger_account` (
   `accountid` int(19) NOT NULL DEFAULT '0',
   `account_no` varchar(100) NOT NULL,
@@ -252,10 +241,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_account` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accountbillads`
+-- Tabellstruktur `vtiger_accountbillads`
 --
 
-DROP TABLE IF EXISTS `vtiger_accountbillads`;
 CREATE TABLE IF NOT EXISTS `vtiger_accountbillads` (
   `accountaddressid` int(19) NOT NULL DEFAULT '0',
   `bill_city` varchar(30) DEFAULT NULL,
@@ -270,10 +258,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_accountbillads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accountdepstatus`
+-- Tabellstruktur `vtiger_accountdepstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_accountdepstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_accountdepstatus` (
   `deploymentstatusid` int(19) NOT NULL AUTO_INCREMENT,
   `deploymentstatus` varchar(200) NOT NULL,
@@ -286,10 +273,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_accountdepstatus` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accountownership`
+-- Tabellstruktur `vtiger_accountownership`
 --
 
-DROP TABLE IF EXISTS `vtiger_accountownership`;
 CREATE TABLE IF NOT EXISTS `vtiger_accountownership` (
   `acctownershipid` int(19) NOT NULL AUTO_INCREMENT,
   `ownership` varchar(200) NOT NULL,
@@ -302,10 +288,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_accountownership` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accountrating`
+-- Tabellstruktur `vtiger_accountrating`
 --
 
-DROP TABLE IF EXISTS `vtiger_accountrating`;
 CREATE TABLE IF NOT EXISTS `vtiger_accountrating` (
   `accountratingid` int(19) NOT NULL AUTO_INCREMENT,
   `rating` varchar(200) NOT NULL,
@@ -318,10 +303,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_accountrating` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accountregion`
+-- Tabellstruktur `vtiger_accountregion`
 --
 
-DROP TABLE IF EXISTS `vtiger_accountregion`;
 CREATE TABLE IF NOT EXISTS `vtiger_accountregion` (
   `accountregionid` int(19) NOT NULL AUTO_INCREMENT,
   `region` varchar(200) NOT NULL,
@@ -334,10 +318,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_accountregion` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accountscf`
+-- Tabellstruktur `vtiger_accountscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_accountscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_accountscf` (
   `accountid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`accountid`)
@@ -346,10 +329,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_accountscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accountshipads`
+-- Tabellstruktur `vtiger_accountshipads`
 --
 
-DROP TABLE IF EXISTS `vtiger_accountshipads`;
 CREATE TABLE IF NOT EXISTS `vtiger_accountshipads` (
   `accountaddressid` int(19) NOT NULL DEFAULT '0',
   `ship_city` varchar(30) DEFAULT NULL,
@@ -364,10 +346,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_accountshipads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accounttype`
+-- Tabellstruktur `vtiger_accounttype`
 --
 
-DROP TABLE IF EXISTS `vtiger_accounttype`;
 CREATE TABLE IF NOT EXISTS `vtiger_accounttype` (
   `accounttypeid` int(19) NOT NULL AUTO_INCREMENT,
   `accounttype` varchar(200) NOT NULL,
@@ -378,7 +359,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_accounttype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `vtiger_accounttype`
+-- Dumpning av Data i tabell `vtiger_accounttype`
 --
 
 INSERT INTO `vtiger_accounttype` (`accounttypeid`, `accounttype`, `presence`, `picklist_valueid`) VALUES
@@ -397,16 +378,15 @@ INSERT INTO `vtiger_accounttype` (`accounttypeid`, `accounttype`, `presence`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_accounttype_seq`
+-- Tabellstruktur `vtiger_accounttype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_accounttype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_accounttype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_accounttype_seq`
+-- Dumpning av Data i tabell `vtiger_accounttype_seq`
 --
 
 INSERT INTO `vtiger_accounttype_seq` (`id`) VALUES
@@ -415,10 +395,9 @@ INSERT INTO `vtiger_accounttype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_actionmapping`
+-- Tabellstruktur `vtiger_actionmapping`
 --
 
-DROP TABLE IF EXISTS `vtiger_actionmapping`;
 CREATE TABLE IF NOT EXISTS `vtiger_actionmapping` (
   `actionid` int(19) NOT NULL,
   `actionname` varchar(200) NOT NULL,
@@ -427,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_actionmapping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_actionmapping`
+-- Dumpning av Data i tabell `vtiger_actionmapping`
 --
 
 INSERT INTO `vtiger_actionmapping` (`actionid`, `actionname`, `securitycheck`) VALUES
@@ -457,10 +436,9 @@ INSERT INTO `vtiger_actionmapping` (`actionid`, `actionname`, `securitycheck`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activity`
+-- Tabellstruktur `vtiger_activity`
 --
 
-DROP TABLE IF EXISTS `vtiger_activity`;
 CREATE TABLE IF NOT EXISTS `vtiger_activity` (
   `activityid` int(19) NOT NULL DEFAULT '0',
   `subject` varchar(100) NOT NULL,
@@ -492,10 +470,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_activity` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activitycf`
+-- Tabellstruktur `vtiger_activitycf`
 --
 
-DROP TABLE IF EXISTS `vtiger_activitycf`;
 CREATE TABLE IF NOT EXISTS `vtiger_activitycf` (
   `activityid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`activityid`)
@@ -504,10 +481,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_activitycf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activityproductrel`
+-- Tabellstruktur `vtiger_activityproductrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_activityproductrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_activityproductrel` (
   `activityid` int(19) NOT NULL DEFAULT '0',
   `productid` int(19) NOT NULL DEFAULT '0',
@@ -519,10 +495,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_activityproductrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activitytype`
+-- Tabellstruktur `vtiger_activitytype`
 --
 
-DROP TABLE IF EXISTS `vtiger_activitytype`;
 CREATE TABLE IF NOT EXISTS `vtiger_activitytype` (
   `activitytypeid` int(19) NOT NULL AUTO_INCREMENT,
   `activitytype` varchar(200) NOT NULL,
@@ -533,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_activitytype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_activitytype`
+-- Dumpning av Data i tabell `vtiger_activitytype`
 --
 
 INSERT INTO `vtiger_activitytype` (`activitytypeid`, `activitytype`, `presence`, `picklist_valueid`) VALUES
@@ -543,16 +518,15 @@ INSERT INTO `vtiger_activitytype` (`activitytypeid`, `activitytype`, `presence`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activitytype_seq`
+-- Tabellstruktur `vtiger_activitytype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_activitytype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_activitytype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_activitytype_seq`
+-- Dumpning av Data i tabell `vtiger_activitytype_seq`
 --
 
 INSERT INTO `vtiger_activitytype_seq` (`id`) VALUES
@@ -561,10 +535,9 @@ INSERT INTO `vtiger_activitytype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activity_reminder`
+-- Tabellstruktur `vtiger_activity_reminder`
 --
 
-DROP TABLE IF EXISTS `vtiger_activity_reminder`;
 CREATE TABLE IF NOT EXISTS `vtiger_activity_reminder` (
   `activity_id` int(11) NOT NULL,
   `reminder_time` int(11) NOT NULL,
@@ -576,10 +549,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_activity_reminder` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activity_reminder_popup`
+-- Tabellstruktur `vtiger_activity_reminder_popup`
 --
 
-DROP TABLE IF EXISTS `vtiger_activity_reminder_popup`;
 CREATE TABLE IF NOT EXISTS `vtiger_activity_reminder_popup` (
   `reminderid` int(19) NOT NULL AUTO_INCREMENT,
   `semodule` varchar(100) NOT NULL,
@@ -593,10 +565,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_activity_reminder_popup` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activity_view`
+-- Tabellstruktur `vtiger_activity_view`
 --
 
-DROP TABLE IF EXISTS `vtiger_activity_view`;
 CREATE TABLE IF NOT EXISTS `vtiger_activity_view` (
   `activity_viewid` int(19) NOT NULL AUTO_INCREMENT,
   `activity_view` varchar(200) NOT NULL,
@@ -606,7 +577,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_activity_view` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_activity_view`
+-- Dumpning av Data i tabell `vtiger_activity_view`
 --
 
 INSERT INTO `vtiger_activity_view` (`activity_viewid`, `activity_view`, `sortorderid`, `presence`) VALUES
@@ -618,16 +589,15 @@ INSERT INTO `vtiger_activity_view` (`activity_viewid`, `activity_view`, `sortord
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activity_view_seq`
+-- Tabellstruktur `vtiger_activity_view_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_activity_view_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_activity_view_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_activity_view_seq`
+-- Dumpning av Data i tabell `vtiger_activity_view_seq`
 --
 
 INSERT INTO `vtiger_activity_view_seq` (`id`) VALUES
@@ -636,10 +606,9 @@ INSERT INTO `vtiger_activity_view_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_activsubtype`
+-- Tabellstruktur `vtiger_activsubtype`
 --
 
-DROP TABLE IF EXISTS `vtiger_activsubtype`;
 CREATE TABLE IF NOT EXISTS `vtiger_activsubtype` (
   `activesubtypeid` int(19) NOT NULL AUTO_INCREMENT,
   `activsubtype` varchar(100) DEFAULT NULL,
@@ -651,10 +620,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_activsubtype` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_announcement`
+-- Tabellstruktur `vtiger_announcement`
 --
 
-DROP TABLE IF EXISTS `vtiger_announcement`;
 CREATE TABLE IF NOT EXISTS `vtiger_announcement` (
   `creatorid` int(19) NOT NULL,
   `announcement` text,
@@ -667,10 +635,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_announcement` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_assets`
+-- Tabellstruktur `vtiger_assets`
 --
 
-DROP TABLE IF EXISTS `vtiger_assets`;
 CREATE TABLE IF NOT EXISTS `vtiger_assets` (
   `assetsid` int(11) NOT NULL,
   `asset_no` varchar(30) NOT NULL,
@@ -691,10 +658,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_assets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_assetscf`
+-- Tabellstruktur `vtiger_assetscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_assetscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_assetscf` (
   `assetsid` int(19) NOT NULL,
   `cf_660` varchar(255) DEFAULT '',
@@ -704,10 +670,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_assetscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_assetstatus`
+-- Tabellstruktur `vtiger_assetstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_assetstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_assetstatus` (
   `assetstatusid` int(11) NOT NULL AUTO_INCREMENT,
   `assetstatus` varchar(200) NOT NULL,
@@ -717,7 +682,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_assetstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_assetstatus`
+-- Dumpning av Data i tabell `vtiger_assetstatus`
 --
 
 INSERT INTO `vtiger_assetstatus` (`assetstatusid`, `assetstatus`, `presence`, `picklist_valueid`) VALUES
@@ -727,16 +692,15 @@ INSERT INTO `vtiger_assetstatus` (`assetstatusid`, `assetstatus`, `presence`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_assetstatus_seq`
+-- Tabellstruktur `vtiger_assetstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_assetstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_assetstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_assetstatus_seq`
+-- Dumpning av Data i tabell `vtiger_assetstatus_seq`
 --
 
 INSERT INTO `vtiger_assetstatus_seq` (`id`) VALUES
@@ -745,10 +709,9 @@ INSERT INTO `vtiger_assetstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_asterisk`
+-- Tabellstruktur `vtiger_asterisk`
 --
 
-DROP TABLE IF EXISTS `vtiger_asterisk`;
 CREATE TABLE IF NOT EXISTS `vtiger_asterisk` (
   `server` varchar(30) DEFAULT NULL,
   `port` varchar(30) DEFAULT NULL,
@@ -760,10 +723,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_asterisk` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_asteriskextensions`
+-- Tabellstruktur `vtiger_asteriskextensions`
 --
 
-DROP TABLE IF EXISTS `vtiger_asteriskextensions`;
 CREATE TABLE IF NOT EXISTS `vtiger_asteriskextensions` (
   `userid` int(11) DEFAULT NULL,
   `asterisk_extension` varchar(50) DEFAULT NULL,
@@ -771,7 +733,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_asteriskextensions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_asteriskextensions`
+-- Dumpning av Data i tabell `vtiger_asteriskextensions`
 --
 
 INSERT INTO `vtiger_asteriskextensions` (`userid`, `asterisk_extension`, `use_asterisk`) VALUES
@@ -783,10 +745,9 @@ INSERT INTO `vtiger_asteriskextensions` (`userid`, `asterisk_extension`, `use_as
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_asteriskincomingcalls`
+-- Tabellstruktur `vtiger_asteriskincomingcalls`
 --
 
-DROP TABLE IF EXISTS `vtiger_asteriskincomingcalls`;
 CREATE TABLE IF NOT EXISTS `vtiger_asteriskincomingcalls` (
   `from_number` varchar(50) DEFAULT NULL,
   `from_name` varchar(50) DEFAULT NULL,
@@ -800,10 +761,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_asteriskincomingcalls` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_asteriskincomingevents`
+-- Tabellstruktur `vtiger_asteriskincomingevents`
 --
 
-DROP TABLE IF EXISTS `vtiger_asteriskincomingevents`;
 CREATE TABLE IF NOT EXISTS `vtiger_asteriskincomingevents` (
   `uid` varchar(255) NOT NULL,
   `channel` varchar(100) DEFAULT NULL,
@@ -821,10 +781,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_asteriskincomingevents` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_attachments`
+-- Tabellstruktur `vtiger_attachments`
 --
 
-DROP TABLE IF EXISTS `vtiger_attachments`;
 CREATE TABLE IF NOT EXISTS `vtiger_attachments` (
   `attachmentsid` int(19) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -839,10 +798,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_attachments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_attachmentsfolder`
+-- Tabellstruktur `vtiger_attachmentsfolder`
 --
 
-DROP TABLE IF EXISTS `vtiger_attachmentsfolder`;
 CREATE TABLE IF NOT EXISTS `vtiger_attachmentsfolder` (
   `folderid` int(19) NOT NULL AUTO_INCREMENT,
   `foldername` varchar(200) NOT NULL,
@@ -853,7 +811,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_attachmentsfolder` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `vtiger_attachmentsfolder`
+-- Dumpning av Data i tabell `vtiger_attachmentsfolder`
 --
 
 INSERT INTO `vtiger_attachmentsfolder` (`folderid`, `foldername`, `description`, `createdby`, `sequence`) VALUES
@@ -862,16 +820,15 @@ INSERT INTO `vtiger_attachmentsfolder` (`folderid`, `foldername`, `description`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_attachmentsfolder_seq`
+-- Tabellstruktur `vtiger_attachmentsfolder_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_attachmentsfolder_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_attachmentsfolder_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_attachmentsfolder_seq`
+-- Dumpning av Data i tabell `vtiger_attachmentsfolder_seq`
 --
 
 INSERT INTO `vtiger_attachmentsfolder_seq` (`id`) VALUES
@@ -880,10 +837,9 @@ INSERT INTO `vtiger_attachmentsfolder_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_audit_trial`
+-- Tabellstruktur `vtiger_audit_trial`
 --
 
-DROP TABLE IF EXISTS `vtiger_audit_trial`;
 CREATE TABLE IF NOT EXISTS `vtiger_audit_trial` (
   `auditid` int(19) NOT NULL,
   `userid` int(19) DEFAULT NULL,
@@ -897,10 +853,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_audit_trial` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_blocks`
+-- Tabellstruktur `vtiger_blocks`
 --
 
-DROP TABLE IF EXISTS `vtiger_blocks`;
 CREATE TABLE IF NOT EXISTS `vtiger_blocks` (
   `blockid` int(19) NOT NULL,
   `tabid` int(19) NOT NULL,
@@ -918,7 +873,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_blocks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_blocks`
+-- Dumpning av Data i tabell `vtiger_blocks`
 --
 
 INSERT INTO `vtiger_blocks` (`blockid`, `tabid`, `blocklabel`, `sequence`, `show_title`, `visible`, `create_view`, `edit_view`, `detail_view`, `display_status`, `iscustom`) VALUES
@@ -1041,16 +996,15 @@ INSERT INTO `vtiger_blocks` (`blockid`, `tabid`, `blocklabel`, `sequence`, `show
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_blocks_seq`
+-- Tabellstruktur `vtiger_blocks_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_blocks_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_blocks_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_blocks_seq`
+-- Dumpning av Data i tabell `vtiger_blocks_seq`
 --
 
 INSERT INTO `vtiger_blocks_seq` (`id`) VALUES
@@ -1059,10 +1013,9 @@ INSERT INTO `vtiger_blocks_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_businesstype`
+-- Tabellstruktur `vtiger_businesstype`
 --
 
-DROP TABLE IF EXISTS `vtiger_businesstype`;
 CREATE TABLE IF NOT EXISTS `vtiger_businesstype` (
   `businesstypeid` int(19) NOT NULL AUTO_INCREMENT,
   `businesstype` varchar(200) NOT NULL,
@@ -1075,10 +1028,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_businesstype` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaign`
+-- Tabellstruktur `vtiger_campaign`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaign`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaign` (
   `campaign_no` varchar(100) NOT NULL,
   `campaignname` varchar(255) DEFAULT NULL,
@@ -1110,10 +1062,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaign` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaignaccountrel`
+-- Tabellstruktur `vtiger_campaignaccountrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaignaccountrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaignaccountrel` (
   `campaignid` int(19) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
@@ -1123,10 +1074,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaignaccountrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaigncontrel`
+-- Tabellstruktur `vtiger_campaigncontrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaigncontrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaigncontrel` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
   `contactid` int(19) NOT NULL DEFAULT '0',
@@ -1138,10 +1088,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaigncontrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaignleadrel`
+-- Tabellstruktur `vtiger_campaignleadrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaignleadrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaignleadrel` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
   `leadid` int(19) NOT NULL DEFAULT '0',
@@ -1153,10 +1102,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaignleadrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaignrelstatus`
+-- Tabellstruktur `vtiger_campaignrelstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaignrelstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaignrelstatus` (
   `campaignrelstatusid` int(19) DEFAULT NULL,
   `campaignrelstatus` varchar(256) DEFAULT NULL,
@@ -1165,7 +1113,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaignrelstatus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_campaignrelstatus`
+-- Dumpning av Data i tabell `vtiger_campaignrelstatus`
 --
 
 INSERT INTO `vtiger_campaignrelstatus` (`campaignrelstatusid`, `campaignrelstatus`, `sortorderid`, `presence`) VALUES
@@ -1177,16 +1125,15 @@ INSERT INTO `vtiger_campaignrelstatus` (`campaignrelstatusid`, `campaignrelstatu
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaignrelstatus_seq`
+-- Tabellstruktur `vtiger_campaignrelstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaignrelstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaignrelstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_campaignrelstatus_seq`
+-- Dumpning av Data i tabell `vtiger_campaignrelstatus_seq`
 --
 
 INSERT INTO `vtiger_campaignrelstatus_seq` (`id`) VALUES
@@ -1195,10 +1142,9 @@ INSERT INTO `vtiger_campaignrelstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaignscf`
+-- Tabellstruktur `vtiger_campaignscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaignscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaignscf` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`campaignid`)
@@ -1207,10 +1153,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaignscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaignstatus`
+-- Tabellstruktur `vtiger_campaignstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaignstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaignstatus` (
   `campaignstatusid` int(19) NOT NULL AUTO_INCREMENT,
   `campaignstatus` varchar(200) NOT NULL,
@@ -1221,7 +1166,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaignstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_campaignstatus`
+-- Dumpning av Data i tabell `vtiger_campaignstatus`
 --
 
 INSERT INTO `vtiger_campaignstatus` (`campaignstatusid`, `campaignstatus`, `presence`, `picklist_valueid`) VALUES
@@ -1235,16 +1180,15 @@ INSERT INTO `vtiger_campaignstatus` (`campaignstatusid`, `campaignstatus`, `pres
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaignstatus_seq`
+-- Tabellstruktur `vtiger_campaignstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaignstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaignstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_campaignstatus_seq`
+-- Dumpning av Data i tabell `vtiger_campaignstatus_seq`
 --
 
 INSERT INTO `vtiger_campaignstatus_seq` (`id`) VALUES
@@ -1253,10 +1197,9 @@ INSERT INTO `vtiger_campaignstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaigntype`
+-- Tabellstruktur `vtiger_campaigntype`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaigntype`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaigntype` (
   `campaigntypeid` int(19) NOT NULL AUTO_INCREMENT,
   `campaigntype` varchar(200) NOT NULL,
@@ -1267,7 +1210,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_campaigntype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
--- Dumping data for table `vtiger_campaigntype`
+-- Dumpning av Data i tabell `vtiger_campaigntype`
 --
 
 INSERT INTO `vtiger_campaigntype` (`campaigntypeid`, `campaigntype`, `presence`, `picklist_valueid`) VALUES
@@ -1288,16 +1231,15 @@ INSERT INTO `vtiger_campaigntype` (`campaigntypeid`, `campaigntype`, `presence`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_campaigntype_seq`
+-- Tabellstruktur `vtiger_campaigntype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_campaigntype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_campaigntype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_campaigntype_seq`
+-- Dumpning av Data i tabell `vtiger_campaigntype_seq`
 --
 
 INSERT INTO `vtiger_campaigntype_seq` (`id`) VALUES
@@ -1306,10 +1248,9 @@ INSERT INTO `vtiger_campaigntype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_carrier`
+-- Tabellstruktur `vtiger_carrier`
 --
 
-DROP TABLE IF EXISTS `vtiger_carrier`;
 CREATE TABLE IF NOT EXISTS `vtiger_carrier` (
   `carrierid` int(19) NOT NULL AUTO_INCREMENT,
   `carrier` varchar(200) NOT NULL,
@@ -1320,7 +1261,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_carrier` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_carrier`
+-- Dumpning av Data i tabell `vtiger_carrier`
 --
 
 INSERT INTO `vtiger_carrier` (`carrierid`, `carrier`, `presence`, `picklist_valueid`) VALUES
@@ -1333,16 +1274,15 @@ INSERT INTO `vtiger_carrier` (`carrierid`, `carrier`, `presence`, `picklist_valu
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_carrier_seq`
+-- Tabellstruktur `vtiger_carrier_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_carrier_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_carrier_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_carrier_seq`
+-- Dumpning av Data i tabell `vtiger_carrier_seq`
 --
 
 INSERT INTO `vtiger_carrier_seq` (`id`) VALUES
@@ -1351,16 +1291,15 @@ INSERT INTO `vtiger_carrier_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_643_seq`
+-- Tabellstruktur `vtiger_cf_643_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_643_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_643_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_643_seq`
+-- Dumpning av Data i tabell `vtiger_cf_643_seq`
 --
 
 INSERT INTO `vtiger_cf_643_seq` (`id`) VALUES
@@ -1369,16 +1308,15 @@ INSERT INTO `vtiger_cf_643_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_646_seq`
+-- Tabellstruktur `vtiger_cf_646_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_646_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_646_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_646_seq`
+-- Dumpning av Data i tabell `vtiger_cf_646_seq`
 --
 
 INSERT INTO `vtiger_cf_646_seq` (`id`) VALUES
@@ -1387,16 +1325,15 @@ INSERT INTO `vtiger_cf_646_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_647_seq`
+-- Tabellstruktur `vtiger_cf_647_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_647_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_647_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_647_seq`
+-- Dumpning av Data i tabell `vtiger_cf_647_seq`
 --
 
 INSERT INTO `vtiger_cf_647_seq` (`id`) VALUES
@@ -1405,16 +1342,15 @@ INSERT INTO `vtiger_cf_647_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_648_seq`
+-- Tabellstruktur `vtiger_cf_648_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_648_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_648_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_648_seq`
+-- Dumpning av Data i tabell `vtiger_cf_648_seq`
 --
 
 INSERT INTO `vtiger_cf_648_seq` (`id`) VALUES
@@ -1423,10 +1359,9 @@ INSERT INTO `vtiger_cf_648_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_649`
+-- Tabellstruktur `vtiger_cf_649`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_649`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_649` (
   `cf_649id` int(19) NOT NULL AUTO_INCREMENT,
   `cf_649` varchar(200) NOT NULL,
@@ -1436,7 +1371,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cf_649` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_cf_649`
+-- Dumpning av Data i tabell `vtiger_cf_649`
 --
 
 INSERT INTO `vtiger_cf_649` (`cf_649id`, `cf_649`, `presence`, `picklist_valueid`) VALUES
@@ -1446,16 +1381,15 @@ INSERT INTO `vtiger_cf_649` (`cf_649id`, `cf_649`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_649_seq`
+-- Tabellstruktur `vtiger_cf_649_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_649_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_649_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_649_seq`
+-- Dumpning av Data i tabell `vtiger_cf_649_seq`
 --
 
 INSERT INTO `vtiger_cf_649_seq` (`id`) VALUES
@@ -1464,10 +1398,9 @@ INSERT INTO `vtiger_cf_649_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_651`
+-- Tabellstruktur `vtiger_cf_651`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_651`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_651` (
   `cf_651id` int(19) NOT NULL AUTO_INCREMENT,
   `cf_651` varchar(200) NOT NULL,
@@ -1477,7 +1410,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cf_651` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_cf_651`
+-- Dumpning av Data i tabell `vtiger_cf_651`
 --
 
 INSERT INTO `vtiger_cf_651` (`cf_651id`, `cf_651`, `presence`, `picklist_valueid`) VALUES
@@ -1487,16 +1420,15 @@ INSERT INTO `vtiger_cf_651` (`cf_651id`, `cf_651`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_651_seq`
+-- Tabellstruktur `vtiger_cf_651_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_651_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_651_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_651_seq`
+-- Dumpning av Data i tabell `vtiger_cf_651_seq`
 --
 
 INSERT INTO `vtiger_cf_651_seq` (`id`) VALUES
@@ -1505,10 +1437,9 @@ INSERT INTO `vtiger_cf_651_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_654`
+-- Tabellstruktur `vtiger_cf_654`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_654`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_654` (
   `cf_654id` int(19) NOT NULL AUTO_INCREMENT,
   `cf_654` varchar(200) NOT NULL,
@@ -1518,7 +1449,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cf_654` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_cf_654`
+-- Dumpning av Data i tabell `vtiger_cf_654`
 --
 
 INSERT INTO `vtiger_cf_654` (`cf_654id`, `cf_654`, `presence`, `picklist_valueid`) VALUES
@@ -1528,16 +1459,15 @@ INSERT INTO `vtiger_cf_654` (`cf_654id`, `cf_654`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_654_seq`
+-- Tabellstruktur `vtiger_cf_654_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_654_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_654_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_654_seq`
+-- Dumpning av Data i tabell `vtiger_cf_654_seq`
 --
 
 INSERT INTO `vtiger_cf_654_seq` (`id`) VALUES
@@ -1546,16 +1476,15 @@ INSERT INTO `vtiger_cf_654_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_655_seq`
+-- Tabellstruktur `vtiger_cf_655_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_655_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_655_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_655_seq`
+-- Dumpning av Data i tabell `vtiger_cf_655_seq`
 --
 
 INSERT INTO `vtiger_cf_655_seq` (`id`) VALUES
@@ -1564,16 +1493,15 @@ INSERT INTO `vtiger_cf_655_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_656_seq`
+-- Tabellstruktur `vtiger_cf_656_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_656_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_656_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_656_seq`
+-- Dumpning av Data i tabell `vtiger_cf_656_seq`
 --
 
 INSERT INTO `vtiger_cf_656_seq` (`id`) VALUES
@@ -1582,10 +1510,9 @@ INSERT INTO `vtiger_cf_656_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_657`
+-- Tabellstruktur `vtiger_cf_657`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_657`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_657` (
   `cf_657id` int(19) NOT NULL AUTO_INCREMENT,
   `cf_657` varchar(200) NOT NULL,
@@ -1595,7 +1522,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cf_657` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_cf_657`
+-- Dumpning av Data i tabell `vtiger_cf_657`
 --
 
 INSERT INTO `vtiger_cf_657` (`cf_657id`, `cf_657`, `presence`, `picklist_valueid`) VALUES
@@ -1605,16 +1532,15 @@ INSERT INTO `vtiger_cf_657` (`cf_657id`, `cf_657`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_657_seq`
+-- Tabellstruktur `vtiger_cf_657_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_657_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_657_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_657_seq`
+-- Dumpning av Data i tabell `vtiger_cf_657_seq`
 --
 
 INSERT INTO `vtiger_cf_657_seq` (`id`) VALUES
@@ -1623,10 +1549,9 @@ INSERT INTO `vtiger_cf_657_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_658`
+-- Tabellstruktur `vtiger_cf_658`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_658`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_658` (
   `cf_658id` int(19) NOT NULL AUTO_INCREMENT,
   `cf_658` varchar(200) NOT NULL,
@@ -1636,7 +1561,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cf_658` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
--- Dumping data for table `vtiger_cf_658`
+-- Dumpning av Data i tabell `vtiger_cf_658`
 --
 
 INSERT INTO `vtiger_cf_658` (`cf_658id`, `cf_658`, `presence`, `picklist_valueid`) VALUES
@@ -1657,16 +1582,15 @@ INSERT INTO `vtiger_cf_658` (`cf_658id`, `cf_658`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_658_seq`
+-- Tabellstruktur `vtiger_cf_658_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_658_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_658_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_658_seq`
+-- Dumpning av Data i tabell `vtiger_cf_658_seq`
 --
 
 INSERT INTO `vtiger_cf_658_seq` (`id`) VALUES
@@ -1675,10 +1599,9 @@ INSERT INTO `vtiger_cf_658_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_659`
+-- Tabellstruktur `vtiger_cf_659`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_659`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_659` (
   `cf_659id` int(19) NOT NULL AUTO_INCREMENT,
   `cf_659` varchar(200) NOT NULL,
@@ -1688,7 +1611,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cf_659` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_cf_659`
+-- Dumpning av Data i tabell `vtiger_cf_659`
 --
 
 INSERT INTO `vtiger_cf_659` (`cf_659id`, `cf_659`, `presence`, `picklist_valueid`) VALUES
@@ -1702,16 +1625,15 @@ INSERT INTO `vtiger_cf_659` (`cf_659id`, `cf_659`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_659_seq`
+-- Tabellstruktur `vtiger_cf_659_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_659_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_659_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_659_seq`
+-- Dumpning av Data i tabell `vtiger_cf_659_seq`
 --
 
 INSERT INTO `vtiger_cf_659_seq` (`id`) VALUES
@@ -1720,10 +1642,9 @@ INSERT INTO `vtiger_cf_659_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_660`
+-- Tabellstruktur `vtiger_cf_660`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_660`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_660` (
   `cf_660id` int(19) NOT NULL AUTO_INCREMENT,
   `cf_660` varchar(200) NOT NULL,
@@ -1733,7 +1654,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cf_660` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_cf_660`
+-- Dumpning av Data i tabell `vtiger_cf_660`
 --
 
 INSERT INTO `vtiger_cf_660` (`cf_660id`, `cf_660`, `presence`, `picklist_valueid`) VALUES
@@ -1743,16 +1664,15 @@ INSERT INTO `vtiger_cf_660` (`cf_660id`, `cf_660`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cf_660_seq`
+-- Tabellstruktur `vtiger_cf_660_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_cf_660_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_cf_660_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_cf_660_seq`
+-- Dumpning av Data i tabell `vtiger_cf_660_seq`
 --
 
 INSERT INTO `vtiger_cf_660_seq` (`id`) VALUES
@@ -1761,10 +1681,9 @@ INSERT INTO `vtiger_cf_660_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_chat_msg`
+-- Tabellstruktur `vtiger_chat_msg`
 --
 
-DROP TABLE IF EXISTS `vtiger_chat_msg`;
 CREATE TABLE IF NOT EXISTS `vtiger_chat_msg` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `chat_from` int(20) NOT NULL DEFAULT '0',
@@ -1780,10 +1699,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_chat_msg` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_chat_pchat`
+-- Tabellstruktur `vtiger_chat_pchat`
 --
 
-DROP TABLE IF EXISTS `vtiger_chat_pchat`;
 CREATE TABLE IF NOT EXISTS `vtiger_chat_pchat` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `msg` int(20) DEFAULT '0',
@@ -1794,10 +1712,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_chat_pchat` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_chat_pvchat`
+-- Tabellstruktur `vtiger_chat_pvchat`
 --
 
-DROP TABLE IF EXISTS `vtiger_chat_pvchat`;
 CREATE TABLE IF NOT EXISTS `vtiger_chat_pvchat` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `msg` int(20) DEFAULT '0',
@@ -1808,10 +1725,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_chat_pvchat` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_chat_users`
+-- Tabellstruktur `vtiger_chat_users`
 --
 
-DROP TABLE IF EXISTS `vtiger_chat_users`;
 CREATE TABLE IF NOT EXISTS `vtiger_chat_users` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `nick` varchar(50) NOT NULL,
@@ -1827,10 +1743,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_chat_users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cntactivityrel`
+-- Tabellstruktur `vtiger_cntactivityrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_cntactivityrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_cntactivityrel` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   `activityid` int(19) NOT NULL DEFAULT '0',
@@ -1842,10 +1757,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_cntactivityrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_competitor`
+-- Tabellstruktur `vtiger_competitor`
 --
 
-DROP TABLE IF EXISTS `vtiger_competitor`;
 CREATE TABLE IF NOT EXISTS `vtiger_competitor` (
   `competitorid` int(19) NOT NULL,
   `competitorname` varchar(100) NOT NULL,
@@ -1858,10 +1772,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_competitor` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contactaddress`
+-- Tabellstruktur `vtiger_contactaddress`
 --
 
-DROP TABLE IF EXISTS `vtiger_contactaddress`;
 CREATE TABLE IF NOT EXISTS `vtiger_contactaddress` (
   `contactaddressid` int(19) NOT NULL DEFAULT '0',
   `mailingcity` varchar(40) DEFAULT NULL,
@@ -1882,10 +1795,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_contactaddress` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contactdetails`
+-- Tabellstruktur `vtiger_contactdetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_contactdetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_contactdetails` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   `contact_no` varchar(100) NOT NULL,
@@ -1917,10 +1829,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_contactdetails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contactscf`
+-- Tabellstruktur `vtiger_contactscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_contactscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_contactscf` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`contactid`)
@@ -1929,10 +1840,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_contactscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contactsubdetails`
+-- Tabellstruktur `vtiger_contactsubdetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_contactsubdetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_contactsubdetails` (
   `contactsubscriptionid` int(19) NOT NULL DEFAULT '0',
   `homephone` varchar(50) DEFAULT NULL,
@@ -1949,10 +1859,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_contactsubdetails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contacttype`
+-- Tabellstruktur `vtiger_contacttype`
 --
 
-DROP TABLE IF EXISTS `vtiger_contacttype`;
 CREATE TABLE IF NOT EXISTS `vtiger_contacttype` (
   `contacttypeid` int(19) NOT NULL AUTO_INCREMENT,
   `contacttype` varchar(200) NOT NULL,
@@ -1965,10 +1874,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_contacttype` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contpotentialrel`
+-- Tabellstruktur `vtiger_contpotentialrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_contpotentialrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_contpotentialrel` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   `potentialid` int(19) NOT NULL DEFAULT '0',
@@ -1980,10 +1888,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_contpotentialrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contract_priority`
+-- Tabellstruktur `vtiger_contract_priority`
 --
 
-DROP TABLE IF EXISTS `vtiger_contract_priority`;
 CREATE TABLE IF NOT EXISTS `vtiger_contract_priority` (
   `contract_priorityid` int(11) NOT NULL AUTO_INCREMENT,
   `contract_priority` varchar(200) NOT NULL,
@@ -1993,7 +1900,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_contract_priority` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_contract_priority`
+-- Dumpning av Data i tabell `vtiger_contract_priority`
 --
 
 INSERT INTO `vtiger_contract_priority` (`contract_priorityid`, `contract_priority`, `presence`, `picklist_valueid`) VALUES
@@ -2004,16 +1911,15 @@ INSERT INTO `vtiger_contract_priority` (`contract_priorityid`, `contract_priorit
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contract_priority_seq`
+-- Tabellstruktur `vtiger_contract_priority_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_contract_priority_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_contract_priority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_contract_priority_seq`
+-- Dumpning av Data i tabell `vtiger_contract_priority_seq`
 --
 
 INSERT INTO `vtiger_contract_priority_seq` (`id`) VALUES
@@ -2022,10 +1928,9 @@ INSERT INTO `vtiger_contract_priority_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contract_status`
+-- Tabellstruktur `vtiger_contract_status`
 --
 
-DROP TABLE IF EXISTS `vtiger_contract_status`;
 CREATE TABLE IF NOT EXISTS `vtiger_contract_status` (
   `contract_statusid` int(11) NOT NULL AUTO_INCREMENT,
   `contract_status` varchar(200) NOT NULL,
@@ -2035,7 +1940,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_contract_status` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_contract_status`
+-- Dumpning av Data i tabell `vtiger_contract_status`
 --
 
 INSERT INTO `vtiger_contract_status` (`contract_statusid`, `contract_status`, `presence`, `picklist_valueid`) VALUES
@@ -2049,16 +1954,15 @@ INSERT INTO `vtiger_contract_status` (`contract_statusid`, `contract_status`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contract_status_seq`
+-- Tabellstruktur `vtiger_contract_status_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_contract_status_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_contract_status_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_contract_status_seq`
+-- Dumpning av Data i tabell `vtiger_contract_status_seq`
 --
 
 INSERT INTO `vtiger_contract_status_seq` (`id`) VALUES
@@ -2067,10 +1971,9 @@ INSERT INTO `vtiger_contract_status_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contract_type`
+-- Tabellstruktur `vtiger_contract_type`
 --
 
-DROP TABLE IF EXISTS `vtiger_contract_type`;
 CREATE TABLE IF NOT EXISTS `vtiger_contract_type` (
   `contract_typeid` int(11) NOT NULL AUTO_INCREMENT,
   `contract_type` varchar(200) NOT NULL,
@@ -2080,7 +1983,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_contract_type` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_contract_type`
+-- Dumpning av Data i tabell `vtiger_contract_type`
 --
 
 INSERT INTO `vtiger_contract_type` (`contract_typeid`, `contract_type`, `presence`, `picklist_valueid`) VALUES
@@ -2091,16 +1994,15 @@ INSERT INTO `vtiger_contract_type` (`contract_typeid`, `contract_type`, `presenc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_contract_type_seq`
+-- Tabellstruktur `vtiger_contract_type_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_contract_type_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_contract_type_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_contract_type_seq`
+-- Dumpning av Data i tabell `vtiger_contract_type_seq`
 --
 
 INSERT INTO `vtiger_contract_type_seq` (`id`) VALUES
@@ -2109,10 +2011,9 @@ INSERT INTO `vtiger_contract_type_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_convertleadmapping`
+-- Tabellstruktur `vtiger_convertleadmapping`
 --
 
-DROP TABLE IF EXISTS `vtiger_convertleadmapping`;
 CREATE TABLE IF NOT EXISTS `vtiger_convertleadmapping` (
   `cfmid` int(19) NOT NULL AUTO_INCREMENT,
   `leadfid` int(19) NOT NULL,
@@ -2124,7 +2025,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_convertleadmapping` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
--- Dumping data for table `vtiger_convertleadmapping`
+-- Dumpning av Data i tabell `vtiger_convertleadmapping`
 --
 
 INSERT INTO `vtiger_convertleadmapping` (`cfmid`, `leadfid`, `accountfid`, `contactfid`, `potentialfid`, `editable`) VALUES
@@ -2163,10 +2064,9 @@ INSERT INTO `vtiger_convertleadmapping` (`cfmid`, `leadfid`, `accountfid`, `cont
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_crmentity`
+-- Tabellstruktur `vtiger_crmentity`
 --
 
-DROP TABLE IF EXISTS `vtiger_crmentity`;
 CREATE TABLE IF NOT EXISTS `vtiger_crmentity` (
   `crmid` int(19) NOT NULL,
   `smcreatorid` int(19) NOT NULL DEFAULT '0',
@@ -2191,10 +2091,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_crmentity` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_crmentitynotesrel`
+-- Tabellstruktur `vtiger_crmentitynotesrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_crmentitynotesrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_crmentitynotesrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `notesid` int(19) NOT NULL DEFAULT '0',
@@ -2206,10 +2105,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_crmentitynotesrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_crmentityrel`
+-- Tabellstruktur `vtiger_crmentityrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_crmentityrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_crmentityrel` (
   `crmid` int(11) NOT NULL,
   `module` varchar(100) NOT NULL,
@@ -2220,16 +2118,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_crmentityrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_crmentity_seq`
+-- Tabellstruktur `vtiger_crmentity_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_crmentity_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_crmentity_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_crmentity_seq`
+-- Dumpning av Data i tabell `vtiger_crmentity_seq`
 --
 
 INSERT INTO `vtiger_crmentity_seq` (`id`) VALUES
@@ -2238,10 +2135,9 @@ INSERT INTO `vtiger_crmentity_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cron_task`
+-- Tabellstruktur `vtiger_cron_task`
 --
 
-DROP TABLE IF EXISTS `vtiger_cron_task`;
 CREATE TABLE IF NOT EXISTS `vtiger_cron_task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
@@ -2259,7 +2155,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cron_task` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_cron_task`
+-- Dumpning av Data i tabell `vtiger_cron_task`
 --
 
 INSERT INTO `vtiger_cron_task` (`id`, `name`, `handler_file`, `frequency`, `laststart`, `lastend`, `status`, `module`, `sequence`, `description`) VALUES
@@ -2273,10 +2169,9 @@ INSERT INTO `vtiger_cron_task` (`id`, `name`, `handler_file`, `frequency`, `last
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currencies`
+-- Tabellstruktur `vtiger_currencies`
 --
 
-DROP TABLE IF EXISTS `vtiger_currencies`;
 CREATE TABLE IF NOT EXISTS `vtiger_currencies` (
   `currencyid` int(19) NOT NULL AUTO_INCREMENT,
   `currency_name` varchar(200) DEFAULT NULL,
@@ -2286,7 +2181,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_currencies` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
 
 --
--- Dumping data for table `vtiger_currencies`
+-- Dumpning av Data i tabell `vtiger_currencies`
 --
 
 INSERT INTO `vtiger_currencies` (`currencyid`, `currency_name`, `currency_code`, `currency_symbol`) VALUES
@@ -2423,16 +2318,15 @@ INSERT INTO `vtiger_currencies` (`currencyid`, `currency_name`, `currency_code`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currencies_seq`
+-- Tabellstruktur `vtiger_currencies_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_currencies_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_currencies_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_currencies_seq`
+-- Dumpning av Data i tabell `vtiger_currencies_seq`
 --
 
 INSERT INTO `vtiger_currencies_seq` (`id`) VALUES
@@ -2441,10 +2335,9 @@ INSERT INTO `vtiger_currencies_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency`
+-- Tabellstruktur `vtiger_currency`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency` (
   `currencyid` int(19) NOT NULL AUTO_INCREMENT,
   `currency` varchar(200) NOT NULL,
@@ -2457,10 +2350,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_currency` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_decimal_separator`
+-- Tabellstruktur `vtiger_currency_decimal_separator`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_decimal_separator`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_decimal_separator` (
   `currency_decimal_separatorid` int(19) NOT NULL AUTO_INCREMENT,
   `currency_decimal_separator` varchar(2) NOT NULL,
@@ -2470,7 +2362,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_currency_decimal_separator` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_currency_decimal_separator`
+-- Dumpning av Data i tabell `vtiger_currency_decimal_separator`
 --
 
 INSERT INTO `vtiger_currency_decimal_separator` (`currency_decimal_separatorid`, `currency_decimal_separator`, `sortorderid`, `presence`) VALUES
@@ -2483,16 +2375,15 @@ INSERT INTO `vtiger_currency_decimal_separator` (`currency_decimal_separatorid`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_decimal_separator_seq`
+-- Tabellstruktur `vtiger_currency_decimal_separator_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_decimal_separator_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_decimal_separator_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_currency_decimal_separator_seq`
+-- Dumpning av Data i tabell `vtiger_currency_decimal_separator_seq`
 --
 
 INSERT INTO `vtiger_currency_decimal_separator_seq` (`id`) VALUES
@@ -2501,10 +2392,9 @@ INSERT INTO `vtiger_currency_decimal_separator_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_grouping_pattern`
+-- Tabellstruktur `vtiger_currency_grouping_pattern`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_grouping_pattern`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_grouping_pattern` (
   `currency_grouping_patternid` int(19) NOT NULL AUTO_INCREMENT,
   `currency_grouping_pattern` varchar(200) NOT NULL,
@@ -2514,7 +2404,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_currency_grouping_pattern` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_currency_grouping_pattern`
+-- Dumpning av Data i tabell `vtiger_currency_grouping_pattern`
 --
 
 INSERT INTO `vtiger_currency_grouping_pattern` (`currency_grouping_patternid`, `currency_grouping_pattern`, `sortorderid`, `presence`) VALUES
@@ -2526,16 +2416,15 @@ INSERT INTO `vtiger_currency_grouping_pattern` (`currency_grouping_patternid`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_grouping_pattern_seq`
+-- Tabellstruktur `vtiger_currency_grouping_pattern_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_grouping_pattern_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_grouping_pattern_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_currency_grouping_pattern_seq`
+-- Dumpning av Data i tabell `vtiger_currency_grouping_pattern_seq`
 --
 
 INSERT INTO `vtiger_currency_grouping_pattern_seq` (`id`) VALUES
@@ -2544,10 +2433,9 @@ INSERT INTO `vtiger_currency_grouping_pattern_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_grouping_separator`
+-- Tabellstruktur `vtiger_currency_grouping_separator`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_grouping_separator`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_grouping_separator` (
   `currency_grouping_separatorid` int(19) NOT NULL AUTO_INCREMENT,
   `currency_grouping_separator` varchar(2) NOT NULL,
@@ -2557,7 +2445,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_currency_grouping_separator` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_currency_grouping_separator`
+-- Dumpning av Data i tabell `vtiger_currency_grouping_separator`
 --
 
 INSERT INTO `vtiger_currency_grouping_separator` (`currency_grouping_separatorid`, `currency_grouping_separator`, `sortorderid`, `presence`) VALUES
@@ -2570,16 +2458,15 @@ INSERT INTO `vtiger_currency_grouping_separator` (`currency_grouping_separatorid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_grouping_separator_seq`
+-- Tabellstruktur `vtiger_currency_grouping_separator_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_grouping_separator_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_grouping_separator_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_currency_grouping_separator_seq`
+-- Dumpning av Data i tabell `vtiger_currency_grouping_separator_seq`
 --
 
 INSERT INTO `vtiger_currency_grouping_separator_seq` (`id`) VALUES
@@ -2588,10 +2475,9 @@ INSERT INTO `vtiger_currency_grouping_separator_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_info`
+-- Tabellstruktur `vtiger_currency_info`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_info`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `currency_name` varchar(100) DEFAULT NULL,
@@ -2605,7 +2491,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_currency_info` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `vtiger_currency_info`
+-- Dumpning av Data i tabell `vtiger_currency_info`
 --
 
 INSERT INTO `vtiger_currency_info` (`id`, `currency_name`, `currency_code`, `currency_symbol`, `conversion_rate`, `currency_status`, `defaultid`, `deleted`) VALUES
@@ -2614,16 +2500,15 @@ INSERT INTO `vtiger_currency_info` (`id`, `currency_name`, `currency_code`, `cur
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_info_seq`
+-- Tabellstruktur `vtiger_currency_info_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_info_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_info_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_currency_info_seq`
+-- Dumpning av Data i tabell `vtiger_currency_info_seq`
 --
 
 INSERT INTO `vtiger_currency_info_seq` (`id`) VALUES
@@ -2632,10 +2517,9 @@ INSERT INTO `vtiger_currency_info_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_symbol_placement`
+-- Tabellstruktur `vtiger_currency_symbol_placement`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_symbol_placement`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_symbol_placement` (
   `currency_symbol_placementid` int(19) NOT NULL AUTO_INCREMENT,
   `currency_symbol_placement` varchar(30) NOT NULL,
@@ -2645,7 +2529,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_currency_symbol_placement` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_currency_symbol_placement`
+-- Dumpning av Data i tabell `vtiger_currency_symbol_placement`
 --
 
 INSERT INTO `vtiger_currency_symbol_placement` (`currency_symbol_placementid`, `currency_symbol_placement`, `sortorderid`, `presence`) VALUES
@@ -2655,16 +2539,15 @@ INSERT INTO `vtiger_currency_symbol_placement` (`currency_symbol_placementid`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_currency_symbol_placement_seq`
+-- Tabellstruktur `vtiger_currency_symbol_placement_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_currency_symbol_placement_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_currency_symbol_placement_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_currency_symbol_placement_seq`
+-- Dumpning av Data i tabell `vtiger_currency_symbol_placement_seq`
 --
 
 INSERT INTO `vtiger_currency_symbol_placement_seq` (`id`) VALUES
@@ -2673,10 +2556,9 @@ INSERT INTO `vtiger_currency_symbol_placement_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_customaction`
+-- Tabellstruktur `vtiger_customaction`
 --
 
-DROP TABLE IF EXISTS `vtiger_customaction`;
 CREATE TABLE IF NOT EXISTS `vtiger_customaction` (
   `cvid` int(19) NOT NULL,
   `subject` varchar(250) NOT NULL,
@@ -2688,10 +2570,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_customaction` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_customerdetails`
+-- Tabellstruktur `vtiger_customerdetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_customerdetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_customerdetails` (
   `customerid` int(19) NOT NULL,
   `portal` varchar(3) DEFAULT NULL,
@@ -2703,10 +2584,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_customerdetails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_customerportal_fields`
+-- Tabellstruktur `vtiger_customerportal_fields`
 --
 
-DROP TABLE IF EXISTS `vtiger_customerportal_fields`;
 CREATE TABLE IF NOT EXISTS `vtiger_customerportal_fields` (
   `tabid` int(19) NOT NULL,
   `fieldid` int(19) DEFAULT NULL,
@@ -2716,10 +2596,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_customerportal_fields` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_customerportal_prefs`
+-- Tabellstruktur `vtiger_customerportal_prefs`
 --
 
-DROP TABLE IF EXISTS `vtiger_customerportal_prefs`;
 CREATE TABLE IF NOT EXISTS `vtiger_customerportal_prefs` (
   `tabid` int(19) NOT NULL,
   `prefkey` varchar(100) NOT NULL,
@@ -2728,7 +2607,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_customerportal_prefs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_customerportal_prefs`
+-- Dumpning av Data i tabell `vtiger_customerportal_prefs`
 --
 
 INSERT INTO `vtiger_customerportal_prefs` (`tabid`, `prefkey`, `prefvalue`) VALUES
@@ -2751,10 +2630,9 @@ INSERT INTO `vtiger_customerportal_prefs` (`tabid`, `prefkey`, `prefvalue`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_customerportal_tabs`
+-- Tabellstruktur `vtiger_customerportal_tabs`
 --
 
-DROP TABLE IF EXISTS `vtiger_customerportal_tabs`;
 CREATE TABLE IF NOT EXISTS `vtiger_customerportal_tabs` (
   `tabid` int(19) NOT NULL,
   `visible` int(1) DEFAULT '1',
@@ -2763,7 +2641,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_customerportal_tabs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_customerportal_tabs`
+-- Dumpning av Data i tabell `vtiger_customerportal_tabs`
 --
 
 INSERT INTO `vtiger_customerportal_tabs` (`tabid`, `visible`, `sequence`) VALUES
@@ -2784,10 +2662,9 @@ INSERT INTO `vtiger_customerportal_tabs` (`tabid`, `visible`, `sequence`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_customview`
+-- Tabellstruktur `vtiger_customview`
 --
 
-DROP TABLE IF EXISTS `vtiger_customview`;
 CREATE TABLE IF NOT EXISTS `vtiger_customview` (
   `cvid` int(19) NOT NULL,
   `viewname` varchar(100) NOT NULL,
@@ -2801,7 +2678,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_customview` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_customview`
+-- Dumpning av Data i tabell `vtiger_customview`
 --
 
 INSERT INTO `vtiger_customview` (`cvid`, `viewname`, `setdefault`, `setmetrics`, `entitytype`, `status`, `userid`) VALUES
@@ -2858,16 +2735,15 @@ INSERT INTO `vtiger_customview` (`cvid`, `viewname`, `setdefault`, `setmetrics`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_customview_seq`
+-- Tabellstruktur `vtiger_customview_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_customview_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_customview_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_customview_seq`
+-- Dumpning av Data i tabell `vtiger_customview_seq`
 --
 
 INSERT INTO `vtiger_customview_seq` (`id`) VALUES
@@ -2876,10 +2752,9 @@ INSERT INTO `vtiger_customview_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cvadvfilter`
+-- Tabellstruktur `vtiger_cvadvfilter`
 --
 
-DROP TABLE IF EXISTS `vtiger_cvadvfilter`;
 CREATE TABLE IF NOT EXISTS `vtiger_cvadvfilter` (
   `cvid` int(19) NOT NULL,
   `columnindex` int(11) NOT NULL,
@@ -2893,7 +2768,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cvadvfilter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_cvadvfilter`
+-- Dumpning av Data i tabell `vtiger_cvadvfilter`
 --
 
 INSERT INTO `vtiger_cvadvfilter` (`cvid`, `columnindex`, `columnname`, `comparator`, `value`, `groupid`, `column_condition`) VALUES
@@ -2920,10 +2795,9 @@ INSERT INTO `vtiger_cvadvfilter` (`cvid`, `columnindex`, `columnname`, `comparat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cvadvfilter_grouping`
+-- Tabellstruktur `vtiger_cvadvfilter_grouping`
 --
 
-DROP TABLE IF EXISTS `vtiger_cvadvfilter_grouping`;
 CREATE TABLE IF NOT EXISTS `vtiger_cvadvfilter_grouping` (
   `groupid` int(11) NOT NULL,
   `cvid` int(19) NOT NULL,
@@ -2933,7 +2807,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cvadvfilter_grouping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_cvadvfilter_grouping`
+-- Dumpning av Data i tabell `vtiger_cvadvfilter_grouping`
 --
 
 INSERT INTO `vtiger_cvadvfilter_grouping` (`groupid`, `cvid`, `group_condition`, `condition_expression`) VALUES
@@ -2956,10 +2830,9 @@ INSERT INTO `vtiger_cvadvfilter_grouping` (`groupid`, `cvid`, `group_condition`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cvcolumnlist`
+-- Tabellstruktur `vtiger_cvcolumnlist`
 --
 
-DROP TABLE IF EXISTS `vtiger_cvcolumnlist`;
 CREATE TABLE IF NOT EXISTS `vtiger_cvcolumnlist` (
   `cvid` int(19) NOT NULL,
   `columnindex` int(11) NOT NULL,
@@ -2970,7 +2843,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cvcolumnlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_cvcolumnlist`
+-- Dumpning av Data i tabell `vtiger_cvcolumnlist`
 --
 
 INSERT INTO `vtiger_cvcolumnlist` (`cvid`, `columnindex`, `columnname`) VALUES
@@ -3261,10 +3134,9 @@ INSERT INTO `vtiger_cvcolumnlist` (`cvid`, `columnindex`, `columnname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_cvstdfilter`
+-- Tabellstruktur `vtiger_cvstdfilter`
 --
 
-DROP TABLE IF EXISTS `vtiger_cvstdfilter`;
 CREATE TABLE IF NOT EXISTS `vtiger_cvstdfilter` (
   `cvid` int(19) NOT NULL,
   `columnname` varchar(250) DEFAULT '',
@@ -3276,7 +3148,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_cvstdfilter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_cvstdfilter`
+-- Dumpning av Data i tabell `vtiger_cvstdfilter`
 --
 
 INSERT INTO `vtiger_cvstdfilter` (`cvid`, `columnname`, `stdfilter`, `startdate`, `enddate`) VALUES
@@ -3287,10 +3159,9 @@ INSERT INTO `vtiger_cvstdfilter` (`cvid`, `columnname`, `stdfilter`, `startdate`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_grp2grp`
+-- Tabellstruktur `vtiger_datashare_grp2grp`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_grp2grp`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_grp2grp` (
   `shareid` int(19) NOT NULL,
   `share_groupid` int(19) DEFAULT NULL,
@@ -3304,10 +3175,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_grp2grp` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_grp2role`
+-- Tabellstruktur `vtiger_datashare_grp2role`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_grp2role`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_grp2role` (
   `shareid` int(19) NOT NULL,
   `share_groupid` int(19) DEFAULT NULL,
@@ -3321,10 +3191,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_grp2role` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_grp2rs`
+-- Tabellstruktur `vtiger_datashare_grp2rs`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_grp2rs`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_grp2rs` (
   `shareid` int(19) NOT NULL,
   `share_groupid` int(19) DEFAULT NULL,
@@ -3338,10 +3207,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_grp2rs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_module_rel`
+-- Tabellstruktur `vtiger_datashare_module_rel`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_module_rel`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_module_rel` (
   `shareid` int(19) NOT NULL,
   `tabid` int(19) NOT NULL,
@@ -3351,7 +3219,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_module_rel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_datashare_module_rel`
+-- Dumpning av Data i tabell `vtiger_datashare_module_rel`
 --
 
 INSERT INTO `vtiger_datashare_module_rel` (`shareid`, `tabid`, `relationtype`) VALUES
@@ -3361,16 +3229,15 @@ INSERT INTO `vtiger_datashare_module_rel` (`shareid`, `tabid`, `relationtype`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_module_rel_seq`
+-- Tabellstruktur `vtiger_datashare_module_rel_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_module_rel_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_module_rel_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_datashare_module_rel_seq`
+-- Dumpning av Data i tabell `vtiger_datashare_module_rel_seq`
 --
 
 INSERT INTO `vtiger_datashare_module_rel_seq` (`id`) VALUES
@@ -3379,10 +3246,9 @@ INSERT INTO `vtiger_datashare_module_rel_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_relatedmodules`
+-- Tabellstruktur `vtiger_datashare_relatedmodules`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_relatedmodules`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_relatedmodules` (
   `datashare_relatedmodule_id` int(19) NOT NULL,
   `tabid` int(19) DEFAULT NULL,
@@ -3393,7 +3259,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_relatedmodules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_datashare_relatedmodules`
+-- Dumpning av Data i tabell `vtiger_datashare_relatedmodules`
 --
 
 INSERT INTO `vtiger_datashare_relatedmodules` (`datashare_relatedmodule_id`, `tabid`, `relatedto_tabid`) VALUES
@@ -3410,16 +3276,15 @@ INSERT INTO `vtiger_datashare_relatedmodules` (`datashare_relatedmodule_id`, `ta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_relatedmodules_seq`
+-- Tabellstruktur `vtiger_datashare_relatedmodules_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_relatedmodules_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_relatedmodules_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_datashare_relatedmodules_seq`
+-- Dumpning av Data i tabell `vtiger_datashare_relatedmodules_seq`
 --
 
 INSERT INTO `vtiger_datashare_relatedmodules_seq` (`id`) VALUES
@@ -3428,10 +3293,9 @@ INSERT INTO `vtiger_datashare_relatedmodules_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_relatedmodule_permission`
+-- Tabellstruktur `vtiger_datashare_relatedmodule_permission`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_relatedmodule_permission`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_relatedmodule_permission` (
   `shareid` int(19) NOT NULL,
   `datashare_relatedmodule_id` int(19) NOT NULL,
@@ -3443,10 +3307,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_relatedmodule_permission` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_role2group`
+-- Tabellstruktur `vtiger_datashare_role2group`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_role2group`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_role2group` (
   `shareid` int(19) NOT NULL,
   `share_roleid` varchar(255) DEFAULT NULL,
@@ -3460,10 +3323,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_role2group` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_role2role`
+-- Tabellstruktur `vtiger_datashare_role2role`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_role2role`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_role2role` (
   `shareid` int(19) NOT NULL,
   `share_roleid` varchar(255) DEFAULT NULL,
@@ -3475,7 +3337,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_role2role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_datashare_role2role`
+-- Dumpning av Data i tabell `vtiger_datashare_role2role`
 --
 
 INSERT INTO `vtiger_datashare_role2role` (`shareid`, `share_roleid`, `to_roleid`, `permission`) VALUES
@@ -3485,10 +3347,9 @@ INSERT INTO `vtiger_datashare_role2role` (`shareid`, `share_roleid`, `to_roleid`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_role2rs`
+-- Tabellstruktur `vtiger_datashare_role2rs`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_role2rs`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_role2rs` (
   `shareid` int(19) NOT NULL,
   `share_roleid` varchar(255) DEFAULT NULL,
@@ -3502,10 +3363,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_role2rs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_rs2grp`
+-- Tabellstruktur `vtiger_datashare_rs2grp`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_rs2grp`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_rs2grp` (
   `shareid` int(19) NOT NULL,
   `share_roleandsubid` varchar(255) DEFAULT NULL,
@@ -3519,10 +3379,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_rs2grp` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_rs2role`
+-- Tabellstruktur `vtiger_datashare_rs2role`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_rs2role`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_rs2role` (
   `shareid` int(19) NOT NULL,
   `share_roleandsubid` varchar(255) DEFAULT NULL,
@@ -3536,10 +3395,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_rs2role` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_datashare_rs2rs`
+-- Tabellstruktur `vtiger_datashare_rs2rs`
 --
 
-DROP TABLE IF EXISTS `vtiger_datashare_rs2rs`;
 CREATE TABLE IF NOT EXISTS `vtiger_datashare_rs2rs` (
   `shareid` int(19) NOT NULL,
   `share_roleandsubid` varchar(255) DEFAULT NULL,
@@ -3553,10 +3411,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_datashare_rs2rs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_date_format`
+-- Tabellstruktur `vtiger_date_format`
 --
 
-DROP TABLE IF EXISTS `vtiger_date_format`;
 CREATE TABLE IF NOT EXISTS `vtiger_date_format` (
   `date_formatid` int(19) NOT NULL AUTO_INCREMENT,
   `date_format` varchar(200) NOT NULL,
@@ -3566,7 +3423,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_date_format` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_date_format`
+-- Dumpning av Data i tabell `vtiger_date_format`
 --
 
 INSERT INTO `vtiger_date_format` (`date_formatid`, `date_format`, `sortorderid`, `presence`) VALUES
@@ -3577,16 +3434,15 @@ INSERT INTO `vtiger_date_format` (`date_formatid`, `date_format`, `sortorderid`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_date_format_seq`
+-- Tabellstruktur `vtiger_date_format_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_date_format_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_date_format_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_date_format_seq`
+-- Dumpning av Data i tabell `vtiger_date_format_seq`
 --
 
 INSERT INTO `vtiger_date_format_seq` (`id`) VALUES
@@ -3595,10 +3451,9 @@ INSERT INTO `vtiger_date_format_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_dealintimation`
+-- Tabellstruktur `vtiger_dealintimation`
 --
 
-DROP TABLE IF EXISTS `vtiger_dealintimation`;
 CREATE TABLE IF NOT EXISTS `vtiger_dealintimation` (
   `dealintimationid` int(19) NOT NULL DEFAULT '0',
   `dealname` varchar(100) NOT NULL,
@@ -3618,10 +3473,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_dealintimation` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_defaultcv`
+-- Tabellstruktur `vtiger_defaultcv`
 --
 
-DROP TABLE IF EXISTS `vtiger_defaultcv`;
 CREATE TABLE IF NOT EXISTS `vtiger_defaultcv` (
   `tabid` int(19) NOT NULL,
   `defaultviewname` varchar(50) NOT NULL,
@@ -3632,10 +3486,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_defaultcv` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_def_org_field`
+-- Tabellstruktur `vtiger_def_org_field`
 --
 
-DROP TABLE IF EXISTS `vtiger_def_org_field`;
 CREATE TABLE IF NOT EXISTS `vtiger_def_org_field` (
   `tabid` int(10) DEFAULT NULL,
   `fieldid` int(19) NOT NULL,
@@ -3648,7 +3501,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_def_org_field` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_def_org_field`
+-- Dumpning av Data i tabell `vtiger_def_org_field`
 --
 
 INSERT INTO `vtiger_def_org_field` (`tabid`, `fieldid`, `visible`, `readonly`) VALUES
@@ -4260,10 +4113,9 @@ INSERT INTO `vtiger_def_org_field` (`tabid`, `fieldid`, `visible`, `readonly`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_def_org_share`
+-- Tabellstruktur `vtiger_def_org_share`
 --
 
-DROP TABLE IF EXISTS `vtiger_def_org_share`;
 CREATE TABLE IF NOT EXISTS `vtiger_def_org_share` (
   `ruleid` int(11) NOT NULL AUTO_INCREMENT,
   `tabid` int(11) NOT NULL,
@@ -4274,7 +4126,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_def_org_share` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
--- Dumping data for table `vtiger_def_org_share`
+-- Dumpning av Data i tabell `vtiger_def_org_share`
 --
 
 INSERT INTO `vtiger_def_org_share` (`ruleid`, `tabid`, `permission`, `editstatus`) VALUES
@@ -4305,16 +4157,15 @@ INSERT INTO `vtiger_def_org_share` (`ruleid`, `tabid`, `permission`, `editstatus
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_def_org_share_seq`
+-- Tabellstruktur `vtiger_def_org_share_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_def_org_share_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_def_org_share_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_def_org_share_seq`
+-- Dumpning av Data i tabell `vtiger_def_org_share_seq`
 --
 
 INSERT INTO `vtiger_def_org_share_seq` (`id`) VALUES
@@ -4323,10 +4174,9 @@ INSERT INTO `vtiger_def_org_share_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_downloadpurpose`
+-- Tabellstruktur `vtiger_downloadpurpose`
 --
 
-DROP TABLE IF EXISTS `vtiger_downloadpurpose`;
 CREATE TABLE IF NOT EXISTS `vtiger_downloadpurpose` (
   `downloadpurposeid` int(19) NOT NULL AUTO_INCREMENT,
   `purpose` varchar(200) NOT NULL,
@@ -4339,10 +4189,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_downloadpurpose` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_durationhrs`
+-- Tabellstruktur `vtiger_durationhrs`
 --
 
-DROP TABLE IF EXISTS `vtiger_durationhrs`;
 CREATE TABLE IF NOT EXISTS `vtiger_durationhrs` (
   `hrsid` int(19) NOT NULL AUTO_INCREMENT,
   `hrs` varchar(50) DEFAULT NULL,
@@ -4354,10 +4203,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_durationhrs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_durationmins`
+-- Tabellstruktur `vtiger_durationmins`
 --
 
-DROP TABLE IF EXISTS `vtiger_durationmins`;
 CREATE TABLE IF NOT EXISTS `vtiger_durationmins` (
   `minsid` int(19) NOT NULL AUTO_INCREMENT,
   `mins` varchar(50) DEFAULT NULL,
@@ -4369,10 +4217,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_durationmins` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_duration_minutes`
+-- Tabellstruktur `vtiger_duration_minutes`
 --
 
-DROP TABLE IF EXISTS `vtiger_duration_minutes`;
 CREATE TABLE IF NOT EXISTS `vtiger_duration_minutes` (
   `minutesid` int(19) NOT NULL AUTO_INCREMENT,
   `duration_minutes` varchar(200) NOT NULL,
@@ -4382,7 +4229,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_duration_minutes` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_duration_minutes`
+-- Dumpning av Data i tabell `vtiger_duration_minutes`
 --
 
 INSERT INTO `vtiger_duration_minutes` (`minutesid`, `duration_minutes`, `sortorderid`, `presence`) VALUES
@@ -4394,16 +4241,15 @@ INSERT INTO `vtiger_duration_minutes` (`minutesid`, `duration_minutes`, `sortord
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_duration_minutes_seq`
+-- Tabellstruktur `vtiger_duration_minutes_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_duration_minutes_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_duration_minutes_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_duration_minutes_seq`
+-- Dumpning av Data i tabell `vtiger_duration_minutes_seq`
 --
 
 INSERT INTO `vtiger_duration_minutes_seq` (`id`) VALUES
@@ -4412,10 +4258,9 @@ INSERT INTO `vtiger_duration_minutes_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_emaildetails`
+-- Tabellstruktur `vtiger_emaildetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_emaildetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_emaildetails` (
   `emailid` int(19) NOT NULL,
   `from_email` varchar(50) NOT NULL DEFAULT '',
@@ -4431,10 +4276,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_emaildetails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_emailtemplates`
+-- Tabellstruktur `vtiger_emailtemplates`
 --
 
-DROP TABLE IF EXISTS `vtiger_emailtemplates`;
 CREATE TABLE IF NOT EXISTS `vtiger_emailtemplates` (
   `foldername` varchar(100) DEFAULT NULL,
   `templatename` varchar(100) DEFAULT NULL,
@@ -4448,7 +4292,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_emailtemplates` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
--- Dumping data for table `vtiger_emailtemplates`
+-- Dumpning av Data i tabell `vtiger_emailtemplates`
 --
 
 INSERT INTO `vtiger_emailtemplates` (`foldername`, `templatename`, `subject`, `description`, `body`, `deleted`, `templateid`) VALUES
@@ -4468,16 +4312,15 @@ INSERT INTO `vtiger_emailtemplates` (`foldername`, `templatename`, `subject`, `d
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_emailtemplates_seq`
+-- Tabellstruktur `vtiger_emailtemplates_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_emailtemplates_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_emailtemplates_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_emailtemplates_seq`
+-- Dumpning av Data i tabell `vtiger_emailtemplates_seq`
 --
 
 INSERT INTO `vtiger_emailtemplates_seq` (`id`) VALUES
@@ -4486,10 +4329,9 @@ INSERT INTO `vtiger_emailtemplates_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_email_access`
+-- Tabellstruktur `vtiger_email_access`
 --
 
-DROP TABLE IF EXISTS `vtiger_email_access`;
 CREATE TABLE IF NOT EXISTS `vtiger_email_access` (
   `crmid` int(11) DEFAULT NULL,
   `mailid` int(11) DEFAULT NULL,
@@ -4500,10 +4342,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_email_access` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_email_track`
+-- Tabellstruktur `vtiger_email_track`
 --
 
-DROP TABLE IF EXISTS `vtiger_email_track`;
 CREATE TABLE IF NOT EXISTS `vtiger_email_track` (
   `crmid` int(11) DEFAULT NULL,
   `mailid` int(11) DEFAULT NULL,
@@ -4514,10 +4355,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_email_track` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_entityname`
+-- Tabellstruktur `vtiger_entityname`
 --
 
-DROP TABLE IF EXISTS `vtiger_entityname`;
 CREATE TABLE IF NOT EXISTS `vtiger_entityname` (
   `tabid` int(19) NOT NULL DEFAULT '0',
   `modulename` varchar(50) NOT NULL,
@@ -4530,7 +4370,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_entityname` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_entityname`
+-- Dumpning av Data i tabell `vtiger_entityname`
 --
 
 INSERT INTO `vtiger_entityname` (`tabid`, `modulename`, `tablename`, `fieldname`, `entityidfield`, `entityidcolumn`) VALUES
@@ -4565,10 +4405,9 @@ INSERT INTO `vtiger_entityname` (`tabid`, `modulename`, `tablename`, `fieldname`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_evaluationstatus`
+-- Tabellstruktur `vtiger_evaluationstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_evaluationstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_evaluationstatus` (
   `evalstatusid` int(19) NOT NULL AUTO_INCREMENT,
   `status` varchar(200) NOT NULL,
@@ -4581,10 +4420,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_evaluationstatus` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_eventhandlers`
+-- Tabellstruktur `vtiger_eventhandlers`
 --
 
-DROP TABLE IF EXISTS `vtiger_eventhandlers`;
 CREATE TABLE IF NOT EXISTS `vtiger_eventhandlers` (
   `eventhandler_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_name` varchar(100) NOT NULL,
@@ -4598,7 +4436,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_eventhandlers` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
--- Dumping data for table `vtiger_eventhandlers`
+-- Dumpning av Data i tabell `vtiger_eventhandlers`
 --
 
 INSERT INTO `vtiger_eventhandlers` (`eventhandler_id`, `event_name`, `handler_path`, `handler_class`, `cond`, `is_active`, `dependent_on`) VALUES
@@ -4608,26 +4446,25 @@ INSERT INTO `vtiger_eventhandlers` (`eventhandler_id`, `event_name`, `handler_pa
 (4, 'vtiger.entity.aftersave', 'modules/com_vtiger_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler', '', 1, '["VTEntityDelta"]'),
 (5, 'vtiger.entity.afterrestore', 'modules/com_vtiger_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler', '', 1, '[]'),
 (6, 'vtiger.entity.aftersave.final', 'modules/HelpDesk/HelpDeskHandler.php', 'HelpDeskHandler', '', 1, '[]'),
-(7, 'vtiger.entity.beforesave', 'modules/ServiceContracts/ServiceContractsHandler.php', 'ServiceContractsHandler', '', 1, '[]'),
-(8, 'vtiger.entity.aftersave', 'modules/ServiceContracts/ServiceContractsHandler.php', 'ServiceContractsHandler', '', 1, '[]'),
+(7, 'vtiger.entity.beforesave', 'modules/ServiceContracts/ServiceContractsHandler.php', 'ServiceContractsHandler', '', 0, '[]'),
+(8, 'vtiger.entity.aftersave', 'modules/ServiceContracts/ServiceContractsHandler.php', 'ServiceContractsHandler', '', 0, '[]'),
 (9, 'vtiger.entity.aftersave', 'modules/WSAPP/WorkFlowHandlers/WSAPPAssignToTracker.php', 'WSAPPAssignToTracker', '', 1, '["VTEntityDelta"]'),
-(10, 'vtiger.entity.aftersave.final', 'modules/ModTracker/ModTrackerHandler.php', 'ModTrackerHandler', '', 1, '[]'),
-(11, 'vtiger.entity.beforedelete', 'modules/ModTracker/ModTrackerHandler.php', 'ModTrackerHandler', '', 1, '[]'),
+(10, 'vtiger.entity.aftersave.final', 'modules/ModTracker/ModTrackerHandler.php', 'ModTrackerHandler', '', 0, '[]'),
+(11, 'vtiger.entity.beforedelete', 'modules/ModTracker/ModTrackerHandler.php', 'ModTrackerHandler', '', 0, '[]'),
 (12, 'vtiger.entity.beforesave.modifiable', 'modules/FieldFormulas/VTFieldFormulasEventHandler.inc', 'VTFieldFormulasEventHandler', '', 1, '[]');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_eventhandlers_seq`
+-- Tabellstruktur `vtiger_eventhandlers_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_eventhandlers_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_eventhandlers_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_eventhandlers_seq`
+-- Dumpning av Data i tabell `vtiger_eventhandlers_seq`
 --
 
 INSERT INTO `vtiger_eventhandlers_seq` (`id`) VALUES
@@ -4636,10 +4473,9 @@ INSERT INTO `vtiger_eventhandlers_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_eventhandler_module`
+-- Tabellstruktur `vtiger_eventhandler_module`
 --
 
-DROP TABLE IF EXISTS `vtiger_eventhandler_module`;
 CREATE TABLE IF NOT EXISTS `vtiger_eventhandler_module` (
   `eventhandler_module_id` int(11) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(100) DEFAULT NULL,
@@ -4648,7 +4484,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_eventhandler_module` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_eventhandler_module`
+-- Dumpning av Data i tabell `vtiger_eventhandler_module`
 --
 
 INSERT INTO `vtiger_eventhandler_module` (`eventhandler_module_id`, `module_name`, `handler_class`) VALUES
@@ -4659,16 +4495,15 @@ INSERT INTO `vtiger_eventhandler_module` (`eventhandler_module_id`, `module_name
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_eventhandler_module_seq`
+-- Tabellstruktur `vtiger_eventhandler_module_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_eventhandler_module_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_eventhandler_module_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_eventhandler_module_seq`
+-- Dumpning av Data i tabell `vtiger_eventhandler_module_seq`
 --
 
 INSERT INTO `vtiger_eventhandler_module_seq` (`id`) VALUES
@@ -4677,10 +4512,9 @@ INSERT INTO `vtiger_eventhandler_module_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_eventstatus`
+-- Tabellstruktur `vtiger_eventstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_eventstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_eventstatus` (
   `eventstatusid` int(19) NOT NULL AUTO_INCREMENT,
   `eventstatus` varchar(200) NOT NULL,
@@ -4690,7 +4524,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_eventstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_eventstatus`
+-- Dumpning av Data i tabell `vtiger_eventstatus`
 --
 
 INSERT INTO `vtiger_eventstatus` (`eventstatusid`, `eventstatus`, `presence`, `picklist_valueid`) VALUES
@@ -4701,16 +4535,15 @@ INSERT INTO `vtiger_eventstatus` (`eventstatusid`, `eventstatus`, `presence`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_eventstatus_seq`
+-- Tabellstruktur `vtiger_eventstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_eventstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_eventstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_eventstatus_seq`
+-- Dumpning av Data i tabell `vtiger_eventstatus_seq`
 --
 
 INSERT INTO `vtiger_eventstatus_seq` (`id`) VALUES
@@ -4719,10 +4552,9 @@ INSERT INTO `vtiger_eventstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_expectedresponse`
+-- Tabellstruktur `vtiger_expectedresponse`
 --
 
-DROP TABLE IF EXISTS `vtiger_expectedresponse`;
 CREATE TABLE IF NOT EXISTS `vtiger_expectedresponse` (
   `expectedresponseid` int(19) NOT NULL AUTO_INCREMENT,
   `expectedresponse` varchar(200) NOT NULL,
@@ -4733,7 +4565,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_expectedresponse` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_expectedresponse`
+-- Dumpning av Data i tabell `vtiger_expectedresponse`
 --
 
 INSERT INTO `vtiger_expectedresponse` (`expectedresponseid`, `expectedresponse`, `presence`, `picklist_valueid`) VALUES
@@ -4746,16 +4578,15 @@ INSERT INTO `vtiger_expectedresponse` (`expectedresponseid`, `expectedresponse`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_expectedresponse_seq`
+-- Tabellstruktur `vtiger_expectedresponse_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_expectedresponse_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_expectedresponse_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_expectedresponse_seq`
+-- Dumpning av Data i tabell `vtiger_expectedresponse_seq`
 --
 
 INSERT INTO `vtiger_expectedresponse_seq` (`id`) VALUES
@@ -4764,10 +4595,9 @@ INSERT INTO `vtiger_expectedresponse_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_faq`
+-- Tabellstruktur `vtiger_faq`
 --
 
-DROP TABLE IF EXISTS `vtiger_faq`;
 CREATE TABLE IF NOT EXISTS `vtiger_faq` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `faq_no` varchar(100) NOT NULL,
@@ -4783,10 +4613,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_faq` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_faqcategories`
+-- Tabellstruktur `vtiger_faqcategories`
 --
 
-DROP TABLE IF EXISTS `vtiger_faqcategories`;
 CREATE TABLE IF NOT EXISTS `vtiger_faqcategories` (
   `faqcategories_id` int(19) NOT NULL AUTO_INCREMENT,
   `faqcategories` varchar(200) DEFAULT NULL,
@@ -4796,7 +4625,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_faqcategories` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `vtiger_faqcategories`
+-- Dumpning av Data i tabell `vtiger_faqcategories`
 --
 
 INSERT INTO `vtiger_faqcategories` (`faqcategories_id`, `faqcategories`, `presence`, `picklist_valueid`) VALUES
@@ -4805,16 +4634,15 @@ INSERT INTO `vtiger_faqcategories` (`faqcategories_id`, `faqcategories`, `presen
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_faqcategories_seq`
+-- Tabellstruktur `vtiger_faqcategories_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_faqcategories_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_faqcategories_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_faqcategories_seq`
+-- Dumpning av Data i tabell `vtiger_faqcategories_seq`
 --
 
 INSERT INTO `vtiger_faqcategories_seq` (`id`) VALUES
@@ -4823,10 +4651,9 @@ INSERT INTO `vtiger_faqcategories_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_faqcomments`
+-- Tabellstruktur `vtiger_faqcomments`
 --
 
-DROP TABLE IF EXISTS `vtiger_faqcomments`;
 CREATE TABLE IF NOT EXISTS `vtiger_faqcomments` (
   `commentid` int(19) NOT NULL AUTO_INCREMENT,
   `faqid` int(19) DEFAULT NULL,
@@ -4839,10 +4666,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_faqcomments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_faqstatus`
+-- Tabellstruktur `vtiger_faqstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_faqstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_faqstatus` (
   `faqstatus_id` int(19) NOT NULL AUTO_INCREMENT,
   `faqstatus` varchar(200) DEFAULT NULL,
@@ -4852,7 +4678,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_faqstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_faqstatus`
+-- Dumpning av Data i tabell `vtiger_faqstatus`
 --
 
 INSERT INTO `vtiger_faqstatus` (`faqstatus_id`, `faqstatus`, `presence`, `picklist_valueid`) VALUES
@@ -4864,16 +4690,15 @@ INSERT INTO `vtiger_faqstatus` (`faqstatus_id`, `faqstatus`, `presence`, `pickli
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_faqstatus_seq`
+-- Tabellstruktur `vtiger_faqstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_faqstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_faqstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_faqstatus_seq`
+-- Dumpning av Data i tabell `vtiger_faqstatus_seq`
 --
 
 INSERT INTO `vtiger_faqstatus_seq` (`id`) VALUES
@@ -4882,10 +4707,9 @@ INSERT INTO `vtiger_faqstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_field`
+-- Tabellstruktur `vtiger_field`
 --
 
-DROP TABLE IF EXISTS `vtiger_field`;
 CREATE TABLE IF NOT EXISTS `vtiger_field` (
   `tabid` int(19) NOT NULL,
   `fieldid` int(19) NOT NULL AUTO_INCREMENT,
@@ -4916,7 +4740,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_field` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=661 ;
 
 --
--- Dumping data for table `vtiger_field`
+-- Dumpning av Data i tabell `vtiger_field`
 --
 
 INSERT INTO `vtiger_field` (`tabid`, `fieldid`, `columnname`, `tablename`, `generatedtype`, `uitype`, `fieldname`, `fieldlabel`, `readonly`, `presence`, `defaultvalue`, `maximumlength`, `sequence`, `block`, `displaytype`, `typeofdata`, `quickcreate`, `quickcreatesequence`, `info_type`, `masseditable`, `helpinfo`) VALUES
@@ -5575,10 +5399,9 @@ INSERT INTO `vtiger_field` (`tabid`, `fieldid`, `columnname`, `tablename`, `gene
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_fieldformulas`
+-- Tabellstruktur `vtiger_fieldformulas`
 --
 
-DROP TABLE IF EXISTS `vtiger_fieldformulas`;
 CREATE TABLE IF NOT EXISTS `vtiger_fieldformulas` (
   `expressionid` int(11) NOT NULL DEFAULT '0',
   `modulename` varchar(100) DEFAULT NULL,
@@ -5589,10 +5412,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_fieldformulas` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_fieldmodulerel`
+-- Tabellstruktur `vtiger_fieldmodulerel`
 --
 
-DROP TABLE IF EXISTS `vtiger_fieldmodulerel`;
 CREATE TABLE IF NOT EXISTS `vtiger_fieldmodulerel` (
   `fieldid` int(11) NOT NULL,
   `module` varchar(100) NOT NULL,
@@ -5602,7 +5424,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_fieldmodulerel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_fieldmodulerel`
+-- Dumpning av Data i tabell `vtiger_fieldmodulerel`
 --
 
 INSERT INTO `vtiger_fieldmodulerel` (`fieldid`, `module`, `relmodule`, `status`, `sequence`) VALUES
@@ -5628,16 +5450,15 @@ INSERT INTO `vtiger_fieldmodulerel` (`fieldid`, `module`, `relmodule`, `status`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_field_seq`
+-- Tabellstruktur `vtiger_field_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_field_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_field_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_field_seq`
+-- Dumpning av Data i tabell `vtiger_field_seq`
 --
 
 INSERT INTO `vtiger_field_seq` (`id`) VALUES
@@ -5646,10 +5467,9 @@ INSERT INTO `vtiger_field_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_files`
+-- Tabellstruktur `vtiger_files`
 --
 
-DROP TABLE IF EXISTS `vtiger_files`;
 CREATE TABLE IF NOT EXISTS `vtiger_files` (
   `id` varchar(36) NOT NULL,
   `name` varchar(36) DEFAULT NULL,
@@ -5664,10 +5484,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_files` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_freetagged_objects`
+-- Tabellstruktur `vtiger_freetagged_objects`
 --
 
-DROP TABLE IF EXISTS `vtiger_freetagged_objects`;
 CREATE TABLE IF NOT EXISTS `vtiger_freetagged_objects` (
   `tag_id` int(20) NOT NULL DEFAULT '0',
   `tagger_id` int(20) NOT NULL DEFAULT '0',
@@ -5681,10 +5500,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_freetagged_objects` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_freetags`
+-- Tabellstruktur `vtiger_freetags`
 --
 
-DROP TABLE IF EXISTS `vtiger_freetags`;
 CREATE TABLE IF NOT EXISTS `vtiger_freetags` (
   `id` int(19) NOT NULL,
   `tag` varchar(50) NOT NULL DEFAULT '',
@@ -5695,16 +5513,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_freetags` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_freetags_seq`
+-- Tabellstruktur `vtiger_freetags_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_freetags_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_freetags_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_freetags_seq`
+-- Dumpning av Data i tabell `vtiger_freetags_seq`
 --
 
 INSERT INTO `vtiger_freetags_seq` (`id`) VALUES
@@ -5713,10 +5530,9 @@ INSERT INTO `vtiger_freetags_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_glacct`
+-- Tabellstruktur `vtiger_glacct`
 --
 
-DROP TABLE IF EXISTS `vtiger_glacct`;
 CREATE TABLE IF NOT EXISTS `vtiger_glacct` (
   `glacctid` int(19) NOT NULL AUTO_INCREMENT,
   `glacct` varchar(200) NOT NULL,
@@ -5727,7 +5543,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_glacct` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
--- Dumping data for table `vtiger_glacct`
+-- Dumpning av Data i tabell `vtiger_glacct`
 --
 
 INSERT INTO `vtiger_glacct` (`glacctid`, `glacct`, `presence`, `picklist_valueid`) VALUES
@@ -5744,16 +5560,15 @@ INSERT INTO `vtiger_glacct` (`glacctid`, `glacct`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_glacct_seq`
+-- Tabellstruktur `vtiger_glacct_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_glacct_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_glacct_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_glacct_seq`
+-- Dumpning av Data i tabell `vtiger_glacct_seq`
 --
 
 INSERT INTO `vtiger_glacct_seq` (`id`) VALUES
@@ -5762,10 +5577,9 @@ INSERT INTO `vtiger_glacct_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_group2grouprel`
+-- Tabellstruktur `vtiger_group2grouprel`
 --
 
-DROP TABLE IF EXISTS `vtiger_group2grouprel`;
 CREATE TABLE IF NOT EXISTS `vtiger_group2grouprel` (
   `groupid` int(19) NOT NULL,
   `containsgroupid` int(19) NOT NULL,
@@ -5775,10 +5589,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_group2grouprel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_group2role`
+-- Tabellstruktur `vtiger_group2role`
 --
 
-DROP TABLE IF EXISTS `vtiger_group2role`;
 CREATE TABLE IF NOT EXISTS `vtiger_group2role` (
   `groupid` int(19) NOT NULL,
   `roleid` varchar(255) NOT NULL,
@@ -5787,7 +5600,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_group2role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_group2role`
+-- Dumpning av Data i tabell `vtiger_group2role`
 --
 
 INSERT INTO `vtiger_group2role` (`groupid`, `roleid`) VALUES
@@ -5798,10 +5611,9 @@ INSERT INTO `vtiger_group2role` (`groupid`, `roleid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_group2rs`
+-- Tabellstruktur `vtiger_group2rs`
 --
 
-DROP TABLE IF EXISTS `vtiger_group2rs`;
 CREATE TABLE IF NOT EXISTS `vtiger_group2rs` (
   `groupid` int(19) NOT NULL,
   `roleandsubid` varchar(255) NOT NULL,
@@ -5810,7 +5622,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_group2rs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_group2rs`
+-- Dumpning av Data i tabell `vtiger_group2rs`
 --
 
 INSERT INTO `vtiger_group2rs` (`groupid`, `roleandsubid`) VALUES
@@ -5821,10 +5633,9 @@ INSERT INTO `vtiger_group2rs` (`groupid`, `roleandsubid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_groups`
+-- Tabellstruktur `vtiger_groups`
 --
 
-DROP TABLE IF EXISTS `vtiger_groups`;
 CREATE TABLE IF NOT EXISTS `vtiger_groups` (
   `groupid` int(19) NOT NULL,
   `groupname` varchar(100) DEFAULT NULL,
@@ -5834,7 +5645,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_groups`
+-- Dumpning av Data i tabell `vtiger_groups`
 --
 
 INSERT INTO `vtiger_groups` (`groupid`, `groupname`, `description`) VALUES
@@ -5845,10 +5656,9 @@ INSERT INTO `vtiger_groups` (`groupid`, `groupname`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_headers`
+-- Tabellstruktur `vtiger_headers`
 --
 
-DROP TABLE IF EXISTS `vtiger_headers`;
 CREATE TABLE IF NOT EXISTS `vtiger_headers` (
   `fileid` int(3) NOT NULL AUTO_INCREMENT,
   `headernames` varchar(30) NOT NULL,
@@ -5858,10 +5668,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_headers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homedashbd`
+-- Tabellstruktur `vtiger_homedashbd`
 --
 
-DROP TABLE IF EXISTS `vtiger_homedashbd`;
 CREATE TABLE IF NOT EXISTS `vtiger_homedashbd` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
   `dashbdname` varchar(100) DEFAULT NULL,
@@ -5873,10 +5682,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_homedashbd` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homedefault`
+-- Tabellstruktur `vtiger_homedefault`
 --
 
-DROP TABLE IF EXISTS `vtiger_homedefault`;
 CREATE TABLE IF NOT EXISTS `vtiger_homedefault` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
   `hometype` varchar(30) NOT NULL,
@@ -5887,7 +5695,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_homedefault` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_homedefault`
+-- Dumpning av Data i tabell `vtiger_homedefault`
 --
 
 INSERT INTO `vtiger_homedefault` (`stuffid`, `hometype`, `maxentries`, `setype`) VALUES
@@ -5951,10 +5759,9 @@ INSERT INTO `vtiger_homedefault` (`stuffid`, `hometype`, `maxentries`, `setype`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homemodule`
+-- Tabellstruktur `vtiger_homemodule`
 --
 
-DROP TABLE IF EXISTS `vtiger_homemodule`;
 CREATE TABLE IF NOT EXISTS `vtiger_homemodule` (
   `stuffid` int(19) NOT NULL,
   `modulename` varchar(100) DEFAULT NULL,
@@ -5968,10 +5775,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_homemodule` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homemoduleflds`
+-- Tabellstruktur `vtiger_homemoduleflds`
 --
 
-DROP TABLE IF EXISTS `vtiger_homemoduleflds`;
 CREATE TABLE IF NOT EXISTS `vtiger_homemoduleflds` (
   `stuffid` int(19) DEFAULT NULL,
   `fieldname` varchar(100) DEFAULT NULL,
@@ -5981,10 +5787,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_homemoduleflds` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homereportchart`
+-- Tabellstruktur `vtiger_homereportchart`
 --
 
-DROP TABLE IF EXISTS `vtiger_homereportchart`;
 CREATE TABLE IF NOT EXISTS `vtiger_homereportchart` (
   `stuffid` int(11) NOT NULL,
   `reportid` int(19) DEFAULT NULL,
@@ -5995,10 +5800,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_homereportchart` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homerss`
+-- Tabellstruktur `vtiger_homerss`
 --
 
-DROP TABLE IF EXISTS `vtiger_homerss`;
 CREATE TABLE IF NOT EXISTS `vtiger_homerss` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
   `url` varchar(100) DEFAULT NULL,
@@ -6010,10 +5814,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_homerss` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homestuff`
+-- Tabellstruktur `vtiger_homestuff`
 --
 
-DROP TABLE IF EXISTS `vtiger_homestuff`;
 CREATE TABLE IF NOT EXISTS `vtiger_homestuff` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
   `stuffsequence` int(19) NOT NULL DEFAULT '0',
@@ -6027,7 +5830,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_homestuff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_homestuff`
+-- Dumpning av Data i tabell `vtiger_homestuff`
 --
 
 INSERT INTO `vtiger_homestuff` (`stuffid`, `stuffsequence`, `stufftype`, `userid`, `visible`, `stufftitle`) VALUES
@@ -6095,16 +5898,15 @@ INSERT INTO `vtiger_homestuff` (`stuffid`, `stuffsequence`, `stufftype`, `userid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_homestuff_seq`
+-- Tabellstruktur `vtiger_homestuff_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_homestuff_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_homestuff_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_homestuff_seq`
+-- Dumpning av Data i tabell `vtiger_homestuff_seq`
 --
 
 INSERT INTO `vtiger_homestuff_seq` (`id`) VALUES
@@ -6113,10 +5915,9 @@ INSERT INTO `vtiger_homestuff_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_home_layout`
+-- Tabellstruktur `vtiger_home_layout`
 --
 
-DROP TABLE IF EXISTS `vtiger_home_layout`;
 CREATE TABLE IF NOT EXISTS `vtiger_home_layout` (
   `userid` int(19) NOT NULL,
   `layout` int(19) NOT NULL DEFAULT '4',
@@ -6126,10 +5927,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_home_layout` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_import_locks`
+-- Tabellstruktur `vtiger_import_locks`
 --
 
-DROP TABLE IF EXISTS `vtiger_import_locks`;
 CREATE TABLE IF NOT EXISTS `vtiger_import_locks` (
   `vtiger_import_lock_id` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
@@ -6142,10 +5942,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_import_locks` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_import_maps`
+-- Tabellstruktur `vtiger_import_maps`
 --
 
-DROP TABLE IF EXISTS `vtiger_import_maps`;
 CREATE TABLE IF NOT EXISTS `vtiger_import_maps` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `name` varchar(36) NOT NULL,
@@ -6164,10 +5963,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_import_maps` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_import_queue`
+-- Tabellstruktur `vtiger_import_queue`
 --
 
-DROP TABLE IF EXISTS `vtiger_import_queue`;
 CREATE TABLE IF NOT EXISTS `vtiger_import_queue` (
   `importid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
@@ -6183,10 +5981,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_import_queue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_industry`
+-- Tabellstruktur `vtiger_industry`
 --
 
-DROP TABLE IF EXISTS `vtiger_industry`;
 CREATE TABLE IF NOT EXISTS `vtiger_industry` (
   `industryid` int(19) NOT NULL AUTO_INCREMENT,
   `industry` varchar(200) NOT NULL,
@@ -6197,7 +5994,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_industry` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
--- Dumping data for table `vtiger_industry`
+-- Dumpning av Data i tabell `vtiger_industry`
 --
 
 INSERT INTO `vtiger_industry` (`industryid`, `industry`, `presence`, `picklist_valueid`) VALUES
@@ -6237,16 +6034,15 @@ INSERT INTO `vtiger_industry` (`industryid`, `industry`, `presence`, `picklist_v
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_industry_seq`
+-- Tabellstruktur `vtiger_industry_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_industry_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_industry_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_industry_seq`
+-- Dumpning av Data i tabell `vtiger_industry_seq`
 --
 
 INSERT INTO `vtiger_industry_seq` (`id`) VALUES
@@ -6255,10 +6051,9 @@ INSERT INTO `vtiger_industry_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventorynotification`
+-- Tabellstruktur `vtiger_inventorynotification`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventorynotification`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventorynotification` (
   `notificationid` int(19) NOT NULL AUTO_INCREMENT,
   `notificationname` varchar(200) DEFAULT NULL,
@@ -6270,7 +6065,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_inventorynotification` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_inventorynotification`
+-- Dumpning av Data i tabell `vtiger_inventorynotification`
 --
 
 INSERT INTO `vtiger_inventorynotification` (`notificationid`, `notificationname`, `notificationsubject`, `notificationbody`, `label`, `status`) VALUES
@@ -6281,16 +6076,15 @@ INSERT INTO `vtiger_inventorynotification` (`notificationid`, `notificationname`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventorynotification_seq`
+-- Tabellstruktur `vtiger_inventorynotification_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventorynotification_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventorynotification_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_inventorynotification_seq`
+-- Dumpning av Data i tabell `vtiger_inventorynotification_seq`
 --
 
 INSERT INTO `vtiger_inventorynotification_seq` (`id`) VALUES
@@ -6299,10 +6093,9 @@ INSERT INTO `vtiger_inventorynotification_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventoryproductrel`
+-- Tabellstruktur `vtiger_inventoryproductrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventoryproductrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventoryproductrel` (
   `id` int(19) DEFAULT NULL,
   `productid` int(19) DEFAULT NULL,
@@ -6326,10 +6119,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_inventoryproductrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventoryshippingrel`
+-- Tabellstruktur `vtiger_inventoryshippingrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventoryshippingrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventoryshippingrel` (
   `id` int(19) DEFAULT NULL,
   `shtax1` decimal(7,3) DEFAULT NULL,
@@ -6341,10 +6133,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_inventoryshippingrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventorysubproductrel`
+-- Tabellstruktur `vtiger_inventorysubproductrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventorysubproductrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventorysubproductrel` (
   `id` int(19) NOT NULL,
   `sequence_no` int(10) NOT NULL,
@@ -6354,10 +6145,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_inventorysubproductrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventorytaxinfo`
+-- Tabellstruktur `vtiger_inventorytaxinfo`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventorytaxinfo`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventorytaxinfo` (
   `taxid` int(3) NOT NULL,
   `taxname` varchar(50) DEFAULT NULL,
@@ -6369,7 +6159,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_inventorytaxinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_inventorytaxinfo`
+-- Dumpning av Data i tabell `vtiger_inventorytaxinfo`
 --
 
 INSERT INTO `vtiger_inventorytaxinfo` (`taxid`, `taxname`, `taxlabel`, `percentage`, `deleted`) VALUES
@@ -6380,16 +6170,15 @@ INSERT INTO `vtiger_inventorytaxinfo` (`taxid`, `taxname`, `taxlabel`, `percenta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventorytaxinfo_seq`
+-- Tabellstruktur `vtiger_inventorytaxinfo_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventorytaxinfo_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventorytaxinfo_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_inventorytaxinfo_seq`
+-- Dumpning av Data i tabell `vtiger_inventorytaxinfo_seq`
 --
 
 INSERT INTO `vtiger_inventorytaxinfo_seq` (`id`) VALUES
@@ -6398,10 +6187,9 @@ INSERT INTO `vtiger_inventorytaxinfo_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventory_tandc`
+-- Tabellstruktur `vtiger_inventory_tandc`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventory_tandc`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventory_tandc` (
   `id` int(19) NOT NULL,
   `type` varchar(30) NOT NULL,
@@ -6410,7 +6198,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_inventory_tandc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_inventory_tandc`
+-- Dumpning av Data i tabell `vtiger_inventory_tandc`
 --
 
 INSERT INTO `vtiger_inventory_tandc` (`id`, `type`, `tandc`) VALUES
@@ -6419,16 +6207,15 @@ INSERT INTO `vtiger_inventory_tandc` (`id`, `type`, `tandc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_inventory_tandc_seq`
+-- Tabellstruktur `vtiger_inventory_tandc_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_inventory_tandc_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_inventory_tandc_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_inventory_tandc_seq`
+-- Dumpning av Data i tabell `vtiger_inventory_tandc_seq`
 --
 
 INSERT INTO `vtiger_inventory_tandc_seq` (`id`) VALUES
@@ -6437,10 +6224,9 @@ INSERT INTO `vtiger_inventory_tandc_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invitees`
+-- Tabellstruktur `vtiger_invitees`
 --
 
-DROP TABLE IF EXISTS `vtiger_invitees`;
 CREATE TABLE IF NOT EXISTS `vtiger_invitees` (
   `activityid` int(19) NOT NULL,
   `inviteeid` int(19) NOT NULL,
@@ -6450,10 +6236,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_invitees` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoice`
+-- Tabellstruktur `vtiger_invoice`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoice`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoice` (
   `invoiceid` int(19) NOT NULL DEFAULT '0',
   `subject` varchar(100) DEFAULT NULL,
@@ -6490,10 +6275,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoice` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoicebillads`
+-- Tabellstruktur `vtiger_invoicebillads`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoicebillads`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoicebillads` (
   `invoicebilladdressid` int(19) NOT NULL DEFAULT '0',
   `bill_city` varchar(30) DEFAULT NULL,
@@ -6508,10 +6292,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoicebillads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoicecf`
+-- Tabellstruktur `vtiger_invoicecf`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoicecf`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoicecf` (
   `invoiceid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`invoiceid`)
@@ -6520,10 +6303,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoicecf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoiceshipads`
+-- Tabellstruktur `vtiger_invoiceshipads`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoiceshipads`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoiceshipads` (
   `invoiceshipaddressid` int(19) NOT NULL DEFAULT '0',
   `ship_city` varchar(30) DEFAULT NULL,
@@ -6538,10 +6320,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoiceshipads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoicestatus`
+-- Tabellstruktur `vtiger_invoicestatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoicestatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoicestatus` (
   `invoicestatusid` int(19) NOT NULL AUTO_INCREMENT,
   `invoicestatus` varchar(200) NOT NULL,
@@ -6552,7 +6333,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoicestatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_invoicestatus`
+-- Dumpning av Data i tabell `vtiger_invoicestatus`
 --
 
 INSERT INTO `vtiger_invoicestatus` (`invoicestatusid`, `invoicestatus`, `presence`, `picklist_valueid`) VALUES
@@ -6566,10 +6347,9 @@ INSERT INTO `vtiger_invoicestatus` (`invoicestatusid`, `invoicestatus`, `presenc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoicestatushistory`
+-- Tabellstruktur `vtiger_invoicestatushistory`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoicestatushistory`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoicestatushistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
   `invoiceid` int(19) NOT NULL,
@@ -6584,16 +6364,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoicestatushistory` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoicestatus_seq`
+-- Tabellstruktur `vtiger_invoicestatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoicestatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoicestatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_invoicestatus_seq`
+-- Dumpning av Data i tabell `vtiger_invoicestatus_seq`
 --
 
 INSERT INTO `vtiger_invoicestatus_seq` (`id`) VALUES
@@ -6602,10 +6381,9 @@ INSERT INTO `vtiger_invoicestatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_invoice_recurring_info`
+-- Tabellstruktur `vtiger_invoice_recurring_info`
 --
 
-DROP TABLE IF EXISTS `vtiger_invoice_recurring_info`;
 CREATE TABLE IF NOT EXISTS `vtiger_invoice_recurring_info` (
   `salesorderid` int(11) DEFAULT NULL,
   `recurring_frequency` varchar(200) DEFAULT NULL,
@@ -6619,10 +6397,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoice_recurring_info` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_language`
+-- Tabellstruktur `vtiger_language`
 --
 
-DROP TABLE IF EXISTS `vtiger_language`;
 CREATE TABLE IF NOT EXISTS `vtiger_language` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
@@ -6636,7 +6413,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_language` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
--- Dumping data for table `vtiger_language`
+-- Dumpning av Data i tabell `vtiger_language`
 --
 
 INSERT INTO `vtiger_language` (`id`, `name`, `prefix`, `label`, `lastupdated`, `sequence`, `isdefault`, `active`) VALUES
@@ -6653,16 +6430,15 @@ INSERT INTO `vtiger_language` (`id`, `name`, `prefix`, `label`, `lastupdated`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_language_seq`
+-- Tabellstruktur `vtiger_language_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_language_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_language_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_language_seq`
+-- Dumpning av Data i tabell `vtiger_language_seq`
 --
 
 INSERT INTO `vtiger_language_seq` (`id`) VALUES
@@ -6671,10 +6447,9 @@ INSERT INTO `vtiger_language_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_lar`
+-- Tabellstruktur `vtiger_lar`
 --
 
-DROP TABLE IF EXISTS `vtiger_lar`;
 CREATE TABLE IF NOT EXISTS `vtiger_lar` (
   `larid` int(19) NOT NULL DEFAULT '0',
   `name` varchar(50) NOT NULL,
@@ -6688,10 +6463,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_lar` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadacctrel`
+-- Tabellstruktur `vtiger_leadacctrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadacctrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadacctrel` (
   `leadid` int(19) NOT NULL DEFAULT '0',
   `accountid` int(19) NOT NULL DEFAULT '0',
@@ -6702,10 +6476,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadacctrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadaddress`
+-- Tabellstruktur `vtiger_leadaddress`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadaddress`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadaddress` (
   `leadaddressid` int(19) NOT NULL DEFAULT '0',
   `city` varchar(30) DEFAULT NULL,
@@ -6724,10 +6497,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadaddress` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadcontrel`
+-- Tabellstruktur `vtiger_leadcontrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadcontrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadcontrel` (
   `leadid` int(19) NOT NULL DEFAULT '0',
   `contactid` int(19) NOT NULL DEFAULT '0',
@@ -6738,10 +6510,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadcontrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leaddetails`
+-- Tabellstruktur `vtiger_leaddetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_leaddetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_leaddetails` (
   `leadid` int(19) NOT NULL,
   `lead_no` varchar(100) NOT NULL,
@@ -6784,10 +6555,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leaddetails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadpotrel`
+-- Tabellstruktur `vtiger_leadpotrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadpotrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadpotrel` (
   `leadid` int(19) NOT NULL DEFAULT '0',
   `potentialid` int(19) NOT NULL DEFAULT '0',
@@ -6798,10 +6568,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadpotrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadscf`
+-- Tabellstruktur `vtiger_leadscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadscf` (
   `leadid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`leadid`)
@@ -6810,10 +6579,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadsource`
+-- Tabellstruktur `vtiger_leadsource`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadsource`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadsource` (
   `leadsourceid` int(19) NOT NULL AUTO_INCREMENT,
   `leadsource` varchar(200) NOT NULL,
@@ -6823,7 +6591,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadsource` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
--- Dumping data for table `vtiger_leadsource`
+-- Dumpning av Data i tabell `vtiger_leadsource`
 --
 
 INSERT INTO `vtiger_leadsource` (`leadsourceid`, `leadsource`, `presence`, `picklist_valueid`) VALUES
@@ -6844,16 +6612,15 @@ INSERT INTO `vtiger_leadsource` (`leadsourceid`, `leadsource`, `presence`, `pick
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadsource_seq`
+-- Tabellstruktur `vtiger_leadsource_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadsource_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadsource_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_leadsource_seq`
+-- Dumpning av Data i tabell `vtiger_leadsource_seq`
 --
 
 INSERT INTO `vtiger_leadsource_seq` (`id`) VALUES
@@ -6862,10 +6629,9 @@ INSERT INTO `vtiger_leadsource_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadstage`
+-- Tabellstruktur `vtiger_leadstage`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadstage`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadstage` (
   `leadstageid` int(19) NOT NULL AUTO_INCREMENT,
   `stage` varchar(200) NOT NULL,
@@ -6878,10 +6644,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadstage` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadstatus`
+-- Tabellstruktur `vtiger_leadstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadstatus` (
   `leadstatusid` int(19) NOT NULL AUTO_INCREMENT,
   `leadstatus` varchar(200) NOT NULL,
@@ -6891,7 +6656,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
--- Dumping data for table `vtiger_leadstatus`
+-- Dumpning av Data i tabell `vtiger_leadstatus`
 --
 
 INSERT INTO `vtiger_leadstatus` (`leadstatusid`, `leadstatus`, `presence`, `picklist_valueid`) VALUES
@@ -6911,16 +6676,15 @@ INSERT INTO `vtiger_leadstatus` (`leadstatusid`, `leadstatus`, `presence`, `pick
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadstatus_seq`
+-- Tabellstruktur `vtiger_leadstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_leadstatus_seq`
+-- Dumpning av Data i tabell `vtiger_leadstatus_seq`
 --
 
 INSERT INTO `vtiger_leadstatus_seq` (`id`) VALUES
@@ -6929,10 +6693,9 @@ INSERT INTO `vtiger_leadstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_leadsubdetails`
+-- Tabellstruktur `vtiger_leadsubdetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_leadsubdetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_leadsubdetails` (
   `leadsubscriptionid` int(19) NOT NULL DEFAULT '0',
   `website` varchar(255) DEFAULT NULL,
@@ -6945,10 +6708,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_leadsubdetails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_lead_view`
+-- Tabellstruktur `vtiger_lead_view`
 --
 
-DROP TABLE IF EXISTS `vtiger_lead_view`;
 CREATE TABLE IF NOT EXISTS `vtiger_lead_view` (
   `lead_viewid` int(19) NOT NULL AUTO_INCREMENT,
   `lead_view` varchar(200) NOT NULL,
@@ -6958,7 +6720,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_lead_view` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_lead_view`
+-- Dumpning av Data i tabell `vtiger_lead_view`
 --
 
 INSERT INTO `vtiger_lead_view` (`lead_viewid`, `lead_view`, `sortorderid`, `presence`) VALUES
@@ -6969,16 +6731,15 @@ INSERT INTO `vtiger_lead_view` (`lead_viewid`, `lead_view`, `sortorderid`, `pres
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_lead_view_seq`
+-- Tabellstruktur `vtiger_lead_view_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_lead_view_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_lead_view_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_lead_view_seq`
+-- Dumpning av Data i tabell `vtiger_lead_view_seq`
 --
 
 INSERT INTO `vtiger_lead_view_seq` (`id`) VALUES
@@ -6987,10 +6748,9 @@ INSERT INTO `vtiger_lead_view_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_licencekeystatus`
+-- Tabellstruktur `vtiger_licencekeystatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_licencekeystatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_licencekeystatus` (
   `licencekeystatusid` int(19) NOT NULL AUTO_INCREMENT,
   `licencekeystatus` varchar(200) NOT NULL,
@@ -7002,10 +6762,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_licencekeystatus` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_links`
+-- Tabellstruktur `vtiger_links`
 --
 
-DROP TABLE IF EXISTS `vtiger_links`;
 CREATE TABLE IF NOT EXISTS `vtiger_links` (
   `linkid` int(11) NOT NULL,
   `tabid` int(11) DEFAULT NULL,
@@ -7022,7 +6781,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_links` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_links`
+-- Dumpning av Data i tabell `vtiger_links`
 --
 
 INSERT INTO `vtiger_links` (`linkid`, `tabid`, `linktype`, `linklabel`, `linkurl`, `linkicon`, `sequence`, `handler_path`, `handler_class`, `handler`) VALUES
@@ -7042,40 +6801,31 @@ INSERT INTO `vtiger_links` (`linkid`, `tabid`, `linktype`, `linklabel`, `linkurl
 (22, 6, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL),
 (23, 2, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL),
 (24, 50, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL),
-(25, 49, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL),
-(26, 43, 'HEADERSCRIPT', 'SMSNotifierCommonJS', 'modules/SMSNotifier/SMSNotifierCommon.js', '', 0, NULL, NULL, NULL),
-(27, 7, 'LISTVIEWBASIC', 'Send SMS', 'SMSNotifierCommon.displaySelectWizard(this, ''$MODULE$'');', '', 0, NULL, NULL, NULL),
-(28, 7, 'DETAILVIEWBASIC', 'Send SMS', 'javascript:SMSNotifierCommon.displaySelectWizard_DetailView(''$MODULE$'', ''$RECORD$'');', '', 0, NULL, NULL, NULL),
-(29, 4, 'LISTVIEWBASIC', 'Send SMS', 'SMSNotifierCommon.displaySelectWizard(this, ''$MODULE$'');', '', 0, NULL, NULL, NULL),
-(30, 4, 'DETAILVIEWBASIC', 'Send SMS', 'javascript:SMSNotifierCommon.displaySelectWizard_DetailView(''$MODULE$'', ''$RECORD$'');', '', 0, NULL, NULL, NULL),
-(31, 6, 'LISTVIEWBASIC', 'Send SMS', 'SMSNotifierCommon.displaySelectWizard(this, ''$MODULE$'');', '', 0, NULL, NULL, NULL),
-(32, 6, 'DETAILVIEWBASIC', 'Send SMS', 'javascript:SMSNotifierCommon.displaySelectWizard_DetailView(''$MODULE$'', ''$RECORD$'');', '', 0, NULL, NULL, NULL);
+(25, 49, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_links_seq`
+-- Tabellstruktur `vtiger_links_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_links_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_links_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_links_seq`
+-- Dumpning av Data i tabell `vtiger_links_seq`
 --
 
 INSERT INTO `vtiger_links_seq` (`id`) VALUES
-(32);
+(25);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_loginhistory`
+-- Tabellstruktur `vtiger_loginhistory`
 --
 
-DROP TABLE IF EXISTS `vtiger_loginhistory`;
 CREATE TABLE IF NOT EXISTS `vtiger_loginhistory` (
   `login_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(25) NOT NULL,
@@ -7084,10 +6834,10 @@ CREATE TABLE IF NOT EXISTS `vtiger_loginhistory` (
   `login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`login_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=62 ;
 
 --
--- Dumping data for table `vtiger_loginhistory`
+-- Dumpning av Data i tabell `vtiger_loginhistory`
 --
 
 INSERT INTO `vtiger_loginhistory` (`login_id`, `user_name`, `user_ip`, `logout_time`, `login_time`, `status`) VALUES
@@ -7151,16 +6901,14 @@ INSERT INTO `vtiger_loginhistory` (`login_id`, `user_name`, `user_ip`, `logout_t
 (58, 'admin', '10.234.55.163', '2012-10-02 09:11:55', '2012-10-02 09:02:19', 'Signed off'),
 (59, 'jonas', '10.234.55.163', '2012-10-02 11:23:23', '2012-10-02 09:26:37', 'Signed off'),
 (60, 'consys', '10.234.55.163', '2012-10-02 11:25:13', '2012-10-02 11:24:17', 'Signed off'),
-(61, 'consys', '10.234.55.163', '0000-00-00 00:00:00', '2012-10-02 12:38:42', 'Signed in'),
-(62, 'admin', '10.56.55.26', '0000-00-00 00:00:00', '2013-06-03 07:01:12', 'Signed in');
+(61, 'consys', '10.234.55.163', '0000-00-00 00:00:00', '2012-10-02 12:38:42', 'Signed in');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailmanager_mailattachments`
+-- Tabellstruktur `vtiger_mailmanager_mailattachments`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailmanager_mailattachments`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailmanager_mailattachments` (
   `userid` int(11) DEFAULT NULL,
   `muid` int(11) DEFAULT NULL,
@@ -7174,10 +6922,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailmanager_mailattachments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailmanager_mailrecord`
+-- Tabellstruktur `vtiger_mailmanager_mailrecord`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailmanager_mailrecord`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailmanager_mailrecord` (
   `userid` int(11) DEFAULT NULL,
   `mfrom` varchar(255) DEFAULT NULL,
@@ -7202,10 +6949,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailmanager_mailrecord` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailmanager_mailrel`
+-- Tabellstruktur `vtiger_mailmanager_mailrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailmanager_mailrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailmanager_mailrel` (
   `mailuid` varchar(999) DEFAULT NULL,
   `crmid` int(11) DEFAULT NULL,
@@ -7215,10 +6961,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailmanager_mailrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailscanner`
+-- Tabellstruktur `vtiger_mailscanner`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailscanner`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailscanner` (
   `scannerid` int(11) NOT NULL AUTO_INCREMENT,
   `scannername` varchar(30) DEFAULT NULL,
@@ -7238,10 +6983,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailscanner` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailscanner_actions`
+-- Tabellstruktur `vtiger_mailscanner_actions`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailscanner_actions`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_actions` (
   `actionid` int(11) NOT NULL AUTO_INCREMENT,
   `scannerid` int(11) DEFAULT NULL,
@@ -7255,10 +6999,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_actions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailscanner_folders`
+-- Tabellstruktur `vtiger_mailscanner_folders`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailscanner_folders`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_folders` (
   `folderid` int(11) NOT NULL AUTO_INCREMENT,
   `scannerid` int(11) DEFAULT NULL,
@@ -7272,10 +7015,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_folders` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailscanner_ids`
+-- Tabellstruktur `vtiger_mailscanner_ids`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailscanner_ids`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_ids` (
   `scannerid` int(11) DEFAULT NULL,
   `messageid` text,
@@ -7285,10 +7027,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_ids` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailscanner_ruleactions`
+-- Tabellstruktur `vtiger_mailscanner_ruleactions`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailscanner_ruleactions`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_ruleactions` (
   `ruleid` int(11) DEFAULT NULL,
   `actionid` int(11) DEFAULT NULL
@@ -7297,10 +7038,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_ruleactions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mailscanner_rules`
+-- Tabellstruktur `vtiger_mailscanner_rules`
 --
 
-DROP TABLE IF EXISTS `vtiger_mailscanner_rules`;
 CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_rules` (
   `ruleid` int(11) NOT NULL AUTO_INCREMENT,
   `scannerid` int(11) DEFAULT NULL,
@@ -7318,10 +7058,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mailscanner_rules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mail_accounts`
+-- Tabellstruktur `vtiger_mail_accounts`
 --
 
-DROP TABLE IF EXISTS `vtiger_mail_accounts`;
 CREATE TABLE IF NOT EXISTS `vtiger_mail_accounts` (
   `account_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -7345,10 +7084,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_mail_accounts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_manufacturer`
+-- Tabellstruktur `vtiger_manufacturer`
 --
 
-DROP TABLE IF EXISTS `vtiger_manufacturer`;
 CREATE TABLE IF NOT EXISTS `vtiger_manufacturer` (
   `manufacturerid` int(19) NOT NULL AUTO_INCREMENT,
   `manufacturer` varchar(200) NOT NULL,
@@ -7359,7 +7097,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_manufacturer` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_manufacturer`
+-- Dumpning av Data i tabell `vtiger_manufacturer`
 --
 
 INSERT INTO `vtiger_manufacturer` (`manufacturerid`, `manufacturer`, `presence`, `picklist_valueid`) VALUES
@@ -7371,16 +7109,15 @@ INSERT INTO `vtiger_manufacturer` (`manufacturerid`, `manufacturer`, `presence`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_manufacturer_seq`
+-- Tabellstruktur `vtiger_manufacturer_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_manufacturer_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_manufacturer_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_manufacturer_seq`
+-- Dumpning av Data i tabell `vtiger_manufacturer_seq`
 --
 
 INSERT INTO `vtiger_manufacturer_seq` (`id`) VALUES
@@ -7389,10 +7126,9 @@ INSERT INTO `vtiger_manufacturer_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_mobile_alerts`
+-- Tabellstruktur `vtiger_mobile_alerts`
 --
 
-DROP TABLE IF EXISTS `vtiger_mobile_alerts`;
 CREATE TABLE IF NOT EXISTS `vtiger_mobile_alerts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `handler_path` varchar(500) DEFAULT NULL,
@@ -7403,7 +7139,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_mobile_alerts` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
--- Dumping data for table `vtiger_mobile_alerts`
+-- Dumpning av Data i tabell `vtiger_mobile_alerts`
 --
 
 INSERT INTO `vtiger_mobile_alerts` (`id`, `handler_path`, `handler_class`, `sequence`, `deleted`) VALUES
@@ -7418,10 +7154,9 @@ INSERT INTO `vtiger_mobile_alerts` (`id`, `handler_path`, `handler_class`, `sequ
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_modcomments`
+-- Tabellstruktur `vtiger_modcomments`
 --
 
-DROP TABLE IF EXISTS `vtiger_modcomments`;
 CREATE TABLE IF NOT EXISTS `vtiger_modcomments` (
   `modcommentsid` int(11) DEFAULT NULL,
   `commentcontent` text,
@@ -7432,10 +7167,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_modcomments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_modcommentscf`
+-- Tabellstruktur `vtiger_modcommentscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_modcommentscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_modcommentscf` (
   `modcommentsid` int(11) NOT NULL,
   PRIMARY KEY (`modcommentsid`)
@@ -7444,10 +7178,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_modcommentscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_modentity_num`
+-- Tabellstruktur `vtiger_modentity_num`
 --
 
-DROP TABLE IF EXISTS `vtiger_modentity_num`;
 CREATE TABLE IF NOT EXISTS `vtiger_modentity_num` (
   `num_id` int(19) NOT NULL,
   `semodule` varchar(50) NOT NULL,
@@ -7461,7 +7194,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_modentity_num` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_modentity_num`
+-- Dumpning av Data i tabell `vtiger_modentity_num`
 --
 
 INSERT INTO `vtiger_modentity_num` (`num_id`, `semodule`, `prefix`, `start_id`, `cur_id`, `active`) VALUES
@@ -7487,16 +7220,15 @@ INSERT INTO `vtiger_modentity_num` (`num_id`, `semodule`, `prefix`, `start_id`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_modentity_num_seq`
+-- Tabellstruktur `vtiger_modentity_num_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_modentity_num_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_modentity_num_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_modentity_num_seq`
+-- Dumpning av Data i tabell `vtiger_modentity_num_seq`
 --
 
 INSERT INTO `vtiger_modentity_num_seq` (`id`) VALUES
@@ -7505,10 +7237,9 @@ INSERT INTO `vtiger_modentity_num_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_modtracker_basic`
+-- Tabellstruktur `vtiger_modtracker_basic`
 --
 
-DROP TABLE IF EXISTS `vtiger_modtracker_basic`;
 CREATE TABLE IF NOT EXISTS `vtiger_modtracker_basic` (
   `id` int(20) NOT NULL,
   `crmid` int(20) DEFAULT NULL,
@@ -7522,10 +7253,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_modtracker_basic` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_modtracker_detail`
+-- Tabellstruktur `vtiger_modtracker_detail`
 --
 
-DROP TABLE IF EXISTS `vtiger_modtracker_detail`;
 CREATE TABLE IF NOT EXISTS `vtiger_modtracker_detail` (
   `id` int(11) DEFAULT NULL,
   `fieldname` varchar(100) DEFAULT NULL,
@@ -7536,10 +7266,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_modtracker_detail` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_modtracker_tabs`
+-- Tabellstruktur `vtiger_modtracker_tabs`
 --
 
-DROP TABLE IF EXISTS `vtiger_modtracker_tabs`;
 CREATE TABLE IF NOT EXISTS `vtiger_modtracker_tabs` (
   `tabid` int(11) NOT NULL,
   `visible` int(11) DEFAULT '0',
@@ -7549,10 +7278,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_modtracker_tabs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_notebook_contents`
+-- Tabellstruktur `vtiger_notebook_contents`
 --
 
-DROP TABLE IF EXISTS `vtiger_notebook_contents`;
 CREATE TABLE IF NOT EXISTS `vtiger_notebook_contents` (
   `userid` int(19) NOT NULL,
   `notebookid` int(19) NOT NULL,
@@ -7562,10 +7290,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_notebook_contents` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_notes`
+-- Tabellstruktur `vtiger_notes`
 --
 
-DROP TABLE IF EXISTS `vtiger_notes`;
 CREATE TABLE IF NOT EXISTS `vtiger_notes` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   `note_no` varchar(100) NOT NULL,
@@ -7587,10 +7314,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_notes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_notescf`
+-- Tabellstruktur `vtiger_notescf`
 --
 
-DROP TABLE IF EXISTS `vtiger_notescf`;
 CREATE TABLE IF NOT EXISTS `vtiger_notescf` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`notesid`)
@@ -7599,10 +7325,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_notescf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_notificationscheduler`
+-- Tabellstruktur `vtiger_notificationscheduler`
 --
 
-DROP TABLE IF EXISTS `vtiger_notificationscheduler`;
 CREATE TABLE IF NOT EXISTS `vtiger_notificationscheduler` (
   `schedulednotificationid` int(19) NOT NULL AUTO_INCREMENT,
   `schedulednotificationname` varchar(200) DEFAULT NULL,
@@ -7616,7 +7341,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_notificationscheduler` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `vtiger_notificationscheduler`
+-- Dumpning av Data i tabell `vtiger_notificationscheduler`
 --
 
 INSERT INTO `vtiger_notificationscheduler` (`schedulednotificationid`, `schedulednotificationname`, `active`, `notificationsubject`, `notificationbody`, `label`, `type`) VALUES
@@ -7632,16 +7357,15 @@ INSERT INTO `vtiger_notificationscheduler` (`schedulednotificationid`, `schedule
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_notificationscheduler_seq`
+-- Tabellstruktur `vtiger_notificationscheduler_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_notificationscheduler_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_notificationscheduler_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_notificationscheduler_seq`
+-- Dumpning av Data i tabell `vtiger_notificationscheduler_seq`
 --
 
 INSERT INTO `vtiger_notificationscheduler_seq` (`id`) VALUES
@@ -7650,10 +7374,9 @@ INSERT INTO `vtiger_notificationscheduler_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_opportunitystage`
+-- Tabellstruktur `vtiger_opportunitystage`
 --
 
-DROP TABLE IF EXISTS `vtiger_opportunitystage`;
 CREATE TABLE IF NOT EXISTS `vtiger_opportunitystage` (
   `potstageid` int(19) NOT NULL AUTO_INCREMENT,
   `stage` varchar(200) NOT NULL,
@@ -7667,10 +7390,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_opportunitystage` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_opportunity_type`
+-- Tabellstruktur `vtiger_opportunity_type`
 --
 
-DROP TABLE IF EXISTS `vtiger_opportunity_type`;
 CREATE TABLE IF NOT EXISTS `vtiger_opportunity_type` (
   `opptypeid` int(19) NOT NULL AUTO_INCREMENT,
   `opportunity_type` varchar(200) NOT NULL,
@@ -7681,7 +7403,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_opportunity_type` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_opportunity_type`
+-- Dumpning av Data i tabell `vtiger_opportunity_type`
 --
 
 INSERT INTO `vtiger_opportunity_type` (`opptypeid`, `opportunity_type`, `presence`, `picklist_valueid`) VALUES
@@ -7692,16 +7414,15 @@ INSERT INTO `vtiger_opportunity_type` (`opptypeid`, `opportunity_type`, `presenc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_opportunity_type_seq`
+-- Tabellstruktur `vtiger_opportunity_type_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_opportunity_type_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_opportunity_type_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_opportunity_type_seq`
+-- Dumpning av Data i tabell `vtiger_opportunity_type_seq`
 --
 
 INSERT INTO `vtiger_opportunity_type_seq` (`id`) VALUES
@@ -7710,10 +7431,9 @@ INSERT INTO `vtiger_opportunity_type_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_organizationdetails`
+-- Tabellstruktur `vtiger_organizationdetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_organizationdetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_organizationdetails` (
   `organization_id` int(11) NOT NULL,
   `organizationname` varchar(60) DEFAULT NULL,
@@ -7731,7 +7451,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_organizationdetails` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_organizationdetails`
+-- Dumpning av Data i tabell `vtiger_organizationdetails`
 --
 
 INSERT INTO `vtiger_organizationdetails` (`organization_id`, `organizationname`, `address`, `city`, `state`, `country`, `code`, `phone`, `fax`, `website`, `logoname`, `logo`) VALUES
@@ -7740,16 +7460,15 @@ INSERT INTO `vtiger_organizationdetails` (`organization_id`, `organizationname`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_organizationdetails_seq`
+-- Tabellstruktur `vtiger_organizationdetails_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_organizationdetails_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_organizationdetails_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_organizationdetails_seq`
+-- Dumpning av Data i tabell `vtiger_organizationdetails_seq`
 --
 
 INSERT INTO `vtiger_organizationdetails_seq` (`id`) VALUES
@@ -7758,10 +7477,9 @@ INSERT INTO `vtiger_organizationdetails_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_org_share_action2tab`
+-- Tabellstruktur `vtiger_org_share_action2tab`
 --
 
-DROP TABLE IF EXISTS `vtiger_org_share_action2tab`;
 CREATE TABLE IF NOT EXISTS `vtiger_org_share_action2tab` (
   `share_action_id` int(19) NOT NULL,
   `tabid` int(19) NOT NULL,
@@ -7770,7 +7488,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_org_share_action2tab` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_org_share_action2tab`
+-- Dumpning av Data i tabell `vtiger_org_share_action2tab`
 --
 
 INSERT INTO `vtiger_org_share_action2tab` (`share_action_id`, `tabid`) VALUES
@@ -7874,10 +7592,9 @@ INSERT INTO `vtiger_org_share_action2tab` (`share_action_id`, `tabid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_org_share_action_mapping`
+-- Tabellstruktur `vtiger_org_share_action_mapping`
 --
 
-DROP TABLE IF EXISTS `vtiger_org_share_action_mapping`;
 CREATE TABLE IF NOT EXISTS `vtiger_org_share_action_mapping` (
   `share_action_id` int(19) NOT NULL,
   `share_action_name` varchar(200) DEFAULT NULL,
@@ -7885,7 +7602,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_org_share_action_mapping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_org_share_action_mapping`
+-- Dumpning av Data i tabell `vtiger_org_share_action_mapping`
 --
 
 INSERT INTO `vtiger_org_share_action_mapping` (`share_action_id`, `share_action_name`) VALUES
@@ -7901,10 +7618,9 @@ INSERT INTO `vtiger_org_share_action_mapping` (`share_action_id`, `share_action_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ownernotify`
+-- Tabellstruktur `vtiger_ownernotify`
 --
 
-DROP TABLE IF EXISTS `vtiger_ownernotify`;
 CREATE TABLE IF NOT EXISTS `vtiger_ownernotify` (
   `crmid` int(19) DEFAULT NULL,
   `smownerid` int(19) DEFAULT NULL,
@@ -7915,10 +7631,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_ownernotify` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_parenttab`
+-- Tabellstruktur `vtiger_parenttab`
 --
 
-DROP TABLE IF EXISTS `vtiger_parenttab`;
 CREATE TABLE IF NOT EXISTS `vtiger_parenttab` (
   `parenttabid` int(19) NOT NULL,
   `parenttab_label` varchar(100) NOT NULL,
@@ -7929,7 +7644,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_parenttab` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_parenttab`
+-- Dumpning av Data i tabell `vtiger_parenttab`
 --
 
 INSERT INTO `vtiger_parenttab` (`parenttabid`, `parenttab_label`, `sequence`, `visible`) VALUES
@@ -7945,10 +7660,9 @@ INSERT INTO `vtiger_parenttab` (`parenttabid`, `parenttab_label`, `sequence`, `v
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_parenttabrel`
+-- Tabellstruktur `vtiger_parenttabrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_parenttabrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_parenttabrel` (
   `parenttabid` int(19) NOT NULL,
   `tabid` int(19) NOT NULL,
@@ -7958,7 +7672,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_parenttabrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_parenttabrel`
+-- Dumpning av Data i tabell `vtiger_parenttabrel`
 --
 
 INSERT INTO `vtiger_parenttabrel` (`parenttabid`, `tabid`, `sequence`) VALUES
@@ -8017,10 +7731,9 @@ INSERT INTO `vtiger_parenttabrel` (`parenttabid`, `tabid`, `sequence`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_payment_duration`
+-- Tabellstruktur `vtiger_payment_duration`
 --
 
-DROP TABLE IF EXISTS `vtiger_payment_duration`;
 CREATE TABLE IF NOT EXISTS `vtiger_payment_duration` (
   `payment_duration_id` int(11) DEFAULT NULL,
   `payment_duration` varchar(200) DEFAULT NULL,
@@ -8029,7 +7742,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_payment_duration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_payment_duration`
+-- Dumpning av Data i tabell `vtiger_payment_duration`
 --
 
 INSERT INTO `vtiger_payment_duration` (`payment_duration_id`, `payment_duration`, `sortorderid`, `presence`) VALUES
@@ -8040,16 +7753,15 @@ INSERT INTO `vtiger_payment_duration` (`payment_duration_id`, `payment_duration`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_payment_duration_seq`
+-- Tabellstruktur `vtiger_payment_duration_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_payment_duration_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_payment_duration_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_payment_duration_seq`
+-- Dumpning av Data i tabell `vtiger_payment_duration_seq`
 --
 
 INSERT INTO `vtiger_payment_duration_seq` (`id`) VALUES
@@ -8058,10 +7770,9 @@ INSERT INTO `vtiger_payment_duration_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_pbxmanager`
+-- Tabellstruktur `vtiger_pbxmanager`
 --
 
-DROP TABLE IF EXISTS `vtiger_pbxmanager`;
 CREATE TABLE IF NOT EXISTS `vtiger_pbxmanager` (
   `pbxmanagerid` int(11) DEFAULT NULL,
   `callfrom` varchar(255) DEFAULT NULL,
@@ -8073,10 +7784,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_pbxmanager` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_picklist`
+-- Tabellstruktur `vtiger_picklist`
 --
 
-DROP TABLE IF EXISTS `vtiger_picklist`;
 CREATE TABLE IF NOT EXISTS `vtiger_picklist` (
   `picklistid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
@@ -8085,7 +7795,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_picklist` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
 
 --
--- Dumping data for table `vtiger_picklist`
+-- Dumpning av Data i tabell `vtiger_picklist`
 --
 
 INSERT INTO `vtiger_picklist` (`picklistid`, `name`) VALUES
@@ -8151,16 +7861,15 @@ INSERT INTO `vtiger_picklist` (`picklistid`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_picklistvalues_seq`
+-- Tabellstruktur `vtiger_picklistvalues_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_picklistvalues_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_picklistvalues_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_picklistvalues_seq`
+-- Dumpning av Data i tabell `vtiger_picklistvalues_seq`
 --
 
 INSERT INTO `vtiger_picklistvalues_seq` (`id`) VALUES
@@ -8169,10 +7878,9 @@ INSERT INTO `vtiger_picklistvalues_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_picklist_dependency`
+-- Tabellstruktur `vtiger_picklist_dependency`
 --
 
-DROP TABLE IF EXISTS `vtiger_picklist_dependency`;
 CREATE TABLE IF NOT EXISTS `vtiger_picklist_dependency` (
   `id` int(11) NOT NULL,
   `tabid` int(19) NOT NULL,
@@ -8185,7 +7893,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_picklist_dependency` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_picklist_dependency`
+-- Dumpning av Data i tabell `vtiger_picklist_dependency`
 --
 
 INSERT INTO `vtiger_picklist_dependency` (`id`, `tabid`, `sourcefield`, `targetfield`, `sourcevalue`, `targetvalues`, `criteria`) VALUES
@@ -8199,16 +7907,15 @@ INSERT INTO `vtiger_picklist_dependency` (`id`, `tabid`, `sourcefield`, `targetf
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_picklist_dependency_seq`
+-- Tabellstruktur `vtiger_picklist_dependency_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_picklist_dependency_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_picklist_dependency_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_picklist_dependency_seq`
+-- Dumpning av Data i tabell `vtiger_picklist_dependency_seq`
 --
 
 INSERT INTO `vtiger_picklist_dependency_seq` (`id`) VALUES
@@ -8217,16 +7924,15 @@ INSERT INTO `vtiger_picklist_dependency_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_picklist_seq`
+-- Tabellstruktur `vtiger_picklist_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_picklist_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_picklist_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_picklist_seq`
+-- Dumpning av Data i tabell `vtiger_picklist_seq`
 --
 
 INSERT INTO `vtiger_picklist_seq` (`id`) VALUES
@@ -8235,10 +7941,9 @@ INSERT INTO `vtiger_picklist_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_pobillads`
+-- Tabellstruktur `vtiger_pobillads`
 --
 
-DROP TABLE IF EXISTS `vtiger_pobillads`;
 CREATE TABLE IF NOT EXISTS `vtiger_pobillads` (
   `pobilladdressid` int(19) NOT NULL DEFAULT '0',
   `bill_city` varchar(30) DEFAULT NULL,
@@ -8253,10 +7958,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_pobillads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_portal`
+-- Tabellstruktur `vtiger_portal`
 --
 
-DROP TABLE IF EXISTS `vtiger_portal`;
 CREATE TABLE IF NOT EXISTS `vtiger_portal` (
   `portalid` int(19) NOT NULL,
   `portalname` varchar(200) NOT NULL,
@@ -8270,10 +7974,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_portal` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_portalinfo`
+-- Tabellstruktur `vtiger_portalinfo`
 --
 
-DROP TABLE IF EXISTS `vtiger_portalinfo`;
 CREATE TABLE IF NOT EXISTS `vtiger_portalinfo` (
   `id` int(11) NOT NULL,
   `user_name` varchar(50) DEFAULT NULL,
@@ -8289,10 +7992,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_portalinfo` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_poshipads`
+-- Tabellstruktur `vtiger_poshipads`
 --
 
-DROP TABLE IF EXISTS `vtiger_poshipads`;
 CREATE TABLE IF NOT EXISTS `vtiger_poshipads` (
   `poshipaddressid` int(19) NOT NULL DEFAULT '0',
   `ship_city` varchar(30) DEFAULT NULL,
@@ -8307,10 +8009,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_poshipads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_postatus`
+-- Tabellstruktur `vtiger_postatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_postatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_postatus` (
   `postatusid` int(19) NOT NULL AUTO_INCREMENT,
   `postatus` varchar(200) NOT NULL,
@@ -8321,7 +8022,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_postatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_postatus`
+-- Dumpning av Data i tabell `vtiger_postatus`
 --
 
 INSERT INTO `vtiger_postatus` (`postatusid`, `postatus`, `presence`, `picklist_valueid`) VALUES
@@ -8334,10 +8035,9 @@ INSERT INTO `vtiger_postatus` (`postatusid`, `postatus`, `presence`, `picklist_v
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_postatushistory`
+-- Tabellstruktur `vtiger_postatushistory`
 --
 
-DROP TABLE IF EXISTS `vtiger_postatushistory`;
 CREATE TABLE IF NOT EXISTS `vtiger_postatushistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
   `purchaseorderid` int(19) NOT NULL,
@@ -8352,16 +8052,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_postatushistory` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_postatus_seq`
+-- Tabellstruktur `vtiger_postatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_postatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_postatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_postatus_seq`
+-- Dumpning av Data i tabell `vtiger_postatus_seq`
 --
 
 INSERT INTO `vtiger_postatus_seq` (`id`) VALUES
@@ -8370,10 +8069,9 @@ INSERT INTO `vtiger_postatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_potcompetitorrel`
+-- Tabellstruktur `vtiger_potcompetitorrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_potcompetitorrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_potcompetitorrel` (
   `potentialid` int(19) NOT NULL,
   `competitorid` int(19) NOT NULL,
@@ -8385,10 +8083,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_potcompetitorrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_potential`
+-- Tabellstruktur `vtiger_potential`
 --
 
-DROP TABLE IF EXISTS `vtiger_potential`;
 CREATE TABLE IF NOT EXISTS `vtiger_potential` (
   `potentialid` int(19) NOT NULL DEFAULT '0',
   `potential_no` varchar(100) NOT NULL,
@@ -8425,10 +8122,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_potential` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_potentialscf`
+-- Tabellstruktur `vtiger_potentialscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_potentialscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_potentialscf` (
   `potentialid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`potentialid`)
@@ -8437,10 +8133,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_potentialscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_potstagehistory`
+-- Tabellstruktur `vtiger_potstagehistory`
 --
 
-DROP TABLE IF EXISTS `vtiger_potstagehistory`;
 CREATE TABLE IF NOT EXISTS `vtiger_potstagehistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
   `potentialid` int(19) NOT NULL,
@@ -8457,10 +8152,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_potstagehistory` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_pricebook`
+-- Tabellstruktur `vtiger_pricebook`
 --
 
-DROP TABLE IF EXISTS `vtiger_pricebook`;
 CREATE TABLE IF NOT EXISTS `vtiger_pricebook` (
   `pricebookid` int(19) NOT NULL DEFAULT '0',
   `pricebook_no` varchar(100) NOT NULL,
@@ -8473,10 +8167,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_pricebook` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_pricebookcf`
+-- Tabellstruktur `vtiger_pricebookcf`
 --
 
-DROP TABLE IF EXISTS `vtiger_pricebookcf`;
 CREATE TABLE IF NOT EXISTS `vtiger_pricebookcf` (
   `pricebookid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pricebookid`)
@@ -8485,10 +8178,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_pricebookcf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_pricebookproductrel`
+-- Tabellstruktur `vtiger_pricebookproductrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_pricebookproductrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_pricebookproductrel` (
   `pricebookid` int(19) NOT NULL,
   `productid` int(19) NOT NULL,
@@ -8502,10 +8194,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_pricebookproductrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_priority`
+-- Tabellstruktur `vtiger_priority`
 --
 
-DROP TABLE IF EXISTS `vtiger_priority`;
 CREATE TABLE IF NOT EXISTS `vtiger_priority` (
   `priorityid` int(19) NOT NULL AUTO_INCREMENT,
   `priority` varchar(200) NOT NULL,
@@ -8518,10 +8209,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_priority` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_productcategory`
+-- Tabellstruktur `vtiger_productcategory`
 --
 
-DROP TABLE IF EXISTS `vtiger_productcategory`;
 CREATE TABLE IF NOT EXISTS `vtiger_productcategory` (
   `productcategoryid` int(19) NOT NULL AUTO_INCREMENT,
   `productcategory` varchar(200) NOT NULL,
@@ -8532,7 +8222,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_productcategory` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_productcategory`
+-- Dumpning av Data i tabell `vtiger_productcategory`
 --
 
 INSERT INTO `vtiger_productcategory` (`productcategoryid`, `productcategory`, `presence`, `picklist_valueid`) VALUES
@@ -8544,16 +8234,15 @@ INSERT INTO `vtiger_productcategory` (`productcategoryid`, `productcategory`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_productcategory_seq`
+-- Tabellstruktur `vtiger_productcategory_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_productcategory_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_productcategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_productcategory_seq`
+-- Dumpning av Data i tabell `vtiger_productcategory_seq`
 --
 
 INSERT INTO `vtiger_productcategory_seq` (`id`) VALUES
@@ -8562,10 +8251,9 @@ INSERT INTO `vtiger_productcategory_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_productcf`
+-- Tabellstruktur `vtiger_productcf`
 --
 
-DROP TABLE IF EXISTS `vtiger_productcf`;
 CREATE TABLE IF NOT EXISTS `vtiger_productcf` (
   `productid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`productid`)
@@ -8574,10 +8262,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_productcf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_productcollaterals`
+-- Tabellstruktur `vtiger_productcollaterals`
 --
 
-DROP TABLE IF EXISTS `vtiger_productcollaterals`;
 CREATE TABLE IF NOT EXISTS `vtiger_productcollaterals` (
   `productid` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -8593,10 +8280,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_productcollaterals` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_productcurrencyrel`
+-- Tabellstruktur `vtiger_productcurrencyrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_productcurrencyrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_productcurrencyrel` (
   `productid` int(11) NOT NULL,
   `currencyid` int(11) NOT NULL,
@@ -8607,10 +8293,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_productcurrencyrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_products`
+-- Tabellstruktur `vtiger_products`
 --
 
-DROP TABLE IF EXISTS `vtiger_products`;
 CREATE TABLE IF NOT EXISTS `vtiger_products` (
   `productid` int(11) NOT NULL,
   `product_no` varchar(100) NOT NULL,
@@ -8650,10 +8335,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_products` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_producttaxrel`
+-- Tabellstruktur `vtiger_producttaxrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_producttaxrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_producttaxrel` (
   `productid` int(11) NOT NULL,
   `taxid` int(3) NOT NULL,
@@ -8665,10 +8349,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_producttaxrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_profile`
+-- Tabellstruktur `vtiger_profile`
 --
 
-DROP TABLE IF EXISTS `vtiger_profile`;
 CREATE TABLE IF NOT EXISTS `vtiger_profile` (
   `profileid` int(10) NOT NULL AUTO_INCREMENT,
   `profilename` varchar(50) NOT NULL,
@@ -8677,7 +8360,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_profile` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_profile`
+-- Dumpning av Data i tabell `vtiger_profile`
 --
 
 INSERT INTO `vtiger_profile` (`profileid`, `profilename`, `description`) VALUES
@@ -8689,10 +8372,9 @@ INSERT INTO `vtiger_profile` (`profileid`, `profilename`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_profile2field`
+-- Tabellstruktur `vtiger_profile2field`
 --
 
-DROP TABLE IF EXISTS `vtiger_profile2field`;
 CREATE TABLE IF NOT EXISTS `vtiger_profile2field` (
   `profileid` int(11) NOT NULL,
   `tabid` int(10) DEFAULT NULL,
@@ -8706,7 +8388,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_profile2field` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_profile2field`
+-- Dumpning av Data i tabell `vtiger_profile2field`
 --
 
 INSERT INTO `vtiger_profile2field` (`profileid`, `tabid`, `fieldid`, `visible`, `readonly`) VALUES
@@ -11130,10 +10812,9 @@ INSERT INTO `vtiger_profile2field` (`profileid`, `tabid`, `fieldid`, `visible`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_profile2globalpermissions`
+-- Tabellstruktur `vtiger_profile2globalpermissions`
 --
 
-DROP TABLE IF EXISTS `vtiger_profile2globalpermissions`;
 CREATE TABLE IF NOT EXISTS `vtiger_profile2globalpermissions` (
   `profileid` int(19) NOT NULL,
   `globalactionid` int(19) NOT NULL,
@@ -11143,7 +10824,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_profile2globalpermissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_profile2globalpermissions`
+-- Dumpning av Data i tabell `vtiger_profile2globalpermissions`
 --
 
 INSERT INTO `vtiger_profile2globalpermissions` (`profileid`, `globalactionid`, `globalactionpermission`) VALUES
@@ -11159,10 +10840,9 @@ INSERT INTO `vtiger_profile2globalpermissions` (`profileid`, `globalactionid`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_profile2standardpermissions`
+-- Tabellstruktur `vtiger_profile2standardpermissions`
 --
 
-DROP TABLE IF EXISTS `vtiger_profile2standardpermissions`;
 CREATE TABLE IF NOT EXISTS `vtiger_profile2standardpermissions` (
   `profileid` int(11) NOT NULL,
   `tabid` int(10) NOT NULL,
@@ -11173,7 +10853,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_profile2standardpermissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_profile2standardpermissions`
+-- Dumpning av Data i tabell `vtiger_profile2standardpermissions`
 --
 
 INSERT INTO `vtiger_profile2standardpermissions` (`profileid`, `tabid`, `operation`, `permissions`) VALUES
@@ -11701,10 +11381,9 @@ INSERT INTO `vtiger_profile2standardpermissions` (`profileid`, `tabid`, `operati
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_profile2tab`
+-- Tabellstruktur `vtiger_profile2tab`
 --
 
-DROP TABLE IF EXISTS `vtiger_profile2tab`;
 CREATE TABLE IF NOT EXISTS `vtiger_profile2tab` (
   `profileid` int(11) DEFAULT NULL,
   `tabid` int(10) DEFAULT NULL,
@@ -11713,7 +11392,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_profile2tab` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_profile2tab`
+-- Dumpning av Data i tabell `vtiger_profile2tab`
 --
 
 INSERT INTO `vtiger_profile2tab` (`profileid`, `tabid`, `permissions`) VALUES
@@ -11901,10 +11580,9 @@ INSERT INTO `vtiger_profile2tab` (`profileid`, `tabid`, `permissions`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_profile2utility`
+-- Tabellstruktur `vtiger_profile2utility`
 --
 
-DROP TABLE IF EXISTS `vtiger_profile2utility`;
 CREATE TABLE IF NOT EXISTS `vtiger_profile2utility` (
   `profileid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -11915,7 +11593,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_profile2utility` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_profile2utility`
+-- Dumpning av Data i tabell `vtiger_profile2utility`
 --
 
 INSERT INTO `vtiger_profile2utility` (`profileid`, `tabid`, `activityid`, `permission`) VALUES
@@ -12115,16 +11793,15 @@ INSERT INTO `vtiger_profile2utility` (`profileid`, `tabid`, `activityid`, `permi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_profile_seq`
+-- Tabellstruktur `vtiger_profile_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_profile_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_profile_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_profile_seq`
+-- Dumpning av Data i tabell `vtiger_profile_seq`
 --
 
 INSERT INTO `vtiger_profile_seq` (`id`) VALUES
@@ -12133,10 +11810,9 @@ INSERT INTO `vtiger_profile_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_progress`
+-- Tabellstruktur `vtiger_progress`
 --
 
-DROP TABLE IF EXISTS `vtiger_progress`;
 CREATE TABLE IF NOT EXISTS `vtiger_progress` (
   `progressid` int(11) NOT NULL AUTO_INCREMENT,
   `progress` varchar(200) NOT NULL,
@@ -12146,7 +11822,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_progress` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `vtiger_progress`
+-- Dumpning av Data i tabell `vtiger_progress`
 --
 
 INSERT INTO `vtiger_progress` (`progressid`, `progress`, `presence`, `picklist_valueid`) VALUES
@@ -12165,16 +11841,15 @@ INSERT INTO `vtiger_progress` (`progressid`, `progress`, `presence`, `picklist_v
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_progress_seq`
+-- Tabellstruktur `vtiger_progress_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_progress_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_progress_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_progress_seq`
+-- Dumpning av Data i tabell `vtiger_progress_seq`
 --
 
 INSERT INTO `vtiger_progress_seq` (`id`) VALUES
@@ -12183,10 +11858,9 @@ INSERT INTO `vtiger_progress_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_project`
+-- Tabellstruktur `vtiger_project`
 --
 
-DROP TABLE IF EXISTS `vtiger_project`;
 CREATE TABLE IF NOT EXISTS `vtiger_project` (
   `projectid` int(11) DEFAULT NULL,
   `projectname` varchar(255) DEFAULT NULL,
@@ -12206,10 +11880,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_project` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectcf`
+-- Tabellstruktur `vtiger_projectcf`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectcf`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectcf` (
   `projectid` int(11) NOT NULL,
   PRIMARY KEY (`projectid`)
@@ -12218,10 +11891,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_projectcf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectmilestone`
+-- Tabellstruktur `vtiger_projectmilestone`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectmilestone`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectmilestone` (
   `projectmilestoneid` int(11) NOT NULL,
   `projectmilestonename` varchar(255) DEFAULT NULL,
@@ -12235,10 +11907,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_projectmilestone` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectmilestonecf`
+-- Tabellstruktur `vtiger_projectmilestonecf`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectmilestonecf`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectmilestonecf` (
   `projectmilestoneid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`projectmilestoneid`)
@@ -12247,10 +11918,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_projectmilestonecf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectmilestonetype`
+-- Tabellstruktur `vtiger_projectmilestonetype`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectmilestonetype`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectmilestonetype` (
   `projectmilestonetypeid` int(11) NOT NULL AUTO_INCREMENT,
   `projectmilestonetype` varchar(200) NOT NULL,
@@ -12260,7 +11930,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_projectmilestonetype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_projectmilestonetype`
+-- Dumpning av Data i tabell `vtiger_projectmilestonetype`
 --
 
 INSERT INTO `vtiger_projectmilestonetype` (`projectmilestonetypeid`, `projectmilestonetype`, `presence`, `picklist_valueid`) VALUES
@@ -12272,16 +11942,15 @@ INSERT INTO `vtiger_projectmilestonetype` (`projectmilestonetypeid`, `projectmil
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectmilestonetype_seq`
+-- Tabellstruktur `vtiger_projectmilestonetype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectmilestonetype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectmilestonetype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_projectmilestonetype_seq`
+-- Dumpning av Data i tabell `vtiger_projectmilestonetype_seq`
 --
 
 INSERT INTO `vtiger_projectmilestonetype_seq` (`id`) VALUES
@@ -12290,10 +11959,9 @@ INSERT INTO `vtiger_projectmilestonetype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectpriority`
+-- Tabellstruktur `vtiger_projectpriority`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectpriority`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectpriority` (
   `projectpriorityid` int(11) NOT NULL AUTO_INCREMENT,
   `projectpriority` varchar(200) NOT NULL,
@@ -12303,7 +11971,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_projectpriority` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_projectpriority`
+-- Dumpning av Data i tabell `vtiger_projectpriority`
 --
 
 INSERT INTO `vtiger_projectpriority` (`projectpriorityid`, `projectpriority`, `presence`, `picklist_valueid`) VALUES
@@ -12315,16 +11983,15 @@ INSERT INTO `vtiger_projectpriority` (`projectpriorityid`, `projectpriority`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectpriority_seq`
+-- Tabellstruktur `vtiger_projectpriority_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectpriority_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectpriority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_projectpriority_seq`
+-- Dumpning av Data i tabell `vtiger_projectpriority_seq`
 --
 
 INSERT INTO `vtiger_projectpriority_seq` (`id`) VALUES
@@ -12333,10 +12000,9 @@ INSERT INTO `vtiger_projectpriority_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectstatus`
+-- Tabellstruktur `vtiger_projectstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectstatus` (
   `projectstatusid` int(11) NOT NULL AUTO_INCREMENT,
   `projectstatus` varchar(200) NOT NULL,
@@ -12346,7 +12012,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_projectstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
--- Dumping data for table `vtiger_projectstatus`
+-- Dumpning av Data i tabell `vtiger_projectstatus`
 --
 
 INSERT INTO `vtiger_projectstatus` (`projectstatusid`, `projectstatus`, `presence`, `picklist_valueid`) VALUES
@@ -12363,16 +12029,15 @@ INSERT INTO `vtiger_projectstatus` (`projectstatusid`, `projectstatus`, `presenc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projectstatus_seq`
+-- Tabellstruktur `vtiger_projectstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_projectstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_projectstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_projectstatus_seq`
+-- Dumpning av Data i tabell `vtiger_projectstatus_seq`
 --
 
 INSERT INTO `vtiger_projectstatus_seq` (`id`) VALUES
@@ -12381,10 +12046,9 @@ INSERT INTO `vtiger_projectstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttask`
+-- Tabellstruktur `vtiger_projecttask`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttask`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttask` (
   `projecttaskid` int(11) NOT NULL,
   `projecttaskname` varchar(255) DEFAULT NULL,
@@ -12403,10 +12067,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_projecttask` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttaskcf`
+-- Tabellstruktur `vtiger_projecttaskcf`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttaskcf`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttaskcf` (
   `projecttaskid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`projecttaskid`)
@@ -12415,10 +12078,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_projecttaskcf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttaskpriority`
+-- Tabellstruktur `vtiger_projecttaskpriority`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttaskpriority`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttaskpriority` (
   `projecttaskpriorityid` int(11) NOT NULL AUTO_INCREMENT,
   `projecttaskpriority` varchar(200) NOT NULL,
@@ -12428,7 +12090,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_projecttaskpriority` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_projecttaskpriority`
+-- Dumpning av Data i tabell `vtiger_projecttaskpriority`
 --
 
 INSERT INTO `vtiger_projecttaskpriority` (`projecttaskpriorityid`, `projecttaskpriority`, `presence`, `picklist_valueid`) VALUES
@@ -12440,16 +12102,15 @@ INSERT INTO `vtiger_projecttaskpriority` (`projecttaskpriorityid`, `projecttaskp
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttaskpriority_seq`
+-- Tabellstruktur `vtiger_projecttaskpriority_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttaskpriority_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttaskpriority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_projecttaskpriority_seq`
+-- Dumpning av Data i tabell `vtiger_projecttaskpriority_seq`
 --
 
 INSERT INTO `vtiger_projecttaskpriority_seq` (`id`) VALUES
@@ -12458,10 +12119,9 @@ INSERT INTO `vtiger_projecttaskpriority_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttaskprogress`
+-- Tabellstruktur `vtiger_projecttaskprogress`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttaskprogress`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttaskprogress` (
   `projecttaskprogressid` int(11) NOT NULL AUTO_INCREMENT,
   `projecttaskprogress` varchar(200) NOT NULL,
@@ -12471,7 +12131,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_projecttaskprogress` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `vtiger_projecttaskprogress`
+-- Dumpning av Data i tabell `vtiger_projecttaskprogress`
 --
 
 INSERT INTO `vtiger_projecttaskprogress` (`projecttaskprogressid`, `projecttaskprogress`, `presence`, `picklist_valueid`) VALUES
@@ -12490,16 +12150,15 @@ INSERT INTO `vtiger_projecttaskprogress` (`projecttaskprogressid`, `projecttaskp
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttaskprogress_seq`
+-- Tabellstruktur `vtiger_projecttaskprogress_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttaskprogress_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttaskprogress_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_projecttaskprogress_seq`
+-- Dumpning av Data i tabell `vtiger_projecttaskprogress_seq`
 --
 
 INSERT INTO `vtiger_projecttaskprogress_seq` (`id`) VALUES
@@ -12508,10 +12167,9 @@ INSERT INTO `vtiger_projecttaskprogress_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttasktype`
+-- Tabellstruktur `vtiger_projecttasktype`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttasktype`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttasktype` (
   `projecttasktypeid` int(11) NOT NULL AUTO_INCREMENT,
   `projecttasktype` varchar(200) NOT NULL,
@@ -12521,7 +12179,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_projecttasktype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_projecttasktype`
+-- Dumpning av Data i tabell `vtiger_projecttasktype`
 --
 
 INSERT INTO `vtiger_projecttasktype` (`projecttasktypeid`, `projecttasktype`, `presence`, `picklist_valueid`) VALUES
@@ -12533,16 +12191,15 @@ INSERT INTO `vtiger_projecttasktype` (`projecttasktypeid`, `projecttasktype`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttasktype_seq`
+-- Tabellstruktur `vtiger_projecttasktype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttasktype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttasktype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_projecttasktype_seq`
+-- Dumpning av Data i tabell `vtiger_projecttasktype_seq`
 --
 
 INSERT INTO `vtiger_projecttasktype_seq` (`id`) VALUES
@@ -12551,10 +12208,9 @@ INSERT INTO `vtiger_projecttasktype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttype`
+-- Tabellstruktur `vtiger_projecttype`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttype`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttype` (
   `projecttypeid` int(11) NOT NULL AUTO_INCREMENT,
   `projecttype` varchar(200) NOT NULL,
@@ -12564,7 +12220,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_projecttype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_projecttype`
+-- Dumpning av Data i tabell `vtiger_projecttype`
 --
 
 INSERT INTO `vtiger_projecttype` (`projecttypeid`, `projecttype`, `presence`, `picklist_valueid`) VALUES
@@ -12576,16 +12232,15 @@ INSERT INTO `vtiger_projecttype` (`projecttypeid`, `projecttype`, `presence`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_projecttype_seq`
+-- Tabellstruktur `vtiger_projecttype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_projecttype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_projecttype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_projecttype_seq`
+-- Dumpning av Data i tabell `vtiger_projecttype_seq`
 --
 
 INSERT INTO `vtiger_projecttype_seq` (`id`) VALUES
@@ -12594,10 +12249,9 @@ INSERT INTO `vtiger_projecttype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_purchaseorder`
+-- Tabellstruktur `vtiger_purchaseorder`
 --
 
-DROP TABLE IF EXISTS `vtiger_purchaseorder`;
 CREATE TABLE IF NOT EXISTS `vtiger_purchaseorder` (
   `purchaseorderid` int(19) NOT NULL DEFAULT '0',
   `subject` varchar(100) DEFAULT NULL,
@@ -12632,10 +12286,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_purchaseorder` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_purchaseordercf`
+-- Tabellstruktur `vtiger_purchaseordercf`
 --
 
-DROP TABLE IF EXISTS `vtiger_purchaseordercf`;
 CREATE TABLE IF NOT EXISTS `vtiger_purchaseordercf` (
   `purchaseorderid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`purchaseorderid`)
@@ -12644,10 +12297,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_purchaseordercf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quickview`
+-- Tabellstruktur `vtiger_quickview`
 --
 
-DROP TABLE IF EXISTS `vtiger_quickview`;
 CREATE TABLE IF NOT EXISTS `vtiger_quickview` (
   `fieldid` int(19) NOT NULL,
   `related_fieldid` int(19) NOT NULL,
@@ -12659,10 +12311,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_quickview` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quotes`
+-- Tabellstruktur `vtiger_quotes`
 --
 
-DROP TABLE IF EXISTS `vtiger_quotes`;
 CREATE TABLE IF NOT EXISTS `vtiger_quotes` (
   `quoteid` int(19) NOT NULL DEFAULT '0',
   `subject` varchar(100) DEFAULT NULL,
@@ -12695,10 +12346,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_quotes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quotesbillads`
+-- Tabellstruktur `vtiger_quotesbillads`
 --
 
-DROP TABLE IF EXISTS `vtiger_quotesbillads`;
 CREATE TABLE IF NOT EXISTS `vtiger_quotesbillads` (
   `quotebilladdressid` int(19) NOT NULL DEFAULT '0',
   `bill_city` varchar(30) DEFAULT NULL,
@@ -12713,10 +12363,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_quotesbillads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quotescf`
+-- Tabellstruktur `vtiger_quotescf`
 --
 
-DROP TABLE IF EXISTS `vtiger_quotescf`;
 CREATE TABLE IF NOT EXISTS `vtiger_quotescf` (
   `quoteid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`quoteid`)
@@ -12725,10 +12374,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_quotescf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quotesshipads`
+-- Tabellstruktur `vtiger_quotesshipads`
 --
 
-DROP TABLE IF EXISTS `vtiger_quotesshipads`;
 CREATE TABLE IF NOT EXISTS `vtiger_quotesshipads` (
   `quoteshipaddressid` int(19) NOT NULL DEFAULT '0',
   `ship_city` varchar(30) DEFAULT NULL,
@@ -12743,10 +12391,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_quotesshipads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quotestage`
+-- Tabellstruktur `vtiger_quotestage`
 --
 
-DROP TABLE IF EXISTS `vtiger_quotestage`;
 CREATE TABLE IF NOT EXISTS `vtiger_quotestage` (
   `quotestageid` int(19) NOT NULL AUTO_INCREMENT,
   `quotestage` varchar(200) NOT NULL,
@@ -12757,7 +12404,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_quotestage` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_quotestage`
+-- Dumpning av Data i tabell `vtiger_quotestage`
 --
 
 INSERT INTO `vtiger_quotestage` (`quotestageid`, `quotestage`, `presence`, `picklist_valueid`) VALUES
@@ -12770,10 +12417,9 @@ INSERT INTO `vtiger_quotestage` (`quotestageid`, `quotestage`, `presence`, `pick
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quotestagehistory`
+-- Tabellstruktur `vtiger_quotestagehistory`
 --
 
-DROP TABLE IF EXISTS `vtiger_quotestagehistory`;
 CREATE TABLE IF NOT EXISTS `vtiger_quotestagehistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
   `quoteid` int(19) NOT NULL,
@@ -12788,16 +12434,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_quotestagehistory` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_quotestage_seq`
+-- Tabellstruktur `vtiger_quotestage_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_quotestage_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_quotestage_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_quotestage_seq`
+-- Dumpning av Data i tabell `vtiger_quotestage_seq`
 --
 
 INSERT INTO `vtiger_quotestage_seq` (`id`) VALUES
@@ -12806,10 +12451,9 @@ INSERT INTO `vtiger_quotestage_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_rating`
+-- Tabellstruktur `vtiger_rating`
 --
 
-DROP TABLE IF EXISTS `vtiger_rating`;
 CREATE TABLE IF NOT EXISTS `vtiger_rating` (
   `rating_id` int(19) NOT NULL AUTO_INCREMENT,
   `rating` varchar(200) DEFAULT NULL,
@@ -12819,7 +12463,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_rating` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_rating`
+-- Dumpning av Data i tabell `vtiger_rating`
 --
 
 INSERT INTO `vtiger_rating` (`rating_id`, `rating`, `presence`, `picklist_valueid`) VALUES
@@ -12833,16 +12477,15 @@ INSERT INTO `vtiger_rating` (`rating_id`, `rating`, `presence`, `picklist_valuei
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_rating_seq`
+-- Tabellstruktur `vtiger_rating_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_rating_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_rating_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_rating_seq`
+-- Dumpning av Data i tabell `vtiger_rating_seq`
 --
 
 INSERT INTO `vtiger_rating_seq` (`id`) VALUES
@@ -12851,10 +12494,9 @@ INSERT INTO `vtiger_rating_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_recurringevents`
+-- Tabellstruktur `vtiger_recurringevents`
 --
 
-DROP TABLE IF EXISTS `vtiger_recurringevents`;
 CREATE TABLE IF NOT EXISTS `vtiger_recurringevents` (
   `recurringid` int(19) NOT NULL AUTO_INCREMENT,
   `activityid` int(19) NOT NULL,
@@ -12869,10 +12511,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_recurringevents` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_recurringtype`
+-- Tabellstruktur `vtiger_recurringtype`
 --
 
-DROP TABLE IF EXISTS `vtiger_recurringtype`;
 CREATE TABLE IF NOT EXISTS `vtiger_recurringtype` (
   `recurringeventid` int(19) NOT NULL AUTO_INCREMENT,
   `recurringtype` varchar(200) NOT NULL,
@@ -12883,7 +12524,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_recurringtype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_recurringtype`
+-- Dumpning av Data i tabell `vtiger_recurringtype`
 --
 
 INSERT INTO `vtiger_recurringtype` (`recurringeventid`, `recurringtype`, `sortorderid`, `presence`) VALUES
@@ -12896,16 +12537,15 @@ INSERT INTO `vtiger_recurringtype` (`recurringeventid`, `recurringtype`, `sortor
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_recurringtype_seq`
+-- Tabellstruktur `vtiger_recurringtype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_recurringtype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_recurringtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_recurringtype_seq`
+-- Dumpning av Data i tabell `vtiger_recurringtype_seq`
 --
 
 INSERT INTO `vtiger_recurringtype_seq` (`id`) VALUES
@@ -12914,10 +12554,9 @@ INSERT INTO `vtiger_recurringtype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_recurring_frequency`
+-- Tabellstruktur `vtiger_recurring_frequency`
 --
 
-DROP TABLE IF EXISTS `vtiger_recurring_frequency`;
 CREATE TABLE IF NOT EXISTS `vtiger_recurring_frequency` (
   `recurring_frequency_id` int(11) DEFAULT NULL,
   `recurring_frequency` varchar(200) DEFAULT NULL,
@@ -12926,7 +12565,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_recurring_frequency` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_recurring_frequency`
+-- Dumpning av Data i tabell `vtiger_recurring_frequency`
 --
 
 INSERT INTO `vtiger_recurring_frequency` (`recurring_frequency_id`, `recurring_frequency`, `sortorderid`, `presence`) VALUES
@@ -12940,16 +12579,15 @@ INSERT INTO `vtiger_recurring_frequency` (`recurring_frequency_id`, `recurring_f
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_recurring_frequency_seq`
+-- Tabellstruktur `vtiger_recurring_frequency_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_recurring_frequency_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_recurring_frequency_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_recurring_frequency_seq`
+-- Dumpning av Data i tabell `vtiger_recurring_frequency_seq`
 --
 
 INSERT INTO `vtiger_recurring_frequency_seq` (`id`) VALUES
@@ -12958,10 +12596,9 @@ INSERT INTO `vtiger_recurring_frequency_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_relatedlists`
+-- Tabellstruktur `vtiger_relatedlists`
 --
 
-DROP TABLE IF EXISTS `vtiger_relatedlists`;
 CREATE TABLE IF NOT EXISTS `vtiger_relatedlists` (
   `relation_id` int(19) NOT NULL,
   `tabid` int(10) DEFAULT NULL,
@@ -12976,7 +12613,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_relatedlists` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_relatedlists`
+-- Dumpning av Data i tabell `vtiger_relatedlists`
 --
 
 INSERT INTO `vtiger_relatedlists` (`relation_id`, `tabid`, `related_tabid`, `name`, `sequence`, `label`, `presence`, `actions`) VALUES
@@ -13112,10 +12749,9 @@ INSERT INTO `vtiger_relatedlists` (`relation_id`, `tabid`, `related_tabid`, `nam
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_relatedlists_rb`
+-- Tabellstruktur `vtiger_relatedlists_rb`
 --
 
-DROP TABLE IF EXISTS `vtiger_relatedlists_rb`;
 CREATE TABLE IF NOT EXISTS `vtiger_relatedlists_rb` (
   `entityid` int(19) DEFAULT NULL,
   `action` varchar(50) DEFAULT NULL,
@@ -13128,16 +12764,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_relatedlists_rb` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_relatedlists_seq`
+-- Tabellstruktur `vtiger_relatedlists_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_relatedlists_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_relatedlists_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_relatedlists_seq`
+-- Dumpning av Data i tabell `vtiger_relatedlists_seq`
 --
 
 INSERT INTO `vtiger_relatedlists_seq` (`id`) VALUES
@@ -13146,10 +12781,9 @@ INSERT INTO `vtiger_relatedlists_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_relcriteria`
+-- Tabellstruktur `vtiger_relcriteria`
 --
 
-DROP TABLE IF EXISTS `vtiger_relcriteria`;
 CREATE TABLE IF NOT EXISTS `vtiger_relcriteria` (
   `queryid` int(19) NOT NULL,
   `columnindex` int(11) NOT NULL,
@@ -13163,7 +12797,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_relcriteria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_relcriteria`
+-- Dumpning av Data i tabell `vtiger_relcriteria`
 --
 
 INSERT INTO `vtiger_relcriteria` (`queryid`, `columnindex`, `columnname`, `comparator`, `value`, `groupid`, `column_condition`) VALUES
@@ -13178,10 +12812,9 @@ INSERT INTO `vtiger_relcriteria` (`queryid`, `columnindex`, `columnname`, `compa
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_relcriteria_grouping`
+-- Tabellstruktur `vtiger_relcriteria_grouping`
 --
 
-DROP TABLE IF EXISTS `vtiger_relcriteria_grouping`;
 CREATE TABLE IF NOT EXISTS `vtiger_relcriteria_grouping` (
   `groupid` int(11) NOT NULL,
   `queryid` int(19) NOT NULL,
@@ -13191,7 +12824,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_relcriteria_grouping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_relcriteria_grouping`
+-- Dumpning av Data i tabell `vtiger_relcriteria_grouping`
 --
 
 INSERT INTO `vtiger_relcriteria_grouping` (`groupid`, `queryid`, `group_condition`, `condition_expression`) VALUES
@@ -13205,10 +12838,9 @@ INSERT INTO `vtiger_relcriteria_grouping` (`groupid`, `queryid`, `group_conditio
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reminder_interval`
+-- Tabellstruktur `vtiger_reminder_interval`
 --
 
-DROP TABLE IF EXISTS `vtiger_reminder_interval`;
 CREATE TABLE IF NOT EXISTS `vtiger_reminder_interval` (
   `reminder_intervalid` int(19) NOT NULL AUTO_INCREMENT,
   `reminder_interval` varchar(200) NOT NULL,
@@ -13218,7 +12850,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_reminder_interval` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `vtiger_reminder_interval`
+-- Dumpning av Data i tabell `vtiger_reminder_interval`
 --
 
 INSERT INTO `vtiger_reminder_interval` (`reminder_intervalid`, `reminder_interval`, `sortorderid`, `presence`) VALUES
@@ -13234,16 +12866,15 @@ INSERT INTO `vtiger_reminder_interval` (`reminder_intervalid`, `reminder_interva
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reminder_interval_seq`
+-- Tabellstruktur `vtiger_reminder_interval_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_reminder_interval_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_reminder_interval_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_reminder_interval_seq`
+-- Dumpning av Data i tabell `vtiger_reminder_interval_seq`
 --
 
 INSERT INTO `vtiger_reminder_interval_seq` (`id`) VALUES
@@ -13252,10 +12883,9 @@ INSERT INTO `vtiger_reminder_interval_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_report`
+-- Tabellstruktur `vtiger_report`
 --
 
-DROP TABLE IF EXISTS `vtiger_report`;
 CREATE TABLE IF NOT EXISTS `vtiger_report` (
   `reportid` int(19) NOT NULL,
   `folderid` int(19) NOT NULL,
@@ -13274,7 +12904,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_report` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_report`
+-- Dumpning av Data i tabell `vtiger_report`
 --
 
 INSERT INTO `vtiger_report` (`reportid`, `folderid`, `reportname`, `description`, `reporttype`, `queryid`, `state`, `customizable`, `category`, `owner`, `sharingtype`) VALUES
@@ -13303,10 +12933,9 @@ INSERT INTO `vtiger_report` (`reportid`, `folderid`, `reportname`, `description`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportdatefilter`
+-- Tabellstruktur `vtiger_reportdatefilter`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportdatefilter`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportdatefilter` (
   `datefilterid` int(19) NOT NULL,
   `datecolumnname` varchar(250) DEFAULT '',
@@ -13318,7 +12947,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_reportdatefilter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_reportdatefilter`
+-- Dumpning av Data i tabell `vtiger_reportdatefilter`
 --
 
 INSERT INTO `vtiger_reportdatefilter` (`datefilterid`, `datecolumnname`, `datefilter`, `startdate`, `enddate`) VALUES
@@ -13328,17 +12957,16 @@ INSERT INTO `vtiger_reportdatefilter` (`datefilterid`, `datecolumnname`, `datefi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportfilters`
+-- Tabellstruktur `vtiger_reportfilters`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportfilters`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportfilters` (
   `filterid` int(19) NOT NULL,
   `name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_reportfilters`
+-- Dumpning av Data i tabell `vtiger_reportfilters`
 --
 
 INSERT INTO `vtiger_reportfilters` (`filterid`, `name`) VALUES
@@ -13349,10 +12977,9 @@ INSERT INTO `vtiger_reportfilters` (`filterid`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportfolder`
+-- Tabellstruktur `vtiger_reportfolder`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportfolder`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportfolder` (
   `folderid` int(19) NOT NULL AUTO_INCREMENT,
   `foldername` varchar(100) NOT NULL DEFAULT '',
@@ -13362,7 +12989,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_reportfolder` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `vtiger_reportfolder`
+-- Dumpning av Data i tabell `vtiger_reportfolder`
 --
 
 INSERT INTO `vtiger_reportfolder` (`folderid`, `foldername`, `description`, `state`) VALUES
@@ -13381,10 +13008,9 @@ INSERT INTO `vtiger_reportfolder` (`folderid`, `foldername`, `description`, `sta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportgroupbycolumn`
+-- Tabellstruktur `vtiger_reportgroupbycolumn`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportgroupbycolumn`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportgroupbycolumn` (
   `reportid` int(19) DEFAULT NULL,
   `sortid` int(19) DEFAULT NULL,
@@ -13396,10 +13022,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_reportgroupbycolumn` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportmodules`
+-- Tabellstruktur `vtiger_reportmodules`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportmodules`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportmodules` (
   `reportmodulesid` int(19) NOT NULL,
   `primarymodule` varchar(50) NOT NULL DEFAULT '',
@@ -13408,7 +13033,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_reportmodules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_reportmodules`
+-- Dumpning av Data i tabell `vtiger_reportmodules`
 --
 
 INSERT INTO `vtiger_reportmodules` (`reportmodulesid`, `primarymodule`, `secondarymodules`) VALUES
@@ -13437,10 +13062,9 @@ INSERT INTO `vtiger_reportmodules` (`reportmodulesid`, `primarymodule`, `seconda
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportsharing`
+-- Tabellstruktur `vtiger_reportsharing`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportsharing`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportsharing` (
   `reportid` int(19) NOT NULL,
   `shareid` int(19) NOT NULL,
@@ -13450,10 +13074,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_reportsharing` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportsortcol`
+-- Tabellstruktur `vtiger_reportsortcol`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportsortcol`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportsortcol` (
   `sortcolid` int(19) NOT NULL,
   `reportid` int(19) NOT NULL,
@@ -13464,7 +13087,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_reportsortcol` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_reportsortcol`
+-- Dumpning av Data i tabell `vtiger_reportsortcol`
 --
 
 INSERT INTO `vtiger_reportsortcol` (`sortcolid`, `reportid`, `columnname`, `sortorder`) VALUES
@@ -13476,10 +13099,9 @@ INSERT INTO `vtiger_reportsortcol` (`sortcolid`, `reportid`, `columnname`, `sort
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_reportsummary`
+-- Tabellstruktur `vtiger_reportsummary`
 --
 
-DROP TABLE IF EXISTS `vtiger_reportsummary`;
 CREATE TABLE IF NOT EXISTS `vtiger_reportsummary` (
   `reportsummaryid` int(19) NOT NULL,
   `summarytype` int(19) NOT NULL,
@@ -13491,10 +13113,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_reportsummary` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_revenuetype`
+-- Tabellstruktur `vtiger_revenuetype`
 --
 
-DROP TABLE IF EXISTS `vtiger_revenuetype`;
 CREATE TABLE IF NOT EXISTS `vtiger_revenuetype` (
   `revenuetypeid` int(19) NOT NULL AUTO_INCREMENT,
   `revenuetype` varchar(200) NOT NULL,
@@ -13507,10 +13128,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_revenuetype` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_role`
+-- Tabellstruktur `vtiger_role`
 --
 
-DROP TABLE IF EXISTS `vtiger_role`;
 CREATE TABLE IF NOT EXISTS `vtiger_role` (
   `roleid` varchar(255) NOT NULL,
   `rolename` varchar(200) DEFAULT NULL,
@@ -13520,7 +13140,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_role`
+-- Dumpning av Data i tabell `vtiger_role`
 --
 
 INSERT INTO `vtiger_role` (`roleid`, `rolename`, `parentrole`, `depth`) VALUES
@@ -13534,10 +13154,9 @@ INSERT INTO `vtiger_role` (`roleid`, `rolename`, `parentrole`, `depth`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_role2picklist`
+-- Tabellstruktur `vtiger_role2picklist`
 --
 
-DROP TABLE IF EXISTS `vtiger_role2picklist`;
 CREATE TABLE IF NOT EXISTS `vtiger_role2picklist` (
   `roleid` varchar(255) NOT NULL,
   `picklistvalueid` int(11) NOT NULL,
@@ -13549,7 +13168,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_role2picklist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_role2picklist`
+-- Dumpning av Data i tabell `vtiger_role2picklist`
 --
 
 INSERT INTO `vtiger_role2picklist` (`roleid`, `picklistvalueid`, `picklistid`, `sortid`) VALUES
@@ -15693,10 +15312,9 @@ INSERT INTO `vtiger_role2picklist` (`roleid`, `picklistvalueid`, `picklistid`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_role2profile`
+-- Tabellstruktur `vtiger_role2profile`
 --
 
-DROP TABLE IF EXISTS `vtiger_role2profile`;
 CREATE TABLE IF NOT EXISTS `vtiger_role2profile` (
   `roleid` varchar(255) NOT NULL,
   `profileid` int(11) NOT NULL,
@@ -15705,7 +15323,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_role2profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_role2profile`
+-- Dumpning av Data i tabell `vtiger_role2profile`
 --
 
 INSERT INTO `vtiger_role2profile` (`roleid`, `profileid`) VALUES
@@ -15718,16 +15336,15 @@ INSERT INTO `vtiger_role2profile` (`roleid`, `profileid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_role_seq`
+-- Tabellstruktur `vtiger_role_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_role_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_role_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_role_seq`
+-- Dumpning av Data i tabell `vtiger_role_seq`
 --
 
 INSERT INTO `vtiger_role_seq` (`id`) VALUES
@@ -15736,10 +15353,9 @@ INSERT INTO `vtiger_role_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_rss`
+-- Tabellstruktur `vtiger_rss`
 --
 
-DROP TABLE IF EXISTS `vtiger_rss`;
 CREATE TABLE IF NOT EXISTS `vtiger_rss` (
   `rssid` int(19) NOT NULL,
   `rssurl` varchar(200) NOT NULL DEFAULT '',
@@ -15752,10 +15368,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_rss` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_salesmanactivityrel`
+-- Tabellstruktur `vtiger_salesmanactivityrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_salesmanactivityrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_salesmanactivityrel` (
   `smid` int(19) NOT NULL DEFAULT '0',
   `activityid` int(19) NOT NULL DEFAULT '0',
@@ -15767,10 +15382,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_salesmanactivityrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_salesmanattachmentsrel`
+-- Tabellstruktur `vtiger_salesmanattachmentsrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_salesmanattachmentsrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_salesmanattachmentsrel` (
   `smid` int(19) NOT NULL DEFAULT '0',
   `attachmentsid` int(19) NOT NULL DEFAULT '0',
@@ -15782,10 +15396,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_salesmanattachmentsrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_salesmanticketrel`
+-- Tabellstruktur `vtiger_salesmanticketrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_salesmanticketrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_salesmanticketrel` (
   `smid` int(19) NOT NULL DEFAULT '0',
   `id` int(19) NOT NULL DEFAULT '0',
@@ -15797,10 +15410,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_salesmanticketrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_salesorder`
+-- Tabellstruktur `vtiger_salesorder`
 --
 
-DROP TABLE IF EXISTS `vtiger_salesorder`;
 CREATE TABLE IF NOT EXISTS `vtiger_salesorder` (
   `salesorderid` int(19) NOT NULL DEFAULT '0',
   `subject` varchar(100) DEFAULT NULL,
@@ -15839,10 +15451,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_salesorder` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_salesordercf`
+-- Tabellstruktur `vtiger_salesordercf`
 --
 
-DROP TABLE IF EXISTS `vtiger_salesordercf`;
 CREATE TABLE IF NOT EXISTS `vtiger_salesordercf` (
   `salesorderid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`salesorderid`)
@@ -15851,10 +15462,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_salesordercf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_sales_stage`
+-- Tabellstruktur `vtiger_sales_stage`
 --
 
-DROP TABLE IF EXISTS `vtiger_sales_stage`;
 CREATE TABLE IF NOT EXISTS `vtiger_sales_stage` (
   `sales_stage_id` int(19) NOT NULL AUTO_INCREMENT,
   `sales_stage` varchar(200) DEFAULT NULL,
@@ -15864,7 +15474,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_sales_stage` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `vtiger_sales_stage`
+-- Dumpning av Data i tabell `vtiger_sales_stage`
 --
 
 INSERT INTO `vtiger_sales_stage` (`sales_stage_id`, `sales_stage`, `presence`, `picklist_valueid`) VALUES
@@ -15882,16 +15492,15 @@ INSERT INTO `vtiger_sales_stage` (`sales_stage_id`, `sales_stage`, `presence`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_sales_stage_seq`
+-- Tabellstruktur `vtiger_sales_stage_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_sales_stage_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_sales_stage_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_sales_stage_seq`
+-- Dumpning av Data i tabell `vtiger_sales_stage_seq`
 --
 
 INSERT INTO `vtiger_sales_stage_seq` (`id`) VALUES
@@ -15900,10 +15509,9 @@ INSERT INTO `vtiger_sales_stage_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_salutationtype`
+-- Tabellstruktur `vtiger_salutationtype`
 --
 
-DROP TABLE IF EXISTS `vtiger_salutationtype`;
 CREATE TABLE IF NOT EXISTS `vtiger_salutationtype` (
   `salutationid` int(19) NOT NULL AUTO_INCREMENT,
   `salutationtype` varchar(200) NOT NULL,
@@ -15913,7 +15521,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_salutationtype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_salutationtype`
+-- Dumpning av Data i tabell `vtiger_salutationtype`
 --
 
 INSERT INTO `vtiger_salutationtype` (`salutationid`, `salutationtype`, `presence`, `picklist_valueid`) VALUES
@@ -15927,16 +15535,15 @@ INSERT INTO `vtiger_salutationtype` (`salutationid`, `salutationtype`, `presence
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_salutationtype_seq`
+-- Tabellstruktur `vtiger_salutationtype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_salutationtype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_salutationtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_salutationtype_seq`
+-- Dumpning av Data i tabell `vtiger_salutationtype_seq`
 --
 
 INSERT INTO `vtiger_salutationtype_seq` (`id`) VALUES
@@ -15945,10 +15552,9 @@ INSERT INTO `vtiger_salutationtype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_scheduled_reports`
+-- Tabellstruktur `vtiger_scheduled_reports`
 --
 
-DROP TABLE IF EXISTS `vtiger_scheduled_reports`;
 CREATE TABLE IF NOT EXISTS `vtiger_scheduled_reports` (
   `reportid` int(11) NOT NULL,
   `recipients` text,
@@ -15961,10 +15567,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_scheduled_reports` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_seactivityrel`
+-- Tabellstruktur `vtiger_seactivityrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_seactivityrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_seactivityrel` (
   `crmid` int(19) NOT NULL,
   `activityid` int(19) NOT NULL,
@@ -15976,16 +15581,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_seactivityrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_seactivityrel_seq`
+-- Tabellstruktur `vtiger_seactivityrel_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_seactivityrel_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_seactivityrel_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_seactivityrel_seq`
+-- Dumpning av Data i tabell `vtiger_seactivityrel_seq`
 --
 
 INSERT INTO `vtiger_seactivityrel_seq` (`id`) VALUES
@@ -15994,10 +15598,9 @@ INSERT INTO `vtiger_seactivityrel_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_seattachmentsrel`
+-- Tabellstruktur `vtiger_seattachmentsrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_seattachmentsrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_seattachmentsrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `attachmentsid` int(19) NOT NULL DEFAULT '0',
@@ -16010,10 +15613,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_seattachmentsrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_selectcolumn`
+-- Tabellstruktur `vtiger_selectcolumn`
 --
 
-DROP TABLE IF EXISTS `vtiger_selectcolumn`;
 CREATE TABLE IF NOT EXISTS `vtiger_selectcolumn` (
   `queryid` int(19) NOT NULL,
   `columnindex` int(11) NOT NULL DEFAULT '0',
@@ -16023,7 +15625,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_selectcolumn` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_selectcolumn`
+-- Dumpning av Data i tabell `vtiger_selectcolumn`
 --
 
 INSERT INTO `vtiger_selectcolumn` (`queryid`, `columnindex`, `columnname`) VALUES
@@ -16166,10 +15768,9 @@ INSERT INTO `vtiger_selectcolumn` (`queryid`, `columnindex`, `columnname`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_selectquery`
+-- Tabellstruktur `vtiger_selectquery`
 --
 
-DROP TABLE IF EXISTS `vtiger_selectquery`;
 CREATE TABLE IF NOT EXISTS `vtiger_selectquery` (
   `queryid` int(19) NOT NULL,
   `startindex` int(19) DEFAULT '0',
@@ -16179,7 +15780,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_selectquery` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_selectquery`
+-- Dumpning av Data i tabell `vtiger_selectquery`
 --
 
 INSERT INTO `vtiger_selectquery` (`queryid`, `startindex`, `numofobjects`) VALUES
@@ -16208,16 +15809,15 @@ INSERT INTO `vtiger_selectquery` (`queryid`, `startindex`, `numofobjects`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_selectquery_seq`
+-- Tabellstruktur `vtiger_selectquery_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_selectquery_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_selectquery_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_selectquery_seq`
+-- Dumpning av Data i tabell `vtiger_selectquery_seq`
 --
 
 INSERT INTO `vtiger_selectquery_seq` (`id`) VALUES
@@ -16226,10 +15826,9 @@ INSERT INTO `vtiger_selectquery_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_senotesrel`
+-- Tabellstruktur `vtiger_senotesrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_senotesrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_senotesrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `notesid` int(19) NOT NULL DEFAULT '0',
@@ -16241,10 +15840,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_senotesrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_seproductsrel`
+-- Tabellstruktur `vtiger_seproductsrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_seproductsrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_seproductsrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `productid` int(19) NOT NULL DEFAULT '0',
@@ -16257,10 +15855,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_seproductsrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_service`
+-- Tabellstruktur `vtiger_service`
 --
 
-DROP TABLE IF EXISTS `vtiger_service`;
 CREATE TABLE IF NOT EXISTS `vtiger_service` (
   `serviceid` int(11) NOT NULL,
   `service_no` varchar(100) NOT NULL,
@@ -16284,10 +15881,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_service` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_servicecategory`
+-- Tabellstruktur `vtiger_servicecategory`
 --
 
-DROP TABLE IF EXISTS `vtiger_servicecategory`;
 CREATE TABLE IF NOT EXISTS `vtiger_servicecategory` (
   `servicecategoryid` int(11) NOT NULL AUTO_INCREMENT,
   `servicecategory` varchar(200) NOT NULL,
@@ -16297,7 +15893,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_servicecategory` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_servicecategory`
+-- Dumpning av Data i tabell `vtiger_servicecategory`
 --
 
 INSERT INTO `vtiger_servicecategory` (`servicecategoryid`, `servicecategory`, `presence`, `picklist_valueid`) VALUES
@@ -16311,16 +15907,15 @@ INSERT INTO `vtiger_servicecategory` (`servicecategoryid`, `servicecategory`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_servicecategory_seq`
+-- Tabellstruktur `vtiger_servicecategory_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_servicecategory_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_servicecategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_servicecategory_seq`
+-- Dumpning av Data i tabell `vtiger_servicecategory_seq`
 --
 
 INSERT INTO `vtiger_servicecategory_seq` (`id`) VALUES
@@ -16329,10 +15924,9 @@ INSERT INTO `vtiger_servicecategory_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_servicecf`
+-- Tabellstruktur `vtiger_servicecf`
 --
 
-DROP TABLE IF EXISTS `vtiger_servicecf`;
 CREATE TABLE IF NOT EXISTS `vtiger_servicecf` (
   `serviceid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`serviceid`)
@@ -16341,10 +15935,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_servicecf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_servicecontracts`
+-- Tabellstruktur `vtiger_servicecontracts`
 --
 
-DROP TABLE IF EXISTS `vtiger_servicecontracts`;
 CREATE TABLE IF NOT EXISTS `vtiger_servicecontracts` (
   `servicecontractsid` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
@@ -16367,10 +15960,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_servicecontracts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_servicecontractscf`
+-- Tabellstruktur `vtiger_servicecontractscf`
 --
 
-DROP TABLE IF EXISTS `vtiger_servicecontractscf`;
 CREATE TABLE IF NOT EXISTS `vtiger_servicecontractscf` (
   `servicecontractsid` int(11) NOT NULL,
   PRIMARY KEY (`servicecontractsid`)
@@ -16379,10 +15971,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_servicecontractscf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_service_usageunit`
+-- Tabellstruktur `vtiger_service_usageunit`
 --
 
-DROP TABLE IF EXISTS `vtiger_service_usageunit`;
 CREATE TABLE IF NOT EXISTS `vtiger_service_usageunit` (
   `service_usageunitid` int(11) NOT NULL AUTO_INCREMENT,
   `service_usageunit` varchar(200) NOT NULL,
@@ -16392,7 +15983,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_service_usageunit` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_service_usageunit`
+-- Dumpning av Data i tabell `vtiger_service_usageunit`
 --
 
 INSERT INTO `vtiger_service_usageunit` (`service_usageunitid`, `service_usageunit`, `presence`, `picklist_valueid`) VALUES
@@ -16403,16 +15994,15 @@ INSERT INTO `vtiger_service_usageunit` (`service_usageunitid`, `service_usageuni
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_service_usageunit_seq`
+-- Tabellstruktur `vtiger_service_usageunit_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_service_usageunit_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_service_usageunit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_service_usageunit_seq`
+-- Dumpning av Data i tabell `vtiger_service_usageunit_seq`
 --
 
 INSERT INTO `vtiger_service_usageunit_seq` (`id`) VALUES
@@ -16421,10 +16011,9 @@ INSERT INTO `vtiger_service_usageunit_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_seticketsrel`
+-- Tabellstruktur `vtiger_seticketsrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_seticketsrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_seticketsrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `ticketid` int(19) NOT NULL DEFAULT '0',
@@ -16436,10 +16025,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_seticketsrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_settings_blocks`
+-- Tabellstruktur `vtiger_settings_blocks`
 --
 
-DROP TABLE IF EXISTS `vtiger_settings_blocks`;
 CREATE TABLE IF NOT EXISTS `vtiger_settings_blocks` (
   `blockid` int(19) NOT NULL,
   `label` varchar(250) DEFAULT NULL,
@@ -16448,7 +16036,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_settings_blocks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_settings_blocks`
+-- Dumpning av Data i tabell `vtiger_settings_blocks`
 --
 
 INSERT INTO `vtiger_settings_blocks` (`blockid`, `label`, `sequence`) VALUES
@@ -16461,16 +16049,15 @@ INSERT INTO `vtiger_settings_blocks` (`blockid`, `label`, `sequence`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_settings_blocks_seq`
+-- Tabellstruktur `vtiger_settings_blocks_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_settings_blocks_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_settings_blocks_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_settings_blocks_seq`
+-- Dumpning av Data i tabell `vtiger_settings_blocks_seq`
 --
 
 INSERT INTO `vtiger_settings_blocks_seq` (`id`) VALUES
@@ -16479,10 +16066,9 @@ INSERT INTO `vtiger_settings_blocks_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_settings_field`
+-- Tabellstruktur `vtiger_settings_field`
 --
 
-DROP TABLE IF EXISTS `vtiger_settings_field`;
 CREATE TABLE IF NOT EXISTS `vtiger_settings_field` (
   `fieldid` int(19) NOT NULL,
   `blockid` int(19) DEFAULT NULL,
@@ -16497,7 +16083,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_settings_field` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_settings_field`
+-- Dumpning av Data i tabell `vtiger_settings_field`
 --
 
 INSERT INTO `vtiger_settings_field` (`fieldid`, `blockid`, `name`, `iconpath`, `description`, `linkto`, `sequence`, `active`) VALUES
@@ -16542,16 +16128,15 @@ INSERT INTO `vtiger_settings_field` (`fieldid`, `blockid`, `name`, `iconpath`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_settings_field_seq`
+-- Tabellstruktur `vtiger_settings_field_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_settings_field_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_settings_field_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_settings_field_seq`
+-- Dumpning av Data i tabell `vtiger_settings_field_seq`
 --
 
 INSERT INTO `vtiger_settings_field_seq` (`id`) VALUES
@@ -16560,10 +16145,9 @@ INSERT INTO `vtiger_settings_field_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_sharedcalendar`
+-- Tabellstruktur `vtiger_sharedcalendar`
 --
 
-DROP TABLE IF EXISTS `vtiger_sharedcalendar`;
 CREATE TABLE IF NOT EXISTS `vtiger_sharedcalendar` (
   `userid` int(19) NOT NULL,
   `sharedid` int(19) NOT NULL,
@@ -16573,10 +16157,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_sharedcalendar` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_shippingtaxinfo`
+-- Tabellstruktur `vtiger_shippingtaxinfo`
 --
 
-DROP TABLE IF EXISTS `vtiger_shippingtaxinfo`;
 CREATE TABLE IF NOT EXISTS `vtiger_shippingtaxinfo` (
   `taxid` int(3) NOT NULL,
   `taxname` varchar(50) DEFAULT NULL,
@@ -16588,7 +16171,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_shippingtaxinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_shippingtaxinfo`
+-- Dumpning av Data i tabell `vtiger_shippingtaxinfo`
 --
 
 INSERT INTO `vtiger_shippingtaxinfo` (`taxid`, `taxname`, `taxlabel`, `percentage`, `deleted`) VALUES
@@ -16599,16 +16182,15 @@ INSERT INTO `vtiger_shippingtaxinfo` (`taxid`, `taxname`, `taxlabel`, `percentag
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_shippingtaxinfo_seq`
+-- Tabellstruktur `vtiger_shippingtaxinfo_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_shippingtaxinfo_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_shippingtaxinfo_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_shippingtaxinfo_seq`
+-- Dumpning av Data i tabell `vtiger_shippingtaxinfo_seq`
 --
 
 INSERT INTO `vtiger_shippingtaxinfo_seq` (`id`) VALUES
@@ -16617,10 +16199,9 @@ INSERT INTO `vtiger_shippingtaxinfo_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_smsnotifier`
+-- Tabellstruktur `vtiger_smsnotifier`
 --
 
-DROP TABLE IF EXISTS `vtiger_smsnotifier`;
 CREATE TABLE IF NOT EXISTS `vtiger_smsnotifier` (
   `smsnotifierid` int(11) DEFAULT NULL,
   `message` text,
@@ -16630,10 +16211,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_smsnotifier` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_smsnotifiercf`
+-- Tabellstruktur `vtiger_smsnotifiercf`
 --
 
-DROP TABLE IF EXISTS `vtiger_smsnotifiercf`;
 CREATE TABLE IF NOT EXISTS `vtiger_smsnotifiercf` (
   `smsnotifierid` int(11) NOT NULL,
   PRIMARY KEY (`smsnotifierid`)
@@ -16642,10 +16222,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_smsnotifiercf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_smsnotifier_servers`
+-- Tabellstruktur `vtiger_smsnotifier_servers`
 --
 
-DROP TABLE IF EXISTS `vtiger_smsnotifier_servers`;
 CREATE TABLE IF NOT EXISTS `vtiger_smsnotifier_servers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(255) DEFAULT NULL,
@@ -16659,10 +16238,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_smsnotifier_servers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_smsnotifier_status`
+-- Tabellstruktur `vtiger_smsnotifier_status`
 --
 
-DROP TABLE IF EXISTS `vtiger_smsnotifier_status`;
 CREATE TABLE IF NOT EXISTS `vtiger_smsnotifier_status` (
   `smsnotifierid` int(11) DEFAULT NULL,
   `tonumber` varchar(20) DEFAULT NULL,
@@ -16677,10 +16255,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_smsnotifier_status` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_soapservice`
+-- Tabellstruktur `vtiger_soapservice`
 --
 
-DROP TABLE IF EXISTS `vtiger_soapservice`;
 CREATE TABLE IF NOT EXISTS `vtiger_soapservice` (
   `id` int(19) DEFAULT NULL,
   `type` varchar(25) DEFAULT NULL,
@@ -16690,10 +16267,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_soapservice` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_sobillads`
+-- Tabellstruktur `vtiger_sobillads`
 --
 
-DROP TABLE IF EXISTS `vtiger_sobillads`;
 CREATE TABLE IF NOT EXISTS `vtiger_sobillads` (
   `sobilladdressid` int(19) NOT NULL DEFAULT '0',
   `bill_city` varchar(30) DEFAULT NULL,
@@ -16708,10 +16284,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_sobillads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_soshipads`
+-- Tabellstruktur `vtiger_soshipads`
 --
 
-DROP TABLE IF EXISTS `vtiger_soshipads`;
 CREATE TABLE IF NOT EXISTS `vtiger_soshipads` (
   `soshipaddressid` int(19) NOT NULL DEFAULT '0',
   `ship_city` varchar(30) DEFAULT NULL,
@@ -16726,10 +16301,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_soshipads` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_sostatus`
+-- Tabellstruktur `vtiger_sostatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_sostatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_sostatus` (
   `sostatusid` int(19) NOT NULL AUTO_INCREMENT,
   `sostatus` varchar(200) NOT NULL,
@@ -16740,7 +16314,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_sostatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_sostatus`
+-- Dumpning av Data i tabell `vtiger_sostatus`
 --
 
 INSERT INTO `vtiger_sostatus` (`sostatusid`, `sostatus`, `presence`, `picklist_valueid`) VALUES
@@ -16752,10 +16326,9 @@ INSERT INTO `vtiger_sostatus` (`sostatusid`, `sostatus`, `presence`, `picklist_v
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_sostatushistory`
+-- Tabellstruktur `vtiger_sostatushistory`
 --
 
-DROP TABLE IF EXISTS `vtiger_sostatushistory`;
 CREATE TABLE IF NOT EXISTS `vtiger_sostatushistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
   `salesorderid` int(19) NOT NULL,
@@ -16770,16 +16343,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_sostatushistory` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_sostatus_seq`
+-- Tabellstruktur `vtiger_sostatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_sostatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_sostatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_sostatus_seq`
+-- Dumpning av Data i tabell `vtiger_sostatus_seq`
 --
 
 INSERT INTO `vtiger_sostatus_seq` (`id`) VALUES
@@ -16788,10 +16360,9 @@ INSERT INTO `vtiger_sostatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_status`
+-- Tabellstruktur `vtiger_status`
 --
 
-DROP TABLE IF EXISTS `vtiger_status`;
 CREATE TABLE IF NOT EXISTS `vtiger_status` (
   `statusid` int(19) NOT NULL AUTO_INCREMENT,
   `status` varchar(200) NOT NULL,
@@ -16801,7 +16372,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_status` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_status`
+-- Dumpning av Data i tabell `vtiger_status`
 --
 
 INSERT INTO `vtiger_status` (`statusid`, `status`, `presence`, `picklist_valueid`) VALUES
@@ -16811,16 +16382,15 @@ INSERT INTO `vtiger_status` (`statusid`, `status`, `presence`, `picklist_valueid
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_status_seq`
+-- Tabellstruktur `vtiger_status_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_status_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_status_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_status_seq`
+-- Dumpning av Data i tabell `vtiger_status_seq`
 --
 
 INSERT INTO `vtiger_status_seq` (`id`) VALUES
@@ -16829,10 +16399,9 @@ INSERT INTO `vtiger_status_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_systems`
+-- Tabellstruktur `vtiger_systems`
 --
 
-DROP TABLE IF EXISTS `vtiger_systems`;
 CREATE TABLE IF NOT EXISTS `vtiger_systems` (
   `id` int(19) NOT NULL,
   `server` varchar(100) DEFAULT NULL,
@@ -16847,7 +16416,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_systems` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_systems`
+-- Dumpning av Data i tabell `vtiger_systems`
 --
 
 INSERT INTO `vtiger_systems` (`id`, `server`, `server_port`, `server_username`, `server_password`, `server_type`, `smtp_auth`, `server_path`, `from_email_field`) VALUES
@@ -16856,16 +16425,15 @@ INSERT INTO `vtiger_systems` (`id`, `server`, `server_port`, `server_username`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_systems_seq`
+-- Tabellstruktur `vtiger_systems_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_systems_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_systems_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `vtiger_systems_seq`
+-- Dumpning av Data i tabell `vtiger_systems_seq`
 --
 
 INSERT INTO `vtiger_systems_seq` (`id`) VALUES
@@ -16874,10 +16442,9 @@ INSERT INTO `vtiger_systems_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tab`
+-- Tabellstruktur `vtiger_tab`
 --
 
-DROP TABLE IF EXISTS `vtiger_tab`;
 CREATE TABLE IF NOT EXISTS `vtiger_tab` (
   `tabid` int(19) NOT NULL DEFAULT '0',
   `name` varchar(25) NOT NULL,
@@ -16898,66 +16465,65 @@ CREATE TABLE IF NOT EXISTS `vtiger_tab` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_tab`
+-- Dumpning av Data i tabell `vtiger_tab`
 --
 
 INSERT INTO `vtiger_tab` (`tabid`, `name`, `presence`, `tabsequence`, `tablabel`, `modifiedby`, `modifiedtime`, `customized`, `ownedby`, `isentitytype`, `version`, `parent`) VALUES
 (1, 'Dashboard', 0, 12, 'Dashboards', NULL, NULL, 0, 1, 0, NULL, 'Analytics'),
-(2, 'Potentials', 0, 7, 'Potentials', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
+(2, 'Potentials', 1, 7, 'Potentials', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
 (3, 'Home', 0, 1, 'Home', NULL, NULL, 0, 1, 0, NULL, NULL),
 (4, 'Contacts', 0, 6, 'Contacts', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
 (6, 'Accounts', 0, 5, 'Accounts', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
-(7, 'Leads', 0, 4, 'Leads', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
+(7, 'Leads', 1, 4, 'Leads', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
 (8, 'Documents', 0, 9, 'Documents', NULL, NULL, 0, 0, 1, NULL, 'Tools'),
-(9, 'Calendar', 0, 3, 'Calendar', NULL, NULL, 0, 0, 1, NULL, 'Tools'),
+(9, 'Calendar', 1, 3, 'Calendar', NULL, NULL, 0, 0, 1, NULL, 'Tools'),
 (10, 'Emails', 0, 10, 'Emails', NULL, NULL, 0, 1, 1, NULL, 'Tools'),
 (13, 'HelpDesk', 0, 11, 'HelpDesk', NULL, NULL, 0, 0, 1, NULL, 'Support'),
 (14, 'Products', 0, 8, 'Products', NULL, NULL, 0, 0, 1, NULL, 'Inventory'),
-(15, 'Faq', 0, -1, 'Faq', NULL, NULL, 0, 1, 1, NULL, 'Support'),
+(15, 'Faq', 1, -1, 'Faq', NULL, NULL, 0, 1, 1, NULL, 'Support'),
 (16, 'Events', 2, -1, 'Events', NULL, NULL, 0, 0, 1, NULL, NULL),
-(18, 'Vendors', 0, -1, 'Vendors', NULL, NULL, 0, 1, 1, NULL, 'Inventory'),
-(19, 'PriceBooks', 0, -1, 'PriceBooks', NULL, NULL, 0, 1, 1, NULL, 'Inventory'),
-(20, 'Quotes', 0, -1, 'Quotes', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
-(21, 'PurchaseOrder', 0, -1, 'PurchaseOrder', NULL, NULL, 0, 0, 1, NULL, 'Inventory'),
-(22, 'SalesOrder', 0, -1, 'SalesOrder', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
-(23, 'Invoice', 0, -1, 'Invoice', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
-(24, 'Rss', 0, -1, 'Rss', NULL, NULL, 0, 1, 0, NULL, 'Tools'),
+(18, 'Vendors', 1, -1, 'Vendors', NULL, NULL, 0, 1, 1, NULL, 'Inventory'),
+(19, 'PriceBooks', 1, -1, 'PriceBooks', NULL, NULL, 0, 1, 1, NULL, 'Inventory'),
+(20, 'Quotes', 1, -1, 'Quotes', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
+(21, 'PurchaseOrder', 1, -1, 'PurchaseOrder', NULL, NULL, 0, 0, 1, NULL, 'Inventory'),
+(22, 'SalesOrder', 1, -1, 'SalesOrder', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
+(23, 'Invoice', 1, -1, 'Invoice', NULL, NULL, 0, 0, 1, NULL, 'Sales'),
+(24, 'Rss', 1, -1, 'Rss', NULL, NULL, 0, 1, 0, NULL, 'Tools'),
 (25, 'Reports', 0, -1, 'Reports', NULL, NULL, 0, 1, 0, NULL, 'Analytics'),
-(26, 'Campaigns', 0, -1, 'Campaigns', NULL, NULL, 0, 0, 1, NULL, 'Marketing'),
-(27, 'Portal', 0, -1, 'Portal', NULL, NULL, 0, 1, 0, NULL, 'Tools'),
+(26, 'Campaigns', 1, -1, 'Campaigns', NULL, NULL, 0, 0, 1, NULL, 'Marketing'),
+(27, 'Portal', 1, -1, 'Portal', NULL, NULL, 0, 1, 0, NULL, 'Tools'),
 (28, 'Webmails', 0, -1, 'Webmails', NULL, NULL, 0, 1, 1, NULL, NULL),
 (29, 'Users', 0, -1, 'Users', NULL, NULL, 0, 1, 0, NULL, NULL),
 (30, 'MailManager', 0, -1, 'MailManager', NULL, NULL, 1, 0, 0, '1.4', 'Tools'),
 (31, 'Mobile', 0, -1, 'Mobile', NULL, NULL, 1, 0, 0, '1.6', ''),
 (32, 'VtigerBackup', 0, -1, 'Vtiger Backup', NULL, NULL, 0, 0, 0, '1.2', ''),
-(33, 'ServiceContracts', 0, -1, 'Service Contracts', NULL, NULL, 0, 0, 1, '2.1', 'Support'),
+(33, 'ServiceContracts', 1, -1, 'Service Contracts', NULL, NULL, 0, 0, 1, '2.1', 'Support'),
 (34, 'Import', 0, -1, 'Import', NULL, NULL, 1, 0, 0, '1.2', ''),
 (35, 'ConfigEditor', 0, -1, 'ConfigEditor', NULL, NULL, 1, 0, 0, '1.9', ''),
 (36, 'WSAPP', 0, -1, 'WSAPP', NULL, NULL, 1, 0, 0, '3.4.4', ''),
 (37, 'Integration', 0, -1, 'Integration', NULL, NULL, 1, 0, 0, '1.0', 'Tools'),
-(38, 'PBXManager', 0, -1, 'PBXManager', NULL, NULL, 0, 0, 1, '1.7', 'Tools'),
-(39, 'ModTracker', 0, -1, 'ModTracker', NULL, NULL, 0, 0, 0, '1.0', ''),
-(40, 'Services', 0, -1, 'Services', NULL, NULL, 0, 0, 1, '2.2', 'Inventory'),
+(38, 'PBXManager', 1, -1, 'PBXManager', NULL, NULL, 0, 0, 1, '1.7', 'Tools'),
+(39, 'ModTracker', 1, -1, 'ModTracker', NULL, NULL, 0, 0, 0, '1.0', ''),
+(40, 'Services', 1, -1, 'Services', NULL, NULL, 0, 0, 1, '2.2', 'Inventory'),
 (41, 'Webforms', 0, -1, 'Webforms', NULL, NULL, 0, 0, 0, '1.2', ''),
 (42, 'CronTasks', 0, -1, 'CronTasks', NULL, NULL, 1, 0, 0, '1.1', ''),
-(43, 'SMSNotifier', 0, -1, 'SMSNotifier', NULL, NULL, 0, 0, 1, '1.8', 'Tools'),
+(43, 'SMSNotifier', 1, -1, 'SMSNotifier', NULL, NULL, 0, 0, 1, '1.8', 'Tools'),
 (44, 'RecycleBin', 0, -1, 'Recycle Bin', NULL, NULL, 0, 0, 0, '1.5', 'Tools'),
 (45, 'Assets', 0, -1, 'Assets', NULL, NULL, 0, 0, 1, '1.6', 'Inventory'),
 (46, 'Tooltip', 0, -1, 'Tool Tip', NULL, NULL, 0, 0, 0, '1.2', ''),
 (47, 'FieldFormulas', 0, -1, 'Field Formulas', NULL, NULL, 0, 0, 0, '1.2', ''),
-(48, 'ProjectMilestone', 0, -1, 'ProjectMilestone', NULL, NULL, 0, 0, 1, '2.7', 'Support'),
-(49, 'ProjectTask', 0, -1, 'ProjectTask', NULL, NULL, 0, 0, 1, '2.7', 'Support'),
-(50, 'Project', 0, -1, 'Project', NULL, NULL, 0, 0, 1, '2.7', 'Support'),
+(48, 'ProjectMilestone', 1, -1, 'ProjectMilestone', NULL, NULL, 0, 0, 1, '2.7', 'Support'),
+(49, 'ProjectTask', 1, -1, 'ProjectTask', NULL, NULL, 0, 0, 1, '2.7', 'Support'),
+(50, 'Project', 1, -1, 'Project', NULL, NULL, 0, 0, 1, '2.7', 'Support'),
 (51, 'CustomerPortal', 0, -1, 'CustomerPortal', NULL, NULL, 0, 0, 0, '1.4', ''),
-(52, 'ModComments', 0, -1, 'Comments', NULL, NULL, 0, 0, 1, '1.9', 'Tools');
+(52, 'ModComments', 1, -1, 'Comments', NULL, NULL, 0, 0, 1, '1.9', 'Tools');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tab_info`
+-- Tabellstruktur `vtiger_tab_info`
 --
 
-DROP TABLE IF EXISTS `vtiger_tab_info`;
 CREATE TABLE IF NOT EXISTS `vtiger_tab_info` (
   `tabid` int(19) DEFAULT NULL,
   `prefname` varchar(256) DEFAULT NULL,
@@ -16966,7 +16532,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_tab_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_tab_info`
+-- Dumpning av Data i tabell `vtiger_tab_info`
 --
 
 INSERT INTO `vtiger_tab_info` (`tabid`, `prefname`, `prefvalue`) VALUES
@@ -17011,10 +16577,9 @@ INSERT INTO `vtiger_tab_info` (`tabid`, `prefname`, `prefvalue`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_taskpriority`
+-- Tabellstruktur `vtiger_taskpriority`
 --
 
-DROP TABLE IF EXISTS `vtiger_taskpriority`;
 CREATE TABLE IF NOT EXISTS `vtiger_taskpriority` (
   `taskpriorityid` int(19) NOT NULL AUTO_INCREMENT,
   `taskpriority` varchar(200) DEFAULT NULL,
@@ -17024,7 +16589,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_taskpriority` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `vtiger_taskpriority`
+-- Dumpning av Data i tabell `vtiger_taskpriority`
 --
 
 INSERT INTO `vtiger_taskpriority` (`taskpriorityid`, `taskpriority`, `presence`, `picklist_valueid`) VALUES
@@ -17035,16 +16600,15 @@ INSERT INTO `vtiger_taskpriority` (`taskpriorityid`, `taskpriority`, `presence`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_taskpriority_seq`
+-- Tabellstruktur `vtiger_taskpriority_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_taskpriority_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_taskpriority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_taskpriority_seq`
+-- Dumpning av Data i tabell `vtiger_taskpriority_seq`
 --
 
 INSERT INTO `vtiger_taskpriority_seq` (`id`) VALUES
@@ -17053,10 +16617,9 @@ INSERT INTO `vtiger_taskpriority_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_taskstatus`
+-- Tabellstruktur `vtiger_taskstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_taskstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_taskstatus` (
   `taskstatusid` int(19) NOT NULL AUTO_INCREMENT,
   `taskstatus` varchar(200) DEFAULT NULL,
@@ -17066,7 +16629,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_taskstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_taskstatus`
+-- Dumpning av Data i tabell `vtiger_taskstatus`
 --
 
 INSERT INTO `vtiger_taskstatus` (`taskstatusid`, `taskstatus`, `presence`, `picklist_valueid`) VALUES
@@ -17080,16 +16643,15 @@ INSERT INTO `vtiger_taskstatus` (`taskstatusid`, `taskstatus`, `presence`, `pick
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_taskstatus_seq`
+-- Tabellstruktur `vtiger_taskstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_taskstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_taskstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_taskstatus_seq`
+-- Dumpning av Data i tabell `vtiger_taskstatus_seq`
 --
 
 INSERT INTO `vtiger_taskstatus_seq` (`id`) VALUES
@@ -17098,10 +16660,9 @@ INSERT INTO `vtiger_taskstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_taxclass`
+-- Tabellstruktur `vtiger_taxclass`
 --
 
-DROP TABLE IF EXISTS `vtiger_taxclass`;
 CREATE TABLE IF NOT EXISTS `vtiger_taxclass` (
   `taxclassid` int(19) NOT NULL AUTO_INCREMENT,
   `taxclass` varchar(200) NOT NULL,
@@ -17112,7 +16673,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_taxclass` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_taxclass`
+-- Dumpning av Data i tabell `vtiger_taxclass`
 --
 
 INSERT INTO `vtiger_taxclass` (`taxclassid`, `taxclass`, `sortorderid`, `presence`) VALUES
@@ -17122,16 +16683,15 @@ INSERT INTO `vtiger_taxclass` (`taxclassid`, `taxclass`, `sortorderid`, `presenc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_taxclass_seq`
+-- Tabellstruktur `vtiger_taxclass_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_taxclass_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_taxclass_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_taxclass_seq`
+-- Dumpning av Data i tabell `vtiger_taxclass_seq`
 --
 
 INSERT INTO `vtiger_taxclass_seq` (`id`) VALUES
@@ -17140,10 +16700,9 @@ INSERT INTO `vtiger_taxclass_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketcategories`
+-- Tabellstruktur `vtiger_ticketcategories`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketcategories`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketcategories` (
   `ticketcategories_id` int(19) NOT NULL AUTO_INCREMENT,
   `ticketcategories` varchar(200) DEFAULT NULL,
@@ -17153,7 +16712,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ticketcategories` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `vtiger_ticketcategories`
+-- Dumpning av Data i tabell `vtiger_ticketcategories`
 --
 
 INSERT INTO `vtiger_ticketcategories` (`ticketcategories_id`, `ticketcategories`, `presence`, `picklist_valueid`) VALUES
@@ -17167,16 +16726,15 @@ INSERT INTO `vtiger_ticketcategories` (`ticketcategories_id`, `ticketcategories`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketcategories_seq`
+-- Tabellstruktur `vtiger_ticketcategories_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketcategories_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketcategories_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ticketcategories_seq`
+-- Dumpning av Data i tabell `vtiger_ticketcategories_seq`
 --
 
 INSERT INTO `vtiger_ticketcategories_seq` (`id`) VALUES
@@ -17185,10 +16743,9 @@ INSERT INTO `vtiger_ticketcategories_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketcf`
+-- Tabellstruktur `vtiger_ticketcf`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketcf`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketcf` (
   `ticketid` int(19) NOT NULL DEFAULT '0',
   `cf_640` varchar(20) DEFAULT '',
@@ -17207,10 +16764,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_ticketcf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketcomments`
+-- Tabellstruktur `vtiger_ticketcomments`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketcomments`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketcomments` (
   `commentid` int(19) NOT NULL AUTO_INCREMENT,
   `ticketid` int(19) DEFAULT NULL,
@@ -17225,10 +16781,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_ticketcomments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketpriorities`
+-- Tabellstruktur `vtiger_ticketpriorities`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketpriorities`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketpriorities` (
   `ticketpriorities_id` int(19) NOT NULL AUTO_INCREMENT,
   `ticketpriorities` varchar(200) DEFAULT NULL,
@@ -17238,7 +16793,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ticketpriorities` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_ticketpriorities`
+-- Dumpning av Data i tabell `vtiger_ticketpriorities`
 --
 
 INSERT INTO `vtiger_ticketpriorities` (`ticketpriorities_id`, `ticketpriorities`, `presence`, `picklist_valueid`) VALUES
@@ -17250,16 +16805,15 @@ INSERT INTO `vtiger_ticketpriorities` (`ticketpriorities_id`, `ticketpriorities`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketpriorities_seq`
+-- Tabellstruktur `vtiger_ticketpriorities_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketpriorities_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketpriorities_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ticketpriorities_seq`
+-- Dumpning av Data i tabell `vtiger_ticketpriorities_seq`
 --
 
 INSERT INTO `vtiger_ticketpriorities_seq` (`id`) VALUES
@@ -17268,10 +16822,9 @@ INSERT INTO `vtiger_ticketpriorities_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketseverities`
+-- Tabellstruktur `vtiger_ticketseverities`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketseverities`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketseverities` (
   `ticketseverities_id` int(19) NOT NULL AUTO_INCREMENT,
   `ticketseverities` varchar(200) DEFAULT NULL,
@@ -17281,7 +16834,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ticketseverities` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_ticketseverities`
+-- Dumpning av Data i tabell `vtiger_ticketseverities`
 --
 
 INSERT INTO `vtiger_ticketseverities` (`ticketseverities_id`, `ticketseverities`, `presence`, `picklist_valueid`) VALUES
@@ -17293,16 +16846,15 @@ INSERT INTO `vtiger_ticketseverities` (`ticketseverities_id`, `ticketseverities`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketseverities_seq`
+-- Tabellstruktur `vtiger_ticketseverities_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketseverities_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketseverities_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ticketseverities_seq`
+-- Dumpning av Data i tabell `vtiger_ticketseverities_seq`
 --
 
 INSERT INTO `vtiger_ticketseverities_seq` (`id`) VALUES
@@ -17311,10 +16863,9 @@ INSERT INTO `vtiger_ticketseverities_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketstatus`
+-- Tabellstruktur `vtiger_ticketstatus`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketstatus`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketstatus` (
   `ticketstatus_id` int(19) NOT NULL AUTO_INCREMENT,
   `ticketstatus` varchar(200) DEFAULT NULL,
@@ -17324,7 +16875,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ticketstatus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_ticketstatus`
+-- Dumpning av Data i tabell `vtiger_ticketstatus`
 --
 
 INSERT INTO `vtiger_ticketstatus` (`ticketstatus_id`, `ticketstatus`, `presence`, `picklist_valueid`) VALUES
@@ -17336,16 +16887,15 @@ INSERT INTO `vtiger_ticketstatus` (`ticketstatus_id`, `ticketstatus`, `presence`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketstatus_seq`
+-- Tabellstruktur `vtiger_ticketstatus_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketstatus_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ticketstatus_seq`
+-- Dumpning av Data i tabell `vtiger_ticketstatus_seq`
 --
 
 INSERT INTO `vtiger_ticketstatus_seq` (`id`) VALUES
@@ -17354,10 +16904,9 @@ INSERT INTO `vtiger_ticketstatus_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ticketstracktime`
+-- Tabellstruktur `vtiger_ticketstracktime`
 --
 
-DROP TABLE IF EXISTS `vtiger_ticketstracktime`;
 CREATE TABLE IF NOT EXISTS `vtiger_ticketstracktime` (
   `ticket_id` int(11) NOT NULL DEFAULT '0',
   `supporter_id` int(11) NOT NULL DEFAULT '0',
@@ -17370,10 +16919,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_ticketstracktime` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_time_zone`
+-- Tabellstruktur `vtiger_time_zone`
 --
 
-DROP TABLE IF EXISTS `vtiger_time_zone`;
 CREATE TABLE IF NOT EXISTS `vtiger_time_zone` (
   `time_zoneid` int(19) NOT NULL AUTO_INCREMENT,
   `time_zone` varchar(200) NOT NULL,
@@ -17383,7 +16931,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_time_zone` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=97 ;
 
 --
--- Dumping data for table `vtiger_time_zone`
+-- Dumpning av Data i tabell `vtiger_time_zone`
 --
 
 INSERT INTO `vtiger_time_zone` (`time_zoneid`, `time_zone`, `sortorderid`, `presence`) VALUES
@@ -17487,16 +17035,15 @@ INSERT INTO `vtiger_time_zone` (`time_zoneid`, `time_zone`, `sortorderid`, `pres
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_time_zone_seq`
+-- Tabellstruktur `vtiger_time_zone_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_time_zone_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_time_zone_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_time_zone_seq`
+-- Dumpning av Data i tabell `vtiger_time_zone_seq`
 --
 
 INSERT INTO `vtiger_time_zone_seq` (`id`) VALUES
@@ -17505,10 +17052,9 @@ INSERT INTO `vtiger_time_zone_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_read_group_rel_sharing_per`
+-- Tabellstruktur `vtiger_tmp_read_group_rel_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_read_group_rel_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_group_rel_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17521,10 +17067,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_group_rel_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_read_group_sharing_per`
+-- Tabellstruktur `vtiger_tmp_read_group_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_read_group_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_group_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17536,10 +17081,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_group_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_read_user_rel_sharing_per`
+-- Tabellstruktur `vtiger_tmp_read_user_rel_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_read_user_rel_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_user_rel_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17552,10 +17096,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_user_rel_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_read_user_sharing_per`
+-- Tabellstruktur `vtiger_tmp_read_user_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_read_user_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_user_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17567,10 +17110,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_read_user_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_write_group_rel_sharing_per`
+-- Tabellstruktur `vtiger_tmp_write_group_rel_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_write_group_rel_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_group_rel_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17583,10 +17125,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_group_rel_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_write_group_sharing_per`
+-- Tabellstruktur `vtiger_tmp_write_group_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_write_group_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_group_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17598,10 +17139,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_group_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_write_user_rel_sharing_per`
+-- Tabellstruktur `vtiger_tmp_write_user_rel_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_write_user_rel_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_user_rel_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17614,10 +17154,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_user_rel_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tmp_write_user_sharing_per`
+-- Tabellstruktur `vtiger_tmp_write_user_sharing_per`
 --
 
-DROP TABLE IF EXISTS `vtiger_tmp_write_user_sharing_per`;
 CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_user_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -17629,10 +17168,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_tmp_write_user_sharing_per` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tracker`
+-- Tabellstruktur `vtiger_tracker`
 --
 
-DROP TABLE IF EXISTS `vtiger_tracker`;
 CREATE TABLE IF NOT EXISTS `vtiger_tracker` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(36) DEFAULT NULL,
@@ -17643,7 +17181,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_tracker` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `vtiger_tracker`
+-- Dumpning av Data i tabell `vtiger_tracker`
 --
 
 INSERT INTO `vtiger_tracker` (`id`, `user_id`, `module_name`, `item_id`, `item_summary`) VALUES
@@ -17655,10 +17193,9 @@ INSERT INTO `vtiger_tracker` (`id`, `user_id`, `module_name`, `item_id`, `item_s
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tracking_unit`
+-- Tabellstruktur `vtiger_tracking_unit`
 --
 
-DROP TABLE IF EXISTS `vtiger_tracking_unit`;
 CREATE TABLE IF NOT EXISTS `vtiger_tracking_unit` (
   `tracking_unitid` int(11) NOT NULL AUTO_INCREMENT,
   `tracking_unit` varchar(200) NOT NULL,
@@ -17668,7 +17205,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_tracking_unit` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `vtiger_tracking_unit`
+-- Dumpning av Data i tabell `vtiger_tracking_unit`
 --
 
 INSERT INTO `vtiger_tracking_unit` (`tracking_unitid`, `tracking_unit`, `presence`, `picklist_valueid`) VALUES
@@ -17680,16 +17217,15 @@ INSERT INTO `vtiger_tracking_unit` (`tracking_unitid`, `tracking_unit`, `presenc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_tracking_unit_seq`
+-- Tabellstruktur `vtiger_tracking_unit_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_tracking_unit_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_tracking_unit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_tracking_unit_seq`
+-- Dumpning av Data i tabell `vtiger_tracking_unit_seq`
 --
 
 INSERT INTO `vtiger_tracking_unit_seq` (`id`) VALUES
@@ -17698,10 +17234,9 @@ INSERT INTO `vtiger_tracking_unit_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_troubletickets`
+-- Tabellstruktur `vtiger_troubletickets`
 --
 
-DROP TABLE IF EXISTS `vtiger_troubletickets`;
 CREATE TABLE IF NOT EXISTS `vtiger_troubletickets` (
   `ticketid` int(19) NOT NULL,
   `ticket_no` varchar(100) NOT NULL,
@@ -17727,10 +17262,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_troubletickets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_usageunit`
+-- Tabellstruktur `vtiger_usageunit`
 --
 
-DROP TABLE IF EXISTS `vtiger_usageunit`;
 CREATE TABLE IF NOT EXISTS `vtiger_usageunit` (
   `usageunitid` int(19) NOT NULL AUTO_INCREMENT,
   `usageunit` varchar(200) NOT NULL,
@@ -17741,7 +17275,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_usageunit` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
--- Dumping data for table `vtiger_usageunit`
+-- Dumpning av Data i tabell `vtiger_usageunit`
 --
 
 INSERT INTO `vtiger_usageunit` (`usageunitid`, `usageunit`, `presence`, `picklist_valueid`) VALUES
@@ -17765,16 +17299,15 @@ INSERT INTO `vtiger_usageunit` (`usageunitid`, `usageunit`, `presence`, `picklis
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_usageunit_seq`
+-- Tabellstruktur `vtiger_usageunit_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_usageunit_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_usageunit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_usageunit_seq`
+-- Dumpning av Data i tabell `vtiger_usageunit_seq`
 --
 
 INSERT INTO `vtiger_usageunit_seq` (`id`) VALUES
@@ -17783,10 +17316,9 @@ INSERT INTO `vtiger_usageunit_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_user2mergefields`
+-- Tabellstruktur `vtiger_user2mergefields`
 --
 
-DROP TABLE IF EXISTS `vtiger_user2mergefields`;
 CREATE TABLE IF NOT EXISTS `vtiger_user2mergefields` (
   `userid` int(11) DEFAULT NULL,
   `tabid` int(19) DEFAULT NULL,
@@ -17798,10 +17330,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_user2mergefields` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_user2role`
+-- Tabellstruktur `vtiger_user2role`
 --
 
-DROP TABLE IF EXISTS `vtiger_user2role`;
 CREATE TABLE IF NOT EXISTS `vtiger_user2role` (
   `userid` int(11) NOT NULL,
   `roleid` varchar(255) NOT NULL,
@@ -17810,7 +17341,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_user2role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_user2role`
+-- Dumpning av Data i tabell `vtiger_user2role`
 --
 
 INSERT INTO `vtiger_user2role` (`userid`, `roleid`) VALUES
@@ -17822,10 +17353,9 @@ INSERT INTO `vtiger_user2role` (`userid`, `roleid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_users`
+-- Tabellstruktur `vtiger_users`
 --
 
-DROP TABLE IF EXISTS `vtiger_users`;
 CREATE TABLE IF NOT EXISTS `vtiger_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) DEFAULT NULL,
@@ -17891,7 +17421,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Dumping data for table `vtiger_users`
+-- Dumpning av Data i tabell `vtiger_users`
 --
 
 INSERT INTO `vtiger_users` (`id`, `user_name`, `user_password`, `user_hash`, `cal_color`, `first_name`, `last_name`, `reports_to_id`, `is_admin`, `currency_id`, `description`, `date_entered`, `date_modified`, `modified_user_id`, `title`, `department`, `phone_home`, `phone_mobile`, `phone_work`, `phone_other`, `phone_fax`, `email1`, `email2`, `secondaryemail`, `status`, `signature`, `address_street`, `address_city`, `address_state`, `address_country`, `address_postalcode`, `user_preferences`, `tz`, `holidays`, `namedays`, `workdays`, `weekstart`, `date_format`, `hour_format`, `start_hour`, `end_hour`, `activity_view`, `lead_view`, `imagename`, `deleted`, `confirm_password`, `internal_mailer`, `reminder_interval`, `reminder_next_time`, `crypt_type`, `accesskey`, `theme`, `language`, `time_zone`, `currency_grouping_pattern`, `currency_decimal_separator`, `currency_grouping_separator`, `currency_symbol_placement`) VALUES
@@ -17903,10 +17433,9 @@ INSERT INTO `vtiger_users` (`id`, `user_name`, `user_password`, `user_hash`, `ca
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_users2group`
+-- Tabellstruktur `vtiger_users2group`
 --
 
-DROP TABLE IF EXISTS `vtiger_users2group`;
 CREATE TABLE IF NOT EXISTS `vtiger_users2group` (
   `groupid` int(19) NOT NULL,
   `userid` int(19) NOT NULL,
@@ -17916,7 +17445,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_users2group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_users2group`
+-- Dumpning av Data i tabell `vtiger_users2group`
 --
 
 INSERT INTO `vtiger_users2group` (`groupid`, `userid`) VALUES
@@ -17925,10 +17454,9 @@ INSERT INTO `vtiger_users2group` (`groupid`, `userid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_users_last_import`
+-- Tabellstruktur `vtiger_users_last_import`
 --
 
-DROP TABLE IF EXISTS `vtiger_users_last_import`;
 CREATE TABLE IF NOT EXISTS `vtiger_users_last_import` (
   `id` int(36) NOT NULL AUTO_INCREMENT,
   `assigned_user_id` varchar(36) DEFAULT NULL,
@@ -17942,16 +17470,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_users_last_import` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_users_seq`
+-- Tabellstruktur `vtiger_users_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_users_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_users_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_users_seq`
+-- Dumpning av Data i tabell `vtiger_users_seq`
 --
 
 INSERT INTO `vtiger_users_seq` (`id`) VALUES
@@ -17960,10 +17487,9 @@ INSERT INTO `vtiger_users_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_usertype`
+-- Tabellstruktur `vtiger_usertype`
 --
 
-DROP TABLE IF EXISTS `vtiger_usertype`;
 CREATE TABLE IF NOT EXISTS `vtiger_usertype` (
   `usertypeid` int(19) NOT NULL AUTO_INCREMENT,
   `usertype` varchar(200) NOT NULL,
@@ -17976,10 +17502,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_usertype` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_user_module_preferences`
+-- Tabellstruktur `vtiger_user_module_preferences`
 --
 
-DROP TABLE IF EXISTS `vtiger_user_module_preferences`;
 CREATE TABLE IF NOT EXISTS `vtiger_user_module_preferences` (
   `userid` int(19) NOT NULL,
   `tabid` int(19) NOT NULL,
@@ -17991,10 +17516,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_user_module_preferences` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_vendor`
+-- Tabellstruktur `vtiger_vendor`
 --
 
-DROP TABLE IF EXISTS `vtiger_vendor`;
 CREATE TABLE IF NOT EXISTS `vtiger_vendor` (
   `vendorid` int(19) NOT NULL DEFAULT '0',
   `vendor_no` varchar(100) NOT NULL,
@@ -18017,10 +17541,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_vendor` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_vendorcf`
+-- Tabellstruktur `vtiger_vendorcf`
 --
 
-DROP TABLE IF EXISTS `vtiger_vendorcf`;
 CREATE TABLE IF NOT EXISTS `vtiger_vendorcf` (
   `vendorid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vendorid`)
@@ -18029,10 +17552,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_vendorcf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_vendorcontactrel`
+-- Tabellstruktur `vtiger_vendorcontactrel`
 --
 
-DROP TABLE IF EXISTS `vtiger_vendorcontactrel`;
 CREATE TABLE IF NOT EXISTS `vtiger_vendorcontactrel` (
   `vendorid` int(19) NOT NULL DEFAULT '0',
   `contactid` int(19) NOT NULL DEFAULT '0',
@@ -18044,10 +17566,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_vendorcontactrel` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_version`
+-- Tabellstruktur `vtiger_version`
 --
 
-DROP TABLE IF EXISTS `vtiger_version`;
 CREATE TABLE IF NOT EXISTS `vtiger_version` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `old_version` varchar(30) DEFAULT NULL,
@@ -18056,7 +17577,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_version` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `vtiger_version`
+-- Dumpning av Data i tabell `vtiger_version`
 --
 
 INSERT INTO `vtiger_version` (`id`, `old_version`, `current_version`) VALUES
@@ -18065,16 +17586,15 @@ INSERT INTO `vtiger_version` (`id`, `old_version`, `current_version`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_version_seq`
+-- Tabellstruktur `vtiger_version_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_version_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_version_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_version_seq`
+-- Dumpning av Data i tabell `vtiger_version_seq`
 --
 
 INSERT INTO `vtiger_version_seq` (`id`) VALUES
@@ -18083,10 +17603,9 @@ INSERT INTO `vtiger_version_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_visibility`
+-- Tabellstruktur `vtiger_visibility`
 --
 
-DROP TABLE IF EXISTS `vtiger_visibility`;
 CREATE TABLE IF NOT EXISTS `vtiger_visibility` (
   `visibilityid` int(19) NOT NULL AUTO_INCREMENT,
   `visibility` varchar(200) NOT NULL,
@@ -18097,7 +17616,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_visibility` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `vtiger_visibility`
+-- Dumpning av Data i tabell `vtiger_visibility`
 --
 
 INSERT INTO `vtiger_visibility` (`visibilityid`, `visibility`, `sortorderid`, `presence`) VALUES
@@ -18107,16 +17626,15 @@ INSERT INTO `vtiger_visibility` (`visibilityid`, `visibility`, `sortorderid`, `p
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_visibility_seq`
+-- Tabellstruktur `vtiger_visibility_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_visibility_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_visibility_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_visibility_seq`
+-- Dumpning av Data i tabell `vtiger_visibility_seq`
 --
 
 INSERT INTO `vtiger_visibility_seq` (`id`) VALUES
@@ -18125,10 +17643,9 @@ INSERT INTO `vtiger_visibility_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_webforms`
+-- Tabellstruktur `vtiger_webforms`
 --
 
-DROP TABLE IF EXISTS `vtiger_webforms`;
 CREATE TABLE IF NOT EXISTS `vtiger_webforms` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -18147,10 +17664,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_webforms` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_webforms_field`
+-- Tabellstruktur `vtiger_webforms_field`
 --
 
-DROP TABLE IF EXISTS `vtiger_webforms_field`;
 CREATE TABLE IF NOT EXISTS `vtiger_webforms_field` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `webformid` int(19) NOT NULL,
@@ -18167,10 +17683,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_webforms_field` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_wordtemplates`
+-- Tabellstruktur `vtiger_wordtemplates`
 --
 
-DROP TABLE IF EXISTS `vtiger_wordtemplates`;
 CREATE TABLE IF NOT EXISTS `vtiger_wordtemplates` (
   `templateid` int(19) NOT NULL,
   `filename` varchar(100) NOT NULL,
@@ -18188,10 +17703,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_wordtemplates` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_wsapp`
+-- Tabellstruktur `vtiger_wsapp`
 --
 
-DROP TABLE IF EXISTS `vtiger_wsapp`;
 CREATE TABLE IF NOT EXISTS `vtiger_wsapp` (
   `appid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
@@ -18201,7 +17715,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_wsapp` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `vtiger_wsapp`
+-- Dumpning av Data i tabell `vtiger_wsapp`
 --
 
 INSERT INTO `vtiger_wsapp` (`appid`, `name`, `appkey`, `type`) VALUES
@@ -18210,10 +17724,9 @@ INSERT INTO `vtiger_wsapp` (`appid`, `name`, `appkey`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_wsapp_handlerdetails`
+-- Tabellstruktur `vtiger_wsapp_handlerdetails`
 --
 
-DROP TABLE IF EXISTS `vtiger_wsapp_handlerdetails`;
 CREATE TABLE IF NOT EXISTS `vtiger_wsapp_handlerdetails` (
   `type` varchar(200) NOT NULL,
   `handlerclass` varchar(100) DEFAULT NULL,
@@ -18221,7 +17734,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_wsapp_handlerdetails` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_wsapp_handlerdetails`
+-- Dumpning av Data i tabell `vtiger_wsapp_handlerdetails`
 --
 
 INSERT INTO `vtiger_wsapp_handlerdetails` (`type`, `handlerclass`, `handlerpath`) VALUES
@@ -18231,10 +17744,9 @@ INSERT INTO `vtiger_wsapp_handlerdetails` (`type`, `handlerclass`, `handlerpath`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_wsapp_queuerecords`
+-- Tabellstruktur `vtiger_wsapp_queuerecords`
 --
 
-DROP TABLE IF EXISTS `vtiger_wsapp_queuerecords`;
 CREATE TABLE IF NOT EXISTS `vtiger_wsapp_queuerecords` (
   `syncserverid` int(19) DEFAULT NULL,
   `details` varchar(300) DEFAULT NULL,
@@ -18245,10 +17757,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_wsapp_queuerecords` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_wsapp_recordmapping`
+-- Tabellstruktur `vtiger_wsapp_recordmapping`
 --
 
-DROP TABLE IF EXISTS `vtiger_wsapp_recordmapping`;
 CREATE TABLE IF NOT EXISTS `vtiger_wsapp_recordmapping` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `serverid` varchar(10) DEFAULT NULL,
@@ -18263,10 +17774,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_wsapp_recordmapping` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_wsapp_sync_state`
+-- Tabellstruktur `vtiger_wsapp_sync_state`
 --
 
-DROP TABLE IF EXISTS `vtiger_wsapp_sync_state`;
 CREATE TABLE IF NOT EXISTS `vtiger_wsapp_sync_state` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) DEFAULT NULL,
@@ -18278,10 +17788,9 @@ CREATE TABLE IF NOT EXISTS `vtiger_wsapp_sync_state` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_entity`
+-- Tabellstruktur `vtiger_ws_entity`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_entity`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_entity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
@@ -18292,7 +17801,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_entity` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
--- Dumping data for table `vtiger_ws_entity`
+-- Dumpning av Data i tabell `vtiger_ws_entity`
 --
 
 INSERT INTO `vtiger_ws_entity` (`id`, `name`, `handler_path`, `handler_class`, `ismodule`) VALUES
@@ -18332,10 +17841,9 @@ INSERT INTO `vtiger_ws_entity` (`id`, `name`, `handler_path`, `handler_class`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_entity_fieldtype`
+-- Tabellstruktur `vtiger_ws_entity_fieldtype`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_fieldtype`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_fieldtype` (
   `fieldtypeid` int(19) NOT NULL AUTO_INCREMENT,
   `table_name` varchar(50) NOT NULL,
@@ -18346,7 +17854,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_fieldtype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `vtiger_ws_entity_fieldtype`
+-- Dumpning av Data i tabell `vtiger_ws_entity_fieldtype`
 --
 
 INSERT INTO `vtiger_ws_entity_fieldtype` (`fieldtypeid`, `table_name`, `field_name`, `fieldtype`) VALUES
@@ -18359,16 +17867,15 @@ INSERT INTO `vtiger_ws_entity_fieldtype` (`fieldtypeid`, `table_name`, `field_na
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_entity_fieldtype_seq`
+-- Tabellstruktur `vtiger_ws_entity_fieldtype_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_fieldtype_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_fieldtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_entity_fieldtype_seq`
+-- Dumpning av Data i tabell `vtiger_ws_entity_fieldtype_seq`
 --
 
 INSERT INTO `vtiger_ws_entity_fieldtype_seq` (`id`) VALUES
@@ -18377,10 +17884,9 @@ INSERT INTO `vtiger_ws_entity_fieldtype_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_entity_name`
+-- Tabellstruktur `vtiger_ws_entity_name`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_name`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_name` (
   `entity_id` int(11) NOT NULL,
   `name_fields` varchar(50) NOT NULL,
@@ -18390,7 +17896,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_name` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_entity_name`
+-- Dumpning av Data i tabell `vtiger_ws_entity_name`
 --
 
 INSERT INTO `vtiger_ws_entity_name` (`entity_id`, `name_fields`, `index_field`, `table_name`) VALUES
@@ -18402,10 +17908,9 @@ INSERT INTO `vtiger_ws_entity_name` (`entity_id`, `name_fields`, `index_field`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_entity_referencetype`
+-- Tabellstruktur `vtiger_ws_entity_referencetype`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_referencetype`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_referencetype` (
   `fieldtypeid` int(19) NOT NULL,
   `type` varchar(25) NOT NULL,
@@ -18413,7 +17918,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_referencetype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_entity_referencetype`
+-- Dumpning av Data i tabell `vtiger_ws_entity_referencetype`
 --
 
 INSERT INTO `vtiger_ws_entity_referencetype` (`fieldtypeid`, `type`) VALUES
@@ -18422,16 +17927,15 @@ INSERT INTO `vtiger_ws_entity_referencetype` (`fieldtypeid`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_entity_seq`
+-- Tabellstruktur `vtiger_ws_entity_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_entity_seq`
+-- Dumpning av Data i tabell `vtiger_ws_entity_seq`
 --
 
 INSERT INTO `vtiger_ws_entity_seq` (`id`) VALUES
@@ -18440,10 +17944,9 @@ INSERT INTO `vtiger_ws_entity_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_entity_tables`
+-- Tabellstruktur `vtiger_ws_entity_tables`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_tables`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_tables` (
   `webservice_entity_id` int(11) NOT NULL,
   `table_name` varchar(50) NOT NULL,
@@ -18451,7 +17954,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_entity_tables` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_entity_tables`
+-- Dumpning av Data i tabell `vtiger_ws_entity_tables`
 --
 
 INSERT INTO `vtiger_ws_entity_tables` (`webservice_entity_id`, `table_name`) VALUES
@@ -18463,10 +17966,9 @@ INSERT INTO `vtiger_ws_entity_tables` (`webservice_entity_id`, `table_name`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_fieldinfo`
+-- Tabellstruktur `vtiger_ws_fieldinfo`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_fieldinfo`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_fieldinfo` (
   `id` varchar(64) NOT NULL,
   `property_name` varchar(32) DEFAULT NULL,
@@ -18475,7 +17977,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_fieldinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_fieldinfo`
+-- Dumpning av Data i tabell `vtiger_ws_fieldinfo`
 --
 
 INSERT INTO `vtiger_ws_fieldinfo` (`id`, `property_name`, `property_value`) VALUES
@@ -18484,10 +17986,9 @@ INSERT INTO `vtiger_ws_fieldinfo` (`id`, `property_name`, `property_value`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_fieldtype`
+-- Tabellstruktur `vtiger_ws_fieldtype`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_fieldtype`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_fieldtype` (
   `fieldtypeid` int(19) NOT NULL AUTO_INCREMENT,
   `uitype` varchar(30) NOT NULL,
@@ -18497,7 +17998,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_fieldtype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
 
 --
--- Dumping data for table `vtiger_ws_fieldtype`
+-- Dumpning av Data i tabell `vtiger_ws_fieldtype`
 --
 
 INSERT INTO `vtiger_ws_fieldtype` (`fieldtypeid`, `uitype`, `fieldtype`) VALUES
@@ -18544,10 +18045,9 @@ INSERT INTO `vtiger_ws_fieldtype` (`fieldtypeid`, `uitype`, `fieldtype`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_operation`
+-- Tabellstruktur `vtiger_ws_operation`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_operation`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_operation` (
   `operationid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -18559,7 +18059,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_operation` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
 
 --
--- Dumping data for table `vtiger_ws_operation`
+-- Dumpning av Data i tabell `vtiger_ws_operation`
 --
 
 INSERT INTO `vtiger_ws_operation` (`operationid`, `name`, `handler_path`, `handler_method`, `type`, `prelogin`) VALUES
@@ -18605,10 +18105,9 @@ INSERT INTO `vtiger_ws_operation` (`operationid`, `name`, `handler_path`, `handl
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_operation_parameters`
+-- Tabellstruktur `vtiger_ws_operation_parameters`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_operation_parameters`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_operation_parameters` (
   `operationid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -18618,7 +18117,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_operation_parameters` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
 
 --
--- Dumping data for table `vtiger_ws_operation_parameters`
+-- Dumpning av Data i tabell `vtiger_ws_operation_parameters`
 --
 
 INSERT INTO `vtiger_ws_operation_parameters` (`operationid`, `name`, `type`, `sequence`) VALUES
@@ -18691,16 +18190,15 @@ INSERT INTO `vtiger_ws_operation_parameters` (`operationid`, `name`, `type`, `se
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_operation_seq`
+-- Tabellstruktur `vtiger_ws_operation_seq`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_operation_seq`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_operation_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_operation_seq`
+-- Dumpning av Data i tabell `vtiger_ws_operation_seq`
 --
 
 INSERT INTO `vtiger_ws_operation_seq` (`id`) VALUES
@@ -18709,10 +18207,9 @@ INSERT INTO `vtiger_ws_operation_seq` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_referencetype`
+-- Tabellstruktur `vtiger_ws_referencetype`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_referencetype`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_referencetype` (
   `fieldtypeid` int(19) NOT NULL,
   `type` varchar(25) NOT NULL,
@@ -18720,7 +18217,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_referencetype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `vtiger_ws_referencetype`
+-- Dumpning av Data i tabell `vtiger_ws_referencetype`
 --
 
 INSERT INTO `vtiger_ws_referencetype` (`fieldtypeid`, `type`) VALUES
@@ -18755,10 +18252,9 @@ INSERT INTO `vtiger_ws_referencetype` (`fieldtypeid`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vtiger_ws_userauthtoken`
+-- Tabellstruktur `vtiger_ws_userauthtoken`
 --
 
-DROP TABLE IF EXISTS `vtiger_ws_userauthtoken`;
 CREATE TABLE IF NOT EXISTS `vtiger_ws_userauthtoken` (
   `userid` int(19) NOT NULL,
   `token` varchar(36) NOT NULL,
@@ -18768,858 +18264,857 @@ CREATE TABLE IF NOT EXISTS `vtiger_ws_userauthtoken` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Constraints for dumped tables
+-- Restriktioner för dumpade tabeller
 --
 
 --
--- Constraints for table `vtiger_account`
+-- Restriktioner för tabell `vtiger_account`
 --
 ALTER TABLE `vtiger_account`
   ADD CONSTRAINT `fk_1_vtiger_account` FOREIGN KEY (`accountid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_accountbillads`
+-- Restriktioner för tabell `vtiger_accountbillads`
 --
 ALTER TABLE `vtiger_accountbillads`
   ADD CONSTRAINT `fk_1_vtiger_accountbillads` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_accountscf`
+-- Restriktioner för tabell `vtiger_accountscf`
 --
 ALTER TABLE `vtiger_accountscf`
   ADD CONSTRAINT `fk_1_vtiger_accountscf` FOREIGN KEY (`accountid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_accountshipads`
+-- Restriktioner för tabell `vtiger_accountshipads`
 --
 ALTER TABLE `vtiger_accountshipads`
   ADD CONSTRAINT `fk_1_vtiger_accountshipads` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_activity`
+-- Restriktioner för tabell `vtiger_activity`
 --
 ALTER TABLE `vtiger_activity`
   ADD CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_activityproductrel`
+-- Restriktioner för tabell `vtiger_activityproductrel`
 --
 ALTER TABLE `vtiger_activityproductrel`
   ADD CONSTRAINT `fk_2_vtiger_activityproductrel` FOREIGN KEY (`productid`) REFERENCES `vtiger_products` (`productid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_assets`
+-- Restriktioner för tabell `vtiger_assets`
 --
 ALTER TABLE `vtiger_assets`
   ADD CONSTRAINT `fk_1_vtiger_assets` FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_attachments`
+-- Restriktioner för tabell `vtiger_attachments`
 --
 ALTER TABLE `vtiger_attachments`
   ADD CONSTRAINT `fk_1_vtiger_attachments` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_blocks`
+-- Restriktioner för tabell `vtiger_blocks`
 --
 ALTER TABLE `vtiger_blocks`
   ADD CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_campaigncontrel`
+-- Restriktioner för tabell `vtiger_campaigncontrel`
 --
 ALTER TABLE `vtiger_campaigncontrel`
   ADD CONSTRAINT `fk_2_vtiger_campaigncontrel` FOREIGN KEY (`contactid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_campaignleadrel`
+-- Restriktioner för tabell `vtiger_campaignleadrel`
 --
 ALTER TABLE `vtiger_campaignleadrel`
   ADD CONSTRAINT `fk_2_vtiger_campaignleadrel` FOREIGN KEY (`leadid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_campaignscf`
+-- Restriktioner för tabell `vtiger_campaignscf`
 --
 ALTER TABLE `vtiger_campaignscf`
   ADD CONSTRAINT `fk_1_vtiger_campaignscf` FOREIGN KEY (`campaignid`) REFERENCES `vtiger_campaign` (`campaignid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_chat_msg`
+-- Restriktioner för tabell `vtiger_chat_msg`
 --
 ALTER TABLE `vtiger_chat_msg`
   ADD CONSTRAINT `fk_1_vtiger_chat_msg` FOREIGN KEY (`chat_from`) REFERENCES `vtiger_chat_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_chat_pchat`
+-- Restriktioner för tabell `vtiger_chat_pchat`
 --
 ALTER TABLE `vtiger_chat_pchat`
   ADD CONSTRAINT `fk_1_vtiger_chat_pchat` FOREIGN KEY (`msg`) REFERENCES `vtiger_chat_msg` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_chat_pvchat`
+-- Restriktioner för tabell `vtiger_chat_pvchat`
 --
 ALTER TABLE `vtiger_chat_pvchat`
   ADD CONSTRAINT `fk_1_vtiger_chat_pvchat` FOREIGN KEY (`msg`) REFERENCES `vtiger_chat_msg` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_cntactivityrel`
+-- Restriktioner för tabell `vtiger_cntactivityrel`
 --
 ALTER TABLE `vtiger_cntactivityrel`
   ADD CONSTRAINT `fk_2_vtiger_cntactivityrel` FOREIGN KEY (`contactid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_competitor`
+-- Restriktioner för tabell `vtiger_competitor`
 --
 ALTER TABLE `vtiger_competitor`
   ADD CONSTRAINT `fk_1_vtiger_competitor` FOREIGN KEY (`competitorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_contactaddress`
+-- Restriktioner för tabell `vtiger_contactaddress`
 --
 ALTER TABLE `vtiger_contactaddress`
   ADD CONSTRAINT `fk_1_vtiger_contactaddress` FOREIGN KEY (`contactaddressid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_contactdetails`
+-- Restriktioner för tabell `vtiger_contactdetails`
 --
 ALTER TABLE `vtiger_contactdetails`
   ADD CONSTRAINT `fk_1_vtiger_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_contactscf`
+-- Restriktioner för tabell `vtiger_contactscf`
 --
 ALTER TABLE `vtiger_contactscf`
   ADD CONSTRAINT `fk_1_vtiger_contactscf` FOREIGN KEY (`contactid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_contactsubdetails`
+-- Restriktioner för tabell `vtiger_contactsubdetails`
 --
 ALTER TABLE `vtiger_contactsubdetails`
   ADD CONSTRAINT `fk_1_vtiger_contactsubdetails` FOREIGN KEY (`contactsubscriptionid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_contpotentialrel`
+-- Restriktioner för tabell `vtiger_contpotentialrel`
 --
 ALTER TABLE `vtiger_contpotentialrel`
   ADD CONSTRAINT `fk_2_vtiger_contpotentialrel` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_potential` (`potentialid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_crmentitynotesrel`
+-- Restriktioner för tabell `vtiger_crmentitynotesrel`
 --
 ALTER TABLE `vtiger_crmentitynotesrel`
   ADD CONSTRAINT `fk_2_vtiger_crmentitynotesrel` FOREIGN KEY (`notesid`) REFERENCES `vtiger_notes` (`notesid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_customaction`
+-- Restriktioner för tabell `vtiger_customaction`
 --
 ALTER TABLE `vtiger_customaction`
   ADD CONSTRAINT `fk_1_vtiger_customaction` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_customerdetails`
+-- Restriktioner för tabell `vtiger_customerdetails`
 --
 ALTER TABLE `vtiger_customerdetails`
   ADD CONSTRAINT `fk_1_vtiger_customerdetails` FOREIGN KEY (`customerid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_customview`
+-- Restriktioner för tabell `vtiger_customview`
 --
 ALTER TABLE `vtiger_customview`
   ADD CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_cvadvfilter`
+-- Restriktioner för tabell `vtiger_cvadvfilter`
 --
 ALTER TABLE `vtiger_cvadvfilter`
   ADD CONSTRAINT `fk_1_vtiger_cvadvfilter` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_cvcolumnlist`
+-- Restriktioner för tabell `vtiger_cvcolumnlist`
 --
 ALTER TABLE `vtiger_cvcolumnlist`
   ADD CONSTRAINT `fk_1_vtiger_cvcolumnlist` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_cvstdfilter`
+-- Restriktioner för tabell `vtiger_cvstdfilter`
 --
 ALTER TABLE `vtiger_cvstdfilter`
   ADD CONSTRAINT `fk_1_vtiger_cvstdfilter` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_grp2grp`
+-- Restriktioner för tabell `vtiger_datashare_grp2grp`
 --
 ALTER TABLE `vtiger_datashare_grp2grp`
   ADD CONSTRAINT `fk_3_vtiger_datashare_grp2grp` FOREIGN KEY (`to_groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_grp2role`
+-- Restriktioner för tabell `vtiger_datashare_grp2role`
 --
 ALTER TABLE `vtiger_datashare_grp2role`
   ADD CONSTRAINT `fk_3_vtiger_datashare_grp2role` FOREIGN KEY (`to_roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_grp2rs`
+-- Restriktioner för tabell `vtiger_datashare_grp2rs`
 --
 ALTER TABLE `vtiger_datashare_grp2rs`
   ADD CONSTRAINT `fk_3_vtiger_datashare_grp2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_module_rel`
+-- Restriktioner för tabell `vtiger_datashare_module_rel`
 --
 ALTER TABLE `vtiger_datashare_module_rel`
   ADD CONSTRAINT `fk_1_vtiger_datashare_module_rel` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_relatedmodules`
+-- Restriktioner för tabell `vtiger_datashare_relatedmodules`
 --
 ALTER TABLE `vtiger_datashare_relatedmodules`
   ADD CONSTRAINT `fk_2_vtiger_datashare_relatedmodules` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_role2group`
+-- Restriktioner för tabell `vtiger_datashare_role2group`
 --
 ALTER TABLE `vtiger_datashare_role2group`
   ADD CONSTRAINT `fk_3_vtiger_datashare_role2group` FOREIGN KEY (`share_roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_role2role`
+-- Restriktioner för tabell `vtiger_datashare_role2role`
 --
 ALTER TABLE `vtiger_datashare_role2role`
   ADD CONSTRAINT `fk_3_vtiger_datashare_role2role` FOREIGN KEY (`to_roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_role2rs`
+-- Restriktioner för tabell `vtiger_datashare_role2rs`
 --
 ALTER TABLE `vtiger_datashare_role2rs`
   ADD CONSTRAINT `fk_3_vtiger_datashare_role2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_rs2grp`
+-- Restriktioner för tabell `vtiger_datashare_rs2grp`
 --
 ALTER TABLE `vtiger_datashare_rs2grp`
   ADD CONSTRAINT `fk_3_vtiger_datashare_rs2grp` FOREIGN KEY (`share_roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_rs2role`
+-- Restriktioner för tabell `vtiger_datashare_rs2role`
 --
 ALTER TABLE `vtiger_datashare_rs2role`
   ADD CONSTRAINT `fk_3_vtiger_datashare_rs2role` FOREIGN KEY (`to_roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_datashare_rs2rs`
+-- Restriktioner för tabell `vtiger_datashare_rs2rs`
 --
 ALTER TABLE `vtiger_datashare_rs2rs`
   ADD CONSTRAINT `fk_3_vtiger_datashare_rs2rs` FOREIGN KEY (`to_roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_defaultcv`
+-- Restriktioner för tabell `vtiger_defaultcv`
 --
 ALTER TABLE `vtiger_defaultcv`
   ADD CONSTRAINT `fk_1_vtiger_defaultcv` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_def_org_share`
+-- Restriktioner för tabell `vtiger_def_org_share`
 --
 ALTER TABLE `vtiger_def_org_share`
   ADD CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_entityname`
+-- Restriktioner för tabell `vtiger_entityname`
 --
 ALTER TABLE `vtiger_entityname`
   ADD CONSTRAINT `fk_1_vtiger_entityname` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_faq`
+-- Restriktioner för tabell `vtiger_faq`
 --
 ALTER TABLE `vtiger_faq`
   ADD CONSTRAINT `fk_1_vtiger_faq` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_faqcomments`
+-- Restriktioner för tabell `vtiger_faqcomments`
 --
 ALTER TABLE `vtiger_faqcomments`
   ADD CONSTRAINT `fk_1_vtiger_faqcomments` FOREIGN KEY (`faqid`) REFERENCES `vtiger_faq` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_field`
+-- Restriktioner för tabell `vtiger_field`
 --
 ALTER TABLE `vtiger_field`
   ADD CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_group2grouprel`
+-- Restriktioner för tabell `vtiger_group2grouprel`
 --
 ALTER TABLE `vtiger_group2grouprel`
   ADD CONSTRAINT `fk_2_vtiger_group2grouprel` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `vtiger_group2role`
+-- Restriktioner för tabell `vtiger_group2role`
 --
 ALTER TABLE `vtiger_group2role`
   ADD CONSTRAINT `fk_2_vtiger_group2role` FOREIGN KEY (`roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_group2rs`
+-- Restriktioner för tabell `vtiger_group2rs`
 --
 ALTER TABLE `vtiger_group2rs`
   ADD CONSTRAINT `fk_2_vtiger_group2rs` FOREIGN KEY (`roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_homedashbd`
+-- Restriktioner för tabell `vtiger_homedashbd`
 --
 ALTER TABLE `vtiger_homedashbd`
   ADD CONSTRAINT `fk_1_vtiger_homedashbd` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_homedefault`
+-- Restriktioner för tabell `vtiger_homedefault`
 --
 ALTER TABLE `vtiger_homedefault`
   ADD CONSTRAINT `fk_1_vtiger_homedefault` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_homemodule`
+-- Restriktioner för tabell `vtiger_homemodule`
 --
 ALTER TABLE `vtiger_homemodule`
   ADD CONSTRAINT `fk_1_vtiger_homemodule` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_homemoduleflds`
+-- Restriktioner för tabell `vtiger_homemoduleflds`
 --
 ALTER TABLE `vtiger_homemoduleflds`
   ADD CONSTRAINT `fk_1_vtiger_homemoduleflds` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homemodule` (`stuffid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_homerss`
+-- Restriktioner för tabell `vtiger_homerss`
 --
 ALTER TABLE `vtiger_homerss`
   ADD CONSTRAINT `fk_1_vtiger_homerss` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_homestuff`
+-- Restriktioner för tabell `vtiger_homestuff`
 --
 ALTER TABLE `vtiger_homestuff`
   ADD CONSTRAINT `fk_1_vtiger_homestuff` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_invoice`
+-- Restriktioner för tabell `vtiger_invoice`
 --
 ALTER TABLE `vtiger_invoice`
   ADD CONSTRAINT `fk_2_vtiger_invoice` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_invoicebillads`
+-- Restriktioner för tabell `vtiger_invoicebillads`
 --
 ALTER TABLE `vtiger_invoicebillads`
   ADD CONSTRAINT `fk_1_vtiger_invoicebillads` FOREIGN KEY (`invoicebilladdressid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_invoicecf`
+-- Restriktioner för tabell `vtiger_invoicecf`
 --
 ALTER TABLE `vtiger_invoicecf`
   ADD CONSTRAINT `fk_1_vtiger_invoicecf` FOREIGN KEY (`invoiceid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_invoiceshipads`
+-- Restriktioner för tabell `vtiger_invoiceshipads`
 --
 ALTER TABLE `vtiger_invoiceshipads`
   ADD CONSTRAINT `fk_1_vtiger_invoiceshipads` FOREIGN KEY (`invoiceshipaddressid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_invoicestatushistory`
+-- Restriktioner för tabell `vtiger_invoicestatushistory`
 --
 ALTER TABLE `vtiger_invoicestatushistory`
   ADD CONSTRAINT `fk_1_vtiger_invoicestatushistory` FOREIGN KEY (`invoiceid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_lar`
+-- Restriktioner för tabell `vtiger_lar`
 --
 ALTER TABLE `vtiger_lar`
   ADD CONSTRAINT `fk_1_vtiger_lar` FOREIGN KEY (`createdby`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_leadacctrel`
+-- Restriktioner för tabell `vtiger_leadacctrel`
 --
 ALTER TABLE `vtiger_leadacctrel`
   ADD CONSTRAINT `fk_2_vtiger_leadacctrel` FOREIGN KEY (`leadid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_leadaddress`
+-- Restriktioner för tabell `vtiger_leadaddress`
 --
 ALTER TABLE `vtiger_leadaddress`
   ADD CONSTRAINT `fk_1_vtiger_leadaddress` FOREIGN KEY (`leadaddressid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_leadcontrel`
+-- Restriktioner för tabell `vtiger_leadcontrel`
 --
 ALTER TABLE `vtiger_leadcontrel`
   ADD CONSTRAINT `fk_2_vtiger_leadcontrel` FOREIGN KEY (`leadid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_leaddetails`
+-- Restriktioner för tabell `vtiger_leaddetails`
 --
 ALTER TABLE `vtiger_leaddetails`
   ADD CONSTRAINT `fk_1_vtiger_leaddetails` FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_leadpotrel`
+-- Restriktioner för tabell `vtiger_leadpotrel`
 --
 ALTER TABLE `vtiger_leadpotrel`
   ADD CONSTRAINT `fk_2_vtiger_leadpotrel` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_potential` (`potentialid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_leadscf`
+-- Restriktioner för tabell `vtiger_leadscf`
 --
 ALTER TABLE `vtiger_leadscf`
   ADD CONSTRAINT `fk_1_vtiger_leadscf` FOREIGN KEY (`leadid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_leadsubdetails`
+-- Restriktioner för tabell `vtiger_leadsubdetails`
 --
 ALTER TABLE `vtiger_leadsubdetails`
   ADD CONSTRAINT `fk_1_vtiger_leadsubdetails` FOREIGN KEY (`leadsubscriptionid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_notes`
+-- Restriktioner för tabell `vtiger_notes`
 --
 ALTER TABLE `vtiger_notes`
   ADD CONSTRAINT `fk_1_vtiger_notes` FOREIGN KEY (`notesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_org_share_action2tab`
+-- Restriktioner för tabell `vtiger_org_share_action2tab`
 --
 ALTER TABLE `vtiger_org_share_action2tab`
   ADD CONSTRAINT `fk_2_vtiger_org_share_action2tab` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_parenttabrel`
+-- Restriktioner för tabell `vtiger_parenttabrel`
 --
 ALTER TABLE `vtiger_parenttabrel`
   ADD CONSTRAINT `fk_2_vtiger_parenttabrel` FOREIGN KEY (`parenttabid`) REFERENCES `vtiger_parenttab` (`parenttabid`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_1_vtiger_parenttabrel` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_pobillads`
+-- Restriktioner för tabell `vtiger_pobillads`
 --
 ALTER TABLE `vtiger_pobillads`
   ADD CONSTRAINT `fk_1_vtiger_pobillads` FOREIGN KEY (`pobilladdressid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_portalinfo`
+-- Restriktioner för tabell `vtiger_portalinfo`
 --
 ALTER TABLE `vtiger_portalinfo`
   ADD CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_poshipads`
+-- Restriktioner för tabell `vtiger_poshipads`
 --
 ALTER TABLE `vtiger_poshipads`
   ADD CONSTRAINT `fk_1_vtiger_poshipads` FOREIGN KEY (`poshipaddressid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_postatushistory`
+-- Restriktioner för tabell `vtiger_postatushistory`
 --
 ALTER TABLE `vtiger_postatushistory`
   ADD CONSTRAINT `fk_1_vtiger_postatushistory` FOREIGN KEY (`purchaseorderid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_potcompetitorrel`
+-- Restriktioner för tabell `vtiger_potcompetitorrel`
 --
 ALTER TABLE `vtiger_potcompetitorrel`
   ADD CONSTRAINT `fk_2_vtiger_potcompetitorrel` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_potential` (`potentialid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_potential`
+-- Restriktioner för tabell `vtiger_potential`
 --
 ALTER TABLE `vtiger_potential`
   ADD CONSTRAINT `fk_1_vtiger_potential` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_potentialscf`
+-- Restriktioner för tabell `vtiger_potentialscf`
 --
 ALTER TABLE `vtiger_potentialscf`
   ADD CONSTRAINT `fk_1_vtiger_potentialscf` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_potential` (`potentialid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_potstagehistory`
+-- Restriktioner för tabell `vtiger_potstagehistory`
 --
 ALTER TABLE `vtiger_potstagehistory`
   ADD CONSTRAINT `fk_1_vtiger_potstagehistory` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_potential` (`potentialid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_pricebook`
+-- Restriktioner för tabell `vtiger_pricebook`
 --
 ALTER TABLE `vtiger_pricebook`
   ADD CONSTRAINT `fk_1_vtiger_pricebook` FOREIGN KEY (`pricebookid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_pricebookcf`
+-- Restriktioner för tabell `vtiger_pricebookcf`
 --
 ALTER TABLE `vtiger_pricebookcf`
   ADD CONSTRAINT `fk_1_vtiger_pricebookcf` FOREIGN KEY (`pricebookid`) REFERENCES `vtiger_pricebook` (`pricebookid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_pricebookproductrel`
+-- Restriktioner för tabell `vtiger_pricebookproductrel`
 --
 ALTER TABLE `vtiger_pricebookproductrel`
   ADD CONSTRAINT `fk_1_vtiger_pricebookproductrel` FOREIGN KEY (`pricebookid`) REFERENCES `vtiger_pricebook` (`pricebookid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_productcf`
+-- Restriktioner för tabell `vtiger_productcf`
 --
 ALTER TABLE `vtiger_productcf`
   ADD CONSTRAINT `fk_1_vtiger_productcf` FOREIGN KEY (`productid`) REFERENCES `vtiger_products` (`productid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_productcollaterals`
+-- Restriktioner för tabell `vtiger_productcollaterals`
 --
 ALTER TABLE `vtiger_productcollaterals`
   ADD CONSTRAINT `fk_1_vtiger_productcollaterals` FOREIGN KEY (`productid`) REFERENCES `vtiger_products` (`productid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_products`
+-- Restriktioner för tabell `vtiger_products`
 --
 ALTER TABLE `vtiger_products`
   ADD CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_profile2globalpermissions`
+-- Restriktioner för tabell `vtiger_profile2globalpermissions`
 --
 ALTER TABLE `vtiger_profile2globalpermissions`
   ADD CONSTRAINT `fk_1_vtiger_profile2globalpermissions` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_purchaseorder`
+-- Restriktioner för tabell `vtiger_purchaseorder`
 --
 ALTER TABLE `vtiger_purchaseorder`
   ADD CONSTRAINT `fk_4_vtiger_purchaseorder` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_purchaseordercf`
+-- Restriktioner för tabell `vtiger_purchaseordercf`
 --
 ALTER TABLE `vtiger_purchaseordercf`
   ADD CONSTRAINT `fk_1_vtiger_purchaseordercf` FOREIGN KEY (`purchaseorderid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_quickview`
+-- Restriktioner för tabell `vtiger_quickview`
 --
 ALTER TABLE `vtiger_quickview`
   ADD CONSTRAINT `fk_1_vtiger_quickview` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_quotes`
+-- Restriktioner för tabell `vtiger_quotes`
 --
 ALTER TABLE `vtiger_quotes`
   ADD CONSTRAINT `fk_3_vtiger_quotes` FOREIGN KEY (`potentialid`) REFERENCES `vtiger_potential` (`potentialid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_quotesbillads`
+-- Restriktioner för tabell `vtiger_quotesbillads`
 --
 ALTER TABLE `vtiger_quotesbillads`
   ADD CONSTRAINT `fk_1_vtiger_quotesbillads` FOREIGN KEY (`quotebilladdressid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_quotescf`
+-- Restriktioner för tabell `vtiger_quotescf`
 --
 ALTER TABLE `vtiger_quotescf`
   ADD CONSTRAINT `fk_1_vtiger_quotescf` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_quotesshipads`
+-- Restriktioner för tabell `vtiger_quotesshipads`
 --
 ALTER TABLE `vtiger_quotesshipads`
   ADD CONSTRAINT `fk_1_vtiger_quotesshipads` FOREIGN KEY (`quoteshipaddressid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_quotestagehistory`
+-- Restriktioner för tabell `vtiger_quotestagehistory`
 --
 ALTER TABLE `vtiger_quotestagehistory`
   ADD CONSTRAINT `fk_1_vtiger_quotestagehistory` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_recurringevents`
+-- Restriktioner för tabell `vtiger_recurringevents`
 --
 ALTER TABLE `vtiger_recurringevents`
   ADD CONSTRAINT `fk_1_vtiger_recurringevents` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_relcriteria`
+-- Restriktioner för tabell `vtiger_relcriteria`
 --
 ALTER TABLE `vtiger_relcriteria`
   ADD CONSTRAINT `fk_1_vtiger_relcriteria` FOREIGN KEY (`queryid`) REFERENCES `vtiger_selectquery` (`queryid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_report`
+-- Restriktioner för tabell `vtiger_report`
 --
 ALTER TABLE `vtiger_report`
   ADD CONSTRAINT `fk_2_vtiger_report` FOREIGN KEY (`queryid`) REFERENCES `vtiger_selectquery` (`queryid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_reportdatefilter`
+-- Restriktioner för tabell `vtiger_reportdatefilter`
 --
 ALTER TABLE `vtiger_reportdatefilter`
   ADD CONSTRAINT `fk_1_vtiger_reportdatefilter` FOREIGN KEY (`datefilterid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_reportgroupbycolumn`
+-- Restriktioner för tabell `vtiger_reportgroupbycolumn`
 --
 ALTER TABLE `vtiger_reportgroupbycolumn`
   ADD CONSTRAINT `fk_1_vtiger_reportgroupbycolumn` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_reportmodules`
+-- Restriktioner för tabell `vtiger_reportmodules`
 --
 ALTER TABLE `vtiger_reportmodules`
   ADD CONSTRAINT `fk_1_vtiger_reportmodules` FOREIGN KEY (`reportmodulesid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_reportsortcol`
+-- Restriktioner för tabell `vtiger_reportsortcol`
 --
 ALTER TABLE `vtiger_reportsortcol`
   ADD CONSTRAINT `fk_1_vtiger_reportsortcol` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_reportsummary`
+-- Restriktioner för tabell `vtiger_reportsummary`
 --
 ALTER TABLE `vtiger_reportsummary`
   ADD CONSTRAINT `fk_1_vtiger_reportsummary` FOREIGN KEY (`reportsummaryid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_role2picklist`
+-- Restriktioner för tabell `vtiger_role2picklist`
 --
 ALTER TABLE `vtiger_role2picklist`
   ADD CONSTRAINT `fk_2_vtiger_role2picklist` FOREIGN KEY (`picklistid`) REFERENCES `vtiger_picklist` (`picklistid`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_1_vtiger_role2picklist` FOREIGN KEY (`roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_salesmanactivityrel`
+-- Restriktioner för tabell `vtiger_salesmanactivityrel`
 --
 ALTER TABLE `vtiger_salesmanactivityrel`
   ADD CONSTRAINT `fk_2_vtiger_salesmanactivityrel` FOREIGN KEY (`smid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_salesmanattachmentsrel`
+-- Restriktioner för tabell `vtiger_salesmanattachmentsrel`
 --
 ALTER TABLE `vtiger_salesmanattachmentsrel`
   ADD CONSTRAINT `fk_2_vtiger_salesmanattachmentsrel` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_attachments` (`attachmentsid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_salesmanticketrel`
+-- Restriktioner för tabell `vtiger_salesmanticketrel`
 --
 ALTER TABLE `vtiger_salesmanticketrel`
   ADD CONSTRAINT `fk_2_vtiger_salesmanticketrel` FOREIGN KEY (`smid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_salesorder`
+-- Restriktioner för tabell `vtiger_salesorder`
 --
 ALTER TABLE `vtiger_salesorder`
   ADD CONSTRAINT `fk_3_vtiger_salesorder` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_salesordercf`
+-- Restriktioner för tabell `vtiger_salesordercf`
 --
 ALTER TABLE `vtiger_salesordercf`
   ADD CONSTRAINT `fk_1_vtiger_salesordercf` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_seactivityrel`
+-- Restriktioner för tabell `vtiger_seactivityrel`
 --
 ALTER TABLE `vtiger_seactivityrel`
   ADD CONSTRAINT `fk_2_vtiger_seactivityrel` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_seattachmentsrel`
+-- Restriktioner för tabell `vtiger_seattachmentsrel`
 --
 ALTER TABLE `vtiger_seattachmentsrel`
   ADD CONSTRAINT `fk_2_vtiger_seattachmentsrel` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_selectcolumn`
+-- Restriktioner för tabell `vtiger_selectcolumn`
 --
 ALTER TABLE `vtiger_selectcolumn`
   ADD CONSTRAINT `fk_1_vtiger_selectcolumn` FOREIGN KEY (`queryid`) REFERENCES `vtiger_selectquery` (`queryid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_senotesrel`
+-- Restriktioner för tabell `vtiger_senotesrel`
 --
 ALTER TABLE `vtiger_senotesrel`
   ADD CONSTRAINT `fk_2_vtiger_senotesrel` FOREIGN KEY (`notesid`) REFERENCES `vtiger_notes` (`notesid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_seproductsrel`
+-- Restriktioner för tabell `vtiger_seproductsrel`
 --
 ALTER TABLE `vtiger_seproductsrel`
   ADD CONSTRAINT `fk_2_vtiger_seproductsrel` FOREIGN KEY (`productid`) REFERENCES `vtiger_products` (`productid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_service`
+-- Restriktioner för tabell `vtiger_service`
 --
 ALTER TABLE `vtiger_service`
   ADD CONSTRAINT `fk_1_vtiger_service` FOREIGN KEY (`serviceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_seticketsrel`
+-- Restriktioner för tabell `vtiger_seticketsrel`
 --
 ALTER TABLE `vtiger_seticketsrel`
   ADD CONSTRAINT `fk_2_vtiger_seticketsrel` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_troubletickets` (`ticketid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_settings_field`
+-- Restriktioner för tabell `vtiger_settings_field`
 --
 ALTER TABLE `vtiger_settings_field`
   ADD CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_sobillads`
+-- Restriktioner för tabell `vtiger_sobillads`
 --
 ALTER TABLE `vtiger_sobillads`
   ADD CONSTRAINT `fk_1_vtiger_sobillads` FOREIGN KEY (`sobilladdressid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_soshipads`
+-- Restriktioner för tabell `vtiger_soshipads`
 --
 ALTER TABLE `vtiger_soshipads`
   ADD CONSTRAINT `fk_1_vtiger_soshipads` FOREIGN KEY (`soshipaddressid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_sostatushistory`
+-- Restriktioner för tabell `vtiger_sostatushistory`
 --
 ALTER TABLE `vtiger_sostatushistory`
   ADD CONSTRAINT `fk_1_vtiger_sostatushistory` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tab_info`
+-- Restriktioner för tabell `vtiger_tab_info`
 --
 ALTER TABLE `vtiger_tab_info`
   ADD CONSTRAINT `fk_1_vtiger_tab_info` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `vtiger_ticketcf`
+-- Restriktioner för tabell `vtiger_ticketcf`
 --
 ALTER TABLE `vtiger_ticketcf`
   ADD CONSTRAINT `fk_1_vtiger_ticketcf` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_troubletickets` (`ticketid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_ticketcomments`
+-- Restriktioner för tabell `vtiger_ticketcomments`
 --
 ALTER TABLE `vtiger_ticketcomments`
   ADD CONSTRAINT `fk_1_vtiger_ticketcomments` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_troubletickets` (`ticketid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_read_group_rel_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_read_group_rel_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_read_group_rel_sharing_per`
   ADD CONSTRAINT `fk_4_vtiger_tmp_read_group_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_read_group_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_read_group_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_read_group_sharing_per`
   ADD CONSTRAINT `fk_3_vtiger_tmp_read_group_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_read_user_rel_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_read_user_rel_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_read_user_rel_sharing_per`
   ADD CONSTRAINT `fk_4_vtiger_tmp_read_user_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_read_user_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_read_user_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_read_user_sharing_per`
   ADD CONSTRAINT `fk_3_vtiger_tmp_read_user_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_write_group_rel_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_write_group_rel_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_write_group_rel_sharing_per`
   ADD CONSTRAINT `fk_4_vtiger_tmp_write_group_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_write_group_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_write_group_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_write_group_sharing_per`
   ADD CONSTRAINT `fk_3_vtiger_tmp_write_group_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_write_user_rel_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_write_user_rel_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_write_user_rel_sharing_per`
   ADD CONSTRAINT `fk_4_vtiger_tmp_write_user_rel_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_tmp_write_user_sharing_per`
+-- Restriktioner för tabell `vtiger_tmp_write_user_sharing_per`
 --
 ALTER TABLE `vtiger_tmp_write_user_sharing_per`
   ADD CONSTRAINT `fk_3_vtiger_tmp_write_user_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_troubletickets`
+-- Restriktioner för tabell `vtiger_troubletickets`
 --
 ALTER TABLE `vtiger_troubletickets`
   ADD CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_user2role`
+-- Restriktioner för tabell `vtiger_user2role`
 --
 ALTER TABLE `vtiger_user2role`
   ADD CONSTRAINT `fk_2_vtiger_user2role` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_users2group`
+-- Restriktioner för tabell `vtiger_users2group`
 --
 ALTER TABLE `vtiger_users2group`
   ADD CONSTRAINT `fk_2_vtiger_users2group` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_user_module_preferences`
+-- Restriktioner för tabell `vtiger_user_module_preferences`
 --
 ALTER TABLE `vtiger_user_module_preferences`
   ADD CONSTRAINT `fk_2_vtiger_user_module_preferences` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `vtiger_vendor`
+-- Restriktioner för tabell `vtiger_vendor`
 --
 ALTER TABLE `vtiger_vendor`
   ADD CONSTRAINT `fk_1_vtiger_vendor` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_vendorcf`
+-- Restriktioner för tabell `vtiger_vendorcf`
 --
 ALTER TABLE `vtiger_vendorcf`
   ADD CONSTRAINT `fk_1_vtiger_vendorcf` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_vendorcontactrel`
+-- Restriktioner för tabell `vtiger_vendorcontactrel`
 --
 ALTER TABLE `vtiger_vendorcontactrel`
   ADD CONSTRAINT `fk_2_vtiger_vendorcontactrel` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_webforms_field`
+-- Restriktioner för tabell `vtiger_webforms_field`
 --
 ALTER TABLE `vtiger_webforms_field`
   ADD CONSTRAINT `fk_1_vtiger_webforms_field` FOREIGN KEY (`webformid`) REFERENCES `vtiger_webforms` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_3_vtiger_webforms_field` FOREIGN KEY (`fieldname`) REFERENCES `vtiger_field` (`fieldname`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_ws_entity_referencetype`
+-- Restriktioner för tabell `vtiger_ws_entity_referencetype`
 --
 ALTER TABLE `vtiger_ws_entity_referencetype`
   ADD CONSTRAINT `vtiger_fk_1_actors_referencetype` FOREIGN KEY (`fieldtypeid`) REFERENCES `vtiger_ws_entity_fieldtype` (`fieldtypeid`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_ws_entity_tables`
+-- Restriktioner för tabell `vtiger_ws_entity_tables`
 --
 ALTER TABLE `vtiger_ws_entity_tables`
   ADD CONSTRAINT `fk_1_vtiger_ws_actor_tables` FOREIGN KEY (`webservice_entity_id`) REFERENCES `vtiger_ws_entity` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `vtiger_ws_referencetype`
+-- Restriktioner för tabell `vtiger_ws_referencetype`
 --
 ALTER TABLE `vtiger_ws_referencetype`
   ADD CONSTRAINT `fk_1_vtiger_referencetype` FOREIGN KEY (`fieldtypeid`) REFERENCES `vtiger_ws_fieldtype` (`fieldtypeid`) ON DELETE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
