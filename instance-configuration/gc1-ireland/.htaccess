@@ -5,6 +5,10 @@ ErrorDocument 500 https://gizur.com/lib/error-documents/500.html
 
 RewriteEngine On
 
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{REQUEST_URI} !^/healthcheck.php
+RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+
 RewriteCond %{QUERY_STRING} ^$
 RewriteRule ^$ applications/gizursaas/index.html [L]
 
