@@ -20,7 +20,7 @@
       "url": "https://github.com/gizur/php_applications/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "lib/gizursaas",
+  "main": "app.js",
   "engines": {
     "node": ">= 0.8.0"
   },

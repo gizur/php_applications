@@ -139,7 +139,7 @@ $(function() {
     // ParseHash
     // =========
     // 
-    // Used to parsh hash. If new hash found it'll
+    // Used to parse hash. If new hash found it'll
     // call the crossroad to handle.
     function parseHash(newHash, oldHash){
         // second parameter of crossroads.parse() is 
