@@ -2,9 +2,13 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 $memcache_url = '10.58.226.192';
-$file = './img/sample.jpg';
+
+$files[] = './img/sample.jpg';
+$files[] = './img/sample1.png';
+$file = './img/sample2.png';
+
 $memcache = new Memcache;
-$name = uniqid() . ".jpg";
+$name = uniqid() . "_" . $file;
 $start_time = time();
 if ($memcache->connect($memcache_url, 11211)) {
     if (file_exists($file)) {
@@ -41,7 +45,7 @@ if (!$responseSThree->isOK())
     echo "S3 Transfer failed.";
 
 $end_time = time();
-echo "<br/>Memcache took " . ($end_time - $start_time) . " Seconds";
+echo "<br/>S3 took " . ($end_time - $start_time) . " Seconds";
 
 
 ?>
