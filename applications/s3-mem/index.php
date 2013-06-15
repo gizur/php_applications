@@ -21,7 +21,7 @@ $end_time = time();
 echo "<br/>File Name: " . $name;
 echo "<br/>Memcache took " . ($end_time - $start_time) . " Seconds";
 
-require_once __DIR__ . '../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../../lib/aws-php-sdk/sdk.class.php';
 $start_time = time();
 
 $_sThree = new AmazonS3();
