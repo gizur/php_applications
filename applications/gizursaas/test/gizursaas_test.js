@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var gizursaas = require('../lib/gizursaas.js');
 

@@ -1,23 +1,26 @@
-'use strict';
-
+"use strict";
 module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
     nodeunit: {
-      files: ['test/**/*_test.js'],
+      files: ['test/**/*_test.js']
     },
     
     // Plugin tasks
     //-------------
 
     doccoh: {
-        src: ['*.js', 'app/**/*.js']
+        src: ['*.js', 'app/**/*.js', 'config/*.js']
+    },
+    
+    lint: {
+        src: ['*.js', 'app/**/*.js', 'config/*.js']
     },
 
     clean: {
         folder: "docs/"
-    },
+    }
   });
 
   // These plugins provide necessary tasks.
