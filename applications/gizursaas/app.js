@@ -2,13 +2,13 @@ require.config({
     "baseUrl": "applications/gizursaas",
     "paths": {
         "app": "app",
+        "bootstrap": "lib/bootstrap/js/bootstrap.min",
         "jquery": "lib/jquery-1.9.0.min",
         "stapes": "lib/stapes.min",
         "signals": "lib/signals",
         "crossroads": "lib/crossroads.min",
         "hasher": "lib/hasher.min",
         "jsSHA": "lib/sha256",
-        "bootstrap": "lib/bootstrap/js/bootstrap.min",
         "config": "app/config/config",
         "UserModel": "app/model/User",
         "UsersView": "app/view/UsersView",
@@ -20,10 +20,28 @@ require.config({
         "ClientsView": "app/view/ClientsView",
         "ClientsController": "app/controller/ClientsController"
     },
-    "shim": {
-        "require.define": ['require']
-    }
+    shim: {
+        'jquery': {
+            exports: 'jquery'
+        },
+        'bootstrap': {
+            deps: ['jquery'],
+            exports:  "$.fn.popover"
+        }
+    },
+    enforceDefine: true
 });
-
+define("app", function(app) {
+    console.log("App loaded.");
+    return app;
+});
+define("jsSHA", function(jsSHA){
+    return jsSHA;
+});
+require(['jquery', 'bootstrap'],
+     function($){
+         return {};
+     }
+);
 // Load the main app module to start the app
 requirejs(["app/main"]);

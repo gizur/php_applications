@@ -77,12 +77,12 @@ define(["jquery", "stapes", "hasher"], function($, Stapes, hasher) {
         }
     });
 
-// UsersView prototype
-// ======================
-//
-// Here we are adding some methods to the UsersView 
-// prototype to handle events
-//
+    // UsersView prototype
+    // ======================
+    //
+    // Here we are adding some methods to the UsersView 
+    // prototype to handle events
+    //
     UsersView.proto({
         'bindEventHandlers': function() {
             // Handle click event on loginButton

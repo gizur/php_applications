@@ -29,7 +29,7 @@
 define(["jquery"], function($) {
     "use strict";
     var config = (typeof window === 'undefined') ? exports.Config = {} : window.Config = {};
-    config.rest_server_url = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.comapi/';
+    config.rest_server_url = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/';
 
     // Messages
     // ========

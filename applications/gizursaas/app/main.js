@@ -15,7 +15,7 @@
  *
  */
 
-require(["jquery", "config", "hasher", "crossroads", "UsersController", "AccountsController", "ClientsController"], function($, config, hasher, crossroads, UsersController, AccountsController, ClientsController) {
+define(["jquery", "config", "hasher", "crossroads", "UsersController", "AccountsController", "ClientsController"], function($, config, hasher, crossroads, UsersController, AccountsController, ClientsController) {
     "use strict";
     // DEFAULT HASH
     // ============
