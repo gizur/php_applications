@@ -72,8 +72,8 @@ cp $1/vtiger/modules/CikabTroubleTicket/dynamodb.config.php ../lib/vtiger-5.4.0/
 echo "cp $1/applications/cikab/php_batches/php-interfaces/config.inc.php ../applications/cikab/php_batches/php-interfaces/config.inc.php"
 cp $1/applications/cikab/php_batches/php-interfaces/config.inc.php ../applications/cikab/php_batches/php-interfaces/config.inc.php
 
-echo "cp $1/applications/gizursaas/config/config.js ../applications/gizursaas/config/config.js"
-cp $1/applications/gizursaas/app/config/config.js ../applications/app/gizursaas/config/config.js
+echo "cp $1/applications/gizursaas/app/config/config.js ../applications/gizursaas/app/config/config.js"
+cp $1/applications/gizursaas/app/config/config.js ../applications/app/gizursaas/app/config/config.js
 
 #
 # Memacaced setup
