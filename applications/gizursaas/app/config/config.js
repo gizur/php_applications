@@ -28,28 +28,28 @@
 // with the api path.
 define(["jquery"], function($) {
     "use strict";
-    var config = function() {
-        this.__rest_server_url = 'https://gizur.com/api/';
+    var config = (typeof window === 'undefined') ? exports.Config = {} : window.Config = {};
+    config.rest_server_url = 'https://gizur.com/api/';
 
-        // Messages
-        // ========
-        // Following are the set of messages showed to 
-        // user on perticular response / error code.
-        this.__messages = {
-            "CLIENT_ID_INVALID": 'Client ID is not available.',
-            "EMAIL_INVALID": 'Email is already registred.',
-            "ERROR": 'An error occured, Please contact administrator.',
-            "WRONG_CREDENTIALS": 'Credentials are in valid.',
-            "WRONG_FROM_CLIENT": 'From client is incorrect.',
-            "INVALID_EMAIL": "Wrong email id provided."
-        };
-
-        // Varibales to hold controllers object
-        //
-        this.user_controller = null;
-        this.account_controller = null;
-        this.clients_controller = null;
-
+    // Messages
+    // ========
+    // Following are the set of messages showed to 
+    // user on perticular response / error code.
+    config.messages = {
+        "CLIENT_ID_INVALID": 'Client ID is not available.',
+        "EMAIL_INVALID": 'Email is already registred.',
+        "ERROR": 'An error occured, Please contact administrator.',
+        "WRONG_CREDENTIALS": 'Credentials are in valid.',
+        "WRONG_FROM_CLIENT": 'From client is incorrect.',
+        "INVALID_EMAIL": "Wrong email id provided."
     };
+
+    // Varibales to hold controllers object
+    //
+    config.user_controller = null;
+    config.account_controller = null;
+    config.clients_controller = null;
+
+
     return config;
 });

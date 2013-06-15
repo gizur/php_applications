@@ -32,7 +32,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
             this.view = new AccountsView();
 
             //Prepare the url to fetch the account details
-            var _url = config.__rest_server_url + 'User/' +
+            var _url = config.rest_server_url + 'User/' +
                     encodeURIComponent(_email);
 
             //Make a Ajax request
@@ -125,7 +125,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 // This fuunction make PUT request to the server to
                 // generate API and SECRET key 1
                 'generateAPIKeyAndSecret1': function() {
-                    var _url = config.__rest_server_url + 'User/keypair1/' +
+                    var _url = config.rest_server_url + 'User/keypair1/' +
                             encodeURIComponent(self.model.get('email'));
                     $.ajax({
                         url: _url,
@@ -175,7 +175,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 // This fuunction make PUT request to the server to
                 // generate API and SECRET key 2
                 'generateAPIKeyAndSecret2': function() {
-                    var _url = config.__rest_server_url + 'User/keypair2/' +
+                    var _url = config.rest_server_url + 'User/keypair2/' +
                             encodeURIComponent(self.model.get('email'));
                     $.ajax({
                         url: _url,
@@ -225,7 +225,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 'updateInformation': function() {
 
                     self.view.success('Please wait ...');
-                    var _url = config.__rest_server_url + 'User';
+                    var _url = config.rest_server_url + 'User';
 
                     $.ajax({
                         url: _url,
@@ -303,7 +303,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         return false;
 
                     self.view.success('Please wait ...');
-                    var _url = config.__rest_server_url + 'User/vtiger/' +
+                    var _url = config.rest_server_url + 'User/vtiger/' +
                             config.user_controller.model.get('email');
 
                     $.ajax({

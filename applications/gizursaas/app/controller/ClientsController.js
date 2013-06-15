@@ -85,7 +85,7 @@ define(["jquery", "config", "stapes", "ClientModel", "ClientsView"], function($,
 
                     //Make a registration request to the server
                     //
-                    var _url_create = config.__rest_server_url + 'Users/copyuser';
+                    var _url_create = config.rest_server_url + 'Users/copyuser';
                     $.ajax({
                         url: _url_create,
                         type: "POST",
@@ -109,7 +109,7 @@ define(["jquery", "config", "stapes", "ClientModel", "ClientsView"], function($,
                             var _data = JSON.parse(jqXHR.responseText);
 
                             if (!_data.success)
-                                self.view.error(config.__messages[_data.error.code]);
+                                self.view.error(config.messages[_data.error.code]);
                         },
                         // On success clean the form.
                         success: function(_data) {
@@ -137,7 +137,7 @@ define(["jquery", "config", "stapes", "ClientModel", "ClientsView"], function($,
         'loadView': function(adminUsername, adminPassword, DEFAULT_HASH) {
             var self = this;
             //Prepare the url to fetch the account details
-            var _url = config.__rest_server_url + 'Users';
+            var _url = config.rest_server_url + 'Users';
 
             //Make a Ajax request
             $.ajax({

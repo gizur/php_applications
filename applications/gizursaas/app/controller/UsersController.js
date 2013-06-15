@@ -91,7 +91,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
 
                     //Make a registration request to the server
                     //
-                    var _url_create = config.__rest_server_url + 'User/';
+                    var _url_create = config.rest_server_url + 'User/';
                     $.ajax({
                         url: _url_create,
                         type: "POST",
@@ -128,7 +128,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                             var _data = JSON.parse(jqXHR.responseText);
 
                             if (!_data.success)
-                                self.view.error(config.__messages[_data.error.code]);
+                                self.view.error(config.messages[_data.error.code]);
                         },
                         // On success clean the form.
                         success: function(_data) {
@@ -174,7 +174,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                             .empty().html('Processing ...');
                     //Make a forgotpassword request to the server
                     //
-                    var _url_forgot = config.__rest_server_url + 'User/forgotpassword';
+                    var _url_forgot = config.rest_server_url + 'User/forgotpassword';
                     $.ajax({
                         url: _url_forgot,
                         type: "POST",
@@ -190,7 +190,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                             $('#forgotPasswordError').removeClass('alert alert-error alert-success')
                                     .empty();
                             if (!_data.success)
-                                self.view.error(config.__messages[_data.error.code]);
+                                self.view.error(config.messages[_data.error.code]);
 
                             $('#forgotPasswordClose').click();
                         },
@@ -239,7 +239,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
         // login button.
         "login": function(status) {
             var self = this;
-
+            console.log(config.rest_server_url);
             var $email = $('#login_email');
             var $password = $('#login_password');
 
@@ -258,7 +258,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                 self.view.alert('Username or password can\'t be left blank.');
             } else {
                 if ($email.val() !== '' && $password.val() !== '') {
-                    var _url_login = config.__rest_server_url + 'User/login';
+                    var _url_login = config.rest_server_url + 'User/login';
                     $.ajax({
                         url: _url_login,
                         type: "POST",
