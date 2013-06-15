@@ -1,0 +1,269 @@
+<!DOCTYPE html>  <html> <head>   <title>UsersController.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="AccountsController.html">                 AccountsController.js               </a>                                           <a class="source" href="ClientsController.html">                 ClientsController.js               </a>                                           <a class="source" href="UsersController.html">                 UsersController.js               </a>                                           <a class="source" href="Account.html">                 Account.js               </a>                                           <a class="source" href="Client.html">                 Client.js               </a>                                           <a class="source" href="User.html">                 User.js               </a>                                           <a class="source" href="AccountsView.html">                 AccountsView.js               </a>                                           <a class="source" href="ClientsView.html">                 ClientsView.js               </a>                                           <a class="source" href="UsersView.html">                 UsersView.js               </a>                                           <a class="source" href="grunt.html">                 grunt.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               UsersController.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage controller
+ * @author     Prabhat Khera &lt;prabhat.khera@essindia.co.in&gt;
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * &lt;a href="http://gizur.com"&gt;Gizur Consulting&lt;/a&gt;, All rights reserved.
+ *
+ * JavaScript
+ *
+ */</span>
+
+<span class="string">'use strict'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h1>UserController</h1>
+
+<p>This class has user resistration and login method.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="keyword">var</span> UsersController = Stapes.subclass({
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h1>constructor</h1>
+
+<p>This will load the home template and 
+initialise the event handlers</p>             </td>             <td class="code">               <div class="highlight"><pre>    constructor: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Alias this with self</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Initialse model and view</p>
+
+<p>On initialisation of view it will load the registration
+template.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">this</span>.model = <span class="keyword">new</span> UserModel();
+        <span class="keyword">this</span>.view = <span class="keyword">new</span> UsersView(<span class="keyword">this</span>.model);
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h1>Logout</h1>
+
+<p>This event will be called when user will click on the
+logout link.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">this</span>.view.on(<span class="string">'logout'</span>, <span class="keyword">function</span>() {
+            self.model = <span class="literal">null</span>;
+            self.view.success(<span class="string">'You have been successfully logged-out.'</span>);
+            account_controller.model = <span class="literal">null</span>;
+            hasher.setHash(<span class="string">'logout'</span>);
+        });
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h1>Registration Submit</h1>
+
+<p>This will be emitted when user will submit the 
+registration form.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">this</span>.view.on(<span class="string">'registrationSubmit'</span>, <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Get values from the form on submission 
+and assign it to model.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">this</span>.$el = $(<span class="string">"#registrationform"</span>);
+            <span class="keyword">var</span> $first_name = <span class="keyword">this</span>.$el.find(<span class="string">"#first_name"</span>);
+            <span class="keyword">var</span> $last_name = <span class="keyword">this</span>.$el.find(<span class="string">"#last_name"</span>);
+            <span class="keyword">var</span> $email = <span class="keyword">this</span>.$el.find(<span class="string">"#email"</span>);
+            <span class="keyword">var</span> $password = <span class="keyword">this</span>.$el.find(<span class="string">"#password"</span>);
+            <span class="keyword">var</span> $re_password = <span class="keyword">this</span>.$el.find(<span class="string">"#re_password"</span>);
+            <span class="keyword">var</span> $client_id = <span class="keyword">this</span>.$el.find(<span class="string">"#client_id"</span>);
+            <span class="keyword">var</span> $terms = <span class="keyword">this</span>.$el.find(<span class="string">"#terms:checked"</span>);
+
+            self.model.set({
+                <span class="string">"first_name"</span>: $first_name.val(),
+                <span class="string">"last_name"</span>: $last_name.val(),
+                <span class="string">"email"</span>: $email.val(),
+                <span class="string">"password"</span>: $password.val(),
+                <span class="string">"re_password"</span>: $re_password.val(),
+                <span class="string">"terms"</span>: $terms.val(),
+                <span class="string">"client_id"</span>: $client_id.val()
+            });
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Validate the User.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (self.model.validate()) {
+
+                self.view.success(<span class="string">'Processing ...'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Hash the password with the security salt.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+                <span class="keyword">var</span> hashObj1 = <span class="keyword">new</span> jsSHA(Math.random(), <span class="string">"TEXT"</span>);
+                <span class="keyword">var</span> security_salt = hashObj1.getHash(<span class="string">"SHA-256"</span>, <span class="string">"HEX"</span>);
+                <span class="keyword">var</span> hashObj = <span class="keyword">new</span> jsSHA(
+                        self.model.get(<span class="string">'password'</span>) + security_salt, <span class="string">"TEXT"</span>
+                        );
+                <span class="keyword">var</span> hashed_password = hashObj.getHash(<span class="string">"SHA-256"</span>, <span class="string">"HEX"</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Make a registration request to the server</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">var</span> _url_create = __rest_server_url + <span class="string">'User/'</span>;
+                $.ajax({
+                    url: _url_create,
+                    type: <span class="string">"POST"</span>,
+                    dataType: <span class="string">"json"</span>,
+                    processData: <span class="literal">false</span>,
+                    data: JSON.stringify({
+                        <span class="string">"id"</span>: self.model.get(<span class="string">'email'</span>),
+                        <span class="string">"password"</span>: hashed_password,
+                        <span class="string">"name_1"</span>: self.model.get(<span class="string">'first_name'</span>),
+                        <span class="string">"name_2"</span>: self.model.get(<span class="string">'last_name'</span>),
+                        <span class="string">"address_1"</span>: <span class="string">""</span>,
+                        <span class="string">"address_2"</span>: <span class="string">""</span>,
+                        <span class="string">"city"</span>: <span class="string">""</span>,
+                        <span class="string">"state"</span>: <span class="string">""</span>,
+                        <span class="string">"postalcode"</span>: <span class="string">""</span>,
+                        <span class="string">"country"</span>: <span class="string">""</span>,
+                        <span class="string">"phone_1"</span>: <span class="string">""</span>,
+                        <span class="string">"clientid"</span>: self.model.get(<span class="string">'client_id'</span>),
+                        <span class="string">"apikey_1"</span>: <span class="string">""</span>,
+                        <span class="string">"secretkey_1"</span>: <span class="string">""</span>,
+                        <span class="string">"active_1"</span>: <span class="string">""</span>,
+                        <span class="string">"apikey_2"</span>: <span class="string">""</span>,
+                        <span class="string">"secretkey_2"</span>: <span class="string">""</span>,
+                        <span class="string">"active_2"</span>: <span class="string">""</span>,
+                        <span class="string">"server"</span>: <span class="string">""</span>,
+                        <span class="string">"port"</span>: <span class="string">""</span>,
+                        <span class="string">"username"</span>: <span class="string">""</span>,
+                        <span class="string">"dbpassword"</span>: <span class="string">""</span>,
+                        <span class="string">"databasename"</span>: <span class="string">""</span>,
+                        <span class="string">"security_salt"</span>: security_salt
+                    }),
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If error occured, it will display the error msg.</p>             </td>             <td class="code">               <div class="highlight"><pre>                    error: <span class="keyword">function</span>(jqXHR, textStatus, errorThrown) {
+                        <span class="keyword">var</span> _data = JSON.parse(jqXHR.responseText);
+
+                        <span class="keyword">if</span> (!_data.success)
+                            self.view.error(__messages[_data.error.code]);
+                    },
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>On success clean the form.</p>             </td>             <td class="code">               <div class="highlight"><pre>                    success: <span class="keyword">function</span>(_data) {
+                        <span class="keyword">if</span> (_data.success) {
+                            self.view.success(
+                                    <span class="string">'Your account has been created. '</span> +
+                                    <span class="string">'You may login to your account.'</span>
+                                    );
+                            $first_name.val(<span class="string">''</span>);
+                            $last_name.val(<span class="string">''</span>);
+                            $email.val(<span class="string">''</span>);
+                            $password.val(<span class="string">''</span>);
+                            $re_password.val(<span class="string">''</span>);
+                            $client_id.val(<span class="string">''</span>);
+                            $terms.attr(<span class="string">'checked'</span>, <span class="literal">false</span>);
+                        } <span class="keyword">else</span> {
+                            self.view.error(
+                                    <span class="string">'An error occured while creating your'</span> +
+                                    <span class="string">' account. Please contact administrator.'</span>
+                                    );
+                        }
+                    }
+                });
+            }
+        });
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <h1>Forgot Password</h1>
+
+<p>This will be emitted when user will request for
+the forgot password.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">this</span>.view.on(<span class="string">'forgotPassword'</span>, <span class="keyword">function</span>() {
+            <span class="keyword">var</span> $login_id = $(<span class="string">'#login_id'</span>).val();
+            <span class="keyword">if</span> ($login_id.length === <span class="number">0</span>) {
+                $(<span class="string">'#forgotPasswordError'</span>).addClass(<span class="string">'alert alert-error'</span>)
+                        .empty()
+                        .html(<span class="string">"Please enter login id."</span>);
+                setTimeout(<span class="keyword">function</span>() {
+                    $(<span class="string">'#forgotPasswordError'</span>).removeClass(<span class="string">'alert alert-error'</span>)
+                        .empty();
+                }, <span class="number">1000</span>);
+                <span class="keyword">return</span> <span class="literal">false</span>;
+            } <span class="keyword">else</span> {
+                $(<span class="string">'#forgotPasswordError'</span>).addClass(<span class="string">'alert alert-success'</span>)
+                        .empty().html(<span class="string">'Processing ...'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Make a forgotpassword request to the server</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">var</span> _url_forgot = __rest_server_url + <span class="string">'User/forgotpassword'</span>;
+                $.ajax({
+                    url: _url_forgot,
+                    type: <span class="string">"POST"</span>,
+                    dataType: <span class="string">"json"</span>,
+                    processData: <span class="literal">false</span>,
+                    data: JSON.stringify({
+                        <span class="string">"id"</span>: $login_id
+                    }),
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>If error occured, it will display the error msg.</p>             </td>             <td class="code">               <div class="highlight"><pre>                    error: <span class="keyword">function</span>(jqXHR, textStatus, errorThrown) {
+                        <span class="keyword">var</span> _data = JSON.parse(jqXHR.responseText);
+
+                        $(<span class="string">'#forgotPasswordError'</span>).removeClass(<span class="string">'alert alert-error alert-success'</span>)
+                            .empty();
+                        <span class="keyword">if</span> (!_data.success)
+                            self.view.error(__messages[_data.error.code]);
+
+                        $(<span class="string">'#forgotPasswordClose'</span>).click();
+                    },
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>On success clean the form.</p>             </td>             <td class="code">               <div class="highlight"><pre>                    success: <span class="keyword">function</span>(_data) {
+                        $(<span class="string">'#forgotPasswordError'</span>).removeClass(<span class="string">'alert alert-error alert-success'</span>)
+                            .empty();
+                        <span class="keyword">if</span> (_data.success) {
+                            self.view.success(
+                                <span class="string">'An email has been sent to'</span> +
+                                <span class="string">' your registered email for '</span> +
+                                <span class="string">'further instruction.'</span>
+                            );
+                            $(<span class="string">'#login_id'</span>).val(<span class="string">''</span>);
+                            $(<span class="string">'#forgotPasswordClose'</span>).click();
+                        } <span class="keyword">else</span> {
+                            self.view.error(
+                                <span class="string">'An error occured while '</span> +
+                                <span class="string">'resetting your password. Please '</span> +
+                                <span class="string">'contact administrator.'</span>
+                            );
+                            $(<span class="string">'#forgotPasswordClose'</span>).click();
+                        }
+                    }
+                });
+            }
+        });
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h1>Show Terms of Services</h1>
+
+<p>This will be emitted when user will request to view 
+terms of services.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">this</span>.view.on(<span class="string">'showTermsCondition'</span>, <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Load terns of services to the server</p>             </td>             <td class="code">               <div class="highlight"><pre>            $.get(<span class="string">'./applications/gizursaas/terms-of-service.txt?_='</span> +
+                    Math.random(), {}, <span class="keyword">function</span>(html) {
+                $(<span class="string">'#termsConditionBody'</span>).empty().html(self.nl2br(html, <span class="literal">true</span>));
+            });
+        });
+
+    },
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h1>Login</h1>
+
+<p>This function will be called when user will click on the
+login button.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">"login"</span>: <span class="keyword">function</span>(status) {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        <span class="keyword">var</span> $email = $(<span class="string">'#login_email'</span>);
+        <span class="keyword">var</span> $password = $(<span class="string">'#login_password'</span>);
+
+        <span class="keyword">if</span> (status === <span class="string">'success'</span>) {
+            self.view.success(<span class="string">'Login successfull. Please wait...'</span>);
+            self.model.set({
+                <span class="string">'email'</span>: $email.val(),
+                <span class="string">'password'</span>: $password.val()
+            });
+            setTimeout(<span class="keyword">function</span>() {
+                hasher.setHash(<span class="string">'user/'</span> + $email.val() + <span class="string">'/'</span> + Math.random());
+            }, <span class="number">500</span>);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (status === <span class="string">'fail'</span>) {
+            self.view.error(<span class="string">'Username or password is invalid.'</span>);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (status === <span class="string">'empty'</span>) {
+            self.view.alert(<span class="string">'Username or password can\'t be left blank.'</span>);
+        } <span class="keyword">else</span> {
+            <span class="keyword">if</span> ($email.val() !== <span class="string">''</span> &amp;&amp; $password.val() !== <span class="string">''</span>) {
+                <span class="keyword">var</span> _url_login = __rest_server_url + <span class="string">'User/login'</span>;
+                $.ajax({
+                    url: _url_login,
+                    type: <span class="string">"POST"</span>,
+                    dataType: <span class="string">"json"</span>,
+                    processData: <span class="literal">false</span>,
+                    data: JSON.stringify({
+                        <span class="string">"id"</span>: $email.val(),
+                        <span class="string">"password"</span>: $password.val()
+                    }),
+                    error: <span class="keyword">function</span>(jqXHR, textStatus, errorThrown) {
+                        <span class="keyword">var</span> _data = JSON.parse(jqXHR.responseText);
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>_data.error.code == "ERROR" &amp;&amp; </p>             </td>             <td class="code">               <div class="highlight"><pre>                        <span class="keyword">if</span> (!_data.success)
+                            hasher.setHash(<span class="string">'login/fail'</span>);
+                    },
+                    success: <span class="keyword">function</span>(_data) {
+                        <span class="keyword">if</span> (_data.success)
+                            hasher.setHash(<span class="string">'login/success'</span>);
+                        <span class="keyword">else</span>
+                            hasher.setHash(<span class="string">'login/fail'</span>);
+                    }
+                });
+            } <span class="keyword">else</span> {
+                hasher.setHash(<span class="string">'login/empty'</span>);
+            }
+        }
+    },
+    
+    <span class="string">'nl2br'</span>: <span class="keyword">function</span>(str, is_xhtml) {
+        <span class="keyword">var</span> breakTag = (is_xhtml || <span class="keyword">typeof</span> is_xhtml === <span class="string">'undefined'</span>) ? <span class="string">'&lt;br /&gt;'</span> : <span class="string">'&lt;br&gt;'</span>;
+        <span class="keyword">return</span> (str + <span class="string">''</span>).replace(<span class="regexp">/([^&gt;\r\n]?)(\r\n|\n\r|\r|\n)/g</span>, <span class="string">'$1'</span> + breakTag + <span class="string">'$2'</span>);
+    }
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

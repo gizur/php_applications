@@ -1,0 +1,27 @@
+<!DOCTYPE html>  <html> <head>   <title>grunt.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="AccountsController.html">                 AccountsController.js               </a>                                           <a class="source" href="ClientsController.html">                 ClientsController.js               </a>                                           <a class="source" href="UsersController.html">                 UsersController.js               </a>                                           <a class="source" href="Account.html">                 Account.js               </a>                                           <a class="source" href="Client.html">                 Client.js               </a>                                           <a class="source" href="User.html">                 User.js               </a>                                           <a class="source" href="AccountsView.html">                 AccountsView.js               </a>                                           <a class="source" href="ClientsView.html">                 ClientsView.js               </a>                                           <a class="source" href="UsersView.html">                 UsersView.js               </a>                                           <a class="source" href="grunt.html">                 grunt.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               grunt.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="string">'use strict'</span>;
+
+module.exports = <span class="keyword">function</span>(grunt) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Project configuration.</p>             </td>             <td class="code">               <div class="highlight"><pre>  grunt.initConfig({
+    nodeunit: {
+      files: [<span class="string">'test/**/*_test.js'</span>],
+    },
+    
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h2>Plugin tasks</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+    doccoh: {
+        src: [<span class="string">'*.js'</span>, <span class="string">'app/**/*.js'</span>]
+    },
+
+    clean: {
+        folder: <span class="string">"docs/"</span>
+    },
+  });
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>These plugins provide necessary tasks.</p>             </td>             <td class="code">               <div class="highlight"><pre>  grunt.loadNpmTasks(<span class="string">'grunt-exec'</span>);
+  grunt.loadNpmTasks(<span class="string">'grunt-doccoh'</span>);
+  grunt.loadNpmTasks(<span class="string">'grunt-clean'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Default task.</p>             </td>             <td class="code">               <div class="highlight"><pre>  grunt.registerTask(<span class="string">'default'</span>, [<span class="string">'doccoh'</span>]);
+
+};
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

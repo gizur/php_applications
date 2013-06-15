@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 $memcache_url = '10.58.226.192';
 $file = './img/sample.jpg';
 $memcache = new Memcache;
@@ -17,6 +18,7 @@ if ($memcache->connect($memcache_url, 11211)) {
     }
 }
 $end_time = time();
+echo "<br/>File Name: " . $name;
 echo "<br/>Memcache took " . ($end_time - $start_time) . " Seconds";
 
 require_once __DIR__ . '../../lib/aws-php-sdk/sdk.class.php';

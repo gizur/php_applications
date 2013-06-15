@@ -1,0 +1,112 @@
+<!DOCTYPE html>  <html> <head>   <title>UsersView.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="AccountsController.html">                 AccountsController.js               </a>                                           <a class="source" href="ClientsController.html">                 ClientsController.js               </a>                                           <a class="source" href="UsersController.html">                 UsersController.js               </a>                                           <a class="source" href="Account.html">                 Account.js               </a>                                           <a class="source" href="Client.html">                 Client.js               </a>                                           <a class="source" href="User.html">                 User.js               </a>                                           <a class="source" href="AccountsView.html">                 AccountsView.js               </a>                                           <a class="source" href="ClientsView.html">                 ClientsView.js               </a>                                           <a class="source" href="UsersView.html">                 UsersView.js               </a>                                           <a class="source" href="grunt.html">                 grunt.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               UsersView.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage view
+ * @author     Prabhat Khera &lt;prabhat.khera@essindia.co.in&gt;
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * &lt;a href="http://gizur.com"&gt;Gizur Consulting&lt;/a&gt;, All rights reserved.
+ *
+ * JavaScript
+ *
+ */</span>
+
+<span class="string">'use strict'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h1>UserView</h1>
+
+<p>This class has event listeners and functions
+and also this class is responsible for updating 
+error messages in the page.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="keyword">var</span> UsersView = Stapes.subclass({
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h1>constructor</h1>
+
+<p>This will load the registration template and 
+initialise the event handlers</p>             </td>             <td class="code">               <div class="highlight"><pre>    constructor : <span class="keyword">function</span>(model) {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        $.get(<span class="string">'./applications/gizursaas/templates/registration.tmp.html?_='</span> + 
+                Math.random(),{},<span class="keyword">function</span>(html){
+            $(<span class="string">'#container'</span>).empty().html(html);
+            self.bindEventHandlers();
+        });
+    },
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h1>success</h1>
+
+<p>This will be called to update the success msg</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'success'</span> : <span class="keyword">function</span>(msg){
+        $(<span class="string">'#errorMessageBox'</span>).empty()
+        .html(
+            <span class="string">'&lt;div class="alert alert-success"&gt;'</span> + 
+            <span class="string">'&lt;button data-dismiss="alert" class="close" '</span> + 
+            <span class="string">'type="button"&gt;×&lt;/button&gt;'</span> +
+            msg + <span class="string">"&lt;/div&gt;"</span>
+        );
+    },
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h1>error</h1>
+
+<p>This will be called to update the error msg</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'error'</span> : <span class="keyword">function</span>(msg){
+        $(<span class="string">'#errorMessageBox'</span>)
+        .html(
+            <span class="string">'&lt;div class="alert alert-error"&gt;'</span> + 
+            <span class="string">'&lt;button data-dismiss="alert" class="close" '</span> + 
+            <span class="string">'type="button"&gt;×&lt;/button&gt;'</span> +
+            msg + <span class="string">"&lt;/div&gt;"</span>
+        );
+    },
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h1>alert</h1>
+
+<p>This will be called to update the alert msg</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'alert'</span> : <span class="keyword">function</span>(msg){
+        $(<span class="string">'#errorMessageBox'</span>)
+        .html(
+            <span class="string">'&lt;div class="alert"&gt;'</span> + 
+            <span class="string">'&lt;button data-dismiss="alert" class="close" '</span> + 
+            <span class="string">'type="button"&gt;×&lt;/button&gt;'</span> +
+            msg + <span class="string">"&lt;/div&gt;"</span>
+        );
+    }
+});
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h1>UsersView prototype</h1>
+
+<p>Here we are adding some methods to the UsersView 
+prototype to handle events</p>             </td>             <td class="code">               <div class="highlight"><pre>UsersView.proto({
+    <span class="string">'bindEventHandlers'</span> : <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Handle click event on loginButton</p>
+
+<p>This event will set the hasher to login,
+which will process the login function.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#loginButton'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e) {
+            <span class="keyword">this</span>.success(<span class="string">'Please wait ...'</span>);
+            hasher.setHash(<span class="string">'login'</span>);
+        }.bind(<span class="keyword">this</span>));
+        
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Handle registration form submit event</p>
+
+<p>This will emit the registrationSubmit event
+and prevent to submit form by default.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#registrationform'</span>).on(<span class="string">'submit'</span>, <span class="keyword">function</span>(e) {
+            e.preventDefault();
+            <span class="keyword">this</span>.emit(<span class="string">'registrationSubmit'</span>);
+        }.bind(<span class="keyword">this</span>));
+        
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Handle click event on forgotPassword</p>
+
+<p>This will emit the forgotPassword event
+bound to the view.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#forgotPasswordButton'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+            <span class="keyword">this</span>.emit(<span class="string">'forgotPassword'</span>);
+        }.bind(<span class="keyword">this</span>));
+        
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Handle click event on logout-btn</p>
+
+<p>This will emit the logout event
+bound to the view.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#logout-btn'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+            <span class="keyword">this</span>.emit(<span class="string">'logout'</span>);
+            $(<span class="string">'#logout-btn'</span>).hide();
+        }.bind(<span class="keyword">this</span>));
+        
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Handle showing terms of services</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#showTermsCondition'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+            <span class="keyword">this</span>.emit(<span class="string">'showTermsCondition'</span>);
+        }.bind(<span class="keyword">this</span>));
+    }
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
