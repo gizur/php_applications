@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     },
     
     lint: {
-        src: ['*.js', 'app/**/*.js', 'config/*.js']
+        src: ['app.js', 'app/**/*.js', 'config/*.js']
     },
 
     clean: {

@@ -19,7 +19,7 @@
 //
 // This class is responsible for fetching and updating information
 // updated by the user
-define(["jquery", "config", "stapes", "ClientModel", "ClientsView"], function($, config, Stapes, ClientModel, ClientsView) {
+define(["jquery", "config", "stapes", "ClientModel", "ClientsView", "jsSHA", "hasher"], function($, config, Stapes, ClientModel, ClientsView, jsSHA, hasher) {
     "use strict";
     var ClientsController = Stapes.subclass({
         // Intitialise the object
