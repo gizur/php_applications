@@ -9,7 +9,7 @@ $file = './img/sample2.png';
 
 $memcache = new Memcache;
 $name = uniqid() . "_" . $file;
-$start_time = time();
+$start_time = time()*1000;
 if ($memcache->connect($memcache_url, 11211)) {
     if (file_exists($file)) {
         $size = getimagesize($file);
@@ -21,12 +21,12 @@ if ($memcache->connect($memcache_url, 11211)) {
         echo "File not exists.";
     }
 }
-$end_time = time();
+$end_time = time()*1000;
 echo "<br/>File Name: " . $name;
-echo "<br/>Memcache took " . ($end_time - $start_time) . " Seconds";
+echo "<br/>Memcache took " . ($end_time - $start_time) . " Milli Seconds";
 
 require_once __DIR__ . '/../../lib/aws-php-sdk/sdk.class.php';
-$start_time = time();
+$start_time = time()*1000;
 
 $_sThree = new AmazonS3();
 $responseSThree = $_sThree->create_object(
@@ -44,8 +44,8 @@ $responseSThree = $_sThree->create_object(
 if (!$responseSThree->isOK())
     echo "S3 Transfer failed.";
 
-$end_time = time();
-echo "<br/>S3 took " . ($end_time - $start_time) . " Seconds";
+$end_time = time()*1000;
+echo "<br/>S3 took " . ($end_time - $start_time) . "Milli Seconds";
 
 
 ?>
