@@ -49,14 +49,6 @@ define(["jquery", "stapes"], function($, Stapes) {
         "security_salt": "",
         "id_sequence": '',
         constructor: function() {
-        },
-        // Validate
-        // ========
-        // This function is valodating the Client model
-        // for the the above properties.
-        // 
-        'validate': function() {
-            return true;
         }
     });
     return ClientModel;

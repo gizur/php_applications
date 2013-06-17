@@ -49,14 +49,6 @@ define(["jquery", "stapes"], function($, Stapes) {
         "id_sequence": '',
         constructor: function() {
         },
-        // Validate
-        // ========
-        // This function is valodating the User model
-        // for the the above properties.
-        // 
-        'validate': function() {
-            return true;
-        },
         // map_values function
         // ===================
         //
