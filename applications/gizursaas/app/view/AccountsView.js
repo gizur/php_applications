@@ -17,9 +17,10 @@
 // AccountView
 //==================
 //
-// This class has event listeners and controller functions
-// and also this class is responsible for 
-// updating error messages in the page.
+// This class has event listeners, functions
+// and is responsible for 
+// showing error, success or alert messages.
+//
 define(["jquery", "stapes"], function($, Stapes) {
     "use strict";
     var AccountsView = Stapes.subclass({
@@ -34,48 +35,45 @@ define(["jquery", "stapes"], function($, Stapes) {
         //
         // This will be called to update the success msg
         'success': function(msg) {
-            $('#errorMessageBox').empty()
-                    .html(
-                    '<div class="alert alert-success">' +
-                    '<button data-dismiss="alert" class="close" ' +
-                    'type="button">×</button>' +
-                    msg + "</div>"
-                    );
+            $('#errorMessageBox').empty().html(
+                '<div class="alert alert-success">' +
+                '<button data-dismiss="alert" class="close" ' +
+                'type="button">×</button>' +
+                msg + "</div>"
+            );
         },
         // error
         //===========
         //
         // This will be called to update the error msg
         'error': function(msg) {
-            $('#errorMessageBox')
-                    .html(
-                    '<div class="alert alert-error">' +
-                    '<button data-dismiss="alert" class="close" ' +
-                    'type="button">×</button>' +
-                    msg + "</div>"
-                    );
+            $('#errorMessageBox').empty().html(
+                '<div class="alert alert-error">' +
+                '<button data-dismiss="alert" class="close" ' +
+                'type="button">×</button>' +
+                msg + "</div>"
+            );
         },
         // alert
         //===========
         //
         // This will be called to update the alert msg
         'alert': function(msg) {
-            $('#errorMessageBox')
-                    .html(
-                    '<div class="alert">' +
-                    '<button data-dismiss="alert" class="close" ' +
-                    'type="button">×</button>' +
-                    msg + "</div>"
-                    );
+            $('#errorMessageBox').empty().html(
+                '<div class="alert">' +
+                '<button data-dismiss="alert" class="close" ' +
+                'type="button">×</button>' +
+                msg + "</div>"
+            );
         }
     });
 
-// AccountsView prototype
-// ======================
-//
-// Here we are adding some methods to the AccountsView 
-// prototype to handle events
-//
+    // AccountsView prototype
+    // ======================
+    //
+    // Here we are adding some methods to the AccountsView 
+    // prototype to handle events
+    //
     AccountsView.proto({
         'bindEventHandlers': function() {
             // Handle user request to generate API and Secret key 1

@@ -17,8 +17,8 @@
 // AccountController
 //==================
 //
-// This class is responsible for fetching and updating information
-// updated by the user
+// This class is controlls all post login activies of user.
+//
 define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"], function($, config, hasher, Stapes, AccountModel, AccountsView) {
     "use strict";
     var AccountsController = Stapes.subclass({
@@ -325,14 +325,14 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         success: function(_data) {
                             if (_data.success) {
                                 self.view.success(
-                                        'Password has been reset successfully.' +
-                                        ' Please check your email.'
-                                        );
+                                    'Password has been reset successfully.' +
+                                    ' Please check your email.'
+                                );
                             } else {
                                 self.view.error(
-                                        'An error occured while resetting the' +
-                                        ' password. Please try again.'
-                                        );
+                                    'An error occured while resetting the' +
+                                    ' password. Please try again.'
+                                );
                             }
                         }
                     });

@@ -17,7 +17,7 @@
 // UserController
 //==================
 //
-// This class has user resistration and login method.
+// It controlles the user registration and login method.
 // 
 
 define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA"], function($, config, hasher, Stapes, UserModel, UsersView, jsSHA) {
@@ -26,10 +26,10 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
         // constructor
         //===========
         //
-        // This will load the home template and 
-        // initialise the event handlers
+        // Initialise the object and event handlers
+        //
         constructor: function() {
-            //Alias this with self
+            //Alias this to self
             var self = this;
             // Initialse model and view
             // 
@@ -134,9 +134,9 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                         success: function(_data) {
                             if (_data.success) {
                                 self.view.success(
-                                        'Your account has been created. ' +
-                                        'You may login to your account.'
-                                        );
+                                    'Your account has been created. ' +
+                                    'You may login to your account.'
+                                );
                                 $first_name.val('');
                                 $last_name.val('');
                                 $email.val('');
@@ -146,9 +146,9 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                                 $terms.attr('checked', false);
                             } else {
                                 self.view.error(
-                                        'An error occured while creating your' +
-                                        ' account. Please contact administrator.'
-                                        );
+                                    'An error occured while creating your' +
+                                    ' account. Please contact administrator.'
+                                );
                             }
                         }
                     });
@@ -183,7 +183,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                         data: JSON.stringify({
                             "id": $login_id
                         }),
-                        //If error occured, it will display the error msg.
+                        // On error, display the error msg.
                         error: function(jqXHR, textStatus, errorThrown) {
                             var _data = JSON.parse(jqXHR.responseText);
 
@@ -235,8 +235,10 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
         },
         // Login
         // ======
-        // This function will be called when user will click on the
+        //
+        // login event, it will be called when user will click on the login
         // login button.
+        //
         "login": function(status) {
             var self = this;
             console.log(config.rest_server_url);
@@ -286,6 +288,11 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                 }
             }
         },
+        // nl2br
+        // ============
+        // 
+        // The function is converting next line char (LF / CR / CRLF) to BR.
+        //
         'nl2br': function(str, is_xhtml) {
             var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
             return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');

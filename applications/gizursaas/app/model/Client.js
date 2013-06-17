@@ -14,7 +14,7 @@
  *
  */
 
-// AccountModel
+// ClientModel
 //==================
 //
 // This class has model properties, validation function
@@ -52,7 +52,7 @@ define(["jquery", "stapes"], function($, Stapes) {
         },
         // Validate
         // ========
-        // This function is valodating the User model
+        // This function is valodating the Client model
         // for the the above properties.
         // 
         'validate': function() {

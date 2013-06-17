@@ -17,8 +17,8 @@
 // ClientsController
 //==================
 //
-// This class is responsible for fetching and updating information
-// updated by the user
+// It has all the functions required to copy client to another client.
+// 
 define(["jquery", "config", "stapes", "ClientModel", "ClientsView", "jsSHA", "hasher"], function($, config, Stapes, ClientModel, ClientsView, jsSHA, hasher) {
     "use strict";
     var ClientsController = Stapes.subclass({
@@ -46,7 +46,7 @@ define(["jquery", "config", "stapes", "ClientModel", "ClientsView", "jsSHA", "ha
                 // Event to tabulate client data
                 //===============================
                 //
-                // This fuunction tabulate data in the view.
+                // This function tabulates client data in the view.
                 //
                 'tabulateData': function() {
                     $('#clientTabularDiv tbody').empty();
@@ -63,11 +63,22 @@ define(["jquery", "config", "stapes", "ClientModel", "ClientsView", "jsSHA", "ha
                         $('#clientTabularDiv tbody').append($html);
                     });
                 },
+                // Event to select client
+                //=======================
+                //
+                // This function updates hidden variables from
+                // selected client info.
+                //
                 'selectClient': function() {
                     var $client_key = $('input[name=client_key]:radio:checked').val();
                     var $client = self.model.get($client_key);
                     $('#from_id').attr('value', $client.id);
                 },
+                // Event to submit copy client form
+                //=================================
+                //
+                // This function submits clients data to the API.
+                //
                 'copyClientFormSubmit': function() {
 
                     self.view.success('Processing ...');
@@ -134,6 +145,12 @@ define(["jquery", "config", "stapes", "ClientModel", "ClientsView", "jsSHA", "ha
                 }
             });
         },
+        // loadview
+        // =========
+        // 
+        // this function gets all the clients, load the template and
+        // tabulate all the clients.
+        //
         'loadView': function(adminUsername, adminPassword, DEFAULT_HASH) {
             var self = this;
             //Prepare the url to fetch the account details

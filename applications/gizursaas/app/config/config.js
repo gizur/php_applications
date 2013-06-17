@@ -33,8 +33,8 @@ define(["jquery"], function($) {
 
     // Messages
     // ========
-    // Following are the set of messages showed to 
-    // user on perticular response / error code.
+    // Following are the set of messages showing to 
+    // user in response to error code.
     config.messages = {
         "CLIENT_ID_INVALID": 'Client ID is not available.',
         "EMAIL_INVALID": 'Email is already registred.',

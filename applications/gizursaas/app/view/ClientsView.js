@@ -17,9 +17,9 @@
 // UserView
 //==================
 //
-// This class has event listeners and functions
-// and also this class is responsible for updating 
-// error messages in the page.
+// This class has event listeners, functions
+// and is also responsible for showing 
+// error, success or alert messages.
 define(["jquery", "stapes"], function($, Stapes) {
     "use strict";
     var ClientsView = Stapes.subclass({
@@ -27,7 +27,7 @@ define(["jquery", "stapes"], function($, Stapes) {
         //===========
         //
         // This will load the registration template and 
-        // initialise the event handlers
+        // bind the event.
         constructor: function(model) {
             var self = this;
         },
@@ -36,58 +36,55 @@ define(["jquery", "stapes"], function($, Stapes) {
         //
         // This will be called to update the success msg
         'success': function(msg) {
-            $('#errorMessageBox').empty()
-                    .html(
-                    '<div class="alert alert-success">' +
-                    '<button data-dismiss="alert" class="close" ' +
-                    'type="button">×</button>' +
-                    msg + "</div>"
-                    );
+            $('#errorMessageBox').empty().html(
+                '<div class="alert alert-success">' +
+                '<button data-dismiss="alert" class="close" ' +
+                'type="button">×</button>' +
+                msg + "</div>"
+            );
         },
         // error
         //===========
         //
         // This will be called to update the error msg
         'error': function(msg) {
-            $('#errorMessageBox')
-                    .html(
-                    '<div class="alert alert-error">' +
-                    '<button data-dismiss="alert" class="close" ' +
-                    'type="button">×</button>' +
-                    msg + "</div>"
-                    );
+            $('#errorMessageBox').empty().html(
+                '<div class="alert alert-error">' +
+                '<button data-dismiss="alert" class="close" ' +
+                'type="button">×</button>' +
+                msg + "</div>"
+            );
         },
         // alert
         //===========
         //
         // This will be called to update the alert msg
         'alert': function(msg) {
-            $('#errorMessageBox')
-                    .html(
-                    '<div class="alert">' +
-                    '<button data-dismiss="alert" class="close" ' +
-                    'type="button">×</button>' +
-                    msg + "</div>"
-                    );
+            $('#errorMessageBox').empty().html(
+                '<div class="alert">' +
+                '<button data-dismiss="alert" class="close" ' +
+                'type="button">×</button>' +
+                msg + "</div>"
+            );
         }
     });
 
-// ClientsView prototype
-// ======================
-//
-// Here we are adding some methods to the UsersView 
-// prototype to handle events
-//
+    // ClientsView prototype
+    // ======================
+    //
+    // Here we are adding some methods to the UsersView 
+    // prototype to handle events
+    //
     ClientsView.proto({
         'bindEventHandlers': function() {
-            // Handle click event on logout-btn
-            // 
-            // This will emit the logout event
-            // bound to the view.
+            // Handle click event on select
+            // client radio button
+            //
             $('input[name=client_key]:radio').on('click', function(e) {
                 this.emit('selectClient');
             }.bind(this));
-
+            // Handle copy client form submit event
+            //
             $('#copyClientFormSubmit').on('click', function(e) {
                 e.preventDefault();
                 this.emit('copyClientFormSubmit');
