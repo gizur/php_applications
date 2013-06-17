@@ -17,7 +17,7 @@
   "licenses": [
     {
       "type": "Gizur AB",
-      "url": "https://github.com/LICENSE-GIZUR-AB"
+      "url": "https://gizur.com/LICENSE-GIZUR-AB"
     }
   ],
   "main": "app.js",

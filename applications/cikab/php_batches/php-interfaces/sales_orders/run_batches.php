@@ -3,7 +3,7 @@
  * @category   Cronjobs
  * @package    Integration
  * @subpackage CronJob
- * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @author     Prabhat Khera <gizur-ess-prabhat@gizur.com>
  * @version    SVN: $Id$
  * @link       href="http://gizur.com"
  * @license    Commercial license

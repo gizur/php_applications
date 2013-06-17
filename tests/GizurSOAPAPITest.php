@@ -8,7 +8,7 @@
  * @category   Test
  * @package    Gizur
  * @subpackage Test
- * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @author     Prabhat Khera <gizur-ess-prabhat@gizur.com>
  * @copyright  2012 &copy; Gizur AB
  * @license    Gizur Private Licence
  * @version    0.2
@@ -35,7 +35,7 @@ global $customerAccountId;
  * 
  * @category  Test
  * @package   Gizur 
- * @author    Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @author    Prabhat Khera <gizur-ess-prabhat@gizur.com>
  * @copyright 2012 &copy; Gizur AB
  * @license   Gizur Private Licence
  * @version   0.2

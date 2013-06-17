@@ -22,7 +22,7 @@ class configuration {
         return array(
             'url' => 'https://c2.gizur.com/cikab/vtiger',
             'credentials' => array(
-                array('user_name' => 'prabhat.khera@essindia.co.in',
+                array('user_name' => 'gizur-ess-prabhat@gizur.com',
                     'user_password' => '1flagyoh', 'id' => 10201),
             ),
             'version' => '5.4.0'

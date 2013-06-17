@@ -4,7 +4,7 @@
  *
  * @package    Gizur SaaS
  * @subpackage 
- * @author     Prabhat Khera <prabhat.khera@essindia.co.in>
+ * @author     Prabhat Khera <gizur-ess-prabhat@gizur.com>
  * @version    SVN: $Id$
  *
  * @license    Commercial license
