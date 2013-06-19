@@ -1679,6 +1679,7 @@ class ApiController extends Controller
                     $response->contactname = $this->_session->contactname;
                     $response->accountname = $this->_session->accountname;
                     $response->account_no = $this->_session->account_no;
+                    $response->timeZone = $this->_session->timeZone;
                     $response->contactinfo = $this->_contactinfo;
 
                     //Send response
