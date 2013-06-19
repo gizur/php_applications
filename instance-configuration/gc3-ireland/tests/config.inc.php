@@ -11,8 +11,8 @@ class configuration
             'GIZURCLOUD_SECRET_KEY' => "51a309109fca42.1554128151a309109fcb20.84498075",
             'API_VERSION' => '0.1',
             'credentials' => array(
-                //'portal_user@gizur.com' => 'skcx0r0i',
-                'mobile_user@gizur.com' => 'ivry34aq',
+                'portal_user@gizur.com' => 'skcx0r0i',
+                //'mobile_user@gizur.com' => 'ivry34aq',
             ),
             'clientid' => 'clab'
         );
