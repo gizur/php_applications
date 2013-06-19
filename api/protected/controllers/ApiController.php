@@ -1008,6 +1008,7 @@ class ApiController extends Controller
                 $userAccessKey = $response->result->accesskey;
                 $accountId = $response->result->accountId;
                 $contactId = $response->result->contactId;
+                $timeZone = $response->result->time_zone;
                 
                 //Log
                 Yii::log(
@@ -1103,6 +1104,7 @@ class ApiController extends Controller
                 $this->_session->sessionName = $response->result->sessionName;
                 $response->result->accountId = $accountId;
                 $response->result->contactId = $contactId;
+                $response->result->timeZone = $timeZone;
 
                 //Get Contact and Account Name 
                 //Build vtiger query to fetch contacts

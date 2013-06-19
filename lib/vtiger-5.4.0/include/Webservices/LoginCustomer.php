@@ -76,11 +76,11 @@ function vtws_getAccessKeyAndUsernameFromAccount($accountId)
     if ($result != null && isset($result)) {
         if ($adb->num_rows($result) > 0) {
             $vtigerUserId = $adb->query_result($result, 0);
-            $sql = "SELECT user_name, accesskey, tz FROM `vtiger_users` WHERE id=?";
+            $sql = "SELECT user_name, accesskey, time_zone FROM `vtiger_users` WHERE id=?";
             $result = $adb->pquery($sql, array($vtigerUserId));
             if ($result != null && isset($result)) {
                 if ($adb->num_rows($result) > 0) {
-                    return array('accountId' => $objectTypeId . "x" . $accountId) + array_intersect_key($adb->query_result_rowdata($result, 0), array_flip(array('accesskey', 'user_name')));
+                    return array('accountId' => $objectTypeId . "x" . $accountId) + array_intersect_key($adb->query_result_rowdata($result, 0), array_flip(array('accesskey', 'user_name', 'time_zone')));
                 }
             }
         }
