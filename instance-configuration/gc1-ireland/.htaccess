@@ -13,6 +13,12 @@ ErrorDocument 500 https://gizur.com/lib/error-documents/500.html
 #
 RewriteEngine On
 
+# If forwarded protocol is not https redirect request to 
+# https protocol. Negate it for healthcheck url.
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{REQUEST_URI} !^/healthcheck.php
+RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+
 # If query string is empty, load the GizurSaaS.
 #
 RewriteCond %{QUERY_STRING} ^$
