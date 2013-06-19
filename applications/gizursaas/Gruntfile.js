@@ -22,8 +22,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-doccoh');
     grunt.loadNpmTasks('grunt-clean');
-    // Load the plugin that provides the "uglify" task.
-    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // Default task.
     grunt.registerTask('default', ['doccoh']);
