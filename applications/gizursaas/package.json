@@ -28,10 +28,10 @@
     "test": "grunt nodeunit"
   },
   "devDependencies": {
-    "grunt": "0.3.x",
+    "grunt": "0.4.1",
     "grunt-doccoh": "0.1.x",
-    "grunt-clean": "0.3.x",
-    "grunt-exec": "0.3.x"
+    "grunt-clean": "0.4.x",
+    "grunt-exec": "0.4.x"
   },
   "keywords": []
 }
