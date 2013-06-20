@@ -36,6 +36,9 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+        'localtime' => array(
+            'class' => 'LocalTime',
+        ),
 		// uncomment the following to enable URLs in path-format
 		/*
 				'urlManager'=>array(
