@@ -190,16 +190,16 @@ class PhpBatchThree
          */
         if ($this->_messageCount <= 0) {
             syslog(
-                LOG_INFO, "messageQ is empty."
+                LOG_INFO, "message queue is empty."
             );
-            throw new Exception("messageQ is empty.");
+            throw new Exception("message queue is empty.");
         }
         /*
          * Iterate till $_messageCount becomes 0.
          */
         syslog(
             LOG_INFO, 
-            "Number of messages found in messageQ : $this->_messageCount."
+            "Number of messages found in message queue : $this->_messageCount."
         );
             
         while ($this->_messageCount > 0) {
@@ -208,11 +208,11 @@ class PhpBatchThree
              */
             try {
                 /*
-                 * Get the single message from the messageQ.
+                 * Get the single message from the message queue.
                  */
                 syslog(
                     LOG_INFO,
-                    "Get the single message from the messageQ"
+                    "Get the single message from the message queue"
                 );
                 $responseQ = $this->_sqs->receive_message(
                     Config::$amazonQ['url']
@@ -224,16 +224,16 @@ class PhpBatchThree
                 if ($responseQ->status !== 200) {
                     syslog(
                         LOG_INFO, 
-                        "Message not received from the messageQ server"
+                        "Message not received from the message queue server"
                     );
                     throw new Exception(
-                        "Message not received from the messageQ server."
+                        "Message not received from the message queue server."
                     );
                 }
 
                 syslog(
                     LOG_INFO, 
-                    "Message received from the messageQ server"
+                    "Message received from the message queue server"
                 );
                 /*
                  * Get the message body.
@@ -244,10 +244,10 @@ class PhpBatchThree
                  */
                 if (empty($msgObj)) {
                     syslog(
-                        LOG_INFO, "Received an empty message from messageQ."
+                        LOG_INFO, "Received an empty message from message queue."
                     );
                     throw new Exception(
-                        "Received an empty message from messageQ."
+                        "Received an empty message from message queue."
                     );
                 }
                 $msgBody = (array)$msgObj->Body;
@@ -277,10 +277,10 @@ class PhpBatchThree
                 if (empty($fileJson->content)) {
                     syslog(
                         LOG_WARNING,
-                        "$fileJson->file content is empty in messageQ."
+                        "$fileJson->file content is empty in message queue."
                     );
                     throw new Exception(
-                        "$fileJson->file content is empty in messageQ."
+                        "$fileJson->file content is empty in message queue."
                     );
                 }
 
@@ -298,11 +298,11 @@ class PhpBatchThree
                     );
                 }
                 /*
-                 * Delete message from messageQ.
+                 * Delete message from message queue.
                  */
                 syslog(
                     LOG_INFO, 
-                    "Deleting message from messageQ : $fileJson->file."
+                    "Deleting message from message queue : $fileJson->file."
                 );
                 $this->_sqs->delete_message(
                     Config::$amazonQ['url'], $receiptQ

@@ -40,9 +40,7 @@ class Connect extends mysqli
 {
 
     /**
-     * 
-     * construct function use this function auto load
-     * 
+     * Initialze the object with required properties
      */
     public function __construct($host, $user, $pass, $database)
     {

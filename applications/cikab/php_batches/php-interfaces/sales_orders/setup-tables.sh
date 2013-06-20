@@ -55,7 +55,7 @@ if ($integrationConnect->connect_errno) {
     echo "Connected with MySQL : " . $dbconfigIntegration['db_server'] . '\n';
 }
 
-// Call the function to crete the tables
+// Call the function to create the tables
 $result = setUp::createTable($integrationConnect);
 
 // Close the connnection

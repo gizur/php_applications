@@ -194,7 +194,7 @@ class PhpBatchOne
         );
 
         /*
-         * If insertion failed, Close resultset and raise exception.
+         * If insertion failed, Close result-set and raise exception.
          */
         if (!$interfaceQuery) {
             syslog(
@@ -379,7 +379,7 @@ class PhpBatchOne
             
         } catch (Exception $e) {
             /*
-             * Store the message and rollbach the connections.
+             * Store the message and rollback the connections.
              */
             $this->_messages['message'] = $e->getMessage();
             /*

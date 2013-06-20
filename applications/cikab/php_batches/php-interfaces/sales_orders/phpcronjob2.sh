@@ -244,11 +244,11 @@ class PhpBatchTwo
             syslog(
                 LOG_WARNING,
                 "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
-                "Error updating salesorder"
+                "Error updating sales order"
             );
             throw new Exception(
                 "In updateIntegrationSalesOrder($salesOrderID, $status) : " .
-                "Error updating salesorder"
+                "Error updating sales order"
             );
         }
 
@@ -277,12 +277,12 @@ class PhpBatchTwo
                 LOG_WARNING,
                 "In updateIntegrationSalesOrderByAccountName(" .
                 " $accountname, $column, $status) : " .
-                "Error updating salesorders"
+                "Error updating sales orders"
             );
             throw new Exception(
                 "In updateIntegrationSalesOrderByAccountName(" .
                 " $accountname, $column, $status) : " .
-                "Error updating salesorders"
+                "Error updating sales orders"
             );
         }
 
@@ -317,7 +317,7 @@ class PhpBatchTwo
 
         $msg[$salesOrder->salesorder_no]['file'] = $fileName;
         /*
-         * Initialise variables used in creating SET file contents.
+         * Initialize variables used in creating SET file contents.
          */
         $leadzero = "";
         $productnamearray = array();
@@ -330,8 +330,8 @@ class PhpBatchTwo
         while ($sOWProduct = $soProducts->fetch_object()) {
 
             /**
-             * for check duplicate product and 
-             * write productname in set file with+
+             * Check duplicate products and 
+             * write product name in the set file separating with +
              */
             if (!in_array($sOWProduct->productname, $productnamearray)) {
                 $productlength = strlen($sOWProduct->productname);
@@ -579,10 +579,10 @@ class PhpBatchTwo
     protected function storeFileInMessageQ($qUrl, $messageQ)
     {
         /*
-         * Store file name and file content to messageQ.
+         * Store file name and file content to message queue.
          */
         syslog(
-            LOG_INFO, "Store file name and file content to messageQ."
+            LOG_INFO, "Store file name and file content to message queue."
         );
 
         $responseQ = $this->_sqs->send_message(
@@ -595,9 +595,9 @@ class PhpBatchTwo
          */
         if ($responseQ->status !== 200) {
             syslog(
-                LOG_WARNING, "Error in sending file to messageQ."
+                LOG_WARNING, "Error in sending file to message queue."
             );
-            throw new Exception("Error in sending file to messageQ.");
+            throw new Exception("Error in sending file to message queue.");
         }
 
         return $responseQ;
@@ -752,7 +752,7 @@ class Functions
 {
 
     /**
-     * auto adding zero befor number  
+     * auto adding zero before number  
      */
     static function leadingzero($limitnumber = 6, $number = 0)
     {
@@ -765,7 +765,7 @@ class Functions
     }
 
     /*
-     * Get 4 last digit from microtime
+     * Get 4 last digit from micro-time
      */
 
     static function getMilliSecond()
