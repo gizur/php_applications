@@ -91,6 +91,8 @@ class UserIdentity extends CUserIdentity
 			Yii::app()->session['password'] = $this->password;
 			Yii::app()->session['account'] = $response->contactname;
 			Yii::app()->session['contactname'] = $response->accountname;
+            Yii::app()->session['timeZone'] = empty($response->timeZone) ? 'UTC' : $response->timeZone;
+            Yii::app()->user->setState('_timeZone', Yii::app()->session['timeZone']);
 			$this->errorCode=self::ERROR_NONE;
 			return true;
         } else {
