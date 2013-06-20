@@ -18,6 +18,22 @@ function vtws_logincustomer($username, $pwd)
         $accountId = vtws_getCustomerPortalUserAccount($userId);
         $accessKeyAndUsername = vtws_getAccessKeyAndUsernameFromAccount($accountId);
 
+        // Get the time_zone of the user owner
+        $sql = "SELECT smownerid FROM `vtiger_crmentity` WHERE crmid=?";
+        $result = $adb->pquery($sql, array($userId));
+        if ($result != null && isset($result)) {
+            if ($adb->num_rows($result) > 0) {
+                $uId = $adb->query_result($result, 0);
+                $sql = "SELECT time_zone FROM `vtiger_users` WHERE id=?";
+                $result = $adb->pquery($sql, array($uId));
+                if ($result != null && isset($result)) {
+                    if ($adb->num_rows($result) > 0) {
+                        $accessKeyAndUsername = $accessKeyAndUsername + array_intersect_key($adb->query_result_rowdata($result, 0), array_flip(array('time_zone')));
+                    }
+                }
+            }
+        }
+
         //Get Object Id for contacts
         $sql = "SELECT id FROM `vtiger_ws_entity` WHERE name=?";
         $result = $adb->pquery($sql, array('Contacts'));
@@ -76,11 +92,11 @@ function vtws_getAccessKeyAndUsernameFromAccount($accountId)
     if ($result != null && isset($result)) {
         if ($adb->num_rows($result) > 0) {
             $vtigerUserId = $adb->query_result($result, 0);
-            $sql = "SELECT user_name, accesskey, time_zone FROM `vtiger_users` WHERE id=?";
+            $sql = "SELECT user_name, accesskey FROM `vtiger_users` WHERE id=?";
             $result = $adb->pquery($sql, array($vtigerUserId));
             if ($result != null && isset($result)) {
                 if ($adb->num_rows($result) > 0) {
-                    return array('accountId' => $objectTypeId . "x" . $accountId) + array_intersect_key($adb->query_result_rowdata($result, 0), array_flip(array('accesskey', 'user_name', 'time_zone')));
+                    return array('accountId' => $objectTypeId . "x" . $accountId) + array_intersect_key($adb->query_result_rowdata($result, 0), array_flip(array('accesskey', 'user_name')));
                 }
             }
         }
