@@ -9,6 +9,8 @@ require.config({
         "crossroads": "lib/crossroads.min",
         "hasher": "lib/hasher.min",
         "jsSHA": "lib/sha256",
+        "getHash": "lib/sha256",
+        "getHMAC": "lib/sha256",
         "config": "app/config/config",
         "UserModel": "app/model/User",
         "UsersView": "app/view/UsersView",
@@ -27,6 +29,15 @@ require.config({
         'bootstrap': {
             deps: ['jquery'],
             exports:  "$.fn.popover"
+        },
+        'jsSHA': {
+            exports: 'jsSHA'
+        },
+        'getHash': {
+            deps: ['jsSHA']
+        },
+        'getHMAC': {
+            deps: ['jsSHA']
         }
     },
     enforceDefine: true
@@ -35,11 +46,6 @@ define("app", function(app) {
     console.log("App loaded.");
     return app;
 });
-define(["jsSHA","getHMAC", "getHash"],
-    function(jsSHA){
-        return {};
-    }
-);
 require(['jquery', 'bootstrap'],
      function($){
          return {};
