@@ -35,9 +35,11 @@ define("app", function(app) {
     console.log("App loaded.");
     return app;
 });
-define("jsSHA", function(jsSHA){
-    return jsSHA;
-});
+define(["jsSHA","getHMAC", "getHash"],
+    function(jsSHA){
+        return {};
+    }
+);
 require(['jquery', 'bootstrap'],
      function($){
          return {};
