@@ -92,9 +92,8 @@ class UserIdentity extends CUserIdentity
 			Yii::app()->session['account'] = $response->contactname;
 			Yii::app()->session['contactname'] = $response->accountname;
             Yii::app()->session['timeZone'] = empty($response->timeZone) ? 'UTC' : $response->timeZone;
-            Yii::app()->localtime->Locale = Yii::app()->session['Lang']; // eg 'en_gb'
- 
-            Yii::app()->localtime->TimeZone = Yii::app()->session['timeZone'];
+            Yii::app()->localtime->Locale = Yii::app()->session['Lang']; // eg 'en_gb' 
+            Yii::app()->localtime->timezone = Yii::app()->session['timeZone'];
 			$this->errorCode=self::ERROR_NONE;
 			return true;
         } else {
