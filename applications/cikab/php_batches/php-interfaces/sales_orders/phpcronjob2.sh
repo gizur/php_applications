@@ -373,8 +373,9 @@ class PhpBatchTwo
         $originalordernomber = "7777" . $salesID;
 
         /**
-         * for find the order no. total length if length 
-         * will be greater then 6 then auto remove from the starting
+         * If length of order number is 
+         * greater then 6 then auto remove 
+	 * extra digits from the starting
          */
         $orderlength = strlen($originalordernomber);
 
