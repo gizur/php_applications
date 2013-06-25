@@ -36,6 +36,9 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+        'localtime' => array(
+            'class' => 'LocalTime',
+        ),
 		// uncomment the following to enable URLs in path-format
 		/*
 				'urlManager'=>array(
@@ -74,7 +77,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'trace, error, warning',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
@@ -91,12 +94,12 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-                'protocol'=>'https://',
+                'protocol'=>'http://',
                 'createTroubleTicket'=> false,
-		'GIZURCLOUD_SECRET_KEY' => '50ee9d44beb2d0.0165098250ee9d44beb591.45044222',
-		'GIZURCLOUD_API_KEY' => 'GZCLD50EE9D44BEBD450EE9D44BEC50',
+		'GIZURCLOUD_SECRET_KEY' => '5146fb70ab2b35.907160475146fb70ab2d28.00725778',
+		'GIZURCLOUD_API_KEY' => 'GZCLD5146FB70AB3485146FB70AB3BE',
 		'API_VERSION' => '0.1',
-		'URL' => 'https://api.gizur.com/api/',
+		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',

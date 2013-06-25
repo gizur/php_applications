@@ -178,18 +178,18 @@ class Config
     );
     public static $batchVariable = 10;
     public static $setFtp = array(
-        'host' => "localhost",
+        'host' => "10.58.226.192",
         'port' => 21,
-        'username' => "prabhat",
-        'password' => "essindia",
-        'serverpath' => ""
+        'username' => "gizur",
+        'password' => "gizur",
+        'serverpath' => "files/"
     );
     public static $mosFtp = array(
-        'host' => "localhost",
+        'host' => "10.58.226.192",
         'port' => 21,
-        'username' => "prabhat",
-        'password' => "essindia",
-        'serverpath' => ""
+        'username' => "gizur",
+        'password' => "gizur",
+        'serverpath' => "files/"
     );
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'

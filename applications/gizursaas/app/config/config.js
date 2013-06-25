@@ -29,12 +29,12 @@
 define(["jquery"], function($) {
     "use strict";
     var config = (typeof window === 'undefined') ? exports.Config = {} : window.Config = {};
-    config.rest_server_url = 'https://gizur.com/api/';
+    config.rest_server_url = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/';
 
     // Messages
     // ========
-    // Following are the set of messages showing to 
-    // user in response to error code.
+    // Following are the set of messages showed to 
+    // user on perticular response / error code.
     config.messages = {
         "CLIENT_ID_INVALID": 'Client ID is not available.',
         "EMAIL_INVALID": 'Email is already registred.',
