@@ -15,8 +15,8 @@
   },
   "licenses": [
     {
-      "type" : "MIT",
-      "url"  : "https://github.com/gizur/gizur-cron/blob/master/LICENSE-MIT"
+      "type" : "GIZUR AB",
+      "url"  : "https://github.com/gizur/gizur-cron/blob/master/LICENSE-GIZUR-AB"
     }
   ],
   "main": "app.js",
