@@ -473,7 +473,7 @@ class PhpBatchTwo
         
         $header = "{$seqZero}{$sequence}0000" .
             "{$cntZero}{$soProducts->num_rows}{$dt}1727130700518" .
-            "000000000000000000000000000000000000000000000\n";
+            "000000000000000000000000000000000000000000000" . Config::$lineBreak;
         $contentF = $header;
         
         $sequence++;
@@ -514,7 +514,8 @@ class PhpBatchTwo
             $contentF .= "{$seqZero}{$sequence}{$dummyOne}" .
                 "{$vgr}{$art}{$varubet}{$store}" .
                 "{$week}{$qtnZero}{$quantity}" .
-                "{$dummyTwo}{$campaignWeek}{$reservationId}\n";
+                "{$dummyTwo}{$campaignWeek}{$reservationId}" . 
+                Config::$lineBreak;
             $sequence++;
         }
 
@@ -523,10 +524,10 @@ class PhpBatchTwo
             5, strlen((string) $soProducts->num_rows)
         );
         
-        $header = "{$seqZero}{$sequence}9999" .
+        $footer = "{$seqZero}{$sequence}9999" .
             "{$cntZero}{$soProducts->num_rows}{$dt}1727130700518" .
             "000000000000000000000000000000000000000000000";
-        $contentF .= $header;
+        $contentF .= $footer;
         
         syslog(
             LOG_INFO, "File $fileName contents: " . $contentF
