@@ -99,7 +99,7 @@ return array(
 		'GIZURCLOUD_SECRET_KEY' => '50826a54755009.5822592450826a54755292.56509362',
 		'GIZURCLOUD_API_KEY' => 'GZCLD50826A54755AB50826A5475624',
 		'API_VERSION' => '0.1',
-		'URL' => 'https://c2.gizur.com/api/index.php/api/',
+		'URL' => 'https://c2.gizur.com/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',
