@@ -104,7 +104,10 @@ $this->breadcrumbs = array(
                         $i = 1;
                         if (count($result['result']['documents']) > 0) {
                             foreach ($result['result']['documents'] as $image) {
-                                echo '<td width="50%" bgcolor="e3f0f7" align="center"><img src="' . Yii::app()->request->baseUrl . '/index.php?r=troubleticket/images/' . $image['id'] . '" width="100px" height="100px"></td>';
+                                echo '<td width="50%" bgcolor="e3f0f7" align="center">' .
+                                    '<img src="' . Yii::app()->request->baseUrl . '/index.php?r=troubleticket/images/' . $image['id'] . 
+                                    '" width="100px" height="100px" style="cursor: pointer;" onclick="openwindow(this.src);">' .
+                                    '</td>';
                                 if ($i % 2 == 0) {
                                     echo "</tr><tr>";
                                 }
@@ -168,7 +171,12 @@ $this->breadcrumbs = array(
     <?php $this->endWidget(); ?>
 </div>
 
-<script>
+<script type="text/javascript">
+    
+    function openwindow(path){
+        var myWindow = window.open(path, "_blank", "toolbar=no, location=yes, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");
+        myWindow.focus();
+    }
 
                     function AjaxMarkDamage(id)
                     {
