@@ -156,7 +156,7 @@ $this->breadcrumbs = array(
                     </tr>
                     <tr>
                         <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
-                        <td bgcolor="e3f0f7"><?php echo $form->textArea($model, 'notes', array('value' => $result['result']['notes'], 'maxlength' => 300, 'rows' => 5, 'cols' => 50)); ?></td>
+                        <td bgcolor="e3f0f7"><?php echo $form->textArea($model, 'notes', array('value' => $result['result']['notes'], 'maxlength' => 300, 'rows' => 5, 'cols' => 80)); ?></td>
                     </tr> 
                 </table>
                 <br>
