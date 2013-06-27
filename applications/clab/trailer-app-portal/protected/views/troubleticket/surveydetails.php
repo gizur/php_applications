@@ -174,7 +174,7 @@ $this->breadcrumbs = array(
 <script type="text/javascript">
     
     function openwindow(path){
-        var myWindow = window.open(path, "_blank", "toolbar=no, location=yes, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400");
+        var myWindow = window.open(path, "_blank", "toolbar=no, location=yes, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=500");
         myWindow.focus();
     }
 
