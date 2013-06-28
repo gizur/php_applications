@@ -971,7 +971,8 @@ class ApiController extends Controller
                 $rest->format('json');
 
                 $rest->set_header(
-                    'Content-Type', 'application/x-www-form-urlencoded'
+                    'Content-Type', 'application/x-www-form-urlencoded',
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
                 );
                 $response = $rest->post(
                     $this->_vtresturl . "?operation=logincustomer", 
@@ -1022,6 +1023,10 @@ class ApiController extends Controller
                 );                
 
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
 
                 //Login using $username and $userAccessKey
@@ -1069,6 +1074,10 @@ class ApiController extends Controller
                 ); 
 
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
 
                 //Login using the generated key
@@ -1130,6 +1139,10 @@ class ApiController extends Controller
                 
                 //sending request to vtiger REST Service 
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
                 $contact = $rest->get(
                     $this->_vtresturl . "?$params"
@@ -1190,6 +1203,10 @@ class ApiController extends Controller
 
                 //sending request to vtiger REST Service 
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
                 $account 
                     = $rest->get($this->_vtresturl . "?$params");
@@ -1702,6 +1719,10 @@ class ApiController extends Controller
                     
                     //Logout using {$this->_session->sessionName}
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $response = $rest->get(
                         $this->_vtresturl .
@@ -1801,6 +1822,10 @@ class ApiController extends Controller
                         
                         //Send request to vtiger
                         $rest = new RESTClient();
+                        $rest->set_header(
+                            'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                        );
+                
                         $rest->format('json');
                         $response = $rest->get(
                             $this->_vtresturl . "?$params"
@@ -2032,6 +2057,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $response = $rest->get(
                         $this->_vtresturl . "?$params"
@@ -2076,6 +2105,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $accounts = $rest->get(
                         $this->_vtresturl . "?$params"
@@ -2125,6 +2158,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $contacts = $rest->get(
                         $this->_vtresturl . "?$params"
@@ -2247,6 +2284,10 @@ class ApiController extends Controller
                         
                         //Send request to vtiger
                         $rest = new RESTClient();
+                        $rest->set_header(
+                            'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                        );
+                
                         $rest->format('json');
                         $response = $rest->get(
                             $this->_vtresturl . "?$params"
@@ -2370,6 +2411,10 @@ class ApiController extends Controller
                         //Receive response from vtiger REST service
                         //Return response to client  
                         $rest = new RESTClient();
+                        $rest->set_header(
+                            'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                        );
+                
                         $rest->format('json');
                         $response = $rest->get(
                             $this->_vtresturl . "?$params"
@@ -2619,6 +2664,10 @@ class ApiController extends Controller
 
                 //sending Request vtiger REST service
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
                 $response = $rest->get(
                     $this->_vtresturl . "?$params"
@@ -2659,6 +2708,10 @@ class ApiController extends Controller
 
                 //sending request vtiger REST service
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
                 $documentids = $rest->get(
                     $this->_vtresturl . "?$params"
@@ -2712,6 +2765,10 @@ class ApiController extends Controller
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $documents = $rest->get(
                         $this->_vtresturl . "?$params"
@@ -2761,6 +2818,10 @@ class ApiController extends Controller
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $contact = $rest->get(
                         $this->_vtresturl . "?$params"
@@ -2810,6 +2871,10 @@ class ApiController extends Controller
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $account = $rest->get(
                         $this->_vtresturl . "?$params"
@@ -2890,6 +2955,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $response = $rest->get(
                         $this->_vtresturl . "?$params"
@@ -2954,6 +3023,10 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
                 $response = $rest->get(
                     $this->_vtresturl . "?$params"
@@ -4034,6 +4107,10 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
                 $response = $rest->post(
                     $this->_vtresturl, array(
@@ -4129,6 +4206,10 @@ class ApiController extends Controller
                         
                         //Create document
                         $rest = new RESTClient();
+                        $rest->set_header(
+                            'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                        );
+                
                         $rest->format('json');
                         $document = $rest->post(
                             $this->_vtresturl, array(
@@ -4174,6 +4255,10 @@ class ApiController extends Controller
 
                             //Relate Document with Trouble Ticket
                             $rest = new RESTClient();
+                            $rest->set_header(
+                                'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                            );
+                
                             $rest->format('json');
                             $response = $rest->post(
                                 $this->_vtresturl, 
@@ -4595,6 +4680,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                       'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $response = $rest->post(
                         $this->_vtresturl, 
@@ -4680,6 +4769,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $response = $rest->post(
                         $this->_vtresturl, array(
@@ -4872,6 +4965,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $response = $rest->get(
                         $this->_vtresturl, array(
@@ -4933,6 +5030,10 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
+                    $rest->set_header(
+                        'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                    );
+                
                     $rest->format('json');
                     $response = $rest->post(
                         $this->_vtresturl, array(
@@ -5005,6 +5106,10 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
 
                 $_PUT = Array();
@@ -5057,6 +5162,10 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
+                $rest->set_header(
+                    'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                );
+                
                 $rest->format('json');
                 $response = $rest->post(
                     $this->_vtresturl, array(
@@ -5170,6 +5279,10 @@ class ApiController extends Controller
                         
                         //Create document
                         $rest = new RESTClient();
+                        $rest->set_header(
+                            'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                        );
+                
                         $rest->format('json');
                         $document = $rest->post(
                             $this->_vtresturl, array(
@@ -5215,6 +5328,10 @@ class ApiController extends Controller
 
                             //Relate Document with Trouble Ticket
                             $rest = new RESTClient();
+                            $rest->set_header(
+                                'X-Forwarded-Proto', $_SERVER['HTTP_X_FORWARDED_PROTO']
+                            );
+                
                             $rest->format('json');
                             $response = $rest->post(
                                 $this->_vtresturl, 
