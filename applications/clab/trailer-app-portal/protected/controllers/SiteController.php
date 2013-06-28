@@ -86,7 +86,7 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         $protocol = Yii::app()->params['protocol'];
-        $servername = Yii::app()->request->getServerName(); die;       
+        $servername = Yii::app()->request->getServerName();     
         
         $model = new LoginForm;
 
