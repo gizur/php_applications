@@ -62,16 +62,48 @@ try {
      * Try to fetch pending sales orders fron vTiger database 
      */
 
-    $salesOrdersQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject, " .
-        "SO.sostatus, ACCO.accountname, PRO.productname, IVP.quantity " .
-        "FROM vtiger_salesorder SO " .
-        "INNER JOIN vtiger_crmentity ENT on ENT.crmid = SO.salesorderid " .
-        "INNER JOIN vtiger_account ACCO on ACCO.accountid = SO.accountid " .
-        "INNER JOIN vtiger_inventoryproductrel IVP on IVP.id=SO.salesorderid " .
-        "INNER JOIN vtiger_products PRO on PRO.productid=IVP.productid " .
-        "WHERE SO.sostatus<>'Closed' " .
-        "AND lower(SO.subject)<>'initial push' AND lower(SO.subject)<>'Intial Push' " .
-        "ORDER BY ENT.createdtime, SO.salesorder_no";
+    $salesOrdersQuery =  "SELECT
+            a.accountid,
+            a.accountname,
+            i.productid,
+            p.product_no productno,
+            p.productname,
+            p.productsheet,
+            sum(i.quantity) as totalquotes,
+            (SELECT 
+                    SUM(i2.quantity)
+                FROM
+                    vtiger_inventoryproductrel i2
+                        INNER JOIN
+                    vtiger_products p1 ON p1.productid = i2.productid
+                        INNER JOIN
+                    vtiger_crmentity CE ON CE.crmid = i2.id
+                WHERE
+                    CE.deleted = 0
+                        AND i2.id IN (SELECT 
+                            s2.salesorderid
+                        FROM
+                            vtiger_salesorder s2
+                        WHERE
+                            s2.sostatus NOT IN ('Cancelled' , 'Closed')
+                            AND p1.productid = p.productid 
+                            AND s2.accountid = a.accountid)
+            ) as totalsales
+        FROM
+            vtiger_inventoryproductrel i
+                INNER JOIN
+            vtiger_products p ON p.productid = i.productid
+                INNER JOIN
+            vtiger_crmentity CE2 ON CE2.crmid = i.id
+                LEFT JOIN
+            vtiger_quotes q ON i.id = q.quoteid
+                INNER JOIN
+            vtiger_account a ON a.accountid = q.accountid
+        WHERE
+            CE2.deleted = 0
+            AND q.quotestage NOT IN ('Rejected' , 'Delivered', 'Closed')
+            AND p.discontinued = 1
+        GROUP BY a.accountid, i.productid";
 
     syslog(LOG_INFO, "Executing Query: " . $salesOrdersQuery);
     
@@ -90,11 +122,11 @@ try {
     if (!$salesOrders){
         syslog(
             LOG_WARNING, 
-            "Error executing sales order query : ($vTigerConnect->errno) - " .
+            "Error executing quote order query : ($vTigerConnect->errno) - " .
                 "$vTigerConnect->error"
         );
         throw new Exception(
-            "Error executing sales order query : " . 
+            "Error executing quote order query : " . 
             "($vTigerConnect->errno) - $vTigerConnect->error"
         );
     }
@@ -106,48 +138,46 @@ try {
     if ($salesOrders->num_rows == 0){
         syslog(
             LOG_INFO, 
-            "No Sales Order Found!"
+            "No quotes found!"
         );
-        throw new Exception("No Sales Order Found!");        
+        throw new Exception("No quotes found!");        
     }
 
     /*
      * Update message array with number of sales orders.
      */
-    $messages['no_sales_orders'] = $salesOrders->num_rows;
+    $messages['no_of_records'] = $salesOrders->num_rows;
 
     /*
      * Iterate through sales orders
      */
     syslog(
         LOG_INFO, 
-        "Iterate through sales orders"
+        "Iterate through fetched rows"
     );
 
     /*
      * Header of the CSV file content
      */
-    $SOData = "Created time;" .
-        "Sales Order No;" .
-        "Subject;" .
-        "SO Status;" .
-        "Account Name;" .
-        "Product Name;" .
-        "Quantity\n";
+    $SOData = "Store Name;Product Id;" .
+        "Product Name;Description;" .
+        "Order;Sale Order;Left Order\n";
 
     /*
      * Generate the CSV content
      */    
     while ($salesOrder = $salesOrders->fetch_object()) {
-
-        $SOData = $SOData . "$salesOrder->createdtime;" .
-                "$salesOrder->salesorder_no;" .
-                "$salesOrder->subject;" .
-                "$salesOrder->sostatus;" .
-                "$salesOrder->accountname;" .
-                "$salesOrder->productname;" .
-                "$salesOrder->quantity\n";
-
+        $totalquotes = empty($salesOrder->totalquotes) ? 0 : $salesOrder->totalquotes;
+        $totalsales = empty($salesOrder->totalsales) ? 0 : $salesOrder->totalsales;
+        $balance = $totalquotes - $totalsales;
+        $SOData = $SOData . "$salesOrder->accountname;" .
+            "$salesOrder->productno;" .
+            "$salesOrder->productname;" .
+            "$salesOrder->productno;" .
+            "$salesOrder->productsheet;" .
+            "$totalquotes;" .
+            "$totalsales;" .
+            "$balance\n";
     }
 
     /*
@@ -165,11 +195,11 @@ try {
                 "MIME-Version: 1.0\n".
                 "Content-type: Multipart/Mixed; boundary=\"NextPart\"\n\n".
                 "--NextPart\n".
-                "Content-Type: application/vnd.ms-excel\n\n".
+                "Content-Type: text/plain\n\n".
                 "PFA\n" .
                 "--NextPart\n" .
-                "Content-Type: application/vnd.ms-excel; charset=ISO-8859-15; name=\"sales_order_report_csv_" . date('ymd') . ".csv\"\n" .
-                "Content-Disposition: attachment; filename=\"sales_order_report_csv_" . date('ymd') . ".csv\"\n" .
+                "Content-Type: application/octet-stream; charset=ISO-8859-15; name=\"sales_order_report_" . date('ymd') . ".csv\"\n" .
+                "Content-Disposition: attachment; filename=\"sales_order_report_" . date('ymd') . ".csv\"\n" .
                 "Content-Transfer-Encoding: base64\n\n" .
                 base64_encode($SOData) .
                 "--NextPart"
@@ -186,6 +216,9 @@ try {
     /*
      * Hooray! All done now check if the mail was sent
      */
+    echo "<pre>";
+    print_r($sesResponse);
+    
     if ($sesResponse->isOK()) {
         echo '{"status": "Mail Sent"}';
     } else {
