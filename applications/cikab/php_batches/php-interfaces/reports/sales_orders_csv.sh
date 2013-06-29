@@ -173,7 +173,6 @@ try {
         $SOData = $SOData . "$salesOrder->accountname;" .
             "$salesOrder->productno;" .
             "$salesOrder->productname;" .
-            "$salesOrder->productno;" .
             "$salesOrder->productsheet;" .
             "$totalquotes;" .
             "$totalsales;" .
@@ -216,13 +215,11 @@ try {
     /*
      * Hooray! All done now check if the mail was sent
      */
-    echo "<pre>";
-    print_r($sesResponse);
     
     if ($sesResponse->isOK()) {
-        echo '{"status": "Mail Sent"}';
+       $messages['status'] = "Mail sent";
     } else {
-        echo '{"status": "Mail Not Sent"}';
+        $messages['status'] = "Mail not sent";
     }
 
 } catch (Exception $e) {
