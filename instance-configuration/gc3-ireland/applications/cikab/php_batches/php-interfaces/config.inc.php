@@ -201,9 +201,9 @@ class Config
         'mosFolder' => "seasonportal/SET-files/"
     );
     public static $customFields = array(
-        'setFiles' => 'cf_664',
-        'mosFiles' => 'cf_665',
-        'basProductId' => 'cf_666'
+        'setFiles' => 'cf_650',
+        'mosFiles' => 'cf_651',
+        'basProductId' => 'cf_652'
     );
     public static $lineBreak = "\r\n";
     public static $toEmailReports = array(
