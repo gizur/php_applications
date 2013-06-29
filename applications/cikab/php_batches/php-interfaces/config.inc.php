@@ -176,7 +176,7 @@ class Config
         'db_name' => 'vtiger_7cd70dc3',
         'db_type' => 'mysql'
     );
-    public static $batchVariable = 10;
+    public static $batchVariable = 99;
     public static $setFtp = array(
         'host' => "10.58.226.192",
         'port' => 21,
