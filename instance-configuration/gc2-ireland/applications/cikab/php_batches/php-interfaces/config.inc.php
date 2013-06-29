@@ -204,6 +204,9 @@ class Config
         'mosFiles' => 'cf_665',
         'basProductId' => 'cf_666'
     );
-    public static $lineBreak = '\r\n';
+    public static $lineBreak = "\r\n";
+    public static $toEmailReports = array(
+        "prabhat.khera@essindia.co.in"
+    );
 
 }

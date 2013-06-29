@@ -214,5 +214,9 @@ class Config
         'basProductId' => 'cf_652'
     );
     public static $lineBreak = "\r\n";
+    public static $toEmailReports = array(
+        "jonas.colmsjo@gizur.com",
+        "sofia.meijer@coop.se"
+    );
 
 }

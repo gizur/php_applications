@@ -206,9 +206,7 @@ try {
         ), 
         array(
            "Source" => "noreply@gizur.com",
-           "Destinations" => array(
-               "prabhat.khera@essindia.co.in"
-            ),
+           "Destinations" => Config::$toEmailReports
         )
     );
 

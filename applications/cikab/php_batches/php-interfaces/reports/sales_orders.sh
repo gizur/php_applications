@@ -177,10 +177,7 @@ try {
         ), 
         array(
            "Source" => "noreply@gizur.com",
-           "Destinations" => array(
-               "jonas.colmsjo@gizur.com",
-               "sofia.meijer@coop.se"
-            ),
+           "Destinations" => Config::$toEmailReports
         )
     );
 

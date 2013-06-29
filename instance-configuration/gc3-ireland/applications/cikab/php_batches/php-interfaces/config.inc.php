@@ -206,5 +206,8 @@ class Config
         'basProductId' => 'cf_666'
     );
     public static $lineBreak = "\r\n";
+    public static $toEmailReports = array(
+        "prabhat.khera@essindia.co.in"
+    );
 
 }
