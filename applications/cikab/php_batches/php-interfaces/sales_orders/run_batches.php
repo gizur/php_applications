@@ -59,12 +59,12 @@ if (isset($_GET['action'])) {
             break;
         case 'mail_report':  
             @shell_exec('sudo chmod +x ' . __DIR__ . '/../reports/sales_orders.sh');
-            $output = shell_exec(__DIR__ . '/../reports/sales_orders.sh');
+            $output = pcntl_exec(__DIR__ . '/../reports/sales_orders.sh');
             @shell_exec('sudo chmod -x ' . __DIR__ . '/../reports/sales_orders.sh');
             break; 
         case 'mail_report_csv':  
             @shell_exec('sudo chmod +x ' . __DIR__ . '/../reports/sales_orders_csv.sh');
-            $output = shell_exec(__DIR__ . '/../reports/sales_orders_csv.sh');
+            $output = pcntl_exec(__DIR__ . '/../reports/sales_orders_csv.sh');
             @shell_exec('sudo chmod -x ' . __DIR__ . '/../reports/sales_orders_csv.sh');
             break;
         case 'phpinfo':

@@ -185,9 +185,9 @@ try {
      * Hooray! All done now check if the mail was sent
      */
     if ($sesResponse->isOK()) {
-        echo '{"status": "Mail Sent"}';
+        $messages['status'] =  "Mail Sent";
     } else {
-        echo '{"status": "Mail Not Sent"}';
+        $messages['status'] =  "Mail Not Sent";
     }
 
 } catch (Exception $e) {
