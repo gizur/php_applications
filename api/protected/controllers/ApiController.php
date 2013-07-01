@@ -971,8 +971,7 @@ class ApiController extends Controller
                 $rest->format('json');
 
                 $rest->set_header(
-                    'Content-Type', 'application/x-www-form-urlencoded',
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
+                    'Content-Type', 'application/x-www-form-urlencoded'
                 );
                 $response = $rest->post(
                     $this->_vtresturl . "?operation=logincustomer", 
@@ -1023,10 +1022,6 @@ class ApiController extends Controller
                 );                
 
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
-                
                 $rest->format('json');
 
                 //Login using $username and $userAccessKey
@@ -1074,10 +1069,6 @@ class ApiController extends Controller
                 ); 
 
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
-                
                 $rest->format('json');
 
                 //Login using the generated key
@@ -1139,10 +1130,6 @@ class ApiController extends Controller
                 
                 //sending request to vtiger REST Service 
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
-                
                 $rest->format('json');
                 $contact = $rest->get(
                     $this->_vtresturl . "?$params"
@@ -1203,10 +1190,6 @@ class ApiController extends Controller
 
                 //sending request to vtiger REST Service 
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
-                
                 $rest->format('json');
                 $account 
                     = $rest->get($this->_vtresturl . "?$params");
@@ -1720,10 +1703,6 @@ class ApiController extends Controller
                     
                     //Logout using {$this->_session->sessionName}
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
-                
                     $rest->format('json');
                     $response = $rest->get(
                         $this->_vtresturl .
@@ -1823,10 +1802,6 @@ class ApiController extends Controller
                         
                         //Send request to vtiger
                         $rest = new RESTClient();
-                        $rest->set_header(
-                            'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                        );
-                
                         $rest->format('json');
                         $response = $rest->get(
                             $this->_vtresturl . "?$params"
@@ -2058,9 +2033,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $response = $rest->get(
@@ -2106,9 +2078,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $accounts = $rest->get(
@@ -2159,9 +2128,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $contacts = $rest->get(
@@ -2285,9 +2251,6 @@ class ApiController extends Controller
                         
                         //Send request to vtiger
                         $rest = new RESTClient();
-                        $rest->set_header(
-                            'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                        );
                 
                         $rest->format('json');
                         $response = $rest->get(
@@ -2412,9 +2375,6 @@ class ApiController extends Controller
                         //Receive response from vtiger REST service
                         //Return response to client  
                         $rest = new RESTClient();
-                        $rest->set_header(
-                            'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                        );
                 
                         $rest->format('json');
                         $response = $rest->get(
@@ -2665,9 +2625,6 @@ class ApiController extends Controller
 
                 //sending Request vtiger REST service
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
                 
                 $rest->format('json');
                 $response = $rest->get(
@@ -2709,9 +2666,6 @@ class ApiController extends Controller
 
                 //sending request vtiger REST service
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
                 
                 $rest->format('json');
                 $documentids = $rest->get(
@@ -2766,9 +2720,6 @@ class ApiController extends Controller
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $documents = $rest->get(
@@ -2819,9 +2770,6 @@ class ApiController extends Controller
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $contact = $rest->get(
@@ -2872,9 +2820,6 @@ class ApiController extends Controller
                     
                     //sending request to vtiger REST Service 
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $account = $rest->get(
@@ -2956,9 +2901,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $response = $rest->get(
@@ -3024,9 +2966,6 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
                 
                 $rest->format('json');
                 $response = $rest->get(
@@ -4110,9 +4049,6 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
                 
                 $rest->format('json');
                 $response = $rest->post(
@@ -4209,9 +4145,6 @@ class ApiController extends Controller
                         
                         //Create document
                         $rest = new RESTClient();
-                        $rest->set_header(
-                            'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                        );
                 
                         $rest->format('json');
                         $document = $rest->post(
@@ -4258,9 +4191,6 @@ class ApiController extends Controller
 
                             //Relate Document with Trouble Ticket
                             $rest = new RESTClient();
-                            $rest->set_header(
-                                'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                            );
                 
                             $rest->format('json');
                             $response = $rest->post(
@@ -4683,9 +4613,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                       'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $response = $rest->post(
@@ -4772,9 +4699,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $response = $rest->post(
@@ -4968,9 +4892,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $response = $rest->get(
@@ -5033,9 +4954,6 @@ class ApiController extends Controller
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
-                    $rest->set_header(
-                        'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                    );
                 
                     $rest->format('json');
                     $response = $rest->post(
@@ -5109,9 +5027,6 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
                 
                 $rest->format('json');
 
@@ -5165,9 +5080,6 @@ class ApiController extends Controller
                 //Receive response from vtiger REST service
                 //Return response to client  
                 $rest = new RESTClient();
-                $rest->set_header(
-                    'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                );
                 
                 $rest->format('json');
                 $response = $rest->post(
@@ -5282,9 +5194,6 @@ class ApiController extends Controller
                         
                         //Create document
                         $rest = new RESTClient();
-                        $rest->set_header(
-                            'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                        );
                 
                         $rest->format('json');
                         $document = $rest->post(
@@ -5331,9 +5240,6 @@ class ApiController extends Controller
 
                             //Relate Document with Trouble Ticket
                             $rest = new RESTClient();
-                            $rest->set_header(
-                                'X-Forwarded-Proto', Yii::app()->params->serverProtocol
-                            );
                 
                             $rest->format('json');
                             $response = $rest->post(
