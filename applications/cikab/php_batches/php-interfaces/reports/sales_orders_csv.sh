@@ -69,26 +69,7 @@ try {
             p.product_no productno,
             p.productname,
             p.productsheet,
-            sum(i.quantity) as totalquotes,
-            (SELECT 
-                    SUM(i2.quantity)
-                FROM
-                    vtiger_inventoryproductrel i2
-                        INNER JOIN
-                    vtiger_products p1 ON p1.productid = i2.productid
-                        INNER JOIN
-                    vtiger_crmentity CE ON CE.crmid = i2.id
-                WHERE
-                    CE.deleted = 0
-                        AND i2.id IN (SELECT 
-                            s2.salesorderid
-                        FROM
-                            vtiger_salesorder s2
-                        WHERE
-                            s2.sostatus NOT IN ('Cancelled' , 'Closed')
-                            AND p1.productid = p.productid 
-                            AND s2.accountid = a.accountid)
-            ) as totalsales
+            sum(i.quantity) as totalquotes
         FROM
             vtiger_inventoryproductrel i
                 INNER JOIN
@@ -167,8 +148,35 @@ try {
      * Generate the CSV content
      */    
     while ($salesOrder = $salesOrders->fetch_object()) {
+        
+        $salesOrdQry = "SELECT 
+                    SUM(i2.quantity) as totalsales
+                FROM
+                    vtiger_inventoryproductrel i2
+                        INNER JOIN
+                    vtiger_products p1 ON p1.productid = i2.productid
+                        INNER JOIN
+                    vtiger_crmentity CE ON CE.crmid = i2.id
+                WHERE
+                    CE.deleted = 0 AND i2.id IN (SELECT 
+                        s2.salesorderid
+                    FROM
+                        vtiger_salesorder s2
+                    WHERE
+                        s2.sostatus NOT IN ('Cancelled' , 'Closed')
+                        AND p1.productid = '$salesOrder->productid' 
+                        AND s2.accountid = '$salesOrder->accountid')";
+        
+        syslog(
+            LOG_INFO, 
+            "Fetching total count of product " .
+            "$salesOrder->productno processed in salesorders " .
+            "for account $salesOrder->accountname"
+        );
+        $salesOrdRes = $vTigerConnect->query($salesOrdQry);
+        
         $totalquotes = empty($salesOrder->totalquotes) ? 0 : $salesOrder->totalquotes;
-        $totalsales = empty($salesOrder->totalsales) ? 0 : $salesOrder->totalsales;
+        $totalsales = empty($salesOrdRes->totalsales) ? 0 : $salesOrdRes->totalsales;
         $balance = $totalquotes - $totalsales;
         $SOData = $SOData . "$salesOrder->accountname;" .
             "$salesOrder->productno;" .
