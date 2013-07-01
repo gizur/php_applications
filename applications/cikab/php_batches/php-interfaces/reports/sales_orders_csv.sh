@@ -62,14 +62,30 @@ try {
      * Try to fetch pending sales orders fron vTiger database 
      */
 
-    $salesOrdersQuery =  "SELECT
-            a.accountid,
-            a.accountname,
-            i.productid,
-            p.product_no productno,
-            p.productname,
-            p.productsheet,
-            sum(i.quantity) as totalquotes
+    $salesOrdersQuery =  "SELECT 
+    a.accountid,
+    a.accountname,
+    i.productid,
+    p.product_no productno,
+    p.productname,
+    p.productsheet,
+    sum(i.quantity) as totalquotes,
+    (SELECT 
+        SUM(i2.quantity)
+     FROM
+        vtiger_inventoryproductrel i2
+            INNER JOIN
+        vtiger_products p1 ON p1.productid = i2.productid
+            INNER JOIN
+        vtiger_crmentity CE ON CE.crmid = i2.id
+            LEFT JOIN
+        vtiger_salesorder s2 ON i2.id = s2.salesorderid
+     WHERE
+        CE.deleted = 0 AND 
+        s2.sostatus NOT IN ('Cancelled' , 'Closed') AND 
+        p1.productid = p.productid AND 
+        s2.accountid = a.accountid
+    ) as totalsales
         FROM
             vtiger_inventoryproductrel i
                 INNER JOIN
@@ -82,9 +98,9 @@ try {
             vtiger_account a ON a.accountid = q.accountid
         WHERE
             CE2.deleted = 0
-            AND q.quotestage NOT IN ('Rejected' , 'Delivered', 'Closed')
-            AND p.discontinued = 1
-        GROUP BY a.accountid, i.productid";
+                AND q.quotestage NOT IN ('Rejected' , 'Delivered', 'Closed')
+                AND p.discontinued = 1
+        GROUP BY a.accountid , i.productid";
 
     syslog(LOG_INFO, "Executing Query: " . $salesOrdersQuery);
     
@@ -149,34 +165,8 @@ try {
      */    
     while ($salesOrder = $salesOrders->fetch_object()) {
         
-        $salesOrdQry = "SELECT 
-                    SUM(i2.quantity) as totalsales
-                FROM
-                    vtiger_inventoryproductrel i2
-                        INNER JOIN
-                    vtiger_products p1 ON p1.productid = i2.productid
-                        INNER JOIN
-                    vtiger_crmentity CE ON CE.crmid = i2.id
-                WHERE
-                    CE.deleted = 0 AND i2.id IN (SELECT 
-                        s2.salesorderid
-                    FROM
-                        vtiger_salesorder s2
-                    WHERE
-                        s2.sostatus NOT IN ('Cancelled' , 'Closed')
-                        AND p1.productid = '$salesOrder->productid' 
-                        AND s2.accountid = '$salesOrder->accountid')";
-        
-        syslog(
-            LOG_INFO, 
-            "Fetching total count of product " .
-            "$salesOrder->productno processed in salesorders " .
-            "for account $salesOrder->accountname"
-        );
-        $salesOrdRes = $vTigerConnect->query($salesOrdQry);
-        
         $totalquotes = empty($salesOrder->totalquotes) ? 0 : $salesOrder->totalquotes;
-        $totalsales = empty($salesOrdRes->totalsales) ? 0 : $salesOrdRes->totalsales;
+        $totalsales = empty($salesOrder->totalsales) ? 0 : $salesOrder->totalsales;
         $balance = $totalquotes - $totalsales;
         $SOData = $SOData . "$salesOrder->accountname;" .
             "$salesOrder->productno;" .
