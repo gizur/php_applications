@@ -187,6 +187,6 @@ return array(
                 'trailertype' => 'cf_660'
             )
         ),
-        'serverProtocol' => 'https://',
+        'serverProtocol' => 'https',
     ),
 );
