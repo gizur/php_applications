@@ -63,29 +63,29 @@ try {
      */
 
     $salesOrdersQuery =  "SELECT 
-    a.accountid,
-    a.accountname,
-    i.productid,
-    p.product_no productno,
-    p.productname,
-    p.productsheet,
-    sum(i.quantity) as totalquotes,
-    (SELECT 
-        SUM(i2.quantity)
-     FROM
-        vtiger_inventoryproductrel i2
-            INNER JOIN
-        vtiger_products p1 ON p1.productid = i2.productid
-            INNER JOIN
-        vtiger_crmentity CE ON CE.crmid = i2.id
-            LEFT JOIN
-        vtiger_salesorder s2 ON i2.id = s2.salesorderid
-     WHERE
-        CE.deleted = 0 AND 
-        s2.sostatus NOT IN ('Cancelled' , 'Closed') AND 
-        p1.productid = p.productid AND 
-        s2.accountid = a.accountid
-    ) as totalsales
+            a.accountid,
+            a.accountname,
+            i.productid,
+            p.product_no productno,
+            p.productname,
+            p.productsheet,
+            sum(i.quantity) as totalquotes,
+            (SELECT 
+                SUM(i2.quantity)
+             FROM
+                vtiger_inventoryproductrel i2
+                    INNER JOIN
+                vtiger_products p1 ON p1.productid = i2.productid
+                    INNER JOIN
+                vtiger_crmentity CE ON CE.crmid = i2.id
+                    LEFT JOIN
+                vtiger_salesorder s2 ON i2.id = s2.salesorderid
+             WHERE
+                CE.deleted = 0 AND 
+                s2.sostatus NOT IN ('Cancelled' , 'Closed') AND 
+                p1.productid = p.productid AND 
+                s2.accountid = a.accountid
+            ) as totalsales
         FROM
             vtiger_inventoryproductrel i
                 INNER JOIN
