@@ -70,14 +70,14 @@ return array(
 		*/
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-            'errorAction'=>'site/error',
+                'errorAction'=>'site/error',
         ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'trace, error, warning',
+					'levels'=>'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
@@ -94,12 +94,12 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-                'protocol'=>'http://',
-                'createTroubleTicket'=> false,
-		'GIZURCLOUD_SECRET_KEY' => '5146fb70ab2b35.907160475146fb70ab2d28.00725778',
-		'GIZURCLOUD_API_KEY' => 'GZCLD5146FB70AB3485146FB70AB3BE',
+                'protocol'=>'https://',
+                'createTroubleTicket'=> true,
+		'GIZURCLOUD_SECRET_KEY' => '50826a54755009.5822592450826a54755292.56509362',
+		'GIZURCLOUD_API_KEY' => 'GZCLD50826A54755AB50826A5475624',
 		'API_VERSION' => '0.1',
-		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/',
+		'URL' => 'https://c2.gizur.com/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',

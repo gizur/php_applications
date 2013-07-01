@@ -37,7 +37,7 @@ RewriteRule ^$ applications/gizursaas/index.html [L]
 #
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^api/(.*)$ api/index.php/api/$1 [L]
 
 # If request if for the older cikab bikeportal,
@@ -45,7 +45,7 @@ RewriteRule ^api/(.*)$ api/index.php/api/$1 [L]
 #
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^applications/cikab/bikeportal(.*)$ /cikab/seasonportal$1 [R,L]
 
 # If request if for the older cikab season portal,
@@ -53,7 +53,7 @@ RewriteRule ^applications/cikab/bikeportal(.*)$ /cikab/seasonportal$1 [R,L]
 #
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteRule ^cikab/seasonportal(.*) applications/cikab/seasonportal$1 [QSA,L]
 
 # This rule is handling request for vtiger against client id.
@@ -62,9 +62,9 @@ RewriteRule ^cikab/seasonportal(.*) applications/cikab/seasonportal$1 [QSA,L]
 #
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
-#RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
-#RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
+RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
 RewriteRule ^([^\/]*)/index.php /lib/vtwrapper-index.php?clientid=$1 [QSA,L]
 
 # This rule is handling request for vtiger against client id.
@@ -73,7 +73,7 @@ RewriteRule ^([^\/]*)/index.php /lib/vtwrapper-index.php?clientid=$1 [QSA,L]
 #
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_URI} !^/api/index.php/.*
-#RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
-#RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
+RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
 RewriteRule ^([^\/]*)/([^?]*) /lib/vtiger-5.4.0/$2?clientid=$1 [QSA]
