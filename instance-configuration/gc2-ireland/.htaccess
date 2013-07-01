@@ -16,6 +16,8 @@ RewriteEngine On
 # If forwarded protocol is not https redirect request to 
 # https protocol. Negate it for healthcheck url.
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP_HOST} !^localhost
+RewriteCond %{HTTP_HOST} !^127.0.0.1
 RewriteCond %{REQUEST_URI} !^/healthcheck.php
 RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
 
