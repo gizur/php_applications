@@ -158,7 +158,7 @@ try {
      */
     $SOData = "Store Name;Product Id;" .
         "Product Name;Description;" .
-        "Order;Sale Order;Left Order\n";
+        "Quote;Sale Order;Left Order\n";
 
     /*
      * Generate the CSV content
@@ -188,7 +188,7 @@ try {
     $sesResponse = $email->send_raw_email(
         array(
             'Data' => base64_encode(
-                "Subject: Sales order Report (CSV)\n".
+                "Subject: Quote and Call-off Report\n".
                 "MIME-Version: 1.0\n".
                 "Content-type: Multipart/Mixed; boundary=\"NextPart\"\n\n".
                 "--NextPart\n".
@@ -196,7 +196,7 @@ try {
                 "PFA\n" .
                 "--NextPart\n" .
                 "Content-Type: application/octet-stream; charset=ISO-8859-15; name=\"sales_order_report_" . date('ymd') . ".csv\"\n" .
-                "Content-Disposition: attachment; filename=\"sales_order_report_" . date('ymd') . ".csv\"\n" .
+                "Content-Disposition: attachment; filename=\"quote_and_call-off_report_" . date('ymd') . ".csv\"\n" .
                 "Content-Transfer-Encoding: base64\n\n" .
                 base64_encode($SOData) .
                 "--NextPart"
