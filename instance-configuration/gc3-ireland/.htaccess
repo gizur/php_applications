@@ -70,4 +70,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
 RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
+RewriteCond %{QUERY_STRING} !^(clientid=.*)
 RewriteRule ^([^\/]*)/([^?]*) /lib/vtiger-5.4.0/$2?clientid=$1 [QSA]
