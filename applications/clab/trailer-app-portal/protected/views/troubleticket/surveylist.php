@@ -64,7 +64,7 @@ foreach ($Assets as $key => $val) {
                 <td valign="top"><table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
                         <tr>
                             <?php
-                            if (!isset($currentasset)) {
+                            if (!$currentasset) {
                                 $inopt = "disabled=disabled";
                                 $damagechecked = "disabled=disabled";
                             } else {

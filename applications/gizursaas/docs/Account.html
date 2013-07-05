@@ -1,0 +1,70 @@
+<!DOCTYPE html>  <html> <head>   <title>Account.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="AccountsController.html">                 AccountsController.js               </a>                                           <a class="source" href="ClientsController.html">                 ClientsController.js               </a>                                           <a class="source" href="UsersController.html">                 UsersController.js               </a>                                           <a class="source" href="Account.html">                 Account.js               </a>                                           <a class="source" href="Client.html">                 Client.js               </a>                                           <a class="source" href="User.html">                 User.js               </a>                                           <a class="source" href="AccountsView.html">                 AccountsView.js               </a>                                           <a class="source" href="ClientsView.html">                 ClientsView.js               </a>                                           <a class="source" href="UsersView.html">                 UsersView.js               </a>                                           <a class="source" href="grunt.html">                 grunt.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               Account.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage model
+ * @author     Prabhat Khera &lt;prabhat.khera@essindia.co.in&gt;
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * &lt;a href="http://gizur.com"&gt;Gizur Consulting&lt;/a&gt;, All rights reserved.
+ *
+ * JavaScript
+ *
+ */</span>
+
+<span class="string">'use strict'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h1>AccountModel</h1>
+
+<p>This class has model properties, validation function</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="keyword">var</span> AccountModel = Stapes.subclass({
+    <span class="string">"first_name"</span> : <span class="string">''</span>,
+    <span class="string">"last_name"</span> : <span class="string">''</span>,
+    <span class="string">"email"</span> : <span class="string">''</span>,
+    <span class="string">"client_id"</span> : <span class="string">''</span>,
+    <span class="string">"api_key_1"</span> : <span class="string">''</span>,
+    <span class="string">"api_key_2"</span> : <span class="string">''</span>,
+    <span class="string">"secret_key_1"</span> : <span class="string">''</span>,
+    <span class="string">"secret_key_2"</span> : <span class="string">''</span>,
+    <span class="string">"password"</span> : <span class="string">''</span>,
+    <span class="string">"address_1"</span> : <span class="string">''</span>,
+    <span class="string">"address_2"</span> : <span class="string">''</span>,
+    <span class="string">"city"</span> : <span class="string">''</span>,
+    <span class="string">"state"</span> : <span class="string">''</span>,
+    <span class="string">"postalcode"</span> : <span class="string">''</span>,
+    <span class="string">"country"</span> : <span class="string">""</span>,
+    <span class="string">"phone_1"</span> : <span class="string">""</span>,
+    <span class="string">"active_1"</span> : <span class="string">""</span>,
+    <span class="string">"active_2"</span> : <span class="string">""</span>,
+    <span class="string">"server"</span> : <span class="string">""</span>,
+    <span class="string">"port"</span> : <span class="string">""</span>,
+    <span class="string">"username"</span> : <span class="string">""</span>,
+    <span class="string">"dbpassword"</span> : <span class="string">""</span>,
+    <span class="string">"databasename"</span> : <span class="string">""</span>,
+    <span class="string">"security_salt"</span> : <span class="string">""</span>,
+    <span class="string">"id_sequence"</span> : <span class="string">''</span>,
+    constructor : <span class="function"><span class="keyword">function</span> <span class="params">()</span>{</span>},
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h1>Validate</h1>
+
+<p>This function is valodating the User model
+for the the above properties.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'validate'</span> : <span class="keyword">function</span>(){
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    },
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h1>map_values function</h1>
+
+<p>This fuction is used to update values in html page.</p>             </td>             <td class="code">               <div class="highlight"><pre>    
+    <span class="string">'map_values'</span> : <span class="keyword">function</span>(){
+        $(<span class="string">'#first_name'</span>).val(<span class="keyword">this</span>.get(<span class="string">'first_name'</span>));
+        $(<span class="string">'#last_name'</span>).val(<span class="keyword">this</span>.get(<span class="string">'last_name'</span>));
+        $(<span class="string">'#email'</span>).val(<span class="keyword">this</span>.get(<span class="string">'email'</span>));
+        $(<span class="string">'#old_email'</span>).val(<span class="keyword">this</span>.get(<span class="string">'email'</span>));        
+        $(<span class="string">'#api_key_1'</span>).val(<span class="keyword">this</span>.get(<span class="string">'api_key_1'</span>));
+        $(<span class="string">'#api_key_2'</span>).val(<span class="keyword">this</span>.get(<span class="string">'api_key_2'</span>));
+        $(<span class="string">'#secret_key_1'</span>).text(<span class="keyword">this</span>.get(<span class="string">'secret_key_1'</span>));
+        $(<span class="string">'#secret_key_2'</span>).text(<span class="keyword">this</span>.get(<span class="string">'secret_key_2'</span>));
+        $(<span class="string">'#client_id'</span>).val(<span class="keyword">this</span>.get(<span class="string">'client_id'</span>));
+    }
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

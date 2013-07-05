@@ -1,0 +1,310 @@
+<!DOCTYPE html>  <html> <head>   <title>AccountsController.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="AccountsController.html">                 AccountsController.js               </a>                                           <a class="source" href="ClientsController.html">                 ClientsController.js               </a>                                           <a class="source" href="UsersController.html">                 UsersController.js               </a>                                           <a class="source" href="Account.html">                 Account.js               </a>                                           <a class="source" href="Client.html">                 Client.js               </a>                                           <a class="source" href="User.html">                 User.js               </a>                                           <a class="source" href="AccountsView.html">                 AccountsView.js               </a>                                           <a class="source" href="ClientsView.html">                 ClientsView.js               </a>                                           <a class="source" href="UsersView.html">                 UsersView.js               </a>                                           <a class="source" href="grunt.html">                 grunt.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               AccountsController.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage controller
+ * @author     Prabhat Khera &lt;prabhat.khera@essindia.co.in&gt;
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * &lt;a href="http://gizur.com"&gt;Gizur Consulting&lt;/a&gt;, All rights reserved.
+ *
+ * JavaScript
+ *
+ */</span>
+
+<span class="string">'use strict'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h1>AccountController</h1>
+
+<p>This class is responsible for fetching and updating information
+updated by the user</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="keyword">var</span> AccountsController = Stapes.subclass({
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Intitialise the object</p>             </td>             <td class="code">               <div class="highlight"><pre>    constructor: <span class="keyword">function</span>(DEFAULT_HASH, client_email) {
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Create a alias of this</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Initialise the model and view</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">this</span>.model = <span class="keyword">new</span> AccountModel();
+        <span class="keyword">this</span>.view = <span class="keyword">new</span> AccountsView();
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Prepare the url to fetch the account details</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> _url = __rest_server_url + <span class="string">'User/'</span> + 
+                encodeURIComponent(client_email);
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Make a Ajax request</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.ajax({
+            url: _url,
+            type: <span class="string">"GET"</span>,
+            dataType: <span class="string">"json"</span>,
+            headers: {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Add username and password in the headers
+to validate the request</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="string">"X_USERNAME"</span>:user_controller.model.get(<span class="string">'email'</span>),
+                <span class="string">"X_PASSWORD"</span>:user_controller.model.get(<span class="string">'password'</span>)
+            },
+            error: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If an error occured show and error and
+take the user to the login page.</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.view.error(<span class="string">'Username or password is invalid.'</span>);
+                setTimeout(<span class="keyword">function</span>() {
+                    hasher.setHash(DEFAULT_HASH);
+                }, <span class="number">1000</span>);
+            },
+            success: <span class="keyword">function</span>(_data) {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Map the values on sucess
+with model attributes</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> (_data.success) {
+                    self.model.set({
+                        <span class="string">"first_name"</span>: _data.result.name_1,
+                        <span class="string">"last_name"</span>: _data.result.name_2,
+                        <span class="string">"email"</span>: _data.result.id,
+                        <span class="string">"client_id"</span>: _data.result.clientid,
+                        <span class="string">"api_key_1"</span>: _data.result.apikey_1,
+                        <span class="string">"api_key_2"</span>: _data.result.apikey_2,
+                        <span class="string">"secret_key_1"</span>: _data.result.secretkey_1,
+                        <span class="string">"secret_key_2"</span>: _data.result.secretkey_2,
+                        <span class="string">"password"</span>: _data.result.password,
+                        <span class="string">"address_1"</span>: _data.result.address_1,
+                        <span class="string">"address_2"</span>: _data.result.address_2,
+                        <span class="string">"city"</span>: _data.result.city,
+                        <span class="string">"state"</span>: _data.result.state,
+                        <span class="string">"postalcode"</span>: _data.result.postalcode,
+                        <span class="string">"country"</span>: _data.result.country,
+                        <span class="string">"phone_1"</span>: _data.result.phone_1,
+                        <span class="string">"active_1"</span>: _data.result.active_1,
+                        <span class="string">"active_2"</span>: _data.result.active_2,
+                        <span class="string">"server"</span>: _data.result.server,
+                        <span class="string">"port"</span>: _data.result.port,
+                        <span class="string">"username"</span>: _data.result.username,
+                        <span class="string">"dbpassword"</span>: _data.result.dbpassword,
+                        <span class="string">"databasename"</span>: _data.result.databasename,
+                        <span class="string">"security_salt"</span>: _data.result.security_salt,
+                        <span class="string">"id_sequence"</span>: _data.result.id_sequence
+                    });
+                    $.get(<span class="string">'./applications/gizursaas/templates/home.tmp.html?_='</span> + 
+                            Math.random(),{},<span class="keyword">function</span>(html){
+                        $(<span class="string">'#container'</span>).empty().html(html);
+                        self.model.map_values();
+                        self.view.bindEventHandlers();
+                        $(<span class="string">'#logout-btn'</span>).show();
+                        <span class="keyword">var</span> vLink = window.location.protocol + <span class="string">'//'</span> +
+                                window.location.host +
+                                <span class="string">'/'</span> + self.model.get(<span class="string">'client_id'</span>) + <span class="string">'/'</span>;
+                        $(<span class="string">'#vtigerLink'</span>).empty().html(
+                                <span class="string">"&lt;a href='"</span> + vLink + 
+                                <span class="string">"' target='_blank'&gt;Login to vTiger CRM&lt;/a&gt;"</span>
+                        );
+                    });
+                } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If an error occured show and error and
+take the user to the login page.</p>             </td>             <td class="code">               <div class="highlight"><pre>                    self.view.error(<span class="string">'Username or password is invalid.'</span>);
+                    setTimeout(<span class="keyword">function</span>() {
+                        hasher.setHash(DEFAULT_HASH);
+                    }, <span class="number">1000</span>);
+                }
+            }
+        });
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>The following code will prevent 
+the forms not to submit by default.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">this</span>.$el = $(<span class="string">'form'</span>);
+        <span class="keyword">this</span>.$el.on(<span class="string">'submit'</span>, <span class="keyword">function</span>(e) {
+            e.preventDefault();
+        });
+
+        <span class="keyword">this</span>.view.on({
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <h1>Event to generate API and SECRET key 1</h1>
+
+<p>This fuunction make PUT request to the server to
+generate API and SECRET key 1</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="string">'generateAPIKeyAndSecret1'</span>: <span class="keyword">function</span>() {
+                <span class="keyword">var</span> _url = __rest_server_url + <span class="string">'User/keypair1/'</span> + 
+                        encodeURIComponent(self.model.get(<span class="string">'email'</span>));
+                $.ajax({
+                    url: _url,
+                    type: <span class="string">"PUT"</span>,
+                    dataType: <span class="string">"json"</span>,
+                    headers: {
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Add username and password in the headers
+to validate the request</p>             </td>             <td class="code">               <div class="highlight"><pre>                        <span class="string">"X_USERNAME"</span>:user_controller.model.get(<span class="string">'email'</span>),
+                        <span class="string">"X_PASSWORD"</span>:user_controller.model.get(<span class="string">'password'</span>)
+                    },
+                    error: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Show the error in case error received.</p>             </td>             <td class="code">               <div class="highlight"><pre>                        self.view.error(
+                                <span class="string">'An error occured while re-generating '</span> +
+                                <span class="string">'the key pair. Please try again.'</span>
+                        );
+                    },
+                    success: <span class="keyword">function</span>(_data) {
+                        <span class="keyword">if</span> (_data.success) {
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Update the values on success</p>             </td>             <td class="code">               <div class="highlight"><pre>                            self.view.success(
+                                    <span class="string">'Key pair has been generated successfully.'</span>
+                            );
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Set modified values to the Account Object</p>             </td>             <td class="code">               <div class="highlight"><pre>                            self.model.set({
+                                <span class="string">'api_key_1'</span>: _data.result.apikey_1,
+                                <span class="string">'secret_key_1'</span>: _data.result.secretkey_1
+                            });
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Update page with the new values</p>             </td>             <td class="code">               <div class="highlight"><pre>                            self.model.map_values();
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Close the model dialog</p>             </td>             <td class="code">               <div class="highlight"><pre>                            $(<span class="string">'#generateNewAPIAndSecretKey1Close'</span>).click();
+                        } <span class="keyword">else</span> {
+                            self.view.error(
+                                    <span class="string">'An error occured while re-generating '</span> + 
+                                    <span class="string">'the key pair. Please try again.'</span>
+                            );
+                        }
+                    }
+                });
+            },
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h1>Event to generate API and SECRET key 2</h1>
+
+<p>This fuunction make PUT request to the server to
+generate API and SECRET key 2</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="string">'generateAPIKeyAndSecret2'</span>: <span class="keyword">function</span>() {
+                <span class="keyword">var</span> _url = __rest_server_url + <span class="string">'User/keypair2/'</span> + 
+                        encodeURIComponent(self.model.get(<span class="string">'email'</span>));
+                $.ajax({
+                    url: _url,
+                    type: <span class="string">"PUT"</span>,
+                    dataType: <span class="string">"json"</span>,
+                    headers: {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Add username and password in the headers
+to validate the request</p>             </td>             <td class="code">               <div class="highlight"><pre>                        <span class="string">"X_USERNAME"</span>:user_controller.model.get(<span class="string">'email'</span>),
+                        <span class="string">"X_PASSWORD"</span>:user_controller.model.get(<span class="string">'password'</span>)
+                    },
+                    error: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Show the error in case error received.</p>             </td>             <td class="code">               <div class="highlight"><pre>                        self.view.error(
+                                <span class="string">'An error occured while re-generating the'</span> +
+                                <span class="string">' key pair. Please try again.'</span>);
+                    },
+                    success: <span class="keyword">function</span>(_data) {
+                        <span class="keyword">if</span> (_data.success) {
+                            self.view.success(
+                                    <span class="string">'Key pair has been generated successfully.'</span>
+                            );
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Set modified values to the Account Object</p>             </td>             <td class="code">               <div class="highlight"><pre>                            self.model.set({
+                                <span class="string">'api_key_2'</span>: _data.result.apikey_2,
+                                <span class="string">'secret_key_2'</span>: _data.result.secretkey_2
+                            });
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Update page with the new values</p>             </td>             <td class="code">               <div class="highlight"><pre>                            self.model.map_values();
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Close the model dialog</p>             </td>             <td class="code">               <div class="highlight"><pre>                            $(<span class="string">'#generateNewAPIAndSecretKey2Close'</span>).click();
+                        } <span class="keyword">else</span> {
+                            self.view.error(
+                                    <span class="string">'An error occured while re-generating the'</span> +
+                                    <span class="string">' key pair. Please try again.'</span>
+                            );
+                        }
+                    }
+                });
+            },
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h1>Event to update information</h1>
+
+<p>This fuunction make PUT request to the server to
+information updated by the user</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="string">'updateInformation'</span>: <span class="keyword">function</span>() {
+                
+                self.view.success(<span class="string">'Please wait ...'</span>);
+                <span class="keyword">var</span> _url = __rest_server_url + <span class="string">'User'</span>;
+                
+                $.ajax({
+                    url: _url,
+                    type: <span class="string">"PUT"</span>,
+                    dataType: <span class="string">"json"</span>,
+                    processData: <span class="literal">false</span>,                    
+                    headers: {
+                        <span class="string">"X_USERNAME"</span>:user_controller.model.get(<span class="string">'email'</span>),
+                        <span class="string">"X_PASSWORD"</span>:user_controller.model.get(<span class="string">'password'</span>)
+                    },
+                    data: JSON.stringify({
+                        <span class="string">"id"</span>: self.model.get(<span class="string">'email'</span>),
+                        <span class="string">"password"</span>: self.model.get(<span class="string">'password'</span>),
+                        <span class="string">"name_1"</span>: $(<span class="string">'#first_name'</span>).val(),
+                        <span class="string">"name_2"</span>: $(<span class="string">'#last_name'</span>).val(),
+                        <span class="string">"address_1"</span>: self.model.get(<span class="string">'address_1'</span>),
+                        <span class="string">"address_2"</span>: self.model.get(<span class="string">'address_2'</span>),
+                        <span class="string">"city"</span>: self.model.get(<span class="string">'city'</span>),
+                        <span class="string">"state"</span>: self.model.get(<span class="string">'state'</span>),
+                        <span class="string">"postalcode"</span>: self.model.get(<span class="string">'postalcode'</span>),
+                        <span class="string">"country"</span>: self.model.get(<span class="string">'country'</span>),
+                        <span class="string">"phone_1"</span>: self.model.get(<span class="string">'phone_1'</span>),
+                        <span class="string">"clientid"</span>: self.model.get(<span class="string">'client_id'</span>),
+                        <span class="string">"apikey_1"</span>: self.model.get(<span class="string">'api_key_1'</span>),
+                        <span class="string">"secretkey_1"</span>: self.model.get(<span class="string">'secret_key_1'</span>),
+                        <span class="string">"active_1"</span>: self.model.get(<span class="string">'active_1'</span>),
+                        <span class="string">"apikey_2"</span>: self.model.get(<span class="string">'api_key_2'</span>),
+                        <span class="string">"secretkey_2"</span>: self.model.get(<span class="string">'secret_key_2'</span>),
+                        <span class="string">"active_2"</span>: self.model.get(<span class="string">'active_2'</span>),
+                        <span class="string">"server"</span>: self.model.get(<span class="string">'server'</span>),
+                        <span class="string">"port"</span>: self.model.get(<span class="string">'port'</span>),
+                        <span class="string">"username"</span>: self.model.get(<span class="string">'username'</span>),
+                        <span class="string">"dbpassword"</span>: self.model.get(<span class="string">'dbpassword'</span>),
+                        <span class="string">"databasename"</span>: self.model.get(<span class="string">'databasename'</span>),
+                        <span class="string">"security_salt"</span>: self.model.get(<span class="string">'security_salt'</span>),
+                        <span class="string">"id_sequence"</span>: self.model.get(<span class="string">'id_sequence'</span>)
+                    }),
+                    error: <span class="keyword">function</span>() {
+                        self.view.error(
+                                <span class="string">'An error occured while updating '</span> +
+                                <span class="string">'the information. Please try again.'</span>
+                        );
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Revert back the values</p>             </td>             <td class="code">               <div class="highlight"><pre>                        self.model.map_values();
+                    },
+                    success: <span class="keyword">function</span>(_data) {
+                        <span class="keyword">if</span> (_data.success) {
+                            self.view.success(
+                                    <span class="string">'Information updated successfully.'</span>
+                            );
+
+                            self.model.set({
+                                <span class="string">'first_name'</span>: $(<span class="string">'#first_name'</span>).val(),
+                                <span class="string">'last_name'</span>: $(<span class="string">'#last_name'</span>).val()
+                            });
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Map values to the page</p>             </td>             <td class="code">               <div class="highlight"><pre>                            self.model.map_values();
+                        } <span class="keyword">else</span> {
+                            self.view.error(
+                                    <span class="string">'An error occuredwhile updating the'</span> +
+                                    <span class="string">' information. Please try again.'</span>
+                            );
+                        }
+                    }
+                });
+            },
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h1>Event to reset vTiger admin password</h1>
+
+<p>This fuunction make PUT request to the server to
+reset vtiger admin password</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="string">'vtigerResetPasswordButton'</span>: <span class="keyword">function</span>(){
+                
+                <span class="keyword">if</span>(!confirm(<span class="string">'Would you like to reset your vTiger admin password?'</span>))
+                    <span class="keyword">return</span> <span class="literal">false</span>;
+                
+                self.view.success(<span class="string">'Please wait ...'</span>);
+                <span class="keyword">var</span> _url = __rest_server_url + <span class="string">'User/vtiger/'</span> + 
+                        user_controller.model.get(<span class="string">'email'</span>);
+                
+                $.ajax({
+                    url: _url,
+                    type: <span class="string">"PUT"</span>,
+                    dataType: <span class="string">"json"</span>,
+                    processData: <span class="literal">false</span>,                    
+                    headers: {
+                        <span class="string">"X_USERNAME"</span>:user_controller.model.get(<span class="string">'email'</span>),
+                        <span class="string">"X_PASSWORD"</span>:user_controller.model.get(<span class="string">'password'</span>)
+                    },
+                    data: JSON.stringify({}),
+                    error: <span class="keyword">function</span>() {
+                        self.view.error(
+                            <span class="string">'An error occured while resetting '</span> +
+                            <span class="string">'the password. Please try again.'</span>
+                        );
+                    },
+                    success: <span class="keyword">function</span>(_data) {
+                        <span class="keyword">if</span> (_data.success) {
+                            self.view.success(
+                                <span class="string">'Password has been reset successfully.'</span> +
+                                <span class="string">' Please check your email.'</span>
+                            );
+                        } <span class="keyword">else</span> {
+                            self.view.error(
+                                <span class="string">'An error occured while resetting the'</span> +
+                                <span class="string">' password. Please try again.'</span>
+                            );
+                        }
+                    }
+                });
+            }
+        });
+    }
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

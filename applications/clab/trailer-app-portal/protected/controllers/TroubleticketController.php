@@ -84,7 +84,12 @@ class TroubleticketController extends Controller {
         $records = $model->findAll($module, 'all', $year, $month, $trailer, $reportdamage);
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
-        $assetstatus = $model->findById('Assets', $trailer);
+        
+        $assetstatus = '';
+        if ($trailer !== '0') {
+            $assetstatus = $model->findById('Assets', $trailer);
+        }
+        
         $this->renderPartial('surveylist', array('model' => $model, 'result' => $records, 
             'Assets' => $Asset_List, 'currentasset' => $assetstatus, 
             'TR' => $_POST['trailer'], 'SYear' => $year, 'SMonth' => $month, 'SReportdamage' => $reportdamage));

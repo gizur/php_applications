@@ -1,0 +1,125 @@
+<!DOCTYPE html>  <html> <head>   <title>app.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="AccountsController.html">                 AccountsController.js               </a>                                           <a class="source" href="ClientsController.html">                 ClientsController.js               </a>                                           <a class="source" href="UsersController.html">                 UsersController.js               </a>                                           <a class="source" href="Account.html">                 Account.js               </a>                                           <a class="source" href="Client.html">                 Client.js               </a>                                           <a class="source" href="User.html">                 User.js               </a>                                           <a class="source" href="AccountsView.html">                 AccountsView.js               </a>                                           <a class="source" href="ClientsView.html">                 ClientsView.js               </a>                                           <a class="source" href="UsersView.html">                 UsersView.js               </a>                                           <a class="source" href="grunt.html">                 grunt.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               app.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+<span class="comment">/**
+ * This file contains routing function used throughout Gizur SaaS.
+ *
+ * @package    Gizur SaaS
+ * @subpackage 
+ * @author     Prabhat Khera &lt;prabhat.khera@essindia.co.in&gt;
+ * @version    SVN: $Id$
+ *
+ * @license    Commercial license
+ * @copyright  Copyright (c) 2012, Gizur AB, 
+ * &lt;a href="http://gizur.com"&gt;Gizur Consulting&lt;/a&gt;, All rights reserved.
+ *
+ * JavaScript
+ *
+ */</span>
+
+<span class="string">"use strict"</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Instanciate the controllers</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="keyword">var</span> user_controller = <span class="literal">null</span>;
+<span class="keyword">var</span> account_controller = <span class="literal">null</span>;
+<span class="keyword">var</span> clients_controller = <span class="literal">null</span>;
+
+$(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h1>DEFAULT HASH</h1>
+
+<p>This is a default hash.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> DEFAULT_HASH = <span class="string">'registration'</span>;
+    
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h1>Prepend Hash</h1>
+
+<p>This tells the haser to prepend the chars specified
+with all query string after hash.</p>             </td>             <td class="code">               <div class="highlight"><pre>    hasher.prependHash = <span class="string">"!"</span>;
+    
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h1>Crossroads SetUp</h1>
+
+<p>Adds routers to the application.</p>             </td>             <td class="code">               <div class="highlight"><pre>    
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h1>Route1 : Registration Process</h1>
+
+<p>This is a default router which excute in case of match
+the route1 function defined below.    </p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> route1 = crossroads.addRoute(<span class="string">'registration'</span>);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h1>Route2 : User Details</h1>
+
+<p>Excutes the route2 function defined below.
+Here client<em>id and session</em>id are not fixed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> route2 = crossroads.addRoute(<span class="string">'user/{client_id}/{session_id}'</span>);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h1>Route3 : Login Process</h1>
+
+<p>Excutes the route3 function defined below.
+Here status is optional parameter but it can be
+empty, fail or success.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> route3 = crossroads.addRoute(<span class="string">'login/:status:'</span>);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <h1>Route4 : Logout Process</h1>
+
+<p>Excutes the route4 function defined below
+to logout the user.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> route4 = crossroads.addRoute(<span class="string">'logout'</span>);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <h1>Route5 : Admin part</h1>
+
+<p>Gizur SaaS Admin</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> route5 = crossroads.addRoute(<span class="string">'GizurSaaSAdmin'</span>);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <h1>Log All Routes</h1>
+
+<p>To log all routes un-comment the following line
+crossroads.routed.add(console.log, console);</p>             </td>             <td class="code">               <div class="highlight"><pre>    
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h1>Route1</h1>
+
+<p>If route1 matched, the following function
+gets executed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    route1.matched.add(<span class="keyword">function</span>(){
+        user_controller = <span class="keyword">new</span> UsersController();
+    });
+    
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <h1>Route2</h1>
+
+<p>If route2 matched, the following function
+gets executed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    route2.matched.add(<span class="keyword">function</span>(client_id, session_id){     
+        account_controller = <span class="keyword">new</span> AccountsController(DEFAULT_HASH, client_id);
+    });
+    
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <h1>Route3</h1>
+
+<p>If route3 matched, the following function
+gets executed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    route3.matched.add(<span class="keyword">function</span>(status){
+        user_controller.login(status);
+    });
+    
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <h1>Route4</h1>
+
+<p>If route4 matched, the following function
+gets executed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    route4.matched.add(<span class="keyword">function</span>(){
+        hasher.setHash(DEFAULT_HASH);
+    });
+    
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <h1>Route5</h1>
+
+<p>If route5 matched, the following function
+gets executed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    route5.matched.add(<span class="keyword">function</span>(){
+        clients_controller = <span class="keyword">new</span> ClientsController(DEFAULT_HASH);
+    });
+    
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h1>Default Hash</h1>
+
+<p>Set a default hash value</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span>(!hasher.getHash()){
+        hasher.setHash(DEFAULT_HASH);
+    }
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h1>ParseHash</h1>
+
+<p>Used to parsh hash. If new hash found it'll
+call the crossroad to handle.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="function"><span class="keyword">function</span> <span class="title">parseHash</span><span class="params">(newHash, oldHash)</span>{</span>
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>second parameter of crossroads.parse() is 
+the "defaultArguments" and should be an array
+so we ignore the "oldHash" argument to avoid issues.</p>             </td>             <td class="code">               <div class="highlight"><pre>        crossroads.parse(newHash);
+    }
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h1>Initialize Haser</h1>
+
+<p>parse initial hash</p>             </td>             <td class="code">               <div class="highlight"><pre>    hasher.initialized.add(parseHash);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>parse hash changes</p>             </td>             <td class="code">               <div class="highlight"><pre>    hasher.changed.add(parseHash);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>start listening for hash changes</p>             </td>             <td class="code">               <div class="highlight"><pre>    hasher.init();
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
