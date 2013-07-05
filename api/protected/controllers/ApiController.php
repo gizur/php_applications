@@ -1970,7 +1970,7 @@ class ApiController extends Controller
 
                     if (isset($_GET['reportdamage']))
                     if ($_GET['reportdamage'] != 'all') {
-                        $whereClause[] = Yii::app()->params['customFields'][$_GET['model']]['reportdamage'] . 
+                        $whereClause[] = Yii::app()->params[$this->_clientid . '_custom_fields'][$_GET['model']]['reportdamage'] . 
                             " = '" . ucwords($_GET['reportdamage']) . "'";
                     }
 
