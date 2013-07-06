@@ -3306,7 +3306,7 @@ class ApiController extends Controller
                 );
 
                 $response->success = true;
-                $response->result = $resultDdb;
+                $response->result = $post;
 
                 // MAKE IT ASYNC
                 //                 
