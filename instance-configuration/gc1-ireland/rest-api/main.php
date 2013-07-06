@@ -48,6 +48,11 @@ return array(
             'urlFormat' => 'path',
             'rules' => array(
                 // REST patterns
+                array(
+                    'api/list',
+                    'pattern' => '/<model:(Assets)/<category:(inoperation|damaged)>',
+                    'verb' => 'GET'
+                ),                
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About)>', 'verb' => 'GET'),
                 array('api/list',
                     'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>',
