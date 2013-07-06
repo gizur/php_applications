@@ -2343,16 +2343,30 @@ class ApiController extends Controller
                 } else {
                     
                     //Check if Asset list is present in cache
-                    $cachedValue = Yii::app()->cache->get(
-                        $this->_clientid . '_' .
-                        $_GET['model']
-                        . '_'
-                        . 'list'
-                    );
+                    if (isset($_GET['category'])) {
+                        $cachedValue = false;
+                    } else {
+                        $cachedValue = Yii::app()->cache->get(
+                            $this->_clientid . '_' .
+                            $_GET['model']
+                            . '_'
+                            . 'list'
+                        );                        
+                    }
 
                     if ($cachedValue === false) {
                         //Send request to vtiger REST service
-                        $query = "select * from " . $_GET['model'] . ";";
+                        if (isset($_GET['category'])) {
+
+                            if ($_GET['category'] == 'inoperation') {
+                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'In Service';";
+                            } else {
+                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'Out-of-service';";
+                            }
+
+                        } else {
+                            $query = "select * from " . $_GET['model'] . ";";
+                        }
 
                         //urlencode to as its sent over http.
                         $queryParam = urlencode($query);
@@ -2432,12 +2446,14 @@ class ApiController extends Controller
                         $cachedValue = json_encode($response);
 
                         //Save the response in cache
-                        Yii::app()->cache->set(
-                            $this->_clientid . '_' .
-                            $_GET['model']
-                            . '_'
-                            . 'list', $cachedValue
-                        );
+                        if (!isset($_GET['category'])) {  
+                            Yii::app()->cache->set(
+                                $this->_clientid . '_' .
+                                $_GET['model'] .
+                                '_' .
+                                'list', $cachedValue
+                            );                                      
+                        }                        
                     }
                     
                     //Send the response
