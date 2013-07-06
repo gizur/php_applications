@@ -3308,21 +3308,27 @@ class ApiController extends Controller
                 $response->success = true;
                 $response->result = $resultDdb;
 
+                // MAKE IT ASYNC
+                //                 
+                ignore_user_abort(true);
+                set_time_limit(0);
+                
+                ob_start();
                 header('HTTP/1.1 200 OK');
                 // and the content type
                 header('Content-type: text/json');
                 header('Access-Control-Allow-Origin: *');
                 echo json_encode($response);
-
+                ob_end_flush();
+                ob_flush();
+                flush();
+                
                 sleep(1);
                 $error_msgs = array();
-                // MAKE IT ASYNC
-                // 
-                // REST OF LINES WILL BE PROCESSED IN
+                
+                // BELOW LINES OF CODE SHALL BE PROCESSED IN
                 // THE BACKGROUND.
-                //                   
-                ignore_user_abort(true);
-                set_time_limit(0);
+                //
 
                 //Create User
                 //===========
