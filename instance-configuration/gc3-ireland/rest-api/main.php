@@ -53,11 +53,7 @@ return array(
                     'pattern' => '/<model:(HelpDesk|Assets|About)>',
                     'verb' => 'GET'
                 ),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(Assets)/<category:(inoperation|damaged)>',
-                    'verb' => 'GET'
-                ),                
+                array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
                 array(
                     'api/list',
                     'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>',

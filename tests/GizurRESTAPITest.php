@@ -675,6 +675,7 @@ URL;
     {
         //Request Parameters
         $model = 'Assets';
+        $action = 'inoperation';
         $method = 'GET';
 
         //Label the test
@@ -682,7 +683,7 @@ URL;
 
         // Generate signature
         list($params, $signature) = $this->_generateSignature(
-            $method, $model, date("c"), 
+            $method, $model, date("c", time()+70), 
             uniqid()
         );
             
@@ -695,7 +696,7 @@ URL;
             echo PHP_EOL . "URL: " . $this->_url.$model;
             //Show the response
             echo PHP_EOL . " Response: " . $response = $this->_rest->get(
-                $this->_url.$model
+                $this->_url.$model."/".$action
             );
             $response = json_decode($response);
             

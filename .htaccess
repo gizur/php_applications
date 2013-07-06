@@ -5,13 +5,21 @@ Options -Indexes
 # Define error pages, application automatically redirects to the
 # error pages in case of 404 / 500 error.
 #
-ErrorDocument 404 http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/error-documents/404.html
-ErrorDocument 500 http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/error-documents/500.html
+ErrorDocument 404 https://gizur.com/lib/error-documents/404.html
+ErrorDocument 500 https://gizur.com/lib/error-documents/500.html
 
 # Enable rewrite engine
 # Prerequisite: mode rewrite should be enabled of the Apache HTTP Server.
 #
 RewriteEngine On
+
+# If forwarded protocol is not https redirect request to 
+# https protocol. Negate it for healthcheck url.
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP_HOST} !^localhost
+RewriteCond %{HTTP_HOST} !^127.0.0.1
+RewriteCond %{REQUEST_URI} !^/healthcheck.php
+RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
 
 # If query string is empty, load the GizurSaaS.
 #
@@ -70,4 +78,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/index.php/.*
 RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
 RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
+RewriteCond %{QUERY_STRING} !^(clientid=.*)
 RewriteRule ^([^\/]*)/([^?]*) /lib/vtiger-5.4.0/$2?clientid=$1 [QSA]

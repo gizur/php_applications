@@ -15,11 +15,11 @@ global $Portal_Path;
 
 //This is the vtiger server path ie., the url to access the vtiger server in browser
 //Ex. i access my vtiger as http://mickie:90/vtiger/index.php so i will give as http://mickie:90/vtiger
-$Server_Path = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab";
+$Server_Path = "https://gizur.com/cikab";
 
 //This is the customer portal path ie., url to access the customer portal in browser 
 //Ex. i access my portal as http://mickie:90/customerportal/login.php so i will give as http://mickie:90/customerportal
-$Authenticate_Path = "http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/seasonportal";
+$Authenticate_Path = "https://gizur.com/cikab/seasonportal";
 /*$Server_Path = "https://cikab.gizurcloud.com";
 $Authenticate_Path = "https://cikab.gizurcloud.com/portal";*/
 //Give a temporary directory path which is used when we upload attachment

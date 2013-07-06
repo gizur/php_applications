@@ -47,16 +47,12 @@ return array(
         'urlManager' => array(
             'urlFormat' => 'path',
             'rules' => array(
-                // REST patterns
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(Assets)/<category:(inoperation|damaged)>',
-                    'verb' => 'GET'
-                ),                
+                // REST patterns                
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
                 array('api/list',
                     'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>',
-                    'verb' => 'GET'),
+                    'verb' => 'GET'),                
                 array('api/list',
                     'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>',
                     'verb' => 'GET'),
