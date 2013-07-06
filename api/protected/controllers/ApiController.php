@@ -3280,9 +3280,46 @@ class ApiController extends Controller
                     else
                         $originalPassword = $post['password'];
                     
-                    //$post['security_salt'] = hash("sha256", uniqid("", true));
-                    //$post['password'] = hash("sha256", 
-                    //$originalPassword . $post['security_salt']);
+                    // ADD STATUS DBPeding
+                    $post['status'] = 'DBPending';
+                    //
+                    // PUT ITEM IN THE DYNAMODB AND TELL THAT
+                    // USER TO WAIT FOR THE EMAIL.
+                    // 
+                    // MYSQL DB WILL BE UPDATED IN THE BACKGROUND.
+                    //
+                    //
+                    // Instantiate the class                   
+                    //                    
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" .
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
+                    $ddbResponse = $dynamodb->put_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                             'Item' => $dynamodb->attributes($post)
+                        )
+                    );
+                    
+                    $response->success = true;
+                    $response->result = $resultDdb;
+                    
+                    header('HTTP/1.1 200 OK');
+                    // and the content type
+                    header('Content-type: text/json');
+                    header('Access-Control-Allow-Origin: *');
+                    echo json_encode($response);
+                    // MAKE IT ASYNC
+                    // 
+                    // REST OF LINES WILL BE PROCESSED IN
+                    // THE BACKGROUND.
+                    //                   
+                    ignore_user_abort(true);
+                    set_time_limit(0);
                         
                     //Create User
                     //===========
@@ -3411,21 +3448,6 @@ class ApiController extends Controller
                     
                     $mysqli->close();
                     
-                    // Instantiate the class
-                    $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(
-                        constant(
-                            "AmazonDynamoDB::" .
-                            Yii::app()->params->awsDynamoDBRegion
-                        )
-                    );
-                    $ddbResponse = $dynamodb->put_item(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                             'Item' => $dynamodb->attributes($post)
-                        )
-                    );
-
                     // Get an item
                     $ddbResponse = $dynamodb->get_item(
                         array(
@@ -3496,16 +3518,39 @@ class ApiController extends Controller
                     }
                     $resultDdb->execStmt = $execStmt;
                     $resultDdb->output = $output;
-                    $response->success = true;
-                    $response->result = $resultDdb;
-                    $this->_sendResponse(200, json_encode($response));
+                    
                 } else {
                     $response->success = false;
                     $response->error->code = "NOT_CREATED";
-                    $response->error->message = $_GET['email'] . " could "
-                            . " not be created";
+                    $response->error->message = $e->getMessage();
                     $response->error->trace_id = $this->_traceId;
-                    $this->_sendResponse(400, json_encode($response));
+                    
+                    // NOTIFY ADMIN ABOUT AN ERROR.
+                    $email = new AmazonSES();
+
+                    $sesResponse = $email->send_email(
+                        // Source (aka From)
+                        Yii::app()->params->awsSESFromEmailAddress,
+                        array(
+                            'ToAddresses' => array(
+                                'prabhat.khera@essindia.co.in'
+                            )
+                        ), 
+                        array(// sesMessage (short form)
+                            'Subject.Data' => 'Error at Gizur SaaS',
+                            'Body.Text.Data' => 'Hi, ' . PHP_EOL .
+                            PHP_EOL .
+                            'Follwing error has occured.' . PHP_EOL . PHP_EOL .
+                            PHP_EOL .
+                            'User : ' . $post['id']  . PHP_EOL .
+                            'Error : ' . json_encode($response) .
+                            PHP_EOL .
+                            PHP_EOL .
+                            '--' .
+                            PHP_EOL .
+                            'Gizur Admin'
+                        )
+                    );
                 }
                 break;
                 
