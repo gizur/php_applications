@@ -2874,7 +2874,7 @@ class ApiController extends Controller
                  */
             case 'Assets':
                 
-                    if (preg_match('[0-9]?x[0-9]?', $_GET['id'])==0)
+                    if (preg_match('/[0-9]?x[0-9]?/i', $_GET['id'])==0)
                 throw new Exception('Invalid format of Id');
 
                     //Send request to vtiger REST service
