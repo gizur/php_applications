@@ -77,6 +77,7 @@ class TroubleticketController extends Controller {
         $month = $_POST['month'];
         $reportdamage = $_POST['reportdamage'];
         $trailer = $_POST['trailer'];
+        $trailerid = $_POST['trailerid'];
         if ($trailer == "--All Trailers--")
             $trailer = "0";
         $model = new Troubleticket;
@@ -87,7 +88,7 @@ class TroubleticketController extends Controller {
         
         $assetstatus = '';
         if ($trailer !== '0') {
-            $assetstatus = $model->findById('Assets', $trailer);
+            $assetstatus = $model->findById('Assets', $trailerid);
         }
         
         $this->renderPartial('surveylist', array('model' => $model, 'result' => $records, 

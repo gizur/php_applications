@@ -164,10 +164,11 @@ foreach ($Assets as $key => $val) {
                         var year = $('#year').val();
                         var month = $('#month').val();
                         var reportdamage = $('#reportdamage').val();
-                        var trailer = $('#trailer option:selected').val();
+                        var trailer = $('#trailer option:selected').text();
+                        var trailerid = $('#trailer option:selected').val();
                         $("#process").addClass("waitprocess");
                         $('#process').html('loading....  Please wait');
-                        $.post('index.php?r=troubleticket/surveysearch', {year: year, month: month, trailer: trailer, reportdamage: reportdamage},
+                        $.post('index.php?r=troubleticket/surveysearch', {year: year, month: month, trailer: trailer, reportdamage: reportdamage, trailerid: trailerid},
                         function(data)
                         {
                             $("#process").removeClass("waitprocess");
