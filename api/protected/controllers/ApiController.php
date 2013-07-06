@@ -3128,243 +3128,246 @@ class ApiController extends Controller
                  * *************************************************************
                  */
             case 'User':
-                    error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
-                    ini_set('display_errors', 'On');
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " CREATING MDB OBJECT ", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    include("protected/config/config.inc.php");
+                error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
+                ini_set('display_errors', 'On');
+                Yii::log(
+                    "TRACE(" . $this->_traceId . ");" . 
+                    " FUNCTION(" . __FUNCTION__ . ");" . 
+                    " CREATING MDB OBJECT ", 
+                    CLogger::LEVEL_TRACE
+                );
+                include("protected/config/config.inc.php");
 
-                    /**
-                    * Database connection 
-                    *
-                    */                    
+                /**
+                * Database connection 
+                *
+                */                    
 
-                    $mysqli = new mysqli(
-                        $dbconfig['db_server'] . $dbconfig['db_port'],
-                        $dbconfig['db_username'],
-                        $dbconfig['db_password'],
-                        $dbconfig['db_name']
+                $mysqli = new mysqli(
+                    $dbconfig['db_server'] . $dbconfig['db_port'],
+                    $dbconfig['db_username'],
+                    $dbconfig['db_password'],
+                    $dbconfig['db_name']
+                );
+
+                if ($mysqli->connect_error) 
+                    throw New Exception($mysqli->connect_error);
+
+                // Instantiate the class
+                $dynamodb = new AmazonDynamoDB(); 
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" .
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
+
+                $post = json_decode(file_get_contents('php://input'), true);
+
+                //GET THE CLIENT ID
+                if(empty($post['clientid']))
+                    $post['clientid'] = array_shift(
+                        explode('@', $post['id'])
                     );
-                    
-                    if ($mysqli->connect_error) 
-                        throw New Exception($mysqli->connect_error);
-                    
-                    // Instantiate the class
-                    $dynamodb = new AmazonDynamoDB(); 
-                    $dynamodb->set_region(
-                        constant(
-                            "AmazonDynamoDB::" .
-                            Yii::app()->params->awsDynamoDBRegion
-                        )
-                    );
-                    
-                    $post = json_decode(file_get_contents('php://input'), true);
-                    
-                    //GET THE CLIENT ID
-                    if(empty($post['clientid']))
-                        $post['clientid'] = array_shift(
-                            explode('@', $post['id'])
-                        );
-                    
-                    //REPLACE UN-WANTED CHARS FROM CLIENTID
-                    $replacable = array('_', '.', '#', '-');
-                    $post['clientid'] = str_replace(
-                        $replacable, '', $post['clientid']
-                    );
-                    
-                    //Validations
-                    
-                    //Validate Client ID
-                    $ddbResponse = $dynamodb->scan(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                            'AttributesToGet' => array('clientid'),
-                            'ScanFilter' => array(
-                                'clientid' => array(
-                                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
-                                    'AttributeValueList' => array(
-                                        array( AmazonDynamoDB::TYPE_STRING => $post['clientid'] )
-                                    )
+
+                //REPLACE UN-WANTED CHARS FROM CLIENTID
+                $replacable = array('_', '.', '#', '-');
+                $post['clientid'] = str_replace(
+                    $replacable, '', $post['clientid']
+                );
+
+                //Validations
+
+                //Validate Client ID
+                $ddbResponse = $dynamodb->scan(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'AttributesToGet' => array('clientid'),
+                        'ScanFilter' => array(
+                            'clientid' => array(
+                                'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                                'AttributeValueList' => array(
+                                    array( AmazonDynamoDB::TYPE_STRING => $post['clientid'] )
                                 )
                             )
                         )
-                    );
-                    
-                    if(!empty($ddbResponse->body->Items))
-                        throw New Exception(
-                            "Client id is not available.", 2001
-                        );
-                    
-                    // Validate Email
-                    $ddbResponse = $dynamodb->get_item(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                            'Key' => $dynamodb->attributes(
-                                array(
-                                    'HashKeyElement' => $post['id'],
-                                )
-                            ),
-                            'ConsistentRead' => 'true'
-                        )
-                    );
-                    if (isset($ddbResponse->body->Item))
-                        throw New Exception(
-                            "Email is already registered.", 2002
-                        );
-                    
-                    $ddbResponse = $dynamodb->scan(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                            'AttributesToGet' => array('id_sequence'),
-                        )
-                    );                  
+                    )
+                );
 
-                    $maxIdSequence = 1000;
-                    foreach ($ddbResponse->body->Items
-                    as $key => $item) {
-                        $idSequence
-                            = intval((string) $item->id_sequence->{AmazonDynamoDB::TYPE_STRING});
-                        if ($idSequence > $maxIdSequence) {
-                            $maxIdSequence = $idSequence;
-                        }
-                    }  
-                    $maxIdSequence += 1000;
-
-                    /**
-                    * Database connection options
-                    * @global string $options
-                    */
-                    $options = array(
-                        'persistent' => true,
+                if(!empty($ddbResponse->body->Items))
+                    throw New Exception(
+                        "Client id is not available.", 2001
                     );
-                    
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " CREATING MDB OBJECT ", 
-                        CLogger::LEVEL_TRACE
-                    );                                       
-                    
-                    //Create Default DB credentials
-                    
-                    $dbServer     = $dbconfig['db_server'];
-                    $dbPort       = str_replace(":", "", $dbconfig['db_port']);
-                    $dbUsername   = 'user_' . substr($post['clientid'], 0, 5) .
-                        '_' . substr(strrev(uniqid()), 1, 5);
-                    $dbPassword   = substr(strrev(uniqid()), 1, 16);
-                    $dbName       = 'vtiger_' . 
-                        substr($post['clientid'], 0, 7) . 
-                        '_' . substr(strrev(uniqid()), 1, 8);  
 
-                    $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
-                    $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
-
-                    $post['secretkey_2'] = uniqid("", true) . uniqid("", true);
-                    $post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
-                    
-                    $post['databasename'] = $dbName;
-                    $post['server'] = $dbServer;
-                    $post['port'] = $dbPort;
-                    $post['username'] = $dbUsername;
-                    $post['dbpassword'] = $dbPassword;
-                    $post['port'] = $dbPort;
-                    $post['id_sequence'] = (String)$maxIdSequence;
-
-                    //Hash password
-                    if(empty($post['password']))
-                        $originalPassword = substr(uniqid("", true), 0, 7);
-                    else
-                        $originalPassword = $post['password'];
-                    
-                    // ADD STATUS DBPeding
-                    $post['status'] = 'DBPending';
-                    //
-                    // PUT ITEM IN THE DYNAMODB AND TELL THAT
-                    // USER TO WAIT FOR THE EMAIL.
-                    // 
-                    // MYSQL DB WILL BE UPDATED IN THE BACKGROUND.
-                    //
-                    //
-                    // Instantiate the class                   
-                    //                    
-                    $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(
-                        constant(
-                            "AmazonDynamoDB::" .
-                            Yii::app()->params->awsDynamoDBRegion
-                        )
+                // Validate Email
+                $ddbResponse = $dynamodb->get_item(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Key' => $dynamodb->attributes(
+                            array(
+                                'HashKeyElement' => $post['id'],
+                            )
+                        ),
+                        'ConsistentRead' => 'true'
+                    )
+                );
+                if (isset($ddbResponse->body->Item))
+                    throw New Exception(
+                        "Email is already registered.", 2002
                     );
-                    $ddbResponse = $dynamodb->put_item(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                             'Item' => $dynamodb->attributes($post)
-                        )
-                    );
-                    
-                    $response->success = true;
-                    $response->result = $resultDdb;
-                    
-                    header('HTTP/1.1 200 OK');
-                    // and the content type
-                    header('Content-type: text/json');
-                    header('Access-Control-Allow-Origin: *');
-                    echo json_encode($response);
-                    // MAKE IT ASYNC
-                    // 
-                    // REST OF LINES WILL BE PROCESSED IN
-                    // THE BACKGROUND.
-                    //                   
-                    ignore_user_abort(true);
-                    set_time_limit(0);
-                        
-                    //Create User
-                    //===========
-                    $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%'" .
-                        " IDENTIFIED BY '$dbPassword' ";
-                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 " .
-                        "MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0" .
-                        " MAX_USER_CONNECTIONS 0;";
-                    
-                    // Execute the query
-                    // check if the query was executed properly
-                    if ($mysqli->query($query)===false)
-                        throw New Exception(
-                            "Unable to create user and grant permission: " . 
-                            $mysqli->error, 
-                            0
-                        );
-                    
+
+                $ddbResponse = $dynamodb->scan(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'AttributesToGet' => array('id_sequence'),
+                    )
+                );                  
+
+                $maxIdSequence = 1000;
+                foreach ($ddbResponse->body->Items
+                as $key => $item) {
+                    $idSequence
+                        = intval((string) $item->id_sequence->{AmazonDynamoDB::TYPE_STRING});
+                    if ($idSequence > $maxIdSequence) {
+                        $maxIdSequence = $idSequence;
+                    }
+                }  
+                $maxIdSequence += 1000;
+
+                /**
+                * Database connection options
+                * @global string $options
+                */
+                $options = array(
+                    'persistent' => true,
+                );
+
+                Yii::log(
+                    "TRACE(" . $this->_traceId . ");" . 
+                    " FUNCTION(" . __FUNCTION__ . ");" . 
+                    " CREATING MDB OBJECT ", 
+                    CLogger::LEVEL_TRACE
+                );                                       
+
+                //Create Default DB credentials
+
+                $dbServer     = $dbconfig['db_server'];
+                $dbPort       = str_replace(":", "", $dbconfig['db_port']);
+                $dbUsername   = 'user_' . substr($post['clientid'], 0, 5) .
+                    '_' . substr(strrev(uniqid()), 1, 5);
+                $dbPassword   = substr(strrev(uniqid()), 1, 16);
+                $dbName       = 'vtiger_' . 
+                    substr($post['clientid'], 0, 7) . 
+                    '_' . substr(strrev(uniqid()), 1, 8);  
+
+                $post['secretkey_1'] = uniqid("", true) . uniqid("", true);
+                $post['apikey_1'] = strtoupper(uniqid("GZCLD" . uniqid()));
+
+                $post['secretkey_2'] = uniqid("", true) . uniqid("", true);
+                $post['apikey_2'] = strtoupper(uniqid("GZCLD" . uniqid()));
+
+                $post['databasename'] = $dbName;
+                $post['server'] = $dbServer;
+                $post['port'] = $dbPort;
+                $post['username'] = $dbUsername;
+                $post['dbpassword'] = $dbPassword;
+                $post['port'] = $dbPort;
+                $post['id_sequence'] = (String)$maxIdSequence;
+
+                //Hash password
+                if(empty($post['password']))
+                    $originalPassword = substr(uniqid("", true), 0, 7);
+                else
+                    $originalPassword = $post['password'];
+
+                // ADD STATUS DBPeding
+                $post['status'] = 'DBPending';
+                //
+                // PUT ITEM IN THE DYNAMODB AND TELL THAT
+                // USER TO WAIT FOR THE EMAIL.
+                // 
+                // MYSQL DB WILL BE UPDATED IN THE BACKGROUND.
+                //
+                //
+                // Instantiate the class                   
+                //                    
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" .
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
+                $ddbResponse = $dynamodb->put_item(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                         'Item' => $dynamodb->attributes($post)
+                    )
+                );
+
+                $response->success = true;
+                $response->result = $resultDdb;
+
+                header('HTTP/1.1 200 OK');
+                // and the content type
+                header('Content-type: text/json');
+                header('Access-Control-Allow-Origin: *');
+                echo json_encode($response);
+
+                sleep(1);
+                $error_msgs = array();
+                // MAKE IT ASYNC
+                // 
+                // REST OF LINES WILL BE PROCESSED IN
+                // THE BACKGROUND.
+                //                   
+                ignore_user_abort(true);
+                set_time_limit(0);
+
+                //Create User
+                //===========
+                $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%'" .
+                    " IDENTIFIED BY '$dbPassword' ";
+                $query .= "WITH MAX_QUERIES_PER_HOUR 0 " .
+                    "MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0" .
+                    " MAX_USER_CONNECTIONS 0;";
+
+                // Execute the query
+                // check if the query was executed properly
+                if ($mysqli->query($query)===false)
+                    $error_msgs[] = "Unable to create user and grant permission: " . 
+                        $mysqli->error;
+
+                if(empty($error_msgs)) {
                     //Create Database
                     //===============
                     $query = "CREATE DATABASE IF NOT EXISTS `$dbName`;";
-                    
+
                     // Execute the query
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false) {
                         $mysqli->query("DROP USER $dbUsername;");
-                        throw New Exception(
-                            "Unable to create database " . $mysqli->error, 
-                            0
-                        );                    
+                        $error_msgs[] = "Unable to create database " . 
+                            $mysqli->error;                    
                     }
+                }
 
+                if(empty($error_msgs)) {
                     //Grant Permission
                     //================
                     $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO" .
                         " '$dbUsername'@'%';";
-                    
+
                     // Execute the query
                     // check if the query was executed properly
                     if ($mysqli->query($query)===false) {
                         $mysqli->query("DROP USER $dbUsername;");
                         $mysqli->query("DROP DATABASE IF EXISTS $dbUsername;");
-                        throw New Exception($mysqli->error, 0);
+                        $error_msgs[] = $mysqli->error;
                     }
+                }
 
+                if(empty($error_msgs)) {
                     //Import Database
                     //===============
                     $execStmt = "mysql -u$dbUsername -p$dbPassword " . 
@@ -3372,15 +3375,15 @@ class ApiController extends Controller
                         " < /var/www/html/lib/vtiger-5.4.0-database.sql";
 
                     $output = shell_exec($execStmt);
-                    
+
                     if ($output === false) {
                         $mysqli->query("DROP USER $dbUsername;");
                         $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
-                        throw New Exception(
-                            "Unable to populate data in $dbName.", 0
-                        );
+                        $error_msgs[] = "Unable to populate data in $dbName.";
                     }
-                    
+                }
+
+                if(empty($error_msgs)) {
                     //To update vTiger Admin password
                     //===============================
                     $salt = substr("admin", 0, 2);
@@ -3388,7 +3391,7 @@ class ApiController extends Controller
                     $oPassword = substr(strrev(uniqid()), 0, 9);
                     $userHash = strtolower(md5($oPassword));
                     $computedEncryptedPassword = crypt($oPassword, $salt);
-                    
+
                     //Add User Sequence
                     //======================
                     $queries[] = "USE $dbName;";
@@ -3432,7 +3435,7 @@ class ApiController extends Controller
                         "user_name = 'admin'";
                     $queries[] = "SET foreign_key_checks = 1;";
                     $queries[] = "COMMIT;";
-                    
+
                     foreach ($queries as $query) {
                         // Execute the query
                         // check if the query was executed properly
@@ -3440,28 +3443,27 @@ class ApiController extends Controller
                             $mysqli->query('ROLLBACK;');
                             $mysqli->query("DROP USER $dbUsername;");
                             $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
-                            throw New Exception(
-                                $mysqli->error . " Query:" . $query, 0
-                            );                        
+                            $error_msgs[] = $mysqli->error . " Query:" . $query;
+                            break;
                         }
                     }
-                    
-                    $mysqli->close();
-                    
-                    // Get an item
-                    $ddbResponse = $dynamodb->get_item(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                            'Key' => $dynamodb->attributes(
-                                array(
-                                    'HashKeyElement' => $post['id'],
-                                )
-                            ),
-                            'ConsistentRead' => 'true'
-                        )
-                    );
+                }
+                $mysqli->close();
 
-                if (isset($ddbResponse->body->Item)) {
+                // Get an item
+                $ddbResponse = $dynamodb->get_item(
+                    array(
+                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                        'Key' => $dynamodb->attributes(
+                            array(
+                                'HashKeyElement' => $post['id'],
+                            )
+                        ),
+                        'ConsistentRead' => 'true'
+                    )
+                );
+
+                if (isset($ddbResponse->body->Item) && empty($error_msgs)) {
                     Yii::app()->cache->set(
                         $post['apikey_1'], $post['secretkey_1']
                     );
@@ -3543,7 +3545,7 @@ class ApiController extends Controller
                             'Follwing error has occured.' . PHP_EOL . PHP_EOL .
                             PHP_EOL .
                             'User : ' . $post['id']  . PHP_EOL .
-                            'Error : ' . json_encode($response) .
+                            'Error : ' . json_encode($error_msgs) .
                             PHP_EOL .
                             PHP_EOL .
                             '--' .
