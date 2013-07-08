@@ -4043,6 +4043,12 @@ class ApiController extends Controller
                  * *************************************************************
                  */
             case 'HelpDesk':
+
+
+                /**
+                 * Validations
+                 */
+
                 $scriptStarted = date("c");
                 if (!isset($_POST['ticketstatus'])
                     || empty($_POST['ticketstatus'])
@@ -4085,6 +4091,41 @@ class ApiController extends Controller
                     $post[$keyToReplace] = $v;
                 }
             }
+
+
+                /**
+                 * The following section creates a response buffer
+                 * 
+                 */
+
+                //Continue to run script even when the connection is over
+                ignore_user_abort(true);
+                set_time_limit(0);
+
+                // buffer all upcoming output
+                ob_start();
+
+                $response = new stdClass();
+                $response->success = true;
+                $response->message = "Processing the request, you will be notified by mail on successfull completion"; 
+
+                echo json_encode($response);
+
+                // get the size of the output
+                $size = ob_get_length();
+
+                // send headers to tell the browser to close the connection
+                header("Content-Length: $size");
+                header('Connection: close');
+
+                // flush all output
+                ob_end_flush();
+                ob_flush();
+                flush();
+
+                // close current session
+                if (session_id()) session_write_close();
+
                 //get data json 
                 $dataJson = json_encode(
                     array_merge(
@@ -4388,7 +4429,25 @@ class ApiController extends Controller
                     )
                 );
             }
-            $this->_sendResponse(200, json_encode($globalresponse));
+
+
+            //Save result to DynamoDB
+            $dynamodb = new AmazonDynamoDB();
+            $dynamodb->set_region(
+                constant(
+                    "AmazonDynamoDB::" .
+                    Yii::app()->params->awsDynamoDBRegion
+                )
+            );
+            $ddbResponse = $dynamodb->put_item(
+                array(
+                    'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                    'Item' => $dynamodb->attributes(array(
+                        "data" => json_encode($globalresponse)
+                    ))
+                )
+            );
+
             break;
 
             default :
