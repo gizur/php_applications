@@ -1519,6 +1519,13 @@ class ApiController extends Controller
                         throw new Exception(
                             "Login Id / password incorrect.", 2003
                         );
+                    
+                    $status = (string)$ddbResponse->body->Item->status->{AmazonDynamoDB::TYPE_STRING};
+                    
+                    if($status != 'Active')
+                        throw new Exception(
+                            "Login Id / password incorrect.", 2003
+                        );
                         
                     $securitySalt = (string)$ddbResponse->body->Item->security_salt->{AmazonDynamoDB::TYPE_STRING};
                     $hPassword = (string)$ddbResponse->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
@@ -3128,8 +3135,11 @@ class ApiController extends Controller
                  * *************************************************************
                  */
             case 'User':
-                error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
-                ini_set('display_errors', 'On');
+                // MAKE IT ASYNC
+                //                 
+                ignore_user_abort(true);
+                set_time_limit(0);
+                
                 Yii::log(
                     "TRACE(" . $this->_traceId . ");" . 
                     " FUNCTION(" . __FUNCTION__ . ");" . 
@@ -3301,29 +3311,34 @@ class ApiController extends Controller
                 $ddbResponse = $dynamodb->put_item(
                     array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                         'Item' => $dynamodb->attributes($post)
+                        'Item' => $dynamodb->attributes($post)
                     )
                 );
 
-                $response->success = true;
-                $response->result = $post;
-
-                // MAKE IT ASYNC
-                //                 
-                ignore_user_abort(true);
-                set_time_limit(0);
+                $res['id'] = $post['id'];
+                $res['clientid'] = $post['clientid'];
+                $res['status'] = $post['status'];
                 
+                $response->success = true;
+                $response->result = $res;
+                
+                unset($res);
+
                 ob_start();
                 header('HTTP/1.1 200 OK');
                 // and the content type
                 header('Content-type: text/json');
                 header('Access-Control-Allow-Origin: *');
                 echo json_encode($response);
+                // get the size of the output
+                $size = ob_get_length();
+                // send headers to tell the browser to close the connection
+                header("Content-Length: $size");
+                header('Connection: close');
                 ob_end_flush();
                 ob_flush();
                 flush();
                 
-                sleep(1);
                 $error_msgs = array();
                 
                 // BELOW LINES OF CODE SHALL BE PROCESSED IN
@@ -3456,20 +3471,26 @@ class ApiController extends Controller
                 }
                 $mysqli->close();
 
-                // Get an item
-                $ddbResponse = $dynamodb->get_item(
+                // UPDATE THE DYNAMODB
+                // 
+                // UPDATE STATUS
+                $post['status'] = 'Active';
+                
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" .
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
+                $ddbResponse = $dynamodb->put_item(
                     array(
                         'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                        'Key' => $dynamodb->attributes(
-                            array(
-                                'HashKeyElement' => $post['id'],
-                            )
-                        ),
-                        'ConsistentRead' => 'true'
+                        'Item' => $dynamodb->attributes($post)
                     )
                 );
 
-                if (isset($ddbResponse->body->Item) && empty($error_msgs)) {
+                if ($ddbResponse->isOK() && empty($error_msgs)) {
                     Yii::app()->cache->set(
                         $post['apikey_1'], $post['secretkey_1']
                     );
@@ -3519,13 +3540,13 @@ class ApiController extends Controller
                         )
                     );
                     
-                    foreach ($ddbResponse->body->Item->children()
-                    as $key => $item) {
-                        $resultDdb->{$key} 
-                            = (string) $item->{AmazonDynamoDB::TYPE_STRING};
-                    }
-                    $resultDdb->execStmt = $execStmt;
-                    $resultDdb->output = $output;
+                    Yii::log(
+                        "TRACE(" . $this->_traceId . ");" . 
+                        " FUNCTION(" . __FUNCTION__ . ");" . 
+                        " ACCOUNT CREATED : " . json_encode($post), 
+                        CLogger::LEVEL_TRACE
+                    );
+
                     
                 } else {
                     $response->success = false;

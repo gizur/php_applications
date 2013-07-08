@@ -125,17 +125,19 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                         }),
                         //If error occured, it will display the error msg.
                         error: function(jqXHR, textStatus, errorThrown) {
-                            var _data = JSON.parse(jqXHR.responseText);
-
-                            if (!_data.success)
-                                self.view.error(config.messages[_data.error.code]);
+                            if (typeof jqXHR === 'undefined' || !self.isValidJSON(jqXHR.responseText)) {
+                                self.view.error(config.messages["ACCOUNT_CREATE_ERROR"]);
+                            } else {
+                                var _data = JSON.parse(jqXHR.responseText);
+                                if (!_data.success)
+                                    self.view.error(config.messages[_data.error.code]);
+                            }
                         },
                         // On success clean the form.
                         success: function(_data) {
                             if (_data.success) {
                                 self.view.success(
-                                    'Your account has been created. ' +
-                                    'You may login to your account.'
+                                    config.messages["ACCOUNT_REQUEST_RECEIVED"]
                                 );
                                 $first_name.val('');
                                 $last_name.val('');
@@ -146,8 +148,7 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                                 $terms.attr('checked', false);
                             } else {
                                 self.view.error(
-                                    'An error occured while creating your' +
-                                    ' account. Please contact administrator.'
+                                    config.messages["ACCOUNT_CREATE_ERROR"]
                                 );
                             }
                         }
@@ -296,6 +297,19 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
         'nl2br': function(str, is_xhtml) {
             var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
             return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+        },
+        // Find if string is a valid JSON
+        // ==============================
+        //
+        // @str : A sring which needs to be validated.
+        //
+        'isValidJSON': function(str){
+            try {
+                JSON.parse(str);
+            } catch (e) {
+                return false;
+            }
+            return true;
         }
     });
     return UsersController;
