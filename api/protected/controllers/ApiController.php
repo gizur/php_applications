@@ -3315,8 +3315,14 @@ class ApiController extends Controller
                     )
                 );
 
+                $res['id'] = $post['id'];
+                $res['clientid'] = $post['clientid'];
+                $res['status'] = $post['status'];
+                
                 $response->success = true;
-                $response->result = $post;
+                $response->result = $res;
+                
+                unset($res);
 
                 ob_start();
                 header('HTTP/1.1 200 OK');
@@ -3324,11 +3330,15 @@ class ApiController extends Controller
                 header('Content-type: text/json');
                 header('Access-Control-Allow-Origin: *');
                 echo json_encode($response);
+                // get the size of the output
+                $size = ob_get_length();
+                // send headers to tell the browser to close the connection
+                header("Content-Length: $size");
+                header('Connection: close');
                 ob_end_flush();
                 ob_flush();
                 flush();
                 
-                sleep(1);
                 $error_msgs = array();
                 
                 // BELOW LINES OF CODE SHALL BE PROCESSED IN
