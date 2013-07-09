@@ -51,6 +51,9 @@ return array(
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
                 array('api/list',
+                    'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>',
+                    'verb' => 'GET'),                
+                array('api/list',
                     'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>',
                     'verb' => 'GET'),
                 array(
