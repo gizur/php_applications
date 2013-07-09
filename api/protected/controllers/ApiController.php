@@ -4463,13 +4463,13 @@ class ApiController extends Controller
                 
                 // Add id to $globalresponse
                 // 
-                $globalresponse->id = uniqid();
+                $globalresponse['result']['id'] = uniqid();
                 
                 $ddbResponse = $dynamodb->put_item(
                     array(
                         'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
                         'Item' => $dynamodb->attributes(array(
-                            "data" => json_encode($globalresponse)
+                            "data" => json_encode($globalresponse['result'])
                         ))
                     )
                 );
