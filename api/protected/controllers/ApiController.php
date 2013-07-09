@@ -2564,7 +2564,7 @@ class ApiController extends Controller
                 //It match username sent in the header and email
                 //sent in the GET request
                 if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
-            throw new Exception("Credentials are invalid.", 2004);
+                    throw new Exception("Credentials are invalid.", 2004);
                     
                 // Get an item
                 $ddbResponse = $dynamodb->get_item(

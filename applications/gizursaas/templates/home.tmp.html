@@ -6,6 +6,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#userinfo" data-toggle="tab">User Info</a></li>
                 <li><a href="#apiset" data-toggle="tab">vTiger and API Settings</a></li>
+                <li><a href="#create" data-toggle="tab">Create New Account</a></li>
                 <li><a href="#billing" data-toggle="tab">Billing Info</a></li>
             </ul>
             <div class="tab-content">
@@ -46,6 +47,28 @@
                             <fieldset>
                                 <legend>vTiger Settings</legend>
                                 <div><input id="vtigerResetPasswordButton" value='Reset vTiger Admin Password' type="button" class="btn btn-primary"/></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane active" id="create">
+                    <div class="span6" id="clientTabularDiv">
+                        <fieldset>
+                            <legend>Account Details</legend>
+                            <table class="table table-bordered table-striped">
+                                <tbody></tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                    <div class="span6" style="background-color: none; padding: 4px;">
+                        <form id="copyClient" class="form-horizontal">
+                            <fieldset>
+                                <legend>New Client Details</legend>
+                                <input type="hidden" name="from_id" id="from_id"/>
+                                <div class="control-group"><input type="text" placeholder="Client ID" name="new_client_id" id="new_client_id"/></div>
+                                <div class="control-group"><input type="text" placeholder="Email" name="new_email" id="new_email"/></div>
+                                <div class="control-group"><input type="password" placeholder="Gizur SaaS Password" name="new_password" id="new_password"/></div>
+                                <div class="control-group"><input type="submit" id="copyClientFormSubmit" value="Copy Account" class="btn btn-success"/></div>
                             </fieldset>
                         </form>
                     </div>

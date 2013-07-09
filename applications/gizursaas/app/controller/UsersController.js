@@ -85,8 +85,8 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                     var hashObj1 = new jsSHA(Math.random(), "TEXT");
                     var security_salt = hashObj1.getHash("SHA-256", "HEX");
                     var hashObj = new jsSHA(
-                            self.model.get('password') + security_salt, "TEXT"
-                            );
+                        self.model.get('password') + security_salt, "TEXT"
+                    );
                     var hashed_password = hashObj.getHash("SHA-256", "HEX");
 
                     //Make a registration request to the server

@@ -39,9 +39,12 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
             $.ajax({
                 url: _url,
                 type: "GET",
-                dataType: "json",
+                dataType: "json,html",
+                beforeSend: function(req) {
+                    req.setRequestHeader("Accept", "text/json");
+                },
                 headers: {
-                    //Add username and password in the headers
+                    // Add username and password in the headers
                     // to validate the request
                     "X_USERNAME": config.user_controller.model.get('email'),
                     "X_PASSWORD": config.user_controller.model.get('password')
@@ -95,9 +98,9 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                     window.location.host +
                                     '/' + self.model.get('client_id') + '/';
                             $('#vtigerLink').empty().html(
-                                    "<a href='" + vLink +
-                                    "' target='_blank'>Login to vTiger CRM</a>"
-                                    );
+                                "<a href='" + vLink +
+                                "' target='_blank'>Login to vTiger CRM</a>"
+                            );
                         });
                     } else {
                         // If an error occured show and error and
