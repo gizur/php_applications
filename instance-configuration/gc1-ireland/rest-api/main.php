@@ -144,6 +144,7 @@ return array(
         'awsS3BackupBucket' => 'gc1-backups',
         'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
         'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
+        'awsErrorDynamoDBTableName' => 'GIZUR_BACKGROUND_STATUS',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
         'awsSESClientEmailAddress' => 'log@gizur.com',
         'acceptableTimestampError' => 60,

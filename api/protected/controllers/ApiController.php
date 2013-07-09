@@ -4105,14 +4105,13 @@ class ApiController extends Controller
                         '_custom_fields']['HelpDesk']
                 );
 
-            foreach ($post as $k => $v) {
-                $keyToReplace = array_search($k, $customFields);
-                if ($keyToReplace) {
-                    unset($post[$k]);
-                    $post[$keyToReplace] = $v;
+                foreach ($post as $k => $v) {
+                    $keyToReplace = array_search($k, $customFields);
+                    if ($keyToReplace) {
+                        unset($post[$k]);
+                        $post[$keyToReplace] = $v;
+                    }
                 }
-            }
-
 
                 /**
                  * The following section creates a response buffer
@@ -4224,91 +4223,108 @@ class ApiController extends Controller
                     'filestatus' => 1,
                     'fileversion' => '',
                 );
-            if (!empty($_FILES) && $globalresponse->success) {
-                foreach ($_FILES as $key => $file) {
-                    $uniqueid = uniqid();
+                if (!empty($_FILES) && $globalresponse->success) {
+                    foreach ($_FILES as $key => $file) {
+                        $uniqueid = uniqid();
 
-                    $dataJson['filename'] = $crmid . "_" . $uniqueid . 
-                        "_" . $file['name'];
-                    $dataJson['filesize'] = $file['size'];
-                    $dataJson['filetype'] = $file['type'];
+                        $dataJson['filename'] = $crmid . "_" . $uniqueid . 
+                            "_" . $file['name'];
+                        $dataJson['filesize'] = $file['size'];
+                        $dataJson['filetype'] = $file['type'];
 
-                    //Upload file to Amazon S3
-                    $sThree = new AmazonS3();
-                    $sThree->set_region(
-                        constant("AmazonS3::" . Yii::app()->params->awsS3Region)
-                    );
-
-                    $response = $sThree->create_object(
-                        Yii::app()->params->awsS3Bucket, 
-                        $crmid . '_' . $uniqueid . '_' . $file['name'], 
-                        array(
-                            'fileUpload' => $file['tmp_name'],
-                            'contentType' => $file['type'],
-                            'headers' => array(
-                                'Cache-Control' => 'max-age',
-                                'Content-Language' => 'en-US',
-                                'Expires' =>
-                                'Thu, 01 Dec 1994 16:00:00 GMT',
-                            )
-                        )
-                    );
-
-                    if ($response->isOK()) {
-                        
-                        //Log
-                        Yii::log(
-                            " TRACE(" . $this->_traceId . "); " . 
-                            " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " PROCESSING REQUEST (sending POST request" .
-                            " to vt url: " . 
-                            $this->_vtresturl . "  " .
-                            json_encode(
-                                array(
-                                    'sessionName' => $this->_session->sessionName,
-                                    'operation' => 'create',
-                                    'element' => json_encode($dataJson),
-                                    'elementType' => 'Documents'
-                                )                           
-                            ) . ")", 
-                            CLogger::LEVEL_TRACE
+                        //Upload file to Amazon S3
+                        $sThree = new AmazonS3();
+                        $sThree->set_region(
+                            constant("AmazonS3::" . Yii::app()->params->awsS3Region)
                         );
-                        
-                        //Create document
-                        $rest = new RESTClient();
-                
-                        $rest->format('json');
-                        $document = $rest->post(
-                            $this->_vtresturl, array(
-                                'sessionName' => $this->_session->sessionName,
-                                'operation' => 'create',
-                                'element' =>
-                                json_encode($dataJson),
-                                'elementType' => 'Documents'
+
+                        $response = $sThree->create_object(
+                            Yii::app()->params->awsS3Bucket, 
+                            $crmid . '_' . $uniqueid . '_' . $file['name'], 
+                            array(
+                                'fileUpload' => $file['tmp_name'],
+                                'contentType' => $file['type'],
+                                'headers' => array(
+                                    'Cache-Control' => 'max-age',
+                                    'Content-Language' => 'en-US',
+                                    'Expires' =>
+                                    'Thu, 01 Dec 1994 16:00:00 GMT',
+                                )
                             )
                         );
-                        
-                        //Log
-                        Yii::log(
-                            " TRACE(" . $this->_traceId . "); " . 
-                            " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " PROCESSING REQUEST (response received: " . 
-                            $document . ")", 
-                            CLogger::LEVEL_TRACE
-                        );
-                        
-                        $document = json_decode($document);
-                        if ($document->success) {
-                            $notesid = $document->result->id;
-                            
+
+                        if ($response->isOK()) {
+
                             //Log
                             Yii::log(
                                 " TRACE(" . $this->_traceId . "); " . 
                                 " FUNCTION(" . __FUNCTION__ . "); " . 
-                                " PROCESSING REQUEST (sending POST " .
-                                "request to vt url: " . 
+                                " PROCESSING REQUEST (sending POST request" .
+                                " to vt url: " . 
                                 $this->_vtresturl . "  " .
                                 json_encode(
+                                    array(
+                                        'sessionName' => $this->_session->sessionName,
+                                        'operation' => 'create',
+                                        'element' => json_encode($dataJson),
+                                        'elementType' => 'Documents'
+                                    )                           
+                                ) . ")", 
+                                CLogger::LEVEL_TRACE
+                            );
+
+                            //Create document
+                            $rest = new RESTClient();
+
+                            $rest->format('json');
+                            $document = $rest->post(
+                                $this->_vtresturl, array(
+                                    'sessionName' => $this->_session->sessionName,
+                                    'operation' => 'create',
+                                    'element' =>
+                                    json_encode($dataJson),
+                                    'elementType' => 'Documents'
+                                )
+                            );
+
+                            //Log
+                            Yii::log(
+                                " TRACE(" . $this->_traceId . "); " . 
+                                " FUNCTION(" . __FUNCTION__ . "); " . 
+                                " PROCESSING REQUEST (response received: " . 
+                                $document . ")", 
+                                CLogger::LEVEL_TRACE
+                            );
+
+                            $document = json_decode($document);
+                            if ($document->success) {
+                                $notesid = $document->result->id;
+
+                                //Log
+                                Yii::log(
+                                    " TRACE(" . $this->_traceId . "); " . 
+                                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                                    " PROCESSING REQUEST (sending POST " .
+                                    "request to vt url: " . 
+                                    $this->_vtresturl . "  " .
+                                    json_encode(
+                                        array(
+                                            'sessionName' => $this->_session->sessionName,
+                                            'operation' =>
+                                            'relatetroubleticketdocument',
+                                            'crmid' => $crmid,
+                                            'notesid' => $notesid
+                                        )
+                                    ) . ")", 
+                                    CLogger::LEVEL_TRACE
+                                );
+
+                                //Relate Document with Trouble Ticket
+                                $rest = new RESTClient();
+
+                                $rest->format('json');
+                                $response = $rest->post(
+                                    $this->_vtresturl, 
                                     array(
                                         'sessionName' => $this->_session->sessionName,
                                         'operation' =>
@@ -4316,55 +4332,38 @@ class ApiController extends Controller
                                         'crmid' => $crmid,
                                         'notesid' => $notesid
                                     )
-                                ) . ")", 
-                                CLogger::LEVEL_TRACE
-                            );
+                                );
 
-                            //Relate Document with Trouble Ticket
-                            $rest = new RESTClient();
-                
-                            $rest->format('json');
-                            $response = $rest->post(
-                                $this->_vtresturl, 
-                                array(
-                                    'sessionName' => $this->_session->sessionName,
-                                    'operation' =>
-                                    'relatetroubleticketdocument',
-                                    'crmid' => $crmid,
-                                    'notesid' => $notesid
-                                )
-                            );
-                            
-                            //Log
-                            Yii::log(
-                                " TRACE(" . $this->_traceId . "); " . 
-                                " FUNCTION(" . __FUNCTION__ . "); " . 
-                                " PROCESSING REQUEST (response received: " . 
-                                $response . ")", 
-                                CLogger::LEVEL_TRACE
-                            );
-                            
-                            $response = json_decode($response);
-                            if ($response->success) {
-                                $globalresponse->result->documents[]
-                                    = $document->result;
+                                //Log
+                                Yii::log(
+                                    " TRACE(" . $this->_traceId . "); " . 
+                                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                                    " PROCESSING REQUEST (response received: " . 
+                                    $response . ")", 
+                                    CLogger::LEVEL_TRACE
+                                );
+
+                                $response = json_decode($response);
+                                if ($response->success) {
+                                    $globalresponse->result->documents[]
+                                        = $document->result;
+                                } else {
+                                    $globalresponse->result->documents[]
+                                        = 'not uploaded - relating ' .
+                                        'document failed:' . $file['name'];
+                                }
                             } else {
                                 $globalresponse->result->documents[]
-                                    = 'not uploaded - relating ' .
-                                    'document failed:' . $file['name'];
+                                    = 'not uploaded - creating document failed:' . 
+                                    $file['name'];
                             }
                         } else {
                             $globalresponse->result->documents[]
-                                = 'not uploaded - creating document failed:' . 
-                                $file['name'];
+                                = 'not uploaded - upload to storage ' .
+                                'service failed:' . $file['name'];
                         }
-                    } else {
-                        $globalresponse->result->documents[]
-                            = 'not uploaded - upload to storage ' .
-                            'service failed:' . $file['name'];
                     }
                 }
-            }
 
                 $globalresponse = json_encode($globalresponse);
                 $globalresponse = json_decode($globalresponse, true);
@@ -4378,98 +4377,104 @@ class ApiController extends Controller
                 unset($globalresponse['result']['days']);
                 unset($globalresponse['result']['modifiedtime']);
                 unset($globalresponse['result']['from_portal']);
-            foreach ($globalresponse['result'] as $fieldname => $value) {
-                $keyToReplace = array_search($fieldname, $customFields);
-                if ($keyToReplace) {
-                    unset($globalresponse['result'][$fieldname]);
-                    $globalresponse['result'][$keyToReplace] = $value;
-                    //unset($customFields[$keyToReplace]);
+                
+                foreach ($globalresponse['result'] as $fieldname => $value) {
+                    $keyToReplace = array_search($fieldname, $customFields);
+                    if ($keyToReplace) {
+                        unset($globalresponse['result'][$fieldname]);
+                        $globalresponse['result'][$keyToReplace] = $value;
+                        //unset($customFields[$keyToReplace]);
+                    }
                 }
-            }
 
-            if ($post['ticketstatus'] != 'Closed') {
-                $email = new AmazonSES();
-                //$email->set_region(constant("AmazonSES::" . 
-                //Yii::app()->params->awsSESRegion));
-                
-                if ($globalresponse['result']['drivercauseddamage']=='Yes')
-                    $globalresponse['result']['drivercauseddamage'] == 'Ja';
+                if ($post['ticketstatus'] != 'Closed') {
+                    $email = new AmazonSES();
+                    //$email->set_region(constant("AmazonSES::" . 
+                    //Yii::app()->params->awsSESRegion));
 
-                if ($globalresponse['result']['drivercauseddamage']=='No')
-                    $globalresponse['result']['drivercauseddamage'] == 'Nej';
-                
-                $sesBody = 'Hej ' . $this->_session->contactname .
-                    ', ' . PHP_EOL .
-                    PHP_EOL .
-                    'En skaderapport har skapats.' . PHP_EOL .
-                    PHP_EOL .
-                    'Datum och tid: ' . date("Y-m-d H:i") . PHP_EOL .
-                    'Ticket ID: ' . 
-                    $globalresponse['result']['ticket_no'] . PHP_EOL .
-                    PHP_EOL .
-                    '- Besiktningsuppgifter -' . PHP_EOL .
-                    'Trailer ID: ' . 
-                    $globalresponse['result']['trailerid'] . PHP_EOL .
-                    'Plats: ' . 
-                    $globalresponse['result']['damagereportlocation'] . 
-                    PHP_EOL .
-                    'Plomerad: ' . $globalresponse['result']['sealed'] . 
-                    PHP_EOL;
-                
-                if($globalresponse['result']['sealed'] == 'No' || 
-                    $globalresponse['result']['sealed'] == 'Nej')
-                    $sesBody .= 'Skivor: ' . 
-                        $globalresponse['result']['plates'] . PHP_EOL .
-                        'Spännband: ' . $globalresponse['result']['straps'] . 
+                    if ($globalresponse['result']['drivercauseddamage']=='Yes')
+                        $globalresponse['result']['drivercauseddamage'] == 'Ja';
+
+                    if ($globalresponse['result']['drivercauseddamage']=='No')
+                        $globalresponse['result']['drivercauseddamage'] == 'Nej';
+
+                    $sesBody = 'Hej ' . $this->_session->contactname .
+                        ', ' . PHP_EOL .
+                        PHP_EOL .
+                        'En skaderapport har skapats.' . PHP_EOL .
+                        PHP_EOL .
+                        'Datum och tid: ' . date("Y-m-d H:i") . PHP_EOL .
+                        'Ticket ID: ' . 
+                        $globalresponse['result']['ticket_no'] . PHP_EOL .
+                        PHP_EOL .
+                        '- Besiktningsuppgifter -' . PHP_EOL .
+                        'Trailer ID: ' . 
+                        $globalresponse['result']['trailerid'] . PHP_EOL .
+                        'Plats: ' . 
+                        $globalresponse['result']['damagereportlocation'] . 
+                        PHP_EOL .
+                        'Plomerad: ' . $globalresponse['result']['sealed'] . 
                         PHP_EOL;
-                    
-                $sesBody .= PHP_EOL .
-                    '- Skadeuppgifter -' . PHP_EOL .
-                    'Position: ' . $globalresponse['result']['damageposition'] .
-                    PHP_EOL .
-                    'Skada orsakad av chaufför: ' . 
-                    $globalresponse['result']['drivercauseddamage'] . PHP_EOL .
-                    PHP_EOL .
-                    PHP_EOL .
-                    '--' .
-                    PHP_EOL .
-                    'Gizur Admin';
-                
-                $sesResponse = $email->send_email(
-                    Yii::app()->params->awsSESFromEmailAddress, 
-                    array(
-                        'ToAddresses' => array(// Destination (aka To)
-                            $_SERVER['HTTP_X_USERNAME']
+
+                    if($globalresponse['result']['sealed'] == 'No' || 
+                        $globalresponse['result']['sealed'] == 'Nej')
+                        $sesBody .= 'Skivor: ' . 
+                            $globalresponse['result']['plates'] . PHP_EOL .
+                            'Spännband: ' . $globalresponse['result']['straps'] . 
+                            PHP_EOL;
+
+                    $sesBody .= PHP_EOL .
+                        '- Skadeuppgifter -' . PHP_EOL .
+                        'Position: ' . $globalresponse['result']['damageposition'] .
+                        PHP_EOL .
+                        'Skada orsakad av chaufför: ' . 
+                        $globalresponse['result']['drivercauseddamage'] . PHP_EOL .
+                        PHP_EOL .
+                        PHP_EOL .
+                        '--' .
+                        PHP_EOL .
+                        'Gizur Admin';
+
+                    $sesResponse = $email->send_email(
+                        Yii::app()->params->awsSESFromEmailAddress, 
+                        array(
+                            'ToAddresses' => array(// Destination (aka To)
+                                $_SERVER['HTTP_X_USERNAME']
+                            )
+                        ), 
+                        array(// sesMessage (short form)
+                            'Subject.Data' => date("F j, Y") . 
+                            ': Besiktningsprotokoll för  ' . 
+                            $globalresponse['result']['ticket_no'],
+                            'Body.Text.Data' => $sesBody
                         )
-                    ), 
-                    array(// sesMessage (short form)
-                        'Subject.Data' => date("F j, Y") . 
-                        ': Besiktningsprotokoll för  ' . 
-                        $globalresponse['result']['ticket_no'],
-                        'Body.Text.Data' => $sesBody
+                    );
+                }
+
+
+                //Save result to DynamoDB
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" .
+                        Yii::app()->params->awsDynamoDBRegion
                     )
                 );
-            }
+                
+                // Add id to $globalresponse
+                // 
+                $globalresponse->id = uniqid();
+                
+                $ddbResponse = $dynamodb->put_item(
+                    array(
+                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
+                        'Item' => $dynamodb->attributes(array(
+                            "data" => json_encode($globalresponse)
+                        ))
+                    )
+                );
 
-
-            //Save result to DynamoDB
-            $dynamodb = new AmazonDynamoDB();
-            $dynamodb->set_region(
-                constant(
-                    "AmazonDynamoDB::" .
-                    Yii::app()->params->awsDynamoDBRegion
-                )
-            );
-            $ddbResponse = $dynamodb->put_item(
-                array(
-                    'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                    'Item' => $dynamodb->attributes(array(
-                        "data" => json_encode($globalresponse)
-                    ))
-                )
-            );
-
-            break;
+                break;
 
             default :
                 $response = new stdClass();
