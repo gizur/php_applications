@@ -204,21 +204,40 @@ return array(
         'awsSESRegion' => 'REGION_EU_W1',
         'clab_custom_fields' => Array(
             'HelpDesk' => Array(
-                'tickettype' => 'cf_640',
-                'trailerid' => 'cf_641',
-                'damagereportlocation' => 'cf_653',
-                'sealed' => 'cf_643',
-                'plates' => 'cf_652',
-                'straps' => 'cf_651',
+                'tickettype' => 'cf_649',
+                'trailerid' => 'cf_640',
+                'damagereportlocation' => 'cf_661',
+                'sealed' => 'cf_651',
+                'plates' => 'cf_662',
+                'straps' => 'cf_663',
                 'reportdamage' => 'cf_654',
-                'damagetype' => 'cf_647',
-                'damageposition' => 'cf_648',
-                'drivercauseddamage' => 'cf_649',
+                'damagetype' => 'cf_659',
+                'damageposition' => 'cf_658',
+                'drivercauseddamage' => 'cf_657',
                 'notes' => 'cf_664',
                 'damagestatus' => 'cf_665'
             ),
             'Assets' => Array(
-                'trailertype' => 'cf_650'
+                'trailertype' => 'cf_660'
+            )
+        ),
+        'demo_custom_fields' => Array(
+            'HelpDesk' => Array(
+                'tickettype' => 'cf_649',
+                'trailerid' => 'cf_640',
+                'damagereportlocation' => 'cf_661',
+                'sealed' => 'cf_651',
+                'plates' => 'cf_662',
+                'straps' => 'cf_663',
+                'reportdamage' => 'cf_654',
+                'damagetype' => 'cf_659',
+                'damageposition' => 'cf_658',
+                'drivercauseddamage' => 'cf_657',
+                'notes' => 'cf_664',
+                'damagestatus' => 'cf_665'
+    ),
+            'Assets' => Array(
+                'trailertype' => 'cf_660'
             )
         ),
         'serverProtocol' => 'http',
