@@ -4248,7 +4248,8 @@ class ApiController extends Controller
                 Yii::log(
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " DOCUMENT CREATE STARTED (DATA JSON): " . $dataJson . 
+                    " DOCUMENT CREATE STARTED (DATA JSON): " . 
+                    json_encode($dataJson) . 
                     ")", 
                     CLogger::LEVEL_TRACE
                 );
@@ -4300,6 +4301,16 @@ class ApiController extends Controller
                                     'Thu, 01 Dec 1994 16:00:00 GMT',
                                 )
                             )
+                        );
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " DOCUMENT CREATE STARTED (S3 Response): " .
+                            json_encode($response) . 
+                            ")", 
+                            CLogger::LEVEL_TRACE
                         );
 
                         if ($response->isOK()) {
@@ -4414,6 +4425,18 @@ class ApiController extends Controller
                     }
                 }
 
+                $globalresponse->result->document_stats = join("###", $globalresponse->result->documents);
+                
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " DOCUMENT CREATE STARTED (FILE SAVE): " .
+                    $globalresponse->result->document_stats . 
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
                 $globalresponse = json_encode($globalresponse);
                 $globalresponse = json_decode($globalresponse, true);
 
@@ -4426,6 +4449,7 @@ class ApiController extends Controller
                 unset($globalresponse['result']['days']);
                 unset($globalresponse['result']['modifiedtime']);
                 unset($globalresponse['result']['from_portal']);
+                unset($globalresponse['result']['documents']);
                 
                 foreach ($globalresponse['result'] as $fieldname => $value) {
                     $keyToReplace = array_search($fieldname, $customFields);
@@ -4435,7 +4459,7 @@ class ApiController extends Controller
                         //unset($customFields[$keyToReplace]);
                     }
                 }
-
+                
                 if ($post['ticketstatus'] != 'Closed') {
                     $email = new AmazonSES();
                     //$email->set_region(constant("AmazonSES::" . 
@@ -4500,7 +4524,14 @@ class ApiController extends Controller
                     );
                 }
 
-
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " DOCUMENT CREATE STARTED (UPDATE DYNAMODB SAVE): " .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
                 //Save result to DynamoDB
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(
@@ -4523,6 +4554,14 @@ class ApiController extends Controller
                     )
                 );
 
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " DYNAMODB UPDATED: " . json_encode($ddbResponse) .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
                 break;
 
             default :
