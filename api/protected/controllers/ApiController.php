@@ -4206,14 +4206,34 @@ class ApiController extends Controller
                     ); 
                 
                 $globalresponse = json_decode($response);
+                
                 /* * Creating Document* */
-
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " DOCUMENT CREATE STARTED: " . 
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
                 if ($globalresponse->success == false)
                     throw new Exception($globalresponse->error->message);
 
                 //Create Documents if any is attached
                 $crmid = $globalresponse->result->id;
                 $globalresponse->result->documents = Array();
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " DOCUMENT CREATE STARTED (CRMID): " . $crmid . 
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
                 $dataJson = array(
                     'notes_title' => 'Attachement',
                     'assigned_user_id' => $this->_session->userId,
@@ -4223,7 +4243,27 @@ class ApiController extends Controller
                     'filestatus' => 1,
                     'fileversion' => '',
                 );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " DOCUMENT CREATE STARTED (DATA JSON): " . $dataJson . 
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
                 if (!empty($_FILES) && $globalresponse->success) {
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " DOCUMENT CREATE STARTED ($ globalresponse->success): " .
+                        $globalresponse->success . 
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
                     foreach ($_FILES as $key => $file) {
                         $uniqueid = uniqid();
 
@@ -4232,6 +4272,15 @@ class ApiController extends Controller
                         $dataJson['filesize'] = $file['size'];
                         $dataJson['filetype'] = $file['type'];
 
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " DOCUMENT CREATE STARTED (FILE NAME): " .
+                            $dataJson['filename'] . 
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );
                         //Upload file to Amazon S3
                         $sThree = new AmazonS3();
                         $sThree->set_region(
