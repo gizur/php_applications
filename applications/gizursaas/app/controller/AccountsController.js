@@ -55,10 +55,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                     }, 1000);
                 },
                 success: function(_data) {
-                    //_data = JSON.parse(_data);
                     // Map the values on sucess
                     // with model attributes
-                    console.log(_data);
                     if (_data.success === true) {
                         self.model.set({
                             "first_name": _data.result.name_1,
@@ -104,7 +102,6 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                     } else {
                         // If an error occured show and error and
                         // take the user to the login page.
-                        console.log(_data);
                         self.view.error('Username / password is invalid.');
                         setTimeout(function() {
                             hasher.setHash(DEFAULT_HASH);
