@@ -4424,8 +4424,6 @@ class ApiController extends Controller
                     }
                 }
 
-                //$globalresponse->result->document_stats = join("###", $globalresponse->result->documents);
-                
                 // Log
                 Yii::log(
                     " TRACE(" . $this->_traceId . "); " . 
@@ -4542,13 +4540,14 @@ class ApiController extends Controller
                 
                 // Add id to $globalresponse
                 // 
-                $globalresponse['result']['id'] = uniqid('');
+                $globalresponse['id'] = uniqid('');
+                $globalresponse['username'] = $_SERVER['HTTP_X_USERNAME']
                 
                 $ddbResponse = $dynamodb->put_item(
                     array(
                         'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
                         'Item' => $dynamodb->attributes(array(
-                            "data" => $dynamodb->attributes($globalresponse['result'])
+                            "data" => $dynamodb->attributes($globalresponse)
                         ))
                     )
                 );
