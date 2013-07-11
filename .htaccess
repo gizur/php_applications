@@ -1,6 +1,6 @@
 # Disable directory structure view.
 #
-#Options -Indexes
+Options -Indexes
 
 # Define error pages, application automatically redirects to the
 # error pages in case of 404 / 500 error.

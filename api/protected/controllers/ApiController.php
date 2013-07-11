@@ -4157,7 +4157,6 @@ class ApiController extends Controller
                         )
                     )
                 );
-
                 
                 //Log
                 Yii::log(
@@ -4425,7 +4424,7 @@ class ApiController extends Controller
                     }
                 }
 
-                $globalresponse->result->document_stats = join("###", $globalresponse->result->documents);
+                //$globalresponse->result->document_stats = join("###", $globalresponse->result->documents);
                 
                 // Log
                 Yii::log(
@@ -4543,7 +4542,7 @@ class ApiController extends Controller
                 
                 // Add id to $globalresponse
                 // 
-                $globalresponse['result']['id'] = uniqid('', true);
+                $globalresponse['result']['id'] = uniqid('');
                 
                 $ddbResponse = $dynamodb->put_item(
                     array(
