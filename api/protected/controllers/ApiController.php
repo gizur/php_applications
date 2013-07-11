@@ -4098,6 +4098,15 @@ class ApiController extends Controller
                     "Ticket can be opened for damaged trailers only", 1002
                 );
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " REQUEST RECEIVED (POST): " . 
+                    json_encode($_POST) . ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
                 /** Creating Touble Ticket* */
                 $post = $_POST;
                 $customFields = array_flip(
