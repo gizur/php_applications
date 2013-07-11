@@ -4548,7 +4548,7 @@ class ApiController extends Controller
                     array(
                         'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
                         'Item' => $dynamodb->attributes(array(
-                            "data" => json_encode($globalresponse['result'])
+                            "data" => $dynamodb->attributes($globalresponse['result'])
                         ))
                     )
                 );
