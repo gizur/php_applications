@@ -4065,6 +4065,14 @@ class ApiController extends Controller
                  */
             case 'HelpDesk':
 
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " REQUEST RECEIVED (POST): " . 
+                    json_encode($_POST) . ")", 
+                    CLogger::LEVEL_TRACE
+                );
 
                 /**
                  * Validations
