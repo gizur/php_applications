@@ -4283,7 +4283,7 @@ class ApiController extends Controller
                         );
                         //Upload file to Amazon S3
                         $sThree = new AmazonS3();
-                        $sThree->set_region(
+                        $sThree->set(
                             constant("AmazonS3::" . Yii::app()->params->awsS3Region)
                         );
 

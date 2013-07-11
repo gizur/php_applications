@@ -199,7 +199,7 @@ return array(
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
         'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
         'acceptableTimestampError' => 60,
-        'awsS3Region' => 'REGION_EU_W1',
+        'awsS3Region' => 'REGION_APAC_NE1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',
         'awsSESRegion' => 'REGION_EU_W1',
         'clab_custom_fields' => Array(
