@@ -4543,7 +4543,7 @@ class ApiController extends Controller
                 
                 // Add id to $globalresponse
                 // 
-                $globalresponse['result']['id'] = uniqid();
+                $globalresponse['result']['id'] = uniqid('', true);
                 
                 $ddbResponse = $dynamodb->put_item(
                     array(

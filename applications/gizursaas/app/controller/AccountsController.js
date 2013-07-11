@@ -39,10 +39,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
             $.ajax({
                 url: _url,
                 type: "GET",
-                dataType: "json,html",
-                beforeSend: function(req) {
-                    req.setRequestHeader("Accept", "text/json");
-                },
+                dataType: "json",
                 headers: {
                     // Add username and password in the headers
                     // to validate the request
