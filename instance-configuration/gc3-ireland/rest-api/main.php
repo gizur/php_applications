@@ -191,7 +191,7 @@ return array(
         // this is used in contact page
         'vtRestUrl' => 'http://127.0.0.1/{clientid}/webservice.php',
         'vtCronPath' => '/var/www/html/lib/vtiger-5.4.0/cron/',
-        'awsS3Bucket' => 'gizurcloud',
+        'awsS3Bucket' => 'gizurcloud-gc3',
         'awsS3BackupBucket' => 'gc3-backups',
         'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
         'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
