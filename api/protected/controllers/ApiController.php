@@ -4529,6 +4529,7 @@ class ApiController extends Controller
                     ")", 
                     CLogger::LEVEL_TRACE
                 );
+                
                 //Save result to DynamoDB
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(
@@ -4538,16 +4539,14 @@ class ApiController extends Controller
                     )
                 );
                 
-                // Add id to $globalresponse
-                // 
-                $globalresponse['id'] = uniqid('');
-                $globalresponse['username'] = $_SERVER['HTTP_X_USERNAME']
-                
                 $ddbResponse = $dynamodb->put_item(
                     array(
                         'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
                         'Item' => $dynamodb->attributes(array(
-                            "data" => $dynamodb->attributes($globalresponse)
+                            "id" => uniqid(''),
+                            "username" => $_SERVER['HTTP_X_USERNAME'],
+                            "status" => $globalresponse["success"],
+                            "data" => json_encode($globalresponse)
                         ))
                     )
                 );
