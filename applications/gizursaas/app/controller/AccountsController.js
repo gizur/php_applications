@@ -55,6 +55,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                     }, 1000);
                 },
                 success: function(_data) {
+                    _data = JSON.parse(_data);
                     // Map the values on sucess
                     // with model attributes
                     if (_data.success) {
