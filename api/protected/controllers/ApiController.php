@@ -3627,16 +3627,56 @@ class ApiController extends Controller
                             Yii::app()->cache->set(
                                 $post['apikey_2'], $post['secretkey_2']
                             );
-                            $response->success = true;
-                            $response->stmt = $execStmt;
-                            $this->_sendResponse(200, json_encode($response));
+                            //SEND THE EMAIL TO USER
+                            $email = new AmazonSES();
+
+                            $sesResponse = $email->send_email(
+                                // Source (aka From)
+                                Yii::app()->params->awsSESFromEmailAddress,
+                                array(
+                                    'ToAddresses' => array(
+                                        $post['id']
+                                    )
+                                ), 
+                                array(// sesMessage (short form)
+                                    'Subject.Data' => 'Welcome to Gizur SaaS',
+                                    'Body.Text.Data' => 'Hi ' . $post['name_1'] . 
+                                    ' ' . $post['name_2'] . ', ' . PHP_EOL .
+                                    PHP_EOL .
+                                    'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
+                                    'Your username and password are as follows:' .
+                                    PHP_EOL .
+                                    PHP_EOL .
+                                    'Portal Link: ' . Yii::app()->params->serverProtocol
+                                    . "://"
+                                    . $_SERVER['HTTP_HOST'] . 
+                                    PHP_EOL .
+                                    'Username: ' . $post['id']  . PHP_EOL .
+                                    'Password: [Your Gizur SaaS Password]' . PHP_EOL .
+
+                                    PHP_EOL .
+                                    'vTiger Link: ' . Yii::app()->params->serverProtocol
+                                    . "://"
+                                    . $_SERVER['HTTP_HOST'] . '/' . 
+                                    $post['clientid'] . '/' . PHP_EOL .
+                                    'Username: admin'  . PHP_EOL .
+                                    'Password: [Your old account vTiger password]' . PHP_EOL .
+                                    PHP_EOL .
+                                    PHP_EOL .
+                                    '--' .
+                                    PHP_EOL .
+                                    'Gizur Admin'
+                                )
+                            );
+
+                            Yii::log(
+                                "TRACE(" . $this->_traceId . ");" . 
+                                " FUNCTION(" . __FUNCTION__ . ");" . 
+                                " ACCOUNT CREATED : " . json_encode($post), 
+                                CLogger::LEVEL_TRACE
+                            );
                         } else {
-                            $response->success = false;
-                            $response->error->code = "NOT_CREATED";
-                            $response->error->message = $_GET['email'] . " could "
-                                    . " not be created";
-                            $response->error->trace_id = $this->_traceId;
-                            $this->_sendResponse(400, json_encode($response));
+                            throw new Exception("DynamoDB update failed.");
                         }
                     } catch (Exception $e) {
                         $response->success = false;
@@ -3651,17 +3691,17 @@ class ApiController extends Controller
                             // Source (aka From)
                             Yii::app()->params->awsSESFromEmailAddress,
                             array(
-                                'ToAddresses' => array(
-                                    'prabhat.khera@essindia.co.in'
-                                )
+                                'ToAddresses' => Yii::app()->params->awsSESAdminEmailAddresses
                             ), 
                             array(// sesMessage (short form)
-                                'Subject.Data' => 'Error at Gizur SaaS',
+                                'Subject.Data' => 'Error in coping account (Gizur SaaS)',
                                 'Body.Text.Data' => 'Hi, ' . PHP_EOL .
                                 PHP_EOL .
                                 'Follwing error has occured.' . PHP_EOL . PHP_EOL .
                                 PHP_EOL .
                                 'User : ' . $post['id']  . PHP_EOL .
+                                PHP_EOL .
+                                'Data : ' . json_encode($post) .
                                 PHP_EOL .
                                 'Response : ' . json_encode($response) .
                                 PHP_EOL .
@@ -4099,9 +4139,7 @@ class ApiController extends Controller
                             // Source (aka From)
                             Yii::app()->params->awsSESFromEmailAddress,
                             array(
-                                'ToAddresses' => array(
-                                    'prabhat.khera@essindia.co.in'
-                                )
+                                'ToAddresses' => Yii::app()->params->awsSESAdminEmailAddresses
                             ), 
                             array(// sesMessage (short form)
                                 'Subject.Data' => 'Error at Gizur SaaS',

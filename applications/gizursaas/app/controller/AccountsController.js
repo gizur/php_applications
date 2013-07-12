@@ -408,7 +408,11 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         // On success clean the form.
                         success: function(_data) {
                             if (_data.success) {
-                                self.view.success('Account has been copied.');
+                                self.view.success(
+                                    'Request to copy your ' + 
+                                    'account to new has been received. ' +
+                                    'You\'ll receive an email shortly.'
+                                );
                                 $('#new_email').val('');
                                 $('#new_password').val('');
                                 $('#new_client_id').val('');

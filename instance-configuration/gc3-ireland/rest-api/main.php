@@ -197,7 +197,10 @@ return array(
         'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
         'awsErrorDynamoDBTableName' => 'GIZUR_BACKGROUND_STATUS',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
-        'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
+        'awsSESClientEmailAddress' => 'gizur-ess-prabhat@gizur.com',
+        'awsSESAdminEmailAddresses' => array(
+            'gizur-ess-prabhat@gizur.com'
+        ),
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',

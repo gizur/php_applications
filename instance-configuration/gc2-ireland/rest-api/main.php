@@ -48,13 +48,17 @@ return array(
             'urlFormat' => 'path',
             'rules' => array(
                 // REST patterns              
-                array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About)>', 'verb' => 'GET'),
+                array(
+                    'api/list',
+                    'pattern' => '/<model:(HelpDesk|Assets|About)>',
+                    'verb' => 'GET'
+                ),
                 array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 'verb' => 'GET'),                
                 array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Users)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
-                array('api/create', 'pattern' => '/<model:(Users)>/<action:(copyuser)>', 'verb' => 'POST'),
+                array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
                 array('api/view', 'pattern' => '/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(User)>/<email:.+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb' => 'GET'),
@@ -123,6 +127,9 @@ return array(
         'awsErrorDynamoDBTableName' => 'GIZUR_BACKGROUND_STATUS',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
         'awsSESClientEmailAddress' => 'gizur-ess-prabhat@gizur.com',
+        'awsSESAdminEmailAddresses' => array(
+            'gizur-ess-prabhat@gizur.com'
+        ),
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',

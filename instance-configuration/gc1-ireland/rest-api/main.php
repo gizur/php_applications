@@ -54,7 +54,7 @@ return array(
                 array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Users)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
-                array('api/create', 'pattern' => '/<model:(Users)>/<action:(copyuser)>', 'verb' => 'POST'),
+                array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
                 array('api/view', 'pattern' => '/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(User)>/<email:.+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb' => 'GET'),
@@ -123,6 +123,10 @@ return array(
         'awsErrorDynamoDBTableName' => 'GIZUR_BACKGROUND_STATUS',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
         'awsSESClientEmailAddress' => 'log@gizur.com',
+        'awsSESAdminEmailAddresses' => array(
+            'gizur-ess-prabhat@gizur.com',
+            'log@gizur.com'
+        ),
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',
