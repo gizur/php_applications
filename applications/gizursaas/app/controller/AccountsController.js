@@ -88,7 +88,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         $.get('./applications/gizursaas/templates/home.tmp.html?_=' +
                                 Math.random(), {}, function(html) {
                             $('#container').empty().html(html);
-                            self.model.map_values();
+                            self.model.map_values();                            
+                            self.view.emit("updateCopyClientTab");
                             self.view.bindEventHandlers();
                             $('#logout-btn').show();
                             var vLink = window.location.protocol + '//' +
@@ -269,7 +270,6 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                             );
                             //Revert back the values
                             self.model.map_values();
-                            self.view.emit("updateCopyClientTab");
                         },
                         success: function(_data) {
                             if (_data.success) {
@@ -285,9 +285,9 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                 self.model.map_values();
                             } else {
                                 self.view.error(
-                                        'An error occuredwhile updating the' +
-                                        ' information. Please try again.'
-                                        );
+                                    'An error occuredwhile updating the' +
+                                    ' information. Please try again.'
+                                );
                             }
                         }
                     });
