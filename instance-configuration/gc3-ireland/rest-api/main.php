@@ -136,7 +136,7 @@ return array(
                 ),
                 array(
                     'api/create', 
-                    'pattern' => '/<model:(Users)>/<action:(copyuser)>',
+                    'pattern' => '/<model:(User)>/<action:(copyuser)>',
                     'verb' => 'POST'
                 ),
                 array(

@@ -127,12 +127,6 @@ define(["jquery", "stapes"], function($, Stapes) {
             $('#vtigerResetPasswordButton').on('click', function(e) {
                 this.emit('vtigerResetPasswordButton');
             }.bind(this));
-            
-            // Update current client information in copy client tab
-            // 
-            $('#copy-client-tab').on('click', function(e) {
-                this.emit('updateCopyClientTab');
-            }.bind(this));
         }
     });
     return AccountsView;

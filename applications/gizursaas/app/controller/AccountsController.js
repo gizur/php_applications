@@ -264,18 +264,18 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                             "id_sequence": self.model.get('id_sequence')
                         }),
                         error: function() {
-                            self.view.error(
-                                    'An error occured while updating ' +
-                                    'the information. Please try again.'
-                                    );
+                            self.view.error( 'An error occured while' + 
+                                'updating the information. Please try again.'
+                            );
                             //Revert back the values
                             self.model.map_values();
+                            self.view.emit("updateCopyClientTab");
                         },
                         success: function(_data) {
                             if (_data.success) {
-                                self.view.success(
-                                        'Information updated successfully.'
-                                        );
+                                self.view.success('Information updated ' +
+                                    'successfully.'
+                                );
 
                                 self.model.set({
                                     'first_name': $('#first_name').val(),
