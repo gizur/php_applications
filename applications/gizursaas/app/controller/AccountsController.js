@@ -355,7 +355,6 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 //
                 'copyClientFormSubmit': function() {
 
-                    self.view.success('Processing ...');
                     var password = $('#new_password').val();
                     var client_id = $('#new_client_id').val();
                     var email = $('#new_email').val();
@@ -363,12 +362,15 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                     if(password.length === 0 ||
                        client_id.length === 0 ||
                        email.length === 0) {
-                        this.view.error(
+                        self.view.error(
                             "New client id, email and password " +
                             "can not be left blank."
                         );
                         return false;
                     }
+                    
+                    self.view.success('Processing ...');
+                    
                     var hashObj1 = new jsSHA(Math.random(), "TEXT");
                     var security_salt = hashObj1.getHash("SHA-256", "HEX");
                     var hashObj = new jsSHA(
