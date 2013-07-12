@@ -29,7 +29,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
 
             //Initialise the model and view
             this.model = new AccountModel();
-            this.view = new AccountsView();
+            this.view = new AccountsView(this.model);
 
             //Prepare the url to fetch the account details
             var _url = config.rest_server_url + 'User/' +
