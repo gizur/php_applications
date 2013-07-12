@@ -30,17 +30,6 @@ define(["jquery", "stapes"], function($, Stapes) {
         constructor: function(model) {
             this.model = model;
             var self = this;
-            
-            this.on({
-                "updateCopyClientTab": function() {
-                    $('#copy-client table tbody').empty().html("<tr><td>" +
-                    "Client Id</td><td>" + 
-                    self.model.get("client_id") + "</td></tr>" +
-                    "<tr><td>" +
-                    "Email</td><td>" + 
-                    self.model.get("email") + "</td></tr>");
-                }
-            });
         },
         // success
         //===========

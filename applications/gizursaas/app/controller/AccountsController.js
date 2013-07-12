@@ -336,6 +336,86 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                             }
                         }
                     });
+                },
+                // Event to update current client info in copy-client tab
+                // ======================================================
+                "updateCopyClientTab": function() {
+                    $('#from_id').attr('value', self.model.get("email"));
+                    $('#copy-client table tbody').empty().html("<tr><td>" +
+                    "Client Id</td><td>" + 
+                    self.model.get("client_id") + "</td></tr>" +
+                    "<tr><td>" +
+                    "Email</td><td>" + 
+                    self.model.get("email") + "</td></tr>");
+                },
+                // Event to submit copy client form
+                //=================================
+                //
+                // This function submits clients data to the API.
+                //
+                'copyClientFormSubmit': function() {
+
+                    self.view.success('Processing ...');
+                    var fromid = $('#from_id').val();
+                    var password = $('#new_password').val();
+                    var client_id = $('#new_client_id').val();
+                    var email = $('#new_email').val();
+
+                    var hashObj1 = new jsSHA(Math.random(), "TEXT");
+                    var security_salt = hashObj1.getHash("SHA-256", "HEX");
+                    var hashObj = new jsSHA(
+                            password + security_salt, "TEXT"
+                            );
+                    var hashed_password = hashObj.getHash("SHA-256", "HEX");
+
+                    //Make a registration request to the server
+                    //
+                    var _url_create = config.rest_server_url + 'Users/copyuser';
+                    $.ajax({
+                        url: _url_create,
+                        type: "POST",
+                        dataType: "json",
+                        processData: false,
+                        data: JSON.stringify({
+                            "fromid": fromid,
+                            "id": email,
+                            "password": hashed_password,
+                            "clientid": client_id,
+                            "security_salt": security_salt
+                        }),
+                        headers: {
+                            //Add username and password in the headers
+                            // to validate the request
+                            "X_USERNAME": adminUsername,
+                            "X_PASSWORD": adminPassword
+                        },
+                        //If error occured, it will display the error msg.
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            var _data = JSON.parse(jqXHR.responseText);
+
+                            if (!_data.success)
+                                self.view.error(config.messages[_data.error.code]);
+                        },
+                        // On success clean the form.
+                        success: function(_data) {
+                            if (_data.success) {
+                                self.view.success('Account has been copied.');
+                                $('#email').val('');
+                                $('#password').val('');
+                                $('#client_id').val('');
+                                $('#from_id').val('');
+                                self.model.each(function(client, key) {
+                                    self.model.remove(key);
+                                });
+                                self.loadView(adminUsername, adminPassword, DEFAULT_HASH);
+                            } else {
+                                self.view.error(
+                                    'An error occured while creating your' +
+                                    ' account. Please contact administrator.'
+                                );
+                            }
+                        }
+                    });
                 }
             });
         }
