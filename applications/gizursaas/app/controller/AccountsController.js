@@ -370,7 +370,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
 
                     //Make a registration request to the server
                     //
-                    var _url_create = config.rest_server_url + 'Users/copyuser';
+                    var _url_create = config.rest_server_url + 'User/copyuser';
                     $.ajax({
                         url: _url_create,
                         type: "POST",
@@ -386,8 +386,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         headers: {
                             //Add username and password in the headers
                             // to validate the request
-                            "X_USERNAME": adminUsername,
-                            "X_PASSWORD": adminPassword
+                            "X_USERNAME": config.user_controller.model.get('email'),
+                            "X_PASSWORD": config.user_controller.model.get('password')
                         },
                         //If error occured, it will display the error msg.
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -400,14 +400,10 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         success: function(_data) {
                             if (_data.success) {
                                 self.view.success('Account has been copied.');
-                                $('#email').val('');
-                                $('#password').val('');
-                                $('#client_id').val('');
+                                $('#new_email').val('');
+                                $('#new_password').val('');
+                                $('#new_client_id').val('');
                                 $('#from_id').val('');
-                                self.model.each(function(client, key) {
-                                    self.model.remove(key);
-                                });
-                                self.loadView(adminUsername, adminPassword, DEFAULT_HASH);
                             } else {
                                 self.view.error(
                                     'An error occured while creating your' +

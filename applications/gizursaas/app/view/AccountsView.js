@@ -116,6 +116,13 @@ define(["jquery", "stapes"], function($, Stapes) {
             $('#vtigerResetPasswordButton').on('click', function(e) {
                 this.emit('vtigerResetPasswordButton');
             }.bind(this));
+            
+            // Handle copy client button click event
+            // 
+            $('#copyClientFormSubmit').on('click', function(e) {
+                e.preventDefault();
+                this.emit('copyClientFormSubmit');
+            }.bind(this));
         }
     });
     return AccountsView;
