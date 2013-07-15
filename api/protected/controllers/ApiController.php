@@ -2432,10 +2432,21 @@ class ApiController extends Controller
                         )
                     );
 
-                   //  $table_name = 'GIZUR_BACKGROUND_STATUS';
+                    $clientID = $_SERVER['HTTP_X_CLIENTID'];
+                    
                     $ddbResponse = $dynamodb->scan(array(
                         'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,                           
-                        'AttributesToGet' => array('id','data','status','username')
+                        'AttributesToGet' => array('id','data','status','username', 'clientid'),
+                        'ScanFilter' => array(
+                            'clientid' => array(
+                                'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                                'AttributeValueList' => array(
+                                    array(
+                                        AmazonDynamoDB::TYPE_STRING => $clientID
+                                    )
+                                )
+                            )
+                        )
                     ));
                     
                     $result = array();
@@ -4541,7 +4552,6 @@ class ApiController extends Controller
                 unset($globalresponse['result']['days']);
                 unset($globalresponse['result']['modifiedtime']);
                 unset($globalresponse['result']['from_portal']);
-                unset($globalresponse['result']['documents']);
                 
                 foreach ($globalresponse['result'] as $fieldname => $value) {
                     $keyToReplace = array_search($fieldname, $customFields);
@@ -4641,7 +4651,8 @@ class ApiController extends Controller
                             "id" => uniqid(''),
                             "username" => $_SERVER['HTTP_X_USERNAME'],
                             "status" => $globalresponse["success"],
-                            "data" => json_encode($globalresponse)
+                            "data" => json_encode($globalresponse),
+                            "clientid" => $this->_clientid
                         ))
                     )
                 );
