@@ -374,7 +374,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         },
                         success: function(_data) {
                             if (_data.success) {
-                                if(size(_data.result)>0){
+                                if(_data.result.length > 0){
                                 $('#background-id table tbody').empty().html("<tr><td>" +
                                 "Client Id</td><td>"+_data.clientid+"</td></tr>" +
                                 "<tr><td>" +
