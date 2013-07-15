@@ -2440,7 +2440,7 @@ class ApiController extends Controller
                     
                     $result = array();
                     $response = new stdClass();
-                        $response->success = true;
+                    $response->success = true;
                         
                     foreach ($ddbResponse->body->Items as $item)
                     {
@@ -2448,7 +2448,7 @@ class ApiController extends Controller
                         $result[]['username'] = json_decode($item->username->{AmazonDynamoDB::TYPE_STRING});
                         $result[]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
                     }
-                    
+                    $response->result = $result;
                     //Send response
                     $this->_sendResponse(200, json_encode($response));
 
