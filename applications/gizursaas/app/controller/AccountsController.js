@@ -351,6 +351,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 
                 // function to display background details
                  "updateBackgroundTab": function() {
+                   
                      var _url = config.rest_server_url + 'Background/backgroundstatus' ;
                     $.ajax({
                         url: _url,
