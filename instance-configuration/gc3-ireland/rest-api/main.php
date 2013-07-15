@@ -81,11 +81,6 @@ return array(
                 ),
                 array(
                     'api/list', 
-                    'pattern' => '/<model:(Users)>', 
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/list', 
                     'pattern' => '/<model:(Batches)>', 
                     'verb' => 'GET'
                 ),
