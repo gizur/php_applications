@@ -355,17 +355,27 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 //
                 'copyClientFormSubmit': function() {
 
-                    self.view.success('Processing ...');
-                    var fromid = $('#from_id').val();
                     var password = $('#new_password').val();
                     var client_id = $('#new_client_id').val();
                     var email = $('#new_email').val();
 
+                    if(password.length === 0 ||
+                       client_id.length === 0 ||
+                       email.length === 0) {
+                        self.view.error(
+                            "New client id, email and password " +
+                            "can not be left blank."
+                        );
+                        return false;
+                    }
+                    
+                    self.view.success('Processing ...');
+                    
                     var hashObj1 = new jsSHA(Math.random(), "TEXT");
                     var security_salt = hashObj1.getHash("SHA-256", "HEX");
                     var hashObj = new jsSHA(
-                            password + security_salt, "TEXT"
-                            );
+                        password + security_salt, "TEXT"
+                    );
                     var hashed_password = hashObj.getHash("SHA-256", "HEX");
 
                     //Make a registration request to the server
@@ -377,7 +387,6 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         dataType: "json",
                         processData: false,
                         data: JSON.stringify({
-                            "fromid": fromid,
                             "id": email,
                             "password": hashed_password,
                             "clientid": client_id,
@@ -399,7 +408,11 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         // On success clean the form.
                         success: function(_data) {
                             if (_data.success) {
-                                self.view.success('Account has been copied.');
+                                self.view.success(
+                                    'Request to copy your ' + 
+                                    'account to new has been received. ' +
+                                    'You\'ll receive an email shortly.'
+                                );
                                 $('#new_email').val('');
                                 $('#new_password').val('');
                                 $('#new_client_id').val('');

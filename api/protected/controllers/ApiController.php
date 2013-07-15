@@ -407,7 +407,7 @@ class ApiController extends Controller
             
             if ($_GET['model'] == 'User') {
                 
-                if(Yii::app()->request->isPostRequest)
+                if(Yii::app()->request->isPostRequest && !isset($_GET['action']))
                     return true;
                 //These models do not require authentication
                 if(in_array(
@@ -3170,8 +3170,12 @@ class ApiController extends Controller
             case 'User':
                 
                 if ($_GET['action'] == 'copyuser') {
-                    error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
-                    ini_set('display_errors', 'On');
+                    
+                    // MAKE IT ASYNC
+                    //                 
+                    ignore_user_abort(true);
+                    set_time_limit(0);
+                    
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
@@ -3332,8 +3336,7 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );
                     
-                    $oldClientId = $post['fromid'];
-                    unset($post['fromid']);
+                    $oldClientId = $_SERVER['HTTP_X_USERNAME'];
                     // GET FROM CLIENT DETAIL
                     $ddbResponse = $dynamodb->get_item(
                         array(
@@ -3420,212 +3423,327 @@ class ApiController extends Controller
                     $post['dbpassword'] = $dbPassword;
                     $post['id_sequence'] = (String)$maxIdSequence;
                        
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " NEW CLIENT DETAILS : " . json_encode($post), 
-                        CLogger::LEVEL_TRACE
-                    );
-                    
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " CREATING USER ($dbUsername) IN MYSQL FOR NEW CLIENT ", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    
-                    //Create User
-                    //===========
-                    $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%' " .
-                        "IDENTIFIED BY '$dbPassword' ";
-                    $query .= "WITH MAX_QUERIES_PER_HOUR 0 " .
-                        "MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR " .
-                        "0 MAX_USER_CONNECTIONS 0;";                    
-                    
-                    // Execute the query
-                    // check if the query was executed properly
-                    if ($mysqli->query($query)===false)
-                        throw New Exception(
-                            "Unable to create user and grant permission: " . 
-                            $mysqli->error, 0
-                        );
-                    
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " CREATING DATABASE ($dbName) IN MYSQL FOR NEW CLIENT ", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    //Create Database
-                    //===============
-                    $query = "CREATE DATABASE IF NOT EXISTS `$dbName`;";
-                    
-                    // Execute the query
-                    // check if the query was executed properly
-                    if ($mysqli->query($query)===false) {
-                        $mysqli->query("DROP USER $dbUsername;");
-                        throw New Exception(
-                            "Unable to create database " . $mysqli->error, 0
-                        );                    
-                    }
-
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " GRANTING PRIVILEGES ON $dbName TO $dbUsername ", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    //Grant Permission
-                    //================
-                    $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO " .
-                        "'$dbUsername'@'%';";
-                    
-                    // Execute the query
-                    // check if the query was executed properly
-                    if ($mysqli->query($query)===false) {
-                        $mysqli->query("DROP USER $dbUsername;");
-                        $mysqli->query("DROP DATABASE IF EXISTS $dbUsername;");
-                        throw New Exception($mysqli->error, 0);
-                    }
-
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " IMPORTING DATABASE DUMP TO $dbName ", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    //Import Database
-                    //===============
-                    $execStmt = "mysqldump -u" . $clientArr['username'] . 
-                        " -p" . $clientArr['dbpassword'] . 
-                        " -h" . $clientArr['server'] . 
-                        " -P " . $clientArr['port'] . 
-                        " " . $clientArr['databasename'] . 
-                        " | mysql -u$dbUsername -p$dbPassword -h$dbServer" .
-                        " -P $dbPort $dbName";
-
-                    $output = shell_exec($execStmt);
-                    
-                    if ($output === false) {
-                        $mysqli->query("DROP USER $dbUsername;");
-                        $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
-                        throw New Exception(
-                            "Unable to populate data in $dbName.", 0
-                        );
-                    }
-                    
-                    //Add User Sequence
-                    //======================
-                    $queries[] = "USE $dbName;";
-                    $queries[] = "START TRANSACTION;";
-                    $queries[] = "SET foreign_key_checks = 0;";
-                    $queries[] = "update vtiger_users2group set userid = " .
-                        "$plusSequence + userid;";
-                    $queries[] = "update vtiger_user2role set userid = " .
-                        "$plusSequence + userid;";
-                    $queries[] = "update vtiger_users set id = " .
-                        "$plusSequence + id;";
-                    $queries[] = "update vtiger_users_seq set id = " .
-                        "$plusSequence + id;";
-                    $queries[] = "update vtiger_crmentity set smcreatorid = " .
-                        "$plusSequence + smcreatorid, smownerid = smownerid +" .
-                        " $plusSequence, modifiedby = modifiedby" .
-                        " + $plusSequence;";
-                    $queries[] = "update vtiger_homestuff set userid = ".
-                        "$plusSequence + userid;";
-                    $queries[] = "update vtiger_mail_accounts set user_id =" .
-                        " $plusSequence + user_id;";
-                    $queries[] = "update vtiger_user2mergefields set userid =" .
-                        " $plusSequence + userid;";
-                    $queries[] = "update vtiger_user_module_preferences set" .
-                        " userid = $plusSequence + userid;";
-                    $queries[] = "update vtiger_users_last_import set" .
-                        " assigned_user_id = $plusSequence + assigned_user_id;";
-                    $queries[] = "update vtiger_customview set userid =" .
-                        " $plusSequence + userid;";
-                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET" .
-                        " `prefvalue` = $plusSequence + prefvalue " . 
-                        "WHERE `vtiger_customerportal_prefs`.`prefkey` =" .
-                        " 'userid';";
-                    $queries[] = "UPDATE `vtiger_customerportal_prefs` SET" .
-                        " `prefvalue` = $plusSequence + prefvalue " . 
-                        "WHERE `vtiger_customerportal_prefs`.`prefkey` =" .
-                        " 'defaultassignee';";
-                    $queries[] = "SET foreign_key_checks = 1;";
-                    $queries[] = "COMMIT;";
-                    
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " UPDATING $dbName USERS IDs with $maxIdSequence ", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    foreach ($queries as $query) {
-                        // Execute the query
-                        // check if the query was executed properly
-                        if ($mysqli->query($query)===false) {
-                            $mysqli->query('ROLLBACK;');
-                            $mysqli->query("DROP USER $dbUsername;");
-                            $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
-                            throw New Exception(
-                                $mysqli->error . " Query:" . $query, 0
-                            );                        
-                        }
-                    }
-                    
-                    $mysqli->close();
-                    
-                    Yii::log(
-                        "TRACE(" . $this->_traceId . ");" . 
-                        " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " INSERTING INTO DYNAMODB ", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    // Instantiate the class
+                    // ADD STATUS DBPeding
+                    $post['status'] = 'DBPending';
+                    //
+                    // PUT ITEM IN THE DYNAMODB AND TELL THAT
+                    // USER TO WAIT FOR THE EMAIL.
+                    // 
+                    // MYSQL DB WILL BE UPDATED IN THE BACKGROUND.
+                    //
+                    //
+                    // Instantiate the class                   
+                    //                    
                     $dynamodb = new AmazonDynamoDB();
                     $dynamodb->set_region(
                         constant(
-                            "AmazonDynamoDB::" . 
+                            "AmazonDynamoDB::" .
                             Yii::app()->params->awsDynamoDBRegion
                         )
                     );
                     $ddbResponse = $dynamodb->put_item(
                         array(
                             'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                             'Item' => $dynamodb->attributes($post)
+                            'Item' => $dynamodb->attributes($post)
                         )
                     );
 
-                    // Get an item
-                    $ddbResponse = $dynamodb->get_item(
-                        array(
-                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                            'Key' => $dynamodb->attributes(
+                    $res['id'] = $post['id'];
+                    $res['clientid'] = $post['clientid'];
+                    $res['status'] = $post['status'];
+
+                    $response->success = true;
+                    $response->result = $res;
+
+                    unset($res);
+
+                    ob_start();
+                    header('HTTP/1.1 200 OK');
+                    // and the content type
+                    header('Content-type: text/json');
+                    header('Access-Control-Allow-Origin: *');
+                    echo json_encode($response);
+                    // get the size of the output
+                    $size = ob_get_length();
+                    // send headers to tell the browser to close the connection
+                    header("Content-Length: $size");
+                    header('Connection: close');
+                    ob_end_flush();
+                    ob_flush();
+                    flush();
+                    
+                    try {
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " NEW CLIENT DETAILS : " . json_encode($post), 
+                            CLogger::LEVEL_TRACE
+                        );
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " CREATING USER ($dbUsername) IN MYSQL FOR NEW CLIENT ", 
+                            CLogger::LEVEL_TRACE
+                        );
+
+                        //Create User
+                        //===========
+                        $query = "GRANT USAGE ON *.* TO '$dbUsername'@'%' " .
+                            "IDENTIFIED BY '$dbPassword' ";
+                        $query .= "WITH MAX_QUERIES_PER_HOUR 0 " .
+                            "MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR " .
+                            "0 MAX_USER_CONNECTIONS 0;";                    
+
+                        // Execute the query
+                        // check if the query was executed properly
+                        if ($mysqli->query($query)===false)
+                            throw New Exception(
+                                "Unable to create user and grant permission: " . 
+                                $mysqli->error, 0
+                            );
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " CREATING DATABASE ($dbName) IN MYSQL FOR NEW CLIENT ", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        //Create Database
+                        //===============
+                        $query = "CREATE DATABASE IF NOT EXISTS `$dbName`;";
+
+                        // Execute the query
+                        // check if the query was executed properly
+                        if ($mysqli->query($query)===false) {
+                            $mysqli->query("DROP USER $dbUsername;");
+                            throw New Exception(
+                                "Unable to create database " . $mysqli->error, 0
+                            );                    
+                        }
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " GRANTING PRIVILEGES ON $dbName TO $dbUsername ", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        //Grant Permission
+                        //================
+                        $query = "GRANT ALL PRIVILEGES ON `$dbName`.* TO " .
+                            "'$dbUsername'@'%';";
+
+                        // Execute the query
+                        // check if the query was executed properly
+                        if ($mysqli->query($query)===false) {
+                            $mysqli->query("DROP USER $dbUsername;");
+                            $mysqli->query("DROP DATABASE IF EXISTS $dbUsername;");
+                            throw New Exception($mysqli->error, 0);
+                        }
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " IMPORTING DATABASE DUMP TO $dbName ", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        //Import Database
+                        //===============
+                        $execStmt = "mysqldump -u" . $clientArr['username'] . 
+                            " -p" . $clientArr['dbpassword'] . 
+                            " -h" . $clientArr['server'] . 
+                            " -P " . $clientArr['port'] . 
+                            " " . $clientArr['databasename'] . 
+                            " | mysql -u$dbUsername -p$dbPassword -h$dbServer" .
+                            " -P $dbPort $dbName";
+
+                        $output = shell_exec($execStmt);
+
+                        if ($output === false) {
+                            $mysqli->query("DROP USER $dbUsername;");
+                            $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
+                            throw New Exception(
+                                "Unable to populate data in $dbName.", 0
+                            );
+                        }
+
+                        //Add User Sequence
+                        //======================
+                        $queries[] = "USE $dbName;";
+                        $queries[] = "START TRANSACTION;";
+                        $queries[] = "SET foreign_key_checks = 0;";
+                        $queries[] = "update vtiger_users2group set userid = " .
+                            "$plusSequence + userid;";
+                        $queries[] = "update vtiger_user2role set userid = " .
+                            "$plusSequence + userid;";
+                        $queries[] = "update vtiger_users set id = " .
+                            "$plusSequence + id;";
+                        $queries[] = "update vtiger_users_seq set id = " .
+                            "$plusSequence + id;";
+                        $queries[] = "update vtiger_crmentity set smcreatorid = " .
+                            "$plusSequence + smcreatorid, smownerid = smownerid +" .
+                            " $plusSequence, modifiedby = modifiedby" .
+                            " + $plusSequence;";
+                        $queries[] = "update vtiger_homestuff set userid = ".
+                            "$plusSequence + userid;";
+                        $queries[] = "update vtiger_mail_accounts set user_id =" .
+                            " $plusSequence + user_id;";
+                        $queries[] = "update vtiger_user2mergefields set userid =" .
+                            " $plusSequence + userid;";
+                        $queries[] = "update vtiger_user_module_preferences set" .
+                            " userid = $plusSequence + userid;";
+                        $queries[] = "update vtiger_users_last_import set" .
+                            " assigned_user_id = $plusSequence + assigned_user_id;";
+                        $queries[] = "update vtiger_customview set userid =" .
+                            " $plusSequence + userid;";
+                        $queries[] = "UPDATE `vtiger_customerportal_prefs` SET" .
+                            " `prefvalue` = $plusSequence + prefvalue " . 
+                            "WHERE `vtiger_customerportal_prefs`.`prefkey` =" .
+                            " 'userid';";
+                        $queries[] = "UPDATE `vtiger_customerportal_prefs` SET" .
+                            " `prefvalue` = $plusSequence + prefvalue " . 
+                            "WHERE `vtiger_customerportal_prefs`.`prefkey` =" .
+                            " 'defaultassignee';";
+                        $queries[] = "SET foreign_key_checks = 1;";
+                        $queries[] = "COMMIT;";
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " UPDATING $dbName USERS IDs with $maxIdSequence ", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        foreach ($queries as $query) {
+                            // Execute the query
+                            // check if the query was executed properly
+                            if ($mysqli->query($query)===false) {
+                                $mysqli->query('ROLLBACK;');
+                                $mysqli->query("DROP USER $dbUsername;");
+                                $mysqli->query("DROP DATABASE IF EXISTS $dbName;");
+                                throw New Exception(
+                                    $mysqli->error . " Query:" . $query, 0
+                                );                        
+                            }
+                        }
+
+                        $mysqli->close();
+
+                        Yii::log(
+                            "TRACE(" . $this->_traceId . ");" . 
+                            " FUNCTION(" . __FUNCTION__ . ");" . 
+                            " INSERTING INTO DYNAMODB ", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        
+                        // UPDATE THE NEW CLIENT STATUS
+                        $post['status'] = 'Active';
+                        
+                        // Instantiate the class
+                        $dynamodb = new AmazonDynamoDB();
+                        $dynamodb->set_region(
+                            constant(
+                                "AmazonDynamoDB::" . 
+                                Yii::app()->params->awsDynamoDBRegion
+                            )
+                        );
+                        $ddbResponse = $dynamodb->put_item(
+                            array(
+                                'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                                 'Item' => $dynamodb->attributes($post)
+                            )
+                        );
+
+                        if ($ddbResponse->isOK()) {
+                            Yii::app()->cache->set(
+                                $post['apikey_1'], $post['secretkey_1']
+                            );
+                            Yii::app()->cache->set(
+                                $post['apikey_2'], $post['secretkey_2']
+                            );
+                            //SEND THE EMAIL TO USER
+                            $email = new AmazonSES();
+
+                            $sesResponse = $email->send_email(
+                                // Source (aka From)
+                                Yii::app()->params->awsSESFromEmailAddress,
                                 array(
-                                    'HashKeyElement' => $post['id'],
-                                )
-                            ),
-                            'ConsistentRead' => 'true'
-                        )
-                    );
+                                    'ToAddresses' => array(
+                                        $post['id']
+                                    )
+                                ), 
+                                array(// sesMessage (short form)
+                                    'Subject.Data' => 'Welcome to Gizur SaaS',
+                                    'Body.Text.Data' => 'Hi ' . $post['name_1'] . 
+                                    ' ' . $post['name_2'] . ', ' . PHP_EOL .
+                                    PHP_EOL .
+                                    'Welcome to Gizur SaaS.' . PHP_EOL . PHP_EOL .
+                                    'Your username and password are as follows:' .
+                                    PHP_EOL .
+                                    PHP_EOL .
+                                    'Portal Link: ' . Yii::app()->params->serverProtocol
+                                    . "://"
+                                    . $_SERVER['HTTP_HOST'] . 
+                                    PHP_EOL .
+                                    'Username: ' . $post['id']  . PHP_EOL .
+                                    'Password: [Your Gizur SaaS Password]' . PHP_EOL .
 
-                    if (isset($ddbResponse->body->Item)) {
-                        Yii::app()->cache->set(
-                            $post['apikey_1'], $post['secretkey_1']
-                        );
-                        Yii::app()->cache->set(
-                            $post['apikey_2'], $post['secretkey_2']
-                        );
-                        $response->success = true;
-                        $response->stmt = $execStmt;
-                        $this->_sendResponse(200, json_encode($response));
-                    } else {
+                                    PHP_EOL .
+                                    'vTiger Link: ' . Yii::app()->params->serverProtocol
+                                    . "://"
+                                    . $_SERVER['HTTP_HOST'] . '/' . 
+                                    $post['clientid'] . '/' . PHP_EOL .
+                                    'Username: admin'  . PHP_EOL .
+                                    'Password: [Your old account vTiger password]' . PHP_EOL .
+                                    PHP_EOL .
+                                    PHP_EOL .
+                                    '--' .
+                                    PHP_EOL .
+                                    'Gizur Admin'
+                                )
+                            );
+
+                            Yii::log(
+                                "TRACE(" . $this->_traceId . ");" . 
+                                " FUNCTION(" . __FUNCTION__ . ");" . 
+                                " ACCOUNT CREATED : " . json_encode($post), 
+                                CLogger::LEVEL_TRACE
+                            );
+                        } else {
+                            throw new Exception("DynamoDB update failed.");
+                        }
+                    } catch (Exception $e) {
                         $response->success = false;
                         $response->error->code = "NOT_CREATED";
-                        $response->error->message = $_GET['email'] . " could "
-                                . " not be created";
+                        $response->error->message = $e->getMessage();
                         $response->error->trace_id = $this->_traceId;
-                        $this->_sendResponse(400, json_encode($response));
+
+                        // NOTIFY ADMIN ABOUT AN ERROR.
+                        $email = new AmazonSES();
+
+                        $sesResponse = $email->send_email(
+                            // Source (aka From)
+                            Yii::app()->params->awsSESFromEmailAddress,
+                            array(
+                                'ToAddresses' => Yii::app()->params->awsSESAdminEmailAddresses
+                            ), 
+                            array(// sesMessage (short form)
+                                'Subject.Data' => 'Error in coping account (Gizur SaaS)',
+                                'Body.Text.Data' => 'Hi, ' . PHP_EOL .
+                                PHP_EOL .
+                                'Follwing error has occured.' . PHP_EOL . PHP_EOL .
+                                PHP_EOL .
+                                'User : ' . $post['id']  . PHP_EOL .
+                                PHP_EOL .
+                                'Data : ' . json_encode($post) .
+                                PHP_EOL .
+                                'Response : ' . json_encode($response) .
+                                PHP_EOL .
+                                PHP_EOL .
+                                '--' .
+                                PHP_EOL .
+                                'Gizur Admin'
+                            )
+                        );
                     }
                 } else {
                     // MAKE IT ASYNC
@@ -4054,9 +4172,7 @@ class ApiController extends Controller
                             // Source (aka From)
                             Yii::app()->params->awsSESFromEmailAddress,
                             array(
-                                'ToAddresses' => array(
-                                    'prabhat.khera@essindia.co.in'
-                                )
+                                'ToAddresses' => Yii::app()->params->awsSESAdminEmailAddresses
                             ), 
                             array(// sesMessage (short form)
                                 'Subject.Data' => 'Error at Gizur SaaS',
