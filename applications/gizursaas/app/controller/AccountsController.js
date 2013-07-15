@@ -376,7 +376,9 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                 "Client Id</td><td>hh ua sen</td></tr>" +
                                 "<tr><td>" +
                                 "Email</td><td>" + 
-                                _data['clientid'] + "</td></tr>");
+                                _data['clientid'] + "</td></tr><tr><td>" +
+                                "Email</td><td>" + 
+                                console.log(_data) + "</td></tr>");
                             } 
                         }
                     });
