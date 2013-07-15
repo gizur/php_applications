@@ -1427,49 +1427,7 @@ class ApiController extends Controller
              * *****************************************************************
              * *****************************************************************
              */
-            case 'User':
-                if ($_GET['action'] == 'backgroundstatus') {
-              
-                    $email = $_SERVER['HTTP_X_USERNAME'];
-                    //Log
-                    Yii::log(
-                        " TRACE(" . $this->_traceId . "); " . 
-                        " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST : FETCHING BACKGOUND" . 
-                        " STATUS FROM DYNAMODB FOR $email", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    
-                    // Instantiate the class
-                    $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(
-                        constant(
-                            "AmazonDynamoDB::" . 
-                            Yii::app()->params->awsDynamoDBRegion
-                        )
-                    );
-
-                   //  $table_name = 'GIZUR_BACKGROUND_STATUS';
-                    $ddbResponse = $dynamodb->scan(array(
-                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,                           
-                        'AttributesToGet' => array('id','data','status','username')
-                    ));
-                    
-                    $result = array();
-                    $response = new stdClass();
-                        $response->success = true;
-                        
-                    foreach ($ddbResponse->body->Items as $item)
-                    {
-                        $result[]['status'] = json_decode($item->status->{AmazonDynamoDB::TYPE_NUMBER});
-                        $result[]['username'] = json_decode($item->username->{AmazonDynamoDB::TYPE_STRING});
-                        $result[]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
-                    }
-                    
-                    //Send response
-                    $this->_sendResponse(200, json_encode($response));
-
-                } // end of function background status
+            case 'User':               
                 
                 if ($_GET['action'] == 'login') {
                     
@@ -2532,56 +2490,102 @@ class ApiController extends Controller
                 * **************************************************************
                 */
             case 'User':
-                // Instantiate the class for Dynamo DB
-                $dynamodb = new AmazonDynamoDB();
-                $dynamodb->set_region(
-                    constant(
-                        "AmazonDynamoDB::" . 
-                        Yii::app()->params->awsDynamoDBRegion
-                    )
-                );
+                
+                if(isset($_GET['email'])) {
+                    // Instantiate the class for Dynamo DB
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" . 
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
 
-                //It match username sent in the header and email
-                //sent in the GET request
-                if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
-                    throw new Exception("Credentials are invalid.", 2004);
-                    
-                // Get an item
-                $ddbResponse = $dynamodb->get_item(
-                    array(
-                        'TableName' => Yii::app()->params->awsDynamoDBTableName,
-                        'Key' => $dynamodb->attributes(
-                            array(
-                                'HashKeyElement' => $_GET['email'],
-                            )
-                        ),
-                        'ConsistentRead' => 'true'
-                    )
-                );
+                    //It match username sent in the header and email
+                    //sent in the GET request
+                    if($_SERVER['HTTP_X_USERNAME'] !== $_GET['email'])
+                        throw new Exception("Credentials are invalid.", 2004);
 
-                //Checking if DynamoDB response has items
-                if (isset($ddbResponse->body->Item)) {
-                    
-                    //create response
-                    foreach ($ddbResponse->body->Item->children()
-                    as $key => $item) {
-                        $result->{$key} 
-                            = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                    // Get an item
+                    $ddbResponse = $dynamodb->get_item(
+                        array(
+                            'TableName' => Yii::app()->params->awsDynamoDBTableName,
+                            'Key' => $dynamodb->attributes(
+                                array(
+                                    'HashKeyElement' => $_GET['email'],
+                                )
+                            ),
+                            'ConsistentRead' => 'true'
+                        )
+                    );
+
+                    //Checking if DynamoDB response has items
+                    if (isset($ddbResponse->body->Item)) {
+
+                        //create response
+                        foreach ($ddbResponse->body->Item->children()
+                        as $key => $item) {
+                            $result->{$key} 
+                                = (string) $item->{AmazonDynamoDB::TYPE_STRING};
+                        }
+                        $response->success = true;
+                        $response->result = $result;
+
+                        //Send response
+                        $this->_sendResponse(200, json_encode($response));
+                    } else {
+
+                        //Create User not found error
+                        $response->success = false;
+                        $response->error->code = "NOT_FOUND";
+                        $response->error->message = $_GET['email'] . " was " .
+                                " not found";
+                        $response->error->trace_id = $this->_traceId;
+                        $this->_sendResponse(404, json_encode($response));
                     }
-                    $response->success = true;
-                    $response->result = $result;
+                }
+                
+                if (isset($_GET['action']) && $_GET['action'] == 'backgroundstatus') {
+              
+                    $email = $_SERVER['HTTP_X_USERNAME'];
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST : FETCHING BACKGOUND" . 
+                        " STATUS FROM DYNAMODB FOR $email", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" . 
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
+
+                   //  $table_name = 'GIZUR_BACKGROUND_STATUS';
+                    $ddbResponse = $dynamodb->scan(array(
+                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,                           
+                        'AttributesToGet' => array('id','data','status','username')
+                    ));
+                    
+                    $result = array();
+                    $response = new stdClass();
+                        $response->success = true;
+                        
+                    foreach ($ddbResponse->body->Items as $item)
+                    {
+                        $result[]['status'] = json_decode($item->status->{AmazonDynamoDB::TYPE_NUMBER});
+                        $result[]['username'] = json_decode($item->username->{AmazonDynamoDB::TYPE_STRING});
+                        $result[]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
+                    }
                     
                     //Send response
                     $this->_sendResponse(200, json_encode($response));
-                } else {
-                    
-                    //Create User not found error
-                    $response->success = false;
-                    $response->error->code = "NOT_FOUND";
-                    $response->error->message = $_GET['email'] . " was " .
-                            " not found";
-                    $response->error->trace_id = $this->_traceId;
-                    $this->_sendResponse(404, json_encode($response));
+
                 }
                 break;
                 /*

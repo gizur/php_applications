@@ -75,7 +75,7 @@ return array(
                     'verb' => 'GET'
                 ),
                 array(
-                    'api/list',
+                    'api/view',
                     'pattern' => '/<model:(User)>/<action:(backgroundstatus)>',
                     'verb' => 'GET'
                 ),
