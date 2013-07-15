@@ -83,7 +83,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                             "dbpassword": _data.result.dbpassword,
                             "databasename": _data.result.databasename,
                             "security_salt": _data.result.security_salt,
-                            "id_sequence": _data.result.id_sequence
+                            "id_sequence": _data.result.id_sequence,
+                            "status": _data.result.status
                         });
                         $.get('./applications/gizursaas/templates/home.tmp.html?_=' +
                                 Math.random(), {}, function(html) {
@@ -262,7 +263,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                             "dbpassword": self.model.get('dbpassword'),
                             "databasename": self.model.get('databasename'),
                             "security_salt": self.model.get('security_salt'),
-                            "id_sequence": self.model.get('id_sequence')
+                            "id_sequence": self.model.get('id_sequence'),
+                            "status": self.model.get('status')
                         }),
                         error: function() {
                             self.view.error( 'An error occured while' + 

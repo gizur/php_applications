@@ -47,6 +47,7 @@ define(["jquery", "stapes"], function($, Stapes) {
         "databasename": "",
         "security_salt": "",
         "id_sequence": '',
+        "status": '',
         constructor: function() {
         },
         // map_values function
