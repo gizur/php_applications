@@ -117,6 +117,16 @@ define(["jquery", "stapes"], function($, Stapes) {
                 this.emit('vtigerResetPasswordButton');
             }.bind(this));
             
+            
+            // Handle user request to display the background status
+            // 
+            // This will emit the background status Information
+            // event of this view.
+            $('#background-id-tab').on('click', function(e) {
+                this.emit('updateBackgroundTab');
+            }.bind(this));
+             
+            
             // Handle copy client button click event
             // 
             $('#copyClientFormSubmit').on('click', function(e) {
