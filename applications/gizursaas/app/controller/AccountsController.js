@@ -353,7 +353,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 
                 // function to display background details
                 "updateBackgroundTab": function() {
-                    var _url = config.rest_server_url + 'Background/backgroundstatus' ;
+                    var _url = config.rest_server_url + 
+                            'Background/backgroundstatus';
                     $.ajax({
                         url: _url,
                         type: "GET",
@@ -377,7 +378,9 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                 "Client Id</td><td>hh ua sen</td></tr>" +
                                 "<tr><td>" +
                                 "Email</td><td>" + 
-                                _data['clientid'] + "</td></tr>");
+                                _data['clientid'] + "</td></tr><tr><td>" +
+                                "Email</td><td>" + 
+                                console.log(_data) + "</td></tr>");
                             } 
                         }
                     });
