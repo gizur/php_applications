@@ -373,17 +373,21 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                     ' key pair. Please try again.');
                         },
                         success: function(_data) {
+                           var str='';
                             if (_data.success) {
                                 if(_data.result.length > 0){
-                                $('#background-id table tbody').empty().html("<tr><td>" +
-                                "Client Id</td><td>"+_data.clientid+"</td></tr>" +
-                                "<tr><td>" +
-                                "Ticket No</td><td>" + 
-                                _data.result.ticket_no+ "</td></tr><tr><td>" +
-                                "Username</td><td>" + 
-                                _data.result.username+ "</td></tr><tr><td>" +
-                                "Status</td><td>" + 
-                                _data.result.status + "</td></tr>");
+                                    for(var indexVal in _data.result){
+                                        
+                                   str +=  "<tr><td>" +"Client Id</td>";
+                                   str +=  "<td>"+_data.result[indexVal].data.clientid+"</td>";
+                                   str += "<td>Ticket No</td><td>" + 
+                                  _data.result[indexVal].data.result.ticket_no+ "</td><td>" +
+                                  "Username</td><td>" + 
+                                  _data.result[indexVal].result.username+ "</td><td>" +
+                                  "Status</td><td>" + 
+                                  _data.result.status + "</td></tr>"
+                                    }
+                                $('#background-id table tbody').empty().html(str);
                                 }else{
                                     $('#background-id table tbody').empty().
                                     html("<tr><td>No record found!!</td></tr>");
