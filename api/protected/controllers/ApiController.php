@@ -161,7 +161,8 @@ class ApiController extends Controller
         'DocumentAttachment',
         'Authenticate',
         'Cron',
-        'Batches' // Batch Integration
+        'Batches', // Batch Integration
+        'Background' // Background Status
     );
 
     /**
@@ -387,7 +388,7 @@ class ApiController extends Controller
                 return true;
             }
             
-            if ($_GET['model'] == 'User') {
+            if ($_GET['model'] == 'User' || $_GET['model'] == 'Background') {
                 
                 if(Yii::app()->request->isPostRequest && !isset($_GET['action']))
                     return true;
@@ -2406,6 +2407,53 @@ class ApiController extends Controller
                     
                 }
                 break;
+                
+            case 'Background':
+                
+                if (isset($_GET['action']) && 
+                    $_GET['action'] == 'backgroundstatus') {
+              
+                    $email = $_SERVER['HTTP_X_USERNAME'];
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST : FETCHING BACKGOUND" . 
+                        " STATUS FROM DYNAMODB FOR $email", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
+                    // Instantiate the class
+                    $dynamodb = new AmazonDynamoDB();
+                    $dynamodb->set_region(
+                        constant(
+                            "AmazonDynamoDB::" . 
+                            Yii::app()->params->awsDynamoDBRegion
+                        )
+                    );
+
+                   //  $table_name = 'GIZUR_BACKGROUND_STATUS';
+                    $ddbResponse = $dynamodb->scan(array(
+                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,                           
+                        'AttributesToGet' => array('id','data','status','username')
+                    ));
+                    
+                    $result = array();
+                    $response = new stdClass();
+                        $response->success = true;
+                        
+                    foreach ($ddbResponse->body->Items as $item)
+                    {
+                        $result[]['status'] = json_decode($item->status->{AmazonDynamoDB::TYPE_NUMBER});
+                        $result[]['username'] = json_decode($item->username->{AmazonDynamoDB::TYPE_STRING});
+                        $result[]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
+                    }
+                    
+                    //Send response
+                    $this->_sendResponse(200, json_encode($response));
+
+                }                
+                break;
 
             default :
                 
@@ -2545,48 +2593,6 @@ class ApiController extends Controller
                     }
                 }
                 
-                if (isset($_GET['action']) && $_GET['action'] == 'backgroundstatus') {
-              
-                    $email = $_SERVER['HTTP_X_USERNAME'];
-                    //Log
-                    Yii::log(
-                        " TRACE(" . $this->_traceId . "); " . 
-                        " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " PROCESSING REQUEST : FETCHING BACKGOUND" . 
-                        " STATUS FROM DYNAMODB FOR $email", 
-                        CLogger::LEVEL_TRACE
-                    );
-                    
-                    // Instantiate the class
-                    $dynamodb = new AmazonDynamoDB();
-                    $dynamodb->set_region(
-                        constant(
-                            "AmazonDynamoDB::" . 
-                            Yii::app()->params->awsDynamoDBRegion
-                        )
-                    );
-
-                   //  $table_name = 'GIZUR_BACKGROUND_STATUS';
-                    $ddbResponse = $dynamodb->scan(array(
-                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,                           
-                        'AttributesToGet' => array('id','data','status','username')
-                    ));
-                    
-                    $result = array();
-                    $response = new stdClass();
-                        $response->success = true;
-                        
-                    foreach ($ddbResponse->body->Items as $item)
-                    {
-                        $result[]['status'] = json_decode($item->status->{AmazonDynamoDB::TYPE_NUMBER});
-                        $result[]['username'] = json_decode($item->username->{AmazonDynamoDB::TYPE_STRING});
-                        $result[]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
-                    }
-                    
-                    //Send response
-                    $this->_sendResponse(200, json_encode($response));
-
-                }
                 break;
                 /*
                  * *************************************************************
