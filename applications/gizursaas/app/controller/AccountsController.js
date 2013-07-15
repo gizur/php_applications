@@ -372,13 +372,21 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         },
                         success: function(_data) {
                             if (_data.success) {
+                                if(_data.length>0){
                                 $('#background-id table tbody').empty().html("<tr><td>" +
-                                "Client Id</td><td>hh ua sen</td></tr>" +
+                                "Client Id</td><td>"+_data.clientid+"</td></tr>" +
                                 "<tr><td>" +
-                                "Email</td><td>" + 
-                                _data['clientid'] + "</td></tr><tr><td>" +
-                                "Email</td><td>" + 
-                                console.log(_data) + "</td></tr>");
+                                "Ticket No</td><td>" + 
+                                _data.result.ticket_no+ "</td></tr><tr><td>" +
+                                "Username</td><td>" + 
+                                _data.result.username+ "</td></tr><tr><td>" +
+                                "Status</td><td>" + 
+                                _data.result.status + "</td></tr>");
+                                }else{
+                                    $('#background-id table tbody').empty().
+                                    html("<tr><td>No record found!!</td></tr>");
+                                    
+                                }
                             } 
                         }
                     });
