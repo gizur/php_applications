@@ -350,8 +350,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 },
                 
                 // function to display background details
-                 "updateBackgroundTab": function() {
-                     var _url = config.rest_server_url + 'Background/backgroundstatus' ;
+                "updateBackgroundTab": function() {
+                    var _url = config.rest_server_url + 'Background/backgroundstatus' ;
                     $.ajax({
                         url: _url,
                         type: "GET",
@@ -360,8 +360,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                             //Add username and password in the headers
                             // to validate the request
                             "X_USERNAME": config.user_controller.model.get('email'),
-                           "X_PASSWORD": config.user_controller.model.get('password'),
-                           "X_CLIENTID": config.user_controller.model.get('client_id')
+                            "X_PASSWORD": config.user_controller.model.get('password'),
+                            "X_CLIENTID": config.user_controller.model.get('client_id')
                         },
                         error: function() {
                             // Show the error in case error received.
@@ -371,13 +371,13 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         },
                         success: function(_data) {
                             if (_data.success) {
-                        $('#background-id table tbody').empty().html("<tr><td>" +
-                        "Client Id</td><td>hh ua sen</td></tr>" +
-                        "<tr><td>" +
-                        "Email</td><td>" + 
-                        _data['clientid'] + "</td></tr>");
-                                } 
-                            }
+                                $('#background-id table tbody').empty().html("<tr><td>" +
+                                "Client Id</td><td>hh ua sen</td></tr>" +
+                                "<tr><td>" +
+                                "Email</td><td>" + 
+                                _data['clientid'] + "</td></tr>");
+                            } 
+                        }
                     });
                  
                 },
