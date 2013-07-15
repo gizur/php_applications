@@ -75,8 +75,8 @@ return array(
                     'verb' => 'GET'
                 ),
                 array(
-                    'api/list', 
-                    'pattern' => '/<model:(Users)>', 
+                    'api/view',
+                    'pattern' => '/<model:(User)>/<action:(backgroundstatus)>',
                     'verb' => 'GET'
                 ),
                 array(
@@ -136,7 +136,7 @@ return array(
                 ),
                 array(
                     'api/create', 
-                    'pattern' => '/<model:(Users)>/<action:(copyuser)>',
+                    'pattern' => '/<model:(User)>/<action:(copyuser)>',
                     'verb' => 'POST'
                 ),
                 array(
@@ -197,7 +197,10 @@ return array(
         'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
         'awsErrorDynamoDBTableName' => 'GIZUR_BACKGROUND_STATUS',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
-        'awsSESClientEmailAddress' => 'gizur-ess-anshuk@gizur.com',
+        'awsSESClientEmailAddress' => 'gizur-ess-prabhat@gizur.com',
+        'awsSESAdminEmailAddresses' => array(
+            'gizur-ess-prabhat@gizur.com'
+        ),
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',

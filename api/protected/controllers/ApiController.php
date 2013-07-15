@@ -1466,8 +1466,8 @@ class ApiController extends Controller
                         $result[]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
                     }
                     
-                        //Send response
-                        $this->_sendResponse(200, json_encode($response));
+                    //Send response
+                    $this->_sendResponse(200, json_encode($response));
 
                 } // end of function background status
                 
