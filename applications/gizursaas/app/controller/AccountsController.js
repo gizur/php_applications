@@ -348,6 +348,15 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                     "Email</td><td>" + 
                     self.model.get("email") + "</td></tr>");
                 },
+                
+                // function to display background details
+                 "updateBackgroundTab": function() {
+                    $('#background-id table tbody').empty().html("<tr><td>" +
+                    "Client Id</td><td>hh ua sen</td></tr>" +
+                    "<tr><td>" +
+                    "Email</td><td>" + 
+                    self.model.get("client_id") + "</td></tr>");
+                },
                 // Event to submit copy client form
                 //=================================
                 //

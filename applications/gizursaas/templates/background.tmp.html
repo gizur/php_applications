@@ -1,0 +1,43 @@
+<div class="row-fluid">
+    <div class="span6 offset3" id="errorMessageBox"></div>
+    <div class="span12">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#userinfo" data-toggle="tab">Clients</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="userinfo">
+                    <div class="span6" id="clientTabularDiv">
+                        <fieldset>
+                            <legend>Clients</legend>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr style="font-weight: bold;">
+                                        <th>&nbsp;</th>
+                                        <th>Client Id</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                    <div class="span6" style="background-color: none; padding: 4px;">
+                        <form id="copyClient" class="form-horizontal">
+                            <fieldset>
+                                <legend>New Client Details</legend>
+                                <input type="hidden" name="from_id" id="from_id"/>
+                                <div class="control-group"><input type="text" placeholder="Client ID" name="client_id" id="client_id"/></div>
+                                <div class="control-group"><input type="text" placeholder="Email" name="email" id="email"/></div>
+                                <div class="control-group"><input type="password" placeholder="Gizur SaaS Password" name="password" id="password"/></div>
+                                <div class="control-group"><input type="submit" id="copyClientFormSubmit" value="Copy Account" class="btn btn-success"/></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

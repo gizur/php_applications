@@ -69,7 +69,8 @@ define(["jquery", "config", "hasher", "crossroads", "UsersController", "Accounts
     //
     // Gizur SaaS Admin
     var route5 = crossroads.addRoute('GizurSaaSAdmin');
-    
+   
+     var route6 = crossroads.addRoute('background');
     // Log All Routes
     // ==============
     // 
@@ -91,6 +92,11 @@ define(["jquery", "config", "hasher", "crossroads", "UsersController", "Accounts
     // If route2 matched, the following function
     // gets executed.
     route2.matched.add(function(client_id, session_id){     
+        config.account_controller = new AccountsController(DEFAULT_HASH, client_id);
+    });
+    
+    
+    route6.matched.add(function(client_id,session_id){
         config.account_controller = new AccountsController(DEFAULT_HASH, client_id);
     });
     
