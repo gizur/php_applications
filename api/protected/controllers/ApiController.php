@@ -2452,12 +2452,12 @@ class ApiController extends Controller
                     $response = new stdClass();
                     $response->success = true;
                         
-                    foreach ($ddbResponse->body->Items as $item)
+                    foreach ($ddbResponse->body->Items as $key => $item)
                     {
-                        $result[]['status'] = $item->status->{AmazonDynamoDB::TYPE_NUMBER};
-                        $result[]['username'] = $item->username->{AmazonDynamoDB::TYPE_STRING};
-                        $result[]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
-                        $result[]['clientid'] = $item->clientid->{AmazonDynamoDB::TYPE_STRING};
+                        $result[$key]['status'] = $item->status->{AmazonDynamoDB::TYPE_NUMBER};
+                        $result[$key]['username'] = $item->username->{AmazonDynamoDB::TYPE_STRING};
+                        $result[$key]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
+                        $result[$key]['clientid'] = $item->clientid->{AmazonDynamoDB::TYPE_STRING};
                     }
                     $response->result = $result;
                     //Send response
