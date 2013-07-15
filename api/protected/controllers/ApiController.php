@@ -2452,6 +2452,8 @@ class ApiController extends Controller
                     $response = new stdClass();
                     $response->success = true;
                     $k = 0;
+                    
+                    if($ddbResponse->body->Count > 0)
                     foreach ($ddbResponse->body->Items as $item)
                     {
                         $result[$k]['status'] = $item->status->{AmazonDynamoDB::TYPE_NUMBER};
