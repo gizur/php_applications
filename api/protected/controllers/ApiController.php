@@ -2435,8 +2435,7 @@ class ApiController extends Controller
                     $clientID = $_SERVER['HTTP_X_CLIENTID'];
                     
                     $ddbResponse = $dynamodb->scan(array(
-                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,                           
-                        'AttributesToGet' => array('id','data','status','username', 'clientid'),
+                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
                         'ScanFilter' => array(
                             'clientid' => array(
                                 'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
