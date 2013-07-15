@@ -122,7 +122,7 @@ define(["jquery", "stapes"], function($, Stapes) {
             // 
             // This will emit the background status Information
             // event of this view.
-            $('#background-id-tab').on('click', function(e) {
+            $('#background-id-tab').on('shown', function(e) {
                 this.emit('updateBackgroundTab');
             }.bind(this));
              
