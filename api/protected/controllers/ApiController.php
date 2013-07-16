@@ -4221,39 +4221,6 @@ class ApiController extends Controller
                     }
                 }
 
-                /**
-                 * The following section creates a response buffer
-                 * 
-                 */
-
-                //Continue to run script even when the connection is over
-                ignore_user_abort(true);
-                set_time_limit(0);
-
-                // buffer all upcoming output
-                ob_start();
-
-                $response = new stdClass();
-                $response->success = true;
-                $response->message = "Processing the request, you will be notified by mail on successfull completion"; 
-
-                echo json_encode($response);
-
-                // get the size of the output
-                $size = ob_get_length();
-
-                // send headers to tell the browser to close the connection
-                header("Content-Length: $size");
-                header('Connection: close');
-
-                // flush all output
-                ob_end_flush();
-                ob_flush();
-                flush();
-
-                // close current session
-                if (session_id()) session_write_close();
-
                 //get data json 
                 $dataJson = json_encode(
                     array_merge(
@@ -4314,6 +4281,39 @@ class ApiController extends Controller
                 
                 $globalresponse = json_decode($response);
                 
+                /**
+                 * The following section creates a response buffer
+                 * 
+                 */
+
+                //Continue to run script even when the connection is over
+                ignore_user_abort(true);
+                set_time_limit(0);
+
+                // buffer all upcoming output
+                ob_start();
+
+                $response = new stdClass();
+                $response->success = true;
+                $response->message = "Processing the request, you will be notified by mail on successfull completion"; 
+                $response->result = $globalresponse->result;
+                
+                echo json_encode($response);
+
+                // get the size of the output
+                $size = ob_get_length();
+
+                // send headers to tell the browser to close the connection
+                header("Content-Length: $size");
+                header('Connection: close');
+
+                // flush all output
+                ob_end_flush();
+                ob_flush();
+                flush();
+
+                // close current session
+                if (session_id()) session_write_close();
                 /* * Creating Document* */
                 
                 //Log
