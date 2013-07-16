@@ -385,7 +385,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                   "Username</td><td>" + 
                                   _data.result[indexVal].result.username+ "</td><td>" +
                                   "Status</td><td>" + 
-                                  _data.result.status + "</td></tr>"
+                                  _data.result[indexVal].status + "</td></tr>"
                                     }
                                 $('#background-id table tbody').empty().html(str);
                                 }else{
