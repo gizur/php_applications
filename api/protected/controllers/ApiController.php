@@ -4361,8 +4361,6 @@ class ApiController extends Controller
                     CLogger::LEVEL_TRACE
                 );
                 
-                $globalresponse->result->message = array();
-                
                 if (!empty($_FILES) && $globalresponse->success) {
                     
                     //Log
@@ -5520,8 +5518,7 @@ class ApiController extends Controller
                     'fileversion' => ''
                 );
 
-                $globalresponse =  new stdClass(); 
-                $globalresponse->result->message = array();
+                $globalresponse =  new stdClass();
                 
                 foreach ($_FILES as $key => $file) {
 
