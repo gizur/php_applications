@@ -4336,6 +4336,7 @@ class ApiController extends Controller
                 //Create Documents if any is attached
                 $crmid = $globalresponse->result->id;
                 $globalresponse->result->documents = Array();
+                $globalresponse->result->message = Array();
                 
                 //Log
                 Yii::log(
@@ -5489,8 +5490,7 @@ class ApiController extends Controller
                 Yii::log(
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " In DocumentAttachment " .
-                    ")", 
+                    " In DocumentAttachment ", 
                     CLogger::LEVEL_TRACE
                 );
                 //Continue to run script even when the connection is over
@@ -5519,11 +5519,15 @@ class ApiController extends Controller
                 flush();
                 
                 // close current session
-                //if (session_id()) session_write_close();
+                if (session_id()) session_write_close();
                 
-                //Loop through all Files
-                //Attach file to trouble ticket
+                // Loop through all Files
+                // Attach file to trouble ticket
                 $crmid = $_GET['id'];
+                $ticket_no = $_GET['ticket_no'];
+                
+                $globalresponse->result->documents = Array();
+                $globalresponse->result->message = Array();
 
                 $dataJson = array(
                     'notes_title' => 'Attachement',
@@ -5550,12 +5554,11 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " SAVING FILE " . $file['name'] . " TO S3" .
-                        ")", 
+                        " SAVING FILE " . $file['name'] . " TO S3", 
                         CLogger::LEVEL_TRACE
                     );
                 
-                    //Upload file to Amazon S3
+                    // Upload file to Amazon S3
                     $sThree = new AmazonS3();
                     $sThree->set_region(
                         constant("AmazonS3::" . Yii::app()->params->awsS3Region)
@@ -5679,16 +5682,17 @@ class ApiController extends Controller
                             }
                         } else {
                             $globalresponse->result->message[] = 'not uploaded' .
-                                ' - creating document failed:' . 
-                                $file['name'];
+                                ' - creating document failed:' . $file['name'];
                         }
                     } else {
                         $globalresponse->result->message[] = 'not uploaded - ' .
-                            'upload to storage ' .
-                            'service failed:' . $file['name'];
+                            'upload to storage service failed:' . $file['name'];
                     }                    
                 }
 
+                $globalresponse = json_encode($globalresponse);
+                $globalresponse = json_decode($globalresponse, true);
+                
                 // Log
                 Yii::log(
                     " TRACE(" . $this->_traceId . "); " . 
@@ -5702,7 +5706,7 @@ class ApiController extends Controller
                     "id" => uniqid(''),
                     "username" => $_SERVER['HTTP_X_USERNAME'],
                     //"data" => json_encode($globalresponse),
-                    "ticket_no" => $crmid,
+                    "ticket_no" => $ticket_no,
                     "clientid" => $this->_clientid,
                     "message" => json_encode($globalresponse['result']['message']),
                     "datetime" => strtotime("now")
@@ -5711,8 +5715,7 @@ class ApiController extends Controller
                 Yii::log(
                     " TRACE(" . $this->_traceId . "); " . 
                     " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " UPDATING DYNAMODB : " . json_encode($dynDB) .
-                    ")", 
+                    " UPDATING DYNAMODB : " . json_encode($dynDB), 
                     CLogger::LEVEL_TRACE
                 );
                 //Save result to DynamoDB
