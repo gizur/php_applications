@@ -5519,7 +5519,7 @@ class ApiController extends Controller
                 flush();
                 
                 // close current session
-                if (session_id()) session_write_close();
+                //if (session_id()) session_write_close();
                 
                 //Loop through all Files
                 //Attach file to trouble ticket
