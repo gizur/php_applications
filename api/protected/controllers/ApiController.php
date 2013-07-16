@@ -5480,6 +5480,14 @@ class ApiController extends Controller
 
             case 'DocumentAttachment' :
 
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " In DocumentAttachment " .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
                 //Continue to run script even when the connection is over
                 ignore_user_abort(true);
                 set_time_limit(0);
@@ -5529,6 +5537,15 @@ class ApiController extends Controller
                     $dataJson['filesize'] = $file['size'];
                     $dataJson['filetype'] = $file['type'];
 
+                    // Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " SAVING FILE " . $file['name'] . " TO S3" .
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
+                
                     //Upload file to Amazon S3
                     $sThree = new AmazonS3();
                     $sThree->set_region(
@@ -5663,6 +5680,32 @@ class ApiController extends Controller
                     }                    
                 }
 
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " Image saved at S3: " . json_encode($globalresponse) .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
+                $dynDB = array(
+                    "id" => uniqid(''),
+                    "username" => $_SERVER['HTTP_X_USERNAME'],
+                    //"data" => json_encode($globalresponse),
+                    "ticket_no" => $crmid,
+                    "clientid" => $this->_clientid,
+                    "message" => json_encode($globalresponse['result']['message']),
+                    "datetime" => strtotime("now")
+                );
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " UPDATING DYNAMODB : " . json_encode($dynDB) .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
                 //Save result to DynamoDB
                 $dynamodb = new AmazonDynamoDB();
                 $dynamodb->set_region(
@@ -5675,15 +5718,7 @@ class ApiController extends Controller
                 $ddbResponse = $dynamodb->put_item(
                     array(
                         'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
-                        'Item' => $dynamodb->attributes(array(
-                            "id" => uniqid(''),
-                            "username" => $_SERVER['HTTP_X_USERNAME'],
-                            //"data" => json_encode($globalresponse),
-                            "ticket_no" => $crmid,
-                            "clientid" => $this->_clientid,
-                            "message" => json_encode($globalresponse['result']['message']),
-                            "datetime" => strtotime("now")
-                        ))
+                        'Item' => $dynamodb->attributes($dynDB)
                     )
                 );
 
