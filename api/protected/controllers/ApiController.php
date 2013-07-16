@@ -3443,6 +3443,8 @@ class ApiController extends Controller
                     ob_flush();
                     flush();
                     
+                    // close current session
+                    if (session_id()) session_write_close();
                     try {
                         Yii::log(
                             "TRACE(" . $this->_traceId . ");" . 
@@ -3921,6 +3923,9 @@ class ApiController extends Controller
                     ob_flush();
                     flush();
 
+                    // close current session
+                    if (session_id()) session_write_close();
+                    
                     $error_msgs = array();
 
                     // BELOW LINES OF CODE SHALL BE PROCESSED IN
@@ -5512,6 +5517,10 @@ class ApiController extends Controller
                 ob_end_flush();
                 ob_flush();
                 flush();
+                
+                // close current session
+                if (session_id()) session_write_close();
+                
                 //Loop through all Files
                 //Attach file to trouble ticket
                 $crmid = $_GET['id'];
