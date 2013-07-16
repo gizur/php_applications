@@ -5524,7 +5524,7 @@ class ApiController extends Controller
                 // Loop through all Files
                 // Attach file to trouble ticket
                 $crmid = $_GET['id'];
-                $ticket_no = $_GET['ticket_no'];
+                $ticket_no = $_POST['ticket_no'];
                 
                 $globalresponse->result->documents = Array();
                 $globalresponse->result->message = Array();
