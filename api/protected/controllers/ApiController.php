@@ -4662,7 +4662,7 @@ class ApiController extends Controller
                             "ticket_no" => $globalresponse['result']['ticket_no'],
                             "clientid" => $this->_clientid,
                             "message" => json_encode($globalresponse['result']['message']),
-                            "datetime" => strtotime(time())
+                            "datetime" => strtotime("now")
                         ))
                     )
                 );
@@ -5685,7 +5685,7 @@ class ApiController extends Controller
                             "ticket_no" => $crmid,
                             "clientid" => $this->_clientid,
                             "message" => json_encode($globalresponse['result']['message']),
-                            "datetime" => strtotime(time())
+                            "datetime" => strtotime("now")
                         ))
                     )
                 );
