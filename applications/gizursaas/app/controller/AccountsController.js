@@ -375,19 +375,18 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         success: function(_data) {
                            var str='';
                             if (_data.success) {
-                                if(_data.result.length > 0){
-                                    for(var indexVal in _data.result){
-                                        
-                                   str +=  "<tr><td>" +"Client Id</td>";
-                                   str +=  "<td>"+_data.result[indexVal].data.clientid+"</td>";
-                                   str += "<td>Ticket No</td><td>" + 
-                                  _data.result[indexVal].data.result.ticket_no+ "</td><td>" +
-                                  "Username</td><td>" + 
-                                  _data.result[indexVal].result.username+ "</td><td>" +
-                                  "Status</td><td>" + 
-                                  _data.result.status + "</td></tr>"
-                                    }
-                                $('#background-id table tbody').empty().html(str);
+                               if(_data.result.length > 0){
+                                       str += "<tr><td> Client Id </td>";
+                                       str += "<td> Ticket No </td>";
+                                       str += "<td> Username </td>";
+                                       str += "<td> Status </td></tr>";
+                                 for(var indexVal in _data.result){
+                                       str +="<tr><td>" + _data.result[indexVal].data.clientid + "</td>";
+                                       str +="<td>" + _data.result[indexVal].data.result.ticket_no + "</td>";
+                                       str +="<td>" + _data.result[indexVal].result.username + "</td>"; 
+                                       str +="<td>" + _data.result[indexVal].result.status + "</td><tr>";                                 
+                                     }
+                                      $('#background-id table tbody').empty().html(str);
                                 }else{
                                     $('#background-id table tbody').empty().
                                     html("<tr><td>No record found!!</td></tr>");
