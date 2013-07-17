@@ -2456,8 +2456,8 @@ class ApiController extends Controller
                     if($ddbResponse->body->Count > 0)
                     foreach ($ddbResponse->body->Items as $item)
                     {
-                        $var = json_decode($item);
-                        $item = json_encode($var, true);
+                        $var = json_encode($item);
+                        $item = json_decode($var, true);
                         
                         $result[$k]['ticket_no'] = $item['ticket_no'][AmazonDynamoDB::TYPE_STRING];
                         $result[$k]['username'] = $item['username'][AmazonDynamoDB::TYPE_STRING];
