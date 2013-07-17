@@ -375,19 +375,19 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         },
                         success: function(_data) {
                            var str='';
-                            if (_data.success) {
-                               if(_data.result.length > 0){
+                            //if (_data.success) {
+                               if(_data.length > 0){
                                     str += "<tr><td> Client Id </td>";
                                     str += "<td> Ticket No </td>";
                                     str += "<td> Message </td>";
                                     str += "<td> Username </td>";
                                     str += "<td> Date </td></tr>";
-                                    for(var indexVal in _data.result){
-                                        str +="<tr><td>" + _data.result[indexVal].clientid[0] + "</td>";
-                                        str +="<td>" + _data.result[indexVal].ticket_no[0] + "</td>";
-                                        str +="<td>" + _data.result[indexVal].message[0] + "</td>"; 
-                                        str +="<td>" + _data.result[indexVal].username[0] + "</td>"; 
-                                        str +="<td>" + self.model.timeConverter(_data.result[indexVal].datetime[0]) + "</td><tr>";                                 
+                                    for(var indexVal in _data){
+                                        str +="<tr><td>" + _data[indexVal].clientid + "</td>";
+                                        str +="<td>" + _data[indexVal].ticket_no + "</td>";
+                                        str +="<td>" + _data[indexVal].message + "</td>"; 
+                                        str +="<td>" + _data[indexVal].username + "</td>"; 
+                                        str +="<td>" + self.model.timeConverter(_data[indexVal].datetime) + "</td><tr>";                                 
                                     }
                                     $('#background-id table tbody').empty().html(str);
                                 }else{
@@ -395,7 +395,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                     html("<tr><td>No record found!!</td></tr>");
                                     
                                 }
-                            } 
+                            //} 
                         }
                     });
                  

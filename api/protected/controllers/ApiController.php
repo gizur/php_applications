@@ -2456,13 +2456,35 @@ class ApiController extends Controller
                     if($ddbResponse->body->Count > 0)
                     foreach ($ddbResponse->body->Items as $item)
                     {
-                        $result[$k]['status'] = $item->status->{AmazonDynamoDB::TYPE_NUMBER};
+                        $result[$k]['ticket_no']= $item->ticket_no->{AmazonDynamoDB::TYPE_STRING};
                         $result[$k]['username'] = $item->username->{AmazonDynamoDB::TYPE_STRING};
-                        $result[$k]['data'] = json_decode($item->data->{AmazonDynamoDB::TYPE_STRING});
+                        $result[$k]['datetime'] = $item->datetime->{AmazonDynamoDB::TYPE_NUMBER};
                         $result[$k]['clientid'] = $item->clientid->{AmazonDynamoDB::TYPE_STRING};
+                        $result[$k]['message']  = $item->message->{AmazonDynamoDB::TYPE_STRING};
+                        
                         $k++;
                     }
-                    $response->result = $result;
+                    
+                    $sortedresult=array();
+                    $counter=0;
+                    
+                    foreach($result as $value)
+                    {
+                        $sortedresult[$counter]['id']        = $value['id'][0];
+                        $sortedresult[$counter]['username']  = $value['username'][0];
+                        $sortedresult[$counter]['message']   = $value['message'][0];
+                        $sortedresult[$counter]['datetime']  = $value['datetime'][0];
+                        $sortedresult[$counter]['clientid']  = $value['clientid'][0];
+                        $sortedresult[$counter]['ticket_no'] = $value['ticket_no'][0];
+                        $counter++;
+                     }
+                     
+                    $tmp = Array();
+                    foreach($sortedresult as &$srt)
+                    $tmp[] = &$srt["datetime"];
+                    array_multisort($tmp,SORT_DESC, $sortedresult);
+
+                    $response->result = json_encode($sortedresult);
                     //Send response
                     $this->_sendResponse(200, json_encode($response));
 
