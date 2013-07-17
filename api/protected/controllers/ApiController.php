@@ -4521,8 +4521,8 @@ class ApiController extends Controller
                                 if ($response->success) {
                                     $globalresponse->result->documents[]
                                         = $document->result;
-                                    $globalresponse->result->message[] = 'Su' .
-                                        'ccess (' . $file['name'] . ')';
+                                    $globalresponse->result->message[] = 'File' .
+                                        ' (' . $file['name'] . ') updated.';
                                 } else {
                                     $globalresponse->result->message[] = 'not' .
                                         ' uploaded - relating ' .
@@ -5673,8 +5673,8 @@ class ApiController extends Controller
                             if ($response->success) {
                                 $globalresponse->result->documents[]
                                     = $document->result;
-                                $globalresponse->result->message[] = 'Success' .
-                                    ' (' . $file['name'] . ')';
+                                $globalresponse->result->message[] = 'File ' .
+                                    ' (' . $file['name'] . ') updated.';
                             } else {
                                 $globalresponse->result->message[] = 'not' .
                                     ' uploaded - relating ' .
