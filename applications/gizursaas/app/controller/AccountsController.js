@@ -387,7 +387,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                         str +="<td>" + _data.result[indexVal].ticket_no[0] + "</td>";
                                         str +="<td>" + _data.result[indexVal].message[0] + "</td>"; 
                                         str +="<td>" + _data.result[indexVal].username[0] + "</td>"; 
-                                        str +="<td>" + _data.result[indexVal].datetime[0] + "</td><tr>";                                 
+                                        str +="<td>" + self.model.timeConverter(_data.result[indexVal].datetime[0]) + "</td><tr>";                                 
                                     }
                                     $('#background-id table tbody').empty().html(str);
                                 }else{
