@@ -344,11 +344,12 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 "updateCopyClientTab": function() {
                     $('#from_id').attr('value', self.model.get("email"));
                     $('#copy-client table tbody').empty().html("<tr><td>" +
-                    "Client Id</td><td>" + 
-                    self.model.get("client_id") + "</td></tr>" +
-                    "<tr><td>" +
-                    "Email</td><td>" + 
-                    self.model.get("email") + "</td></tr>");
+                        "Client Id</td><td>" + 
+                        self.model.get("client_id") + "</td></tr>" +
+                        "<tr><td>" +
+                        "Email</td><td>" + 
+                        self.model.get("email") + "</td></tr>"
+                    );
                 },
                 
                 // function to display background details
@@ -376,18 +377,19 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                            var str='';
                             if (_data.success) {
                                if(_data.result.length > 0){
-                                       str += "<tr><td> Client Id </td>";
-                                       str += "<td> Ticket No </td>";
-                                       str += "<td> Username </td>";
-                                       str += "<td> Status </td></tr>";
-                                 for(var indexVal in _data.result){
-                                       str +="<tr><td>" + _data.result[indexVal].data.clientid + "</td>";
-                                       str +="<td>" + _data.result[indexVal].data.result.ticket_no + "</td>";
-                                       str +="<td>" + _data.result[indexVal].result.username + "</td>"; 
-                                       str +="<td>" + _data.result[indexVal].result.status + "</td><tr>";                                 
-                                     }
-                                      $('#background-id table tbody').empty().html(str);
-
+                                    str += "<tr><td> Client Id </td>";
+                                    str += "<td> Ticket No </td>";
+                                    str += "<td> Message </td>";
+                                    str += "<td> Username </td>";
+                                    str += "<td> Date </td></tr>";
+                                    for(var indexVal in _data.result){
+                                        str +="<tr><td>" + _data.result[indexVal].clientid[0] + "</td>";
+                                        str +="<td>" + _data.result[indexVal].ticket_no[0] + "</td>";
+                                        str +="<td>" + _data.result[indexVal].message[0] + "</td>"; 
+                                        str +="<td>" + _data.result[indexVal].username[0] + "</td>"; 
+                                        str +="<td>" + _data.result[indexVal].datetime[0] + "</td><tr>";                                 
+                                    }
+                                    $('#background-id table tbody').empty().html(str);
                                 }else{
                                     $('#background-id table tbody').empty().
                                     html("<tr><td>No record found!!</td></tr>");

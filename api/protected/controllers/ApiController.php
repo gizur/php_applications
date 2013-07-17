@@ -3443,6 +3443,8 @@ class ApiController extends Controller
                     ob_flush();
                     flush();
                     
+                    // close current session
+                    if (session_id()) session_write_close();
                     try {
                         Yii::log(
                             "TRACE(" . $this->_traceId . ");" . 
@@ -3921,6 +3923,9 @@ class ApiController extends Controller
                     ob_flush();
                     flush();
 
+                    // close current session
+                    if (session_id()) session_write_close();
+                    
                     $error_msgs = array();
 
                     // BELOW LINES OF CODE SHALL BE PROCESSED IN
@@ -4221,39 +4226,6 @@ class ApiController extends Controller
                     }
                 }
 
-                /**
-                 * The following section creates a response buffer
-                 * 
-                 */
-
-                //Continue to run script even when the connection is over
-                ignore_user_abort(true);
-                set_time_limit(0);
-
-                // buffer all upcoming output
-                ob_start();
-
-                $response = new stdClass();
-                $response->success = true;
-                $response->message = "Processing the request, you will be notified by mail on successfull completion"; 
-
-                echo json_encode($response);
-
-                // get the size of the output
-                $size = ob_get_length();
-
-                // send headers to tell the browser to close the connection
-                header("Content-Length: $size");
-                header('Connection: close');
-
-                // flush all output
-                ob_end_flush();
-                ob_flush();
-                flush();
-
-                // close current session
-                if (session_id()) session_write_close();
-
                 //get data json 
                 $dataJson = json_encode(
                     array_merge(
@@ -4314,6 +4286,39 @@ class ApiController extends Controller
                 
                 $globalresponse = json_decode($response);
                 
+                /**
+                 * The following section creates a response buffer
+                 * 
+                 */
+
+                //Continue to run script even when the connection is over
+                ignore_user_abort(true);
+                set_time_limit(0);
+
+                // buffer all upcoming output
+                ob_start();
+
+                $response = new stdClass();
+                $response->success = true;
+                $response->message = "Processing the request, you will be notified by mail on successfull completion"; 
+                $response->result = $globalresponse->result;
+                
+                echo json_encode($response);
+
+                // get the size of the output
+                $size = ob_get_length();
+
+                // send headers to tell the browser to close the connection
+                header("Content-Length: $size");
+                header('Connection: close');
+
+                // flush all output
+                ob_end_flush();
+                ob_flush();
+                flush();
+
+                // close current session
+                if (session_id()) session_write_close();
                 /* * Creating Document* */
                 
                 //Log
@@ -4331,6 +4336,7 @@ class ApiController extends Controller
                 //Create Documents if any is attached
                 $crmid = $globalresponse->result->id;
                 $globalresponse->result->documents = Array();
+                $globalresponse->result->message = Array();
                 
                 //Log
                 Yii::log(
@@ -4372,6 +4378,7 @@ class ApiController extends Controller
                         ")", 
                         CLogger::LEVEL_TRACE
                     );
+                    
                     foreach ($_FILES as $key => $file) {
                         $uniqueid = uniqid();
 
@@ -4514,19 +4521,21 @@ class ApiController extends Controller
                                 if ($response->success) {
                                     $globalresponse->result->documents[]
                                         = $document->result;
+                                    $globalresponse->result->message[] = 'Su' .
+                                        'ccess (' . $file['name'] . ')';
                                 } else {
-                                    $globalresponse->result->documents[]
-                                        = 'not uploaded - relating ' .
+                                    $globalresponse->result->message[] = 'not' .
+                                        ' uploaded - relating ' .
                                         'document failed:' . $file['name'];
                                 }
                             } else {
-                                $globalresponse->result->documents[]
-                                    = 'not uploaded - creating document failed:' . 
+                                $globalresponse->result->message[] = 'not' . 
+                                    ' uploaded - creating document failed:' . 
                                     $file['name'];
                             }
                         } else {
-                            $globalresponse->result->documents[]
-                                = 'not uploaded - upload to storage ' .
+                            $globalresponse->result->message[] = 'not' .
+                                ' uploaded - upload to storage ' .
                                 'service failed:' . $file['name'];
                         }
                     }
@@ -4554,6 +4563,7 @@ class ApiController extends Controller
                 unset($globalresponse['result']['days']);
                 unset($globalresponse['result']['modifiedtime']);
                 unset($globalresponse['result']['from_portal']);
+                unset($globalresponse['result']['documents']);
                 
                 foreach ($globalresponse['result'] as $fieldname => $value) {
                     $keyToReplace = array_search($fieldname, $customFields);
@@ -4652,9 +4662,11 @@ class ApiController extends Controller
                         'Item' => $dynamodb->attributes(array(
                             "id" => uniqid(''),
                             "username" => $_SERVER['HTTP_X_USERNAME'],
-                            "status" => $globalresponse["success"],
-                            "data" => json_encode($globalresponse),
-                            "clientid" => $this->_clientid
+                            //"data" => json_encode($globalresponse),
+                            "ticket_no" => $globalresponse['result']['ticket_no'],
+                            "clientid" => $this->_clientid,
+                            "message" => json_encode($globalresponse['result']['message']),
+                            "datetime" => strtotime("now")
                         ))
                     )
                 );
@@ -5332,14 +5344,14 @@ class ApiController extends Controller
                     unset($response['result']['days']);
                     unset($response['result']['modifiedtime']);
                     unset($response['result']['from_portal']);
-                foreach ($response['result'] as $fieldname => $value) {
-                    $keyToReplace = array_search($fieldname, $customFields);
-                    if ($keyToReplace) {
-                        unset($response['result'][$fieldname]);
-                        $response['result'][$keyToReplace] = $value;
-                        //unset($customFields[$keyToReplace]);                                
+                    foreach ($response['result'] as $fieldname => $value) {
+                        $keyToReplace = array_search($fieldname, $customFields);
+                        if ($keyToReplace) {
+                            unset($response['result'][$fieldname]);
+                            $response['result'][$keyToReplace] = $value;
+                            //unset($customFields[$keyToReplace]);                                
+                        }
                     }
-                }
 
                     $this->_sendResponse(200, json_encode($response));
 
@@ -5460,22 +5472,62 @@ class ApiController extends Controller
                 unset($response['result']['days']);
                 unset($response['result']['modifiedtime']);
                 unset($response['result']['from_portal']);
-            foreach ($response['result'] as $fieldname => $value) {
-                $keyToReplace = array_search($fieldname, $customFields);
-                if ($keyToReplace) {
-                    unset($response['result'][$fieldname]);
-                    $response['result'][$keyToReplace] = $value;
+                
+                foreach ($response['result'] as $fieldname => $value) {
+                    $keyToReplace = array_search($fieldname, $customFields);
+                    if ($keyToReplace) {
+                        unset($response['result'][$fieldname]);
+                        $response['result'][$keyToReplace] = $value;
+                    }
                 }
-            }
 
                 $this->_sendResponse(200, json_encode($response));
                 break;
 
             case 'DocumentAttachment' :
 
-                //Loop through all Files
-                //Attach file to trouble ticket
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " In DocumentAttachment ", 
+                    CLogger::LEVEL_TRACE
+                );
+                //Continue to run script even when the connection is over
+                ignore_user_abort(true);
+                set_time_limit(0);
+
+                // buffer all upcoming output
+                ob_start();
+
+                $response = new stdClass();
+                $response->success = true;
+                $response->message = "Request received.";
+                
+                echo json_encode($response);
+
+                // get the size of the output
+                $size = ob_get_length();
+
+                // send headers to tell the browser to close the connection
+                header("Content-Length: $size");
+                header('Connection: close');
+
+                // flush all output
+                ob_end_flush();
+                ob_flush();
+                flush();
+                
+                // close current session
+                if (session_id()) session_write_close();
+                
+                // Loop through all Files
+                // Attach file to trouble ticket
                 $crmid = $_GET['id'];
+                $ticket_no = $_POST['ticket_no'];
+                
+                $globalresponse->result->documents = Array();
+                $globalresponse->result->message = Array();
 
                 $dataJson = array(
                     'notes_title' => 'Attachement',
@@ -5487,8 +5539,8 @@ class ApiController extends Controller
                     'fileversion' => ''
                 );
 
-                $globalresponse =  new stdClass(); 
-
+                $globalresponse =  new stdClass();
+                
                 foreach ($_FILES as $key => $file) {
 
                     $uniqueid = uniqid();
@@ -5498,7 +5550,15 @@ class ApiController extends Controller
                     $dataJson['filesize'] = $file['size'];
                     $dataJson['filetype'] = $file['type'];
 
-                    //Upload file to Amazon S3
+                    // Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " SAVING FILE " . $file['name'] . " TO S3", 
+                        CLogger::LEVEL_TRACE
+                    );
+                
+                    // Upload file to Amazon S3
                     $sThree = new AmazonS3();
                     $sThree->set_region(
                         constant("AmazonS3::" . Yii::app()->params->awsS3Region)
@@ -5613,24 +5673,75 @@ class ApiController extends Controller
                             if ($response->success) {
                                 $globalresponse->result->documents[]
                                     = $document->result;
+                                $globalresponse->result->message[] = 'Success' .
+                                    ' (' . $file['name'] . ')';
                             } else {
-                                $globalresponse->result->documents[]
-                                    = 'not uploaded - relating ' .
+                                $globalresponse->result->message[] = 'not' .
+                                    ' uploaded - relating ' .
                                     'document failed:' . $file['name'];
                             }
                         } else {
-                            $globalresponse->result->documents[]
-                                = 'not uploaded - creating document failed:' . 
-                                $file['name'];
+                            $globalresponse->result->message[] = 'not uploaded' .
+                                ' - creating document failed:' . $file['name'];
                         }
                     } else {
-                        $globalresponse->result->documents[]
-                            = 'not uploaded - upload to storage ' .
-                            'service failed:' . $file['name'];
+                        $globalresponse->result->message[] = 'not uploaded - ' .
+                            'upload to storage service failed:' . $file['name'];
                     }                    
                 }
 
-                $this->_sendResponse(200, json_encode($globalresponse));
+                $globalresponse = json_encode($globalresponse);
+                $globalresponse = json_decode($globalresponse, true);
+                
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " Image saved at S3: " . json_encode($globalresponse) .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
+                $dynDB = array(
+                    "id" => uniqid(''),
+                    "username" => $_SERVER['HTTP_X_USERNAME'],
+                    //"data" => json_encode($globalresponse),
+                    "ticket_no" => $ticket_no,
+                    "clientid" => $this->_clientid,
+                    "message" => json_encode($globalresponse['result']['message']),
+                    "datetime" => strtotime("now")
+                );
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " UPDATING DYNAMODB : " . json_encode($dynDB), 
+                    CLogger::LEVEL_TRACE
+                );
+                //Save result to DynamoDB
+                $dynamodb = new AmazonDynamoDB();
+                $dynamodb->set_region(
+                    constant(
+                        "AmazonDynamoDB::" .
+                        Yii::app()->params->awsDynamoDBRegion
+                    )
+                );
+                
+                $ddbResponse = $dynamodb->put_item(
+                    array(
+                        'TableName' => Yii::app()->params->awsErrorDynamoDBTableName,
+                        'Item' => $dynamodb->attributes($dynDB)
+                    )
+                );
+
+                // Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " DYNAMODB UPDATED: " . json_encode($ddbResponse) .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
                 break;
 
             default :
