@@ -379,13 +379,15 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                if(_data.result.length > 0){
                                     str += "<tr><td> Client Id </td>";
                                     str += "<td> Ticket No </td>";
+                                    str += "<td> Message </td>";
                                     str += "<td> Username </td>";
-                                    str += "<td> Status </td></tr>";
+                                    str += "<td> Date </td></tr>";
                                     for(var indexVal in _data.result){
                                         str +="<tr><td>" + _data.result[indexVal].clientid[0] + "</td>";
-                                        str +="<td>" + _data.result[indexVal].data.result.ticket_no + "</td>";
+                                        str +="<td>" + _data.result[indexVal].ticket_no[0] + "</td>";
+                                        str +="<td>" + _data.result[indexVal].message[0] + "</td>"; 
                                         str +="<td>" + _data.result[indexVal].username[0] + "</td>"; 
-                                        str +="<td>" + _data.result[indexVal].status[0] + "</td><tr>";                                 
+                                        str +="<td>" + _data.result[indexVal].datetime[0] + "</td><tr>";                                 
                                     }
                                     $('#background-id table tbody').empty().html(str);
                                 }else{
