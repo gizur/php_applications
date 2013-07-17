@@ -27,7 +27,7 @@
  */
 
 require_once realpath(__DIR__ . '/config.inc.php');
-echo 'config--'.require_once realpath(__DIR__.'PHPUnit/Autoload.php');
+require_once 'PHPUnit/Autoload.php';
 require_once realpath(__DIR__ . '/lib/RESTClient.php');
 require_once realpath(__DIR__ . '/../lib/aws-php-sdk/sdk.class.php');
 
@@ -45,8 +45,8 @@ require_once realpath(__DIR__ . '/../lib/aws-php-sdk/sdk.class.php');
 
 class Girur_REST_API_Test extends PHPUnit_Framework_TestCase
 {
-    private $_gizurCloudSecretKey = "7W4eIzKI3BpcCLLFdmopb11FERzQ6xgDASVe10b7";
-    private $_gizurCloudApiKey = "AKIAJX43RR2UCVINIL3Q";
+    private $_gizurCloudSecretKey = "";
+    private $_gizurCloudApiKey = "";
 
     private $_apiVersion = "0.1";
     
@@ -367,7 +367,30 @@ URL;
      * @return void
      */     
     
-    
+    public function testCron()
+    {
+        //Request parameters
+        $model = 'Cron';
+        $action = 'dbbackup';
+        $method = 'PUT';
+           
+        echo " Executing Cron Mailscan " . PHP_EOL;        
+
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+            $method, $model, date("c"), 
+            uniqid()
+        );
+        
+        //Set Header
+        $this->_setHeader('', '', $params, $signature);
+        
+        echo PHP_EOL . " Response:  " . $response = $this->_rest->put(
+            $this->_url.$model."/".$action
+        );
+        
+        echo PHP_EOL . PHP_EOL;
+    }
 
     /**
      * Tests to fetch the About page
@@ -413,7 +436,52 @@ URL;
      * @return void
      */     
     
-   
+    public function testChangePassword()
+    {        
+        //Request parameters
+        $model = 'Authenticate';
+        $action = 'changepw';
+        $method = 'PUT';
+        //$newpassword = 'dddddd';
+        //$newpassword = 'ipjibl0f';
+           
+        //Label the Test
+        echo " Change Password " . PHP_EOL;        
+        $this->markTestSkipped('');
+        
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+            $method, $model, date("c"), 
+            uniqid()
+        );
+        
+
+        //login using each credentials
+        foreach ($this->_credentials as $username => $password) {            
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo PHP_EOL . " Response:  " . $response = $this->_rest->put(
+                $this->_url.$model."/".$action, array(
+                'newpassword' => $newpassword)
+            );
+            $response = json_decode($response);
+            
+            //check if response is valid
+            if (isset($response->success)) {
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+            
+        }
+       
+        echo PHP_EOL . PHP_EOL;
+    }
 
     /**
      * Tests Change Asset Status from Inoperation to Damaged and visa versa
@@ -421,7 +489,79 @@ URL;
      * @return void
      */     
     
-   
+    public function testChangeAssetStatus()
+    {
+        //Request Parameters       
+        $model = 'Assets';
+        $id = '28x5';
+           
+        //Label the Test
+        echo " Changing Asset Status" . PHP_EOL;        
+        $this->markTestSkipped(''); 
+
+        //login using each credentials
+        foreach ($this->_credentials as $username => $password) { 
+            
+            // Generate signature
+            list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+            );
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the reponse
+            echo PHP_EOL . " Response:  " . $response = $this->_rest->put(
+                $this->_url.$model."/".$id, array('assetstatus' => 'In Service')
+            );
+            $response = json_decode($response);
+            
+            //check if response is valid
+            if (isset($response->success)) {
+                $this->assertEquals(
+                    $response->result->assetstatus, 'In Service', 
+                    " Checking validity of response"
+                );
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );   
+            } else {
+                $this->assertInstanceOf('stdClass', $response);     
+            }
+            
+            // Generate signature
+            list($params, $signature) = $this->_generateSignature(
+                $method, $model, date("c"), 
+                uniqid()
+            );
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo PHP_EOL . " Response: " . $response = $this->_rest->put(
+                $this->_url.$model."/".$id, array(
+                    'assetstatus' => 'Out-of-service'
+                )
+            );
+            $response = json_decode($response);
+            
+            //check if response is valid
+            if (isset($response->success)) {
+                $this->assertEquals(
+                    $response->result->assetstatus, 'Out-of-service', 
+                    " Checking validity of response"
+                );
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+        }
+        echo PHP_EOL . PHP_EOL;
+    }
 
     /**
      * Tests Reseting password
@@ -429,7 +569,54 @@ URL;
      * @return void
      */ 
 
-    
+    public function testResetPassword()
+    {
+        //Request Parameters     
+        $model = 'Authenticate';
+        $action = 'reset';
+        $method = 'PUT';      
+
+        //Label the test
+        echo " Resetting password " . PHP_EOL;  
+        
+        //Skipping Test
+        $this->markTestSkipped('');         
+
+        // Generate signature
+        list($params, $signature) = $this->_generateSignature(
+            $method, $model, date("c"), 
+            uniqid()
+        );
+
+        //Set Reset Pasword credentials
+        $this->_credentials = array(
+                'anshuk-kumar@essindia.co.in' => 'ik13qfek'
+            );
+
+        //login using each credentials
+        foreach ($this->_credentials as $username => $password) {            
+        
+            //Set Header
+            $this->_setHeader($username, $password, $params, $signature);
+        
+            //Show the response
+            echo PHP_EOL . " Response: " . $response = $this->_rest->put(
+                $this->_url.$model."/".$action
+            );
+            $response = json_decode($response);
+            
+            //check if response is valid
+            if (isset($response->success)) {
+                //echo json_encode($response) . PHP_EOL;
+                $this->assertEquals(
+                    $response->success, true, " Checking validity of response"
+                );
+            } else {
+                $this->assertInstanceOf('stdClass', $response);
+            }
+        }
+        echo PHP_EOL . PHP_EOL;
+    }
 
     /**
      * Test getting Asset from id
@@ -1203,7 +1390,3 @@ URL;
     }     
  
 }
-$restapiObj= new Girur_REST_API_Test();
-$restapiObj->testAbout();
-
-die('raju');
