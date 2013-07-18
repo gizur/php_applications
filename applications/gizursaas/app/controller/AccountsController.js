@@ -369,9 +369,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         },
                         error: function() {
                             // Show the error in case error received.
-                            self.view.error(
-                                    'An error occured while re-generating the' +
-                                    ' key pair. Please try again.');
+                            self.view.error(config.messages['ERROR']);
                         },
                         success: function(_data) {
                            var str='';
