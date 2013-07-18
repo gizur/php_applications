@@ -2002,7 +2002,7 @@ class ApiController extends Controller
                         throw new Exception('Fetching details failed');
 
                     //Get Accounts List
-                    $query = "select * from Accounts LIMIT 0, 1000;";
+                    $query = "select * from Accounts;";
                  
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -2052,7 +2052,7 @@ class ApiController extends Controller
 
 
                     //Get Contact List
-                    $query = "select * from Contacts LIMIT 0, 1000;";
+                    $query = "select * from Contacts;";
                     
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -2303,15 +2303,15 @@ class ApiController extends Controller
                     if ($cachedValue === false) {
                         //Send request to vtiger REST service
                         if (isset($_GET['category'])) {
-
                             if ($_GET['category'] == 'inoperation') {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'In Service' LIMIT 0, 1000;";
+                                $query = "select * from " . $_GET['model'] . 
+                                    " where assetstatus = 'In Service';";
                             } else {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'Out-of-service' LIMIT 0, 1000;";
+                                $query = "select * from " . $_GET['model'] .
+                                    " where assetstatus = 'Out-of-service';";
                             }
-
                         } else {
-                            $query = "select * from " . $_GET['model'] . " LIMIT 0, 1000;";
+                            $query = "select * from " . $_GET['model'] . ";";
                         }
 
                         //urlencode to as its sent over http.
@@ -2638,7 +2638,7 @@ class ApiController extends Controller
                 );                
                 
                 if (preg_match('/[0-9]?x[0-9]?/i', $_GET['id'])==0)
-                    throw new Exception('Invalid format of Id');
+            throw new Exception('Invalid format of Id');
 
                 //Get HelpDesk details 
                 //Creating vTiger Query
