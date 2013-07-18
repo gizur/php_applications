@@ -388,10 +388,10 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                     str += "<td> Username </td>";
                                     str += "<td> Date </td></tr>";
                                     for (var ix in _data.result) {
+                                        var msg = JSON.parse(_data.result[ix].message);
                                         str += "<tr><td>" + _data.result[ix].clientid +
                                             "</td><td>" + _data.result[ix].ticket_no +
-                                            "</td><td>" +
-                                            _data.result[ix].message.join("<br/><hr/>") +
+                                            "</td><td>" + msg.join('<br/>') +
                                             "</td><td>" + _data.result[ix].username +
                                             "</td><td>" + 
                                             self.model.timeConverter(_data.result[ix].datetime) +
