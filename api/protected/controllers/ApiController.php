@@ -2002,7 +2002,7 @@ class ApiController extends Controller
                         throw new Exception('Fetching details failed');
 
                     //Get Accounts List
-                    $query = "select * from Accounts;";
+                    $query = "select * from Accounts LIMIT 1000;";
                  
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -2052,7 +2052,7 @@ class ApiController extends Controller
 
 
                     //Get Contact List
-                    $query = "select * from Contacts;";
+                    $query = "select * from Contacts LIMIT 1000;";
                     
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -2638,7 +2638,7 @@ class ApiController extends Controller
                 );                
                 
                 if (preg_match('/[0-9]?x[0-9]?/i', $_GET['id'])==0)
-            throw new Exception('Invalid format of Id');
+                    throw new Exception('Invalid format of Id');
 
                 //Get HelpDesk details 
                 //Creating vTiger Query
