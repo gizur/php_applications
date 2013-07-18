@@ -2305,13 +2305,13 @@ class ApiController extends Controller
                         if (isset($_GET['category'])) {
 
                             if ($_GET['category'] == 'inoperation') {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'In Service';";
+                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'In Service' LIMIT 1000;";
                             } else {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'Out-of-service';";
+                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'Out-of-service' LIMIT 1000;";
                             }
 
                         } else {
-                            $query = "select * from " . $_GET['model'] . ";";
+                            $query = "select * from " . $_GET['model'] . " LIMIT 1000;";
                         }
 
                         //urlencode to as its sent over http.
