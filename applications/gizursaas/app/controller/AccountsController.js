@@ -396,7 +396,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                             "</td><td>" + msg.join('<br/>') +
                                             "</td><td>" + res[ix].username +
                                             "</td><td>" +
-                                            res[ix].datetime +
+                                            self.model.timeConverter(res[ix].datetime) +
                                             "</td><tr>";
                                     }
                                     $('#background-id table tbody').empty().html(str);
