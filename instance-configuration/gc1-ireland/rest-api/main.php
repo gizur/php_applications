@@ -52,11 +52,10 @@ return array(
                 array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 'verb' => 'GET'),                
                 array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
-                
-                array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
-                array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
                 array('api/view', 'pattern' => '/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(User)>/<email:.+>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Background)>/<action:(backgroundstatus)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 'verb' => 'POST'),
                 array('api/list', 'pattern' => '/<model:(User)>/<action:(login|forgotpassword)>', 'verb' => 'POST'),
@@ -68,6 +67,7 @@ return array(
                 array('api/update', 'pattern' => '/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb' => 'PUT'),
                 array('api/update', 'pattern' => '/<model:(User)>/<action:(vtiger)>/<email:.+>', 'verb' => 'PUT'),
                 array('api/create', 'pattern' => '/<model:(HelpDesk|User)>', 'verb' => 'POST'),
+                array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
                 array('api/update', 'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>', 'verb' => 'PUT'),
                 array('api/error', 'pattern' => '.*?')
             ),
