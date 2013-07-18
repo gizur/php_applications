@@ -2002,7 +2002,7 @@ class ApiController extends Controller
                         throw new Exception('Fetching details failed');
 
                     //Get Accounts List
-                    $query = "select * from Accounts LIMIT 1000;";
+                    $query = "select * from Accounts LIMIT 0, 1000;";
                  
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -2052,7 +2052,7 @@ class ApiController extends Controller
 
 
                     //Get Contact List
-                    $query = "select * from Contacts LIMIT 1000;";
+                    $query = "select * from Contacts LIMIT 0, 1000;";
                     
                     //urlencode to as its sent over http.
                     $queryParam = urlencode($query);
@@ -2305,13 +2305,13 @@ class ApiController extends Controller
                         if (isset($_GET['category'])) {
 
                             if ($_GET['category'] == 'inoperation') {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'In Service' LIMIT 1000;";
+                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'In Service' LIMIT 0, 1000;";
                             } else {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'Out-of-service' LIMIT 1000;";
+                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'Out-of-service' LIMIT 0, 1000;";
                             }
 
                         } else {
-                            $query = "select * from " . $_GET['model'] . " LIMIT 1000;";
+                            $query = "select * from " . $_GET['model'] . " LIMIT 0, 1000;";
                         }
 
                         //urlencode to as its sent over http.
