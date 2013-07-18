@@ -387,7 +387,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                     str += "<td> Message </td>";
                                     str += "<td> Username </td>";
                                     str += "<td> Date </td></tr>";
-                                    for (var ix in _data) {
+                                    for (var ix in _data.result) {
                                         str += "<tr><td>" + _data.result[ix].clientid +
                                             "</td><td>" + _data.result[ix].ticket_no +
                                             "</td><td>" +
