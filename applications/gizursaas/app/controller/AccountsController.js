@@ -30,6 +30,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
             //Initialise the model and view
             this.model = new AccountModel();
             this.view = new AccountsView(this.model);
+            this.userModel = config.user_controller.model;
 
             //Prepare the url to fetch the account details
             var _url = config.rest_server_url + 'User/' +
@@ -43,8 +44,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 headers: {
                     // Add username and password in the headers
                     // to validate the request
-                    "X_USERNAME": config.user_controller.model.get('email'),
-                    "X_PASSWORD": config.user_controller.model.get('password')
+                    "X_USERNAME": self.userModel.get('email'),
+                    "X_PASSWORD": self.userModel.get('password')
                 },
                 error: function() {
                     // If an error occured show and error and
@@ -86,7 +87,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                             "id_sequence": _data.result.id_sequence,
                             "status": _data.result.status
                         });
-                        $.get('./applications/gizursaas/templates/home.tmp.html?_=' +
+                        $.get('./applications/gizursaas/templates/' +
+                                'home.tmp.html?_=' +
                                 Math.random(), {}, function(html) {
                             $('#container').empty().html(html);
                             self.model.map_values();                            
@@ -136,22 +138,22 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         headers: {
                             //Add username and password in the headers
                             // to validate the request
-                            "X_USERNAME": config.user_controller.model.get('email'),
-                            "X_PASSWORD": config.user_controller.model.get('password')
+                            "X_USERNAME": self.userModel.get('email'),
+                            "X_PASSWORD": self.userModel.get('password')
                         },
                         error: function() {
                             // Show the error in case error received.
                             self.view.error(
-                                    'An error occured while re-generating ' +
-                                    'the key pair. Please try again.'
-                                    );
+                                'An error occured while re-generating ' +
+                                'the key pair. Please try again.'
+                            );
                         },
                         success: function(_data) {
                             if (_data.success) {
                                 // Update the values on success
                                 self.view.success(
-                                        'Key pair has been generated successfully.'
-                                        );
+                                    'Key pair has been generated successfully.'
+                                );
 
                                 //Set modified values to the Account Object
                                 self.model.set({
@@ -164,9 +166,9 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                 $('#generateNewAPIAndSecretKey1Close').click();
                             } else {
                                 self.view.error(
-                                        'An error occured while re-generating ' +
-                                        'the key pair. Please try again.'
-                                        );
+                                    'An error occured while re-generating ' +
+                                    'the key pair. Please try again.'
+                                );
                             }
                         }
                     });
@@ -186,20 +188,21 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         headers: {
                             //Add username and password in the headers
                             // to validate the request
-                            "X_USERNAME": config.user_controller.model.get('email'),
-                            "X_PASSWORD": config.user_controller.model.get('password')
+                            "X_USERNAME": self.userModel.get('email'),
+                            "X_PASSWORD": self.userModel.get('password')
                         },
                         error: function() {
                             // Show the error in case error received.
                             self.view.error(
-                                    'An error occured while re-generating the' +
-                                    ' key pair. Please try again.');
+                                'An error occured while re-generating the' +
+                                ' key pair. Please try again.'
+                            );
                         },
                         success: function(_data) {
                             if (_data.success) {
                                 self.view.success(
-                                        'Key pair has been generated successfully.'
-                                        );
+                                    'Key pair has been generated successfully.'
+                                );
 
                                 //Set modified values to the Account Object
                                 self.model.set({
@@ -212,9 +215,9 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                                 $('#generateNewAPIAndSecretKey2Close').click();
                             } else {
                                 self.view.error(
-                                        'An error occured while re-generating the' +
-                                        ' key pair. Please try again.'
-                                        );
+                                    'An error occured while re-generating the' +
+                                    ' key pair. Please try again.'
+                                );
                             }
                         }
                     });
@@ -235,8 +238,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         dataType: "json",
                         processData: false,
                         headers: {
-                            "X_USERNAME": config.user_controller.model.get('email'),
-                            "X_PASSWORD": config.user_controller.model.get('password')
+                            "X_USERNAME": self.userModel.get('email'),
+                            "X_PASSWORD": self.userModel.get('password')
                         },
                         data: JSON.stringify({
                             "id": self.model.get('email'),
@@ -306,7 +309,7 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
 
                     self.view.success('Please wait ...');
                     var _url = config.rest_server_url + 'User/vtiger/' +
-                            config.user_controller.model.get('email');
+                            self.userModel.get('email');
 
                     $.ajax({
                         url: _url,
@@ -314,15 +317,15 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         dataType: "json",
                         processData: false,
                         headers: {
-                            "X_USERNAME": config.user_controller.model.get('email'),
-                            "X_PASSWORD": config.user_controller.model.get('password')
+                            "X_USERNAME": self.userModel.get('email'),
+                            "X_PASSWORD": self.userModel.get('password')
                         },
                         data: JSON.stringify({}),
                         error: function() {
                             self.view.error(
-                                    'An error occured while resetting ' +
-                                    'the password. Please try again.'
-                                    );
+                                'An error occured while resetting ' +
+                                'the password. Please try again.'
+                            );
                         },
                         success: function(_data) {
                             if (_data.success) {
@@ -353,9 +356,13 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 },
                 
                 // function to display background details
+                // ======================================
                 "updateBackgroundTab": function() {
                     var _url = config.rest_server_url + 
                             'Background/backgroundstatus';
+                    $('#background-id table tbody').empty().
+                        html("<tr><td>Loading ...</td></tr>");
+                            
                     $.ajax({
                         url: _url,
                         type: "GET",
@@ -363,39 +370,43 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         headers: {
                             //Add username and password in the headers
                             // to validate the request
-                            "X_USERNAME": config.user_controller.model.get('email'),
-                            "X_PASSWORD": config.user_controller.model.get('password'),
-                            "X_CLIENTID": config.account_controller.model.get('client_id')
+                            "X_USERNAME": self.userModel.get('email'),
+                            "X_PASSWORD": self.userModel.get('password'),
+                            "X_CLIENTID": self.model.get('client_id')
                         },
                         error: function() {
                             // Show the error in case error received.
-                            self.view.error(
-                                    'An error occured while re-generating the' +
-                                    ' key pair. Please try again.');
+                            self.view.error(config.messages['ERROR']);
                         },
                         success: function(_data) {
                            var str='';
-                            //if (_data.success) {
-                               if(_data.length > 0){
+                            if (_data.success) {
+                                var res = JSON.parse(_data.result);
+                                if (res.length > 0) {
                                     str += "<tr><td> Client Id </td>";
                                     str += "<td> Ticket No </td>";
                                     str += "<td> Message </td>";
                                     str += "<td> Username </td>";
                                     str += "<td> Date </td></tr>";
-                                    for(var indexVal in _data){
-                                        str +="<tr><td>" + _data[indexVal].clientid + "</td>";
-                                        str +="<td>" + _data[indexVal].ticket_no + "</td>";
-                                        str +="<td>" + _data[indexVal].message + "</td>"; 
-                                        str +="<td>" + _data[indexVal].username + "</td>"; 
-                                        str +="<td>" + self.model.timeConverter(_data[indexVal].datetime) + "</td><tr>";                                 
+
+                                    for (var ix in res) {
+                                        var msg = JSON.parse(res[ix].message);
+                                        str += "<tr><td>" + res[ix].clientid +
+                                            "</td><td>" + res[ix].ticket_no +
+                                            "</td><td>" + msg.join('<br/>') +
+                                            "</td><td>" + res[ix].username +
+                                            "</td><td>" +
+                                            self.model.timeConverter(res[ix].datetime) +
+                                            "</td><tr>";
                                     }
                                     $('#background-id table tbody').empty().html(str);
-                                }else{
+                                } else {
                                     $('#background-id table tbody').empty().
                                     html("<tr><td>No record found!!</td></tr>");
-                                    
                                 }
-                            //} 
+                            } else {
+                                self.view.error(config.messages['ERROR']);
+                            }
                         }
                     });
                  
@@ -447,8 +458,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         headers: {
                             //Add username and password in the headers
                             // to validate the request
-                            "X_USERNAME": config.user_controller.model.get('email'),
-                            "X_PASSWORD": config.user_controller.model.get('password')
+                            "X_USERNAME": self.userModel.get('email'),
+                            "X_PASSWORD": self.userModel.get('password')
                         },
                         //If error occured, it will display the error msg.
                         error: function(jqXHR, textStatus, errorThrown) {

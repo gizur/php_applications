@@ -66,29 +66,17 @@ define(["jquery", "stapes"], function($, Stapes) {
             $('#secret_key_2').text(this.get('secret_key_2'));
             $('#client_id').val(this.get('client_id'));
         },
-        //''
    
         // timeconverter function
         // ===================
         //
-        // This fuction is used to convert timestamp to date values in background details page.
-
-        
+        // This fuction is used to convert timestamp to 
+        // date values in background details page.        
         
         'timeConverter': function (UNIX_timestamp){
             var a = new Date(UNIX_timestamp*1000);
-            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            var year = a.getFullYear();
-            var month = months[a.getMonth()];
-            var date = a.getDate();
-            var hour = a.getHours();
-            var min = a.getMinutes();
-            var sec = a.getSeconds();
-            var time = date+','+month+' '+year+' '+hour+':'+min+':'+sec ;
-            return time;
-        }
-
-    
+            return a.toLocaleString();
+        }    
     });
     return AccountModel;
 });
