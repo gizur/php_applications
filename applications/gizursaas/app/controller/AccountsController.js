@@ -381,20 +381,22 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         success: function(_data) {
                            var str='';
                             if (_data.success) {
-                               if (_data.result.length > 0) {
+                                var res = JSON.parse(_data.result);
+                                if (res.length > 0) {
                                     str += "<tr><td> Client Id </td>";
                                     str += "<td> Ticket No </td>";
                                     str += "<td> Message </td>";
                                     str += "<td> Username </td>";
                                     str += "<td> Date </td></tr>";
-                                    for (var ix in _data.result) {
-                                        var msg = JSON.parse(_data.result[ix].message);
-                                        str += "<tr><td>" + _data.result[ix].clientid +
-                                            "</td><td>" + _data.result[ix].ticket_no +
+
+                                    for (var ix in res) {
+                                        var msg = JSON.parse(res[ix].message);
+                                        str += "<tr><td>" + res[ix].clientid +
+                                            "</td><td>" + res[ix].ticket_no +
                                             "</td><td>" + msg.join('<br/>') +
-                                            "</td><td>" + _data.result[ix].username +
-                                            "</td><td>" + 
-                                            self.model.timeConverter(_data.result[ix].datetime) +
+                                            "</td><td>" + res[ix].username +
+                                            "</td><td>" +
+                                            res[ix].datetime +
                                             "</td><tr>";
                                     }
                                     $('#background-id table tbody').empty().html(str);
