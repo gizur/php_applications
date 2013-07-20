@@ -43,7 +43,8 @@ define(["jquery"], function($) {
         "WRONG_FROM_CLIENT": 'From client is incorrect.',
         "INVALID_EMAIL": "Wrong email id provided.",
         "ACCOUNT_REQUEST_RECEIVED": "Your request to create an account has been received. You shall receive an email shortly for further instructions.",
-        "ACCOUNT_CREATE_ERROR": 'An error occured while creating your account. Please contact administrator.'
+        "ACCOUNT_CREATE_ERROR": 'An error occured while creating your account. Please contact administrator.',
+        "MANDATORY_FIELDS_MISSING" : 'All fields are required.'
     };
 
     // Varibales to hold controllers object

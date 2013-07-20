@@ -244,8 +244,8 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                         data: JSON.stringify({
                             "id": self.model.get('email'),
                             "password": self.model.get('password'),
-                            "name_1": $('#first_name').val(),
-                            "name_2": $('#last_name').val(),
+                            "name_1": $.trim($('#first_name').val()),
+                            "name_2": $.trim($('#last_name').val()),
                             "address_1": self.model.get('address_1'),
                             "address_2": self.model.get('address_2'),
                             "city": self.model.get('city'),
@@ -418,9 +418,9 @@ define(["jquery", "config", "hasher", "stapes", "AccountModel", "AccountsView"],
                 //
                 'copyClientFormSubmit': function() {
 
-                    var password = $('#new_password').val();
-                    var client_id = $('#new_client_id').val();
-                    var email = $('#new_email').val();
+                    var password = $.trim($('#new_password').val());
+                    var client_id = $.trim($('#new_client_id').val());
+                    var email = $.trim($('#new_email').val());
 
                     if(password.length === 0 ||
                        client_id.length === 0 ||
