@@ -162,7 +162,7 @@ class LoginForm extends CFormModel
                 $response = $rest->put(Yii::app()->params->URL . $model . "/changepw", $data);
                 $response = json_decode($response, true);
                 //check if response is valid
-                if ($response['error']['success'] == true) {
+                if ($response['success'] == true) {
                     echo Yii::app()->user->setFlash('success', "Your password has been changed successfully.");
                 } else {
                     echo Yii::app()->user->setFlash('error', $response['error']['message']);
