@@ -66,13 +66,13 @@ define(["jquery", "config", "hasher", "stapes", "UserModel", "UsersView", "jsSHA
                 var $terms = this.$el.find("#terms:checked");
 
                 self.model.set({
-                    "first_name": $first_name.val(),
-                    "last_name": $last_name.val(),
-                    "email": $email.val(),
-                    "password": $password.val(),
-                    "re_password": $re_password.val(),
-                    "terms": $terms.val(),
-                    "client_id": $client_id.val()
+                    "first_name": $.trim($first_name.val()),
+                    "last_name": $.trim($last_name.val()),
+                    "email": $.trim($email.val()),
+                    "password": $.trim($password.val()),
+                    "re_password": $.trim($re_password.val()),
+                    "terms": $.trim($terms.val()),
+                    "client_id": $.trim($client_id.val())
                 });
 
                 //Validate the User.

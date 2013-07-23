@@ -2303,13 +2303,13 @@ class ApiController extends Controller
                     if ($cachedValue === false) {
                         //Send request to vtiger REST service
                         if (isset($_GET['category'])) {
-
                             if ($_GET['category'] == 'inoperation') {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'In Service';";
+                                $query = "select * from " . $_GET['model'] . 
+                                    " where assetstatus = 'In Service';";
                             } else {
-                                $query = "select * from " . $_GET['model'] . " where assetstatus = 'Out-of-service';";
+                                $query = "select * from " . $_GET['model'] .
+                                    " where assetstatus = 'Out-of-service';";
                             }
-
                         } else {
                             $query = "select * from " . $_GET['model'] . ";";
                         }
@@ -3154,6 +3154,13 @@ class ApiController extends Controller
                 
                 if ($_GET['action'] == 'copyuser') {
                     
+                    $post = json_decode(file_get_contents('php://input'), true);
+                    
+                    if (strlen(trim($post['clientid'])) == 0 || 
+                        strlen(trim($post['id'])) == 0 ||
+                        strlen(trim($post['password'])) == 0 ||
+                        strlen(trim($post['security_salt'])) == 0)
+                        throw new Exception("Mandatory fields are missing.", 1001);
                     // MAKE IT ASYNC
                     //                 
                     ignore_user_abort(true);
@@ -3210,7 +3217,7 @@ class ApiController extends Controller
                         " GET POST VALUES ", 
                         CLogger::LEVEL_TRACE
                     );
-                    $post = json_decode(file_get_contents('php://input'), true);
+                    
                     
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
@@ -3284,7 +3291,7 @@ class ApiController extends Controller
                     Yii::log(
                         "TRACE(" . $this->_traceId . ");" . 
                         " FUNCTION(" . __FUNCTION__ . ");" . 
-                        " GETING ID_SEQUENCE FROM DYNAMO_DB. ", 
+                        " GETING ID_SEQUENCE FROM DYNAMODB. ", 
                         CLogger::LEVEL_TRACE
                     );
                     $ddbResponse = $dynamodb->scan(
