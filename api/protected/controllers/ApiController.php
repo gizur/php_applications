@@ -5040,6 +5040,7 @@ class ApiController extends Controller
                         )
                     );
                     if ($sesResponse->isOK()) {
+                        Yii::app()->cache->delete($this->_cacheKey);
                         $this->_sendResponse(200, json_encode($response));
                     } else {
                         throw new Exception(
