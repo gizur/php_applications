@@ -914,7 +914,7 @@ class ApiController extends Controller
              * old password.
              */
             if (Yii::app()->cache->offsetExists($key)) {
-                Yii::app()->cache->delete($this->_cacheKey);
+                Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
                 Yii::app()->cache->delete($key);
             }
             
