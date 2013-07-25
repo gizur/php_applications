@@ -913,10 +913,11 @@ class ApiController extends Controller
              * the user login cache to prevent login from the
              * old password.
              */
-            if (Yii::app()->cache->offsetExists($key)) {
-                Yii::app()->cache->delete($key);
-                if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey))
+            if (Yii::app()->cache->offsetExists($key)) {                
+                if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey)) {
                     Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
+                    Yii::app()->cache->delete($key);
+                }
             }
             
             $cacheValue = false;
@@ -5057,8 +5058,7 @@ class ApiController extends Controller
                             ' Gizur Admin'
                         )
                     );
-                    if ($sesResponse->isOK()) {
-                        
+                    if ($sesResponse->isOK()) {                        
                         $key = $this->_clientid . '_' .
                             $_SERVER['HTTP_X_USERNAME'] . '_reset_password';
                         
