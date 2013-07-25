@@ -905,7 +905,7 @@ class ApiController extends Controller
              * This key gets created when user reset
              * the password.
              */
-            $key = $this->_clientid . '_' . $this->_instanceid .
+            $key = $this->_clientid . '_' .
                     $_SERVER['HTTP_X_USERNAME'] . '_reset_password';
             
             /**
@@ -914,8 +914,9 @@ class ApiController extends Controller
              * old password.
              */
             if (Yii::app()->cache->offsetExists($key)) {
-                Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
                 Yii::app()->cache->delete($key);
+                if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey))
+                    Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
             }
             
             $cacheValue = false;
@@ -5058,8 +5059,18 @@ class ApiController extends Controller
                     );
                     if ($sesResponse->isOK()) {
                         
-                        $key = $this->_clientid . '_' . $this->_instanceid .
+                        $key = $this->_clientid . '_' .
                             $_SERVER['HTTP_X_USERNAME'] . '_reset_password';
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " RESET KEY SET : " . 
+                            $key .                          
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        ); 
                         
                         Yii::app()->cache->set(
                             $key, 1
