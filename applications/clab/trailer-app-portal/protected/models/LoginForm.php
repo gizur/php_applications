@@ -84,7 +84,7 @@ class LoginForm extends CFormModel
     public function resetpassword($username)
     {
         $model = 'Authenticate';
-        //echo " Getting Picklist" . PHP_EOL;        
+        
         $params = array(
             'Verb' => 'PUT',
             'Model' => $model,

@@ -446,7 +446,7 @@ class ApiController extends Controller
                 $hPassword = (string)$ddbResponse->body->Item->password->{AmazonDynamoDB::TYPE_STRING};
 
                 $hSPassword = (string)hash("sha256", $password . $securitySalt);
-
+                
                 if($hSPassword !== $hPassword)
                     throw new Exception("Credentials are invalid.", 2004);
                     
@@ -901,6 +901,25 @@ class ApiController extends Controller
                 )
             );
 
+            /**
+             * This key gets created when user reset
+             * the password.
+             */
+            $key = $this->_clientid . '_' .
+                    $_SERVER['HTTP_X_USERNAME'] . '_reset_password';
+            
+            /**
+             * If the key exists delete the key and
+             * the user login cache to prevent login from the
+             * old password.
+             */
+            if (Yii::app()->cache->offsetExists($key)) {                
+                if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey)) {
+                    Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
+                    Yii::app()->cache->delete($key);
+                }
+            }
+            
             $cacheValue = false;
             
             //Check if the session stored in the cache key is valid 
@@ -5039,7 +5058,24 @@ class ApiController extends Controller
                             ' Gizur Admin'
                         )
                     );
-                    if ($sesResponse->isOK()) {
+                    if ($sesResponse->isOK()) {                        
+                        $key = $this->_clientid . '_' .
+                            $_SERVER['HTTP_X_USERNAME'] . '_reset_password';
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " RESET KEY SET : " . 
+                            $key .                          
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        ); 
+                        
+                        Yii::app()->cache->set(
+                            $key, 1
+                        );
+                        
                         $this->_sendResponse(200, json_encode($response));
                     } else {
                         throw new Exception(
