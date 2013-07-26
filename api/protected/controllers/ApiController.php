@@ -5022,7 +5022,7 @@ class ApiController extends Controller
                             'clientid' => $this->_clientid,
                             'instanceid' => $this->_instanceid,
                             'username' => $_SERVER['HTTP_X_USERNAME'],
-                            'password' => $response['oldpassword']
+                            'password' => $response->result->oldpassword
                         )
                     );
             

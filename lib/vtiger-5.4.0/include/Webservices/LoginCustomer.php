@@ -126,7 +126,7 @@ function vtws_resetpassword($username)
     $sql = "SELECT user_password FROM `vtiger_portalinfo` WHERE user_name=?";    
     $presult = $adb->pquery($sql, array($username));
     $oldPassword = '';
-    if (empty($presult))
+    if (!empty($presult))
         $oldPassword = $adb->query_result($presult, 0, 'user_password');
     
     $sql = "update vtiger_portalinfo set user_password = ? where user_name=?";
