@@ -878,6 +878,11 @@ class ApiController extends Controller
             if (!isset($_SERVER['HTTP_X_USERNAME']))
                 throw new Exception('Could not find enough credentials');
 
+            //Get the instance ID of amazon
+            $this->_instanceid = file_get_contents(
+                "http://instance-data/latest/meta-data/instance-id"
+            );
+
             //Incase of password reset stop validating request
             if ($_GET['model'] == 'Authenticate' && $_GET['action'] == 'reset')
                 return true;
@@ -886,11 +891,6 @@ class ApiController extends Controller
             if (!isset($_SERVER['HTTP_X_PASSWORD']))
                 throw new Exception('Could not find enough credentials');
             
-            //Get the instance ID of amazon
-            $this->_instanceid = file_get_contents(
-                "http://instance-data/latest/meta-data/instance-id"
-            );
-
             //Create a cache key for saving session
             $this->_cacheKey = json_encode(
                 array(
@@ -901,25 +901,6 @@ class ApiController extends Controller
                 )
             );
 
-            /**
-             * This key gets created when user reset
-             * the password.
-             */
-            $key = $this->_clientid . '_' .
-                    $_SERVER['HTTP_X_USERNAME'] . '_reset_password';
-            
-            /**
-             * If the key exists delete the key and
-             * the user login cache to prevent login from the
-             * old password.
-             */
-            if (Yii::app()->cache->offsetExists($key)) {                
-                if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey)) {
-                    Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
-                    Yii::app()->cache->delete($key);
-                }
-            }
-            
             $cacheValue = false;
             
             //Check if the session stored in the cache key is valid 
@@ -5035,6 +5016,44 @@ class ApiController extends Controller
                     if ($response->success == false)
                         throw new Exception("Unable to reset password");
 
+                    //Create a cache key for saving session
+                    $this->_cacheKey = json_encode(
+                        array(
+                            'clientid' => $this->_clientid,
+                            'instanceid' => $this->_instanceid,
+                            'username' => $_SERVER['HTTP_X_USERNAME'],
+                            'password' => $response['oldpassword']
+                        )
+                    );
+            
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " DELETING THE KEY (" .
+                        $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    /**
+                     * If the key exists delete the key
+                     * to prevent login from the
+                     * old password.
+                     */
+                    if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey)) {
+                        Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
+                        
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " KEY DELETED (" .
+                            $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );
+                    }
+                    
                     $sesResponse = $email->send_email(
                         Yii::app()->params->awsSESFromEmailAddress,
                         array(
@@ -5059,23 +5078,6 @@ class ApiController extends Controller
                         )
                     );
                     if ($sesResponse->isOK()) {                        
-                        $key = $this->_clientid . '_' .
-                            $_SERVER['HTTP_X_USERNAME'] . '_reset_password';
-                        
-                        //Log
-                        Yii::log(
-                            " TRACE(" . $this->_traceId . "); " . 
-                            " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " RESET KEY SET : " . 
-                            $key .                          
-                            ")", 
-                            CLogger::LEVEL_TRACE
-                        ); 
-                        
-                        Yii::app()->cache->set(
-                            $key, 1
-                        );
-                        
                         $this->_sendResponse(200, json_encode($response));
                     } else {
                         throw new Exception(

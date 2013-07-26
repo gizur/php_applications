@@ -123,6 +123,12 @@ function vtws_resetpassword($username)
 {
     global $adb;
     $newpassword = substr(strrev(uniqid()), 0, 8);
+    $sql = "SELECT user_password FROM `vtiger_portalinfo` WHERE user_name=?";    
+    $presult = $adb->pquery($sql, array($username));
+    $oldPassword = '';
+    if (empty($presult))
+        $oldPassword = $adb->query_result($presult, 0, 'user_password');
+    
     $sql = "update vtiger_portalinfo set user_password = ? where user_name=?";
     $result = $adb->pquery($sql, array($newpassword, $username));
 
@@ -130,7 +136,8 @@ function vtws_resetpassword($username)
         if ($adb->getAffectedRowCount($result) > 0) {
             return array(
                 'message' => 'Password has been reset',
-                'newpassword' => $newpassword
+                'newpassword' => $newpassword,
+                'oldpassword' => $oldPassword
             );
         }
     }
