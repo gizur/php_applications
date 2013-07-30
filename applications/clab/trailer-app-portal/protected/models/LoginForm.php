@@ -163,6 +163,7 @@ class LoginForm extends CFormModel
                 $response = json_decode($response, true);
                 //check if response is valid
                 if ($response['success'] == true) {
+                    Yii::app()->session['password'] = $newpassword;
                     echo Yii::app()->user->setFlash('success', "Your password has been changed successfully.");
                 } else {
                     echo Yii::app()->user->setFlash('error', $response['error']['message']);

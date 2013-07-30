@@ -5110,6 +5110,22 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );                       
                     
+                    //Create a cache key for saving session
+                    $this->_cacheKey = json_encode(
+                        array(
+                            'clientid' => $this->_clientid,
+                            'username' => $_SERVER['HTTP_X_USERNAME'],
+                            'password' => $_SERVER['HTTP_X_PASSWORD']
+                        )
+                    );
+                    /**
+                     * If the key exists update the key
+                     */
+                    if (Yii::app()->cache->offsetExists("_last_used_" . $this->_cacheKey)) {
+                        $val = Yii::app()->cache->get("_last_used_" . $this->_cacheKey);
+                        Yii::app()->cache->set("_last_used_" . $this->_cacheKey, $val);
+                    }
+                    
                     //Receive response from vtiger REST service
                     //Return response to client  
                     $rest = new RESTClient();
