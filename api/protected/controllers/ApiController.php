@@ -870,6 +870,11 @@ class ApiController extends Controller
                 '{clientid}', $this->_clientid, Yii::app()->params->vtRestUrl
             );            
 
+            //Get the instance ID of amazon
+            $this->_instanceid = file_get_contents(
+                "http://instance-data/latest/meta-data/instance-id"
+            );
+            
             //If request is for Model About or Cron stop validating
             if ($_GET['model'] == 'About' || $_GET['model'] == 'Cron')
                 return true;
@@ -877,11 +882,6 @@ class ApiController extends Controller
             //Check if Username is provided in header
             if (!isset($_SERVER['HTTP_X_USERNAME']))
                 throw new Exception('Could not find enough credentials');
-
-            //Get the instance ID of amazon
-            $this->_instanceid = file_get_contents(
-                "http://instance-data/latest/meta-data/instance-id"
-            );
 
             //Incase of password reset stop validating request
             if ($_GET['model'] == 'Authenticate' && $_GET['action'] == 'reset')
@@ -895,7 +895,6 @@ class ApiController extends Controller
             $this->_cacheKey = json_encode(
                 array(
                     'clientid' => $this->_clientid,
-                    'instanceid' => $this->_instanceid,
                     'username' => $_SERVER['HTTP_X_USERNAME'],
                     'password' => $_SERVER['HTTP_X_PASSWORD']
                 )
@@ -907,7 +906,7 @@ class ApiController extends Controller
             //as per vtiger a session can be valid till 1 day max
             //and unused session for 1800 seconds
             $lastUsed = Yii::app()->cache->get(
-                $this->_instanceid . "_last_used_" . $this->_cacheKey
+                "_last_used_" . $this->_cacheKey
             );
 
             if ($lastUsed !== false) {
@@ -916,7 +915,7 @@ class ApiController extends Controller
                 } else {
                     $cacheValue = Yii::app()->cache->get($this->_cacheKey);
                     Yii::app()->cache->set(
-                        $this->_instanceid . "_last_used_" . $this->_cacheKey, 
+                        "_last_used_" . $this->_cacheKey, 
                         time()
                     );
                 }
@@ -1212,7 +1211,7 @@ class ApiController extends Controller
                 //credentials
                 Yii::app()->cache->set($this->_cacheKey, $cacheValue, 86000);
                 Yii::app()->cache->set(
-                    $this->_instanceid . "_last_used_" . $this->_cacheKey, 
+                    "_last_used_" . $this->_cacheKey, 
                     time()
                 );
             }
@@ -5020,7 +5019,6 @@ class ApiController extends Controller
                     $this->_cacheKey = json_encode(
                         array(
                             'clientid' => $this->_clientid,
-                            'instanceid' => $this->_instanceid,
                             'username' => $_SERVER['HTTP_X_USERNAME'],
                             'password' => $response->result->oldpassword
                         )
@@ -5031,7 +5029,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " DELETING THE KEY (" .
-                        $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
+                        "_last_used_" . $this->_cacheKey .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );
@@ -5040,15 +5038,15 @@ class ApiController extends Controller
                      * to prevent login from the
                      * old password.
                      */
-                    if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey)) {
-                        Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
+                    if (Yii::app()->cache->offsetExists("_last_used_" . $this->_cacheKey)) {
+                        Yii::app()->cache->delete("_last_used_" . $this->_cacheKey);
                         
                         //Log
                         Yii::log(
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " KEY DELETED (" .
-                            $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
+                            " KEY DELETED [ $this->_instanceid ](" .
+                            "_last_used_" . $this->_cacheKey .                            
                             ")", 
                             CLogger::LEVEL_TRACE
                         );
