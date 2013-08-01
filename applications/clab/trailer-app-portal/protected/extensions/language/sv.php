@@ -67,7 +67,7 @@ $languageArr = array(
     'Confirm new password' => 'Bekräfta nytt lösenord',
     /* Custom Variables */
     'Anteckningar' => 'Anteckningar',
-    'Damage Status' => 'Damage Status',
+    'Damage Status' => 'Skador Status',
     'Ej påbörjat' => 'Ej påbörjat',
     'Under utredning' => 'Under utredning',
     'Väntar på kompletterande uppgifter' => 'Väntar på kompletterande uppgifter',
