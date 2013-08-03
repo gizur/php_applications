@@ -5017,10 +5017,10 @@ class ApiController extends Controller
                         throw new Exception("Unable to reset password");
 
                     //Create a cache key for saving session
-                    $this->_cacheKey = json_encode(
+                    $keyToDelete = json_encode(
                         array(
                             'clientid' => $this->_clientid,
-                            'instanceid' => $this->_instanceid,
+                            'instanceid' => "INSTANCE_ID",
                             'username' => $_SERVER['HTTP_X_USERNAME'],
                             'password' => $response->result->oldpassword
                         )
@@ -5030,29 +5030,14 @@ class ApiController extends Controller
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " DELETING THE KEY (" .
-                        $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
+                        " DELETING ALL KEYS (" .
+                        "INSTANCE_ID_last_used_" . $this->_cacheKey .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );
-                    /**
-                     * If the key exists delete the key
-                     * to prevent login from the
-                     * old password.
-                     */
-                    if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey)) {
-                        Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
-                        
-                        //Log
-                        Yii::log(
-                            " TRACE(" . $this->_traceId . "); " . 
-                            " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " KEY DELETED (" .
-                            $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
-                            ")", 
-                            CLogger::LEVEL_TRACE
-                        );
-                    }
+                    
+                    // DELETE ALL INSTASTANCE KEYS
+                    file_get_contents("http://localhost/lib/memcache/CleanCache.php?keys[]=" . "INSTANCE_ID_last_used_" . $this->_cacheKey);
                     
                     $sesResponse = $email->send_email(
                         Yii::app()->params->awsSESFromEmailAddress,
