@@ -1,24 +1,9 @@
 <?php
-/**
-.*
- *
- * PHP version 5
- *
- * @category   Shell_Script
- * @package    GizurCloud
- * @subpackage Instance-configuration
- * @author     Jonas Colmsjö <jonas@gizur.com>
- *
- * @license    Gizur Private License
- * @link       http://api.gizur.com/api/index.php
 
- uncomment the following to define a path alias
- Yii::setPathOfAlias('local','path/to/local-folder');
- This is the main Web application configuration. Any writable
- CWebApplication properties can be configured here.
-*
-*/
-
+// uncomment the following to define a path alias
+// Yii::setPathOfAlias('local','path/to/local-folder');
+// This is the main Web application configuration. Any writable
+// CWebApplication properties can be configured here.
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'Gizur REST Service',
@@ -52,9 +37,7 @@ return array(
             'class' => 'CMemCache',
             'servers' => array(
                 array(
-                    'host' =>
-                     '10.58.226.192', //'localhost',
-                     //gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
+                    'host' => '10.58.226.192', //'localhost',//gizurcloud-1c.i4vamf.0001.euw1.cache.amazonaws.com',
                     'port' => 11211,
                     'weight' => 100,
                 ),
@@ -65,125 +48,33 @@ return array(
             'urlFormat' => 'path',
             'rules' => array(
                 // REST patterns
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(HelpDesk|Assets|About)>',
-                    'verb' => 'GET'
-                ),
-                array('api/list', 'pattern' =>
-                 '/<model:(Assets)>
-                 /<category:(inoperation|damaged)>', 'verb' => 'GET'),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(HelpDesk)>
-                    /<category:(inoperation|damaged|all)>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(HelpDesk)>
-                    /<category:(inoperation|damaged|all)>
-                    /<year:\d{4}>/<month:\d{2}>/
-                    <trailerid:\w+>/<reportdamage:(yes|no|all)>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/view',
-                    'pattern' => '/<model:(HelpDesk|
-                    Assets|DocumentAttachments)>/<id:[0-9x]+>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/view',
-                    'pattern' => '/<model:(User)>/<email:.+>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/view',
-                    'pattern' => '/<model:(User)>/
-                    <action:(backgroundstatus)>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/list', 
-                    'pattern' => '/<model:(Batches)>', 
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(HelpDesk|Assets)>
-                    /<fieldname:\w+>',
-                    'verb' => 'GET'
-                ),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(Authenticate)>/
-                    <action:(login|logout)>',
-                    'verb' => 'POST'
-                ),
-                array(
-                    'api/list',
-                    'pattern' => '/<model:(User)>/
-                    <action:(login|forgotpassword)>',
-                    'verb' => 'POST'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(Authenticate)>
-                    /<action:(reset|changepw)>',
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(HelpDesk|Assets)>
-                    /<id:[0-9x]+>',
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update', 
-                    'pattern' => '/<model:(HelpDesk)>
-                    /<action:(updatedamagenotes)>/<id:[0-9x]+>', 
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(User)>/',
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(User)>
-                    /<field:(keypair1|keypair2)>/<email:.+>',
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(User)>/
-                    <action:(vtiger)>/<email:.+>',
-                    'verb' => 'PUT'
-                ),
-                array(
-                    'api/create', 
-                    'pattern' => '/<model:(HelpDesk|User)>',
-                    'verb' => 'POST'
-                ),
-                array(
-                    'api/create', 
-                    'pattern' => '/<model:(User)>/<action:(copyuser)>',
-                    'verb' => 'POST'
-                ),
-                array(
-                    'api/update',
-                    'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>',
-                    'verb' => 'PUT'
-                ),
+                array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
+                array('api/view', 'pattern' => '/<model:(HelpDesk|Assets|DocumentAttachments)>/<id:[0-9x]+>', 'verb' => 'GET'),
+                array('api/view', 'pattern' => '/<model:(User)>/<email:.+>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Background)>/<action:(backgroundstatus)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 'verb' => 'POST'),
+                array('api/list', 'pattern' => '/<model:(User)>/<action:(login|forgotpassword)>', 'verb' => 'POST'),
+                array('api/update', 'pattern' => '/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(HelpDesk)>/<action:(updatedamagenotes)>/<id:[0-9x]+>', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(DocumentAttachment)>/<id:[0-9x]+>', 'verb' => 'POST'),
+                array('api/update', 'pattern' => '/<model:(User)>/', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(User)>/<action:(vtiger)>/<email:.+>', 'verb' => 'PUT'),
+                array('api/create', 'pattern' => '/<model:(HelpDesk|User)>', 'verb' => 'POST'),
+                array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
+                array('api/update', 'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>', 'verb' => 'PUT'),
+                array('cleanCache/remove', 'pattern' => '/<model:(Cache)>>', 'verb' => 'POST'),
                 array('api/error', 'pattern' => '.*?')
             ),
         ),
         'db' => array(
-            'connectionString' => 
-            'sqlite:' . dirname(__FILE__) .
-             '/../data/testdrive.db',
+            'connectionString' => 'sqlite:' . dirname(__FILE__) . '/../data/testdrive.db',
         ),
         // uncomment the following to use a MySQL database
         /*
