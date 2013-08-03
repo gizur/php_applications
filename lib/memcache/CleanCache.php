@@ -31,7 +31,7 @@ class CleanCache
     public function __construct($keys)
     {
         $this->keyToDelete = $keys;
-        $this->memcache = Memcache::getMemcache();
+        $this->memcache = MemcacheG::getMemcache();
     }
 
     public function remove()

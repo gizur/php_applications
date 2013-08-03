@@ -1,6 +1,6 @@
 <?php
 
-class Memcache
+class MemcacheG
 {
 
     private $memcache_url = '10.58.226.192';
