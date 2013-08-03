@@ -69,7 +69,7 @@ return array(
                 array('api/create', 'pattern' => '/<model:(HelpDesk|User)>', 'verb' => 'POST'),
                 array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
                 array('api/update', 'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>', 'verb' => 'PUT'),
-                array('cleanCache/remove', 'pattern' => '/<model:(Cache)>>', 'verb' => 'POST'),
+                array('cleanCache/remove', 'pattern' => '/<model:(Cache)>', 'verb' => 'POST'),
                 array('api/error', 'pattern' => '.*?')
             ),
         ),
