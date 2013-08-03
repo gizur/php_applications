@@ -31,7 +31,8 @@ class CleanCache
     public function __construct($keys)
     {
         $this->keyToDelete = $keys;
-        $this->memcache = MemcacheG::getMemcache();
+        $this->memcache = new Memcache;
+        $this->memcache->connect(MemcacheG::$memcache_url, MemcacheG::$port);
     }
 
     public function remove()
@@ -48,14 +49,14 @@ class CleanCache
 
                 foreach ($this->keyToDelete as $key) {
                     $key = str_replace("INSTANCE_ID", $instanceId, $key);
-                    if (!empty($this->memcache)) {
+                    if ($this->memcache) {
                         $this->memcache->delete($key);
                         $res[] = $key . " deleted";
                     }
                 }
             }
         }
-        return json_decode($res);
+        return json_encode($res);
     }
 
 }
