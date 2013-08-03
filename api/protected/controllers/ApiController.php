@@ -895,6 +895,7 @@ class ApiController extends Controller
             $this->_cacheKey = json_encode(
                 array(
                     'clientid' => $this->_clientid,
+                    'instanceid' => $this->_instanceid,
                     'username' => $_SERVER['HTTP_X_USERNAME'],
                     'password' => $_SERVER['HTTP_X_PASSWORD']
                 )
@@ -906,7 +907,7 @@ class ApiController extends Controller
             //as per vtiger a session can be valid till 1 day max
             //and unused session for 1800 seconds
             $lastUsed = Yii::app()->cache->get(
-                "_last_used_" . $this->_cacheKey
+                $this->_instanceid . "_last_used_" . $this->_cacheKey
             );
 
             if ($lastUsed !== false) {
@@ -915,7 +916,7 @@ class ApiController extends Controller
                 } else {
                     $cacheValue = Yii::app()->cache->get($this->_cacheKey);
                     Yii::app()->cache->set(
-                        "_last_used_" . $this->_cacheKey, 
+                        $this->_instanceid . "_last_used_" . $this->_cacheKey, 
                         time()
                     );
                 }
@@ -1211,7 +1212,7 @@ class ApiController extends Controller
                 //credentials
                 Yii::app()->cache->set($this->_cacheKey, $cacheValue, 86000);
                 Yii::app()->cache->set(
-                    "_last_used_" . $this->_cacheKey, 
+                    $this->_instanceid . "_last_used_" . $this->_cacheKey, 
                     time()
                 );
             }
@@ -5019,6 +5020,7 @@ class ApiController extends Controller
                     $this->_cacheKey = json_encode(
                         array(
                             'clientid' => $this->_clientid,
+                            'instanceid' => $this->_instanceid,
                             'username' => $_SERVER['HTTP_X_USERNAME'],
                             'password' => $response->result->oldpassword
                         )
@@ -5029,7 +5031,7 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " DELETING THE KEY (" .
-                        "_last_used_" . $this->_cacheKey .                            
+                        $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );
@@ -5038,15 +5040,15 @@ class ApiController extends Controller
                      * to prevent login from the
                      * old password.
                      */
-                    if (Yii::app()->cache->offsetExists("_last_used_" . $this->_cacheKey)) {
-                        Yii::app()->cache->delete("_last_used_" . $this->_cacheKey);
+                    if (Yii::app()->cache->offsetExists($this->_instanceid . "_last_used_" . $this->_cacheKey)) {
+                        Yii::app()->cache->delete($this->_instanceid . "_last_used_" . $this->_cacheKey);
                         
                         //Log
                         Yii::log(
                             " TRACE(" . $this->_traceId . "); " . 
                             " FUNCTION(" . __FUNCTION__ . "); " . 
-                            " KEY DELETED [ $this->_instanceid ](" .
-                            "_last_used_" . $this->_cacheKey .                            
+                            " KEY DELETED (" .
+                            $this->_instanceid . "_last_used_" . $this->_cacheKey .                            
                             ")", 
                             CLogger::LEVEL_TRACE
                         );
@@ -5109,22 +5111,6 @@ class ApiController extends Controller
                         ")", 
                         CLogger::LEVEL_TRACE
                     );                       
-                    
-                    //Create a cache key for saving session
-                    $this->_cacheKey = json_encode(
-                        array(
-                            'clientid' => $this->_clientid,
-                            'username' => $_SERVER['HTTP_X_USERNAME'],
-                            'password' => $_SERVER['HTTP_X_PASSWORD']
-                        )
-                    );
-                    /**
-                     * If the key exists update the key
-                     */
-                    if (Yii::app()->cache->offsetExists("_last_used_" . $this->_cacheKey)) {
-                        $val = Yii::app()->cache->get("_last_used_" . $this->_cacheKey);
-                        Yii::app()->cache->set("_last_used_" . $this->_cacheKey, $val);
-                    }
                     
                     //Receive response from vtiger REST service
                     //Return response to client  
