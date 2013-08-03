@@ -5037,7 +5037,15 @@ class ApiController extends Controller
                     );
                     
                     // DELETE ALL INSTASTANCE KEYS
-                    file_get_contents("http://localhost/lib/memcache/CleanCache.php?keys[]=" . "INSTANCE_ID_last_used_$keyToDelete");
+                    $res = file_get_contents("http://localhost/lib/memcache/CleanCache.php?keys[]=" . "INSTANCE_ID_last_used_$keyToDelete");
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " DELETED KEYS (" . $res . ")", 
+                        CLogger::LEVEL_TRACE
+                    );
                     
                     $sesResponse = $email->send_email(
                         Yii::app()->params->awsSESFromEmailAddress,
