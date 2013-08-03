@@ -27,7 +27,7 @@ class CacheClean
     }
 
 
-    public function actionRemove()
+    public function remove()
     {
         $ec2 = new AmazonEC2();
         $ec2->set_region(constant("AmazonEC2::" . Yii::app()->params->awsDynamoDBRegion));
@@ -36,3 +36,6 @@ class CacheClean
     }
 
 }
+
+$cc = new CacheClean();
+$cc->remove();
