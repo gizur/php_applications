@@ -5031,13 +5031,13 @@ class ApiController extends Controller
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
                         " DELETING ALL KEYS (" .
-                        "INSTANCE_ID_last_used_" . $this->_cacheKey .                            
+                        "INSTANCE_ID_last_used_$keyToDelete" .                            
                         ")", 
                         CLogger::LEVEL_TRACE
                     );
                     
                     // DELETE ALL INSTASTANCE KEYS
-                    file_get_contents("http://localhost/lib/memcache/CleanCache.php?keys[]=" . "INSTANCE_ID_last_used_" . $this->_cacheKey);
+                    file_get_contents("http://localhost/lib/memcache/CleanCache.php?keys[]=" . "INSTANCE_ID_last_used_$keyToDelete");
                     
                     $sesResponse = $email->send_email(
                         Yii::app()->params->awsSESFromEmailAddress,
