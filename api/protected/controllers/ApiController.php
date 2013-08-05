@@ -5047,12 +5047,10 @@ class ApiController extends Controller
                         foreach ($items->item as $item) {
                             $instanceId = (string) $item->instancesSet->item->instanceId;
 
-                            foreach ($this->keyToDelete as $key) {
-                                $key = str_replace("INSTANCE_ID", $instanceId, "INSTANCE_ID_last_used_$keyToDelete");
-                                if (Yii::app()->cache->offsetExists($key)) {
-                                    Yii::app()->cache->delete($key);
-                                    $res[] = $key . " deleted";
-                                }
+                            $key = str_replace("INSTANCE_ID", $instanceId, "INSTANCE_ID_last_used_$keyToDelete");
+                            if (Yii::app()->cache->offsetExists($key)) {
+                                Yii::app()->cache->delete($key);
+                                $res[] = $key . " deleted";
                             }
                         }
                     }
