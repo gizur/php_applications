@@ -5037,13 +5037,31 @@ class ApiController extends Controller
                     );
                     
                     // DELETE ALL INSTASTANCE KEYS
-                    $res = file_get_contents("http://localhost/lib/memcache/CleanCache.php?keys[]=" . "INSTANCE_ID_last_used_$keyToDelete");
+                    $ecTwo = new AmazonEC2();
+                    $ecTwo->set_region(constant("AmazonEC2::" . Yii::app()->params->awsDynamoDBRegion));
+                    $result = $ecTwo->describe_instances();
+                    $res = array();
+
+                    if ($result->status === 200) {
+                        $items = $result->body->reservationSet;
+                        foreach ($items->item as $item) {
+                            $instanceId = (string) $item->instancesSet->item->instanceId;
+
+                            foreach ($this->keyToDelete as $key) {
+                                $key = str_replace("INSTANCE_ID", $instanceId, "INSTANCE_ID_last_used_$keyToDelete");
+                                if (Yii::app()->cache->offsetExists($key)) {
+                                    Yii::app()->cache->delete($key);
+                                    $res[] = $key . " deleted";
+                                }
+                            }
+                        }
+                    }
                     
                     //Log
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " . 
                         " FUNCTION(" . __FUNCTION__ . "); " . 
-                        " DELETED KEYS (" . $res . ")", 
+                        " DELETED KEYS (" . json_encode($res) . ")", 
                         CLogger::LEVEL_TRACE
                     );
                     
