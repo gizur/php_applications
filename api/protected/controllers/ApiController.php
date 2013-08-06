@@ -5036,7 +5036,7 @@ class ApiController extends Controller
                         CLogger::LEVEL_TRACE
                     );
                     
-                    // DELETE ALL INSTASTANCE KEYS
+                    // DELETE USER LOGIN KEYS FROM ALL INSTANCES
                     $ecTwo = new AmazonEC2();
                     $ecTwo->set_region(constant("AmazonEC2::" . Yii::app()->params->awsDynamoDBRegion));
                     $result = $ecTwo->describe_instances();
@@ -5150,7 +5150,52 @@ class ApiController extends Controller
                     if ($response->success == false)
                         throw new Exception($response->error->message);
                     
-                    Yii::app()->cache->delete($this->_cacheKey);
+                    //Create a cache key for saving session
+                    $keyToDelete = json_encode(
+                        array(
+                            'clientid' => $this->_clientid,
+                            'instanceid' => "INSTANCE_ID",
+                            'username' => $_SERVER['HTTP_X_USERNAME'],
+                            'password' => $_SERVER['HTTP_X_PASSWORD']
+                        )
+                    );
+            
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " DELETING ALL KEYS (" .
+                        "INSTANCE_ID_last_used_$keyToDelete" .                            
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
+                    // DELETE USER LOGIN KEYS FROM ALL INSTANCES
+                    $ecTwo = new AmazonEC2();
+                    $ecTwo->set_region(constant("AmazonEC2::" . Yii::app()->params->awsDynamoDBRegion));
+                    $result = $ecTwo->describe_instances();
+                    $res = array();
+
+                    if ($result->status === 200) {
+                        $items = $result->body->reservationSet;
+                        foreach ($items->item as $item) {
+                            $instanceId = (string) $item->instancesSet->item->instanceId;
+
+                            $key = str_replace("INSTANCE_ID", $instanceId, "INSTANCE_ID_last_used_$keyToDelete");
+                            if (Yii::app()->cache->offsetExists($key)) {
+                                Yii::app()->cache->set($key, time());
+                                $res[] = $key . " deleted";
+                            }
+                        }
+                    }
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " DELETED KEYS (" . json_encode($res) . ")", 
+                        CLogger::LEVEL_TRACE
+                    );
                     
                     $this->_sendResponse(200, json_encode($response));
                 }
