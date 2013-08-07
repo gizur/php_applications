@@ -5183,8 +5183,8 @@ class ApiController extends Controller
 
                             $key = str_replace("INSTANCE_ID", $instanceId, "INSTANCE_ID_last_used_$keyToDelete");
                             if (Yii::app()->cache->offsetExists($key)) {
-                                Yii::app()->cache->set($key, time());
-                                $res[] = $key . " updated";
+                                Yii::app()->cache->delete($key);
+                                $res[] = $key . " deleted";
                             }
                         }
                     }
