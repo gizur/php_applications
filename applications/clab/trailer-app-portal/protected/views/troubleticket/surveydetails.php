@@ -32,7 +32,6 @@ $this->breadcrumbs = array(
 
 <div style="background:#E5E5E5; width:550px"><strong>Ticket Information : <?php echo $result['result']['ticket_title']; ?></strong></div>	
 
-<div style="width: 100%; min-width: 700px;">
 <div class="Survey">
     <h2><?php echo getTranslatedString('Survey'); ?></h2>
     <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
@@ -171,7 +170,7 @@ $this->breadcrumbs = array(
     <?php echo CHtml::endForm(); ?>
     <?php $this->endWidget(); ?>
 </div>
-</div>
+
 <script type="text/javascript">
     
     function openwindow(path){
