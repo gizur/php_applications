@@ -265,9 +265,9 @@ div.search-form
     }
 .warrper{ width:900px; margin:20px auto; border:#F00 solid 1px;}
 .toppanel{ width:830px; height:auto; padding:10px 0 0px 0; background:#e3f0f7;border:#589fc8 solid 1px;}
-.Survey{width:300px; height:auto; float:left; }
+.Survey{width:30%; height:auto; float:left; }
 .Survey h2{ font-size:18px;  font-weight: normal; color:#2a7fae; margin:0px 0px 10px 0px; padding:0px;}
-.Damage{width:850px; height:auto; float:right;}
+.Damage{width:70%; height:auto; float:right;}
 .Damage h2{ font-size:18px;  font-weight: normal; color:#2a7fae; margin:0px 0px 10px 0px; padding:0px;}
 .button{ background:#507aaa; border:#173d68 solid 1px; font-weight:bold; color:#fff; padding:2px 5px; margin-left:123px} 
 .button a { font-weight:bold; color:#fff; padding:2px 5px 10px; text-decoration:none; } 
