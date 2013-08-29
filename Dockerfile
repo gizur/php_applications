@@ -10,7 +10,16 @@ RUN apt-get -y update
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -s /bin/true /sbin/initctl
 
-RUN apt-get install -y apache2 php5 php5-common php5-mysql php5-curl php5-redis bzip2 wget openssl ssl-cert
+RUN apt-get install -y apache2 php5 php5-common php5-mysql php5-curl php5-dev bzip2 wget openssl ssl-cert git build-essential
+
+#PHP-REDIS
+RUN git clone git://github.com/nicolasff/phpredis.git
+RUN cd phpredis
+RUN phpize
+RUN ./configure
+RUN make
+RUN make install
+RUN echo "extension=redis.so > /etc/php5/conf.d/redis.ini"
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
