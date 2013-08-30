@@ -19,10 +19,6 @@ ENV APACHE_LOG_DIR /var/log/apache2
 # Enable mode-rewrite
 RUN a2enmod rewrite
 
-# Update the default server file & restart the apache
-RUN cp -f /var/www/instance-configuration/docker/apache2/sites-available/default /etc/apache2/sites-available/
-RUN cp -f /var/www/instance-configuration/docker/apache2/ports.conf /etc/apache2/
-
 # Get the composer
 RUN cd /var/www && curl -sS https://getcomposer.org/installer
 RUN cd /var/www && mv composer.phar composer
@@ -36,6 +32,13 @@ RUN rm -f /var/www/index.html
 
 # Add everything to /var/www
 ADD . /var/www
+
+# Update the default server file & restart the apache
+RUN cp -f /var/www/instance-configuration/docker/apache2/sites-available/default /etc/apache2/sites-available/
+RUN cp -f /var/www/instance-configuration/docker/apache2/ports.conf /etc/apache2/
+
+# Restart after enabling mode rewrite
+RUN service apache2 restart
 
 EXPOSE 80
 
