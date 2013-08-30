@@ -21,11 +21,6 @@ RUN a2enmod rewrite
 
 RUN apt-get install -y curl
 
-# Get the composer
-RUN cd /var/www && curl -sS https://getcomposer.org/installer
-RUN cd /var/www && mv composer.phar composer
-RUN cd /var/www && ./composer install
-
 # Restart after enabling mode rewrite
 RUN service apache2 restart
 
@@ -34,6 +29,11 @@ RUN rm -f /var/www/index.html
 
 # Add everything to /var/www
 ADD . /var/www
+
+# Get the composer
+RUN cd /var/www && curl -sS https://getcomposer.org/installer | php
+RUN cd /var/www && mv composer.phar composer
+RUN cd /var/www && ./composer install
 
 # Update the default server file & restart the apache
 RUN cp -f /var/www/instance-configuration/docker/apache2/sites-available/default /etc/apache2/sites-available/
