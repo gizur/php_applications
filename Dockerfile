@@ -19,6 +19,8 @@ ENV APACHE_LOG_DIR /var/log/apache2
 # Enable mode-rewrite
 RUN a2enmod rewrite
 
+RUN apt-get install -y curl
+
 # Get the composer
 RUN cd /var/www && curl -sS https://getcomposer.org/installer
 RUN cd /var/www && mv composer.phar composer
