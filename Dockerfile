@@ -18,29 +18,18 @@ ENV APACHE_LOG_DIR /var/log/apache2
 
 # Enable mode-rewrite
 RUN a2enmod rewrite
-# Restart after enabling mode rewrite
-RUN service apache2 restart
-# Remove default html file
-RUN rm -f /var/www/index.html
-# Add everything containing folder to /var/www
-ADD . /var/www
+
 # Update the default server file & restart the apache
 RUN cp -f /var/www/instance-configuration/docker/apache2/sites-available/default /etc/apache2/sites-available/
+
+# Restart after enabling mode rewrite
 RUN service apache2 restart
 
-RUN apt-get install autoconf automake libtool m4
+# Remove default html file
+RUN rm -f /var/www/index.html
 
-#PHP-REDIS
-RUN mkdir /var/ext
-RUN cd /var/ext && git clone git://github.com/nicolasff/phpredis.git
-RUN cd /var/ext/phpredis && phpize
-RUN cd /var/ext/phpredis && ./configure
-RUN cd /var/ext/phpredis && make
-RUN cd /var/ext/phpredis && make install
-RUN echo "extension=redis.so > /etc/php5/conf.d/redis.ini"
-
-# Restart the apache again
-RUN service apache2 restart
+# Add everything to /var/www
+ADD . /var/www
 
 EXPOSE 80
 
