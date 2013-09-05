@@ -3086,64 +3086,68 @@ class ApiController extends Controller
                 
                 $response = json_decode($response);                
                 
-                $sThree = new AmazonS3();
-                $sThree->set_region(
-                    constant("AmazonS3::" . Yii::app()->params->awsS3Region)
-                );
+                if(!isset($_GET['path']) || $_GET['path'] === 0) {
+                    $sThree = new AmazonS3();
+                    $sThree->set_region(
+                        constant("AmazonS3::" . Yii::app()->params->awsS3Region)
+                    );
 
-                $uniqueId = uniqid();
+                    $uniqueId = uniqid();
 
-                $fileResource = fopen(
-                    'protected/data/' . $uniqueId . 
-                    $response->result->filename, 'x'
-                );
-                
-                //Log
-                Yii::log(
-                    " TRACE(" . $this->_traceId . "); " . 
-                    " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " PROCESSING REQUEST (sending request to s3 to get file: " .
-                    $response->result->filename .
-                    ")", 
-                    CLogger::LEVEL_TRACE
-                );                 
-                
-                $sThreeResponse = $sThree->get_object(
-                    Yii::app()->params->awsS3Bucket, 
-                    $response->result->filename, 
-                    array(
-                        'fileDownload' => $fileResource
-                    )
-                );
+                    $fileResource = fopen(
+                        'protected/data/' . $uniqueId . 
+                        $response->result->filename, 'x'
+                    );
 
-                //Log
-                Yii::log(
-                    " TRACE(" . $this->_traceId . "); " . 
-                    " FUNCTION(" . __FUNCTION__ . "); " . 
-                    " PROCESSING REQUEST (response received from s3: " . 
-                    json_encode($sThreeResponse) .
-                    ")", 
-                    CLogger::LEVEL_TRACE
-                );
-                
-                if (!$sThreeResponse->isOK())
-                throw new Exception("File not found.");
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending request to s3 to get file: " .
+                        $response->result->filename .
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                 
 
-                $response->result->filecontent 
-                    = base64_encode(
-                        file_get_contents(
-                            'protected/data/' . $uniqueId .
-                            $response->result->filename
+                    $sThreeResponse = $sThree->get_object(
+                        Yii::app()->params->awsS3Bucket, 
+                        $response->result->filename, 
+                        array(
+                            'fileDownload' => $fileResource
                         )
                     );
-                unlink(
-                    'protected/data/' . $uniqueId . $response->result->filename
-                );
 
-                $filenameSanitizer = explode("_", $response->result->filename);
-                unset($filenameSanitizer[0]);
-                unset($filenameSanitizer[1]);
-                $response->result->filename = implode('_', $filenameSanitizer);
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received from s3: " . 
+                        json_encode($sThreeResponse) .
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
+
+                    if (!$sThreeResponse->isOK())
+                    throw new Exception("File not found.");
+
+                    $response->result->filecontent 
+                        = base64_encode(
+                            file_get_contents(
+                                'protected/data/' . $uniqueId .
+                                $response->result->filename
+                            )
+                        );
+                    unlink(
+                        'protected/data/' . $uniqueId . $response->result->filename
+                    );
+
+                    $filenameSanitizer = explode("_", $response->result->filename);
+                    unset($filenameSanitizer[0]);
+                    unset($filenameSanitizer[1]);
+                    $response->result->filename = implode('_', $filenameSanitizer);
+                } else {
+                    $response->result->filecontent = $_SERVER['HTTP_HOST'] . "/api/Images/" . $response->result->filename;
+                }
                 $this->_sendResponse(200, json_encode($response));
                 break;
 
