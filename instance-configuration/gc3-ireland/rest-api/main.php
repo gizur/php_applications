@@ -57,6 +57,7 @@ return array(
                 array('api/list', 'pattern' => '/<model:(Background)>/<action:(backgroundstatus)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Images)>/<name:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 'verb' => 'POST'),
                 array('api/list', 'pattern' => '/<model:(User)>/<action:(login|forgotpassword)>', 'verb' => 'POST'),
                 array('api/update', 'pattern' => '/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb' => 'PUT'),

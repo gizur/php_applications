@@ -162,7 +162,8 @@ class ApiController extends Controller
         'Authenticate',
         'Cron',
         'Batches', // Batch Integration
-        'Background' // Background Status
+        'Background', // Background Status
+        'Images' // S3 Images
     );
 
     /**
@@ -384,7 +385,7 @@ class ApiController extends Controller
             
             //First we validate the requests using logic do not consume
             //resources 
-            if ($_GET['model'] == 'Batches') {
+            if ($_GET['model'] == 'Batches' || $_GET['model'] == 'Images') {
                 return true;
             }
             
@@ -2555,7 +2556,69 @@ class ApiController extends Controller
             );
             
             switch ($_GET['model']) {
-            /*
+                /*
+                * **************************************************************
+                * **************************************************************
+                * * Images MODEL
+                * * Accepts id
+                * **************************************************************
+                * **************************************************************
+                */
+            case 'Images':
+                $imageName = $_GET['name'];
+                $sThree = new AmazonS3();
+                $sThree->set_region(
+                    constant("AmazonS3::" . Yii::app()->params->awsS3Region)
+                );
+
+                $uniqueId = uniqid();
+
+                $fileResource = fopen(
+                    'protected/data/' . $uniqueId . 
+                    $imageName, 'x'
+                );
+                
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (sending request to s3 to get file: " .
+                    $imageName .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );                 
+                
+                $sThreeResponse = $sThree->get_object(
+                    Yii::app()->params->awsS3Bucket, 
+                    $imageName, 
+                    array(
+                        'fileDownload' => $fileResource
+                    )
+                );
+
+                //Log
+                Yii::log(
+                    " TRACE(" . $this->_traceId . "); " . 
+                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                    " PROCESSING REQUEST (response received from s3: " . 
+                    json_encode($sThreeResponse) .
+                    ")", 
+                    CLogger::LEVEL_TRACE
+                );
+                
+                if (!$sThreeResponse->isOK())
+                throw new Exception("File not found.");
+
+                $filecontent = file_get_contents(
+                            'protected/data/' . $uniqueId .
+                            $response->result->filename
+                        );
+                unlink(
+                    'protected/data/' . $uniqueId . $response->result->filename
+                );
+                $this->_sendResponse(200, $filecontent, 'image/jpeg');
+                break;
+                /*
                 * **************************************************************
                 * **************************************************************
                 * * User MODEL
