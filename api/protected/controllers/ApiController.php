@@ -2611,7 +2611,7 @@ class ApiController extends Controller
 
                 $filecontent = file_get_contents(
                             'protected/data/' . $uniqueId .
-                            $response->result->filename
+                            $imageName
                         );
                 unlink(
                     'protected/data/' . $uniqueId . $response->result->filename
