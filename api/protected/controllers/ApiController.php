@@ -3146,7 +3146,7 @@ class ApiController extends Controller
                     unset($filenameSanitizer[1]);
                     $response->result->filename = implode('_', $filenameSanitizer);
                 } else {
-                    $response->result->filecontent = $_SERVER['HTTP_HOST'] . "/api/Images/" . $response->result->filename;
+                    $response->result->filecontent = $_SERVER['HTTP_X_FORWARDED_PROTO'] . '://' . $_SERVER['HTTP_HOST'] . "/api/Images/" . $response->result->filename;
                 }
                 $this->_sendResponse(200, json_encode($response));
                 break;
