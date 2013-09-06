@@ -2845,6 +2845,35 @@ class ApiController extends Controller
                         throw new Exception($documents['error']['message']);
                     
                     $response['result']['documents'] = $documents['result'];
+                    
+                    foreach($response['result']['documents'] as $k => $doc) {
+                        //creating query string
+                        $params = "sessionName={$this->_session->sessionName}" .
+                                "&operation=gettroubleticketdocumentfile" .
+                                "&notesid=" . $doc['id'];
+
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (sending GET request to vt url: " . 
+                            $this->_vtresturl . "?$params" .
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );
+
+                        //Receive response from vtiger REST service
+                        //Return response to client  
+                        $rest = new RESTClient();
+
+                        $rest->format('json');
+                        $respo = $rest->get(
+                            $this->_vtresturl . "?$params"
+                        );
+                        $respo = json_decode($respo, true);
+                        if($respo['success'])
+                            $response['result']['documents'][$k]['file'] = $respo['result'];
+                    }
                 }
 
                     /* Get Contact's Name */
