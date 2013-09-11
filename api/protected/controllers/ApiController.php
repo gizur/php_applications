@@ -2146,6 +2146,7 @@ class ApiController extends Controller
                 break;
             case 'ExistingDamages':
                 
+                $model = "HelpDesk";
                 //Is this a request for listing categories
                 if (isset($_GET['category'])) {
 
@@ -2157,7 +2158,7 @@ class ApiController extends Controller
                         Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['damagetype'] . " ," .
                         Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['damageposition'] . " ," .
                         Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['drivercauseddamage'] .
-                        " from " . $_GET['model'];
+                        " from $model";
 
                     //creating where clause based on parameters
                     $whereClause = Array();
@@ -2170,7 +2171,7 @@ class ApiController extends Controller
 
                     if (isset($_GET['reportdamage']))
                     if ($_GET['reportdamage'] != 'all') {
-                        $whereClause[] = Yii::app()->params[$this->_clientid . '_custom_fields'][$_GET['model']]['reportdamage'] . 
+                        $whereClause[] = Yii::app()->params[$this->_clientid . '_custom_fields'][$model]['reportdamage'] . 
                             " = '" . ucwords($_GET['reportdamage']) . "'";
                     }
 
