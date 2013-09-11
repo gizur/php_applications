@@ -163,7 +163,8 @@ class ApiController extends Controller
         'Cron',
         'Batches', // Batch Integration
         'Background', // Background Status
-        'Images' // S3 Images
+        'Images', // S3 Images
+        'ExistingDamages'
     );
 
     /**
@@ -1905,6 +1906,258 @@ class ApiController extends Controller
 
                     //Send request to vtiger REST service
                     $query = "select * from " . $_GET['model'];
+
+                    //creating where clause based on parameters
+                    $whereClause = Array();
+                    if ($_GET['category'] == 'inoperation') {
+                        $whereClause[] = "ticketstatus = 'Closed'";
+                    }
+                    if ($_GET['category'] == 'damaged') {
+                        $whereClause[] = "ticketstatus = 'Open'";
+                    }
+
+                    if (isset($_GET['reportdamage']))
+                    if ($_GET['reportdamage'] != 'all') {
+                        $whereClause[] = Yii::app()->params[$this->_clientid . '_custom_fields'][$_GET['model']]['reportdamage'] . 
+                            " = '" . ucwords($_GET['reportdamage']) . "'";
+                    }
+
+                    //Adding date range filter
+                    if (isset($_GET['year']) && isset($_GET['month'])) {
+                        if ($_GET['year'] != '0000') {
+                            if ($_GET['month'] == '00') {
+                                $startmonth = '01';
+                                $endmonth = '12';
+                            } else {
+                                $startmonth = $_GET['month'];
+                                $endmonth = $_GET['month'];
+                            }
+                            if (!checkdate($startmonth, "01", $_GET['year']))
+                                throw new Exception(
+                                    "Invalid month specified in list criteria"
+                                );
+                            $whereClause[] 
+                                = "createdtime >= '" .
+                                    $_GET['year'] . "-" . $startmonth . "-01'";
+                            $whereClause[] 
+                                = "createdtime <= '" .
+                                    $_GET['year'] . "-" . $endmonth . "-31'";
+                        }
+                    }
+
+                    //Adding trailer filter
+                    if (isset($_GET['trailerid'])) {
+                        if ($_GET['trailerid'] != '0')
+                            $whereClause[] = Yii::app()->params[$this->_clientid . '_custom_fields']
+                                ['HelpDesk']['trailerid'] .
+                                " = '" . $_GET['trailerid'] . "'";
+                    }
+
+                    //Attaching where clause to filter
+                    if (count($whereClause) != 0)
+                        $query = $query . " where " .
+                                implode(" and ", $whereClause);
+                    
+                    //Terminating the query
+                    $query = $query . ";";
+
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName={$this->_session->sessionName}" .
+                            "&operation=query&query=$queryParam";
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                     
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                
+                    $rest->format('json');
+                    $response = $rest->get(
+                        $this->_vtresturl . "?$params"
+                    );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $response .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                        throw new Exception('Fetching details failed');
+
+                    //Get Accounts List
+                    $query = "select * from Accounts;";
+                 
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName={$this->_session->sessionName}" .
+                            "&operation=query&query=$queryParam";
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .    
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                
+                    $rest->format('json');
+                    $accounts = $rest->get(
+                        $this->_vtresturl . "?$params"
+                    );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $accounts .
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
+                    
+                    //Objectify the response and check its success
+                    $accounts = json_decode($accounts, true);
+                    
+                    if ($accounts['success'] == true) {
+                        $tmpAccounts = array();
+                        if (isset($accounts['result']))
+                            foreach ($accounts['result'] as $account)
+                                $tmpAccounts[$account['id']] = $account['accountname'];
+                    }
+
+
+                    //Get Contact List
+                    $query = "select * from Contacts;";
+                    
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName={$this->_session->sessionName}" .
+                            "&operation=query&query=$queryParam";
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                        $this->_vtresturl . "?$params" .
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                
+                    $rest->format('json');
+                    $contacts = $rest->get(
+                        $this->_vtresturl . "?$params"
+                    );
+                    
+                    //Log
+                    Yii::log(
+                        " TRACE(" . $this->_traceId . "); " . 
+                        " FUNCTION(" . __FUNCTION__ . "); " . 
+                        " PROCESSING REQUEST (response received: " . 
+                        $contacts .                          
+                        ")", 
+                        CLogger::LEVEL_TRACE
+                    );                    
+                    
+                    //Objectify the response and check its success
+                    $contacts = json_decode($contacts, true);
+                    if ($contacts['success'] == true) {
+                        $tmpContacts = array();
+                        if (isset($contacts['result']))
+                        foreach ($contacts['result'] as $contact) {
+                            $tmpContacts[$contact['id']]['contactname'] = 
+                                $contact['firstname'] . ' ' . 
+                                $contact['lastname'];
+                            $tmpContacts[$contact['id']]['accountname'] = 
+                                $tmpAccounts[$contact['account_id']];
+                        }
+                    }
+
+                    //Before sending response santise custom fields names to 
+                    //human readable field names
+                    $customFields = Yii::app()->params[$this->_clientid . 
+                        '_custom_fields']['HelpDesk'];
+
+                    foreach ($response['result'] as &$troubleticket) {
+                        unset($troubleticket['update_log']);
+                        unset($troubleticket['hours']);
+                        unset($troubleticket['days']);
+                        unset($troubleticket['modifiedtime']);
+                        unset($troubleticket['from_portal']);
+                        if (isset($tmpContacts)) {
+                            if (isset($tmpContacts[$troubleticket['parent_id']])) {
+                                $troubleticket['contactname'] = 
+                                    $tmpContacts[$troubleticket['parent_id']]['contactname'];
+                                $troubleticket['accountname'] = 
+                                    $tmpContacts[$troubleticket['parent_id']]['accountname'];
+                            } else {
+                                $troubleticket['contactname'] = '';
+                                $troubleticket['accountname'] = '';
+                            }
+                        }
+                        foreach ($troubleticket as $fieldname => $value) {
+                            $keyToReplace = array_search(
+                                $fieldname, $customFields
+                            );
+                            if ($keyToReplace) {
+                                unset($troubleticket[$fieldname]);
+                                $troubleticket[$keyToReplace] = $value;
+                                //unset($customFields[$keyToReplace]);
+                            }
+                        }
+                    }
+
+                    //Send response
+                    $this->_sendResponse(200, json_encode($response));
+                }
+                break;
+            case 'ExistingDamages':
+                
+                //Is this a request for listing categories
+                if (isset($_GET['category'])) {
+
+                    //Send request to vtiger REST service
+                    $query = "select ticket_no, ticket_title, " .
+                        Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['trailerid'] . " ," .
+                        Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['tickettype'] . " ," .
+                        Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['reportdamage'] . " ," .
+                        Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['damagetype'] . " ," .
+                        Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['damageposition'] . " ," .
+                        Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['drivercauseddamage'] .
+                        " from " . $_GET['model'];
 
                     //creating where clause based on parameters
                     $whereClause = Array();
