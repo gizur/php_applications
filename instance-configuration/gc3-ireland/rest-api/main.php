@@ -54,6 +54,7 @@ return array(
                 array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(DocumentAttachments)>/<id:[0-9x]+>/<path:(1|0)>', 'verb' => 'GET'),
+                array('api/view', 'pattern' => '/<model:(DocumentAttachments)>/<id:[0-9x]+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(User)>/<email:.+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(Images)>/<name:.+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Background)>/<action:(backgroundstatus)>', 'verb' => 'GET'),
