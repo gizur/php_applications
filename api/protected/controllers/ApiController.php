@@ -2150,7 +2150,7 @@ class ApiController extends Controller
                 if (isset($_GET['category'])) {
 
                     //Send request to vtiger REST service
-                    $query = "select ticket_no, ticket_title, " .
+                    $query = "select id, ticket_no, ticket_title, " .
                         Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['trailerid'] . " ," .
                         Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['tickettype'] . " ," .
                         Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['reportdamage'] . " ," .
