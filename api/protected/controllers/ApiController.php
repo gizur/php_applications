@@ -3115,7 +3115,7 @@ class ApiController extends Controller
                 
                 $response = json_decode($response);                
                 
-                if(!isset($_GET['path']) || $_GET['path'] === 0) {
+                if(!isset($_GET['path']) || $_GET['path'] == 0) {
                     $sThree = new AmazonS3();
                     $sThree->set_region(
                         constant("AmazonS3::" . Yii::app()->params->awsS3Region)
