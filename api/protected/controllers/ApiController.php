@@ -2382,7 +2382,7 @@ class ApiController extends Controller
                                 );
                                 $respo = json_decode($respo, true);
                                 if($respo['success']) {
-                                    $response['result'][$key][$k]['path'] = Yii::app()->params['awsS3BucketUrl'] . '/' . $respo['result']['filename'];
+                                    $response['result'][$key]['files'][]['path'] = Yii::app()->params['awsS3BucketUrl'] . '/' . $respo['result']['filename'];
                                 }
                             }
                         }
