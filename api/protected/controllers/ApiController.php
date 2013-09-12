@@ -2261,7 +2261,7 @@ class ApiController extends Controller
                      * Fetch the documents
                      */
                     
-                    foreach($response['result'] as $k => $ticket) {
+                    foreach($response['result'] as $key => $ticket) {
                         //Get Documents Ids
                         //creating query string
                         $params = "sessionName={$this->_session->sessionName}" .
@@ -2356,9 +2356,7 @@ class ApiController extends Controller
                             if (!$documents['success'])
                                 throw new Exception($documents['error']['message']);
 
-                            $response['result']['documents'] = $documents['result'];
-
-                            foreach($response['result']['documents'] as $k => $doc) {
+                            foreach($documents['result'] as $k => $doc) {
                                 //creating query string
                                 $params = "sessionName={$this->_session->sessionName}" .
                                         "&operation=gettroubleticketdocumentfile" .
@@ -2384,7 +2382,7 @@ class ApiController extends Controller
                                 );
                                 $respo = json_decode($respo, true);
                                 if($respo['success']) {
-                                    $response['result']['documents'][$k]['file'] = $respo['result'];
+                                    $response['result'][$key][$k]['path'] = Yii::app()->params['awsS3BucketUrl'] . '/' . $respo['result']['filename'];
                                 }
                             }
                         }
