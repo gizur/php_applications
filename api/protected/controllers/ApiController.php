@@ -2256,6 +2256,140 @@ class ApiController extends Controller
                     if ($response['success'] == false)
                         throw new Exception('Fetching details failed');
 
+                    
+                    /**
+                     * Fetch the documents
+                     */
+                    
+                    foreach($response['result'] as $k => $ticket) {
+                        //Get Documents Ids
+                        //creating query string
+                        $params = "sessionName={$this->_session->sessionName}" .
+                                "&operation=getrelatedtroubleticketdocument" .
+                                "&crmid=" . $ticket['id'];
+
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (sending GET request to vt url: " . 
+                            $this->_vtresturl . "?$params" .
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );                  
+
+                        //sending request vtiger REST service
+                        $rest = new RESTClient();
+
+                        $rest->format('json');
+                        $documentids = $rest->get(
+                            $this->_vtresturl . "?$params"
+                        );
+
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (response received: " . 
+                            $documentids .
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );
+
+                        //Arrayfy the response and check its success 
+                        $documentids = json_decode($documentids, true);
+                        if ($documentids['success']==false)
+                            throw new Exception('Unable to fetch Documents');
+
+                        $documentids = $documentids['result'];
+
+                        // Get Document Details 
+                        if (count($documentids) != 0) {
+
+                            //Building query for fetching documents
+                            $query = "select * from Documents" .
+                                    " where id in (" . $this->_wsEntities['Documents']
+                                    . "x" .
+                                    implode(
+                                        ", " . $this->_wsEntities['Documents']
+                                        . "x", $documentids
+                                    ) . ");";
+
+                            //urlencode to as its sent over http.
+                            $queryParam = urlencode($query);
+
+                            //creating query string
+                            $params = "sessionName={$this->_session->sessionName}" .
+                                    "&operation=query&query=$queryParam";
+
+                            //Log
+                            Yii::log(
+                                " TRACE(" . $this->_traceId . "); " . 
+                                " FUNCTION(" . __FUNCTION__ . "); " . 
+                                " PROCESSING REQUEST (sending GET request to vt url: " .
+                                $this->_vtresturl . "?$params" .
+                                ")", 
+                                CLogger::LEVEL_TRACE
+                            );                     
+
+                            //sending request to vtiger REST Service 
+                            $rest = new RESTClient();
+
+                            $rest->format('json');
+                            $documents = $rest->get(
+                                $this->_vtresturl . "?$params"
+                            );
+
+                            //Log
+                            Yii::log(
+                                " TRACE(" . $this->_traceId . "); " . 
+                                " FUNCTION(" . __FUNCTION__ . "); " . 
+                                " PROCESSING REQUEST (response received: " . 
+                                $documents .
+                                ")", 
+                                CLogger::LEVEL_TRACE
+                            );
+
+                            //Objectify the response and check its success
+                            $documents = json_decode($documents, true);
+
+                            if (!$documents['success'])
+                                throw new Exception($documents['error']['message']);
+
+                            $response['result']['documents'] = $documents['result'];
+
+                            foreach($response['result']['documents'] as $k => $doc) {
+                                //creating query string
+                                $params = "sessionName={$this->_session->sessionName}" .
+                                        "&operation=gettroubleticketdocumentfile" .
+                                        "&notesid=" . $doc['id'];
+
+                                //Log
+                                Yii::log(
+                                    " TRACE(" . $this->_traceId . "); " . 
+                                    " FUNCTION(" . __FUNCTION__ . "); " . 
+                                    " PROCESSING REQUEST (sending GET request to vt url: " . 
+                                    $this->_vtresturl . "?$params" .
+                                    ")", 
+                                    CLogger::LEVEL_TRACE
+                                );
+
+                                //Receive response from vtiger REST service
+                                //Return response to client  
+                                $rest = new RESTClient();
+
+                                $rest->format('json');
+                                $respo = $rest->get(
+                                    $this->_vtresturl . "?$params"
+                                );
+                                $respo = json_decode($respo, true);
+                                if($respo['success']) {
+                                    $response['result']['documents'][$k]['file'] = $respo['result'];
+                                }
+                            }
+                        }
+                    } // END FETCHING DOCUMENT
+                    
                     //Before sending response santise custom fields names to 
                     //human readable field names
                     $customFields = Yii::app()->params[$this->_clientid . 
