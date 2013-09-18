@@ -276,6 +276,8 @@ class ApiController extends Controller
         // pages with body are easy
         if ($body != '') {
             // send the body
+            header('Content-Length: ' . strlen($body));
+            header("Connection: Close");
             echo $body;
         } else {
             $message = '';
