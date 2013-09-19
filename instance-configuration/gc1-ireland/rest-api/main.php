@@ -50,8 +50,8 @@ return array(
                 // REST patterns                
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
-                array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>', 'verb' => 'GET'),                
-                array('api/list', 'pattern' => '/<model:(HelpDesk)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(HelpDesk|ExistingDamages)>/<category:(inoperation|damaged|all)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(HelpDesk|ExistingDamages)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(DocumentAttachments)>/<id:[0-9x]+>/<path:(1|0)>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(DocumentAttachments)>/<id:[0-9x]+>', 'verb' => 'GET'),
@@ -120,6 +120,7 @@ return array(
         'vtRestUrl' => 'http://127.0.0.1/{clientid}/webservice.php',
         'vtCronPath' => '/var/www/html/lib/vtiger-5.4.0/cron/',
         'awsS3Bucket' => 'gizurcloud-clab',
+        'awsS3BucketUrl' => 'http://gizurcloud-clab.s3-website-eu-west-1.amazonaws.com',
         'awsS3BackupBucket' => 'gc1-backups',
         'awsDynamoDBTableName' => 'GIZUR_ACCOUNTS',
         'awsBatchDynamoDBTableName' => 'GIZUR_BATCHES',
