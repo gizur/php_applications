@@ -79,10 +79,11 @@ foreach ($Assets as $key => $val) {
                             ?>
                             <td><strong>Trailer</strong></td>
                             <td><select name='TID' id="trailer" onchange="getAjaxBaseRecord(this.value)"><?php echo $TID; ?></select></td>
-                            <td><input type="radio" name="optration" <?php echo $inopt; ?> value="inoperation" id="inperation" onclick="getAjaxBaseAssetRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>	
-                                <input type="radio" name="optration" <?php echo $damagechecked; ?> value="damaged" id="damaged" onclick="getAjaxBaseAssetRecord(this.value)" value="damaged" style="margin-right:10px; margin-left:30px"><?php echo getTranslatedString('Damaged'); ?>	</td>
+                            <td>
+                                <input type="radio" name="optration" <?php echo $inopt; ?> value="inoperation" id="inperation" onclick="getAjaxBaseAssetRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>	
+                                <input type="radio" name="optration" <?php echo $damagechecked; ?> value="damaged" id="damaged" onclick="getAjaxBaseAssetRecord(this.value)" value="damaged" style="margin-right:10px; margin-left:30px"><?php echo getTranslatedString('Damaged'); ?>
+                            </td>
                         </tr>
-
                     </table>
                 </td>
             </tr>
@@ -133,75 +134,50 @@ foreach ($Assets as $key => $val) {
     </div>
 </div>
 <script type="text/javascript">
-                    jQuery(document).ready(function() {
-                        jQuery("#assetsmsg").show().delay(5000).fadeOut();
-                        jQuery('#table_id').dataTable();
-                    });
-                    function getAjaxBaseAssetRecord(value)
-                    {
-
-                        if (value == 'damaged')
-                        {
-                            var tickettype = value;
-                        }
-                        else
-                        {
-                            var tickettype = 'inoperation';
-                        }
-                        var trailer = $('#trailer').val();
-                        $("#assetsmsg").addClass("waitprocess");
-                        $('#assetsmsg').html('loading....  Please wait');
-                        $.post('index.php?r=troubleticket/changeassets', {tickettype: tickettype, trailer: trailer},
-                        function(data)
-                        {
-                            $("#assetsmsg").removeClass("waitprocess");
-                            $('#assetsmsg').html(data);
-                        });
-
-                    }
-                    function getAjaxBaseRecord(value)
-                    {
-                        var year = $('#year').val();
-                        var month = $('#month').val();
-                        var reportdamage = $('#reportdamage').val();
-                        var trailer = $('#trailer option:selected').text();
-                        var trailerid = $('#trailer option:selected').val();
-                        $("#process").addClass("waitprocess");
-                        $('#process').html('loading....  Please wait');
-                        $.post('index.php?r=troubleticket/surveysearch', {year: year, month: month, trailer: trailer, reportdamage: reportdamage, trailerid: trailerid},
-                        function(data)
-                        {
-                            $("#process").removeClass("waitprocess");
-                            $('#wrap').html(data);
-                        });
-
-                    }
-
-
-                    function waitprocess(id)
-                    {
-                        $("#" + id).addClass("waitprocessdetails");
-                        $('#' + id).html('Please wait...');
-                    }
-                    $('#year').val('<?php
-                if (!empty($SYear)) {
-                    echo $SYear;
-                } else {
-                    echo date('Y');
-                }
-                ?>');
-                    $('#month').val('<?php
-                if (!empty($SMonth)) {
-                    echo $SMonth;
-                } else {
-                    echo date('m');
-                }
-                ?>');
-                    $('#reportdamage').val('<?php
-                if (!empty($SReportdamage)) {
-                    echo $SReportdamage;
-                } else {
-                    echo 'all';
-                }
-                ?>');
+    jQuery(document).ready(function() {
+        jQuery("#assetsmsg").show().delay(5000).fadeOut();
+        jQuery('#table_id').dataTable({
+            "bStateSave": true
+        });
+    });
+    function getAjaxBaseAssetRecord(value) {
+        if (value == 'damaged') {
+            var tickettype = value;
+        } else {
+            var tickettype = 'inoperation';
+        }
+        var trailer = $('#trailer').val();
+        $("#assetsmsg").addClass("waitprocess");
+        $('#assetsmsg').html('loading....  Please wait');
+        $.post('index.php?r=troubleticket/changeassets', {tickettype: tickettype, trailer: trailer},
+            function(data) {
+                $("#assetsmsg").removeClass("waitprocess");
+                $('#assetsmsg').html(data);
+            }
+        );
+    }
+    
+    function getAjaxBaseRecord(value) {
+        var year = $('#year').val();
+        var month = $('#month').val();
+        var reportdamage = $('#reportdamage').val();
+        var trailer = $('#trailer option:selected').text();
+        var trailerid = $('#trailer option:selected').val();
+        $("#process").addClass("waitprocess");
+        $('#process').html('loading....  Please wait');
+        $.post('index.php?r=troubleticket/surveysearch', {year: year, month: month, trailer: trailer, reportdamage: reportdamage, trailerid: trailerid},
+            function(data) {
+                $("#process").removeClass("waitprocess");
+                $('#wrap').html(data);
+            }
+        );
+    }
+    
+    function waitprocess(id) {
+        $("#" + id).addClass("waitprocessdetails");
+        $('#' + id).html('Please wait...');
+    }
+    $('#year').val('<?php if (!empty($SYear)) { echo $SYear; } else { echo date('Y'); } ?>');
+    $('#month').val('<?php if (!empty($SMonth)) { echo $SMonth; } else { echo date('m'); } ?>');
+    $('#reportdamage').val('<?php if (!empty($SReportdamage)) { echo $SReportdamage; } else { echo 'all'; } ?>');
 </script>
