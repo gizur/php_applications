@@ -137,11 +137,7 @@ foreach ($Assets as $key => $val) {
     jQuery(document).ready(function() {
         jQuery("#assetsmsg").show().delay(5000).fadeOut();
         jQuery('#table_id').dataTable({
-            "bStateSave": true,
-            "fnCookieCallback": function (sName, oData, sExpires, sPath) {
-                // Customise oData or sName or whatever else here
-                return "gizur_table_id_state" + "="+JSON.stringify(oData)+"; expires=" + sExpires +"; path=" + sPath;
-            }
+            "bStateSave": true
         });
     });
     function getAjaxBaseAssetRecord(value) {
