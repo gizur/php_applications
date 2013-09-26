@@ -86,9 +86,7 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         $protocol = Yii::app()->params['protocol'];
-        $servername = Yii::app()->request->getServerName();     
-        
-        setcookie("gizur_table_id_state", "", time()-3600);
+        $servername = Yii::app()->request->getServerName();
         
         $model = new LoginForm;
 
