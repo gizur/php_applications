@@ -86,7 +86,9 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         $protocol = Yii::app()->params['protocol'];
-        $servername = Yii::app()->request->getServerName();
+        $servername = Yii::app()->request->getServerName();     
+        
+        setcookie("SpryMedia_DataTables_table_id_index.php", "", time()-3600);
         
         $model = new LoginForm;
 
