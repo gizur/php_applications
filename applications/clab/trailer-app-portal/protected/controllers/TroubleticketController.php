@@ -30,8 +30,8 @@ class TroubleticketController extends Controller {
         $module = "HelpDesk";
         $tickettype = "all";
         
-        if(!isset($_SESSION['gizur_table_id_index'])) {
-            $_SESSION['gizur_table_id_index'] = 1;
+        if(!isset(Yii::app()->session['gizur_table_id_index'])) {
+            Yii::app()->session['gizur_table_id_index'] = 1;
             setcookie("SpryMedia_DataTables_table_id_index.php", "", time() - 3600);
             unset($_COOKIE['SpryMedia_DataTables_table_id_index.php']);
         }
