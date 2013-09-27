@@ -29,6 +29,13 @@ class TroubleticketController extends Controller {
     public function actionsurveylist() {
         $module = "HelpDesk";
         $tickettype = "all";
+        
+        if(!isset($_SESSION['gizur_table_id_index'])) {
+            $_SESSION['gizur_table_id_index'] = 1;
+            setcookie("SpryMedia_DataTables_table_id_index.php", "", time() - 3600);
+            unset($_COOKIE['SpryMedia_DataTables_table_id_index.php']);
+        }
+        
         $model = new Troubleticket;
         $this->LoginCheck();
         $Asset_List = $model->findAssets('Assets');

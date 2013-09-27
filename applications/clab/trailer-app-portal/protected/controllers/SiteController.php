@@ -88,9 +88,6 @@ class SiteController extends Controller {
         $protocol = Yii::app()->params['protocol'];
         $servername = Yii::app()->request->getServerName();     
         
-        setcookie("SpryMedia_DataTables_table_id_index.php", "", time()-3600);
-        unset($_COOKIE['SpryMedia_DataTables_table_id_index.php']);
-        
         $model = new LoginForm;
 
         // if it is ajax validation request
