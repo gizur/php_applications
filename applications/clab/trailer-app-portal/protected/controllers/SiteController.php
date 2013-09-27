@@ -152,6 +152,7 @@ class SiteController extends Controller {
          * Check Response if the responce is true then set the 
          * session other wise return error message.
          */
+        unset(Yii::app()->session['gizur_table_id_index']);
         Yii::app()->session['username'] = "";
         Yii::app()->session['password'] = "";
         Yii::app()->session['Lang'] = "";
