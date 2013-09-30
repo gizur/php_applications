@@ -11,7 +11,7 @@
 
 -->
 <?php
-include_once 'protected/extensions/language/' . Yii::app()->session['Lang'] . '.php';
+include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
 ?>
 <?php
 $this->pageTitle = Yii::app()->name . ' - Trouble Ticket List ';
@@ -21,23 +21,21 @@ $this->breadcrumbs = array(
 );
 ?>
 <?php
-$currentyear = isset(Yii::app()->session['Search_year']) ? Yii::app()->session['Search_year'] : date('Y');
+$currentyear = isset($session['Search_year']) ? $session['Search_year'] : date('Y');
 for ($i = 1980; $i <= 2020; $i++) {
     $selected = $i == $currentyear ? "selected" : "";
     $options.= "<option value=" . $i . " " . $selected . " >" . $i . "</option>";
 }
 $options.= "<option value=0000>All</option>";
 
-$curr_month = isset(Yii::app()->session['Search_month']) ? Yii::app()->session['Search_month'] : date("m");
+$curr_month = isset($session['Search_month']) ? $session['Search_month'] : date("m");
 $month = array('00' => "All", '01' => "January", '02' => "February", '03' => "March", '04' => "April", '05' => "May", '06' => "June",
     '07' => "July", '08' => "August", '09' => "September", '10' => "October", '11' => "November", '12' => "December");
 foreach ($month as $key => $val) {
     $selected = $key == $curr_month ? "selected" : "";
     $Months.="<option value=" . $key . " " . $selected . " >" . $val . "</option>";
 }
-
-var_dump($session);
-$TR = isset(Yii::app()->session['Search_trailerid']) ? Yii::app()->session['Search_trailerid'] : 0;
+$TR = isset($session['Search_trailerid']) ? $session['Search_trailerid'] : 0;
 foreach ($Assets as $key => $val) {
     if ($TR == $key)
         $TID .= "<option value=\"" . $key . "\" selected=\"selected\">" . $val . "</option>";
