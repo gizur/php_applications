@@ -177,7 +177,7 @@ foreach ($Assets as $key => $val) {
         $("#" + id).addClass("waitprocessdetails");
         $('#' + id).html('Please wait...');
     }
-    $('#year').val('<?php if (!empty($SYear)) { echo $SYear; } else { echo date('Y'); } ?>');
+    /*$('#year').val('<?php if (!empty($SYear)) { echo $SYear; } else { echo date('Y'); } ?>');
     $('#month').val('<?php if (!empty($SMonth)) { echo $SMonth; } else { echo date('m'); } ?>');
-    $('#reportdamage').val('<?php if (!empty($SReportdamage)) { echo $SReportdamage; } else { echo 'all'; } ?>');
+    $('#reportdamage').val('<?php if (!empty($SReportdamage)) { echo $SReportdamage; } else { echo 'all'; } ?>');*/
 </script>

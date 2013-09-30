@@ -28,6 +28,7 @@ class TroubleticketController extends Controller {
      */
     public function actionsurveylist() {
         $module = "HelpDesk";
+        $tickettype = "all";
         
         if(!isset(Yii::app()->session['gizur_table_id_index'])) {
             Yii::app()->session['gizur_table_id_index'] = 1;
@@ -39,12 +40,13 @@ class TroubleticketController extends Controller {
         $this->LoginCheck();
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
+        
         $currentyear = isset(Yii::app()->session['Search_year']) ? Yii::app()->session['Search_year'] : date('Y');
         $curr_month = isset(Yii::app()->session['Search_month']) ? Yii::app()->session['Search_month'] : date("m");
-        $trailerid = isset(Yii::app()->session['Search_trailerid']) ? Yii::app()->session['Search_trailerid'] : 0;
-        $tickettype = isset(Yii::app()->session['Search_reportdamage']) ? Yii::app()->session['Search_reportdamage'] : 'all';
+        $trailer = isset(Yii::app()->session['Search_trailer']) ? Yii::app()->session['Search_trailer'] : 0;
+        $reportdamage = isset(Yii::app()->session['Search_reportdamage']) ? Yii::app()->session['Search_reportdamage'] : 'all';
         
-        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailerid, $tickettype);
+        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage);
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List, 'session' => Yii::app()->session));
     }
@@ -98,7 +100,7 @@ class TroubleticketController extends Controller {
             $trailer = "0";
         $model = new Troubleticket;
         $this->LoginCheck();
-        $records = $model->findAll($module, 'all', $year, $month, $trailerid, $reportdamage);
+        $records = $model->findAll($module, 'all', $year, $month, $trailer, $reportdamage);
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
         
