@@ -81,10 +81,15 @@ class TroubleticketController extends Controller {
     public function actionsurveysearch() {
         $module = "HelpDesk";
         $year = $_POST['year'];
+        Yii::app()->session['Search']['year'] = $year;
         $month = $_POST['month'];
+        Yii::app()->session['Search']['month'] = $month;
         $reportdamage = $_POST['reportdamage'];
+        Yii::app()->session['Search']['reportdamage'] = $reportdamage;
         $trailer = $_POST['trailer'];
+        Yii::app()->session['Search']['trailer'] = $trailer;
         $trailerid = $_POST['trailerid'];
+        Yii::app()->session['Search']['trailerid'] = $trailerid;
         if ($trailer == "--All Trailers--")
             $trailer = "0";
         $model = new Troubleticket;
