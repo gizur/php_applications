@@ -28,7 +28,6 @@ class TroubleticketController extends Controller {
      */
     public function actionsurveylist() {
         $module = "HelpDesk";
-        $tickettype = "all";
         
         if(!isset(Yii::app()->session['gizur_table_id_index'])) {
             Yii::app()->session['gizur_table_id_index'] = 1;
@@ -40,7 +39,12 @@ class TroubleticketController extends Controller {
         $this->LoginCheck();
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
-        $records = $model->findAll($module, $tickettype, date("Y"), date("m"), '0', $tickettype);
+        $currentyear = isset(Yii::app()->session['Search']['year']) ? Yii::app()->session['Search']['year'] : date('Y');
+        $curr_month = isset(Yii::app()->session['Search']['month']) ? Yii::app()->session['Search']['month'] : date("m");
+        $trailer = isset(Yii::app()->session['Search']['trailer']) ? Yii::app()->session['Search']['trailer'] : 0;
+        $tickettype = isset(Yii::app()->session['Search']['reportdamage']) ? Yii::app()->session['Search']['reportdamage'] : 'all';
+        
+        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $tickettype);
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List));
     }

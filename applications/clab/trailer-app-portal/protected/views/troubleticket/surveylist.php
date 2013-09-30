@@ -21,8 +21,8 @@ $this->breadcrumbs = array(
 );
 ?>
 <?php
+$currentyear = isset(Yii::app()->session['Search']['year']) ? Yii::app()->session['Search']['year'] : date('Y');
 for ($i = 1980; $i <= 2020; $i++) {
-    $currentyear = isset(Yii::app()->session['Search']['year']) ? Yii::app()->session['Search']['year'] : date('Y');
     $selected = $i == $currentyear ? "selected" : "";
     $options.= "<option value=" . $i . " " . $selected . " >" . $i . "</option>";
 }
@@ -36,7 +36,7 @@ foreach ($month as $key => $val) {
     $Months.="<option value=" . $key . " " . $selected . " >" . $val . "</option>";
 }
 
-$TR = isset(Yii::app()->session['Search']['trailerid']) ? Yii::app()->session['Search']['trailerid'] : 0;
+$TR = isset(Yii::app()->session['Search']['trailer']) ? Yii::app()->session['Search']['trailer'] : 0;
 foreach ($Assets as $key => $val) {
     if ($TR == $val)
         $TID.="<option value=\"" . $key . "\" selected=\"selected\">" . $val . "</option>";
