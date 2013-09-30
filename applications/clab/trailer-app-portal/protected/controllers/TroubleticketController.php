@@ -46,7 +46,7 @@ class TroubleticketController extends Controller {
         
         $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailerid, $tickettype);
         //$assetstatus = $model->findById('Assets', $firstkey);
-        $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List));
+        $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List, 'session' => Yii::app()->session));
     }
 
     /**
@@ -109,7 +109,7 @@ class TroubleticketController extends Controller {
         
         $this->renderPartial('surveylist', array('model' => $model, 'result' => $records, 
             'Assets' => $Asset_List, 'currentasset' => $assetstatus, 
-            'TR' => $_POST['trailer'], 'SYear' => $year, 'SMonth' => $month, 'SReportdamage' => $reportdamage));
+            'TR' => $_POST['trailer'], 'SYear' => $year, 'SMonth' => $month, 'SReportdamage' => $reportdamage, 'session' => Yii::app()->session));
     }
 
     /**

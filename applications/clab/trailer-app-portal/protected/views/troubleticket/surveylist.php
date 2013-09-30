@@ -36,6 +36,7 @@ foreach ($month as $key => $val) {
     $Months.="<option value=" . $key . " " . $selected . " >" . $val . "</option>";
 }
 
+var_dump($session['Search']);
 $TR = isset(Yii::app()->session['Search']['trailerid']) ? Yii::app()->session['Search']['trailerid'] : 0;
 foreach ($Assets as $key => $val) {
     if ($TR == $key)
