@@ -39,10 +39,10 @@ class TroubleticketController extends Controller {
         $this->LoginCheck();
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
-        $currentyear = isset(Yii::app()->session['Search']['year']) ? Yii::app()->session['Search']['year'] : date('Y');
-        $curr_month = isset(Yii::app()->session['Search']['month']) ? Yii::app()->session['Search']['month'] : date("m");
-        $trailerid = isset(Yii::app()->session['Search']['trailerid']) ? Yii::app()->session['Search']['trailerid'] : 0;
-        $tickettype = isset(Yii::app()->session['Search']['reportdamage']) ? Yii::app()->session['Search']['reportdamage'] : 'all';
+        $currentyear = isset(Yii::app()->session['Search_year']) ? Yii::app()->session['Search_year'] : date('Y');
+        $curr_month = isset(Yii::app()->session['Search_month']) ? Yii::app()->session['Search_month'] : date("m");
+        $trailerid = isset(Yii::app()->session['Search_trailerid']) ? Yii::app()->session['Search_trailerid'] : 0;
+        $tickettype = isset(Yii::app()->session['Search_reportdamage']) ? Yii::app()->session['Search_reportdamage'] : 'all';
         
         $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailerid, $tickettype);
         //$assetstatus = $model->findById('Assets', $firstkey);
@@ -85,15 +85,15 @@ class TroubleticketController extends Controller {
     public function actionsurveysearch() {
         $module = "HelpDesk";
         $year = $_POST['year'];
-        Yii::app()->session['Search']['year'] = $year;
+        Yii::app()->session['Search_year'] = $year;
         $month = $_POST['month'];
-        Yii::app()->session['Search']['month'] = $month;
+        Yii::app()->session['Search_month'] = $month;
         $reportdamage = $_POST['reportdamage'];
-        Yii::app()->session['Search']['reportdamage'] = $reportdamage;
+        Yii::app()->session['Search_reportdamage'] = $reportdamage;
         $trailer = $_POST['trailer'];
-        Yii::app()->session['Search']['trailer'] = $trailer;
+        Yii::app()->session['Search_trailer'] = $trailer;
         $trailerid = $_POST['trailerid'];
-        Yii::app()->session['Search']['trailerid'] = $trailerid;
+        Yii::app()->session['Search_trailerid'] = $trailerid;
         if ($trailer == "--All Trailers--")
             $trailer = "0";
         $model = new Troubleticket;
