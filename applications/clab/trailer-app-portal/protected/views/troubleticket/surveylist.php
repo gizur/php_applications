@@ -36,12 +36,12 @@ foreach ($month as $key => $val) {
     $Months.="<option value=" . $key . " " . $selected . " >" . $val . "</option>";
 }
 
-$TR = isset(Yii::app()->session['Search']['trailer']) ? Yii::app()->session['Search']['trailer'] : 0;
+$TR = isset(Yii::app()->session['Search']['trailerid']) ? Yii::app()->session['Search']['trailerid'] : 0;
 foreach ($Assets as $key => $val) {
-    if ($TR == $val)
-        $TID.="<option value=\"" . $key . "\" selected=\"selected\">" . $val . "</option>";
+    if ($TR == $key)
+        $TID .= "<option value=\"" . $key . "\" selected=\"selected\">" . $val . "</option>";
     else
-        $TID.="<option value=\"" . $key . "\">" . $val . "</option>";
+        $TID .= "<option value=\"" . $key . "\">" . $val . "</option>";
 }
 ?>
 <div id="wrap">
