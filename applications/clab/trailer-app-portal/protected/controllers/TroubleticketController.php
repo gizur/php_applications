@@ -46,6 +46,9 @@ class TroubleticketController extends Controller {
         $trailer = isset(Yii::app()->session['Search_trailer']) ? Yii::app()->session['Search_trailer'] : 0;
         $reportdamage = isset(Yii::app()->session['Search_reportdamage']) ? Yii::app()->session['Search_reportdamage'] : 'all';
         
+        if ($trailer == "--All Trailers--")
+            $trailer = "0";
+        
         $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage);
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List, 'session' => Yii::app()->session));
