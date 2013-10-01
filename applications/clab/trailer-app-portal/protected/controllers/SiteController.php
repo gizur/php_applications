@@ -156,11 +156,8 @@ class SiteController extends Controller {
         Yii::app()->session['username'] = "";
         Yii::app()->session['password'] = "";
         Yii::app()->session['Lang'] = "";
+        Yii::app()->session->destroy();
         if ($response->success) {
-            Yii::app()->session['username'] = "";
-            Yii::app()->session['password'] = "";
-            Yii::app()->session['Lang'] = "";
-            Yii::app()->session->destroySession();
             $this->redirect($protocol . $servername . Yii::app()->user->returnUrl);
         } else {
             return false;

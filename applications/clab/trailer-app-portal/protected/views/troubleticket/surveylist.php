@@ -42,6 +42,17 @@ foreach ($Assets as $key => $val) {
     else
         $TID .= "<option value=\"" . $key . "\">" . $val . "</option>";
 }
+
+$rm = array('all' => 'All', 'yes' => 'Damaged');
+$rpd = isset($session['Search_reportdamage']) ? $session['Search_reportdamage'] : 'all';
+$reportdamage_opt = "";
+foreach ($rm as $key => $val) {
+    if ($rpd == $key)
+        $reportdamage_opt .= "<option value=\"" . $key . "\" selected=\"selected\">" . $val . "</option>";
+    else
+        $reportdamage_opt .= "<option value=\"" . $key . "\">" . $val . "</option>";
+}
+
 ?>
 <div id="wrap">
     <?php if (Yii::app()->params['createTroubleTicket']) { ?>
@@ -57,8 +68,7 @@ foreach ($Assets as $key => $val) {
                 <td ><select name='month' id="month" onchange="getAjaxBaseRecord(this.value)"><?php echo $Months; ?></select></select></td>
                 <td >
                     <select name='reportdamage' id="reportdamage" onchange="getAjaxBaseRecord(this.value)">
-                        <option value="all">All</option>
-                        <option value="yes">Damaged</option>
+                        <?php echo $reportdamage_opt; ?>
                     </select>
                 </td>
                 <td valign="top"><table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
