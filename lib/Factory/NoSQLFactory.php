@@ -31,7 +31,7 @@ class NoSQLFactory
                     FactoryConfig::$params[FactoryConfig::$driversInUse['NoSQL']]['port'])
                 );
                 break;
-            case 'Memcache':
+            case 'AmazonDynamoDB':
                 return (new AmazonDynamoDBClass());
                 break;
         }

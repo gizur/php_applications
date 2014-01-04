@@ -15,12 +15,12 @@ include __DIR__ . '/../NoSQLFactory.php';
 
 class NoSQLFactoryTest extends PHPUnit_Framework_TestCase
 {
-    public function testRedisClass()
+    public function testNoSQLClass()
     {
         $cFact = new NoSQLFactory();
         $cIns = $cFact->getInstance();
         
-        $this->assertEquals(true, $cIns instanceof RedisClass);
+        $this->assertEquals(true, $cIns instanceof AmazonDynamoDBClass);
     }
     
     public function testScan()
@@ -30,7 +30,7 @@ class NoSQLFactoryTest extends PHPUnit_Framework_TestCase
         
         $keysToGet = array('id', 'clientid', 'name_1');
         
-        $client = $cIns->scan('gizur-accounts', $keysToGet, "test");
+        $client = $cIns->scan('GIZUR_ACCOUNTS', $keysToGet, "test");
         
         $this->assertEquals(count($keysToGet), count($client));
     }

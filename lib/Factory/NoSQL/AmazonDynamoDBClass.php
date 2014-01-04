@@ -7,16 +7,17 @@ class AmazonDynamoDBClass implements NoSQLInterface
 {
 
     private $dynamodb = null;
+    private $region = 'REGION_EU_W1';
 
-    function __construct($region = 'REGION_EU_W1')
-    {
-        $this->dynamodb = new AmazonDynamoDB();
-        $this->dynamodb->set_region(constant("AmazonDynamoDB::".$region));
+    function __construct()
+    {       
         
     }
 
     public function scan($table, $attributesToGet, $clientId)
     {
+        $this->dynamodb = new AmazonDynamoDB();
+        $this->dynamodb->set_region(constant("AmazonDynamoDB::".$this->region));
         $response = $this->dynamodb->scan(array(
             'TableName'       => $table,
             'AttributesToGet' => $attributesToGet,
@@ -29,7 +30,18 @@ class AmazonDynamoDBClass implements NoSQLInterface
                 ),
             )
         ));
-        return $response;
+        
+        $result = array();
+        
+        if ($response->body->Count > 0) {  
+            $arr = get_object_vars($response->body->Items);
+            
+            foreach($attributesToGet as $key) {
+                $ar = get_object_vars($arr[$key]);
+                $result[$key] = $ar[AmazonDynamoDB::TYPE_STRING];
+            }
+        }
+        return $result;
     }
 
 }

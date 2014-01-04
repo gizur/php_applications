@@ -15,9 +15,12 @@
 
 include('vtigerversion.php');
 
-require_once __DIR__ . '/../lib/aws-php-sdk/sdk.class.php';
-require_once __DIR__ . '/../lib/Factory/NoSQLFactory.php';
-require_once __DIR__ . '/../lib/Factory/CacheFactory.php';
+//error_reporting(E_ALL);
+//ini_set('display_errors', 'On');
+
+require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../Factory/NoSQLFactory.php';
+require_once __DIR__ . '/../Factory/CacheFactory.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -51,6 +54,8 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 /*
  * Fetch DB Details
  */
+$response = null;
+
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
     
@@ -62,13 +67,13 @@ if (isset($_GET['clientid'])) {
     
     if ($cIns) {
         $dbconfig_cache = $cIns->get($gizur_client_id . "_connection_details");
-        $dbconfig = $dbconfig_cache;
+        $dbconfig = json_decode($dbconfig_cache, true);
     } else {
         unset($cIns);
         $dbconfig_cache = false;
     }
     
-    if (!$cIns) {
+    if (!$cIns || !$dbconfig_cache) {
         $response = $nIns->scan('GIZUR_ACCOUNTS', array('id', 'databasename','dbpassword','server','username','port'), $_GET['clientid'] );
     }
 }
@@ -83,10 +88,9 @@ if (count($response) > 0) {
     $dbconfig['db_status'] = 'true';
     
     if (isset($cIns)){
-        $cIns->set($gizur_client_id . "_connection_details", $dbconfig);
+        $cIns->set($gizur_client_id . "_connection_details", json_encode($dbconfig));
     }
 }
-
 if (!isset($dbconfig['db_server'])) {
     echo file_get_contents('http://127.0.0.1/lib/error-documents/404.html');
     die;

@@ -15,7 +15,7 @@ include __DIR__ . '/../CacheFactory.php';
 
 class CacheFactoryTest extends PHPUnit_Framework_TestCase
 {
-    public function testRedisClass()
+    public function testCacheClass()
     {
         $cFact = new CacheFactory();
         $cIns = $cFact->getInstance();

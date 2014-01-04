@@ -15,8 +15,8 @@
 
 include('vtigerversion.php');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
+//error_reporting(E_ALL);
+//ini_set('display_errors', 'On');
 
 require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
 require_once __DIR__ . '/../Factory/NoSQLFactory.php';
@@ -91,6 +91,7 @@ if (count($response) > 0) {
         $cIns->set($gizur_client_id . "_connection_details", json_encode($dbconfig));
     }
 }
+
 if (!isset($dbconfig['db_server'])) {
     echo file_get_contents('http://127.0.0.1/lib/error-documents/404.html');
     die;
@@ -126,7 +127,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/var/www/html/lib/vtiger-5.4.0/';
+$root_directory = __DIR__ . '/';
 
 // cache direcory path
 $cache_dir = 'cache/';
