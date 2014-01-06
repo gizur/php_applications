@@ -24,6 +24,12 @@ fi
 echo "cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0"
 cp $1/vtiger/config.inc.php ../lib/vtiger-5.4.0
 
+echo "cp $1/vtiger/vtwrapper-config.inc.php ../lib/vtiger-5.4.0"
+cp $1/vtiger/vtwrapper-config.inc.php ../lib
+
+echo "cp $1/vtiger/vtwrapper-index.php ../lib/vtiger-5.4.0"
+cp $1/vtiger/vtwrapper-index.php ../lib
+
 echo "cp $1/vtiger/log4php.properties ../lib/vtiger-5.4.0"
 cp $1/vtiger/log4php.properties ../lib/vtiger-5.4.0
 

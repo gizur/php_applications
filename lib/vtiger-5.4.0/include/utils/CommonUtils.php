@@ -1664,8 +1664,6 @@ function create_tab_data_file() {
     $_cache['action_id_array'] = constructSingleStringKeyAndValueArray($actionid_array);
     $_cache['action_name_array'] = constructSingleStringValueArray($actionname_array);
     
-    
-    
     if(true){
         $dynamodb = new AmazonDynamoDB();
         $dynamodb->set_region(constant($dynamodb_table_region));

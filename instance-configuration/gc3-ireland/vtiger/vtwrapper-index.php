@@ -75,7 +75,7 @@ if(version_compare(phpversion(), '5.2.0') < 0) {
         die();
 }
 
-require_once('vtiger-5.4.0/include/utils/utils.php');
+require_once('include/utils/utils.php');
 
 if (version_compare(phpversion(), '5.2.0') < 0) {
     eval('

@@ -35,7 +35,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/seasonportal';
+$PORTAL_URL = 'http://app.gizur.local/cikab/seasonportal';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
 $HELPDESK_SUPPORT_EMAIL_ID = 'admin@gizur.com';
@@ -92,7 +92,7 @@ if (count($response) > 0) {
     }
 }
 if (!isset($dbconfig['db_server'])) {
-    echo file_get_contents('http://127.0.0.1/lib/error-documents/404.html');
+    echo file_get_contents('http://app.gizur.local/lib/error-documents/404.html');
     die;
 }
 
@@ -126,7 +126,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/var/www/html/lib/vtiger-5.4.0/';
+$root_directory = '/home/prabhat/public_html/gizur/php_applications/lib/vtiger-5.4.0/'; // __DIR__ . '/';
 
 // cache direcory path
 $cache_dir = 'cache/';

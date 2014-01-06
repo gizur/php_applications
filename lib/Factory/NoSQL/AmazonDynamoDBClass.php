@@ -44,6 +44,33 @@ class AmazonDynamoDBClass implements NoSQLInterface
         return $result;
     }
 
+    public function create($table, $hashkey, $params) {
+        $this->dynamodb = new AmazonDynamoDB();
+        $this->dynamodb->set_region($this->region);
+        $queue = new CFBatchRequest();
+        $queue->use_credentials($this->dynamodb->credentials);
+        
+        $post = array();
+        
+        foreach($params as $key => $val) {
+            $post[$key] = array(AmazonDynamoDB::TYPE_STRING => $val);
+        }
+
+        $this->dynamodb->batch($queue)->put_item(
+            array(
+                'TableName' => $table,
+                'Item' => $post
+            )
+        );
+
+        $responses = $this->dynamodb->batch($queue)->send();
+        
+        if(!$responses->areOK()) {
+            return false;
+        } else {
+            return true;
+        }        
+    }
 }
 
 ?>

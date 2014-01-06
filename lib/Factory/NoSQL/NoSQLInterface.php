@@ -12,6 +12,7 @@
 interface NoSQLInterface
 {
     public function scan($table, $attributesToGet, $clientId);
+    public function create($table, $hashkey, $params);
 }
 
 ?>
