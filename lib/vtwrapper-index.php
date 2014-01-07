@@ -44,7 +44,7 @@ ini_set('max_execution_time', 300);
 
 // vtwrapper - New include file
 require_once('vtwrapper-config.inc.php');
-
+require_once 'vtiger-5.4.0/include/htmlpurifier/library/HTMLPurifier/Bootstrap.php';
 // Change the cirrent directory to vTiger since all includes depends on this
 chdir(VTWRAPPER_VTIGER_PATH);
 

@@ -36,6 +36,18 @@ class NoSQLFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(count($keysToGet), count($client));
     }
 
+    public function testGetItem()
+    {
+        $cFact = new NoSQLFactory();
+        $cIns = $cFact->getInstance();
+
+        $keysToGet = array('id', 'clientid', 'name_1');
+
+        $client = $cIns->get_item('GIZUR_ACCOUNTS', $keysToGet, 'id', "test");
+
+        $this->assertEquals(count($keysToGet), count($client));
+    }
+    
     public function testCreate()
     {
         $cFact = new NoSQLFactory();

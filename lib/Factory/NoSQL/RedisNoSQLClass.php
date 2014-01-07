@@ -27,12 +27,19 @@ class RedisNoSQLClass implements NoSQLInterface
     
     public function create($table, $hashkey, $params) {
         
+        print_r($params); die;
         $result = $this->redis->hmset($table . ':' . $hashkey, $params);
         
         if ($result) 
             return true;
         else
             return false;
+    }
+    
+    public function get_item($table, $attributesToGet, $keyId, $keyValue)
+    {
+        $var = $this->redis->hgetall($table . ":" . $keyValue);
+        return $m = array_intersect_key($var, array_flip($attributesToGet));
     }
 
 }

@@ -71,6 +71,36 @@ class AmazonDynamoDBClass implements NoSQLInterface
             return true;
         }        
     }
+    
+    public function get_item($table, $attributesToGet, $keyId, $keyValue)
+    {
+        $this->dynamodb = new AmazonDynamoDB();
+        $this->dynamodb->set_region(constant("AmazonDynamoDB::".$this->region));
+        $response = $this->dynamodb->scan(array(
+            'TableName'       => $table,
+            'AttributesToGet' => $attributesToGet,
+            'ScanFilter'      => array(
+                $keyId => array(
+                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                    'AttributeValueList' => array(
+                        array( AmazonDynamoDB::TYPE_STRING => $keyValue )
+                    )
+                ),
+            )
+        ));
+        
+        $result = array();
+        
+        if ($response->body->Count > 0) {  
+            $arr = get_object_vars($response->body->Items);
+            
+            foreach($attributesToGet as $key) {
+                $ar = get_object_vars($arr[$key]);
+                $result[$key] = $ar[AmazonDynamoDB::TYPE_STRING];
+            }
+        }
+        return $result;
+    }
 }
 
 ?>
