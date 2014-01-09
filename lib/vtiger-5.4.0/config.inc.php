@@ -74,7 +74,7 @@ if (isset($_GET['clientid'])) {
     }
     
     if (!$cIns || !$dbconfig_cache) {
-        $response = $nIns->scan('GIZUR_ACCOUNTS', array('id', 'databasename','dbpassword','server','username','port'), $_GET['clientid'] );
+        $response = $nIns->get_item('GIZUR_ACCOUNTS', array('id', 'databasename','dbpassword','server','username','port'), 'clientid', $_GET['clientid'] );
     }
 }
 

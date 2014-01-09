@@ -20,6 +20,8 @@ if ($result) {
     $_cache = create_parenttab_data_file();
 }
 
+//print_r($_cache); die;
+
 if (isset($_cache) && !empty($_cache)) {
     eval("\$parent_tab_info_array=" . $_cache['parent_tab_info_array'] . ";");
     eval("\$parent_child_tab_rel_array=" . $_cache['parent_child_tab_rel_array'] . ";");

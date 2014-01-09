@@ -1671,7 +1671,7 @@ function create_tab_data_file() {
         $result = $nIns->create($tabdata_table_name, $gizur_client_id, $_cache);
         
         if (!$result) {
-            echo "<br/>Error connecting DynamoDB table $tabdata_table_name ";
+            echo "<br/>Error connecting table $tabdata_table_name ";
             return; 
         }
     }
@@ -1732,39 +1732,14 @@ function create_parenttab_data_file() {
     $_cache['parent_child_tab_rel_array'] = constructTwoDimensionalValueArray($parChildTabRelArray);    
     
     if(true){
-        $dynamodb = new AmazonDynamoDB();
-        $dynamodb->set_region(constant($dynamodb_table_region));
-        $queue = new CFBatchRequest();
-        $queue->use_credentials($dynamodb->credentials);
-        // Prepare the data
-        $post['id'] = array(AmazonDynamoDB::TYPE_STRING => $gizur_client_id);
-
-        $post['parent_tab_info_array'] = array(AmazonDynamoDB::TYPE_STRING => constructSingleStringValueArray($parent_tab_info_array));
-
-        $post['parent_child_tab_rel_array'] = array(AmazonDynamoDB::TYPE_STRING => constructTwoDimensionalValueArray($parChildTabRelArray));
-
-        $log->debug("In create_parenttab_data_file() : CLIENT ID : $gizur_client_id");
-
-        $dynamodb->batch($queue)->put_item(
-            array(
-                'TableName' => $parent_tabdata_table_name,
-                'Item' => $post
-            )
-        );
-
-        $responses = $dynamodb->batch($queue)->send();
-        if (!$responses->areOK()) {
-            echo "<br/>Error connecting DynamoDB table $parent_tabdata_table_name : " . $responses->body->message;
+        $nFact = new NoSQLFactory();
+        $nIns = $nFact->getInstance();
+        
+        $result = $nIns->create($parent_tabdata_table_name, $gizur_client_id, $_cache);
+        
+        if (!$result) {
+            echo "<br/>Error connecting table $parent_tabdata_table_name";
             return; 
-        }else{
-            global $memcache_url;
-            $memcache = new Memcache;
-            if ($memcache->connect($memcache_url, 11211)) {
-                $memcache->delete($gizur_client_id . "_parent_tabdata_details");
-                $memcache->set($gizur_client_id . "_parent_tabdata_details", $_cache);
-            } else {
-                unset($memcache);
-            }
         }
     }
     return $_cache;
