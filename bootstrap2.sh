@@ -25,20 +25,6 @@ sudo apt-get install -y git unzip s3cmd curl
 
 
 #
-# Install local docker registry
-#
-
-# Currently not used
-#echo DOCKER_INDEX_URL="http://0.0.0.0:5000/" >> ~/.profile
-
-#git clone https://github.com/dotcloud/docker-registry.git
-#cd docker-registry && cp config_sample.yml config.yml
-#pip install -r requirements.txt
-#./wsgi.py &
-#cd ..
-
-
-#
 # Install NodeJs
 #
 
@@ -62,28 +48,12 @@ sudo apt-get install -y coffeescript
 
 sudo apt-get install php5-cli php5-curl -y
 
-#
-# Install hipache (reverse proxy developed by dotcloud)
-#
-
-sudo npm install hipache -g
-
 
 #
 # Install grunt, used for nodejs development
 #
 
 sudo npm install grunt grunt-cli -g
-
-
-#
-# Local name server, used for development and testing purposes
-#
-
-sudo npm install -g appload-dns
-
-# Use the local nameserver and then google's
-sudo sh -c 'echo "dns-nameservers localhost 8.8.8.8" >> /etc/network/interfaces'
 
 
 #
@@ -94,9 +64,7 @@ sudo apt-get install -y redis-server
 
 
 #
-# Clone this repo and run the installation
+# Install Jacc
 #
 
-cd ~
-git clone https://github.com/colmsjo/jacc.git
-cd jacc && sudo npm install --production -g
+sudo npm install jacc -g
