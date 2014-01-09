@@ -59,3 +59,6 @@ lint3:
 					   applications/cikab/php_batches/php-interfaces/*.php \
                                            applications/cikab/php_batches/php-interfaces/reports/*.sh \
                                            applications/cikab/php_batches/php-interfaces/sales_orders/*.sh \
+
+factory-test:
+	cd lib/Factory/Tests && ../../../vendor/bin/phpunit .
