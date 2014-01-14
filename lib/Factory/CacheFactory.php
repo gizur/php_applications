@@ -26,10 +26,14 @@ class CacheFactory
     {
         switch (FactoryConfig::$driversInUse['Cache']) {
             case 'Redis':
-                return (new RedisClass('localhost', 6379));
+                return (new RedisClass(
+                    FactoryConfig::$params[FactoryConfig::$driversInUse['Cache']]['host'], 
+                    FactoryConfig::$params[FactoryConfig::$driversInUse['Cache']]['port']));
                 break;
             case 'Memcache':
-                return (new MemcacheClass('localhost', 11211));
+                return (new MemcacheClass(
+                    FactoryConfig::$params[FactoryConfig::$driversInUse['Cache']]['host'], 
+                    FactoryConfig::$params[FactoryConfig::$driversInUse['Cache']]['port']));
                 break;
         }
     }

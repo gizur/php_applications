@@ -12,11 +12,11 @@ class FactoryConfig
     
     public static $params = array(
         'Redis' => array(
-            'host' => 'localhost',
+            'host' => '172.17.42.1',
             'port' => 6379
         ),
         'Memcache' => array(
-            'host' => 'localhost',
+            'host' => '172.17.42.1',
             'port' => 11211
         )
     );
