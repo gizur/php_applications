@@ -14,13 +14,7 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
-
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
-
-require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
-require_once __DIR__ . '/../Factory/NoSQLFactory.php';
-require_once __DIR__ . '/../Factory/CacheFactory.php';
+require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -54,43 +48,52 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 /*
  * Fetch DB Details
  */
-$response = null;
-
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
-    
-    $cFact = new CacheFactory();
-    $cIns = $cFact->getInstance();
-    
-    $nFact = new NoSQLFactory();
-    $nIns = $nFact->getInstance();
-    
-    if ($cIns) {
-        $dbconfig_cache = $cIns->get($gizur_client_id . "_connection_details");
-        $dbconfig = json_decode($dbconfig_cache, true);
+    $memcache_url = '10.58.226.192';
+    $memcache = new Memcache;
+    if ($memcache->connect($memcache_url, 11211)) {
+        $dbconfig_cache = $memcache->get($gizur_client_id . "_connection_details");
+        $dbconfig = $dbconfig_cache;
     } else {
-        unset($cIns);
+        unset($memcache);
         $dbconfig_cache = false;
     }
     
-    if (!$cIns || !$dbconfig_cache) {
-        $response = $nIns->scan('GIZUR_ACCOUNTS', array('id', 'databasename','dbpassword','server','username','port'), $_GET['clientid'] );
+    if (!$dbconfig_cache) {
+        $region = 'REGION_EU_W1';
+        $dynamodb = new AmazonDynamoDB();
+        $dynamodb->set_region(constant("AmazonDynamoDB::".$region));
+
+        $response = $dynamodb->scan(array(
+            'TableName'       => 'GIZUR_ACCOUNTS',
+            'AttributesToGet' => array('id', 'databasename','dbpassword','server','username','port'),
+            'ScanFilter'      => array(
+                'clientid' => array(
+                    'ComparisonOperator' => AmazonDynamoDB::CONDITION_EQUAL,
+                    'AttributeValueList' => array(
+                        array( AmazonDynamoDB::TYPE_STRING => $_GET['clientid'] )
+                    )
+                ),
+            )
+        ));
     }
 }
 
-if (count($response) > 0) {
-    $dbconfig['db_server'] = (string)$response['server'];
-    $dbconfig['db_port'] = ':' . (string)$response['port'];
-    $dbconfig['db_username'] = (string)$response['username'];
-    $dbconfig['db_password'] = (string)$response['dbpassword'];
-    $dbconfig['db_name'] = (string)$response['databasename'];
+if ($response->body->Count!=0) {
+    $dbconfig['db_server'] = (string)$response->body->Items->server->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_port'] = ':' . (string)$response->body->Items->port->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_username'] = (string)$response->body->Items->username->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_password'] = (string)$response->body->Items->dbpassword->{AmazonDynamoDB::TYPE_STRING};
+    $dbconfig['db_name'] = (string)$response->body->Items->databasename->{AmazonDynamoDB::TYPE_STRING};
     $dbconfig['db_type'] = 'mysql';
     $dbconfig['db_status'] = 'true';
     
-    if (isset($cIns)){
-        $cIns->set($gizur_client_id . "_connection_details", json_encode($dbconfig));
+    if (isset($memcache)){
+        $memcache->set($gizur_client_id . "_connection_details", $dbconfig);
     }
 }
+
 if (!isset($dbconfig['db_server'])) {
     echo file_get_contents('http://127.0.0.1/lib/error-documents/404.html');
     die;
