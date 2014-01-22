@@ -34,4 +34,9 @@ class ContactsController extends Controller
     {
         $this->render('list', array('session' => Yii::app()->session));
     }
+    
+        public function actionAdd()
+    {
+        $this->render('add', array('session' => Yii::app()->session));
+    }
 }
