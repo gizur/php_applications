@@ -9,8 +9,6 @@ $this->breadcrumbs = array(
 );
 ?>
 <div id="content">
-    <div class="breadcrumbs">
-        <a href="/app/trailer-app-portal/contacts/list">Home</a> » <span><a href="/app/trailer-app-portal/index.php?r=assets/list">Assets List</a></span></div>
     <div id="wrap">
         <div class="toppanel">
             <table width="100%" border="0" cellspacing="0" cellpadding="1">

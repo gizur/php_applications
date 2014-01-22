@@ -1,11 +1,13 @@
 <?php
 
-class SiteController extends Controller {
+class SiteController extends Controller
+{
 
     /**
      * Declares class-based actions.
      */
-    public function actions() {
+    public function actions()
+    {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -24,7 +26,8 @@ class SiteController extends Controller {
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $protocol = Yii::app()->params['protocol'];
         $servername = Yii::app()->request->getServerName();
         $model = new LoginForm;
@@ -55,7 +58,8 @@ class SiteController extends Controller {
     /**
      * This is the action to handle external exceptions.
      */
-    public function actionError() {
+    public function actionError()
+    {
         if ($error = Yii::app()->errorHandler->error) {
             if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
@@ -67,7 +71,8 @@ class SiteController extends Controller {
     /**
      * Displays the contact page
      */
-    public function actionContact() {
+    public function actionContact()
+    {
         $model = new ContactForm;
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
@@ -84,10 +89,11 @@ class SiteController extends Controller {
     /**
      * Displays the login page
      */
-    public function actionLogin() {
+    public function actionLogin()
+    {
         $protocol = Yii::app()->params['protocol'];
-        $servername = Yii::app()->request->getServerName();     
-        
+        $servername = Yii::app()->request->getServerName();
+
         $model = new LoginForm;
 
         // if it is ajax validation request
@@ -110,10 +116,11 @@ class SiteController extends Controller {
     /**
      * Logs out the current user and redirect to homepage.
      */
-    public function actionLogout() {
+    public function actionLogout()
+    {
 
         $protocol = Yii::app()->params['protocol'];
-        $servername = Yii::app()->request->getServerName();        
+        $servername = Yii::app()->request->getServerName();
         $model = 'Authenticate';
         //echo " Getting Picklist" . PHP_EOL;        
 
@@ -164,7 +171,8 @@ class SiteController extends Controller {
         }
     }
 
-    function actionresetpassword() {
+    function actionresetpassword()
+    {
         $model = new LoginForm;
         if (isset($_POST['submit'])) {
             $model->resetpassword($_POST['LoginForm']['username']);
@@ -172,11 +180,13 @@ class SiteController extends Controller {
         $this->render('resetpassword', array('model' => $model));
     }
 
-    function actionchangepassword() {
+    function actionchangepassword()
+    {
         $model = new LoginForm;
         if (isset($_POST['submit'])) {
             $model->changepassword($_POST['LoginForm']['oldpassword'], $_POST['LoginForm']['newpassword'], $_POST['LoginForm']['newpassword1']);
         }
         $this->render('changepassword', array('model' => $model));
     }
+
 }

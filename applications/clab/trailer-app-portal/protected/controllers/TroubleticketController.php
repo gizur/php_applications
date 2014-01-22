@@ -9,12 +9,14 @@
  * Flow : The basic flow of this page is Create new trouble tickets.
  * Modify date : 27/04/2012
  */
-class TroubleticketController extends Controller {
+class TroubleticketController extends Controller
+{
 
     /**
      * Declares class-based actions.
      */
-    public function actionindex() {
+    public function actionindex()
+    {
         $module = "HelpDesk";
         $tickettype = "Survey";
         $model = new Troubleticket;
@@ -26,29 +28,30 @@ class TroubleticketController extends Controller {
     /**
      * This Action are display all Trouble Ticket base Record 
      */
-    public function actionsurveylist() {
+    public function actionsurveylist()
+    {
         $module = "HelpDesk";
         $tickettype = "all";
-        
-        if(!isset(Yii::app()->session['gizur_table_id_index'])) {
+
+        if (!isset(Yii::app()->session['gizur_table_id_index'])) {
             Yii::app()->session['gizur_table_id_index'] = 1;
             setcookie("SpryMedia_DataTables_table_id_index.php", "", time() - 3600);
             unset($_COOKIE['SpryMedia_DataTables_table_id_index.php']);
         }
-        
+
         $model = new Troubleticket;
         $this->LoginCheck();
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
-        
+
         $currentyear = isset(Yii::app()->session['Search_year']) ? Yii::app()->session['Search_year'] : date('Y');
         $curr_month = isset(Yii::app()->session['Search_month']) ? Yii::app()->session['Search_month'] : date("m");
         $trailer = isset(Yii::app()->session['Search_trailer']) ? Yii::app()->session['Search_trailer'] : 0;
         $reportdamage = isset(Yii::app()->session['Search_reportdamage']) ? Yii::app()->session['Search_reportdamage'] : 'all';
-        
+
         if ($trailer == "--All Trailers--")
             $trailer = "0";
-        
+
         $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage);
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List, 'session' => Yii::app()->session));
@@ -57,7 +60,8 @@ class TroubleticketController extends Controller {
     /**
      * This Action are create new Trouble Ticket 
      */
-    public function actionsurvey() {
+    public function actionsurvey()
+    {
         $model = new Troubleticket;
         $this->LoginCheck();
         if (isset($_POST['submit'])) {
@@ -69,11 +73,11 @@ class TroubleticketController extends Controller {
         $pickList_damagepostion = $model->getpickList('damageposition');
         $picklist_drivercauseddamage = $model->getpickList('drivercauseddamage');
         $picklist_reportdamage = $model->getpickList('reportdamage');
-        $picklist_ticketstatus = $model->getpickList('ticketstatus');         
+        $picklist_ticketstatus = $model->getpickList('ticketstatus');
         $Asset_List = $model->findAssets('Assets');
         $postdata = @$_POST['Troubleticket'];
-        $this->render('survey', array('model' => $model, 
-            'Sealed' => $pickList_sealed, 
+        $this->render('survey', array('model' => $model,
+            'Sealed' => $pickList_sealed,
             'category' => $pickList_category,
             'damagetype' => $pickList_damagetype,
             'damagepos' => $pickList_damagepostion,
@@ -82,12 +86,13 @@ class TroubleticketController extends Controller {
             'Assets' => $Asset_List,
             'ticketstatus' => $picklist_ticketstatus,
             'postdata' => $postdata)
-       );
+        );
     }
 
     /* This Action are Filter Ajax base Record */
 
-    public function actionsurveysearch() {
+    public function actionsurveysearch()
+    {
         $module = "HelpDesk";
         $year = $_POST['year'];
         Yii::app()->session['Search_year'] = $year;
@@ -106,21 +111,22 @@ class TroubleticketController extends Controller {
         $records = $model->findAll($module, 'all', $year, $month, $trailer, $reportdamage);
         $Asset_List = $model->findAssets('Assets');
         $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
-        
+
         $assetstatus = '';
         if ($trailer !== '0') {
             $assetstatus = $model->findById('Assets', $trailerid);
         }
-        
-        $this->renderPartial('surveylist', array('model' => $model, 'result' => $records, 
-            'Assets' => $Asset_List, 'currentasset' => $assetstatus, 
+
+        $this->renderPartial('surveylist', array('model' => $model, 'result' => $records,
+            'Assets' => $Asset_List, 'currentasset' => $assetstatus,
             'TR' => $_POST['trailer'], 'SYear' => $year, 'SMonth' => $month, 'SReportdamage' => $reportdamage, 'session' => Yii::app()->session));
     }
 
     /**
      * This Action are display releted Trouble Ticket details depand on trouble ticket ID 
      */
-    public function actionsurveydetails() {
+    public function actionsurveydetails()
+    {
         $model = new Troubleticket;
         $this->LoginCheck();
         $module = "HelpDesk";
@@ -128,7 +134,7 @@ class TroubleticketController extends Controller {
         $paraArr = explode("/", $urlquerystring);
         $ticketId = $paraArr['2'];
         $storedata = $model->findById($module, $ticketId);
-        
+
         $picklist_damagestatus = $model->getpickList('damagestatus');
         $this->render('surveydetails', array('model' => $model,
             'result' => $storedata,
@@ -140,7 +146,8 @@ class TroubleticketController extends Controller {
      *  Change Mark damage required function
      */
 
-    public function actionmarkdamagestatus() {
+    public function actionmarkdamagestatus()
+    {
         $model = new Troubleticket;
         $this->LoginCheck();
         $module = "HelpDesk";
@@ -149,12 +156,13 @@ class TroubleticketController extends Controller {
         echo $storedata['result']['ticketstatus'];
         //$this->render('surveydetails',array('result'=>$storedata));  
     }
-    
+
     /*
      * Update Damage Status and Notes
      */
-    
-    public function actiondamagestatusandnotes(){
+
+    public function actiondamagestatusandnotes()
+    {
         $model = new Troubleticket;
         $this->LoginCheck();
         $ticketID = $_POST['id'];
@@ -165,7 +173,8 @@ class TroubleticketController extends Controller {
     /**
      * This is the action to handle images.
      */
-    public function actionimages() {
+    public function actionimages()
+    {
         $module = "DocumentAttachments";
         $urlquerystring = $_SERVER['QUERY_STRING'];
         $paraArr = explode("/", $urlquerystring);
@@ -181,7 +190,8 @@ class TroubleticketController extends Controller {
     /**
      * This is the action to handle external exceptions.
      */
-    public function actionError() {
+    public function actionError()
+    {
         if ($error = Yii::app()->errorHandler->error) {
             if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
@@ -193,9 +203,10 @@ class TroubleticketController extends Controller {
     /**
      * This Action are check logged user. otherwise redirect to login poage  
      */
-    public function LoginCheck() {
+    public function LoginCheck()
+    {
         $protocol = Yii::app()->params['protocol'];
-        $servername = Yii::app()->request->getServerName();          
+        $servername = Yii::app()->request->getServerName();
         $user = Yii::app()->session['username'];
         if (empty($user)) {
             $returnUrl = $protocol . $servername . Yii::app()->homeUrl;
@@ -206,7 +217,8 @@ class TroubleticketController extends Controller {
     /**
      * This Action are Update Asset Status on click on inprocess operation  
      */
-    function actionchangeassets() {
+    function actionchangeassets()
+    {
         $model = new Troubleticket;
         $this->LoginCheck();
         $tickettype = $_POST['tickettype'];
