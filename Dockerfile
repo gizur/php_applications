@@ -30,6 +30,9 @@ RUN rm -f /var/www/index.html
 # Add everything to /var/www
 ADD . /var/www
 
+# Change permissions
+RUN chmod 777 /var/www/lib/vtiger-5.4.0/user_privileges
+
 # Get the composer
 RUN cd /var/www && curl -sS https://getcomposer.org/installer | php
 RUN cd /var/www && mv composer.phar composer
