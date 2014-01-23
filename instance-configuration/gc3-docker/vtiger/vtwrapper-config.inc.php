@@ -54,13 +54,13 @@ define("VTWRAPPER_DOMAIN", 'app.gizur.local');
 /**
  * Path to vtiger installation
  */
-define("VTWRAPPER_VTIGER_PATH", '/home/prabhat/public_html/gizur/php_applications/lib/vtiger-5.4.0');
+define("VTWRAPPER_VTIGER_PATH", '/var/www/lib/vtiger-5.4.0');
 
 
 /**
  * Path to wrapper
  */
-define("VTWRAPPER_PATH", '/home/prabhat/public_html/gizur/php_applications/lib');
+define("VTWRAPPER_PATH", '/var/www/lib');
 
 
 /**
@@ -78,7 +78,7 @@ define("VTWRAPPER_DEBUG", False);
 
 if(VTWRAPPER_DEBUG) {	
 
-	require_once('/home/prabhat/public_html/gizur/php_applications/PhpConsole/PhpConsole.php');
+	require_once('/var/www/PhpConsole/PhpConsole.php');
 	PhpConsole::start(true, true, dirname(__FILE__));
 	debug('Starting phpConsole...');
 

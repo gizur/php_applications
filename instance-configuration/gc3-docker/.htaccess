@@ -5,8 +5,8 @@
 # Define error pages, application automatically redirects to the
 # error pages in case of 404 / 500 error.
 #
-ErrorDocument 404 http://app.gizur.local/lib/error-documents/404.html
-ErrorDocument 500 http://app.gizur.local/lib/error-documents/500.html
+ErrorDocument 404 http://app.gizur.local:8080/lib/error-documents/404.html
+ErrorDocument 500 http://app.gizur.local:8080/lib/error-documents/500.html
 
 # Enable rewrite engine
 # Prerequisite: mode rewrite should be enabled of the Apache HTTP Server.
