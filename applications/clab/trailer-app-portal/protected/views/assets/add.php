@@ -21,7 +21,7 @@ $this->breadcrumbs = array(
                     <font color="red">*</font>Type of Trailer
                 </td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <select class="small" tabindex="" name="cf_660">
+                    <select tabindex="" name="cf_660">
                         <option selected="" value="Cooptrailer">
                             Cooptrailer
                         </option>
