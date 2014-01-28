@@ -60,8 +60,8 @@ print_r($result);
             <tr class="odd">
                 <td><?php echo $data['asset_no']; ?> </td>
                 <td><?php echo $data['assetname']; ?></td>
-                <td><?php echo $resultAccount[$data['account']]; ?></td>
-                <td>Clab Trailer </td>
+                <td><?php echo $resultAccounts[$data['account']]; ?></td>
+                <td><?php echo $resultProducts[$data['product']]; ?></td>
                 <td>TRAILER5</td>
                 <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
             </tr>
