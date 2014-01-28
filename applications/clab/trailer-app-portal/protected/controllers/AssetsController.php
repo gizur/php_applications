@@ -41,12 +41,14 @@ class AssetsController extends Controller
         $this->LoginCheck();
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
-        echo "<pre>"; print_r($accounts);
-        die;
+        foreach($accounts as $accounsData) {
+            $resultAccount[$accounsData['id']]=$accounsData['accountname'];
+        }
         // Get all assets list
         $records = $model->findAll($module, $assetNo='', $assetName=''); 
         $this->render('list', array('model'=>$model, 
-                                    'result'=>$records, 
+                                    'result'=>$records,
+                                    'resultAccount'=>$resultAccount,
                                     'session' => Yii::app()->session)
                     );
     }
