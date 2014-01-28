@@ -47,7 +47,7 @@ class AssetsController extends Controller
         // Get products list
         $products = $model->findAllProducts('Products');
         foreach($products['result'] as $productsData) {
-            $resultProducts[$productsData['id']]=$accounsData['productname'];
+            $resultProducts[$productsData['id']]=$productsData['productname'];
         }
         // Get all assets list
         $records = $model->findAll($module, $assetNo='', $assetName=''); 

@@ -7,8 +7,7 @@ echo CHtml::metaTag($content = 'My page description', $name = 'decription');
 $this->breadcrumbs = array(
     getTranslatedString('Assets') . ' /' . getTranslatedString('Assets List'),
 );
-echo "<pre>";
-print_r($resultProducts);
+
 ?>
 <div id="wrap">
     <div class="toppanel">
