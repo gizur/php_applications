@@ -41,12 +41,12 @@ class AssetsController extends Controller
         $this->LoginCheck();
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
-        foreach($accounts as $accounsData) {
+        foreach($accounts['result'] as $accounsData) {
             $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
         }
         // Get products list
         $products = $model->findAllProducts('Products');
-        foreach($products as $productsData) {
+        foreach($products['result'] as $productsData) {
             $resultProducts[$productsData['id']]=$accounsData['productname'];
         }
         // Get all assets list
