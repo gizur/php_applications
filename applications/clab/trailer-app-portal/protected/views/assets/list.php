@@ -7,8 +7,8 @@ echo CHtml::metaTag($content = 'My page description', $name = 'decription');
 $this->breadcrumbs = array(
     getTranslatedString('Assets') . ' /' . getTranslatedString('Assets List'),
 );
-//echo "<pre>";
-//print_r($result);
+echo "<pre>";
+print_r($resultAccounts);
 ?>
 <div id="wrap">
     <div class="toppanel">
@@ -28,20 +28,7 @@ $this->breadcrumbs = array(
     </div>
     <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/add"><strong>Create New Asset</strong></a></div>
     <br />
-    <div id="process">
-        <div id="table_id_wrapper" class="dataTables_wrapper" role="grid">
-
-            <div align="left" id="table_id_length" class="dataTables_length">
-                <label>Show 
-                    <select name="table_id_length" size="1" aria-controls="table_id">
-                        <option value="10" selected="selected">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select> entries
-                </label>
-            </div>
-        </div>
+    <div id="process">   
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
             <thead>
                 <!-- Table Headers -->
@@ -68,12 +55,7 @@ $this->breadcrumbs = array(
                 <?php } ?>
             </tbody>
         </table>
-        <div id="table_id_info" class="dataTables_info" style="width:100%">Showing 1 to 3 of 3 entries
-            <span style=" float:right;" id="table_id_paginate" class="dataTables_paginate paging_two_button" >
-                <a aria-controls="table_id" id="table_id_previous" class="paginate_disabled_previous" tabindex="0" role="button">Previous</a>
-                <a aria-controls="table_id" id="table_id_next" class="paginate_disabled_next" tabindex="0" role="button">Next</a>
-            </span>
-        </div>
+       
 
     </div>
 </div>
