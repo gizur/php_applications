@@ -89,6 +89,7 @@ class Assets extends CFormModel {
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+        echo Yii::app()->params->URL . $module; exit;
         $response = $rest->get(Yii::app()->params->URL . $module );
         return $result = json_decode($response, true);
     }
