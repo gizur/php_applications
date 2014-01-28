@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
     getTranslatedString('Assets') . ' /' . getTranslatedString('Assets List'),
 );
 echo "<pre>";
-print_r($resultAccounts);
+print_r($resultProducts);
 ?>
 <div id="wrap">
     <div class="toppanel">
@@ -48,7 +48,7 @@ print_r($resultAccounts);
                         <td><?php echo $data['asset_no']; ?> </td>
                         <td><?php echo $data['assetname']; ?></td>
                         <td><?php echo $resultAccounts[$data['account']]; ?></td>
-                        <td><?php echo $resultProducts[$data['product']]; ?></td>
+                        <td><?php echo $resultProducts[$data['product']]; echo $data['product'];  ?></td>
                         <td><?php echo $data['serialnumber']; ?></td>
                         <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
                     </tr>
