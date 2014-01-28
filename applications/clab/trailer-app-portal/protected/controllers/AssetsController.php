@@ -1,4 +1,7 @@
 <?php
+/**
+ * Controller
+ */
 
 class AssetsController extends Controller
 {
