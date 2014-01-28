@@ -22,7 +22,15 @@ class AssetsController extends Controller
 
     public function actionList()
     {
-        $this->render('list', array('session' => Yii::app()->session));
+        $module = "Assets";
+        $model = new Assets;
+        $this->LoginCheck();
+        $records = $model->findAll($module, $assetNo='', $assetName=''); 
+         echo "<pre>"; print_r($records);
+        $this->render('list', array('model'=>$model, 
+                                    'result'=>$records, 
+                                    'session' => Yii::app()->session)
+                    );
     }
 
     public function actionAdd()
