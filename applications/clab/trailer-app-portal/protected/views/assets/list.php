@@ -44,56 +44,29 @@ $this->breadcrumbs = array(
         </div>
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
             <thead>
-            <!-- Table Headers -->
-            <tr role="row">
+                <!-- Table Headers -->
+                <tr role="row">
 
-                <th style="border-bottom: 1px solid #000000;">Asset No</th>
-                <th style="border-bottom: 1px solid #000000;">Asset Name</th>
-                <th style="border-bottom: 1px solid #000000;">Customer Name</th>
-                <th style="border-bottom: 1px solid #000000;">Product Name</th>
-                <th style="border-bottom: 1px solid #000000;">Serial Number</th>
-                <th style="border-bottom: 1px solid #000000;">Action</th>
-            </tr>
+                    <th style="border-bottom: 1px solid #000000;">Asset No</th>
+                    <th style="border-bottom: 1px solid #000000;">Asset Name</th>
+                    <th style="border-bottom: 1px solid #000000;">Customer Name</th>
+                    <th style="border-bottom: 1px solid #000000;">Product Name</th>
+                    <th style="border-bottom: 1px solid #000000;">Serial Number</th>
+                    <th style="border-bottom: 1px solid #000000;">Action</th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach($result['result'] as $data) { ?>
-            <tr class="odd">
-                <td><?php echo $data['asset_no']; ?> </td>
-                <td><?php echo $data['assetname']; ?></td>
-                <td><?php echo $resultAccounts[$data['account']]; ?></td>
-                <td><?php echo $resultProducts[$data['product']]; ?></td>
-                <td><?php echo $data['serialnumber']; ?></td>
-                <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
-            </tr>
-            <?php } ?>
-            <!-- Table Contents -->
-            <tr class="odd">
-                <td>AST1001 </td>
-                <td>AFN141F</td>
-                <td>Clab</td>
-                <td>Clab Trailer </td>
-                <td>TRAILER5</td>
-                <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
-            </tr>
-  
-            <tr class="even">
-                <td>AST1002</td>
-                <td>AFU767F</td>
-                <td>Clab</td>
-                <td>Clab Trailer </td>
-                <td>TRAILER6 </td>
-                <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
-            </tr>
-
-            <tr class="odd">
-                <td>AST1003</td>
-                <td>AGD476F</td>
-                <td>Clab</td>
-                <td>Clab Trailer </td>
-                <td> TRAILER9</td>
-                <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
-            </tr>
-           </tbody>
+                <?php foreach ($result['result'] as $data) { ?>
+                    <tr class="odd">
+                        <td><?php echo $data['asset_no']; ?> </td>
+                        <td><?php echo $data['assetname']; ?></td>
+                        <td><?php echo $resultAccounts[$data['account']]; ?></td>
+                        <td><?php echo $resultProducts[$data['product']]; ?></td>
+                        <td><?php echo $data['serialnumber']; ?></td>
+                        <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
         </table>
         <div id="table_id_info" class="dataTables_info" style="width:100%">Showing 1 to 3 of 3 entries
             <span style=" float:right;" id="table_id_paginate" class="dataTables_paginate paging_two_button" >
@@ -104,12 +77,12 @@ $this->breadcrumbs = array(
 
     </div>
 </div>
-<script>
-    function createNew() {
-        $('#wrap').hide();
-        $('#createcontact').show();
-    }
-    $(document).ready(function() {
-        $('#createcontact').hide();
+ <script type="text/javascript">
+    jQuery(document).ready(function() {
+       // jQuery("#assetsmsg").show().delay(5000).fadeOut();
+        jQuery('#table_id').dataTable({
+            "bStateSave": true
+        });
     });
+
 </script>
