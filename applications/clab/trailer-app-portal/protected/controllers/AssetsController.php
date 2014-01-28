@@ -41,6 +41,7 @@ class AssetsController extends Controller
         $this->LoginCheck();
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
+        echo "<pre>"; print_r($accounts); exit;
         foreach($accounts['result'] as $accounsData) {
             $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
         }
