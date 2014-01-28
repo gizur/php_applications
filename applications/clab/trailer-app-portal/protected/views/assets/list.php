@@ -33,12 +33,12 @@ $this->breadcrumbs = array(
                 <!-- Table Headers -->
                 <tr role="row">
 
-                    <th style="border-bottom: 1px solid #000000;">Asset No</th>
-                    <th style="border-bottom: 1px solid #000000;">Asset Name</th>
-                    <th style="border-bottom: 1px solid #000000;">Customer Name</th>
-                    <th style="border-bottom: 1px solid #000000;">Product Name</th>
-                    <th style="border-bottom: 1px solid #000000;">Serial Number</th>
-                    <th style="border-bottom: 1px solid #000000;">Action</th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Asset No'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Asset Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Customer Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Product Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Serial Number'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Action'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@ $this->breadcrumbs = array(
                         <td><?php echo $data['asset_no']; ?> </td>
                         <td><?php echo $data['assetname']; ?></td>
                         <td><?php echo $resultAccounts[$data['account']]; ?></td>
-                        <td><?php echo $resultProducts[$data['product']]; echo $data['product'];  ?></td>
+                        <td><?php echo $resultProducts[$data['product']]; ?></td>
                         <td><?php echo $data['serialnumber']; ?></td>
                         <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
                     </tr>
