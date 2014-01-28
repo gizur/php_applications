@@ -22,6 +22,17 @@ class AssetsController extends Controller
             
         );
     }
+    
+    public function LoginCheck()
+    {
+        $protocol = Yii::app()->params['protocol'];
+        $servername = Yii::app()->request->getServerName();
+        $user = Yii::app()->session['username'];
+        if (empty($user)) {
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl;
+            $this->redirect($returnUrl);
+        }
+    }
 
     public function actionList()
     {
