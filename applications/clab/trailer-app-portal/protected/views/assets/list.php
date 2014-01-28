@@ -41,6 +41,7 @@ $this->breadcrumbs = array(
             </div>
         </div>
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
+            <thead>
             <!-- Table Headers -->
             <tr role="row">
 
@@ -51,6 +52,18 @@ $this->breadcrumbs = array(
                 <th style="border-bottom: 1px solid #000000;">Serial Number</th>
                 <th style="border-bottom: 1px solid #000000;">Action</th>
             </tr>
+            </thead>
+            <tbody>
+            <?php foreach($result['result'] as $data) { ?>
+            <tr class="odd">
+                <td>AST1001 </td>
+                <td>AFN141F</td>
+                <td>Clab</td>
+                <td>Clab Trailer </td>
+                <td>TRAILER5</td>
+                <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
+            </tr>
+            <?php } ?>
             <!-- Table Contents -->
             <tr class="odd">
                 <td>AST1001 </td>
@@ -60,7 +73,7 @@ $this->breadcrumbs = array(
                 <td>TRAILER5</td>
                 <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
             </tr>
-
+  
             <tr class="even">
                 <td>AST1002</td>
                 <td>AFU767F</td>
@@ -78,7 +91,7 @@ $this->breadcrumbs = array(
                 <td> TRAILER9</td>
                 <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
             </tr>
-
+           </tbody>
         </table>
         <div id="table_id_info" class="dataTables_info" style="width:100%">Showing 1 to 3 of 3 entries
             <span style=" float:right;" id="table_id_paginate" class="dataTables_paginate paging_two_button" >

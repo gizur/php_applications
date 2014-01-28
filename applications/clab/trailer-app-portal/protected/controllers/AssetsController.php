@@ -39,8 +39,12 @@ class AssetsController extends Controller
         $module = "Assets";
         $model = new Assets;
         $this->LoginCheck();
+        // Get all accounts list
+        $accounts = $model->findAllAccounts('Accounts');
+        echo "<pre>"; print_r($accounts);
+        die;
+        // Get all assets list
         $records = $model->findAll($module, $assetNo='', $assetName=''); 
-         echo "<pre>"; print_r($records);
         $this->render('list', array('model'=>$model, 
                                     'result'=>$records, 
                                     'session' => Yii::app()->session)
