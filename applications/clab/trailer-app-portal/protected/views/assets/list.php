@@ -7,8 +7,8 @@ echo CHtml::metaTag($content = 'My page description', $name = 'decription');
 $this->breadcrumbs = array(
     getTranslatedString('Assets') . ' /' . getTranslatedString('Assets List'),
 );
-echo "<pre>";
-print_r($result);
+//echo "<pre>";
+//print_r($result);
 ?>
 <div id="wrap">
     <div class="toppanel">
@@ -62,7 +62,7 @@ print_r($result);
                 <td><?php echo $data['assetname']; ?></td>
                 <td><?php echo $resultAccounts[$data['account']]; ?></td>
                 <td><?php echo $resultProducts[$data['product']]; ?></td>
-                <td>TRAILER5</td>
+                <td><?php echo $data['serialnumber']; ?></td>
                 <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
             </tr>
             <?php } ?>
