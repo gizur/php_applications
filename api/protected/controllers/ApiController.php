@@ -2707,6 +2707,7 @@ class ApiController extends Controller
                             $query = "select * from " . $_GET['model'] .
                                     " where " . $queryFilter . ";"; 
                             $queryParam = urlencode($query);
+                            
 
                         //creating query string
                         $params = "sessionName={$this->_session->sessionName}" .
@@ -2757,6 +2758,8 @@ class ApiController extends Controller
                         //human readable field names                
                         
                         $cachedValue = json_encode($response);
+                        $cachedValue = json_encode(array('query'=>$query));
+                        
                         }
                     
                     
