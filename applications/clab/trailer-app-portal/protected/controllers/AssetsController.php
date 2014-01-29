@@ -63,9 +63,9 @@ class AssetsController extends Controller
     {
         $model = new Assets;
         $this->LoginCheck();
-        $assetNo = addslashes($_POST['assetNo']);
-        $assetName = addslashes($_POST['assetName']);
-        $assetNo='AST';
+        //$assetNo = addslashes($_POST['assetNo']);
+        //$assetName = addslashes($_POST['assetName']);
+        $assetNo='AST1069';
         $assetName='AFN';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
