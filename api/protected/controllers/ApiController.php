@@ -2599,6 +2599,24 @@ class ApiController extends Controller
                         else {
                             $query = "select * from " . $_GET['model'] . ";";
                         }
+                        
+                        
+                        if (isset($_GET['assetNo']) || 
+                                isset($_GET['assetName'])) {
+                        
+                            $queryFilter=" 1=1";
+                                if (isset($_GET['assetNo'])) {
+                                   $assetNo = $_GET['assetNo'];
+                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
+                                }
+                                if (isset($_GET['assetName'])) {
+                                  $assetName=$_GET['assetName'];
+                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
+                                }
+                            $query = "select * from " . $_GET['model'] .
+                                    " where " . $queryFilter . ";";   
+                        } 
+                    
 
                         //urlencode to as its sent over http.
                         $queryParam = urlencode($query);
@@ -2688,21 +2706,6 @@ class ApiController extends Controller
                         }                        
                     }
                     
-                    if (isset($_GET['assetNo']) || 
-                                isset($_GET['assetName'])) {
-                        $cachedValue=json_encode(array('assetNo'=>$_GET['assetNo']));
-                            /*$queryFilter=" 1=1";
-                                if (isset($_GET['assetNo'])) {
-                                   $assetNo = $_GET['assetNo'];
-                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
-                                }
-                                if (isset($_GET['assetName'])) {
-                                  $assetName=$_GET['assetName'];
-                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
-                                }
-                            $query = "select * from " . $_GET['model'] .
-                                    " where " . $queryFilter . ";";  */ 
-                        } 
                     
                     //Send the response
                     $this->_sendResponse(200, $cachedValue);
