@@ -2601,21 +2601,7 @@ class ApiController extends Controller
                         }
                         
                         
-                        if (isset($_GET['assetNo']) || 
-                                isset($_GET['assetName'])) {
-                        
-                            $queryFilter=" 1=1";
-                                if (isset($_GET['assetNo'])) {
-                                   $assetNo = $_GET['assetNo'];
-                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
-                                }
-                                if (isset($_GET['assetName'])) {
-                                  $assetName=$_GET['assetName'];
-                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
-                                }
-                            $query = "select * from " . $_GET['model'] .
-                                    " where " . $queryFilter . ";";   
-                        } 
+                         
                     
 
                         //urlencode to as its sent over http.
@@ -2705,6 +2691,73 @@ class ApiController extends Controller
                             );                                      
                         }                        
                     }
+                    
+                    if (isset($_GET['assetNo']) || 
+                                isset($_GET['assetName'])) {
+            
+                            $queryFilter=" 1=1";
+                                if (isset($_GET['assetNo'])) {
+                                   $assetNo = $_GET['assetNo'];
+                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
+                                }
+                                if (isset($_GET['assetName'])) {
+                                  $assetName=$_GET['assetName'];
+                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
+                                }
+                            $query = "select * from " . $_GET['model'] .
+                                    " where " . $queryFilter . ";"; 
+                            $queryParam = urlencode($query);
+
+                        //creating query string
+                        $params = "sessionName={$this->_session->sessionName}" .
+                                "&operation=query&query=$queryParam";
+
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (sending GET request " .
+                            "to vt url: " . 
+                            $this->_vtresturl . "?$params" .
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );
+                        $rest = new RESTClient();
+                        $rest->format('json');
+                        $response = $rest->get(
+                            $this->_vtresturl . "?$params"
+                        );
+
+                        //Log
+                        Yii::log(
+                            " TRACE(" . $this->_traceId . "); " . 
+                            " FUNCTION(" . __FUNCTION__ . "); " . 
+                            " PROCESSING REQUEST (response received: " . 
+                            $response .
+                            ")", 
+                            CLogger::LEVEL_TRACE
+                        );
+
+                        if ($response == '' || $response == null)
+                            throw new Exception(
+                                "Blank response received from " .
+                                "vtiger: Get Assets search List"
+                            );
+
+                        //Save vtiger response
+                        $this->_vtresponse = $response;
+
+                        //Objectify the response and check its success
+                        $response = json_decode($response, true);
+
+                        if ($response['success'] == false)
+                        throw new Exception('Unable to fetch details');
+
+                        //Before sending response santise custom fields names to 
+                        //human readable field names                
+                        
+                        $cachedValue = json_encode($response);
+                        }
                     
                     
                     //Send the response
