@@ -2597,6 +2597,7 @@ class ApiController extends Controller
                             }
                         } else if (isset($_GET['assetNo']) || 
                                 isset($_GET['assetName'])) {
+                            echo json_encode(array('1'=>'In')); die;
                             $queryFilter=" 1=1";
                                 if (isset($_GET['assetNo'])) {
                                    $assetNo = $_GET['assetNo'];
