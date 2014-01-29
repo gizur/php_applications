@@ -2586,6 +2586,8 @@ class ApiController extends Controller
                     }
 
                     if ($cachedValue === false) {
+                        echo json_encode(array('ano'=>$_GET['assetNo'])); 
+                        die;
                         //Send request to vtiger REST service
                         if (isset($_GET['category'])) {
                             if ($_GET['category'] == 'inoperation') {
@@ -2597,7 +2599,6 @@ class ApiController extends Controller
                             }
                         } else if (isset($_GET['assetNo']) || 
                                 isset($_GET['assetName'])) {
-                            echo json_encode(array('1'=>'In')); die;
                             $queryFilter=" 1=1";
                                 if (isset($_GET['assetNo'])) {
                                    $assetNo = $_GET['assetNo'];
