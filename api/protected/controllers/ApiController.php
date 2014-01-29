@@ -2702,10 +2702,10 @@ class ApiController extends Controller
                                 }
                                 if (isset($_GET['assetName'])) {
                                   $assetName=$_GET['assetName'];
-                                  $queryFilter .= " and assetname like '%$assetName%'";       
+                                  //$queryFilter .= " and assetname like '%$assetName%'";       
                                 }
                             $query = "select * from " . $_GET['model'] .
-                                    " where asset_no = 'AST1069' ;"; 
+                                    " where " . $queryFilter . " ;"; 
                             $queryParam = urlencode($query);
                             
 
@@ -2755,7 +2755,24 @@ class ApiController extends Controller
                         throw new Exception('Unable to fetch details');
 
                         //Before sending response santise custom fields names to 
-                        //human readable field names                
+                        //human readable field names
+                         foreach ($response['result'] as &$asset) {
+                            unset($asset['update_log']);
+                            unset($asset['hours']);
+                            unset($asset['days']);
+                            unset($asset['modifiedtime']);
+                            unset($asset['from_portal']);
+                            foreach ($asset as $fieldname => $value) {
+                                $keyToReplace = array_search(
+                                    $fieldname, $customFields
+                                );
+                                if ($keyToReplace) {
+                                    unset($asset[$fieldname]);
+                                    $asset[$keyToReplace] = $value;
+                                    //unset($customFields[$keyToReplace]);
+                                }
+                            }
+                        }
                         
                         $cachedValue = json_encode($response);
                         

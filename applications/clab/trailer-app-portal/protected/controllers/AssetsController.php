@@ -66,7 +66,7 @@ class AssetsController extends Controller
         //$assetNo = addslashes($_POST['assetNo']);
         //$assetName = addslashes($_POST['assetName']);
         $assetNo='AST1069';
-        $assetName='AFN';
+        $assetName='CKK';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
         foreach($accounts['result'] as $accounsData) {
