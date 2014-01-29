@@ -50,7 +50,7 @@ class AssetsController extends Controller
             $resultProducts[$productsData['id']]=$productsData['productname'];
         }
         // Get all assets list
-        $records = $model->findAll($module, $assetNo='', $assetName=''); 
+        $records = $model->findAll($module, $actionType=NULL, $filter=NULL); 
         $this->render('list', array('model'=>$model, 
                                     'result'=>$records,
                                     'resultAccounts'=>$resultAccounts,
@@ -67,6 +67,17 @@ class AssetsController extends Controller
         //$assetName = addslashes($_POST['assetName']);
         $assetNo='AST1069';
         $assetName='CKK';
+        $queryFilter = " asset_no like '%%' ";
+                                if (!empty($assetNo)) {
+                                  
+                                   $queryFilter .= " and asset_no like '%$assetNo%'";
+                                }
+                                if (!empty($assetName)) {
+                                  
+                                  $queryFilter .= " and assetname like '%$assetName%'";
+                                }
+                                $filter =  urldecode($queryFilter);
+                                $actionType='search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
         foreach($accounts['result'] as $accounsData) {
@@ -78,7 +89,7 @@ class AssetsController extends Controller
             $resultProducts[$productsData['id']]=$productsData['productname'];
         }
         // Get filtered assets data
-        $records = $model->findAll('Assets', $assetNo, $assetName); 
+        $records = $model->findAll($module, $actionType, $filter); 
         echo "<pre>";
         print_r($records);
         exit;

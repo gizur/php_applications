@@ -10,7 +10,7 @@ class Assets extends CFormModel {
       * Description:- Get all Assets form Vtiger using rest api.
       * Return Type: Json
       */
-    function findAll($module, $assetNo=NULL, $assetName=NULL) {
+    function findAll($module, $actionType=NULL, $filter=NULL) {
         $params = array(
             'Verb' => 'GET',
             'Model' => $module,
@@ -33,17 +33,15 @@ class Assets extends CFormModel {
         //login using each credentials
         // Check Filter Parameter
         $FilterParameter = array();
-        if (!empty($assetNo)) {
-            $FilterParameter[] = $assetNo;
+        if (!empty($actionType)) {
+            if (empty($filter)) {
+                $filter = 0;
+            }
+            $searchString='/'.$actionType.'/'.$filter;
         }
-        if (!empty($assetName)) {
-            $FilterParameter[] = $assetName;
-        }
+        
                 
-        $extraparameter = implode('/', $FilterParameter);
-        if (!empty($extraparameter)) {
-            $extraparameter = "/" . $extraparameter;
-        }
+        
         //foreach($this->credentials as $username => $password){            
         $rest = new RESTClient();
         $rest->format('json');
@@ -53,7 +51,7 @@ class Assets extends CFormModel {
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-        $response = $rest->get(Yii::app()->params->URL . $module  . $extraparameter);
+        $response = $rest->get(Yii::app()->params->URL . $module  . $searchString);
         return $result = json_decode($response, true);
     }
 
