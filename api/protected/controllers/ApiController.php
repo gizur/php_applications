@@ -2758,7 +2758,7 @@ class ApiController extends Controller
                         //human readable field names                
                         
                         $cachedValue = json_encode($response);
-                        $cachedValue = json_encode(array('query'=>$query));
+                        $cachedValue = json_encode(array('query'=>$params));
                         
                         }
                     
