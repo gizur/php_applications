@@ -63,16 +63,16 @@ $cs->registerCssFile($baseUrl . '/css/jquery.dataTables.css');
                     <?php
                     $items = array();   
                     
-                    $items.push(array('label' => getTranslatedString('Survey'), 'url' => array('/troubleticket/surveylist')));
+                    array_push($items, array('label' => getTranslatedString('Survey'), 'url' => array('/troubleticket/surveylist')));
                     if(Yii::app()->params['showContactTab']) {
-                        $items.push(array('label' => getTranslatedString('Contacts'), 'url' => array('/contacts/list')));
+                        array_push($items, array('label' => getTranslatedString('Contacts'), 'url' => array('/contacts/list')));
                     }
                     if(Yii::app()->params['showAssetTab']) {
-                        $items.push(array('label' => getTranslatedString('Assets'), 'url' => array('/assets/list')));
+                        array_push($items, array('label' => getTranslatedString('Assets'), 'url' => array('/assets/list')));
                     }
-                    $items.push(array('label' => getTranslatedString('Change Password'), 'url' => array('/site/changepassword')));
-                    $items.push(array('label' => getTranslatedString('Login'), 'url' => array('/site/login'), 'visible' => $loginstatus));
-                    $items.push(array('label' => getTranslatedString('Logout'), 'url' => array('/site/logout'), 'visible' => !$loginstatus));
+                    array_push($items, array('label' => getTranslatedString('Change Password'), 'url' => array('/site/changepassword')));
+                    array_push($items, array('label' => getTranslatedString('Login'), 'url' => array('/site/login'), 'visible' => $loginstatus));
+                    array_push($items, array('label' => getTranslatedString('Logout'), 'url' => array('/site/logout'), 'visible' => !$loginstatus));
                     
                     if ($user != 'Guest' && !empty($user)) {
                         $this->widget('zii.widgets.CMenu', array(
