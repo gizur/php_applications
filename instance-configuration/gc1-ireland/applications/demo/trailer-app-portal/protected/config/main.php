@@ -104,7 +104,9 @@ return array(
 		'language' => array(
 	                 'en' => 'English',
 	                 'sv' => 'Swedish'
-		)
+		),
+                'showAssetTab' => false,
+                'showContactTab' => false,
 	),
 	// Default vtentity behaviour
 	//http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/
