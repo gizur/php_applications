@@ -78,7 +78,7 @@ class AssetsController extends Controller
             $resultProducts[$productsData['id']]=$productsData['productname'];
         }
         // Get filtered assets data
-        $records = $model->findAll($module, $assetNo, $assetName); 
+        $records = $model->findAll('Assets', $assetNo, $assetName); 
         echo "<pre>";
         print_r($records);
         exit;
