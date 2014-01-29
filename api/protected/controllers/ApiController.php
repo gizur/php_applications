@@ -2698,11 +2698,11 @@ class ApiController extends Controller
                             $queryFilter=" 1=1";
                                 if (isset($_GET['assetNo'])) {
                                    $assetNo = $_GET['assetNo'];
-                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
+                                   $queryFilter .= " and asset_no like '%$assetNo%'";       
                                 }
                                 if (isset($_GET['assetName'])) {
                                   $assetName=$_GET['assetName'];
-                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
+                                  $queryFilter .= "and assetname like '%$assetName%'";       
                                 }
                             $query = "select * from " . $_GET['model'] .
                                     " where " . $queryFilter . ";"; 
@@ -2758,7 +2758,6 @@ class ApiController extends Controller
                         //human readable field names                
                         
                         $cachedValue = json_encode($response);
-                        
                         
                         }
                     
