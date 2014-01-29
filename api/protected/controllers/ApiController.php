@@ -2586,8 +2586,6 @@ class ApiController extends Controller
                     }
 
                     if ($cachedValue === false) {
-                        echo json_encode(array('ano'=>$_GET['assetNo'])); 
-                        die;
                         //Send request to vtiger REST service
                         if (isset($_GET['category'])) {
                             if ($_GET['category'] == 'inoperation') {
@@ -2597,19 +2595,6 @@ class ApiController extends Controller
                                 $query = "select * from " . $_GET['model'] .
                                     " where assetstatus = 'Out-of-service';";
                             }
-                        } else if (isset($_GET['assetNo']) || 
-                                isset($_GET['assetName'])) {
-                            $queryFilter=" 1=1";
-                                if (isset($_GET['assetNo'])) {
-                                   $assetNo = $_GET['assetNo'];
-                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
-                                }
-                                if (isset($_GET['assetName'])) {
-                                  $assetName=$_GET['assetName'];
-                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
-                                }
-                            $query = "select * from " . $_GET['model'] .
-                                    " where " . $queryFilter . ";";   
                         } 
                         else {
                             $query = "select * from " . $_GET['model'] . ";";
@@ -2702,6 +2687,22 @@ class ApiController extends Controller
                             );                                      
                         }                        
                     }
+                    
+                    if (isset($_GET['assetNo']) || 
+                                isset($_GET['assetName'])) {
+                        $cachedValue=json_encode(array('assetNo'=>$_GET['assetNo']));
+                            /*$queryFilter=" 1=1";
+                                if (isset($_GET['assetNo'])) {
+                                   $assetNo = $_GET['assetNo'];
+                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
+                                }
+                                if (isset($_GET['assetName'])) {
+                                  $assetName=$_GET['assetName'];
+                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
+                                }
+                            $query = "select * from " . $_GET['model'] .
+                                    " where " . $queryFilter . ";";  */ 
+                        } 
                     
                     //Send the response
                     $this->_sendResponse(200, $cachedValue);
