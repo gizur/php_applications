@@ -2695,14 +2695,14 @@ class ApiController extends Controller
                     if (isset($_GET['assetNo']) || 
                                 isset($_GET['assetName'])) {
             
-                            //$queryFilter=" 1=1";
+                            $queryFilter = " 1=1 ";
                                 if (isset($_GET['assetNo'])) {
                                    $assetNo = $_GET['assetNo'];
-                                   $queryFilter = " asset_no = '$assetNo'";       
+                                   $queryFilter .= " asset_no like '%$assetNo%'";       
                                 }
                                 if (isset($_GET['assetName'])) {
                                   $assetName=$_GET['assetName'];
-                                  //$queryFilter .= " and assetname like '%$assetName%'";       
+                                  $queryFilter .= " and assetname like '%$assetName%'";       
                                 }
                             $query = "select * from " . $_GET['model'] .
                                     " where " . $queryFilter . " ;"; 
