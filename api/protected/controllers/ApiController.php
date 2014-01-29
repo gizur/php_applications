@@ -2595,7 +2595,21 @@ class ApiController extends Controller
                                 $query = "select * from " . $_GET['model'] .
                                     " where assetstatus = 'Out-of-service';";
                             }
-                        } else {
+                        } else if (isset($_GET['assetNo']) || 
+                                isset($_GET['assetName'])) {
+                            $queryFilter=" 1=1";
+                                if (isset($_GET['assetNo'])) {
+                                   $assetNo = $_GET['assetNo'];
+                                   $queryFilter .= " AND asset_no LIKE '%$assetNo%'";       
+                                }
+                                if (isset($_GET['assetName'])) {
+                                  $assetName=$_GET['assetName'];
+                                  $queryFilter .= " AND assetname LIKE '%$assetName%'";       
+                                }
+                            $query = "select * from " . $_GET['model'] .
+                                    " where " . $queryFilter . ";";   
+                        } 
+                        else {
                             $query = "select * from " . $_GET['model'] . ";";
                         }
 

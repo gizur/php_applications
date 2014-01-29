@@ -57,7 +57,10 @@ class Assets extends CFormModel {
         return $result = json_decode($response, true);
     }
 
-    
+    /* Funcation Name:- findAllAccounts
+      * Description:- Get all Account details from vtiger.
+      * Return Type: Json
+      */
     function findAllAccounts($module) {
         $params = array(
             'Verb' => 'GET',
@@ -93,6 +96,10 @@ class Assets extends CFormModel {
         return $result = json_decode($response, true);
     }
     
+    /* Funcation Name:- findAllProducts
+      * Description:- Get all Products form Vtiger using rest api.
+      * Return Type: Json
+      */
     function findAllProducts($module) {
         $params = array(
             'Verb' => 'GET',

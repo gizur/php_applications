@@ -58,6 +58,37 @@ class AssetsController extends Controller
                                     'session' => Yii::app()->session)
                     );
     }
+    
+    function actionsearchasset()
+    {
+        $model = new Assets;
+        $this->LoginCheck();
+        $assetNo = addslashes($_POST['assetNo']);
+        $assetName = addslashes($_POST['assetName']);
+        $assetNo='AST';
+        $assetName='AFN';
+        // Get all accounts list
+        $accounts = $model->findAllAccounts('Accounts');
+        foreach($accounts['result'] as $accounsData) {
+            $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
+        }
+        // Get products list
+        $products = $model->findAllProducts('Products');
+        foreach($products['result'] as $productsData) {
+            $resultProducts[$productsData['id']]=$productsData['productname'];
+        }
+        // Get filtered assets data
+        $records = $model->findAll($module, $assetNo, $assetName); 
+        echo "<pre>";
+        print_r($records);
+        exit;
+        $this->render('list', array('model'=>$model, 
+                                    'result'=>$records,
+                                    'resultAccounts'=>$resultAccounts,
+                                    'resultProducts'=>$resultProducts,
+                                    'session' => Yii::app()->session)
+                    );   
+    }
 
     public function actionAdd()
     {
