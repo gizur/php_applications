@@ -2698,14 +2698,14 @@ class ApiController extends Controller
                             //$queryFilter=" 1=1";
                                 if (isset($_GET['assetNo'])) {
                                    $assetNo = $_GET['assetNo'];
-                                   $queryFilter = " asset_no like '%$assetNo%'";       
+                                   $queryFilter = " asset_no = '$assetNo'";       
                                 }
                                 if (isset($_GET['assetName'])) {
                                   $assetName=$_GET['assetName'];
                                   $queryFilter .= " and assetname like '%$assetName%'";       
                                 }
                             $query = "select * from " . $_GET['model'] .
-                                    " where " . $queryFilter . " ;"; 
+                                    " where asset_no = 'AST1069' ;"; 
                             $queryParam = urlencode($query);
                             
 
