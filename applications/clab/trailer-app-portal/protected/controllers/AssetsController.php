@@ -91,7 +91,7 @@ class AssetsController extends Controller
         }
         // Get filtered assets data
         $records = $model->findAll($module, $actionType, $filter);
-        $this->render('list', array('model'=>$model,
+        $this->render('searchasset', array('model'=>$model,
                                     'result'=>$records,
                                     'resultAccounts'=>$resultAccounts,
                                     'resultProducts'=>$resultProducts,

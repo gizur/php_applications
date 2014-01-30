@@ -1,0 +1,40 @@
+<?php
+include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
+?>    
+
+<table id="table_id" class="dataTable" aria-describedby="table_id_info">
+            <thead>
+                <!-- Table Headers -->
+                <tr role="row">
+
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Asset No'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Asset Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Customer Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Product Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Serial Number'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Action'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($result['result'] as $data) { ?>
+                    <tr class="odd">
+                        <td><?php echo $data['asset_no']; ?> </td>
+                        <td><?php echo $data['assetname']; ?></td>
+                        <td><?php echo $resultAccounts[$data['account']]; ?></td>
+                        <td><?php echo $resultProducts[$data['product']]; ?></td>
+                        <td><?php echo $data['serialnumber']; ?></td>
+                        <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+ <script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery("#assetsmsg").show().delay(5000).fadeOut();
+        jQuery('#table_id').dataTable({
+            "bStateSave": true
+        });
+        
+    });
+
+</script>
