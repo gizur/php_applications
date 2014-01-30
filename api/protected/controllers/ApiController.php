@@ -2575,7 +2575,7 @@ class ApiController extends Controller {
                         if (isset($_GET['actionType']) ||
                                 isset($_GET['searchString'])) {      
                             if ($_GET['actionType'] == 'search') {
-                                if ($_GET['searchString'] == 0) {
+                                if ($_GET['searchString'] == 'None') {
                                     throw new Exception("Search string not found.");
                                 }
                                 $searchString = explode('0X0', $_GET['searchString']);

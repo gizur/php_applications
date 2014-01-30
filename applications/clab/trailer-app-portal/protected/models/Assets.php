@@ -35,7 +35,7 @@ class Assets extends CFormModel {
         
         if (!empty($actionType)) {
             if (empty($filter)) {
-                $filter = 0;
+                $filter = 'None';
             }
             $searchString='/'.$actionType.'/'.$filter;
         }
