@@ -2576,7 +2576,7 @@ class ApiController extends Controller {
                                 isset($_GET['searchString'])) {
                             if ($_GET['actionType'] == 'search') {
                                 if($searchString!=0) {
-                                $searchString = str_replace('-',' ',$_GET['searchString']);
+                                $searchString = base64_decode($_GET['searchString']);
                                 $query = "select * from " . $_GET['model'] .
                                         " where " . $searchString . " ;";
                                 } else {

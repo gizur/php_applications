@@ -78,7 +78,7 @@ class AssetsController extends Controller
                                   
                                   $queryFilter .= " and assetname like '%$assetName%'";
                                 }
-                                $filter =  str_replace(' ','-',$queryFilter);
+                                $filter =  base64_encode($queryFilter);
                                 $actionType='search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
