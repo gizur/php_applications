@@ -61,7 +61,7 @@ class AssetsController extends Controller
     
     function actionsearchasset()
     {
-        
+        $this->layout='';
         $model = new Assets;
         $module = 'Assets';
         $this->LoginCheck();
