@@ -61,7 +61,7 @@ $this->breadcrumbs = array(
 </div>
  <script type="text/javascript">
     jQuery(document).ready(function() {
-        jQuery("#assetsmsg").show().delay(5000).fadeOut();
+        //jQuery("#assetsmsg").show().delay(5000).fadeOut();
         jQuery('#table_id').dataTable({
             "bStateSave": true
         });

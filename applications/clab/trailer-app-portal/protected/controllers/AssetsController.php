@@ -61,14 +61,14 @@ class AssetsController extends Controller
     
     function actionsearchasset()
     {
-        $this->layout='';
+        $this->layout=false;
         $model = new Assets;
         $module = 'Assets';
         $this->LoginCheck();
         //$assetNo = addslashes($_POST['assetNo']);
         //$assetName = addslashes($_POST['assetName']);
-        $assetNo=$_POST['assetNo'];
-        $assetName=$_POST['assetName'];
+        $assetNo = strtoupper($_POST['assetNo']);
+        $assetName = strtoupper($_POST['assetName']);
         $searchString = array();
         if(!empty($assetNo)) {
             $searchString[]='asset_no0F0'.$assetNo;
@@ -78,7 +78,7 @@ class AssetsController extends Controller
         }
         $filter = implode('0X0',$searchString);
 
-        $actionType='search';
+        $actionType = 'search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
         foreach($accounts['result'] as $accounsData) {

@@ -30,7 +30,6 @@ include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
         </table>
  <script type="text/javascript">
     jQuery(document).ready(function() {
-        jQuery("#assetsmsg").show().delay(5000).fadeOut();
         jQuery('#table_id').dataTable({
             "bStateSave": true
         });

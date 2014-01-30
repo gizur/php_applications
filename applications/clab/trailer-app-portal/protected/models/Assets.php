@@ -31,17 +31,13 @@ class Assets extends CFormModel {
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        // Check Filter Parameter
-        
+        // Check Filter Parameter  
         if (!empty($actionType)) {
             if (empty($filter)) {
                 $filter = 'None';
             }
-            $searchString='/'.$actionType.'/'.$filter;
-        }
-        
-                
-        
+            $searchString = '/'.$actionType.'/'.$filter;
+        }  
         //foreach($this->credentials as $username => $password){            
         $rest = new RESTClient();
         $rest->format('json');
