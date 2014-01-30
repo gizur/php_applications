@@ -2571,6 +2571,91 @@ class ApiController extends Controller {
                                 );
                             }
                         }
+
+                        if (isset($_GET['actionType']) ||
+                                isset($_GET['searchString'])) {
+                            if ($_GET['actionType'] == 'search') {
+                                if($searchString!=0) {
+                                $searchString = str_replace('-',' ',$_GET['searchString']);
+                                $query = "select * from " . $_GET['model'] .
+                                        " where " . $searchString . " ;";
+                                } else {
+                                  throw new Exception("Search string not found!");  
+                                }
+                            } else {
+                                throw new Exception("Action search not found!");
+                            }
+
+                            $queryParam = urlencode($query);
+
+
+                            //creating query string
+                            $params = "sessionName={$this->_session->sessionName}" .
+                                    "&operation=query&query=$queryParam";
+
+                            //Log
+                            Yii::log(
+                                    " TRACE(" . $this->_traceId . "); " .
+                                    " FUNCTION(" . __FUNCTION__ . "); " .
+                                    " PROCESSING REQUEST (sending GET request " .
+                                    "to vt url: " .
+                                    $this->_vtresturl . "?$params" .
+                                    ")", CLogger::LEVEL_TRACE
+                            );
+                            $rest = new RESTClient();
+                            $rest->format('json');
+                            $response = $rest->get(
+                                    $this->_vtresturl . "?$params"
+                            );
+
+                            //Log
+                            Yii::log(
+                                    " TRACE(" . $this->_traceId . "); " .
+                                    " FUNCTION(" . __FUNCTION__ . "); " .
+                                    " PROCESSING REQUEST (response received: " .
+                                    $response .
+                                    ")", CLogger::LEVEL_TRACE
+                            );
+
+                            if ($response == '' || $response == null)
+                                throw new Exception(
+                                "Blank response received from " .
+                                "vtiger: Get Assets search List"
+                                );
+
+                            //Save vtiger response
+                            $this->_vtresponse = $response;
+
+                            //Objectify the response and check its success
+                            $response = json_decode($response, true);
+
+                            if ($response['success'] == false)
+                                throw new Exception('Unable to fetch details');
+
+                            //Before sending response santise custom fields names to 
+                            //human readable field names
+                            foreach ($response['result'] as &$asset) {
+                                unset($asset['update_log']);
+                                unset($asset['hours']);
+                                unset($asset['days']);
+                                unset($asset['modifiedtime']);
+                                unset($asset['from_portal']);
+                                foreach ($asset as $fieldname => $value) {
+                                    $keyToReplace = array_search(
+                                            $fieldname, $customFields
+                                    );
+                                    if ($keyToReplace) {
+                                        unset($asset[$fieldname]);
+                                        $asset[$keyToReplace] = $value;
+                                        //unset($customFields[$keyToReplace]);
+                                    }
+                                }
+                            }
+
+                            $cachedValue = json_encode($response);
+                        }
+
+
                         //Send the response
                         $this->_sendResponse(200, $cachedValue);
                     }
