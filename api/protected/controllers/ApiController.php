@@ -2576,9 +2576,15 @@ class ApiController extends Controller {
                                 isset($_GET['searchString'])) {
                             if ($_GET['actionType'] == 'search') {
                                 if($searchString!=0) {
-                                $searchString = base64_decode($_GET['searchString']);
+                                $searchString = explode('^^',$_GET['searchString']);
+                                $searchData = " asset_no like '%%'";
+                foreach($searchString as $filter) {
+                    $filterString=explode(':',$filter);
+                
+                $searchData .= " and " . $filterString[0] . " like "."'%" . $filterString[1] . "%'";
+                }
                                 $query = "select * from " . $_GET['model'] .
-                                        " where " . $searchString . " ;";
+                                        " where " . $searchData . " ;";
                                 } else {
                                   throw new Exception("Search string not found!");  
                                 }

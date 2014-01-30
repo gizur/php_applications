@@ -63,23 +63,22 @@ class AssetsController extends Controller
     {
         
         $model = new Assets;
-        $module='Assets';
+        $module = 'Assets';
         $this->LoginCheck();
         //$assetNo = addslashes($_POST['assetNo']);
         //$assetName = addslashes($_POST['assetName']);
         $assetNo='AST1069';
         $assetName='CKK';
-        $queryFilter = " asset_no like '%%' ";
-                                if (!empty($assetNo)) {
-                                  
-                                   $queryFilter .= " and asset_no like '%$assetNo%'";
-                                }
-                                if (!empty($assetName)) {
-                                  
-                                  $queryFilter .= " and assetname like '%$assetName%'";
-                                }
-                                $filter =  base64_encode($queryFilter);
-                                $actionType='search';
+        $searchString = array();
+        if(!empty($assetNo)) {
+            $searchString[]='asset_no:'.$assetNo;
+        }
+         if(!empty($assetName)) {
+            $searchString[]='assetname:'.$assetName;
+        }
+        $filter = implode('^^',$searchString);
+        
+        $actionType='search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
         foreach($accounts['result'] as $accounsData) {
