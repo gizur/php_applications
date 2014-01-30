@@ -45,11 +45,11 @@ $this->breadcrumbs = array(
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Date'); ?></strong></td>
-            <td bgcolor="e3f0f7"><?php echo date('Y-m-d', strtotime($result['result']['createdtime'])); ?></td>
+            <td bgcolor="e3f0f7"><?php echo date('Y-m-d', strtotime(Yii::app()->localtime->toLocalDateTime($result['result']['createdtime']))); ?></td>
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Time'); ?></strong></td>
-            <td bgcolor="e3f0f7"><?php echo date('h:i', strtotime($result['result']['createdtime'])); ?></td>
+            <td bgcolor="e3f0f7"><?php echo date('H:i', strtotime(Yii::app()->localtime->toLocalDateTime($result['result']['createdtime']))); ?></td>
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Place'); ?> </strong></td>
