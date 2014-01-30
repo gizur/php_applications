@@ -32,7 +32,7 @@ class Assets extends CFormModel {
         $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
         // Check Filter Parameter
-        $FilterParameter = array();
+        
         if (!empty($actionType)) {
             if (empty($filter)) {
                 $filter = 0;

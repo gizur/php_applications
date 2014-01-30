@@ -61,7 +61,9 @@ class AssetsController extends Controller
     
     function actionsearchasset()
     {
+        
         $model = new Assets;
+        $module='Assets';
         $this->LoginCheck();
         //$assetNo = addslashes($_POST['assetNo']);
         //$assetName = addslashes($_POST['assetName']);
@@ -76,7 +78,7 @@ class AssetsController extends Controller
                                   
                                   $queryFilter .= " and assetname like '%$assetName%'";
                                 }
-                                $filter =  urldecode($queryFilter);
+                                $filter =  urlencode($queryFilter);
                                 $actionType='search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
@@ -90,9 +92,6 @@ class AssetsController extends Controller
         }
         // Get filtered assets data
         $records = $model->findAll($module, $actionType, $filter); 
-        echo "<pre>";
-        print_r($records);
-        exit;
         $this->render('list', array('model'=>$model, 
                                     'result'=>$records,
                                     'resultAccounts'=>$resultAccounts,
