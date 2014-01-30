@@ -2576,8 +2576,9 @@ class ApiController extends Controller {
                                 isset($_GET['searchString'])) {      
                             if ($_GET['actionType'] == 'search') {
                                 if ($_GET['searchString'] == 'None') {
-                                    throw new Exception("Search string not found.");
-                                }
+                                    $query = "select * from " . $_GET['model'] . " ;";
+
+                                } else {
                                 $searchString = explode('0X0', $_GET['searchString']);
                                 $searchData = " asset_no like '%%'";
                                 foreach ($searchString as $filter) {
@@ -2586,6 +2587,7 @@ class ApiController extends Controller {
                                 }
                                 $query = "select * from " . $_GET['model'] .
                                         " where " . $searchData . " ;";
+                                }
                             } else {
                                 throw new Exception("Action search not found!");
                             }

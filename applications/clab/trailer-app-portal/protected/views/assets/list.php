@@ -15,10 +15,11 @@ $this->breadcrumbs = array(
             <tr>
                 <td valign="top">
                     <table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
+                        <tr><td colspan='3' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
                         <tr>
-                            <td><strong>Asset No : </strong></td><td><input size="15pt" type="text" name="firstname" value="" /></td>
-                            <td><strong>Asset Name : </strong></td><td><input size="15pt" type="text" name="lastname" value="" /></td>
-                            <td><input type="submit" size="10pt" name="submit" value="Search" /></td>
+                            <td><strong>Asset No : </strong></td><td><input size="15pt" type="text" name="assetNo" value="" /></td>
+                            <td><strong>Asset Name : </strong></td><td><input size="15pt" type="text" name="assetName" value="" /></td>
+                            <td><input type="submit" size="10pt" name="submit" value="Search" id="search" /></td>
                         </tr>
                     </table>
                 </td>
@@ -60,9 +61,22 @@ $this->breadcrumbs = array(
 </div>
  <script type="text/javascript">
     jQuery(document).ready(function() {
-       // jQuery("#assetsmsg").show().delay(5000).fadeOut();
+        jQuery("#assetsmsg").show().delay(5000).fadeOut();
         jQuery('#table_id').dataTable({
             "bStateSave": true
+        });
+        $("#search").click(function() {     
+         var assetNo=$.trim($("input[name='assetNo']").val());
+         var assetName=$.trim($("input[name='assetName']").val());
+         $("#assetsmsg").addClass("waitprocess");
+         $('#assetsmsg').html('loading....  Please wait');
+         $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/searchasset',
+                {assetNo:assetNo,assetName:assetName},
+                function(data) {
+                    $("#assetsmsg").removeClass("waitprocess");
+                    $("#wrap").html(data);
+                    }
+                );
         });
     });
 

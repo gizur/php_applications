@@ -67,8 +67,8 @@ class AssetsController extends Controller
         $this->LoginCheck();
         //$assetNo = addslashes($_POST['assetNo']);
         //$assetName = addslashes($_POST['assetName']);
-        $assetNo='AST107';
-        $assetName='CKK';
+        $assetNo=$_POST['assetNo'];
+        $assetName=$_POST['assetName'];
         $searchString = array();
         if(!empty($assetNo)) {
             $searchString[]='asset_no0F0'.$assetNo;
@@ -91,8 +91,6 @@ class AssetsController extends Controller
         }
         // Get filtered assets data
         $records = $model->findAll($module, $actionType, $filter);
-        echo "<pre>";
-        print_r($records); exit;
         $this->render('list', array('model'=>$model,
                                     'result'=>$records,
                                     'resultAccounts'=>$resultAccounts,
