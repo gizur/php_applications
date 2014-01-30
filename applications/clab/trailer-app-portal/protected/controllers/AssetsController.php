@@ -67,17 +67,17 @@ class AssetsController extends Controller
         $this->LoginCheck();
         //$assetNo = addslashes($_POST['assetNo']);
         //$assetName = addslashes($_POST['assetName']);
-        $assetNo='AST1069';
+        $assetNo='AST107';
         $assetName='CKK';
         $searchString = array();
         if(!empty($assetNo)) {
-            $searchString[]='asset_no:'.$assetNo;
+            $searchString[]='asset_no0F0'.$assetNo;
         }
          if(!empty($assetName)) {
-            $searchString[]='assetname:'.$assetName;
+            $searchString[]='assetname0F0'.$assetName;
         }
-        $filter = implode('^^',$searchString);
-        
+        $filter = implode('0X0',$searchString);
+
         $actionType='search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
@@ -90,13 +90,13 @@ class AssetsController extends Controller
             $resultProducts[$productsData['id']]=$productsData['productname'];
         }
         // Get filtered assets data
-        $records = $model->findAll($module, $actionType, $filter); 
-        $this->render('list', array('model'=>$model, 
+        $records = $model->findAll($module, $actionType, $filter);
+        $this->render('list', array('model'=>$model,
                                     'result'=>$records,
                                     'resultAccounts'=>$resultAccounts,
                                     'resultProducts'=>$resultProducts,
                                     'session' => Yii::app()->session)
-                    );   
+                    );
     }
 
     public function actionAdd()
