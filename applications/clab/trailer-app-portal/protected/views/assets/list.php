@@ -74,6 +74,7 @@ $this->breadcrumbs = array(
                 {assetNo:assetNo,assetName:assetName},
                 function(data) {
                     $("#assetsmsg").removeClass("waitprocess");
+                    $('#assetsmsg').html('');
                     $("#process").html(data);
                     }
                 );
