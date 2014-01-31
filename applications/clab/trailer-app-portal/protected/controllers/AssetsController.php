@@ -69,6 +69,7 @@ class AssetsController extends Controller
         //$assetName = addslashes($_POST['assetName']);
         $assetNo = strtoupper($_POST['assetNo']);
         $assetName = strtoupper($_POST['assetName']);
+        $searchString = " asset_no like '%%'";
         if(!empty($assetNo)) {
             $searchString .= " and asset_no like '%$assetNo%'";
         }
