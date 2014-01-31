@@ -2579,7 +2579,7 @@ class ApiController extends Controller {
                                     $query = "select * from " . $_GET['model'] . " ;";
                                 } else {
                                 $query = "select * from " . $_GET['model'] .
-                                        " where " . urldecode($searchData) . " ;";
+                                        " where " . base64_decode($searchData) . " ;";
                                 }
                             } else {
                                 throw new Exception("Action search not found!");
