@@ -103,21 +103,22 @@ class AssetsController extends Controller
     {
         $model = new Assets;
         $module = 'Assets';
-        $picklist = 'trailertype';
         $this->LoginCheck();
-         // Get all accounts list
-        $trailerType = $model->findAllAccounts($module, $picklist);
-        echo "<pre>"; print_r($trailerType); exit;
-        $accounts = $model->findAllAccounts('Accounts');
-        foreach($accounts['result'] as $accounsData) {
-            $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
-        }
+        // Get trailer type
+        $trailerType = $model->getPicklist($module, 'trailertype');
+        // Get asset status
+        $assetstatus = $model->getPicklist($module, 'assetstatus');
+        // Get accounts list
+        $accounts = $model->findAllAccounts('Accounts'); 
         // Get products list
         $products = $model->findAllProducts('Products');
-        foreach($products['result'] as $productsData) {
-            $resultProducts[$productsData['id']]=$productsData['productname'];
-        }
-        $this->render('add', array('session' => Yii::app()->session));
+        $this->render('add', array(
+            'accounts' => $accounts,
+            'products' => $products,
+            'assetstatus' => $assetstatus,
+            'trailerType' => $trailerType,
+            'session' => Yii::app()->session)
+        );
     }
 
 }

@@ -15,16 +15,18 @@ $this->breadcrumbs = array(
             <tr style="height:25px">
                 <td width="20%" align="right" class="dvtCellLabel"><font color="red">*</font>Asset Name </td>
 
-                <td width="30%" align="left" class="dvtCellInfo"><input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" id="assetname" name="assetname" tabindex=""></td>
+                <td width="30%" align="left" class="dvtCellInfo"><input type="text"  class="detailedViewTextBox" value="" id="assetname" name="assetname" tabindex=""></td>
 
                 <td width="20%" align="right" class="dvtCellLabel">
                     <font color="red">*</font>Type of Trailer
                 </td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <select tabindex="" name="cf_660">
-                        <option selected="" value="Cooptrailer">
-                            Cooptrailer
+                    <select tabindex="" name="trailertype">
+                        <?php foreach($trailerType['result'] as $trailer) { ?>
+                        <option selected="" value="<?php echo $trailer['value']; ?>">
+                            <?php echo $trailer['label']; ?>
                         </option>
+                        <?php } ?>
                         <option value="Hyrtrailer">
                             Hyrtrailer
                         </option>
@@ -35,7 +37,7 @@ $this->breadcrumbs = array(
                 <td width="20%" align="right" class="dvtCellLabel">
                     <font color="red">*</font>Serial Number 			</td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" tabindex="" name="serialnumber">
+                    <input type="text"  class="detailedViewTextBox" value="" tabindex="" name="serialnumber">
                 </td>
                 <td width="20%" align="right" class="dvtCellLabel">
                     <font color="red">*</font>
@@ -44,7 +46,11 @@ $this->breadcrumbs = array(
                 <td width="30%" align="left" class="dvtCellInfo">
                     <input type="hidden" value="" name="product" id="product">
                     <select width="30%">
-                        <option>Clab Trailer</option>
+                        <?php foreach ($products['result'] as $productsData) { ?>
+                        <option value="<?php echo $productsData['id']; ?>">
+                            <?php echo $productsData['productname']; ?>
+                        </option>
+                        <?php } ?>
                     </select>
                 </td>
             </tr>
@@ -53,7 +59,7 @@ $this->breadcrumbs = array(
                     <font color="red">*</font>Date Sold 			</td>
                 <td width="30%" align="left" class="dvtCellInfo">
 
-                    <input type="text" value="2014-01-22" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_datesold" tabindex="" name="datesold">
+                    <input type="text" value="<?php echo date('Y-m-d'); ?>" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_datesold" tabindex="" name="datesold">
 
                     <br><font size="1"><em old="(yyyy-mm-dd)">(yyyy-mm-dd)</em></font>
                 </td>
@@ -62,7 +68,7 @@ $this->breadcrumbs = array(
                     <font color="red">*</font>Date in Service
                 </td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <input type="text" value="2014-01-22" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_dateinservice" tabindex="" name="dateinservice">
+                    <input type="text" value="<?php echo date('Y-m-d'); ?>" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_dateinservice" tabindex="" name="dateinservice">
                     <br><font size="1"><em old="(yyyy-mm-dd)">(yyyy-mm-dd)</em></font>
                 </td>
             </tr>
@@ -70,12 +76,12 @@ $this->breadcrumbs = array(
                 <td width="20%" align="right" class="dvtCellLabel">
                     <font color="red"></font>Shipping Method 			</td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" tabindex="" name="shippingmethod">
+                    <input type="text"  value="" tabindex="" name="shippingmethod">
                 </td>
                 <td width="20%" align="right" class="dvtCellLabel">
                     <font color="red"></font>Shipping Tracking Number 			</td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" tabindex="" name="shippingtrackingnumber">
+                    <input type="text"  value="" tabindex="" name="shippingtrackingnumber">
                 </td>
             </tr>
             <tr style="height:25px">                        
@@ -86,18 +92,23 @@ $this->breadcrumbs = array(
                 <td width="30%" align="left" class="dvtCellInfo">
                     <input type="hidden" value="" name="product" id="product">
                     <select class="" tabindex="" name="assetstatus">
-                        <option selected="" value="In Service">
-                            In Service
+                        <?php foreach ($assetstatus['result'] as $status) { ?>
+                        <option selected="" value="<?php echo $status['value']; ?>">
+                            <?php echo $status['label']; ?>
                         </option>
-                        <option value="Out-of-service">
-                            Out-of-service
-                        </option>
+                        <?php } ?>
                     </select>
                 </td>
                 <td width="20%" align="right" class="dvtCellLabel">
-                    <font color="red"></font>Tag Number 			</td>
+                    <font color="red">*</font>Customer Name 			</td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" tabindex="" name="tagnumber">
+                   <select class="" tabindex="" name="assetstatus">
+                        <?php foreach ($accounts['result'] as $accountsData) { ?>
+                        <option selected="" value="<?php echo $accountsData['id']; ?>">
+                            <?php echo $accountsData['accountname']; ?>
+                        </option>
+                        <?php } ?>
+                    </select>
                 </td>
             </tr>
             <tr>
