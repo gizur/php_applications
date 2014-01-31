@@ -119,5 +119,14 @@ class AssetsController extends Controller
             'session' => Yii::app()->session)
         );
     }
+    
+  public function actionCreate()
+    {
+        $model = new Assets;
+        $module = 'Assets';
+        $this->LoginCheck();
+        
+        
+    }  
 
 }

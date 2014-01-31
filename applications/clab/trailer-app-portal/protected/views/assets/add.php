@@ -9,7 +9,7 @@ $this->breadcrumbs = array(
 );
 ?>
 <h2>Create New Asset</h2>
-<form onsubmit="VtigerJS_DialogBox.block();" action="index.php" method="POST" name="EditView">
+<form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/create" method="POST" name="assetCreate" id="assetCreate">
     <table style="border:1px solid #589FC8;"  cellspacing="0" cellpadding="0" width="95%" border="0" align="center">
         <tbody>
             <tr style="height:25px">
