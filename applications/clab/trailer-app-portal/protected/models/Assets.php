@@ -38,7 +38,8 @@ class Assets extends CFormModel {
             }
             $searchString = '/'.$actionType.'/s?searchString=' . urlencode($filter);
         }  
-        //foreach($this->credentials as $username => $password){            
+        
+       //foreach($this->credentials as $username => $password){            
         $rest = new RESTClient();
         $rest->format('json');
         $rest->set_header('X_USERNAME', Yii::app()->session['username']);
