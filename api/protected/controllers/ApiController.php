@@ -2572,21 +2572,14 @@ class ApiController extends Controller {
                             }
                         }
 
-                        if (isset($_GET['actionType']) ||
-                                isset($_GET['searchString'])) {      
+                        if (isset($_GET['actionType'])) {      
                             if ($_GET['actionType'] == 'search') {
-                                if ($_GET['searchString'] == 'None') {
+                                $searchData = $_GET['searchString'];
+                                if ($searchData == 'None') {
                                     $query = "select * from " . $_GET['model'] . " ;";
-
                                 } else {
-                                $searchString = explode('0X0', $_GET['searchString']);
-                                $searchData = " asset_no like '%%'";
-                                foreach ($searchString as $filter) {
-                                    $filterString = explode('0F0', $filter);
-                                    $searchData .= " and " . $filterString[0] . " like " . "'%" . $filterString[1] . "%'";
-                                }
                                 $query = "select * from " . $_GET['model'] .
-                                        " where " . $searchData . " ;";
+                                        " where asset_no like '%%' " . urldecode($searchData) . " ;";
                                 }
                             } else {
                                 throw new Exception("Action search not found!");

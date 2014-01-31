@@ -33,10 +33,10 @@ class Assets extends CFormModel {
         //login using each credentials
         // Check Filter Parameter  
         if (!empty($actionType)) {
-            if (empty($filter)) {
+            if ((empty($filter) || !isset($filter))) {
                 $filter = 'None';
             }
-            $searchString = '/'.$actionType.'/'.$filter;
+            $searchString = '/'.$actionType.'?searchString=' . urlencode($filter);
         }  
         //foreach($this->credentials as $username => $password){            
         $rest = new RESTClient();

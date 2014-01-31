@@ -69,15 +69,13 @@ class AssetsController extends Controller
         //$assetName = addslashes($_POST['assetName']);
         $assetNo = strtoupper($_POST['assetNo']);
         $assetName = strtoupper($_POST['assetName']);
-        $searchString = array();
         if(!empty($assetNo)) {
-            $searchString[]='asset_no0F0'.$assetNo;
+            $searchString .= " and asset_no like '%$assetNo%'";
         }
          if(!empty($assetName)) {
-            $searchString[]='assetname0F0'.$assetName;
+            $searchString .= " and assetname like '%$assetName%'";
         }
-        $filter = implode('0X0',$searchString);
-
+        $filter = $searchString;
         $actionType = 'search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');

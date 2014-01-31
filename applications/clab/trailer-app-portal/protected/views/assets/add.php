@@ -96,7 +96,7 @@ $this->breadcrumbs = array(
                     <select class="" tabindex="" name="assetstatus">
                         <option value="0" selected="selected">-- Select --</option>
                         <?php foreach ($assetstatus['result'] as $status) { ?>
-                            <option selected="" value="<?php echo $status['value']; ?>">
+                            <option  value="<?php echo $status['value']; ?>">
                                 <?php echo $status['label']; ?>
                             </option>
                         <?php } ?>
@@ -108,7 +108,7 @@ $this->breadcrumbs = array(
                     <select class="" tabindex="" name="assetstatus">
                         <option value="0" selected="selected">-- Select --</option>
                         <?php foreach ($accounts['result'] as $accountsData) { ?>
-                            <option selected="" value="<?php echo $accountsData['id']; ?>">
+                            <option  value="<?php echo $accountsData['id']; ?>">
                                 <?php echo $accountsData['accountname']; ?>
                             </option>
                         <?php } ?>
@@ -126,7 +126,7 @@ $this->breadcrumbs = array(
                     Notes
                 </td>
                 <td colspan="3">
-                    <textarea rows="8" cols="90" onblur="this.className = 'detailedViewTextBox'" name="description" onfocus="this.className = 'detailedViewTextBoxOn'" tabindex="" class="detailedViewTextBox"></textarea>
+                    <textarea rows="8" cols="90"  name="description" onfocus="this.className = 'detailedViewTextBoxOn'" tabindex="" class="detailedViewTextBox"></textarea>
                 </td>
             </tr>
             <tr>
