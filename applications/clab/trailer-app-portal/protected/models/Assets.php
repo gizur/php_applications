@@ -36,7 +36,7 @@ class Assets extends CFormModel {
             if ((empty($filter) || !isset($filter))) {
                 $filter = 'None';
             }
-            $searchString = '/'.$actionType.'?searchString=' . urlencode($filter);
+            $searchString = '/'.$actionType.'/s?searchString=' . urlencode($filter);
         }  
         //foreach($this->credentials as $username => $password){            
         $rest = new RESTClient();
