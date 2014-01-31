@@ -22,14 +22,13 @@ $this->breadcrumbs = array(
                 </td>
                 <td width="30%" align="left" class="dvtCellInfo">
                     <select tabindex="" name="trailertype">
-                        <?php foreach($trailerType['result'] as $trailer) { ?>
-                        <option selected="" value="<?php echo $trailer['value']; ?>">
-                            <?php echo $trailer['label']; ?>
-                        </option>
+                        <option value="0" selected="selected">-- Select --</option>
+                        <?php foreach ($trailerType['result'] as $trailer) { ?>
+                            <option value="<?php echo $trailer['value']; ?>">
+                                <?php echo $trailer['label']; ?>
+                            </option>
                         <?php } ?>
-                        <option value="Hyrtrailer">
-                            Hyrtrailer
-                        </option>
+
                     </select>
                 </td>
             </tr>
@@ -46,10 +45,11 @@ $this->breadcrumbs = array(
                 <td width="30%" align="left" class="dvtCellInfo">
                     <input type="hidden" value="" name="product" id="product">
                     <select width="30%">
+                        <option value="0" selected="selected">-- Select --</option>
                         <?php foreach ($products['result'] as $productsData) { ?>
-                        <option value="<?php echo $productsData['id']; ?>">
-                            <?php echo $productsData['productname']; ?>
-                        </option>
+                            <option value="<?php echo $productsData['id']; ?>">
+                                <?php echo $productsData['productname']; ?>
+                            </option>
                         <?php } ?>
                     </select>
                 </td>
@@ -74,12 +74,14 @@ $this->breadcrumbs = array(
             </tr>
             <tr style="height:25px">
                 <td width="20%" align="right" class="dvtCellLabel">
-                    <font color="red"></font>Shipping Method 			</td>
+                    <font color="red"></font>Shipping Method 
+                </td>
                 <td width="30%" align="left" class="dvtCellInfo">
                     <input type="text"  value="" tabindex="" name="shippingmethod">
                 </td>
                 <td width="20%" align="right" class="dvtCellLabel">
-                    <font color="red"></font>Shipping Tracking Number 			</td>
+                    <font color="red"></font>Shipping Tracking Number 			
+                </td>
                 <td width="30%" align="left" class="dvtCellInfo">
                     <input type="text"  value="" tabindex="" name="shippingtrackingnumber">
                 </td>
@@ -92,21 +94,23 @@ $this->breadcrumbs = array(
                 <td width="30%" align="left" class="dvtCellInfo">
                     <input type="hidden" value="" name="product" id="product">
                     <select class="" tabindex="" name="assetstatus">
+                        <option value="0" selected="selected">-- Select --</option>
                         <?php foreach ($assetstatus['result'] as $status) { ?>
-                        <option selected="" value="<?php echo $status['value']; ?>">
-                            <?php echo $status['label']; ?>
-                        </option>
+                            <option selected="" value="<?php echo $status['value']; ?>">
+                                <?php echo $status['label']; ?>
+                            </option>
                         <?php } ?>
                     </select>
                 </td>
                 <td width="20%" align="right" class="dvtCellLabel">
                     <font color="red">*</font>Customer Name 			</td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                   <select class="" tabindex="" name="assetstatus">
+                    <select class="" tabindex="" name="assetstatus">
+                        <option value="0" selected="selected">-- Select --</option>
                         <?php foreach ($accounts['result'] as $accountsData) { ?>
-                        <option selected="" value="<?php echo $accountsData['id']; ?>">
-                            <?php echo $accountsData['accountname']; ?>
-                        </option>
+                            <option selected="" value="<?php echo $accountsData['id']; ?>">
+                                <?php echo $accountsData['accountname']; ?>
+                            </option>
                         <?php } ?>
                     </select>
                 </td>
