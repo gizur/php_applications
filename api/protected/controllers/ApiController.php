@@ -2574,7 +2574,7 @@ class ApiController extends Controller {
 
                         if (isset($_GET['actionType'])) {      
                             if ($_GET['actionType'] == 'search') {
-                                $searchData = $_GET['filter'];
+                                $searchData = $_GET['searchString'];
                                 if ($searchData == 'None') {
                                     $query = "select * from " . $_GET['model'] . " ;";
                                 } else {
