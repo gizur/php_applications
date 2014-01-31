@@ -101,6 +101,22 @@ class AssetsController extends Controller
 
     public function actionAdd()
     {
+        $model = new Assets;
+        $module = 'Assets';
+        $picklist = 'trailertype';
+        $this->LoginCheck();
+         // Get all accounts list
+        $trailerType = $model->findAllAccounts($module, $picklist);
+        echo "<pre>"; print_r($trailerType); exit;
+        $accounts = $model->findAllAccounts('Accounts');
+        foreach($accounts['result'] as $accounsData) {
+            $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
+        }
+        // Get products list
+        $products = $model->findAllProducts('Products');
+        foreach($products['result'] as $productsData) {
+            $resultProducts[$productsData['id']]=$productsData['productname'];
+        }
         $this->render('add', array('session' => Yii::app()->session));
     }
 
