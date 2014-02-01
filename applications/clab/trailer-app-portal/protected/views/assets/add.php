@@ -43,7 +43,6 @@ $this->breadcrumbs = array(
                     Product Name
                 </td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <input type="hidden" value="" name="product" id="product">
                     <select width="30%">
                         <option value="" selected="selected" name="product">-- Select --</option>
                         <?php foreach ($products['result'] as $productsData) { ?>
