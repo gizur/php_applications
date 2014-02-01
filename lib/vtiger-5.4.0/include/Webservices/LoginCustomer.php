@@ -29,7 +29,7 @@ function vtws_logincustomer($username, $pwd)
                 if ($result != null && isset($result)) {
                     if ($adb->num_rows($result) > 0) {
                         $accessKeyAndUsername = $accessKeyAndUsername + array_intersect_key($adb->query_result_rowdata($result, 0), array_flip(array('time_zone')));
-                        $accessKeyAndUsername['vtiger_user_id'] = $userId;
+                        $accessKeyAndUsername['vtiger_user_id'] = $uId;
                     }
                 }
             }
