@@ -131,7 +131,7 @@ $this->breadcrumbs = array(
             <tr>
                 <td style="padding:5px" colspan="4">
                     <div align="center">
-                        <input type="button" class="button" style="width:70px; margin-left: 10px !important;" value=" Save " name="submit">
+                        <input type="submit" class="button" style="width:70px; margin-left: 10px !important;" value=" Save " name="submit">
                         <input type="button" class="button" style="width:70px; margin-left: 10px !important;" value="  Cancel  " name="cancel" onclick="return can();">
                     </div>
                 </td>
