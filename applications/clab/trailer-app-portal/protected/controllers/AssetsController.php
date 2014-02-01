@@ -124,9 +124,7 @@ class AssetsController extends Controller
     {
         $model = new Assets;
         $module = 'Assets';
-        $this->LoginCheck();
-        
-        
+        $this->LoginCheck();    
     }  
 
 }
