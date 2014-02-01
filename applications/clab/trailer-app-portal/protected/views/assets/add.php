@@ -22,7 +22,7 @@ $this->breadcrumbs = array(
                 </td>
                 <td width="30%" align="left" class="dvtCellInfo">
                     <select tabindex="" name="trailertype">
-                        <option value="0" selected="selected">-- Select --</option>
+                        <option value="" selected="selected">-- Select --</option>
                         <?php foreach ($trailerType['result'] as $trailer) { ?>
                             <option value="<?php echo $trailer['value']; ?>">
                                 <?php echo $trailer['label']; ?>
@@ -45,7 +45,7 @@ $this->breadcrumbs = array(
                 <td width="30%" align="left" class="dvtCellInfo">
                     <input type="hidden" value="" name="product" id="product">
                     <select width="30%">
-                        <option value="0" selected="selected">-- Select --</option>
+                        <option value="" selected="selected" name="product">-- Select --</option>
                         <?php foreach ($products['result'] as $productsData) { ?>
                             <option value="<?php echo $productsData['id']; ?>">
                                 <?php echo $productsData['productname']; ?>
@@ -92,9 +92,8 @@ $this->breadcrumbs = array(
                     Status
                 </td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <input type="hidden" value="" name="product" id="product">
                     <select class="" tabindex="" name="assetstatus">
-                        <option value="0" selected="selected">-- Select --</option>
+                        <option value="" selected="selected">-- Select --</option>
                         <?php foreach ($assetstatus['result'] as $status) { ?>
                             <option  value="<?php echo $status['value']; ?>">
                                 <?php echo $status['label']; ?>
@@ -105,8 +104,8 @@ $this->breadcrumbs = array(
                 <td width="20%" align="right" class="dvtCellLabel">
                     <font color="red">*</font>Customer Name 			</td>
                 <td width="30%" align="left" class="dvtCellInfo">
-                    <select class="" tabindex="" name="assetstatus">
-                        <option value="0" selected="selected">-- Select --</option>
+                    <select class="" tabindex="" name="account">
+                        <option value="" selected="selected" >-- Select --</option>
                         <?php foreach ($accounts['result'] as $accountsData) { ?>
                             <option  value="<?php echo $accountsData['id']; ?>">
                                 <?php echo $accountsData['accountname']; ?>
@@ -140,6 +139,29 @@ $this->breadcrumbs = array(
         </tbody>
     </table>
 </form>
+<style>
+.error {
+color:red;
+}
+</style>
+<!-- Form Validation script -->
+<script>
+     $(document).ready(function() {
+         $("#assetCreate").validate({
+                                rules:{
+                                assetname:'required',
+                                serialnumber:'required',
+                                trailertype:'required',
+                                assetstatus:'required',
+                                product:'required',
+                                account:'required',
+                                }
+
+                            });
+
+    });
+</script>
+
 <script>
     function can() {
         location.href = "<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/list";

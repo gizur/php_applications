@@ -37,3 +37,4 @@ include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
     });
 
 </script>
+
