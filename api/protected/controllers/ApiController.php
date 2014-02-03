@@ -4683,15 +4683,27 @@ class ApiController extends Controller {
                             $response .
                             ")", CLogger::LEVEL_TRACE
                     );
-
+                
                     if ($response == '' | $response == null)
                         throw new Exception(
                         'Blank response received from vtiger: Creating TT'
                         );
+                    $this->_vtresponse = $response;
 
-                    $globalresponse = json_decode($response);
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                        throw new Exception('Unable to fetch details');
+
+                    //Before sending response santise custom fields names to 
+                    //human readable field names                
+
+                    $globalresponse = json_encode($response);
+                    //Send the response
                     $this->_sendResponse(200, $globalresponse);
-            break;
+                    break;
+
                 /*
                  * *************************************************************
                  * *************************************************************
