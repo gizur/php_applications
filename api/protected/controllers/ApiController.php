@@ -4600,6 +4600,18 @@ class ApiController extends Controller {
                     /**
                      * Validations
                      */
+                     $customFields = array_flip(
+                            Yii::app()->params[$this->_clientid .
+                            '_custom_fields']['Assets']
+                    );
+
+                    foreach ($post as $k => $v) {
+                        $keyToReplace = array_search($k, $customFields);
+                        if ($keyToReplace) {
+                            unset($post[$k]);
+                            $post[$keyToReplace] = $v;
+                        }
+                    }
                     $scriptStarted = date("c");
                     if (!isset($_POST['assetname']) || empty($_POST['assetname'])
                     )
