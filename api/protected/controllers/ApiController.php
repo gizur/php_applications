@@ -1568,6 +1568,7 @@ class ApiController extends Controller {
                         $response->account_no = $this->_session->account_no;
                         $response->timeZone = $this->_session->timeZone;
                         $response->contactinfo = $this->_contactinfo;
+                        $response->vtigerUserId = $this->_session->vtigerUserId;
 
                         //Send response
                         $this->_sendResponse(200, json_encode($response));

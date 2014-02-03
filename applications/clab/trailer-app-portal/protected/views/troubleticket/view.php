@@ -8,7 +8,7 @@
  * All Rights Reserved.
 *
  ********************************************************************************/
- print_r($result); die;
+ 
 ?>
 			<input align="left" class="crmbutton small cancel"type="button" value="<?PHP echo getTranslatedString('LBL_BACK_BUTTON');?>" onclick="window.history.back();"/>	
 			</td>

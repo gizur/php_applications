@@ -125,8 +125,7 @@ class AssetsController extends Controller
         $model = new Assets;
         $module = 'Assets';
         $this->LoginCheck();    
-        echo "<pre>";
-        print_r($_SESSION);
+        
     }  
 
 }
