@@ -4645,8 +4645,6 @@ class ApiController extends Controller {
                                     )
                             )
                     );
-                    echo "<pre>";
-                    print_r($dataJson); exit;
                     //Log
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
@@ -4692,7 +4690,7 @@ class ApiController extends Controller {
                         );
 
                     $globalresponse = json_decode($response);
-
+                    $this->_sendResponse(200, $globalresponse);
             break;
                 /*
                  * *************************************************************

@@ -210,8 +210,6 @@ class Assets extends CFormModel {
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
         $response = $rest->post(Yii::app()->params->URL . $module, $data);
         $response = json_decode($response);
-        echo "<pre>";
-        print_r($response ); exit;
         if ($response->success == true) {
             echo Yii::app()->user->setFlash('success', "Asset created successfully");
         } else {
