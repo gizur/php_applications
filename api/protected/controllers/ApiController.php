@@ -4585,6 +4585,100 @@ class ApiController extends Controller {
                         }
                     }
                     break;
+                    
+                    /*
+                 * *************************************************************
+                 * *************************************************************
+                 * * HelpDesk MODEL
+                 * * Accepts id
+                 * *************************************************************
+                 * *************************************************************
+                 */
+                case 'Assets':
+
+
+                    /**
+                     * Validations
+                     */
+                    $scriptStarted = date("c");
+                    if (!isset($_POST['assetname']) || empty($_POST['assetname'])
+                    )
+                        throw new Exception("asset name does not have a value", 1001);
+
+                    if (!isset($_POST['serialnumber']) || empty($_POST['serialnumber'])
+                    )
+                        throw new Exception("serial number does not have a value", 1001);
+
+                    if (!isset($_POST['trailertype']) || empty($_POST['trailertype'])
+                    )
+                        throw new Exception("trailer type does not have a value", 1001);
+
+                    if (!isset($_POST['product']) || empty($_POST['product'])
+                    )
+                        throw new Exception("product does not have a value", 1001);
+                    if (!isset($_POST['account']) || empty($_POST['account'])
+                    )
+                        throw new Exception("customer name does not have a value", 1001);
+
+                
+
+                    /** Creating Assets* */
+                    $post = $_POST;
+                    //get data json 
+                    $dataJson = json_encode(
+                            array_merge(
+                                    $post, array(
+                                    'assigned_user_id' => $this->_session->userId
+                                    )
+                            )
+                    );
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending POST request to vt url: " .
+                            $this->_vtresturl . "  " .
+                            json_encode(
+                                    array(
+                                        'sessionName' => $this->_session->sessionName,
+                                        'operation' => 'create',
+                                        'element' => $dataJson,
+                                        'elementType' => $_GET['model']
+                                    )
+                            ) . ")", CLogger::LEVEL_TRACE
+                    );
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+
+                    $rest->format('json');
+                    $response = $rest->post(
+                            $this->_vtresturl, array(
+                        'sessionName' => $this->_session->sessionName,
+                        'operation' => 'create',
+                        'element' => $dataJson,
+                        'elementType' => $_GET['model']
+                            )
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    if ($response == '' | $response == null)
+                        throw new Exception(
+                        'Blank response received from vtiger: Creating TT'
+                        );
+
+                    $globalresponse = json_decode($response);
+
+            break;
                 /*
                  * *************************************************************
                  * *************************************************************

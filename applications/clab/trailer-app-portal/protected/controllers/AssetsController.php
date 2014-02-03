@@ -120,12 +120,14 @@ class AssetsController extends Controller
         );
     }
     
-  public function actionCreate()
+   public function actionCreate()
     {
         $model = new Assets;
         $module = 'Assets';
-        $this->LoginCheck();    
-        
-    }  
+        $this->LoginCheck();
+        unset($_POST['submit']);
+        $model->createAsset($module,$_POST);
+    }
+
 
 }
