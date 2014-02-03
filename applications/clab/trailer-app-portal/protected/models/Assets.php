@@ -172,16 +172,6 @@ class Assets extends CFormModel {
     }
 
     function createAsset($module, $data) {
-        //Change post data to original custom fields
-       /* foreach ($data as $index => $value) {
-            if (!empty(Assets::$customFields[$index])) {
-                $map = Assets::$customFields[$index];
-                unset($data[$index]);
-            } else {
-                $map = $index;
-            }
-            $data[$map] = $value;
-        } */
         $params = array(
             'Verb' => 'POST',
             'Model' => 'Assets',
@@ -215,6 +205,10 @@ class Assets extends CFormModel {
         } else {
             echo Yii::app()->user->setFlash('error', $response->error->message);
         }
+        $protocol = Yii::app()->params['protocol'];
+        $servername = Yii::app()->request->getServerName();
+        $returnUrl = $protocol . $servername . Yii::app()->homeUrl."?r=assets/list";
+        Yii::app()->getController()->redirect($returnUrl);
     }
 
 }

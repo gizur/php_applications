@@ -26,6 +26,15 @@ $cs->registerCssFile($baseUrl . '/css/jquery.dataTables.css');
 
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
+    <style>
+       .msgerror {
+            color:red;
+              }
+       .msgsuccess {
+            color:green;
+                }
+    </style>
+
     <?php
     if (Yii::app()->session['Lang'] == "") {
         $lang = 'en';
@@ -93,6 +102,13 @@ $cs->registerCssFile($baseUrl . '/css/jquery.dataTables.css');
             <?php if (isset($this->breadcrumbs)): ?>
                 <?php $this->widget('zii.widgets.CBreadcrumbs', array('links' => $this->breadcrumbs,)); ?><!-- breadcrumbs -->
             <?php endif ?>
+                <?php
+                foreach (Yii::app()->user->getFlashes() as $index => $value) {
+                    ?>
+                    <div class="msg<?php echo $index; ?>" style="padding-left:30px; font-size: 14px;"><?php echo $value; ?></div>
+                    <?php }
+                ?>
+
 
             <?php echo $content; ?>
 
