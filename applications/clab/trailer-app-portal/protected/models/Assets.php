@@ -173,7 +173,7 @@ class Assets extends CFormModel {
 
     function createAsset($module, $data) {
         //Change post data to original custom fields
-        foreach ($data as $index => $value) {
+       /* foreach ($data as $index => $value) {
             if (!empty(Assets::$customFields[$index])) {
                 $map = Assets::$customFields[$index];
                 unset($data[$index]);
@@ -181,7 +181,7 @@ class Assets extends CFormModel {
                 $map = $index;
             }
             $data[$map] = $value;
-        }
+        } */
         $params = array(
             'Verb' => 'POST',
             'Model' => 'Assets',
