@@ -2,10 +2,10 @@
 include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
 ?>
 <?php
-$this->pageTitle = Yii::app()->name . ' - Creating New Asset';
+$this->pageTitle = Yii::app()->name . ' - Create New Asset';
 echo CHtml::metaTag($content = 'My page description', $name = 'decription');
 $this->breadcrumbs = array(
-    getTranslatedString('Assets') . ' /' . getTranslatedString('Creating New Asset'),
+    getTranslatedString('Assets') . ' /' . getTranslatedString('Create New Asset'),
 );
 ?>
 <h2>Create New Asset</h2>
