@@ -30,13 +30,37 @@ class ContactsController extends Controller
         );
     }
 
+    public function LoginCheck()
+    {
+        $protocol = Yii::app()->params['protocol'];
+        $servername = Yii::app()->request->getServerName();
+        $user = Yii::app()->session['username'];
+        if (empty($user)) {
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl;
+            $this->redirect($returnUrl);
+        }
+    }
+    
     public function actionList()
     {
         $this->render('list', array('session' => Yii::app()->session));
     }
-    
-        public function actionAdd()
+
+    public function actionAdd()
     {
-        $this->render('add', array('session' => Yii::app()->session));
+        $module = "Contacts";
+        
+        $asset = new Assets;
+        $this->LoginCheck();
+        
+        $accounts = $asset->findAllAccounts('Accounts'); 
+        $salutations = $asset->getPicklist($module, 'salutationtype');
+        
+        $this->render('add', array(
+            'accounts' => $accounts,
+            'salutations' => $salutations,
+            'session' => Yii::app()->session)
+        );
     }
+
 }
