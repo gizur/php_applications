@@ -150,6 +150,8 @@ color:red;
                                 rules:{
                                 assetname:'required',
                                 serialnumber:'required',
+                                datesold:'required',
+                                dateinservice:'required',
                                 trailertype:'required',
                                 assetstatus:'required',
                                 product:'required',

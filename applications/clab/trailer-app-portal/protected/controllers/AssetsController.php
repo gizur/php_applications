@@ -192,14 +192,13 @@ class AssetsController extends Controller
         // Get products list
         $products = $model->findAllProducts('Products');
         // Get asset by id
-        $result = $model->findById($id);
-        echo "<pre>"; print_r($result); exit;
+        $result = $model->findById($module, $id);
         $this->render('edit', array(
             'accounts' => $accounts,
             'products' => $products,
             'assetstatus' => $assetstatus,
             'trailerType' => $trailerType,
-            'result' => $result,
+            'result' => $result['result'],
             'session' => Yii::app()->session)
         );
     }
@@ -215,7 +214,8 @@ class AssetsController extends Controller
         $module = 'Assets';
         $this->LoginCheck();
         unset($_POST['update']);
-        $id = $_GET['id'];
+        $id = $_POST['id'];
+        echo "<pre>"; print_r($_POST); exit;
         if(empty($id)) {
             $protocol = Yii::app()->params['protocol'];
             $servername = Yii::app()->request->getServerName();
