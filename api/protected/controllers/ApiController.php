@@ -6362,7 +6362,7 @@ class ApiController extends Controller {
                  */
                 case 'Assets':
                     //creating query string
-                    $id=$_POST['id'];
+                    $id=$_GET['id'];
                     $params = "sessionName={$this->_session->sessionName}" .
                             "&operation=delete&id=$id";
 
