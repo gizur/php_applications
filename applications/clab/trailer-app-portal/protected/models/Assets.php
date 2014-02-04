@@ -211,7 +211,7 @@ class Assets extends CFormModel {
         Yii::app()->getController()->redirect($returnUrl);
     }
     
-    function deleteAsset($module, $id) {
+    function deleteAsset($module, $data) {
         $params = array(
             'Verb' => 'DELETE',
             'Model' => 'Assets',

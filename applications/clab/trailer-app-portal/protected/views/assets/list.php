@@ -15,7 +15,7 @@ $this->breadcrumbs = array(
             <tr>
                 <td valign="top">
                     <table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
-                        <tr><td colspan='3' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
+                        <tr><td colspan='3' align="center"></td></tr>
                         <tr>
                             <td><strong>Asset No : </strong></td><td><input size="15pt" type="text" name="assetNo" value="" /></td>
                             <td><strong>Asset Name : </strong></td><td><input size="15pt" type="text" name="assetName" value="" /></td>
@@ -28,10 +28,12 @@ $this->breadcrumbs = array(
     </div>
     <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/add"><strong>Create New Asset</strong></a></div>
     <br />
-    <div id="process">   
+    <div><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></div>
+    <div id="process">
+       
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
             <thead>
-                <!-- Table Headers -->
+             />   <!-- Table Headers -->
                 <tr role="row">
 
                     <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Asset No'); ?></th>
@@ -50,13 +52,11 @@ $this->breadcrumbs = array(
                         <td><?php echo $resultAccounts[$data['account']]; ?></td>
                         <td><?php echo $resultProducts[$data['product']]; ?></td>
                         <td><?php echo $data['serialnumber']; ?></td>
-                        <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a></td>
+                        <td><a href='javascript:void()' id="edit" assetId="<?php echo $data['id']; ?>">edit</a>  | <a href='javascript:void()' id="delete" assetId="<?php echo $data['id']; ?>">del</a></td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
-       
-
     </div>
 </div>
  <script type="text/javascript">
@@ -65,7 +65,7 @@ $this->breadcrumbs = array(
         jQuery('#table_id').dataTable({
             "bStateSave": true
         });
-        $("#search").click(function() {     
+        function filterAsset() {
          var assetNo=$.trim($("input[name='assetNo']").val());
          var assetName=$.trim($("input[name='assetName']").val());
          $("#assetsmsg").addClass("waitprocess");
@@ -77,8 +77,24 @@ $this->breadcrumbs = array(
                     $('#assetsmsg').html('');
                     $("#process").html(data);
                     }
-                );
+                );   
+        }
+        $("#search").click(function() {     
+         filterAsset();
         });
+        
+        $("#delete").live('click',function() { 
+            id=$(this).attr('assetId');
+             $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/delete',
+                {id:assetId},
+                function(data) {
+                     alert(data);
+                     filterAsset();
+                    }
+                );
+        
+        });
+        
     });
 
 </script>
