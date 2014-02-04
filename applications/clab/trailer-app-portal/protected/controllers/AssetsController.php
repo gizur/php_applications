@@ -126,8 +126,18 @@ class AssetsController extends Controller
         $module = 'Assets';
         $this->LoginCheck();
         unset($_POST['submit']);
+        // call function createAsset to create new asset
         $model->createAsset($module,$_POST);
     }
 
+    public function actionDelete()
+    {
+        $model = new Assets;
+        $module = 'Assets';
+        $this->LoginCheck();
+        $id = $_POST['id'];
+        // call function deleteAsset to delete selected asset
+        $model->deleteAsset($module, $id);
+    }
 
 }

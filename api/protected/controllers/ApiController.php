@@ -5013,7 +5013,7 @@ class ApiController extends Controller {
                                     $rest = new RESTClient();
 
                                     $rest->format('json');
-                                    $response = $rest->post(
+                                    $response = $rest-ApiController>post(
                                             $this->_vtresturl, array(
                                         'sessionName' => $this->_session->sessionName,
                                         'operation' =>
@@ -6313,6 +6313,119 @@ class ApiController extends Controller {
             }
         } catch (Exception $e) {
 
+            if (isset($this->_vtresponse->error->code))
+                if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
+                    Yii::app()->cache->delete($this->_cacheKey);
+
+            $response = new stdClass();
+            $response->success = false;
+            $response->error->code = "ERROR";
+            $response->error->message = $e->getMessage();
+            $response->error->trace_id = $this->_traceId;
+            $this->_sendResponse(400, json_encode($response));
+        }
+    }
+    
+    
+  /**
+     * Action for deleteing record for various model
+     * 
+     * This action handles the following actions:
+     * - Assets
+     *       Request Method: DELETE
+     *       Response Type : json
+     *       Note: Delete assets by id 
+     * - Contacts
+     *       Request Method: DELETE
+     *       Response Type : json
+     *       Note: Delete assets by id      
+     * @return appropriate error message
+     */  
+    
+    public function actionDelete() {
+     //Tasks include detail deleteing Assets
+        try {
+
+            Yii::log(
+                    "TRACE(" . $this->_traceId . "); FUNCTION(" .
+                    __FUNCTION__ . "); PROCESSING REQUEST ", CLogger::LEVEL_TRACE
+            );
+
+            switch ($_GET['model']) {
+                /*
+                 * ************************************************************
+                 * ************************************************************
+                 * * Cron MODEL
+                 * * Accepts as action mailscan
+                 * ************************************************************
+                 * ************************************************************
+                 */
+                case 'Assets':
+                    //creating query string
+                    $params = "sessionName={$this->_session->sessionName}" .
+                            "&operation=delete&id=$id";
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending GET request " .
+                            "to vt url: " .
+                            $this->_vtresturl . "?$params" .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+                    $rest = new RESTClient();
+                    $rest->format('json');
+                    $response = $rest->get(
+                            $this->_vtresturl . "?$params"
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    if ($response == '' || $response == null)
+                        throw new Exception(
+                        "Blank response received from " .
+                        "vtiger: Get Products List"
+                        );
+
+                    //Save vtiger response
+                    $this->_vtresponse = $response;
+
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                        throw new Exception('Unable to fetch details');
+
+                    
+                    $cachedValue = json_encode($response);
+                    //Send the response
+                    $this->_sendResponse(200, $cachedValue);     
+                 break;
+                default :
+
+                    //Default case this case should never be executed
+                    $response = new stdClass();
+                    $response->success = false;
+
+                    $response->error->code = $this->_errors[1004];
+                    $response->error->message = "Not a valid method" .
+                            " for model " . $_GET['model'];
+                    $response->error->trace_id = $this->_traceId;
+                    $this->_sendResponse(405, json_encode($response));
+
+                    break;
+             }
+    
+            
+        } catch (Exception $e) {
             if (isset($this->_vtresponse->error->code))
                 if ($this->_vtresponse->error->code == 'AUTHENTICATION_REQUIRED')
                     Yii::app()->cache->delete($this->_cacheKey);
