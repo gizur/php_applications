@@ -241,9 +241,9 @@ class Assets extends CFormModel {
         $response = $rest->delete(Yii::app()->params->URL . $module . '/' .$id);
         $response = json_decode($response);
         if ($response->success == true) {
-            echo json_encode(array('success'=>'Asset deleted successfully'));
+            echo json_encode(array('msg'=>'Asset deleted successfully'));
         } else {
-            echo json_encode(array('error'=>$response->error->message));
+            echo json_encode(array('msg'=>$response->error->message));
         }
      }
 
