@@ -59,7 +59,7 @@ return array(
                 array('api/view', 'pattern' => '/<model:(Images)>/<name:.+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Background)>/<action:(backgroundstatus)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
-                array('api/delete', 'pattern' => '/<model:(Assets)>/<id:[0-9x]+>', 'verb' => 'POST'),
+                array('api/delete', 'pattern' => '/<model:(Assets)>/<id:[0-9x]+>', 'verb' => 'DELETE'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets)>/<fieldname:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Assets)>/<actionType:\w+>/<filter:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 'verb' => 'POST'),

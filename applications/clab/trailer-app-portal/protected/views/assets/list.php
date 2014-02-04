@@ -33,7 +33,7 @@ $this->breadcrumbs = array(
        
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
             <thead>
-             />   <!-- Table Headers -->
+               <!-- Table Headers -->
                 <tr role="row">
 
                     <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Asset No'); ?></th>
@@ -52,7 +52,7 @@ $this->breadcrumbs = array(
                         <td><?php echo $resultAccounts[$data['account']]; ?></td>
                         <td><?php echo $resultProducts[$data['product']]; ?></td>
                         <td><?php echo $data['serialnumber']; ?></td>
-                        <td><a href='javascript:void()' id="edit" assetId="<?php echo $data['id']; ?>">edit</a>  | <a href='javascript:void()' id="delete" assetId="<?php echo $data['id']; ?>">del</a></td>
+                        <td><a href='javascript:void(0);' id="edit" assetId="<?php echo $data['id']; ?>">edit</a>  | <a href='javascript:void()' id="delete" assetId="<?php echo $data['id']; ?>">del</a></td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -86,7 +86,7 @@ $this->breadcrumbs = array(
         $("#delete").live('click',function() { 
             id=$(this).attr('assetId');
              $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/delete',
-                {id:assetId},
+                {id:id},
                 function(data) {
                      alert(data);
                      filterAsset();
