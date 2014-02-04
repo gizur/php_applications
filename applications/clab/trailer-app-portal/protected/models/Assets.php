@@ -332,7 +332,7 @@ function updateAsset($module, $id, $data) {
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-        $response = $rest->put(Yii::app()->params->URL . $module . '/' .$id, $data);
+        $response = $rest->put(Yii::app()->params->URL . $module . '/' . $id . '/update', $data);
         $response = json_decode($response);
          if ($response->success == true) {
             echo Yii::app()->user->setFlash('success', "Asset updated successfully");
