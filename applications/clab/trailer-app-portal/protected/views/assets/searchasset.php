@@ -23,7 +23,8 @@ include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
                         <td><?php echo $resultAccounts[$data['account']]; ?></td>
                         <td><?php echo $resultProducts[$data['product']]; ?></td>
                         <td><?php echo $data['serialnumber']; ?></td>
-                       <td><a href='javascript:void(0);' id="edit" assetId="<?php echo $data['id']; ?>">edit</a>  | <a href='javascript:void(0);' id="delete" assetId="<?php echo $data['id']; ?>">del</a></td>
+                       <td><a href='<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/edit&id=<?php echo $data['id'] ; ?>' id="edit" assetId="<?php echo $data['id']; ?>">edit</a>
+                           | <a href='javascript:void(0);' id="delete" assetId="<?php echo $data['id']; ?>">del</a></td>
                     </tr>
                 <?php } ?>
             </tbody>
