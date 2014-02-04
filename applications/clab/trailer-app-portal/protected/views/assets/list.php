@@ -84,11 +84,12 @@ $this->breadcrumbs = array(
         });
         
         $("#delete").live('click',function() { 
-             $("#assetsmsg").addClass("waitprocess");
-             $('#assetsmsg').html('loading....  Please wait');
+             
             var id=$(this).attr('assetId');
             if(confirm("Are you sure to delete this data?")) {
-             $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/delete',
+                $("#assetsmsg").addClass("waitprocess");
+                $('#assetsmsg').html('loading....  Please wait');
+              $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/delete',
                 {id:id},
                 function(data) {
                      alert(data.msg);

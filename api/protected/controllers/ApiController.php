@@ -6363,15 +6363,6 @@ class ApiController extends Controller {
                 case 'Assets':
                     //creating query string
                     $id=$_GET['id'];
-                    //Log
-                    Yii::log(
-                            " TRACE(" . $this->_traceId . "); " .
-                            " FUNCTION(" . __FUNCTION__ . "); " .
-                            " PROCESSING REQUEST (sending GET request " .
-                            "to vt url: " .
-                            $this->_vtresturl . "?$params" .
-                            ")", CLogger::LEVEL_TRACE
-                    );
                      $rest = new RESTClient();
                      $rest->format('json');
                      $response = $rest->post(
@@ -6381,8 +6372,6 @@ class ApiController extends Controller {
                             'id' => $id
                                 )
                         );
-
-
                     //Log
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .

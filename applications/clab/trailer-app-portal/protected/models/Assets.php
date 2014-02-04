@@ -56,6 +56,45 @@ class Assets extends CFormModel {
         return $result = json_decode($response, true);
     }
 
+    /* Funcation Name:- findById
+     * Description:- Get Asset details by id.
+     * Return Type: Json
+     */
+    
+    function findById($module, $id) {
+        $params = array(
+            'Verb' => 'GET',
+            'Model' => $module,
+            'Version' => Yii::app()->params->API_VERSION,
+            'Timestamp' => date("c"),
+            'KeyID' => Yii::app()->params->GIZURCLOUD_API_KEY,
+            'UniqueSalt' => uniqid()
+        );
+
+        // Sorg arguments
+        ksort($params);
+
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
+        
+        //foreach($this->credentials as $username => $password){            
+        $rest = new RESTClient();
+        $rest->format('json');
+        $rest->set_header('X_USERNAME', Yii::app()->session['username']);
+        $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
+        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        $rest->set_header('X_SIGNATURE', $signature);
+        $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+        $response = $rest->get(Yii::app()->params->URL . $module . '/' . $id);
+        return $result = json_decode($response, true);
+    }
+    
     /* Funcation Name:- findAllAccounts
      * Description:- Get all Account details from vtiger.
      * Return Type: Json
@@ -135,7 +174,11 @@ class Assets extends CFormModel {
         $response = $rest->get(Yii::app()->params->URL . $module);
         return $result = json_decode($response, true);
     }
-
+    
+    /* Funcation Name:- getPicklist
+     * Description:- Get picklist value by field
+     * Return Type: Json
+     */
     function getPicklist($module, $fieldname) {
         $params = array(
             'Verb' => 'GET',
@@ -171,6 +214,11 @@ class Assets extends CFormModel {
         return $result = json_decode($response, true);
     }
 
+    /* 
+     * Funcation Name:- createAsset
+     * Description:- with this function we can create new asset
+     * Return Type: Json
+     */
     function createAsset($module, $data) {
         $params = array(
             'Verb' => 'POST',
@@ -211,7 +259,12 @@ class Assets extends CFormModel {
         Yii::app()->getController()->redirect($returnUrl);
     }
     
-    function deleteAsset($module, $id) {
+     /* 
+     * Funcation Name:- deleteAsset
+     * Description:- with this function we delete asset by id
+     * Return Type: Json
+     */
+     function deleteAsset($module, $id) {
         $params = array(
             'Verb' => 'DELETE',
             'Model' => 'Assets',
@@ -245,6 +298,51 @@ class Assets extends CFormModel {
         } else {
             echo json_encode(array('msg'=>$response->error->message));
         }
+     }
+
+     /* 
+     * Funcation Name:- updateAsset
+     * Description:- with this function we update asset by id
+     * Return Type: Json
+     */
+function updateAsset($module, $id, $data) {
+        $params = array(
+            'Verb' => 'PUT',
+            'Model' => 'Assets',
+            'Version' => Yii::app()->params->API_VERSION,
+            'Timestamp' => date("c"),
+            'KeyID' => Yii::app()->params->GIZURCLOUD_API_KEY,
+            'UniqueSalt' => uniqid()
+        );
+      // Sorg arguments
+        ksort($params);
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        $rest = new RESTClient();
+        $rest->format('json');
+        $rest->set_header('X_USERNAME', Yii::app()->session['username']);
+        $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
+        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        $rest->set_header('X_SIGNATURE', $signature);
+        $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+        $response = $rest->put(Yii::app()->params->URL . $module . '/' .$id, $data);
+        $response = json_decode($response);
+         if ($response->success == true) {
+            echo Yii::app()->user->setFlash('success', "Asset updated successfully");
+        } else {
+            echo Yii::app()->user->setFlash('error', $response->error->message);
+        }
+        $protocol = Yii::app()->params['protocol'];
+        $servername = Yii::app()->request->getServerName();
+        $returnUrl = $protocol . $servername . Yii::app()->homeUrl."?r=assets/edit&id=".$id;
+        Yii::app()->getController()->redirect($returnUrl);
      }
 
 

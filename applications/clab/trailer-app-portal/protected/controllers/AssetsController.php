@@ -23,6 +23,7 @@ class AssetsController extends Controller
         );
     }
     
+    
     public function LoginCheck()
     {
         $protocol = Yii::app()->params['protocol'];
@@ -33,7 +34,12 @@ class AssetsController extends Controller
             $this->redirect($returnUrl);
         }
     }
-
+    
+    /* 
+     * Funcation Name:- actionList
+     * Description:- with this we are getting all asset list from vtiger
+     * Return Type: Json
+     */
     public function actionList()
     {
         $module = "Assets";
@@ -59,6 +65,11 @@ class AssetsController extends Controller
                     );
     }
     
+    /* 
+     * Funcation Name:- actionsearchasset
+     * Description:- with this function we are getting filtered list of asset list by given parameter
+     * Return Type: Json
+     */
     function actionsearchasset()
     {
         $this->layout=false;
@@ -97,7 +108,12 @@ class AssetsController extends Controller
                                     'session' => Yii::app()->session)
                     );
     }
-
+    
+    /* 
+     * Funcation Name:- actionAdd
+     * Description:- with this function we are rendering asset add form with accounts and product picklist
+     * Return Type: Json
+     */
     public function actionAdd()
     {
         $model = new Assets;
@@ -120,6 +136,11 @@ class AssetsController extends Controller
         );
     }
     
+   /* 
+     * Funcation Name:- actionCreate
+     * Description:- with this function we are creating new asset
+     * Return Type: Json
+     */ 
    public function actionCreate()
     {
         $model = new Assets;
@@ -129,7 +150,12 @@ class AssetsController extends Controller
         // call function createAsset to create new asset
         $model->createAsset($module,$_POST);
     }
-
+    
+    /* 
+     * Funcation Name:- actionDelete
+     * Description:- with this function we are deleting asset by id
+     * Return Type: Json
+     */
     public function actionDelete()
     {
         $model = new Assets;
@@ -139,5 +165,67 @@ class AssetsController extends Controller
         // call function deleteAsset to delete selected asset
         $model->deleteAsset($module,  $id);
     }
+    
+    /* 
+     * Funcation Name:- actionEdit
+     * Description:- with this function we are rendering asset edit form with accounts and product picklist
+     * Return Type: Json
+     */
+    public function actionEdit()
+    {
+        $id = $_GET['id'];
+        if(empty($id)) {
+            $protocol = Yii::app()->params['protocol'];
+            $servername = Yii::app()->request->getServerName();
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl."?r=assets/list";
+            Yii::app()->getController()->redirect($returnUrl);
+        }
+        $model = new Assets;
+        $module = 'Assets';
+        $this->LoginCheck();
+        // Get trailer type
+        $trailerType = $model->getPicklist($module, 'trailertype');
+        // Get asset status
+        $assetstatus = $model->getPicklist($module, 'assetstatus');
+        // Get accounts list
+        $accounts = $model->findAllAccounts('Accounts'); 
+        // Get products list
+        $products = $model->findAllProducts('Products');
+        // Get asset by id
+        $result = $model->findById($id);
+        echo "<pre>"; print_r($result); exit;
+        $this->render('edit', array(
+            'accounts' => $accounts,
+            'products' => $products,
+            'assetstatus' => $assetstatus,
+            'trailerType' => $trailerType,
+            'result' => $result,
+            'session' => Yii::app()->session)
+        );
+    }
+    
+    /* 
+     * Funcation Name:- actionUpdate
+     * Description:- with this function we are updating asset by asset id
+     * Return Type: Json
+     */ 
+   public function actionUpdate()
+    {
+        $model = new Assets;
+        $module = 'Assets';
+        $this->LoginCheck();
+        unset($_POST['update']);
+        $id = $_GET['id'];
+        if(empty($id)) {
+            $protocol = Yii::app()->params['protocol'];
+            $servername = Yii::app()->request->getServerName();
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl."?r=assets/list";
+            Yii::app()->getController()->redirect($returnUrl);
+        }
+        // call function updateAsset to create new asset
+        $model->updateAsset($module, $id, $_POST);
+    }
+    
+    
 
 }
