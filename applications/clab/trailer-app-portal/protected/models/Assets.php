@@ -334,6 +334,7 @@ function updateAsset($module, $id, $data) {
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
         $response = $rest->put(Yii::app()->params->URL . $module . '/' . $id . '/update', $data);
         $response = json_decode($response);
+        echo "<pre>"; print_r($response); exit;
          if ($response->success == true) {
             echo Yii::app()->user->setFlash('success', "Asset updated successfully");
         } else {

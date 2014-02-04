@@ -213,9 +213,8 @@ class AssetsController extends Controller
         $model = new Assets;
         $module = 'Assets';
         $this->LoginCheck();
-        unset($_POST['update']);
+        unset($_POST['submit']);
         $id = $_POST['id'];
-        echo "<pre>"; print_r($_POST); exit;
         if(empty($id)) {
             $protocol = Yii::app()->params['protocol'];
             $servername = Yii::app()->request->getServerName();
