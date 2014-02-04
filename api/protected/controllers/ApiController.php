@@ -6363,9 +6363,6 @@ class ApiController extends Controller {
                 case 'Assets':
                     //creating query string
                     $id=$_GET['id'];
-                    $params = "sessionName={$this->_session->sessionName}" .
-                            "&operation=delete&id=$id";
-
                     //Log
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
@@ -6375,11 +6372,16 @@ class ApiController extends Controller {
                             $this->_vtresturl . "?$params" .
                             ")", CLogger::LEVEL_TRACE
                     );
-                    $rest = new RESTClient();
-                    $rest->format('json');
-                    $response = $rest->get(
-                            $this->_vtresturl . "?$params"
-                    );
+                     $rest = new RESTClient();
+                     $rest->format('json');
+                     $response = $rest->post(
+                                $this->_vtresturl, array(
+                            'sessionName' => $this->_session->sessionName,
+                            'operation' => 'delete',
+                            'id' => $id
+                                )
+                        );
+
 
                     //Log
                     Yii::log(
