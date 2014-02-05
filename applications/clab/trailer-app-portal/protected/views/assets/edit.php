@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
     getTranslatedString('Assets') . ' /' . getTranslatedString('Update Asset'),
 );
 ?>
-<h2>Create New Asset</h2>
+<h2>Update Asset</h2>
 <form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/update" method="POST" name="assetCreate" id="assetCreate">
     <input type="hidden" value="<?php echo $result['id']; ?>" name="id">
     <table style="border:1px solid #589FC8;"  cellspacing="0" cellpadding="0" width="95%" border="0" align="center">
