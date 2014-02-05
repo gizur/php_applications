@@ -74,7 +74,7 @@ $this->breadcrumbs = array(
                         <td><?php echo $data['firstname']; ?></td>
                         <td><?php echo $data['lastname']; ?></td>
                         <td><?php echo $data['title']; ?></td>
-                        <td><?php echo $resultAccounts[$data['account']];  ?></td>
+                        <td><?php echo $resultAccounts[$data['account']]; ?></td>
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo $data['phone']; ?></td>
                         <td><?php echo $data['contact_no']; ?></td>

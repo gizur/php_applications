@@ -72,7 +72,7 @@ return array(
                 array('api/update', 'pattern' => '/<model:(User)>/', 'verb' => 'PUT'),
                 array('api/update', 'pattern' => '/<model:(User)>/<field:(keypair1|keypair2)>/<email:.+>', 'verb' => 'PUT'),
                 array('api/update', 'pattern' => '/<model:(User)>/<action:(vtiger)>/<email:.+>', 'verb' => 'PUT'),
-                array('api/create', 'pattern' => '/<model:(HelpDesk|User|Assets)>', 'verb' => 'POST'),
+                array('api/create', 'pattern' => '/<model:(HelpDesk|User|Assets|Contacts)>', 'verb' => 'POST'),
                 array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
                 array('api/update', 'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>', 'verb' => 'PUT'),
                 array('api/error', 'pattern' => '.*?')
