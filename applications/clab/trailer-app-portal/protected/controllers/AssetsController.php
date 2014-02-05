@@ -1,8 +1,8 @@
 <?php
+
 /**
  * Controller
  */
-
 class AssetsController extends Controller
 {
     /**
@@ -19,11 +19,9 @@ class AssetsController extends Controller
                 'actions' => array('add', 'list'),
                 'users' => array('*'),
             ),
-            
         );
     }
-    
-    
+
     public function LoginCheck()
     {
         $protocol = Yii::app()->params['protocol'];
@@ -34,12 +32,13 @@ class AssetsController extends Controller
             $this->redirect($returnUrl);
         }
     }
-    
-    /* 
+
+    /*
      * Funcation Name:- actionList
      * Description:- with this we are getting all asset list from vtiger
      * Return Type: Json
      */
+
     public function actionList()
     {
         $module = "Assets";
@@ -47,32 +46,33 @@ class AssetsController extends Controller
         $this->LoginCheck();
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
-        foreach($accounts['result'] as $accounsData) {
-            $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
+        foreach ($accounts['result'] as $accounsData) {
+            $resultAccounts[$accounsData['id']] = $accounsData['accountname'];
         }
         // Get products list
         $products = $model->findAllProducts('Products');
-        foreach($products['result'] as $productsData) {
-            $resultProducts[$productsData['id']]=$productsData['productname'];
+        foreach ($products['result'] as $productsData) {
+            $resultProducts[$productsData['id']] = $productsData['productname'];
         }
         // Get all assets list
-        $records = $model->findAll($module, $actionType=NULL, $filter=NULL); 
-        $this->render('list', array('model'=>$model, 
-                                    'result'=>$records,
-                                    'resultAccounts'=>$resultAccounts,
-                                    'resultProducts'=>$resultProducts,
-                                    'session' => Yii::app()->session)
-                    );
+        $records = $model->findAll($module, $actionType = NULL, $filter = NULL);
+        $this->render('list', array('model' => $model,
+            'result' => $records,
+            'resultAccounts' => $resultAccounts,
+            'resultProducts' => $resultProducts,
+            'session' => Yii::app()->session)
+        );
     }
-    
-    /* 
+
+    /*
      * Funcation Name:- actionsearchasset
      * Description:- with this function we are getting filtered list of asset list by given parameter
      * Return Type: Json
      */
+
     function actionsearchasset()
     {
-        $this->layout=false;
+        $this->layout = false;
         $model = new Assets;
         $module = 'Assets';
         $this->LoginCheck();
@@ -81,39 +81,40 @@ class AssetsController extends Controller
         $assetNo = strtoupper($_POST['assetNo']);
         $assetName = strtoupper($_POST['assetName']);
         $searchString = " asset_no like '%%'";
-        if(!empty($assetNo)) {
+        if (!empty($assetNo)) {
             $searchString .= " and asset_no like '%$assetNo%'";
         }
-         if(!empty($assetName)) {
+        if (!empty($assetName)) {
             $searchString .= " and assetname like '%$assetName%'";
         }
         $filter = $searchString;
         $actionType = 'search';
         // Get all accounts list
         $accounts = $model->findAllAccounts('Accounts');
-        foreach($accounts['result'] as $accounsData) {
-            $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
+        foreach ($accounts['result'] as $accounsData) {
+            $resultAccounts[$accounsData['id']] = $accounsData['accountname'];
         }
         // Get products list
         $products = $model->findAllProducts('Products');
-        foreach($products['result'] as $productsData) {
-            $resultProducts[$productsData['id']]=$productsData['productname'];
+        foreach ($products['result'] as $productsData) {
+            $resultProducts[$productsData['id']] = $productsData['productname'];
         }
         // Get filtered assets data
         $records = $model->findAll($module, $actionType, $filter);
-        $this->render('searchasset', array('model'=>$model,
-                                    'result'=>$records,
-                                    'resultAccounts'=>$resultAccounts,
-                                    'resultProducts'=>$resultProducts,
-                                    'session' => Yii::app()->session)
-                    );
+        $this->render('searchasset', array('model' => $model,
+            'result' => $records,
+            'resultAccounts' => $resultAccounts,
+            'resultProducts' => $resultProducts,
+            'session' => Yii::app()->session)
+        );
     }
-    
-    /* 
+
+    /*
      * Funcation Name:- actionAdd
      * Description:- with this function we are rendering asset add form with accounts and product picklist
      * Return Type: Json
      */
+
     public function actionAdd()
     {
         $model = new Assets;
@@ -124,7 +125,7 @@ class AssetsController extends Controller
         // Get asset status
         $assetstatus = $model->getPicklist($module, 'assetstatus');
         // Get accounts list
-        $accounts = $model->findAllAccounts('Accounts'); 
+        $accounts = $model->findAllAccounts('Accounts');
         // Get products list
         $products = $model->findAllProducts('Products');
         $this->render('add', array(
@@ -135,27 +136,29 @@ class AssetsController extends Controller
             'session' => Yii::app()->session)
         );
     }
-    
-   /* 
+
+    /*
      * Funcation Name:- actionCreate
      * Description:- with this function we are creating new asset
      * Return Type: Json
-     */ 
-   public function actionCreate()
+     */
+
+    public function actionCreate()
     {
         $model = new Assets;
         $module = 'Assets';
         $this->LoginCheck();
         unset($_POST['submit']);
         // call function createAsset to create new asset
-        $model->createAsset($module,$_POST);
+        $model->createAsset($module, $_POST);
     }
-    
-    /* 
+
+    /*
      * Funcation Name:- actionDelete
      * Description:- with this function we are deleting asset by id
      * Return Type: Json
      */
+
     public function actionDelete()
     {
         $model = new Assets;
@@ -163,21 +166,22 @@ class AssetsController extends Controller
         $this->LoginCheck();
         $id = $_POST['id'];
         // call function deleteAsset to delete selected asset
-        $model->deleteAsset($module,  $id);
+        $model->deleteAsset($module, $id);
     }
-    
-    /* 
+
+    /*
      * Funcation Name:- actionEdit
      * Description:- with this function we are rendering asset edit form with accounts and product picklist
      * Return Type: Json
      */
+
     public function actionEdit()
     {
         $id = $_GET['id'];
-        if(empty($id)) {
+        if (empty($id)) {
             $protocol = Yii::app()->params['protocol'];
             $servername = Yii::app()->request->getServerName();
-            $returnUrl = $protocol . $servername . Yii::app()->homeUrl."?r=assets/list";
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl . "?r=assets/list";
             Yii::app()->getController()->redirect($returnUrl);
         }
         $model = new Assets;
@@ -188,7 +192,7 @@ class AssetsController extends Controller
         // Get asset status
         $assetstatus = $model->getPicklist($module, 'assetstatus');
         // Get accounts list
-        $accounts = $model->findAllAccounts('Accounts'); 
+        $accounts = $model->findAllAccounts('Accounts');
         // Get products list
         $products = $model->findAllProducts('Products');
         // Get asset by id
@@ -202,29 +206,28 @@ class AssetsController extends Controller
             'session' => Yii::app()->session)
         );
     }
-    
-    /* 
+
+    /*
      * Funcation Name:- actionUpdate
      * Description:- with this function we are updating asset by asset id
      * Return Type: Json
-     */ 
-   public function actionUpdate()
+     */
+
+    public function actionUpdate()
     {
         $model = new Assets;
         $module = 'Assets';
         $this->LoginCheck();
         unset($_POST['submit']);
         $id = $_POST['id'];
-        if(empty($id)) {
+        if (empty($id)) {
             $protocol = Yii::app()->params['protocol'];
             $servername = Yii::app()->request->getServerName();
-            $returnUrl = $protocol . $servername . Yii::app()->homeUrl."?r=assets/list";
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl . "?r=assets/list";
             Yii::app()->getController()->redirect($returnUrl);
         }
         // call function updateAsset to create new asset
         $model->updateAsset($module, $id, $_POST);
     }
-    
-    
 
 }

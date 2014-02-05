@@ -43,6 +43,14 @@ class ContactsController extends Controller
         $asset = new Assets;
         $this->LoginCheck();
 
+        if (!empty($_POST) && isset($_POST['submit'])) {
+            $model = new Contacts;
+            $module = 'Contacts';
+            $this->LoginCheck();
+            unset($_POST['submit']);
+            // call function createAsset to create new asset
+            $model->createContact($module, $_POST);
+        }
         $accounts = $asset->findAllAccounts('Accounts');
 
         $contact = new Contacts;

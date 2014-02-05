@@ -9,33 +9,28 @@ $this->breadcrumbs = array(
 );
 ?>
 <h2><?php echo getTranslatedString('Create New Contact'); ?></h2>
-<form enctype="multipart/form-data" method="POST" name="Addcontact">
+<form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" method="POST" name="contactsCreate" id="contactsCreate">
     <table style="border:1px solid #589FC8;" cellspacing="0" cellpadding="3" width="100%" border="0" class="dvtContentSpace">
-
         <tr valign="top" style="height:25px">
             <td width="20%" align="right" class="dvtCellLabel">
                 <?php echo getTranslatedString('First Name'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
                 <select  name="salutationtype">
-                    <option value="" selected="selected" >-- Select --</option>
-                        <?php foreach ($salutations as $k => $sal) { ?>
-                            <option  value="<?php echo $k; ?>">
-                                <?php echo getTranslatedString($sal); ?>
-                            </option>
-                        <?php } ?>
+                    <?php foreach ($salutations as $k => $sal) { ?>
+                        <option  value="<?php echo $k; ?>">
+                            <?php echo getTranslatedString($sal); ?>
+                        </option>
+                    <?php } ?>
                 </select>
                 <input type="text" value="" style="width:58%;" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" tabindex="" name="firstname">
             </td>
-
             <td width="20%" align="right" class="dvtCellLabel">
                 <font color="red">*</font><?php echo getTranslatedString('Last Name'); ?>
             </td>
-
             <td width="30%" align="left" class="dvtCellInfo">
                 <input type="text" value="" style="width:58%;" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" tabindex="" name="lastname">
             </td>
-
         </tr>
         <tr valign="top" style="height:25px">
 
@@ -52,12 +47,14 @@ $this->breadcrumbs = array(
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
                 <select style="width:150px" class="txtBox" id="bas_searchfield" name="account_name">
-                    <option value="" selected="selected" ><?php echo getTranslatedString('-- Select --'); ?></option>
-                        <?php foreach ($accounts['result'] as $accountsData) { ?>
-                            <option  value="<?php echo $accountsData['id']; ?>">
-                                <?php echo $accountsData['accountname']; ?>
-                            </option>
-                        <?php } ?>
+                    <option value="" selected="selected" >
+                        <?php echo getTranslatedString('-- Select --'); ?>
+                    </option>
+                    <?php foreach ($accounts['result'] as $accountsData) { ?>
+                        <option  value="<?php echo $accountsData['id']; ?>">
+                            <?php echo $accountsData['accountname']; ?>
+                        </option>
+                    <?php } ?>
                 </select>
             </td>
         </tr>
@@ -89,10 +86,11 @@ $this->breadcrumbs = array(
             <td width="30%" align="left" class="dvtCellInfo">
                 <select name="contact_name" id="contact_name">
                     <?php foreach ($contacts['result'] as $contact) { ?>
-                            <option  value="<?php echo $contact['id']; ?>">
-                                <?php echo $contact['firstname'] . " " . $contact['lastname']; ?>
-                            </option>
-                        <?php } ?>
+                        <?php echo getTranslatedString('-- Select --'); ?>
+                        <option  value="<?php echo $contact['id']; ?>">
+                            <?php echo $contact['firstname'] . " " . $contact['lastname']; ?>
+                        </option>
+                    <?php } ?>
                 </select>
             </td>
         </tr>
@@ -123,7 +121,7 @@ $this->breadcrumbs = array(
                 <?php echo getTranslatedString('Support Start Date'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
-                <input type="text" value="2014-01-22" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_support_start_date" tabindex="" name="support_start_date">
+                <input type="text" value="<?php echo date('Y-m-d'); ?>" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_support_start_date" tabindex="" name="support_start_date">
                 <br><font size="1"><em old="(yyyy-mm-dd)">(yyyy-mm-dd)</em></font>
             </td>
         </tr>
@@ -133,7 +131,7 @@ $this->breadcrumbs = array(
                 <?php echo getTranslatedString('Support End Date'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
-                <input type="text" value="2015-01-21" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_support_end_date" tabindex="" name="support_end_date">
+                <input type="text" value="<?php echo date('Y-m-d', strtotime("+1 year")); ?>" maxlength="10" size="11" style="border:1px solid #bababa;" id="jscal_field_support_end_date" tabindex="" name="support_end_date">
                 <br><font size="1"><em old="(yyyy-mm-dd)">(yyyy-mm-dd)</em></font>
             </td>
         </tr>
