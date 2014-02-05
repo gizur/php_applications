@@ -150,6 +150,7 @@ class ApiController extends Controller {
      * List of valid models
      */
     private $_validModels = Array(
+        'Users',
         'Contacts',
         'Products',
         'Accounts',
