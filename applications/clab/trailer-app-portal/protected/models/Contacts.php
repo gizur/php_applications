@@ -56,7 +56,7 @@ class Contacts extends CFormModel
      * Return Type: Json
      */
 
-    function createAsset($module, $data)
+    function createContact($module, $data)
     {
         $params = array(
             'Verb' => 'POST',
