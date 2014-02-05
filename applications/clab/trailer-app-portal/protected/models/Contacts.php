@@ -118,13 +118,13 @@ class Contacts extends CFormModel
         $response = json_decode($response);
         if ($response->success == true) {
             echo Yii::app()->user->setFlash('success', "Contact created successfully");
+            $protocol = Yii::app()->params['protocol'];
+            $servername = Yii::app()->request->getServerName();
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl . "?r=contacts/list";
+            Yii::app()->getController()->redirect($returnUrl);
         } else {
             echo Yii::app()->user->setFlash('error', $response->error->message);
-        }
-        $protocol = Yii::app()->params['protocol'];
-        $servername = Yii::app()->request->getServerName();
-        $returnUrl = $protocol . $servername . Yii::app()->homeUrl . "?r=contacts/list";
-        Yii::app()->getController()->redirect($returnUrl);
+        }        
     }
 
 }
