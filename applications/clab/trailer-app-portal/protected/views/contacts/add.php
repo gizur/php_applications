@@ -42,11 +42,11 @@ $this->breadcrumbs = array(
                 <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" id="phone" name="phone" tabindex="">
             </td>
             <td width="20%" align="right" class="dvtCellLabel">
-                <font color="red"></font>
+                <font color="red">*</font>
                 <?php echo getTranslatedString('Organization Name'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
-                <select style="width:150px" class="txtBox" id="bas_searchfield" name="account_name">
+                <select style="width:150px" class="txtBox" id="bas_searchfield" name="account_id">
                     <option value="" selected="selected" >
                         <?php echo getTranslatedString('-- Select --'); ?>
                     </option>
@@ -80,11 +80,11 @@ $this->breadcrumbs = array(
                 <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" id="assistant" name="assistant" tabindex="">
             </td>
             <td width="20%" align="right" class="dvtCellLabel">
-                <font color="red"></font>
+                <font color="red">*</font>
                 <?php echo getTranslatedString('Reports To'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
-                <select name="contact_name" id="contact_name">
+                <select name="contact_id" id="contact_id">
                     <option><?php echo getTranslatedString('-- Select --'); ?></option>
                     <?php foreach ($contacts['result'] as $contact) { ?>
                         <option  value="<?php echo $contact['id']; ?>">
