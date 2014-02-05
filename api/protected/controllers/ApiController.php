@@ -1376,6 +1376,61 @@ class ApiController extends Controller {
                  * *****************************************************************
                  */
                 case 'User':
+                    
+                    if ($_GET['action'] == 'list') {
+                     $query = "select * from " . $_GET['model'] . ";";
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName={$this->_session->sessionName}" .
+                            "&operation=query&query=$queryParam";
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending GET request " .
+                            "to vt url: " .
+                            $this->_vtresturl . "?$params" .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+                    $rest = new RESTClient();
+                    $rest->format('json');
+                    $response = $rest->get(
+                            $this->_vtresturl . "?$params"
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    if ($response == '' || $response == null)
+                        throw new Exception(
+                        "Blank response received from " .
+                        "vtiger: Get Products List"
+                        );
+
+                    //Save vtiger response
+                    $this->_vtresponse = $response;
+
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                        throw new Exception('Unable to fetch details');
+
+                    //Before sending response santise custom fields names to 
+                    //human readable field names                
+
+                    $cachedValue = json_encode($response);
+                    //Send the response
+                    $this->_sendResponse(200, $cachedValue);   
+                   }
 
                     if ($_GET['action'] == 'login') {
 
@@ -2860,10 +2915,10 @@ class ApiController extends Controller {
                     $this->_sendResponse(200, $cachedValue);
                     break;
                     
-                    /*
+                 /*
                  * *****************************************************************
                  * *****************************************************************
-                 * * Accounts MODEL
+                 * * Contacts MODEL
                  * * Accepts fieldnames 
                  * *****************************************************************
                  * *****************************************************************
@@ -2924,6 +2979,69 @@ class ApiController extends Controller {
                     $this->_sendResponse(200, $cachedValue);
                     break;
 
+/*
+                 * *****************************************************************
+                 * *****************************************************************
+                 * * Contacts MODEL
+                 * * Accepts fieldnames 
+                 * *****************************************************************
+                 * *****************************************************************
+                 */
+                case 'Contacts':
+
+                    $query = "select * from " . $_GET['model'] . ";";
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName={$this->_session->sessionName}" .
+                            "&operation=query&query=$queryParam";
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending GET request " .
+                            "to vt url: " .
+                            $this->_vtresturl . "?$params" .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+                    $rest = new RESTClient();
+                    $rest->format('json');
+                    $response = $rest->get(
+                            $this->_vtresturl . "?$params"
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    if ($response == '' || $response == null)
+                        throw new Exception(
+                        "Blank response received from " .
+                        "vtiger: Get Contacts list"
+                        );
+
+                    //Save vtiger response
+                    $this->_vtresponse = $response;
+
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                        throw new Exception('Unable to fetch details');
+
+                    //Before sending response santise custom fields names to 
+                    //human readable field names                
+
+                    $cachedValue = json_encode($response);
+                    //Send the response
+                    $this->_sendResponse(200, $cachedValue);
+                    break;
 
                 default :
 
