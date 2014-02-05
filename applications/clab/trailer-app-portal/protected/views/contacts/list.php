@@ -17,9 +17,10 @@ $this->breadcrumbs = array(
                     <tr>
                         <td><strong>First Name : </strong></td><td><input size="15pt" type="text" name="firstname" value="" /></td>
                         <td><strong>Last Name : </strong></td><td><input size="15pt" type="text" name="lastname" value="" /></td>
-                        <td><strong>Email : </strong></td><td><input size="15pt" type="text" name="email" value="" /></td>
+                        <td></td>
                     </tr>
                     <tr>
+                        <td><strong>Email : </strong></td><td><input size="15pt" type="text" name="email" value="" /></td>
                         <td><strong>Organization : </strong>
                         </td>
                         <td>
@@ -29,12 +30,11 @@ $this->breadcrumbs = array(
                                 <option value="Organization3" label="Organization3">Sample Organization</option>
                             </select>
                         </td>
+                        
                         <td>
                             <input type="submit" size="10pt" name="submit" value="Search" />
                         </td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        
                     </tr>
                 </table>
             </td>
