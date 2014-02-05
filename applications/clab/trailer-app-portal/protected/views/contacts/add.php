@@ -18,24 +18,12 @@ $this->breadcrumbs = array(
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
                 <select  name="salutationtype">
-                    <option value="--None--">
-                        --None--
-                    </option>
-                    <option value="Mr.">
-                        Mr.
-                    </option>
-                    <option value="Ms.">
-                        Ms.
-                    </option>
-                    <option value="Mrs.">
-                        Mrs.
-                    </option>
-                    <option value="Dr.">
-                        Dr.
-                    </option>
-                    <option value="Prof.">
-                        Prof.
-                    </option>
+                    <option value="" selected="selected" >-- Select --</option>
+                        <?php foreach ($salutations as $k => $sal) { ?>
+                            <option  value="<?php echo $k; ?>">
+                                <?php echo getTranslatedString($sal); ?>
+                            </option>
+                        <?php } ?>
                 </select>
                 <input type="text" value="" style="width:58%;" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" tabindex="" name="firstname">
             </td>
@@ -100,10 +88,11 @@ $this->breadcrumbs = array(
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
                 <select name="contact_name" id="contact_name">
-                    <option value="Jonas">Jonas</option>
-                    <option value="Lisa">Lisa</option>
-                    <option value="Mary">Mary</option>
-                    <option value="Prabhat">Prabhat</option>
+                    <?php foreach ($contacts['result'] as $contact) { ?>
+                            <option  value="<?php echo $contact['id']; ?>">
+                                <?php echo $contact['firstname'] . " " . $contact['lastname']; ?>
+                            </option>
+                        <?php } ?>
                 </select>
             </td>
         </tr>

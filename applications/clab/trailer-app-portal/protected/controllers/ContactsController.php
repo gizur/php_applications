@@ -52,7 +52,7 @@ class ContactsController extends Controller
          * Salutation (Not Working)
          */
         //$salutations = $asset->getPicklist($module, 'salutationtype');
-        print_r($contacts);
+        
         $salutations = array('' => '--None--',
             'Mr.' => 'Mr.',
             'Ms.' => 'Ms.',
