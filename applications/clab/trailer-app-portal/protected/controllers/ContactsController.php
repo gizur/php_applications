@@ -46,13 +46,13 @@ class ContactsController extends Controller
         $accounts = $asset->findAllAccounts('Accounts');
 
         $contact = new Contacts;
-        $contacts = $contact->findAll('Contacts', NULL, array('contactid', 'firstname', 'lastname'));
+        $contacts = $contact->findAll('Contacts');
 
         /*
          * Salutation (Not Working)
          */
         //$salutations = $asset->getPicklist($module, 'salutationtype');
-        //print_r($salutations);
+        print_r($contacts);
         $salutations = array('' => '--None--',
             'Mr.' => 'Mr.',
             'Ms.' => 'Ms.',
