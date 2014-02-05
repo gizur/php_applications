@@ -29,7 +29,7 @@ class ContactsController extends Controller
     {
         $module = "Contacts";
         
-        $contacts = Contacts;
+        $contacts = new Contacts();
         $this->LoginCheck();
         $result = $contacts->findAll($module, $actionType=NULL, $filter=NULL); 
         echo "<pre>"; print_r($result); exit;  
