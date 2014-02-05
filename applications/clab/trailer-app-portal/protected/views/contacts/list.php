@@ -15,26 +15,29 @@ $this->breadcrumbs = array(
             <td valign="top">
                 <table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
                     <tr>
-                        <td><strong>First Name : </strong></td><td><input size="15pt" type="text" name="firstname" value="" /></td>
-                        <td><strong>Last Name : </strong></td><td><input size="15pt" type="text" name="lastname" value="" /></td>
+                        <td><strong><?php echo getTranslatedString('First Name'); ?> : </strong></td><td><input size="15pt" type="text" name="firstname" value="" /></td>
+                        <td><strong><?php echo getTranslatedString('Last Name'); ?> : </strong></td><td><input size="15pt" type="text" name="lastname" value="" /></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td><strong>Email : </strong></td><td><input size="15pt" type="text" name="email" value="" /></td>
-                        <td><strong>Organization : </strong>
+                        <td><strong><?php echo getTranslatedString('Email'); ?> : </strong></td><td><input size="15pt" type="text" name="email" value="" /></td>
+                        <td><strong><?php echo getTranslatedString('Organization'); ?> : </strong>
                         </td>
                         <td>
-                            <select style="width:150px" class="txtBox" id="bas_searchfield" name="orgname">
-                                <option value="firstname" label="Organization1">Clab</option>
-                                <option value="lastname" label="Organization2">Transport X</option>
-                                <option value="Organization3" label="Organization3">Sample Organization</option>
+                            <select class="" tabindex="" name="account">
+                                <option value="" selected="selected" >-- Select --</option>
+                                <?php foreach ($accounts['result'] as $accountsData) { ?>
+                                    <option  value="<?php echo $accountsData['id']; ?>">
+                                        <?php echo $accountsData['accountname']; ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </td>
-                        
+
                         <td>
                             <input type="submit" size="10pt" name="submit" value="Search" />
                         </td>
-                        
+
                     </tr>
                 </table>
             </td>
@@ -44,86 +47,86 @@ $this->breadcrumbs = array(
     <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" style="cursor: pointer;"><strong>Create New Contact</strong></a></div>
     <br />
     <div id="process">
-        <div id="table_id_wrapper" class="dataTables_wrapper" role="grid">
 
-            <div align="left" id="table_id_length" class="dataTables_length">
-                <label>Show 
-                    <select name="table_id_length" size="1" aria-controls="table_id">
-                        <option value="10" selected="selected">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select> entries
-                </label>
-<!--            <span style="text-align: right; margin-left: 450px;" >    <strong>Search :</strong> 
-                <input type="text" name="searchtext" value="" />
-            </span>-->
-            </div>
-        </div>
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
+            <thead>
 
 
-            <!-- Table Headers -->
-            <tr role="row">
+                <!-- Table Headers -->
+                <tr role="row">
 
-                <th style="border-bottom: 1px solid #000000;">Contact Id</th>
-                <th style="border-bottom: 1px solid #000000;">First Name</th>
-                <th style="border-bottom: 1px solid #000000;">Last Name</th>
-                <th style="border-bottom: 1px solid #000000;">Title</th>
-                <th style="border-bottom: 1px solid #000000;">Organization Name</th>
-                <th style="border-bottom: 1px solid #000000;">Email</th>
-                <th style="border-bottom: 1px solid #000000;">Office Phone</th>
-                <th style="border-bottom: 1px solid #000000;">Assigned To</th>
-                <th style="border-bottom: 1px solid #000000;">Action</th>
-            </tr>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Contact Id'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('First Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Last Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Title'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Organization Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Email'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Office Phone'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Assigned To'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Action'); ?></th>
+                </tr>
+            </thead>
             <!-- Table Contents -->
-            <tr class="odd">
-
-                <td>Mary</td>
-                <td>Smith</td>
-                <td>Mgr Operations</td>
-                <td>VP Operations</td>
-                <td>t3M Invest A/S</td>
-                <td>mary_smith@company.com</td>
-                <td>(433) 760-3219 </td>
-                <td> Administrator </td>
-
-                <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a>  | <a href='javascript:void()'>Reset Password</a></td>
-            </tr>
-            <tr class="even">
-
-                <td>CON2 </td>
-                <td>Patricia</td>
-                <td>Johnson</td>
-                <td>VP Operations </td>
-                <td>t3M Invest A/S</td>
-                <td>patricia_johnson@company.com</td>
-                <td>(463) 950-7751 </td>
-                <td> Administrator </td>
-                <td><a href="javascript:void()">edit</a>  | <a href="javascript:void()">del</a>  | <a href='javascript:void()'>Reset Password</a></td>
-            </tr>
-            <tr class="odd">
-
-                <td>John</td>
-                <td>Smith</td>
-                <td>Mgr Operations</td>
-                <td>VP Operations</td>
-                <td>t4M Invest A/S</td>
-                <td>john_smith@company.com</td>
-                <td>(433) 160-3243 </td>
-                <td> User </td>
-
-                <td><a href="#">edit</a>  | <a href='javascript:void()'>del</a>  | <a href='javascript:void()'>Reset Password</a></td>
-            </tr>
-
+            <tbody>
+                <?php foreach ($result['result'] as $data) { ?>
+                    <tr class="odd">
+                        <td><?php echo $data['contact_no']; ?></td>
+                        <td><?php echo $data['firstname']; ?></td>
+                        <td><?php echo $data['lastname']; ?></td>
+                        <td><?php echo $data['title']; ?></td>
+                        <td><?php echo $resultAccounts[$data['account']];  ?></td>
+                        <td><?php echo $data['email']; ?></td>
+                        <td><?php echo $data['phone']; ?></td>
+                        <td><?php echo $data['contact_no']; ?></td>
+                        <td><a href="#">edit</a>  | <a href='javascript:void(0)'>del</a>  | <a href='javascript:void()'>Reset Password</a></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
         </table>
-        <div width="100%" id="table_id_info" class="dataTables_info">Showing 1 to 3 of 3 entries
-            <span style="float:right;" id="table_id_paginate" class="dataTables_paginate paging_two_button" style="margin-left: 620px;">
-                <a aria-controls="table_id" id="table_id_previous" class="paginate_disabled_previous" tabindex="0" role="button">Previous</a>
-                <a aria-controls="table_id" id="table_id_next" class="paginate_disabled_next" tabindex="0" role="button">Next</a>
-            </span>
-        </div>
-
     </div>
-
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#table_id').dataTable({
+            "bStateSave": true
+        });
+        function filterAsset() {
+            var assetNo = $.trim($("input[name='assetNo']").val());
+            var assetName = $.trim($("input[name='assetName']").val());
+            $("#assetsmsg").addClass("waitprocess");
+            $('#assetsmsg').html('loading....  Please wait');
+            $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/searchasset',
+                    {assetNo: assetNo, assetName: assetName},
+            function(data) {
+                $("#assetsmsg").removeClass("waitprocess");
+                $('#assetsmsg').html('');
+                $("#process").html(data);
+            }
+            );
+        }
+        $("#search").click(function() {
+            filterAsset();
+        });
+
+        $("#delete").live('click', function() {
+
+            var id = $(this).attr('assetId');
+            if (confirm("Are you sure to delete this data?")) {
+                $("#assetsmsg").addClass("waitprocess");
+                $('#assetsmsg').html('loading....  Please wait');
+                $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/delete',
+                        {id: id},
+                function(data) {
+                    alert(data.msg);
+                    filterAsset();
+                }, 'json'
+                        );
+            }
+
+        });
+
+    });
+
+</script>
+
