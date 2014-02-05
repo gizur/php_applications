@@ -6004,6 +6004,9 @@ class ApiController extends Controller {
                      /**
                      * Validations
                      */
+                     $_PUT = Array();
+                     parse_str(file_get_contents('php://input'), $_PUT);
+                     $_POST = $_PUT;
                      
                     $scriptStarted = date("c");
                     if (!isset($_POST['assetname']) || empty($_POST['assetname'])
@@ -6068,7 +6071,7 @@ class ApiController extends Controller {
                     //Return response to client  
                     $rest = new RESTClient();
                     $rest->format('json');
-                    $response = $rest->put(
+                    $response = $rest->post(
                             $this->_vtresturl, array(
                         'sessionName' => $this->_session->sessionName,
                         'operation' => 'update',
