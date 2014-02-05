@@ -40,7 +40,7 @@ class ContactsController extends Controller
             $this->redirect($returnUrl);
         }
     }
-    
+
     public function actionList()
     {
         $this->render('list', array('session' => Yii::app()->session));
@@ -49,16 +49,30 @@ class ContactsController extends Controller
     public function actionAdd()
     {
         $module = "Contacts";
-        
+
         $asset = new Assets;
         $this->LoginCheck();
-        
-        $accounts = $asset->findAllAccounts('Accounts'); 
-        $salutations = $asset->getPicklist($module, 'salutationtype');
-        print_r($salutations);
-        
+
+        $accounts = $asset->findAllAccounts('Accounts');
+
+        $contact = new Contacts;
+        $contacts = $contact->findAll('Contacts', NULL, array('contactid', 'firstname', 'lastname'));
+
+        /*
+         * Salutation (Not Working)
+         */
+        //$salutations = $asset->getPicklist($module, 'salutationtype');
+        //print_r($salutations);
+        $salutations = array('' => '--None--',
+            'Mr.' => 'Mr.',
+            'Ms.' => 'Ms.',
+            'Mrs.' => 'Mrs.',
+            'Dr.' => 'Dr.',
+            'Prof.' => 'Prof.');
+
         $this->render('add', array(
             'accounts' => $accounts,
+            'contacts' => $contacts,
             'salutations' => $salutations,
             'session' => Yii::app()->session)
         );
