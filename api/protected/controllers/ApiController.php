@@ -5250,8 +5250,6 @@ class ApiController extends Controller {
                  * *************************************************************
                  */
                 case 'Contacts':
-
-
                     /**
                      * Validations
                      */
