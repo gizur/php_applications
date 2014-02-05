@@ -55,6 +55,7 @@ class ContactsController extends Controller
         
         $accounts = $asset->findAllAccounts('Accounts'); 
         $salutations = $asset->getPicklist($module, 'salutationtype');
+        print_r($salutations);
         
         $this->render('add', array(
             'accounts' => $accounts,

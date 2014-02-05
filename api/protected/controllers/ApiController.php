@@ -2340,119 +2340,57 @@ class ApiController extends Controller {
 
                         if ($cachedValue === false) {
 
-                            //flip custome fields array
-                            $flippedCustomFields = array_flip(Yii::app()->params[$this->_clientid .
-                                    '_custom_fields']['Assets']);
+                            if ($_GET['fieldname'] == 'salutationtype') {
+                                $query = "select * from salutationtype;";
+                                //urlencode to as its sent over http.
+                                $queryParam = urlencode($query);
 
-                            //Check if the requested field name is a vtiger
-                            //custom field
-                            if (in_array($_GET['fieldname'], $flippedCustomFields)) {
-                                $fieldname = Yii::app()->params[$this->_clientid .
-                                        '_custom_fields'][$_GET['model']][$_GET['fieldname']];
-                            } else {
-                                $fieldname = $_GET['fieldname'];
+                                //creating query string
+                                $params = "sessionName={$this->_session->sessionName}" .
+                                    "&operation=query&query=$queryParam";
+
+                                //Log
+                                Yii::log(
+                                        " TRACE(" . $this->_traceId . "); " .
+                                        " FUNCTION(" . __FUNCTION__ . "); " .
+                                        " PROCESSING REQUEST (sending GET request " .
+                                        "to vt url: " .
+                                        $this->_vtresturl . "?$params" .
+                                        ")", CLogger::LEVEL_TRACE
+                                );
+
+                                //Send request to vtiger
+                                $rest = new RESTClient();
+
+                                $rest->format('json');
+                                $response = $rest->get(
+                                        $this->_vtresturl . "?$params"
+                                );
+
+                                //Log
+                                Yii::log(
+                                        " TRACE(" . $this->_traceId . "); " .
+                                        " FUNCTION(" . __FUNCTION__ . "); " .
+                                        " PROCESSING REQUEST (response received: " .
+                                        $response .
+                                        ")", CLogger::LEVEL_TRACE
+                                );
+
+                                //Save vtiger response
+                                $this->_vtresponse = $response;
+
+                                if ($response == '' || $response == null)
+                                    throw new Exception("Blank response received from" .
+                                    " vtiger: Asset Picklist");
+
+                                //Objectify the response and check its success
+                                $response = json_decode($response, true);
+
+                                if ($response['success'] == false)
+                                    throw new Exception('Fetching details failed');
+                                
+                                $this->_sendResponse(200, $response);
                             }
-
-                            //Receive response from vtiger REST service
-                            //Return response to client 
-                            $params = "sessionName={$this->_session->sessionName}" .
-                                    "&operation=describe" .
-                                    "&elementType=" . $_GET['model'];
-
-                            //Log
-                            Yii::log(
-                                    " TRACE(" . $this->_traceId . "); " .
-                                    " FUNCTION(" . __FUNCTION__ . "); " .
-                                    " PROCESSING REQUEST (sending GET request " .
-                                    "to vt url: " .
-                                    $this->_vtresturl . "?$params" .
-                                    ")", CLogger::LEVEL_TRACE
-                            );
-
-                            //Send request to vtiger
-                            $rest = new RESTClient();
-
-                            $rest->format('json');
-                            $response = $rest->get(
-                                    $this->_vtresturl . "?$params"
-                            );
-
-                            //Log
-                            Yii::log(
-                                    " TRACE(" . $this->_traceId . "); " .
-                                    " FUNCTION(" . __FUNCTION__ . "); " .
-                                    " PROCESSING REQUEST (response received: " .
-                                    $response .
-                                    ")", CLogger::LEVEL_TRACE
-                            );
-
-                            //Save vtiger response
-                            $this->_vtresponse = $response;
-
-                            if ($response == '' || $response == null)
-                                throw new Exception("Blank response received from" .
-                                " vtiger: Asset Picklist");
-
-                            //Objectify the response and check its success
-                            $response = json_decode($response, true);
-
-                            if ($response['success'] == false)
-                                throw new Exception('Fetching details failed');
-
-                            //Find the appropriate field whose label value needs to
-                            //be sent  
-                            foreach ($response['result']['fields'] as $field) {
-
-                                if ($fieldname == $field['name']) {
-
-                                    //Check if the field is a picklist
-                                    if ($field['type']['name'] == 'picklist') {
-
-                                        //Loop through all values of the pick list
-                                        foreach ($field['type']['picklistValues'] as &$option)
-
-                                        //Check if there is a dependency setup
-                                        //for the picklist value
-                                            if (isset($option['dependency'])) {
-
-                                                foreach ($option['dependency'] as $depFieldname => $dependency) {
-                                                    if (in_array($depFieldname, Yii::app()->params[$this->_clientid . '_custom_fields']['Assets'])) {
-                                                        $newFieldname = $flippedCustomFields[$depFieldname];
-                                                        $option['dependency'][$newFieldname] = $option['dependency'][$depFieldname];
-                                                        unset($option['dependency'][$depFieldname]);
-                                                    }
-                                                }
-                                            }
-
-                                        //Create response to be sent in proper
-                                        //format
-                                        $content = json_encode(
-                                                array(
-                                                    'success' => true,
-                                                    'result' =>
-                                                    $field['type']['picklistValues']
-                                                )
-                                        );
-
-                                        //Save the response in cache
-                                        Yii::app()->cache->set(
-                                                $this->_clientid .
-                                                '_picklist_'
-                                                . $_GET['model']
-                                                . '_'
-                                                . $_GET['fieldname'], $content
-                                        );
-
-                                        //Dispatch the response
-                                        $this->_sendResponse(200, $content);
-
-                                        //eject 2 levels
-                                        break 2;
-                                    }
-                                    throw new Exception("Not an picklist field");
-                                }
-                            }
-                            throw new Exception("Fieldname not found");
                         } else {
 
                             //Send cached response
