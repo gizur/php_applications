@@ -22,7 +22,8 @@ class ContactsController extends Controller {
         }
     }
 
-    public function actionList() {
+    public function actionList()
+    {
         $module = "Contacts";
         $asset = new Assets;
         $contacts = new Contacts();
@@ -49,12 +50,34 @@ class ContactsController extends Controller {
         $asset = new Assets;
         $this->LoginCheck();
 
+        if (!empty($_POST) && isset($_POST['submit'])) {
+            $model = new Contacts;
+            $module = 'Contacts';
+            $this->LoginCheck();
+            unset($_POST['submit']);
+            // call function createAsset to create new asset
+            $model->createContact($module, $_POST);
+        }
         $accounts = $asset->findAllAccounts('Accounts');
-        $salutations = $asset->getPicklist($module, 'salutationtype');
-        print_r($salutations);
+
+        $contact = new Contacts;
+        $contacts = $contact->findAll('Contacts');
+
+        /*
+         * Salutation (Not Working)
+         */
+        //$salutations = $asset->getPicklist($module, 'salutationtype');
+        
+        $salutations = array('' => '--None--',
+            'Mr.' => 'Mr.',
+            'Ms.' => 'Ms.',
+            'Mrs.' => 'Mrs.',
+            'Dr.' => 'Dr.',
+            'Prof.' => 'Prof.');
 
         $this->render('add', array(
             'accounts' => $accounts,
+            'contacts' => $contacts,
             'salutations' => $salutations,
             'session' => Yii::app()->session)
         );
