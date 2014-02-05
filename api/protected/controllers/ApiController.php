@@ -1368,18 +1368,10 @@ class ApiController extends Controller {
 
                     $this->_sendResponse(200, json_encode($response));
                     break;
-                /*
-                 * *****************************************************************
-                 * *****************************************************************
-                 * * USER AUTHENTICATE MODEL
-                 * * Accepts two actions login and logout
-                 * *****************************************************************
-                 * *****************************************************************
-                 */
-                case 'User':
                     
-                    if ($_GET['action'] == 'list') {
-                     $query = "select * from " . $_GET['model'] . ";";
+                case 'Users':
+
+                    $query = "select * from " . $_GET['model'] . ";";
                     $queryParam = urlencode($query);
 
                     //creating query string
@@ -1431,8 +1423,18 @@ class ApiController extends Controller {
                     $cachedValue = json_encode($response);
                     //Send the response
                     $this->_sendResponse(200, $cachedValue);   
-                   }
-
+                   
+                break;
+                /*
+                 * *****************************************************************
+                 * *****************************************************************
+                 * * USER AUTHENTICATE MODEL
+                 * * Accepts two actions login and logout
+                 * *****************************************************************
+                 * *****************************************************************
+                 */
+                case 'User':
+       
                     if ($_GET['action'] == 'login') {
 
                         $post = json_decode(file_get_contents('php://input'), true);
