@@ -9,7 +9,7 @@ $this->breadcrumbs = array(
 );
 ?>
 <h2><?php echo getTranslatedString('Create New Contact'); ?></h2>
-<form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" method="POST" name="contactsCreate" id="contactsCreate">
+<form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" method="POST" name="contactsAdd" id="contactsAdd">
     <table style="border:1px solid #589FC8;" cellspacing="0" cellpadding="3" width="100%" border="0" class="dvtContentSpace">
         <tr valign="top" style="height:25px">
             <td width="20%" align="right" class="dvtCellLabel">
@@ -85,8 +85,8 @@ $this->breadcrumbs = array(
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
                 <select name="contact_name" id="contact_name">
+                    <option><?php echo getTranslatedString('-- Select --'); ?></option>
                     <?php foreach ($contacts['result'] as $contact) { ?>
-                        <?php echo getTranslatedString('-- Select --'); ?>
                         <option  value="<?php echo $contact['id']; ?>">
                             <?php echo $contact['firstname'] . " " . $contact['lastname']; ?>
                         </option>
