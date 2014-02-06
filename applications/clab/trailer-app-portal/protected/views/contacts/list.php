@@ -45,13 +45,12 @@ $this->breadcrumbs = array(
     </div>
     <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" style="cursor: pointer;"><strong>Create New Contact</strong></a></div>
     <br />
-    <div><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></div>
+    <div><span id='contactsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></div>
     <div id="process">
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
             <thead>
                 <!-- Table Headers -->
                 <tr role="row">
-
                     <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Contact Id'); ?></th>
                     <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('First Name'); ?></th>
                     <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Last Name'); ?></th>
