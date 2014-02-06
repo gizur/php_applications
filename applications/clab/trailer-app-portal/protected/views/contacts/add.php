@@ -80,12 +80,12 @@ $this->breadcrumbs = array(
                 <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" id="assistant" name="assistant" tabindex="">
             </td>
             <td width="20%" align="right" class="dvtCellLabel">
-                <font color="red"></font>
+                <font color="red">*</font>
                 <?php echo getTranslatedString('Reports To'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
                 <select name="contact_id" id="contact_id">
-                    <option><?php echo getTranslatedString('-- Select --'); ?></option>
+                    <option value=""><?php echo getTranslatedString('-- Select --'); ?></option>
                     <?php foreach ($contacts['result'] as $contact) { ?>
                         <option  value="<?php echo $contact['id']; ?>">
                             <?php echo $contact['firstname'] . " " . $contact['lastname']; ?>
@@ -212,7 +212,8 @@ $this->breadcrumbs = array(
             rules: {
                 lastname: 'required',
                 account_id: 'required',
-                email: 'required'
+                email: 'required',
+                contact_id: 'required'
             }
 
         });

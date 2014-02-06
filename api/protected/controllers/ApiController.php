@@ -5541,7 +5541,7 @@ class ApiController extends Controller {
                     $response = json_decode($response, true);
 
                     if ($response['success'] == false)
-                        throw new Exception('Unable to fetch details');
+                        throw new Exception('Unable to save contacts');
 
                     //Before sending response santise custom fields names to 
                     //human readable field names                
