@@ -5373,16 +5373,17 @@ class ApiController extends Controller {
                      */
                      
                     $scriptStarted = date("c");
+                    
                     if (!isset($_POST['lastname']) || empty($_POST['lastname']))
                         throw new Exception("last name does not have a value", 1001);
 
                     if (!isset($_POST['email']) || empty($_POST['email']))
                         throw new Exception("Email does not have a value", 1001);
 
-                    if (!isset($_POST['account_name']) || empty($_POST['account_name']))
+                    if (!isset($_POST['account_id']) || empty($_POST['account_id']))
                         throw new Exception("account does not have a value", 1001);
 
-                    if (!isset($_POST['contact_name']) || empty($_POST['contact_name']))
+                    if (!isset($_POST['contact_id']) || empty($_POST['contact_id']))
                         throw new Exception("contact does not have a value", 1001);
                     
                     /** Creating Assets* */
