@@ -80,7 +80,7 @@ $this->breadcrumbs = array(
                 <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" id="assistant" name="assistant" tabindex="">
             </td>
             <td width="20%" align="right" class="dvtCellLabel">
-                <font color="red">*</font>
+                <font color="red"></font>
                 <?php echo getTranslatedString('Reports To'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">

@@ -5386,9 +5386,6 @@ class ApiController extends Controller {
                     if (!isset($_POST['account_id']) || empty($_POST['account_id']))
                         throw new Exception("account does not have a value", 1001);
 
-                    if (!isset($_POST['contact_id']) || empty($_POST['contact_id']))
-                        throw new Exception("contact does not have a value", 1001);
-                    
                     /** Creating Assets* */
                     $post = $_POST;
                     $customFields = array_flip(
