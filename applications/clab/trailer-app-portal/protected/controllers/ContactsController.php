@@ -87,5 +87,61 @@ class ContactsController extends Controller {
             'session' => Yii::app()->session)
         );
     }
+    
+    /*
+     * Funcation Name:- actionsearchcontacts
+     * Description:- with this function we are getting filtered list of asset list by given parameter
+     * Return Type: Json
+     */
+
+    function actionsearchcontacts()
+    {
+        $this->layout = false;
+        $module = "Contacts";
+        $asset = new Assets;
+        $contacts = new Contacts();
+        $this->LoginCheck();
+        // getting all users data
+        $users = $contacts->findAllUsers('Users');
+        foreach($users['result'] as $usersData) {
+            $resultUsers[$usersData['id']] = $usersData['first_name'] . ' ' . $usersData['last_name'];
+        }       
+       // Get all account list
+        $accounts = $asset->findAllAccounts('Accounts');
+        foreach($accounts['result'] as $accounsData) {
+            $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
+        }
+       
+        $firstname = strtoupper($_POST['firstname']);
+        $lastname = strtoupper($_POST['lastname']);
+        $email = strtoupper($_POST['email']);
+        $account = strtoupper($_POST['account']);
+        $searchString = " contact_no like '%%'";
+        if (!empty($firstname)) {
+            $searchString .= " and firstname like '%$firstname%'";
+        }
+        if (!empty($lastname)) {
+            $searchString .= " and lastname like '%$lastname%'";
+        }
+        if (!empty($email)) {
+            $searchString .= " and email like '%$email%'";
+        }
+        if (!empty($account)) {
+            $accountData = explode('x', $account);
+            $account_id = $$accountData[1];
+            $searchString .= " and account_id = $account_id";
+        }
+        $filter = $searchString;
+        $actionType = 'search';
+         $result = $contacts->findAll($module, $actionType, $filter);
+        $this->render('searchcontacts', array(
+            'result' => $result,
+            'accounts' => $accounts,
+            'resultUsers' => $resultUsers,
+            'resultAccounts'=>$resultAccounts,
+            'session' => Yii::app()->session)
+        );
+        }
+
 
 }

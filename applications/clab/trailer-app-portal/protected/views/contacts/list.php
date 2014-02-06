@@ -35,9 +35,8 @@ $this->breadcrumbs = array(
                         </td>
 
                         <td>
-                            <input type="submit" size="10pt" name="submit" value="Search" />
+                            <input type="submit" size="10pt" name="submit" value="Search" id="search" />
                         </td>
-
                     </tr>
                 </table>
             </td>
@@ -46,12 +45,10 @@ $this->breadcrumbs = array(
     </div>
     <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" style="cursor: pointer;"><strong>Create New Contact</strong></a></div>
     <br />
+    <div><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></div>
     <div id="process">
-
         <table id="table_id" class="dataTable" aria-describedby="table_id_info">
             <thead>
-
-
                 <!-- Table Headers -->
                 <tr role="row">
 
@@ -94,15 +91,17 @@ $this->breadcrumbs = array(
             "bStateSave": true
         });
         function filterAsset() {
-            var assetNo = $.trim($("input[name='assetNo']").val());
-            var assetName = $.trim($("input[name='assetName']").val());
-            $("#assetsmsg").addClass("waitprocess");
-            $('#assetsmsg').html('loading....  Please wait');
-            $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/searchasset',
-                    {assetNo: assetNo, assetName: assetName},
+            var firstname = $.trim($("input[name='firstname']").val());
+            var lastname = $.trim($("input[name='lastname']").val());
+            var email = $.trim($("input[name='email']").val());
+            var account = $.trim($("input[name='account']").val());
+            $("#contactsmsg").addClass("waitprocess");
+            $('#contactsmsg').html('loading....  Please wait');
+            $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/searchcontacts',
+                    {firstname: firstname, lastname: lastname, email:email, account:account},
             function(data) {
-                $("#assetsmsg").removeClass("waitprocess");
-                $('#assetsmsg').html('');
+                $("#contactsmsg").removeClass("waitprocess");
+                $('#contactsmsg').html('');
                 $("#process").html(data);
             }
             );

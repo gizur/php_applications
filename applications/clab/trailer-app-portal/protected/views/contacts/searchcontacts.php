@@ -1,0 +1,41 @@
+<table id="table_id" class="dataTable" aria-describedby="table_id_info">
+            <thead>
+                <!-- Table Headers -->
+                <tr role="row">
+
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Contact Id'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('First Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Last Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Title'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Organization Name'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Email'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Office Phone'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Assigned To'); ?></th>
+                    <th style="border-bottom: 1px solid #000000;"><?php echo getTranslatedString('Action'); ?></th>
+                </tr>
+            </thead>
+            <!-- Table Contents -->
+            <tbody>
+                <?php foreach ($result['result'] as $data) { ?>
+                    <tr class="odd">
+                        <td><?php echo $data['contact_no']; ?></td>
+                        <td><?php echo $data['firstname']; ?></td>
+                        <td><?php echo $data['lastname']; ?></td>
+                        <td><?php echo $data['title']; ?></td>
+                        <td><?php echo $resultAccounts[$data['account_id']]; ?></td>
+                        <td><?php echo $data['email']; ?></td>
+                        <td><?php echo $data['phone']; ?></td>
+                        <td><?php echo $resultUsers[$data['assigned_user_id']]; ?></td>
+                        <td><a href="javascript:void(0);" contactId="<?php echo $data['contact_no'];  ?>" id="edit">edit</a>  
+                            | <a href='javascript:void(0)' contactId="<?php echo $data['contact_no'];  ?>" id="delete">del</a>
+                            | <a href='javascript:void(0)' id="resetPassword" contactId="<?php echo $data['contact_no'];  ?>">Reset Password</a></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#table_id').dataTable({
+            "bStateSave": true
+        });
+ </script>

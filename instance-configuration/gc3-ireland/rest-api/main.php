@@ -61,7 +61,7 @@ return array(
                 array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
                 array('api/delete', 'pattern' => '/<model:(Assets)>/<id:[0-9x]+>', 'verb' => 'DELETE'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|Contacts)>/<fieldname:\w+>', 'verb' => 'GET'),
-                array('api/list', 'pattern' => '/<model:(Assets)>/<actionType:\w+>/<filter:\w+>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(Assets|Contacts)>/<actionType:\w+>/<filter:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 'verb' => 'POST'),
                 array('api/list', 'pattern' => '/<model:(User)>/<action:(login|forgotpassword)>', 'verb' => 'POST'),
                 array('api/update', 'pattern' => '/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb' => 'PUT'),

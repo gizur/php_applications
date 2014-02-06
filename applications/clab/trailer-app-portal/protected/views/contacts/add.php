@@ -65,7 +65,7 @@ $this->breadcrumbs = array(
             <td width="30%" align="left" class="dvtCellInfo">
                 <input type="text" onblur="this.className = 'detailedViewTextBox'" onfocus="this.className = 'detailedViewTextBoxOn'" class="detailedViewTextBox" value="" id="mobile" name="mobile" tabindex="">
             </td>
-            <td width="20%" align="right" class="dvtCellLabel"><font color="red"></font>
+            <td width="20%" align="right" class="dvtCellLabel"><font color="red">*</font>
                 <?php echo getTranslatedString('Email'); ?>
             </td>
             <td width="30%" align="left" class="dvtCellInfo">
@@ -200,3 +200,22 @@ $this->breadcrumbs = array(
         </tr>
     </table>
 </form>
+<style>
+    .error {
+        color:red;
+    }
+</style>
+<!-- Form Validation script -->
+<script>
+    $(document).ready(function() {
+        $("#contactsAdd").validate({
+            rules: {
+                lastname: 'required',
+                account_id: 'required',
+                email: 'required'
+            }
+
+        });
+
+    });
+</script>
