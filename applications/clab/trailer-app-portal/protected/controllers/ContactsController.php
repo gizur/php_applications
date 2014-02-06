@@ -121,15 +121,13 @@ class ContactsController extends Controller {
             $searchString .= " and firstname like '%$firstname%'";
         }
         if (!empty($lastname)) {
-            $searchString .= " and upper(lastname) like '%$lastname%'";
+            $searchString .= " and lastname like '%$lastname%'";
         }
         if (!empty($email)) {
             $searchString .= " and email like '%$email%'";
         }
         if (!empty($account)) {
-            $accountData = explode('x', $account);
-            $account_id = $$accountData[1];
-            $searchString .= " and account_id = $account_id";
+            $searchString .= " and account_id like '%$account_id%'";
         }
         $filter = $searchString;
         $actionType = 'search';

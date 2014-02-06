@@ -93,7 +93,7 @@ $this->breadcrumbs = array(
             var firstname = $.trim($("input[name='firstname']").val());
             var lastname = $.trim($("input[name='lastname']").val());
             var email = $.trim($("input[name='email']").val());
-            var account = $.trim($("input[name='account']").val());
+            var account = $.trim($("select[name='account']").val());
             $("#contactsmsg").addClass("waitprocess");
             $('#contactsmsg').html('loading....  Please wait');
             $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/searchcontacts',

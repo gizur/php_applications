@@ -1,3 +1,6 @@
+<?php
+include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
+?>
 <table id="table_id" class="dataTable" aria-describedby="table_id_info">
             <thead>
                 <!-- Table Headers -->
@@ -38,4 +41,5 @@
         jQuery('#table_id').dataTable({
             "bStateSave": true
         });
+    });
  </script>
