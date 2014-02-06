@@ -114,14 +114,14 @@ class ContactsController extends Controller {
        
         $firstname = strtoupper($_POST['firstname']);
         $lastname = strtoupper($_POST['lastname']);
-        $email = strtoupper($_POST['email']);
-        $account = strtoupper($_POST['account']);
+        $email = $_POST['email'];
+        $account = $_POST['account'];
         $searchString = " contact_no like '%%'";
         if (!empty($firstname)) {
-            $searchString .= " and firstname like '%$firstname%'";
+            $searchString .= " and upper(firstname) like '%$firstname%'";
         }
         if (!empty($lastname)) {
-            $searchString .= " and lastname like '%$lastname%'";
+            $searchString .= " and upper(lastname) like '%$lastname%'";
         }
         if (!empty($email)) {
             $searchString .= " and email like '%$email%'";
