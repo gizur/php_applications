@@ -127,7 +127,7 @@ class ContactsController extends Controller {
             $searchString .= " and email like '%$email%'";
         }
         if (!empty($account)) {
-            $searchString .= " and account_id like '%$account_id%'";
+            $searchString .= " and account_id like '%$account%'";
         }
         $filter = $searchString;
         $actionType = 'search';
