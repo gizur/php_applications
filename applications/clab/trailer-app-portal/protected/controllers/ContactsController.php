@@ -22,15 +22,18 @@ class ContactsController extends Controller {
         }
     }
 
-    public function actionList()
+   public function actionList()
     {
         $module = "Contacts";
         $asset = new Assets;
         $contacts = new Contacts();
         $this->LoginCheck();
+        // getting all users data
         $users = $contacts->findAllUsers('Users');
-        echo "<pre>"; print_r($users); 
-        // Get all account list
+        foreach($users['result'] as $usersData) {
+            $resultUsers[$usersData['id']] = $usersData['first_name'] . ' ' . $usersData['last_name'];
+        }       
+       // Get all account list
         $accounts = $asset->findAllAccounts('Accounts');
         foreach($accounts['result'] as $accounsData) {
             $resultAccounts[$accounsData['id']]=$accounsData['accountname'];
@@ -39,10 +42,12 @@ class ContactsController extends Controller {
         $this->render('list', array(
             'result' => $result,
             'accounts' => $accounts,
+            'resultUsers' => $resultUsers,
             'resultAccounts'=>$resultAccounts,
             'session' => Yii::app()->session)
         );
     }
+
 
     public function actionAdd() {
         $module = "Contacts";

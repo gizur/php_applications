@@ -74,11 +74,13 @@ $this->breadcrumbs = array(
                         <td><?php echo $data['firstname']; ?></td>
                         <td><?php echo $data['lastname']; ?></td>
                         <td><?php echo $data['title']; ?></td>
-                        <td><?php echo $resultAccounts[$data['account']]; ?></td>
+                        <td><?php echo $resultAccounts[$data['account_id']]; ?></td>
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo $data['phone']; ?></td>
-                        <td><?php echo $data['contact_no']; ?></td>
-                        <td><a href="#">edit</a>  | <a href='javascript:void(0)'>del</a>  | <a href='javascript:void()'>Reset Password</a></td>
+                        <td><?php echo $resultUsers[$data['assigned_user_id']]; ?></td>
+                        <td><a href="javascript:void(0);" contactId="<?php echo $data['contact_no'];  ?>" id="edit">edit</a>  
+                            | <a href='javascript:void(0)' contactId="<?php echo $data['contact_no'];  ?>" id="delete">del</a>
+                            | <a href='javascript:void(0)' id="resetPassword" contactId="<?php echo $data['contact_no'];  ?>">Reset Password</a></td>
                     </tr>
                 <?php } ?>
             </tbody>
