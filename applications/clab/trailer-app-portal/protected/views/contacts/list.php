@@ -111,11 +111,11 @@ $this->breadcrumbs = array(
 
         $("#delete").live('click', function() {
 
-            var id = $(this).attr('assetId');
+            var id = $(this).attr('contactId');
             if (confirm("Are you sure to delete this data?")) {
-                $("#assetsmsg").addClass("waitprocess");
-                $('#assetsmsg').html('loading....  Please wait');
-                $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/delete',
+                $("#contactsmsg").addClass("waitprocess");
+                $('#contactsmsg').html('loading....  Please wait');
+                $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/delete',
                         {id: id},
                 function(data) {
                     alert(data.msg);

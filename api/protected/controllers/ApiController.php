@@ -6828,8 +6828,7 @@ class ApiController extends Controller {
                 /*
                  * ************************************************************
                  * ************************************************************
-                 * * Cron MODEL
-                 * * Accepts as action mailscan
+                 * * Asset Model
                  * ************************************************************
                  * ************************************************************
                  */
@@ -6859,21 +6858,58 @@ class ApiController extends Controller {
                         "Blank response received from " .
                         "vtiger: Get Products List"
                         );
-
                     //Save vtiger response
                     $this->_vtresponse = $response;
-
                     //Objectify the response and check its success
                     $response = json_decode($response, true);
-
                     if ($response['success'] == false)
-                        throw new Exception('Unable to fetch details');
-
-                    
+                        throw new Exception('Unable to delete assests');
                     $cachedValue = json_encode($response);
                     //Send the response
                     $this->_sendResponse(200, $cachedValue);     
                  break;
+                 /*
+                 * ************************************************************
+                 * ************************************************************
+                 * * Contacts Model
+                 * ************************************************************
+                 * ************************************************************
+                 */
+                case 'Contacts':
+                     $id=$_GET['id'];
+                     $rest = new RESTClient();
+                     $rest->format('json');
+                     $response = $rest->post(
+                                $this->_vtresturl, array(
+                            'sessionName' => $this->_session->sessionName,
+                            'operation' => 'delete',
+                            'id' => $id
+                                )
+                        );
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+                    if ($response == '' || $response == null)
+                        throw new Exception(
+                        "Blank response received from " .
+                        "vtiger: Get Products List"
+                        );
+                    //Save vtiger response
+                    $this->_vtresponse = $response;
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+                    if ($response['success'] == false)
+                        throw new Exception('Unable to delete contacts');
+                    $cachedValue = json_encode($response);
+                    //Send the response
+                    $this->_sendResponse(200, $cachedValue);     
+                 break;
+
                 default :
 
                     //Default case this case should never be executed

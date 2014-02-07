@@ -90,7 +90,7 @@ class ContactsController extends Controller {
     
     /*
      * Funcation Name:- actionsearchcontacts
-     * Description:- with this function we are getting filtered list of asset list by given parameter
+     * Description:- with this function we are getting filtered list of contacts list by given parameter
      * Return Type: Json
      */
 
@@ -140,6 +140,22 @@ class ContactsController extends Controller {
             'session' => Yii::app()->session)
         );
         }
+        
+     /*
+     * Funcation Name:- actionDelete
+     * Description:- with this function we are deleting contacts by id
+     * Return Type: Json
+     */
+
+    public function actionDelete()
+    {
+        $model = new Contacts;
+        $module = 'Contacts';
+        $this->LoginCheck();
+        $id = $_POST['id'];
+        // call function deleteContacts to delete selected contacts
+        $model->deleteContacts($module, $id);
+    }
 
 
 }
