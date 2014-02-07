@@ -236,6 +236,54 @@ class Contacts extends CFormModel
             echo json_encode(array('msg'=>$response->error->message));
         }  
      }
+     
+     /*
+     * Funcation Name:- createContact
+     * Description:- with this function we can create new asset
+     * Return Type: Json
+     */
+
+    function updateContacts($id, $data)
+    {
+        $params = array(
+            'Verb' => 'PUT',
+            'Model' => 'Contacts',
+            'Version' => Yii::app()->params->API_VERSION,
+            'Timestamp' => date("c"),
+            'KeyID' => Yii::app()->params->GIZURCLOUD_API_KEY,
+            'UniqueSalt' => uniqid()
+        );
+        // Sorg arguments
+        ksort($params);
+        // Generate string for sign
+        $string_to_sign = "";
+        foreach ($params as $k => $v)
+            $string_to_sign .= "{$k}{$v}";
+
+        // Generate signature
+        $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
+        //login using each credentials
+        $rest = new RESTClient();
+        $rest->format('json');
+        $rest->set_header('X_USERNAME', Yii::app()->session['username']);
+        $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
+        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
+        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
+        $rest->set_header('X_SIGNATURE', $signature);
+        $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
+        $response = $rest->put(Yii::app()->params->URL . $module, $data);
+        $response = json_decode($response);
+        if ($response->success == true) {
+            echo Yii::app()->user->setFlash('success', "Contact updated successfully");
+            $protocol = Yii::app()->params['protocol'];
+            $servername = Yii::app()->request->getServerName();
+            $returnUrl = $protocol . $servername . Yii::app()->homeUrl . "?r=contacts/list";
+            Yii::app()->getController()->redirect($returnUrl);
+        } else {
+            echo Yii::app()->user->setFlash('error', $response->error->message);
+        }        
+    }
+
 
 }
 

@@ -6525,6 +6525,234 @@ class ApiController extends Controller {
                     $this->_sendResponse(200, json_encode($response));
                 }
                     break;
+                    
+                case 'Contacts':
+                    
+                    
+                if(isset($_GET['action'])) {                
+                    if($_GET['action']=='update') {
+                        
+                     /**
+                     * Validations
+                     */
+                     $_PUT = Array();
+                     parse_str(file_get_contents('php://input'), $_PUT);
+                     $_POST = $_PUT;
+                     
+                    $scriptStarted = date("c");
+                    if (!isset($_POST['assetname']) || empty($_POST['assetname'])
+                    )
+                        throw new Exception("asset name does not have a value", 1001);
+
+                    if (!isset($_POST['serialnumber']) || empty($_POST['serialnumber'])
+                    )
+                        throw new Exception("serial number does not have a value", 1001);
+
+                    if (!isset($_POST['trailertype']) || empty($_POST['trailertype'])
+                    )
+                        throw new Exception("trailer type does not have a value", 1001);
+
+                    if (!isset($_POST['product']) || empty($_POST['product'])
+                    )
+                        throw new Exception("product does not have a value", 1001);
+                    if (!isset($_POST['account']) || empty($_POST['account'])
+                    )
+                        throw new Exception("customer name does not have a value", 1001);
+
+                
+
+                    /** Updating Assets* */
+                    $post = $_POST;
+                    $customFields = array_flip(
+                            Yii::app()->params[$this->_clientid .
+                            '_custom_fields']['Assets']
+                    );
+
+                    foreach ($post as $k => $v) {
+                        $keyToReplace = array_search($k, $customFields);
+                        if ($keyToReplace) {
+                            unset($post[$k]);
+                            $post[$keyToReplace] = $v;
+                        }
+                    }
+                    //get data json 
+                    $dataJson = json_encode(
+                            array_merge(
+                                    $post, array(
+                                    'assigned_user_id' => $this->_session->userId
+                                    )
+                            )
+                    );
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending PUT request to vt url: " .
+                            $this->_vtresturl . "  " .
+                            json_encode(
+                                    array(
+                                        'sessionName' => $this->_session->sessionName,
+                                        'operation' => 'update',
+                                        'element' => $dataJson
+                                    )
+                            ) . ")", CLogger::LEVEL_TRACE
+                    );
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+                    $rest->format('json');
+                    $response = $rest->post(
+                            $this->_vtresturl, array(
+                        'sessionName' => $this->_session->sessionName,
+                        'operation' => 'update',
+                        'element' => $dataJson
+                            )
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+                
+                    if ($response == '' | $response == null)
+                        throw new Exception(
+                        'Blank response received from vtiger: Creating TT'
+                        );
+                    $this->_vtresponse = $response;
+
+                    //Objectify the response and check its success
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                        throw new Exception('Unable to fetch details');
+
+                    //Before sending response santise custom fields names to 
+                    //human readable field names                
+
+                    $globalresponse = json_encode($response);
+                    //Send the response
+                    $this->_sendResponse(200, $globalresponse);
+                    } 
+                } else {
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending GET request to vt url: " .
+                            $this->_vtresturl . "  " .
+                            json_encode(
+                                    array(
+                                        'sessionName' => $this->_session->sessionName,
+                                        'operation' => 'retrieve',
+                                        'id' => $_GET['id']
+                                    )
+                            ) .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+
+                    $rest->format('json');
+
+                    $_PUT = Array();
+                    parse_str(file_get_contents('php://input'), $_PUT);
+
+                    $response = $rest->get(
+                            $this->_vtresturl, array(
+                        'sessionName' => $this->_session->sessionName,
+                        'operation' => 'retrieve',
+                        'id' => $_GET['id']
+                            )
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    $response = json_decode($response, true);
+
+                    //get data json 
+                    $retrivedObject = $response['result'];
+                    if ($_PUT['assetstatus'] == 'In Service')
+                        $retrivedObject['assetstatus'] = 'In Service';
+                    else
+                        $retrivedObject['assetstatus'] = 'Out-of-service';
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending POST request to vt url: " .
+                            $this->_vtresturl . "  " .
+                            json_encode(
+                                    array(
+                                        'sessionName' => $this->_session->sessionName,
+                                        'operation' => 'retrieve',
+                                        'id' => $_GET['id']
+                                    )
+                            ) .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+
+                    $rest->format('json');
+                    $response = $rest->post(
+                            $this->_vtresturl, array(
+                        'sessionName' => $this->_session->sessionName,
+                        'operation' => 'update',
+                        'element' => json_encode($retrivedObject)
+                            )
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    $response = json_decode($response, true);
+
+                    if ($response['success'] == false)
+                        throw new Exception($response['error']['message']);
+
+                    $customFields = Yii::app()->params[$this->_clientid .
+                            '_custom_fields']['Assets'];
+
+                    unset($response['result']['update_log']);
+                    unset($response['result']['hours']);
+                    unset($response['result']['days']);
+                    unset($response['result']['modifiedtime']);
+                    unset($response['result']['from_portal']);
+
+                    foreach ($response['result'] as $fieldname => $value) {
+                        $keyToReplace = array_search($fieldname, $customFields);
+                        if ($keyToReplace) {
+                            unset($response['result'][$fieldname]);
+                            $response['result'][$keyToReplace] = $value;
+                        }
+                    }
+
+                    $this->_sendResponse(200, json_encode($response));
+                }
+                    break;    
 
                 case 'DocumentAttachment' :
 

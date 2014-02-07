@@ -51,7 +51,6 @@ class ContactsController extends Controller {
 
     public function actionAdd() {
         $module = "Contacts";
-
         $asset = new Assets;
         $this->LoginCheck();
 
@@ -169,5 +168,47 @@ class ContactsController extends Controller {
         $username = $_POST['email'];
         // call function deleteContacts to delete selected contacts
         $model->resetPassword($username);
+    }
+    
+    /*
+     * Funcation Name:- actionDelete
+     * Description:- with this function we are deleting contacts by id
+     * Return Type: Json
+     */
+    public function actionEdit()
+    {
+        $module = "Contacts";
+        $asset = new Assets;
+        $this->LoginCheck();
+        if (!empty($_POST) && isset($_POST['submit'])) {
+            $id = $_POST['id'];
+            $model = new Contacts;
+            $module = 'Contacts';
+            $this->LoginCheck();
+            unset($_POST['submit']);
+            // call function createAsset to create new asset
+            $model->updateContacts($id, $_POST);
+        }
+        $accounts = $asset->findAllAccounts('Accounts');
+        $contact = new Contacts;
+        $contacts = $contact->findAll('Contacts');
+        $result = $contact->findById($id);
+        /*
+         * Salutation (Not Working)
+         */
+        //$salutations = $asset->getPicklist($module, 'salutationtype');        
+        $salutations = array('' => '--None--',
+            'Mr.' => 'Mr.',
+            'Ms.' => 'Ms.',
+            'Mrs.' => 'Mrs.',
+            'Dr.' => 'Dr.',
+            'Prof.' => 'Prof.');
+
+        $this->render('add', array(
+            'accounts' => $accounts,
+            'contacts' => $contacts,
+            'salutations' => $salutations,
+            'session' => Yii::app()->session)
+        );
     }
 }
