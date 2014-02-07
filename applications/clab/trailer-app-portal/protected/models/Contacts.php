@@ -212,6 +212,7 @@ class Contacts extends CFormModel
         );
       // Sorg arguments
         ksort($params);
+        $module = 'Authenticate';
         // Generate string for sign
         $string_to_sign = "";
         foreach ($params as $k => $v)
@@ -235,7 +236,6 @@ class Contacts extends CFormModel
             echo json_encode(array('msg'=>$response->error->message));
         }  
      }
-
 
 }
 
