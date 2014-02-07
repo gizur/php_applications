@@ -146,7 +146,6 @@ class ContactsController extends Controller {
      * Description:- with this function we are deleting contacts by id
      * Return Type: Json
      */
-
     public function actionDelete()
     {
         $model = new Contacts;
@@ -156,6 +155,19 @@ class ContactsController extends Controller {
         // call function deleteContacts to delete selected contacts
         $model->deleteContacts($module, $id);
     }
-
-
+    
+    /*
+     * Funcation Name:- actionDelete
+     * Description:- with this function we are deleting contacts by id
+     * Return Type: Json
+     */
+    public function actionResetpassword()
+    {
+        $model = new Contacts;
+        $module = 'Contacts';
+        $this->LoginCheck();
+        $username = $_POST['email'];
+        // call function deleteContacts to delete selected contacts
+        $model->resetPassword($username);
+    }
 }

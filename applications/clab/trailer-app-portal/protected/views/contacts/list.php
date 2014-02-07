@@ -76,7 +76,7 @@ $this->breadcrumbs = array(
                         <td><?php echo $resultUsers[$data['assigned_user_id']]; ?></td>
                         <td><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/edit&id=<?php echo $data['id'];  ?>" contactId="<?php echo $data['id'];  ?>" id="edit">edit</a>  
                             | <a href='javascript:void(0)' contactId="<?php echo $data['id'];  ?>" id="delete">del</a>
-                            | <a href='javascript:void(0)' id="resetPassword" contactId="<?php echo $data['id'];  ?>">Reset Password</a></td>
+                            | <a href='javascript:void(0)' id="resetPassword" email="<?php echo $data['email'];  ?>">Reset Password</a></td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -110,7 +110,6 @@ $this->breadcrumbs = array(
         });
 
         $("#delete").live('click', function() {
-
             var id = $(this).attr('contactId');
             if (confirm("Are you sure to delete this data?")) {
                 $("#contactsmsg").addClass("waitprocess");
@@ -123,8 +122,25 @@ $this->breadcrumbs = array(
                 }, 'json'
                         );
             }
+        });
+        
+        $("#resetPassword").live('click', function() {
+            var email = $(this).attr('email');
+            if (confirm("Are you sure to reset password?")) {
+                $("#contactsmsg").addClass("waitprocess");
+                $('#contactsmsg').html('Please wait...');
+                $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/resetpassword',
+                        {email: email},
+                function(data) {
+                    alert(data.msg);
+                    $("#contactsmsg").removeClass("waitprocess");
+                    $('#contactsmsg').html('');
+                }, 'json'
+                        );
+            }
 
         });
+
 
     });
 
