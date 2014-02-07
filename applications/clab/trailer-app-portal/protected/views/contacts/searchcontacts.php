@@ -29,9 +29,10 @@ include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo $data['phone']; ?></td>
                         <td><?php echo $resultUsers[$data['assigned_user_id']]; ?></td>
-                        <td><a href="javascript:void(0);" contactId="<?php echo $data['contact_no'];  ?>" id="edit">edit</a>  
-                            | <a href='javascript:void(0)' contactId="<?php echo $data['contact_no'];  ?>" id="delete">del</a>
-                            | <a href='javascript:void(0)' id="resetPassword" contactId="<?php echo $data['contact_no'];  ?>">Reset Password</a></td>
+                        <td><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/edit&id=<?php echo $data['id'];  ?>" contactId="<?php echo $data['id'];  ?>" id="edit">edit</a>  
+                            | <a href='javascript:void(0)' contactId="<?php echo $data['id'];  ?>" id="delete">del</a>
+                            | <a href='javascript:void(0)' id="resetPassword" contactId="<?php echo $data['id'];  ?>">Reset Password</a>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
