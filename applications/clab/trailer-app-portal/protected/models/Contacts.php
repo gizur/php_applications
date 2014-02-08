@@ -73,6 +73,7 @@ class Contacts extends CFormModel
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
+        $rest = new RESTClient();
         $rest->format('json');
         $rest->set_header('X_USERNAME', Yii::app()->session['username']);
         $rest->set_header('X_PASSWORD', Yii::app()->session['password']);

@@ -192,7 +192,8 @@ class ContactsController extends Controller {
         $accounts = $asset->findAllAccounts('Accounts');
         $contact = new Contacts;
         $contacts = $contact->findAll('Contacts');
-        $result = $contact->findById($id);
+        $id = $_GET['id'];
+        $result = $contact->findById($id); 
         /*
          * Salutation (Not Working)
          */
@@ -204,7 +205,8 @@ class ContactsController extends Controller {
             'Dr.' => 'Dr.',
             'Prof.' => 'Prof.');
 
-        $this->render('add', array(
+        $this->render('edit', array(
+            'result' => $result['result'],
             'accounts' => $accounts,
             'contacts' => $contacts,
             'salutations' => $salutations,
