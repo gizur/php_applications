@@ -3269,7 +3269,6 @@ class ApiController extends Controller {
                  * **************************************************************
                  */
                 case 'User':
-
                     if (isset($_GET['email'])) {
                         // Instantiate the class for Dynamo DB
                         $dynamodb = new AmazonDynamoDB();
@@ -3691,6 +3690,74 @@ class ApiController extends Controller {
                     $this->_sendResponse(200, json_encode($response));
                     break;
 
+/*
+                 * *************************************************************
+                 * *************************************************************
+                 * * Assets MODEL
+                 * * Accepts id
+                 * *************************************************************
+                 * *************************************************************
+                 */
+                    
+                case 'Contacts':
+                    if (preg_match('/[0-9]?x[0-9]?/i', $_GET['id']) == 0)
+                        throw new Exception('Invalid format of Id');
+                    //Send request to vtiger REST service
+                    $query = "select * from " . $_GET['model'] .
+                            " where id = " . $_GET['id'] . ";";
+                    //urlencode to as its sent over http.
+                    $queryParam = urlencode($query);
+
+                    //creating query string
+                    $params = "sessionName={$this->_session->sessionName}" .
+                            "&operation=query&query=$queryParam";
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (sending GET request to vt url: " .
+                            $this->_vtresturl . "?$params" .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    //Receive response from vtiger REST service
+                    //Return response to client  
+                    $rest = new RESTClient();
+
+                    $rest->format('json');
+                    $response = $rest->get(
+                            $this->_vtresturl . "?$params"
+                    );
+
+                    //Log
+                    Yii::log(
+                            " TRACE(" . $this->_traceId . "); " .
+                            " FUNCTION(" . __FUNCTION__ . "); " .
+                            " PROCESSING REQUEST (response received: " .
+                            $response .
+                            ")", CLogger::LEVEL_TRACE
+                    );
+
+                    $response = json_decode($response, true);
+                    $response['result'] = $response['result'][0];
+
+                    $customFields = Yii::app()->params[$this->_clientid .
+                            '_custom_fields']['Assets'];
+
+                    foreach ($response['result'] as $fieldname => $value) {
+                        $keyToReplace = array_search($fieldname, $customFields);
+                        if ($keyToReplace) {
+                            unset($response['result'][$fieldname]);
+                            $response['result'][$keyToReplace] = $value;
+                            //unset($customFields[$keyToReplace]); 
+                        }
+                    }
+
+                    $this->_sendResponse(200, json_encode($response));
+                    break;
+
+                    
                 /*
                  * *************************************************************
                  * *************************************************************
@@ -6537,35 +6604,21 @@ class ApiController extends Controller {
                      */
                      $_PUT = Array();
                      parse_str(file_get_contents('php://input'), $_PUT);
-                     $_POST = $_PUT;
-                     
+                     $_POST = $_PUT;                     
                     $scriptStarted = date("c");
-                    if (!isset($_POST['assetname']) || empty($_POST['assetname'])
-                    )
-                        throw new Exception("asset name does not have a value", 1001);
+                    if (!isset($_POST['lastname']) || empty($_POST['lastname']))
+                        throw new Exception("last name does not have a value", 1001);
 
-                    if (!isset($_POST['serialnumber']) || empty($_POST['serialnumber'])
-                    )
-                        throw new Exception("serial number does not have a value", 1001);
+                    if (!isset($_POST['email']) || empty($_POST['email']))
+                        throw new Exception("Email does not have a value", 1001);
 
-                    if (!isset($_POST['trailertype']) || empty($_POST['trailertype'])
-                    )
-                        throw new Exception("trailer type does not have a value", 1001);
-
-                    if (!isset($_POST['product']) || empty($_POST['product'])
-                    )
-                        throw new Exception("product does not have a value", 1001);
-                    if (!isset($_POST['account']) || empty($_POST['account'])
-                    )
-                        throw new Exception("customer name does not have a value", 1001);
-
-                
-
+                    if (!isset($_POST['account_id']) || empty($_POST['account_id']))
+                        throw new Exception("account does not have a value", 1001);
                     /** Updating Assets* */
                     $post = $_POST;
                     $customFields = array_flip(
                             Yii::app()->params[$this->_clientid .
-                            '_custom_fields']['Assets']
+                            '_custom_fields']['Contacts']
                     );
 
                     foreach ($post as $k => $v) {
@@ -6575,6 +6628,14 @@ class ApiController extends Controller {
                             $post[$keyToReplace] = $v;
                         }
                     }
+                    //get data json 
+                    $dataJson = json_encode(
+                        array_merge(
+                            $post, array(
+                        'assigned_user_id' => $this->_session->userId
+                            )
+                        )
+                    );
                     //get data json 
                     $dataJson = json_encode(
                             array_merge(
@@ -6629,7 +6690,7 @@ class ApiController extends Controller {
                     $response = json_decode($response, true);
 
                     if ($response['success'] == false)
-                        throw new Exception('Unable to fetch details');
+                        throw new Exception('Unable to update contacts');
 
                     //Before sending response santise custom fields names to 
                     //human readable field names                
@@ -6639,118 +6700,7 @@ class ApiController extends Controller {
                     $this->_sendResponse(200, $globalresponse);
                     } 
                 } else {
-                    //Log
-                    Yii::log(
-                            " TRACE(" . $this->_traceId . "); " .
-                            " FUNCTION(" . __FUNCTION__ . "); " .
-                            " PROCESSING REQUEST (sending GET request to vt url: " .
-                            $this->_vtresturl . "  " .
-                            json_encode(
-                                    array(
-                                        'sessionName' => $this->_session->sessionName,
-                                        'operation' => 'retrieve',
-                                        'id' => $_GET['id']
-                                    )
-                            ) .
-                            ")", CLogger::LEVEL_TRACE
-                    );
-
-                    //Receive response from vtiger REST service
-                    //Return response to client  
-                    $rest = new RESTClient();
-
-                    $rest->format('json');
-
-                    $_PUT = Array();
-                    parse_str(file_get_contents('php://input'), $_PUT);
-
-                    $response = $rest->get(
-                            $this->_vtresturl, array(
-                        'sessionName' => $this->_session->sessionName,
-                        'operation' => 'retrieve',
-                        'id' => $_GET['id']
-                            )
-                    );
-
-                    //Log
-                    Yii::log(
-                            " TRACE(" . $this->_traceId . "); " .
-                            " FUNCTION(" . __FUNCTION__ . "); " .
-                            " PROCESSING REQUEST (response received: " .
-                            $response .
-                            ")", CLogger::LEVEL_TRACE
-                    );
-
-                    $response = json_decode($response, true);
-
-                    //get data json 
-                    $retrivedObject = $response['result'];
-                    if ($_PUT['assetstatus'] == 'In Service')
-                        $retrivedObject['assetstatus'] = 'In Service';
-                    else
-                        $retrivedObject['assetstatus'] = 'Out-of-service';
-
-                    //Log
-                    Yii::log(
-                            " TRACE(" . $this->_traceId . "); " .
-                            " FUNCTION(" . __FUNCTION__ . "); " .
-                            " PROCESSING REQUEST (sending POST request to vt url: " .
-                            $this->_vtresturl . "  " .
-                            json_encode(
-                                    array(
-                                        'sessionName' => $this->_session->sessionName,
-                                        'operation' => 'retrieve',
-                                        'id' => $_GET['id']
-                                    )
-                            ) .
-                            ")", CLogger::LEVEL_TRACE
-                    );
-
-                    //Receive response from vtiger REST service
-                    //Return response to client  
-                    $rest = new RESTClient();
-
-                    $rest->format('json');
-                    $response = $rest->post(
-                            $this->_vtresturl, array(
-                        'sessionName' => $this->_session->sessionName,
-                        'operation' => 'update',
-                        'element' => json_encode($retrivedObject)
-                            )
-                    );
-
-                    //Log
-                    Yii::log(
-                            " TRACE(" . $this->_traceId . "); " .
-                            " FUNCTION(" . __FUNCTION__ . "); " .
-                            " PROCESSING REQUEST (response received: " .
-                            $response .
-                            ")", CLogger::LEVEL_TRACE
-                    );
-
-                    $response = json_decode($response, true);
-
-                    if ($response['success'] == false)
-                        throw new Exception($response['error']['message']);
-
-                    $customFields = Yii::app()->params[$this->_clientid .
-                            '_custom_fields']['Assets'];
-
-                    unset($response['result']['update_log']);
-                    unset($response['result']['hours']);
-                    unset($response['result']['days']);
-                    unset($response['result']['modifiedtime']);
-                    unset($response['result']['from_portal']);
-
-                    foreach ($response['result'] as $fieldname => $value) {
-                        $keyToReplace = array_search($fieldname, $customFields);
-                        if ($keyToReplace) {
-                            unset($response['result'][$fieldname]);
-                            $response['result'][$keyToReplace] = $value;
-                        }
-                    }
-
-                    $this->_sendResponse(200, json_encode($response));
+                    
                 }
                     break;    
 

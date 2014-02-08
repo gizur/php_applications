@@ -53,8 +53,9 @@ class Contacts extends CFormModel
      * Description:- Get contact details by id.
      * Return Type: Json
      */
-    function findById($module, $id)
+    function findById($id)
     {
+        $module='Contacts';
         $params = array(
             'Verb' => 'GET',
             'Model' => $module,
@@ -79,7 +80,7 @@ class Contacts extends CFormModel
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-        $response = $rest->get(Yii::app()->params->URL . $module . $searchString);
+        $response = $rest->get(Yii::app()->params->URL . $module . '/' . $id);
         return $result = json_decode($response, true);
     }
     
