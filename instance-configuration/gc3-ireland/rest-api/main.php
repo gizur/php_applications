@@ -130,11 +130,9 @@ return array(
         'awsErrorDynamoDBTableName' => 'GIZUR_BACKGROUND_STATUS',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
         'awsSESClientEmailAddress' => 'gizur-ess-prabhat@gizur.com',
+        'awsSESBccEmailAddress' => 'gizur-ess-prabhat@gizur.com',
         'awsSESAdminEmailAddresses' => array(
             'gizur-ess-prabhat@gizur.com'
-        ),
-        'awsSESBccEmailAddresses' => array(
-            'rohit.kumar@essindia.co.in'
         ),
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',

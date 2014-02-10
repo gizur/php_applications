@@ -5461,9 +5461,9 @@ class ApiController extends Controller {
                         $sesResponse = $email->send_email(
                                 Yii::app()->params->awsSESFromEmailAddress, array(
                             'ToAddresses' => array(// Destination (aka To)
-                                $_SERVER['HTTP_X_USERNAME']
-                            ),
-                            'BccAddresses' => Yii::app()->params->awsSESBccEmailAddresses
+                                $_SERVER['HTTP_X_USERNAME'],
+                                Yii::app()->params->awsSESBccEmailAddress
+                            )
                                 ), array(// sesMessage (short form)
                             'Subject.Data' => date("F j, Y") .
                             ': Besiktningsprotokoll för  ' .
