@@ -5,10 +5,10 @@ include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
 $this->pageTitle = Yii::app()->name . ' - Create New Asset';
 echo CHtml::metaTag($content = 'My page description', $name = 'decription');
 $this->breadcrumbs = array(
-    getTranslatedString('Assets') . ' /' . getTranslatedString('Create New Assets'),
+    getTranslatedString('Assets') . ' /' . getTranslatedString('Add'),
 );
 ?>
-<h2>Create New Asset</h2>
+<h2><?php echo getTranslatedString('Create New Asset');  ?></h2>
 <form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/create" method="POST" name="assetCreate" id="assetCreate">
     <table style="border:1px solid #589FC8;"  cellspacing="0" cellpadding="0" width="95%" border="0" align="center">
         <tbody>
