@@ -247,9 +247,10 @@ class Contacts extends CFormModel
 
     function updateContacts($id, $data)
     {
+        $module = 'Contacts';
         $params = array(
             'Verb' => 'PUT',
-            'Model' => 'Contacts',
+            'Model' => $module,
             'Version' => Yii::app()->params->API_VERSION,
             'Timestamp' => date("c"),
             'KeyID' => Yii::app()->params->GIZURCLOUD_API_KEY,
@@ -273,17 +274,17 @@ class Contacts extends CFormModel
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-        $response = $rest->put(Yii::app()->params->URL . $module, $data);
+        $response = $rest->put(Yii::app()->params->URL . $module . '/' . $id . '/update', $data);
         $response = json_decode($response);
         if ($response->success == true) {
             echo Yii::app()->user->setFlash('success', "Contact updated successfully");
-            $protocol = Yii::app()->params['protocol'];
-            $servername = Yii::app()->request->getServerName();
-            $returnUrl = $protocol . $servername . Yii::app()->homeUrl . "?r=contacts/list";
-            Yii::app()->getController()->redirect($returnUrl);
         } else {
             echo Yii::app()->user->setFlash('error', $response->error->message);
-        }        
+        }
+        $protocol = Yii::app()->params['protocol'];
+        $servername = Yii::app()->request->getServerName();
+        $returnUrl = $protocol . $servername . Yii::app()->homeUrl . "?r=contacts/edit&id=" . $id;
+        Yii::app()->getController()->redirect($returnUrl);
     }
 
 
