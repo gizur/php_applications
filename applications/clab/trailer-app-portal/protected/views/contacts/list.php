@@ -25,7 +25,7 @@ $this->breadcrumbs = array(
                         </td>
                         <td>
                             <select class="" tabindex="" name="account">
-                                <option value="" selected="selected" >-- Select --</option>
+                                <option value="" selected="selected" ><?php echo getTranslatedString('-- Select --');  ?></option>
                                 <?php foreach ($accounts['result'] as $accountsData) { ?>
                                     <option  value="<?php echo $accountsData['id']; ?>">
                                         <?php echo $accountsData['accountname']; ?>
@@ -35,7 +35,7 @@ $this->breadcrumbs = array(
                         </td>
 
                         <td>
-                            <input type="submit" size="10pt" name="submit" value="Search" id="search" />
+                            <input type="submit" size="10pt" name="submit" value="<?php echo getTranslatedString('Search'); ?>" id="search" />
                         </td>
                     </tr>
                 </table>
@@ -74,9 +74,9 @@ $this->breadcrumbs = array(
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo $data['phone']; ?></td>
                         <td><?php echo $resultUsers[$data['assigned_user_id']]; ?></td>
-                        <td><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/edit&id=<?php echo $data['id'];  ?>" contactId="<?php echo $data['id'];  ?>" id="edit">edit</a>  
+                        <td><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/edit&id=<?php echo $data['id'];  ?>" contactId="<?php echo $data['id'];  ?>" id="edit"><?php echo getTranslatedString('edit'); ?></a>  
                             | <a href='javascript:void(0);' contactId="<?php echo $data['id'];  ?>" id="delete">del</a>
-                            | <a href='javascript:void(0);' id="resetPassword" email="<?php echo $data['email'];  ?>">Reset Password</a></td>
+                            | <a href='javascript:void(0);' id="resetPassword" email="<?php echo $data['email'];  ?>"><?php echo getTranslatedString('Reset Password'); ?></a></td>
                     </tr>
                 <?php } ?>
             </tbody>

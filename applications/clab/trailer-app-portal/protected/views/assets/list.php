@@ -17,8 +17,8 @@ $this->breadcrumbs = array(
                     <table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
                         <tr><td colspan='3' align="center"></td></tr>
                         <tr>
-                            <td><strong>Asset No : </strong></td><td><input size="15pt" type="text" name="assetNo" value="" /></td>
-                            <td><strong>Asset Name : </strong></td><td><input size="15pt" type="text" name="assetName" value="" /></td>
+                            <td><strong><?php echo getTranslatedString('Asset No'); ?>: </strong></td><td><input size="15pt" type="text" name="assetNo" value="" /></td>
+                            <td><strong><?php echo getTranslatedString('Asset Name'); ?>: </strong></td><td><input size="15pt" type="text" name="assetName" value="" /></td>
                             <td><input type="submit" size="10pt" name="submit" value="Search" id="search" /></td>
                         </tr>
                     </table>
@@ -52,7 +52,8 @@ $this->breadcrumbs = array(
                         <td><?php echo $resultAccounts[$data['account']]; ?></td>
                         <td><?php echo $resultProducts[$data['product']]; ?></td>
                         <td><?php echo $data['serialnumber']; ?></td>
-                        <td><a href='<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/edit&id=<?php echo $data['id'] ; ?>' id="edit" assetId="<?php echo $data['id']; ?>">edit</a>  | <a href='javascript:void(0);' id="delete" assetId="<?php echo $data['id']; ?>">del</a></td>
+                        <td><a href='<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/edit&id=<?php echo $data['id'] ; ?>' id="edit" assetId="<?php echo $data['id']; ?>"><?php echo getTranslatedString('edit'); ?></a>  
+                            | <a href='javascript:void(0);' id="delete" assetId="<?php echo $data['id']; ?>">del</a></td>
                     </tr>
                 <?php } ?>
             </tbody>

@@ -5,7 +5,7 @@ include_once 'protected/extensions/language/' . $session['Lang'] . '.php';
 $this->pageTitle = Yii::app()->name . ' - Contacts ';
 echo CHtml::metaTag($content = 'My page description', $name = 'decription');
 $this->breadcrumbs = array(
-    getTranslatedString('Contacts') . ' /' . getTranslatedString('add'),
+    getTranslatedString('Contacts') . ' / ' . getTranslatedString('add'),
 );
 ?>
 <h2><?php echo getTranslatedString('Create New Contact'); ?></h2>
@@ -193,8 +193,8 @@ $this->breadcrumbs = array(
         <tr valign="top">
             <td style="padding:5px" colspan="4">
                 <div align="center">
-                    <input type="submit" class="button" style="width:70px; margin-left: 10px !important;" value=" Save " name="submit">
-                    <input type="button" class="button" style="width:70px; margin-left: 10px !important;" value="  Cancel  " name="cancel" onclick="window.history.back()">
+                    <input type="submit" class="button" style="width:70px; margin-left: 10px !important;" value=" <?php echo getTranslatedString('Save'); ?> " name="submit">
+                    <input type="button" class="button" style="width:70px; margin-left: 10px !important;" value="  <?php echo getTranslatedString('Cancel'); ?>  " name="cancel" onclick="window.history.back()">
                 </div>
             </td>
         </tr>

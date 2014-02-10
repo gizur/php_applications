@@ -195,8 +195,8 @@ $this->breadcrumbs = array(
         <tr valign="top">
             <td style="padding:5px" colspan="4">
                 <div align="center">
-                    <input type="submit" class="button" style="width:70px; margin-left: 10px !important;" value=" Save " name="submit">
-                    <input type="button" class="button" style="width:70px; margin-left: 10px !important;" value="  Cancel  " name="cancel" onclick="window.history.back()">
+                    <input type="submit" class="button" style="width:70px; margin-left: 10px !important;" value=" <?php echo getTranslatedString('Update'); ?> " name="submit">
+                    <input type="button" class="button" style="width:70px; margin-left: 10px !important;" value="  <?php echo getTranslatedString('Cancel'); ?>  " name="cancel" onclick="window.history.back()">
                 </div>
             </td>
         </tr>
