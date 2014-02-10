@@ -121,7 +121,7 @@ $this->breadcrumbs = array(
             <tr style="height:25px">
                 <td width="20%" align="right" class="dvtCellLabel" style="vertical-align: middle;">
                     <font color="red"></font>
-                    Notes
+                    <?php echo getTranslatedString('Notes');  ?>
                 </td>
                 <td colspan="3">
                     <textarea rows="8" cols="90"  name="description" onfocus="this.className = 'detailedViewTextBoxOn'" tabindex="" class="detailedViewTextBox"></textarea>

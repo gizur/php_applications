@@ -19,7 +19,7 @@ $this->breadcrumbs = array(
                         <tr>
                             <td><strong><?php echo getTranslatedString('Asset No'); ?>: </strong></td><td><input size="15pt" type="text" name="assetNo" value="" /></td>
                             <td><strong><?php echo getTranslatedString('Asset Name'); ?>: </strong></td><td><input size="15pt" type="text" name="assetName" value="" /></td>
-                            <td><input type="submit" size="10pt" name="submit" value="Search" id="search" /></td>
+                            <td><input type="submit" size="10pt" name="submit" value="<?php echo getTranslatedString('Search'); ?>" id="search" /></td>
                         </tr>
                     </table>
                 </td>
@@ -87,7 +87,7 @@ $this->breadcrumbs = array(
         $("#delete").live('click',function() { 
              
             var id=$(this).attr('assetId');
-            if(confirm("Are you sure to delete this data?")) {
+            if(confirm("<?php echo getTranslatedString('Are you sure to delete this data?'); ?>")) {
                 $("#assetsmsg").addClass("waitprocess");
                 $('#assetsmsg').html('loading....  Please wait');
               $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/delete',

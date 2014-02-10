@@ -78,6 +78,7 @@ $languageArr = array(
     'Description Information' => 'Beskrivning Information',
     'Description' => 'Beskrivning',
     'Update Contact' => 'Uppdatera Kontakt',
+    'Are you sure to delete this data?' => 'Är du säker på att ta bort dessa data?',
     /*  For Mobile app  */
     'Report Damage' => 'Rapportera skada',
     'Reset' => 'Nollställ',

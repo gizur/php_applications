@@ -116,13 +116,13 @@ $this->breadcrumbs = array(
             </tr>
             <tr>
                 <td class="detailedViewHeader" colspan="4">
-                    <b>Notes</b>
+                    <b><?php echo getTranslatedString('Notes');  ?></b>
                 </td>
             </tr>
             <tr style="height:25px">
                 <td width="20%" align="right" class="dvtCellLabel" style="vertical-align: middle;">
                     <font color="red"></font>
-                    Notes
+                    <?php echo getTranslatedString('Notes');  ?>
                 </td>
                 <td colspan="3">
                     <textarea rows="8" cols="90"  name="description"  tabindex="" class="detailedViewTextBox"><?php echo $result['description']; ?></textarea>
