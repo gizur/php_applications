@@ -130,6 +130,7 @@ return array(
         'awsErrorDynamoDBTableName' => 'GIZUR_BACKGROUND_STATUS',
         'awsSESFromEmailAddress' => 'noreply@gizur.com',
         'awsSESClientEmailAddress' => 'log@gizur.com',
+        'awsSESBccEmailAddress' => 'niclas.andersson@coop.se',
         'awsSESAdminEmailAddresses' => array(
             'gizur-ess-prabhat@gizur.com',
             'log@gizur.com'
