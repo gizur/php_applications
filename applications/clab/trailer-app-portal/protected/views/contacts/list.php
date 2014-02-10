@@ -43,7 +43,7 @@ $this->breadcrumbs = array(
             </tr>
         </table>
     </div>
-    <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" style="cursor: pointer;"><strong>Create New Contact</strong></a></div>
+    <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" style="cursor: pointer;"><strong><?php echo getTranslatedString('Create New Contact'); ?></strong></a></div>
     <br />
     <div><span id='contactsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></div>
     <div id="process">

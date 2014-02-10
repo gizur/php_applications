@@ -26,7 +26,7 @@ $this->breadcrumbs = array(
             </tr>
         </table>
     </div>
-    <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/add"><strong>Create New Asset</strong></a></div>
+    <div align="right"><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=assets/add"><strong><?php echo getTranslatedString('Create New Asset');  ?></strong></a></div>
     <br />
     <div><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></div>
     <div id="process">
