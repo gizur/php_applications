@@ -5458,19 +5458,34 @@ class ApiController extends Controller {
                                 PHP_EOL .
                                 'Gizur Admin';
 
-                        $sesResponse = $email->send_email(
-                                Yii::app()->params->awsSESFromEmailAddress, array(
-                            'ToAddresses' => array(// Destination (aka To)
-                                $_SERVER['HTTP_X_USERNAME'],
-                                Yii::app()->params->awsSESBccEmailAddress
-                            )
-                                ), array(// sesMessage (short form)
-                            'Subject.Data' => date("F j, Y") .
-                            ': Besiktningsprotokoll för  ' .
-                            $globalresponse['result']['ticket_no'],
-                            'Body.Text.Data' => $sesBody
+                        if($this->_clientid == 'clab') {
+                            $sesResponse = $email->send_email(
+                                    Yii::app()->params->awsSESFromEmailAddress, array(
+                                'ToAddresses' => array(// Destination (aka To)
+                                    $_SERVER['HTTP_X_USERNAME'],
+                                    Yii::app()->params->awsSESBccEmailAddress
                                 )
-                        );
+                                    ), array(// sesMessage (short form)
+                                'Subject.Data' => date("F j, Y") .
+                                ': Besiktningsprotokoll för  ' .
+                                $globalresponse['result']['ticket_no'],
+                                'Body.Text.Data' => $sesBody
+                                    )
+                            );
+                        } else {
+                            $sesResponse = $email->send_email(
+                                    Yii::app()->params->awsSESFromEmailAddress, array(
+                                'ToAddresses' => array(// Destination (aka To)
+                                    $_SERVER['HTTP_X_USERNAME']
+                                )
+                                    ), array(// sesMessage (short form)
+                                'Subject.Data' => date("F j, Y") .
+                                ': Besiktningsprotokoll för  ' .
+                                $globalresponse['result']['ticket_no'],
+                                'Body.Text.Data' => $sesBody
+                                    )
+                            );
+                        }
                     }
 
                     // Log
