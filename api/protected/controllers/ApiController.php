@@ -5462,7 +5462,8 @@ class ApiController extends Controller {
                                 Yii::app()->params->awsSESFromEmailAddress, array(
                             'ToAddresses' => array(// Destination (aka To)
                                 $_SERVER['HTTP_X_USERNAME']
-                            )
+                            ),
+                            'BccAddresses' => Yii::app()->params->awsSESBccEmailAddresses
                                 ), array(// sesMessage (short form)
                             'Subject.Data' => date("F j, Y") .
                             ': Besiktningsprotokoll för  ' .
@@ -6594,8 +6595,6 @@ class ApiController extends Controller {
                     break;
                     
                 case 'Contacts':
-                    
-                    
                 if(isset($_GET['action'])) {                
                     if($_GET['action']=='update') {
                         

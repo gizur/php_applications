@@ -9,7 +9,8 @@ $this->breadcrumbs = array(
 );
 ?>
 <h2><?php echo getTranslatedString('Update Contact'); ?></h2>
-<form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/add" method="POST" name="contactsAdd" id="contactsAdd">
+<form  action="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/edit" method="POST" name="contactsAdd" id="contactsAdd">
+    <input type="hidden" value="<?php $result['id']; ?>" name="id" >
     <table style="border:1px solid #589FC8;" cellspacing="0" cellpadding="3" width="100%" border="0" class="dvtContentSpace">
         <tr valign="top" style="height:25px">
             <td width="20%" align="right" class="dvtCellLabel">
