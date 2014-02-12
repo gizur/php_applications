@@ -111,7 +111,7 @@ $this->breadcrumbs = array(
 
         $("#delete").live('click', function() {
             var id = $(this).attr('contactId');
-            if (confirm("Are you sure to delete this data?")) {
+            if (confirm("<?php echo getTranslatedString('Are you sure to delete this data?'); ?>")) {
                 $("#contactsmsg").addClass("waitprocess");
                 $('#contactsmsg').html('loading....  Please wait');
                 $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/delete',
@@ -126,7 +126,7 @@ $this->breadcrumbs = array(
         
         $("#resetPassword").live('click', function() {
             var email = $(this).attr('email');
-            if (confirm("<?php echo getTranslatedString('Are you sure to delete this data?'); ?>")) {
+            if (confirm("<?php echo getTranslatedString('Are you sure to reset password?'); ?>")) {
                 $("#contactsmsg").addClass("waitprocess");
                 $('#contactsmsg').html('Please wait...');
                 $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/resetpassword',

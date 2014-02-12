@@ -233,7 +233,7 @@ class Contacts extends CFormModel
         $response = $rest->put(Yii::app()->params->URL . $module . '/reset');
         $response = json_decode($response);
         if ($response->success == true) {
-            echo json_encode(array('msg'=>'Password reset successfully. Please check your mail for new password'));
+            echo json_encode(array('msg'=>"Password reset successfully and new password has sent to user's email id." ));
         } else {
             echo json_encode(array('msg'=>$response->error->message));
         }  
