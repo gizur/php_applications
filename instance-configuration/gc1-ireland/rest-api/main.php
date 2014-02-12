@@ -65,7 +65,7 @@ return array(
                 array('api/list', 'pattern' => '/<model:(User)>/<action:(login|forgotpassword)>', 'verb' => 'POST'),
                 array('api/update', 'pattern' => '/<model:(Authenticate)>/<action:(reset|changepw)>', 'verb' => 'PUT'),
                 array('api/update', 'pattern' => '/<model:(HelpDesk|Assets)>/<id:[0-9x]+>', 'verb' => 'PUT'),
-                array('api/update', 'pattern' => '/<model:(Assets)>/<id:[0-9x]+>/<action:\w+>', 'verb' => 'PUT'),
+                array('api/update', 'pattern' => '/<model:(Assets|Contacts)>/<id:[0-9x]+>/<action:\w+>', 'verb' => 'PUT'),
                 array('api/update', 'pattern' => '/<model:(HelpDesk)>/<action:(updatedamagenotes)>/<id:[0-9x]+>', 'verb' => 'PUT'),
                 array('api/update', 'pattern' => '/<model:(DocumentAttachment)>/<id:[0-9x]+>', 'verb' => 'POST'),                
                 array('api/update', 'pattern' => '/<model:(User)>/', 'verb' => 'PUT'),

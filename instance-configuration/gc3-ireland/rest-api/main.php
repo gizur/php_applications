@@ -59,7 +59,6 @@ return array(
                 array('api/view', 'pattern' => '/<model:(Images)>/<name:.+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Background)>/<action:(backgroundstatus)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Batches)>', 'verb' => 'GET'),
-                array('api/delete', 'pattern' => '/<model:(Assets|Contacts)>/<id:[0-9x]+>', 'verb' => 'DELETE'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|Contacts)>/<fieldname:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Assets|Contacts)>/<actionType:\w+>/<filter:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Authenticate)>/<action:(login|logout)>', 'verb' => 'POST'),
@@ -74,6 +73,7 @@ return array(
                 array('api/update', 'pattern' => '/<model:(User)>/<action:(vtiger)>/<email:.+>', 'verb' => 'PUT'),
                 array('api/create', 'pattern' => '/<model:(HelpDesk|User|Assets|Contacts)>', 'verb' => 'POST'),
                 array('api/create', 'pattern' => '/<model:(User)>/<action:(copyuser)>', 'verb' => 'POST'),
+                array('api/delete', 'pattern' => '/<model:(Assets|Contacts)>/<id:[0-9x]+>', 'verb' => 'DELETE'),
                 array('api/update', 'pattern' => '/<model:(Cron)>/<action:(mailscan|dbbackup)>', 'verb' => 'PUT'),
                 array('api/error', 'pattern' => '.*?')
             ),
