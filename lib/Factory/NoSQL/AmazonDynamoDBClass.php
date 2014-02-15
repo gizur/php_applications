@@ -46,7 +46,7 @@ class AmazonDynamoDBClass implements NoSQLInterface
 
     public function create($table, $hashkey, $params) {
         $this->dynamodb = new AmazonDynamoDB();
-        $this->dynamodb->set_region($this->region);
+        $this->dynamodb->set_region(constant("AmazonDynamoDB::".$this->region));
         $queue = new CFBatchRequest();
         $queue->use_credentials($this->dynamodb->credentials);
         
@@ -72,12 +72,12 @@ class AmazonDynamoDBClass implements NoSQLInterface
         }        
     }
     
-    public function get_item($table, $attributesToGet, $keyId, $keyValue)
+    public function get_item($tableName, $attributesToGet, $keyId, $keyValue)
     {
         $this->dynamodb = new AmazonDynamoDB();
         $this->dynamodb->set_region(constant("AmazonDynamoDB::".$this->region));
         $response = $this->dynamodb->scan(array(
-            'TableName'       => $table,
+            'TableName'       => $tableName,
             'AttributesToGet' => $attributesToGet,
             'ScanFilter'      => array(
                 $keyId => array(

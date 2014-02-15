@@ -31,7 +31,7 @@ class NoSQLFactoryTest extends PHPUnit_Framework_TestCase
 
         $keysToGet = array('id', 'clientid', 'name_1');
 
-        $client = $cIns->scan('GIZUR_ACCOUNTS', $keysToGet, "test");
+        $client = $cIns->scan('GIZUR_ACCOUNTS', $keysToGet, "clab");
 
         $this->assertEquals(count($keysToGet), count($client));
     }
@@ -43,7 +43,7 @@ class NoSQLFactoryTest extends PHPUnit_Framework_TestCase
 
         $keysToGet = array('id', 'clientid', 'name_1');
 
-        $client = $cIns->get_item('GIZUR_ACCOUNTS', $keysToGet, 'id', "test");
+        $client = $cIns->get_item('GIZUR_ACCOUNTS', $keysToGet, "clientid", "cikab");
 
         $this->assertEquals(count($keysToGet), count($client));
     }
@@ -61,7 +61,7 @@ class NoSQLFactoryTest extends PHPUnit_Framework_TestCase
         );
 
         $result = $cIns->create('GIZUR_ACCOUNTS', $toSet['clientid'], $toSet);
-
+        
         $this->assertEquals(true, $result);
     }
 
