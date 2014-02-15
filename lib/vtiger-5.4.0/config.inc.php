@@ -126,7 +126,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/home/prabhat/public_html/gizur/php_applications/lib/vtiger-5.4.0/'; // __DIR__ . '/';
+$root_directory = '/var/www/lib/vtiger-5.4.0/'; // __DIR__ . '/';
 
 // cache direcory path
 $cache_dir = 'cache/';
