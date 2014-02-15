@@ -35,7 +35,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = 'http://app.gizur.local/cikab/seasonportal';
+$PORTAL_URL = 'http://app.gizur.local:8080/cikab/seasonportal';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
 $HELPDESK_SUPPORT_EMAIL_ID = 'admin@gizur.com';
@@ -92,7 +92,7 @@ if (count($response) > 0) {
     }
 }
 if (!isset($dbconfig['db_server'])) {
-    echo file_get_contents('http://app.gizur.local/lib/error-documents/404.html');
+    echo file_get_contents('http://app.gizur.local:8080/lib/error-documents/404.html');
     die;
 }
 
