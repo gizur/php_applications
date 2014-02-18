@@ -12,11 +12,11 @@ class FactoryConfig
     
     public static $params = array(
         'Redis' => array(
-            'host' => '172.17.42.1',
+            'host' => 'redis.gizur.local',
             'port' => 6379
         ),
         'Memcache' => array(
-            'host' => '172.17.42.1',
+            'host' => 'memcache.gizur.local',
             'port' => 11211
         )
     );
