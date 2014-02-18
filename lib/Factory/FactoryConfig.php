@@ -5,7 +5,7 @@ class FactoryConfig
 
     public static $driversInUse = array(
         'Cache' => "Redis", //Redis / Memcache
-        'NoSQL' => "AmazonDynamoDB", // Redis / AmazonDynamoDB
+        'NoSQL' => "Redis", // Redis / AmazonDynamoDB
         'Queue' => "RabbitMQ", // RabbitMQ / AmazonSQS
         'MySQL' => "MySQL", // MySQL / RDS
     );
