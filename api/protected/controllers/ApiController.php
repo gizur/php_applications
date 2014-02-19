@@ -5448,6 +5448,8 @@ class ApiController extends Controller {
 
                         $sesBody .= PHP_EOL .
                                 '- Skadeuppgifter -' . PHP_EOL .
+                                'skadetyp: ' . $globalresponse['result']['damagetype'] .
+                                PHP_EOL .
                                 'Position: ' . $globalresponse['result']['damageposition'] .
                                 PHP_EOL .
                                 'Skada orsakad av chaufför: ' .
