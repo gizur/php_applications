@@ -6,7 +6,7 @@
 // CWebApplication properties can be configured here.
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'Clabtraining Trailer App',
+    'name' => 'Coop Trailer App',
     // preloading 'log' component
     'preload' => array('log'),
     // autoloading model and component classes
@@ -99,7 +99,9 @@ return array(
         'language' => array(
             'en' => 'English',
             'sv' => 'Swedish'
-        )
+        ),
+        'showAssetTab' => true,
+        'showContactTab' => true,
     ),
     // Default vtentity behaviour
     //http://gizurtrailerapp-env.elasticbeanstalk.com/api/index.php/api/
