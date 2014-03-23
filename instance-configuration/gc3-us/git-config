@@ -25,8 +25,8 @@
 [aws]
 	accesskey = AKIAJX43RR2UCVINIL3Q
 	secretkey = 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
-	region = eu-west-1
+	region = us-east-1
 [aws "elasticbeanstalk"]
-	host = git.elasticbeanstalk.eu-west-1.amazonaws.com
-	application = phpapplications
-	environment = phpapplications-env
+	host = git.elasticbeanstalk.us-east-1.amazonaws.com
+	application = My First Elastic Beanstalk Application
+	environment = gizur-env

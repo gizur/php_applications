@@ -99,7 +99,7 @@ return array(
 		'GIZURCLOUD_SECRET_KEY' => '5146fb70ab2b35.907160475146fb70ab2d28.00725778',
 		'GIZURCLOUD_API_KEY' => 'GZCLD5146FB70AB3485146FB70AB3BE',
 		'API_VERSION' => '0.1',
-		'URL' => 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/',
+		'URL' => 'http://gizur-env.elasticbeanstalk.com/api/',
                 'loggable_account' => 'ACC1',
 		'language' => array(
 	                 'en' => 'English',
