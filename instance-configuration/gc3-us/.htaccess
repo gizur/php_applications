@@ -5,8 +5,8 @@ Options -Indexes
 # Define error pages, application automatically redirects to the
 # error pages in case of 404 / 500 error.
 #
-ErrorDocument 404 http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/error-documents/404.html
-ErrorDocument 500 http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/lib/error-documents/500.html
+ErrorDocument 404 http://gizur-env.elasticbeanstalk.com/lib/error-documents/404.html
+ErrorDocument 500 http://gizur-env.elasticbeanstalk.com/lib/error-documents/500.html
 
 # Enable rewrite engine
 # Prerequisite: mode rewrite should be enabled of the Apache HTTP Server.
