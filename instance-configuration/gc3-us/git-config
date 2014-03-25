@@ -29,4 +29,4 @@
 [aws "elasticbeanstalk"]
 	host = git.elasticbeanstalk.us-east-1.amazonaws.com
 	application = My First Elastic Beanstalk Application
-	environment = gizurtest-env
+	environment = gizurnew-env
