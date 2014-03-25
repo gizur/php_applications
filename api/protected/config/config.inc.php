@@ -21,7 +21,7 @@
       db_name
 */
 
-$dbconfig['db_server']     = 'aal0qiofmnpen8.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
+$dbconfig['db_server']     = 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
 $dbconfig['db_port']       = ':3306';
 $dbconfig['db_username']   = 'gizurdbuser';
 $dbconfig['db_password']   = 'La$12^#ers';

@@ -65,7 +65,7 @@ $dbconfigIntegration['db_type'] = 'mysql';
  * DNS of database server to use 
  * @global string $dbconfigVtiger['db_server']
  */
-$dbconfigVtiger['db_server'] = 'aal0qiofmnpen8.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
+$dbconfigVtiger['db_server'] = 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -160,7 +160,7 @@ class Config
 {
 
     public static $dbIntegration = array(
-        'db_server' => 'aal0qiofmnpen8.c8cwsoads6ye.us-east-1.rds.amazonaws.com',
+        'db_server' => 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com',
         'db_port' => 3306,
         'db_username' => 'vtiger_integrati',
         'db_password' => 'ALaXEryCwSFyW5jQ',
@@ -168,7 +168,7 @@ class Config
         'db_type' => 'mysql'
     );
     public static $dbVtiger = array(
-        'db_server' => 'aal0qiofmnpen8.c8cwsoads6ye.us-east-1.rds.amazonaws.com',
+        'db_server' => 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com',
         'db_port' => 3306,
         'db_username' => 'user_6bd70dc3',
         'db_password' => 'fbd70dc30c05',
