@@ -28,7 +28,7 @@ $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = 'aal0qiofmnpen8.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
+$cfg['Servers'][$i]['host'] = 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
 $cfg['Servers'][$i]['connect_type'] = 'tcp';
 $cfg['Servers'][$i]['compress'] = false;
 /* Select mysql if your server does not have mysqli */
