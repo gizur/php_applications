@@ -117,7 +117,7 @@ return array(
     // using Yii::app()->params['paramName']
     'params' => array(
         // this is used in contact page
-        'vtRestUrl' => 'http://gizur-env.elasticbeanstalk.com/{clientid}/webservice.php',
+        'vtRestUrl' => 'http://gizurnew-env.elasticbeanstalk.com/{clientid}/webservice.php',
         'vtCronPath' => '/var/www/html/lib/vtiger-5.4.0/cron/',
         'awsS3Bucket' => 'gizurcloud-gc3',
         'awsS3BucketUrl' => 'http://gizurcloud-gc3.s3-website-eu-west-1.amazonaws.com',
