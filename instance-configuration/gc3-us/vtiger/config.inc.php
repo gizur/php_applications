@@ -129,7 +129,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/var/www/html/lib/vtiger-5.4.0/';
+$root_directory = '/var/current/app/lib/vtiger-5.4.0/';
 
 // cache direcory path
 $cache_dir = 'cache/';
@@ -154,7 +154,7 @@ $upload_maxsize = 3000000;
 // allow_exports default value = all
 $allow_exports = 'all';
 
-// files with one of these extensions will have '.txt' appended to their filename on upload
+i// files with one of these extensions will have '.txt' appended to their filename on upload
 // upload_badext default value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm
 $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
 
