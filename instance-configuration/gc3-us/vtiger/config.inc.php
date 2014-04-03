@@ -14,7 +14,7 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
-require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
+require_once '/var/app/current/lib/aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -154,7 +154,7 @@ $upload_maxsize = 3000000;
 // allow_exports default value = all
 $allow_exports = 'all';
 
-i// files with one of these extensions will have '.txt' appended to their filename on upload
+// files with one of these extensions will have '.txt' appended to their filename on upload
 // upload_badext default value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm
 $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
 

@@ -118,7 +118,7 @@ return array(
     'params' => array(
         // this is used in contact page
         'vtRestUrl' => 'http://gizurnew-env.elasticbeanstalk.com/{clientid}/webservice.php',
-        'vtCronPath' => '/var/www/html/lib/vtiger-5.4.0/cron/',
+        'vtCronPath' => '/var/app/current/lib/vtiger-5.4.0/cron/',
         'awsS3Bucket' => 'gizurcloud-gc3',
         'awsS3BucketUrl' => 'http://gizurcloud-gc3.s3-website-eu-west-1.amazonaws.com',
         'awsS3BackupBucket' => 'gc3-backups',
