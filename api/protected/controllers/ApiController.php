@@ -5335,9 +5335,8 @@ class ApiController extends Controller {
 
                                     //Relate Document with Trouble Ticket
                                     $rest = new RESTClient();
-
                                     $rest->format('json');
-                                    $response = $rest-ApiController>post(
+                                    $response = $rest->post(
                                             $this->_vtresturl, array(
                                         'sessionName' => $this->_session->sessionName,
                                         'operation' =>
