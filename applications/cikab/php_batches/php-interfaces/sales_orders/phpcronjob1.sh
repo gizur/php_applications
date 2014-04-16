@@ -334,7 +334,7 @@ class PhpBatchOne
                     /*
                      * Creating sales order
                      */
-                    Config::writelog('phpcronjob1', "Creating sales order: ".(array)$salesOrder);
+                    Config::writelog('phpcronjob1', "Creating sales order: ".json_encode($salesOrder));
                     $this->createIntegrationSalesOrder($salesOrder);
 
                     $soId = $this->_integrationConnect->insert_id;
@@ -361,7 +361,7 @@ class PhpBatchOne
                         
                         $msgP[$salesOrderProduct->productname]['status'] = true;
                     }
-
+                   Config::writelog('phpcronjob1', "Updating vtiger sales order status ");
                     if ($flag)
                         $this->updateVtigerSalesOrder(
                             $salesOrder->salesorderid,

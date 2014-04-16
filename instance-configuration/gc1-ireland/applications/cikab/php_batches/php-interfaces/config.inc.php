@@ -115,7 +115,7 @@ $dbconfigBatchVariable['batch_variable'] = 10;
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['Host'] = "ftp-hp.coop.se";
+$dbconfigFtp['Host'] = "ftp.essindia.net";
 
 
 /**
@@ -126,18 +126,18 @@ $dbconfigFtp['port'] = 21;
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "ftpSETGizur";
+$dbconfigFtp['User'] = "hypermart@essindia.net";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "Sk4nsk4113";
+$dbconfigFtp['Password'] = "zmLA_Q#A9EK2";
 
 /**
  *  @FTP Local files path
  */
-$dbconfigFtp['localpath'] = "cronsetfiles/";
+$dbconfigFtp['localpath'] = "/in/";
 
 /**
  *  @FTP Server files path
@@ -186,18 +186,18 @@ class Config
      */
     public static $batchVariable = 99;
     public static $setFtp = array(
-        'host' => "ftp-hp.coop.se",
+        'host' => "ftp.essindia.net",
         'port' => 21,
-        'username' => "ftpSETGizur",
-        'password' => "Sk4nsk4113",
-        'serverpath' => "in/"
+        'username' => "hypermart@essindia.net",
+        'password' => "zmLA_Q#A9EK2",
+        'serverpath' => "/in/"
     );
     public static $mosFtp = array(
-        'host' => "ftp-hp.coop.se",
+        'host' => "ftp.essindia.net",
         'port' => 21,
-        'username' => "ftpSETGizur",
-        'password' => "Sk4nsk4113",
-        'serverpath' => "MOS-in/"
+        'username' => "hypermart@essindia.net",
+        'password' => "zmLA_Q#A9EK2",
+        'serverpath' => "/in/"
     );
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/791200854364/cikab_queue'
@@ -218,5 +218,22 @@ class Config
         "jonas.colmsjo@gizur.com",
         "sofia.meijer@coop.se"
     );
+    static function writelog($file_name, $message)
+    {
+        $logfile = __DIR__ . '/log/log_' . date("j.n.Y") . '.txt';
+//implicitly creates file
+        if (!file_exists($logfile)) {
+            exec('touch ' . $logfile);
+            exec('chmod 777 ' . $logfile);
+        }
 
+//Something to write to txt log
+        $log = "User: Cloud3 - " . date("F j, Y, g:i a") . PHP_EOL .
+            "File: " . $file_name . PHP_EOL .
+            "Message: " . $message . PHP_EOL .
+            "-------------------------" . PHP_EOL;
+
+//Save string to log, use FILE_APPEND to append.
+        file_put_contents($logfile, $log, FILE_APPEND);
+    }
 }

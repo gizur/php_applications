@@ -133,7 +133,7 @@ $dbconfigFtp['Password'] = "zmLA_Q#A9EK2";
 /**
  *  @FTP Local files path
  */
-$dbconfigFtp['localpath'] = "/in/";
+$dbconfigFtp['localpath'] = "cronsetfiles/";
 
 /**
  *  @FTP Server files path
@@ -187,7 +187,6 @@ class Config
         'password' => "zmLA_Q#A9EK2",
         'serverpath' => "/in/"
     );
-
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
     );
