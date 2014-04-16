@@ -42,6 +42,7 @@ class PhpBatchOne
         syslog(
             LOG_INFO, "Trying to connect to vTiger database"
         );
+        Config::writelog('phpcronjob1', "Trying to connect to vTiger database");
 
         $this->_vTigerConnect = new mysqli(
             Config::$dbVtiger['db_server'], 
@@ -51,16 +52,19 @@ class PhpBatchOne
             Config::$dbVtiger['db_port']
         );
 
-        if ($this->_vTigerConnect->connect_errno)
+        if ($this->_vTigerConnect->connect_errno) {
             throw new Exception('Unable to connect with vTiger DB');
+            Config::writelog('phpcronjob1', "Unable to connect with vTiger DB");
+        }
 
         syslog(
             LOG_INFO, "Connected to vTiger database"
         );
-
+        Config::writelog('phpcronjob1', "Connected to vTiger database");
         syslog(
             LOG_INFO, "Trying to connect to integration database"
         );
+        Config::writelog('phpcronjob1', "Trying to connect to integration database");
 
         /*
          * Trying to connect to integration database
@@ -73,18 +77,20 @@ class PhpBatchOne
             Config::$dbIntegration['db_port']
         );
 
-        if ($this->_integrationConnect->connect_errno)
+        if ($this->_integrationConnect->connect_errno) {
             throw new Exception('Unable to connect with integration DB');
-        
+            Config::writelog('phpcronjob1', "Unable to connect with integration DB");
+        }
         syslog(
             LOG_INFO, "Connected with integration db"
         );
+        Config::writelog('phpcronjob1', "Connected with integration db");
     }
 
     protected function getSalesOrders()
     {
         syslog(LOG_INFO, "In getSalesOrders() : Preparing sales order query");
-        
+        Config::writelog('phpcronjob1', "In getSalesOrders() : Preparing sales order query");
         $salesOrdersQuery = "SELECT SO.salesorderid, SO.salesorder_no, 
             ACCF." . Config::$customFields['setFiles'] . ", " .
             "ACCF." . Config::$customFields['mosFiles'] . ", " . 
@@ -102,6 +108,7 @@ class PhpBatchOne
             LOG_INFO,
             "In getSalesOrders() : Executing Query: " . $salesOrdersQuery
         );
+        Config::writelog('phpcronjob1', "In getSalesOrders() : Executing Query: " . $salesOrdersQuery);
 
         $salesOrders = $this->_vTigerConnect->query($salesOrdersQuery);
 
@@ -112,6 +119,7 @@ class PhpBatchOne
                 " ({$this->_vTigerConnect->errno}) - " .
                 "{$this->_vTigerConnect->error}"
             );
+                 Config::writelog('phpcronjob1', "In getSalesOrders() : Error executing sales order query :" ." ({$this->_vTigerConnect->errno}) - " ."{$this->_vTigerConnect->error}");
             throw new Exception(
                 "In getSalesOrders() : Error executing sales order query : " .
                 "({$this->_vTigerConnect->errno}) - " .
@@ -123,6 +131,7 @@ class PhpBatchOne
             syslog(
                 LOG_WARNING, "In getSalesOrders() : No Sales Order Found!"
             );
+            Config::writelog('phpcronjob1', "In getSalesOrders() : No Sales Order Found!");
             throw new Exception("In getSalesOrders() : No Sales Order Found!");
         }
 
@@ -150,12 +159,11 @@ class PhpBatchOne
             "ON PRO.productid = PCF.productid " .
             "WHERE SO.salesorder_no = '$salesOrderNo'"
         );
-
         syslog(
             LOG_INFO, "Total number of products ($salesOrderNo): " .
             $salesOrderProducts->num_rows
         );
-
+       Config::writelog('phpcronjob1', "Total number of products ($salesOrderNo): " . $salesOrderProducts->num_rows);
         return $salesOrderProducts;
     }
 
@@ -167,6 +175,7 @@ class PhpBatchOne
             LOG_INFO, "In createIntegrationSalesOrder() " .
             "Preparing insert sales order query ($salesOrder->salesorder_no)"
         );
+        Config::writelog('phpcronjob1', "In createIntegrationSalesOrder() " . "Preparing insert sales order query ($salesOrder->salesorder_no)");
         /*
          * Insert sales order into integration table.
          */
@@ -186,7 +195,7 @@ class PhpBatchOne
             `mos_status` = '$salesOrder->sostatus',
             `created` = now()"
         );
-
+        Config::writelog('phpcronjob1', "In createIntegrationSalesOrder() : " ."Inserting sales order: " . $interfaceQuery);
         syslog(
             LOG_INFO, 
             "In createIntegrationSalesOrder() : " .
@@ -203,6 +212,7 @@ class PhpBatchOne
                 "integration db ({$this->_integrationConnect->errno}) - " .
                 "{$this->_integrationConnect->error}"
             );
+            Config::writelog('phpcronjob1', "Error inserting salesorder $salesOrder->salesorder_no in " ."integration db ({$this->_integrationConnect->errno}) - " . "$this->_integrationConnect->error");
             throw new Exception(
                 "Error inserting salesorder $salesOrder->salesorder_no in " .
                 "integration db ({$this->_integrationConnect->errno}) - " .
@@ -222,6 +232,7 @@ class PhpBatchOne
             "In createIntegrationProduct($salesOrderId)" .
             " Preparing insert product query."
         );
+        Config::writelog('phpcronjob1', "In createIntegrationProduct($salesOrderId)" ." Preparing insert product query.");
         /*
          * Insert sales order into integration table.
          */
@@ -239,7 +250,7 @@ class PhpBatchOne
             bas_product_id = '$cf',
             created = now()"
         );
-
+       Config::writelog('phpcronjob1', "In createIntegrationProduct($salesOrderId) " . "Inserting products ");
         syslog(
             LOG_INFO, 
             "In createIntegrationProduct($salesOrderId) " .
@@ -256,6 +267,7 @@ class PhpBatchOne
                 "integration db ({$this->_integrationConnect->errno}) - " .
                 "{$this->_integrationConnect->error}"
             );
+         Config::writelog('phpcronjob1', "Error inserting product $salesOrderProduct->productname in " ."integration db ({$this->_integrationConnect->errno}) - " . "{$this->_integrationConnect->error}");
             throw new Exception(
                 "Error inserting product $salesOrderProduct->productname in " .
                 "integration db ({$this->_integrationConnect->errno}) - " .
@@ -273,7 +285,7 @@ class PhpBatchOne
         syslog(
             LOG_INFO, "Updating sales order ($salesOrderID) $status"
         );
-
+        Config::writelog('phpcronjob1', "Updating sales order ($salesOrderID) $status");
         $updateSaleOrder = $this->_vTigerConnect->query(
             "UPDATE vtiger_salesorder SET " .
             "sostatus = '$status' WHERE salesorderid = " .
@@ -286,6 +298,7 @@ class PhpBatchOne
                 "In updateVtigerSalesOrder($salesOrderID, $status) : " .
                 "Error updating salesorder"
             );
+            Config::writelog('phpcronjob1', "In updateVtigerSalesOrder($salesOrderID, $status) : " . "Error updating salesorder");
             throw new Exception(
                 "In updateVtigerSalesOrder($salesOrderID, $status) : " .
                 "Error updating salesorder"
@@ -315,9 +328,13 @@ class PhpBatchOne
                     syslog(
                         LOG_INFO, "Disabling auto commit"
                     );
+                     Config::writelog('phpcronjob1', "Disabling auto commit");
                     $this->_vTigerConnect->autocommit(FALSE);
                     $this->_integrationConnect->autocommit(FALSE);
-
+                    /*
+                     * Creating sales order
+                     */
+                    Config::writelog('phpcronjob1', "Creating sales order: ".(array)$salesOrder);
                     $this->createIntegrationSalesOrder($salesOrder);
 
                     $soId = $this->_integrationConnect->insert_id;

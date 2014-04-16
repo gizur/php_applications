@@ -24,8 +24,7 @@
  * DNS of database server to use 
  * @global string $dbconfigIntegration['db_server']
  */
-$dbconfigIntegration['db_server'] = 'gizurcloud.colm85rhpnd4.eu-west-1.' .
-    'rds.amazonaws.com';
+$dbconfigIntegration['db_server'] = 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -110,11 +109,10 @@ $dbconfigBatchVariable['batch_variable'] = 10;
 
 /* * *************** FTP CONFIGURATION ************* */
 
-
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['Host'] = "10.58.226.192";
+$dbconfigFtp['Host'] = "ftp.essindia.net";
 
 /**
  *  @FTP Host Port 
@@ -124,24 +122,23 @@ $dbconfigFtp['port'] = 21;
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "gizur";
+$dbconfigFtp['User'] = "hypermart@essindia.net";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "gizur";
+$dbconfigFtp['Password'] = "zmLA_Q#A9EK2";
 
 /**
  *  @FTP Local files path
  */
-$dbconfigFtp['localpath'] = "cronsetfiles/";
+$dbconfigFtp['localpath'] = "/in/";
 
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "files/";
-
+$dbconfigFtp['serverpath'] = "Private/cloud/in/";
 
 /** * ******************* Amazon SQS Configuration ********************** * */
 /**
@@ -176,20 +173,21 @@ class Config
         'db_type' => 'mysql'
     );
     public static $batchVariable = 99;
-    public static $setFtp = array(
-        'host' => "ec2-79-125-48-43.eu-west-1.compute.amazonaws.com",
+   public static $setFtp = array(
+        'host' => "ftp.essindia.net",
         'port' => 21,
-        'username' => "gizur",
-        'password' => "gizur",
-        'serverpath' => "files/"
+        'username' => "hypermart@essindia.net",
+        'password' => "zmLA_Q#A9EK2",
+        'serverpath' => "/in/"
     );
     public static $mosFtp = array(
-        'host' => "ec2-79-125-48-43.eu-west-1.compute.amazonaws.com",
+        'host' => "ftp.essindia.net",
         'port' => 21,
-        'username' => "gizur",
-        'password' => "gizur",
-        'serverpath' => "files/"
+        'username' => "hypermart@essindia.net",
+        'password' => "zmLA_Q#A9EK2",
+        'serverpath' => "/in/"
     );
+
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
     );
@@ -208,5 +206,24 @@ class Config
     public static $toEmailReports = array(
         "prabhat.khera@essindia.co.in"
     );
+    
+    static function writelog($file_name, $message)
+    {
+        $logfile = __DIR__ . '/log/log_' . date("j.n.Y") . '.txt';
+//implicitly creates file
+        if (!file_exists($logfile)) {
+            exec('touch ' . $logfile);
+            exec('chmod 777 ' . $logfile);
+        }
+
+//Something to write to txt log
+        $log = "User: Cloud3 - " . date("F j, Y, g:i a") . PHP_EOL .
+            "File: " . $file_name . PHP_EOL .
+            "Message: " . $message . PHP_EOL .
+            "-------------------------" . PHP_EOL;
+
+//Save string to log, use FILE_APPEND to append.
+        file_put_contents($logfile, $log, FILE_APPEND);
+    }
 
 }
