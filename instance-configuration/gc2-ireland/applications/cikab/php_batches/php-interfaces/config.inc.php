@@ -208,5 +208,22 @@ class Config
     public static $toEmailReports = array(
         "prabhat.khera@essindia.co.in"
     );
+    static function writelog($file_name, $message)
+    {
+        $logfile = __DIR__ . '/log/log_' . date("j.n.Y") . '.txt';
+//implicitly creates file
+        if (!file_exists($logfile)) {
+            exec('touch ' . $logfile);
+            exec('chmod 777 ' . $logfile);
+        }
 
+//Something to write to txt log
+        $log = "User: Cloud3 - " . date("F j, Y, g:i a") . PHP_EOL .
+            "File: " . $file_name . PHP_EOL .
+            "Message: " . $message . PHP_EOL .
+            "-------------------------" . PHP_EOL;
+
+//Save string to log, use FILE_APPEND to append.
+        file_put_contents($logfile, $log, FILE_APPEND);
+    }
 }
