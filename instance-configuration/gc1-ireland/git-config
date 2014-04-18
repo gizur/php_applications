@@ -23,8 +23,8 @@
 	push = !git aws.elasticbeanstalk.push $@
 	config = !git aws.elasticbeanstalk.config $@
 [aws]
-	accesskey = AKIAIAOKYNRTFKEPCEBA
-	secretkey = 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
+	accesskey = AKIAJ5R4ROP7CQVYRNUQ
+	secretkey = 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
 	region = eu-west-1
 [aws "elasticbeanstalk"]
 	host = git.elasticbeanstalk.eu-west-1.amazonaws.com

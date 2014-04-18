@@ -54,11 +54,11 @@ CFCredentials::set(array(
 
 		// Amazon Web Services Key. Found in the AWS Security Credentials. You can also pass
 		// this value as the first parameter to a service constructor.
-		'key' => 'AKIAIAOKYNRTFKEPCEBA',
+		'key' => 'AKIAJ5R4ROP7CQVYRNUQ',
 
 		// Amazon Web Services Secret Key. Found in the AWS Security Credentials. You can also
 		// pass this value as the second parameter to a service constructor.
-		'secret' => 'Jqdwzh9ngWQhDD6duZ1PhA/FZ/Sd3KAPt4sPUorD',
+		'secret' => 'T6cxJcRZkavA8sT5mAWNpFfemdTEQZ8VxyM2DwO7',
 
 		// This option allows you to configure a preferred storage type to use for caching by
 		// default. This can be changed later using the set_cache_config() method.

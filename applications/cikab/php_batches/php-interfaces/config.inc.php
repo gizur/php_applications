@@ -138,7 +138,7 @@ $dbconfigFtp['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "Private/cloud/in/";
+$dbconfigFtp['serverpath'] = "/in/";
 
 /** * ******************* Amazon SQS Configuration ********************** * */
 /**

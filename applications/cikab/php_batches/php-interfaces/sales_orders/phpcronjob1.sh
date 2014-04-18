@@ -393,12 +393,13 @@ class PhpBatchOne
             
             $this->_messages['message'] = "$numberSalesOrders number " .
                         "of sales orders processed.";
-            
+             Config::writelog('phpcronjob1', "$numberSalesOrders number " . "of sales orders processed.");
         } catch (Exception $e) {
             /*
              * Store the message and rollback the connections.
              */
             $this->_messages['message'] = $e->getMessage();
+            Config::writelog('phpcronjob1', $e->getMessage());
             /*
              * Rollback the connections
              */
@@ -410,6 +411,7 @@ class PhpBatchOne
             LOG_INFO, 
             json_encode($this->_messages)
         );
+        Config::writelog('phpcronjob1', json_encode($this->_messages));
         echo json_encode($this->_messages);
     }
 }
@@ -420,4 +422,5 @@ try{
 }catch(Exception $e){
     syslog(LOG_WARNING, $e->getMessage());
     echo $e->getMessage();
+    Config::writelog('phpcronjob1', $e->getMessage());
 }
