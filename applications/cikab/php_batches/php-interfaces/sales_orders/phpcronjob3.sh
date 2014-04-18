@@ -23,7 +23,7 @@
  */
 
 require_once __DIR__ . '/../config.inc.php';
-require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
 
 class PhpBatchThree
 {
@@ -43,12 +43,16 @@ class PhpBatchThree
         openlog(
             "phpcronjob3", LOG_PID | LOG_PERROR, LOG_LOCAL0
         );
+        
+         Config::writelog('phpcronjob3', "Trying connecting with Amazon SQS");
 
         syslog(
             LOG_INFO, "Trying connecting with Amazon SQS"
         );
 
         $this->_sqs = new AmazonSQS();
+        
+         Config::writelog('phpcronjob3', "Trying connecting with Amazon SQS");
 
         syslog(
             LOG_INFO, "Connected with Amazon SQS"
@@ -91,6 +95,7 @@ class PhpBatchThree
             syslog(
                 LOG_WARNING, $syslogmessage
             );
+             Config::writelog('phpcronjob3',  $syslogmessage);
             throw new Exception($syslogmessage);
         }
 
@@ -109,6 +114,7 @@ class PhpBatchThree
             syslog(
                 LOG_WARNING, $syslogmessage
             );
+             Config::writelog('phpcronjob3',  $syslogmessage);
             throw new Exception($syslogmessage);
         }
 
@@ -122,6 +128,7 @@ class PhpBatchThree
          */
         if (!$ftpConn || !$ftpLoginResult) {
             $syslogmessage = "Some problem in FTP Connection ($host:$port)!";
+             Config::writelog('phpcronjob3',  $syslogmessage);
             syslog(
                 LOG_WARNING, $syslogmessage
             );
@@ -143,6 +150,7 @@ class PhpBatchThree
                 LOG_WARNING,
                 "$fileJson->file file already exists at FTP server."
             );
+             Config::writelog('phpcronjob3', "$fileJson->file file already exists at FTP server.");
             throw new Exception(
                 "$fileJson->file file already exists at FTP server."
             );
@@ -169,6 +177,7 @@ class PhpBatchThree
             syslog(
                 LOG_WARNING, "Error copying file $fileJson->file on FTP server."
             );
+             Config::writelog('phpcronjob3', "Error copying file $fileJson->file on FTP server.");
             throw new Exception(
                 "Error copying file $fileJson->file on FTP server."
             );
@@ -192,6 +201,7 @@ class PhpBatchThree
             syslog(
                 LOG_INFO, "message queue is empty."
             );
+             Config::writelog('phpcronjob3', "message queue is empty.");
             throw new Exception("message queue is empty.");
         }
         /*
@@ -201,6 +211,7 @@ class PhpBatchThree
             LOG_INFO, 
             "Number of messages found in message queue : $this->_messageCount."
         );
+         Config::writelog('phpcronjob3', "Number of messages found in message queue : $this->_messageCount.");
             
         while ($this->_messageCount > 0) {
             /*
@@ -214,6 +225,8 @@ class PhpBatchThree
                     LOG_INFO,
                     "Get the single message from the message queue"
                 );
+                
+                 Config::writelog('phpcronjob3', "Get the single message from the message queue");
                 $responseQ = $this->_sqs->receive_message(
                     Config::$amazonQ['url']
                 );
@@ -226,6 +239,7 @@ class PhpBatchThree
                         LOG_INFO, 
                         "Message not received from the message queue server"
                     );
+                     Config::writelog('phpcronjob3',"Message not received from the message queue server");
                     throw new Exception(
                         "Message not received from the message queue server."
                     );
@@ -235,6 +249,7 @@ class PhpBatchThree
                     LOG_INFO, 
                     "Message received from the message queue server"
                 );
+                 Config::writelog('phpcronjob3', "Message received from the message queue server");
                 /*
                  * Get the message body.
                  */
@@ -246,6 +261,7 @@ class PhpBatchThree
                     syslog(
                         LOG_INFO, "Received an empty message from message queue."
                     );
+                     Config::writelog('phpcronjob3', "Received an empty message from message queue.");
                     throw new Exception(
                         "Received an empty message from message queue."
                     );
@@ -256,6 +272,7 @@ class PhpBatchThree
                 syslog(
                     LOG_INFO, "Message Received: " . $msgBody
                 );
+                 Config::writelog('phpcronjob3', "Message Received: " . $msgBody);
 
                 /*
                  * File name and content were json encoded so decode it.
@@ -279,6 +296,7 @@ class PhpBatchThree
                         LOG_WARNING,
                         "$fileJson->file content is empty in message queue."
                     );
+                     Config::writelog('phpcronjob3', "$fileJson->file content is empty in message queue.");
                     throw new Exception(
                         "$fileJson->file content is empty in message queue."
                     );
@@ -304,10 +322,16 @@ class PhpBatchThree
                     LOG_INFO, 
                     "Deleting message from message queue : $fileJson->file."
                 );
-                $this->_sqs->delete_message(
+                 Config::writelog('phpcronjob3', "Deleting message from message queue : $fileJson->file.");
+                $deletedmessage=$this->_sqs->delete_message(
                     Config::$amazonQ['url'], $receiptQ
                 );
-
+                $deletedmessage=json_encode($deletedmessage);
+                syslog(
+                    LOG_INFO, 
+                    "Deleted message Response : $deletedmessage"
+                );
+                Config::writelog('phpcronjob3', "Deleted message Response : $deletedmessage");
                 $this->_messages['files'][$fileJson->file]['status'] = true;
             } catch (Exception $e) {
                 $this->_messages['files'][$fileJson->file]['status'] = false;
@@ -324,6 +348,7 @@ class PhpBatchThree
         syslog(
             LOG_INFO, json_encode($this->_messages)
         );
+         Config::writelog('phpcronjob3', json_encode($this->_messages));
         echo json_encode($this->_messages);
     }
 }
@@ -333,5 +358,6 @@ try{
     $phpBatchThree->init();
 }catch(Exception $e){
     syslog(LOG_WARNING, $e->getMessage());
+    Config::writelog('phpcronjob3', $e->getMessage());
     echo $e->getMessage();
 }
