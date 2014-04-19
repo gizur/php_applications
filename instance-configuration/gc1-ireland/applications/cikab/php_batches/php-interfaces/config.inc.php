@@ -228,7 +228,7 @@ class Config
         }
 
 //Something to write to txt log
-        $log = "User: Cloud3 - " . date("F j, Y, g:i a") . PHP_EOL .
+        $log = "User: Cloud1 - " . date("F j, Y, g:i a") . PHP_EOL .
             "File: " . $file_name . PHP_EOL .
             "Message: " . $message . PHP_EOL .
             "-------------------------" . PHP_EOL;
