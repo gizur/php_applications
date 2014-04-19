@@ -133,12 +133,12 @@ $dbconfigFtp['Password'] = "zmLA_Q#A9EK2";
 /**
  *  @FTP Local files path
  */
-$dbconfigFtp['localpath'] = "/in/";
+$dbconfigFtp['localpath'] = "cronsetfiles/";
 
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "Private/cloud/in/";
+$dbconfigFtp['serverpath'] = "/in/";
 
 /** * ******************* Amazon SQS Configuration ********************** * */
 /**
