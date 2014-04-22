@@ -161,6 +161,15 @@ class PhpBatchThree
          */
         $fp = fopen('php://temp', 'r+');
         fwrite($fp, $fileJson->content);
+        if(filesize($fp)==0) {
+        syslog(
+                LOG_WARNING, "Error file size is 0 byte."
+            );
+             Config::writelog('phpcronjob3', "Error file size is 0 byte.");
+            throw new Exception(
+                "Error file size is 0 byte."
+            );
+        }
         rewind($fp);
         /*
          * Upload file to FTP.
@@ -326,12 +335,22 @@ class PhpBatchThree
                 $deletedmessage=$this->_sqs->delete_message(
                     Config::$amazonQ['url'], $receiptQ
                 );
-                $deletedmessage=json_encode($deletedmessage);
+                $deletedmessages=json_encode($deletedmessage);
                 syslog(
                     LOG_INFO, 
-                    "Deleted message Response : $deletedmessage"
+                    "Deleted message Response : $deletedmessages"
                 );
-                Config::writelog('phpcronjob3', "Deleted message Response : $deletedmessage");
+                Config::writelog('phpcronjob3', "Deleted message Response : $deletedmessages");
+                if ($deletedmessage->status !== 200) {
+                    syslog(
+                        LOG_INFO, 
+                        "Message has not deleted successfully."
+                    );
+                     Config::writelog('phpcronjob3',"Message has not deleted successfully.");
+                    throw new Exception(
+                        "Message has not deleted successfully."
+                    );
+                }
                 $this->_messages['files'][$fileJson->file]['status'] = true;
             } catch (Exception $e) {
                 $this->_messages['files'][$fileJson->file]['status'] = false;
