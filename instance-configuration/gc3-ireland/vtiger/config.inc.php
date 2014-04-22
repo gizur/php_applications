@@ -14,7 +14,7 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
-require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
+require_once '/var/app/current/lib/aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -29,7 +29,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/cikab/seasonportal';
+$PORTAL_URL = 'http://phpapplicationsnew-env-sixmtjkbzs.elasticbeanstalk.com/cikab/seasonportal';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
 $HELPDESK_SUPPORT_EMAIL_ID = 'admin@gizur.com';
