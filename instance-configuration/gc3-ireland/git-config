@@ -28,5 +28,5 @@
 	region = eu-west-1
 [aws "elasticbeanstalk"]
 	host = git.elasticbeanstalk.eu-west-1.amazonaws.com
-	application = My First Elastic Beanstalk Application
-	environment = gizurab
+	application = phpapplications
+	environment = phpapplications-env
