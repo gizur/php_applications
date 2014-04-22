@@ -138,7 +138,7 @@ $dbconfigFtp['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "/in/";
+$dbconfigFtp['serverpath'] = "/demo-in/";
 
 /** * ******************* Amazon SQS Configuration ********************** * */
 /**
@@ -178,14 +178,14 @@ class Config
         'port' => 21,
         'username' => "hypermart@essindia.net",
         'password' => "zmLA_Q#A9EK2",
-        'serverpath' => "/in/"
+        'serverpath' => "/demo-in/"
     );
     public static $mosFtp = array(
         'host' => "ftp.essindia.net",
         'port' => 21,
         'username' => "hypermart@essindia.net",
         'password' => "zmLA_Q#A9EK2",
-        'serverpath' => "/in/"
+        'serverpath' => "/demo-in/"
     );
 
     public static $amazonQ = array(
