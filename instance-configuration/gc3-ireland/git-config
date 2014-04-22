@@ -29,4 +29,4 @@
 [aws "elasticbeanstalk"]
 	host = git.elasticbeanstalk.eu-west-1.amazonaws.com
 	application = phpapplications
-	environment = phpapplications-env
+	environment = phpapplicationsnew-env
