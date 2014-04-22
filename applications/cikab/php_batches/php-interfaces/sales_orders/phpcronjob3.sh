@@ -159,8 +159,18 @@ class PhpBatchThree
         /*
          * Prepare file in temp dir locally.
          */
-        $fp = fopen('php://temp', 'r+');
-        fwrite($fp, $fileJson->content);
+        $fp = fopen('php://temp', 'r+') or die("can't open file");
+       
+        $fwstatus = fwrite($fp, $fileJson->content);
+        if(!$fwstatus) {
+        syslog(
+                LOG_WARNING, "Error to write file."
+            );
+             Config::writelog('phpcronjob3', "Error to write file.");
+            throw new Exception(
+                "Error to write file."
+            );
+        }
         if(filesize($fp)==0) {
         syslog(
                 LOG_WARNING, "Error file size is 0 byte."
@@ -170,7 +180,16 @@ class PhpBatchThree
                 "Error file size is 0 byte."
             );
         }
-        rewind($fp);
+        $rewindStatus = rewind($fp);
+        if(!$rewindStatus) {
+        syslog(
+                LOG_WARNING, "Error to rewind file."
+            );
+             Config::writelog('phpcronjob3', "Error to rewind file.");
+            throw new Exception(
+                "Error to rewind file."
+            );
+        }
         /*
          * Upload file to FTP.
          */
