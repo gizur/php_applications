@@ -129,7 +129,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/var/www/html/lib/vtiger-5.4.0/';
+$root_directory = '/var/app/current/lib/vtiger-5.4.0/';
 
 // cache direcory path
 $cache_dir = 'cache/';

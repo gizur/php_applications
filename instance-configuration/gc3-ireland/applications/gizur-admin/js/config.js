@@ -1,2 +1,2 @@
-var RESTServerURL = 'http://phpapplications-env-sixmtjkbzs.elasticbeanstalk.com/api/'
+var RESTServerURL = 'http://phpapplicationsnew-env.elasticbeanstalk.com/api/'
 
