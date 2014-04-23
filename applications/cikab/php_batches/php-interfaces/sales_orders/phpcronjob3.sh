@@ -27,7 +27,7 @@ require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
 
 class PhpBatchThree
 {
-
+    private $_integrationConnect;
     private $_messages = array();
     private $_messageCount = 0;
     private $_noOfFiles = 0;
@@ -37,6 +37,26 @@ class PhpBatchThree
 
     function __construct()
     {
+       /*
+         * Trying to connect to integration database
+         */
+        $this->_integrationConnect = new mysqli(
+            Config::$dbIntegration['db_server'],
+            Config::$dbIntegration['db_username'],
+            Config::$dbIntegration['db_password'],
+            Config::$dbIntegration['db_name'],
+            Config::$dbIntegration['db_port']
+        );
+
+        if ($this->_integrationConnect->connect_errno) {
+            throw new Exception('Unable to connect with integration DB');
+                Config::writelog('phpcronjob3','Unable to connect with integration DB');
+         }
+        syslog(
+            LOG_INFO, "Connected with integration db"
+        );
+        Config::writelog('phpcronjob3','Connected with integration db');
+
         /*
          * Open connection to the system logger
          */
@@ -213,6 +233,40 @@ class PhpBatchThree
 
         return $uploaded;
     }
+    
+    protected function saveToDbTable($fileJson) {
+            $filename= $fileJson->file;
+            $created= date('Y-m-d');
+            $updated= date('Y-m-d');
+            $st='P';
+             $salesOrdersQuery = "INSERT INTO salesorder_message_queue(filename, created, updated, status) values('$filename','$created', '$updated', '$st')";
+             $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
+            if(!$salesOrders) {
+            Config::writelog('phpcronjob3',"Error Query to save messages in database".$salesOrdersQuery);
+             throw new Exception(
+                            "Error Query to save messages in database".$salesOrdersQuery
+                        );
+
+           }
+     }
+     
+     protected function updateToDbTable($fileJson) {
+        $filename= $fileJson->file;
+        $created= date('Y-m-d');
+        $updated= date('Y-m-d');
+        $st='P';
+        // Update salesorder_message_queue table
+         $salesOrdersQuery = "UPDATE salesorder_message_queue set status='D', updated='$updated'   WHERE fileName='$filename'";
+         $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
+        if(!$salesOrders) {
+        Config::writelog('phpcronjob3', "Error Query to update messages in database".$salesOrdersQuery);
+         throw new Exception(
+                        "Error Query to update messages in database".$salesOrdersQuery
+                    );
+
+       }
+     }
+
 
     public function init()
     {
@@ -329,19 +383,29 @@ class PhpBatchThree
                         "$fileJson->file content is empty in message queue."
                     );
                 }
+            // Save Sqs message in database
+                     $this->saveToDbTable($fileJson);
+            // End save messages database
 
                 if ($fileJson->type == 'SET' || !isset($fileJson->type)) {
-                    $this->saveToFtp(
+                 $st =   $this->saveToFtp(
                         $this->_setFtpConn,
                         Config::$setFtp['serverpath'],
                         $fileJson
                     );
+                    if($st) {
+                          $this->updateToDbTable($fileJson);
+                     }
+
                 } else if ($fileJson->type == 'MOS') {
-                    $this->saveToFtp(
+                    $st = $this->saveToFtp(
                         $this->_mosFtpConn,
                         Config::$mosFtp['serverpath'],
                         $fileJson
                     );
+                    if($st) {
+                          $this->updateToDbTable($fileJson);
+                     }
                 }
                 /*
                  * Delete message from message queue.

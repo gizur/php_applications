@@ -29,7 +29,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = 'http://phpapplicationsnew-env-sixmtjkbzs.elasticbeanstalk.com/cikab/seasonportal';
+$PORTAL_URL = 'http://phpapplicationsnew.elasticbeanstalk.com/cikab/seasonportal';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
 $HELPDESK_SUPPORT_EMAIL_ID = 'admin@gizur.com';
@@ -129,7 +129,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/var/app/current/lib/vtiger-5.4.0/';
+$root_directory = '/var/app//lib/vtiger-5.4.0/';
 
 // cache direcory path
 $cache_dir = 'cache/';

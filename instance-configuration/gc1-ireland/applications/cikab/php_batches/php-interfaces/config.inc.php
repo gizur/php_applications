@@ -184,7 +184,7 @@ class Config
      * be set to 14 max, otherwise file header duplicate issue may
      * occure. 
      */
-    public static $batchVariable = 99;
+    public static $batchVariable = 999;
     public static $setFtp = array(
         'host' => "ftp.essindia.net",
         'port' => 21,
