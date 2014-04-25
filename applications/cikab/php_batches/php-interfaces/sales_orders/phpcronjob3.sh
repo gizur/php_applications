@@ -191,15 +191,6 @@ class PhpBatchThree
                 "Error to write file."
             );
         }
-        if(filesize($fp)==0) {
-        syslog(
-                LOG_WARNING, "Error file size is 0 byte."
-            );
-             Config::writelog('phpcronjob3', "Error file size is 0 byte.");
-            throw new Exception(
-                "Error file size is 0 byte."
-            );
-        }
         $rewindStatus = rewind($fp);
         if(!$rewindStatus) {
         syslog(
