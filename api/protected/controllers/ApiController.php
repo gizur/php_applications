@@ -5018,7 +5018,12 @@ class ApiController extends Controller {
                         'Blank response received from vtiger: Creating TT'
                         );
                     $this->_vtresponse = $response;
-
+                      Yii::app()->cache->delete(
+                                    $this->_clientid . '_' .
+                                    $_GET['model']
+                                    . '_'
+                                    . 'list'
+                            );
                     //Objectify the response and check its success
                     $response = json_decode($response, true);
 
@@ -6483,7 +6488,12 @@ class ApiController extends Controller {
 
                     //Objectify the response and check its success
                     $response = json_decode($response, true);
-
+                    Yii::app()->cache->delete(
+                                    $this->_clientid . '_' .
+                                    $_GET['model']
+                                    . '_'
+                                    . 'list'
+                            );
                     if ($response['success'] == false)
                         throw new Exception('Unable to fetch details');
 
@@ -7058,6 +7068,12 @@ class ApiController extends Controller {
                     if ($response['success'] == false)
                         throw new Exception('Unable to delete assests');
                     $cachedValue = json_encode($response);
+                    Yii::app()->cache->delete(
+                                    $this->_clientid . '_' .
+                                    $_GET['model']
+                                    . '_'
+                                    . 'list'
+                            );
                     //Send the response
                     $this->_sendResponse(200, $cachedValue);     
                  break;
