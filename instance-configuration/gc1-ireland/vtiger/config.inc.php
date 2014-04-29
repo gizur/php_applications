@@ -14,7 +14,7 @@
 ********************************************************************************/
 
 include('vtigerversion.php');
-require_once '/var/www/html/lib/aws-php-sdk/sdk.class.php';
+require_once '/var/app/current/lib/aws-php-sdk/sdk.class.php';
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
@@ -50,7 +50,7 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  */
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
-    $memcache_url = '10.235.54.94';
+    $memcache_url = '79.125.48.43';
     $memcache = new Memcache;
     if ($memcache->connect($memcache_url, 11211)) {
         $dbconfig_cache = $memcache->get($gizur_client_id . "_connection_details");
@@ -124,7 +124,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/var/www/html/lib/vtiger-5.4.0/';
+$root_directory = '/var/app/current/lib/vtiger-5.4.0/';
 
 // cache direcory path
 $cache_dir = 'cache/';
