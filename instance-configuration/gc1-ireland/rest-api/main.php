@@ -37,7 +37,7 @@ return array(
             'class' => 'CMemCache',
             'servers' => array(
                 array(
-                    'host' => '79.125.48.43', //'memcached.int.gizur.com',
+                    'host' => '10.235.54.94', //'memcached.int.gizur.com',
                     'port' => 11211,
                     'weight' => 100,
                 ),
@@ -121,7 +121,7 @@ return array(
     'params' => array(
         // this is used in contact page
         'vtRestUrl' => 'http://127.0.0.1/{clientid}/webservice.php',
-        'vtCronPath' => '/var/www/html/lib/vtiger-5.4.0/cron/',
+        'vtCronPath' => '/var/app/current/lib/vtiger-5.4.0/cron/',
         'awsS3Bucket' => 'gizurcloud-clab',
         'awsS3BucketUrl' => 'http://gizurcloud-clab.s3-website-eu-west-1.amazonaws.com',
         'awsS3BackupBucket' => 'gc1-backups',
