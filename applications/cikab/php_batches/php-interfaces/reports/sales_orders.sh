@@ -62,7 +62,8 @@ try {
      * Try to fetch pending sales orders fron vTiger database 
      */
 
-    $salesOrdersQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject, " .
+     $salesOrdersQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject," .
+        "SO.duedate, SO.salesorderid,".
         "SO.sostatus, ACCO.accountname, PRO.productname, IVP.quantity " .
         "FROM vtiger_salesorder SO " .
         "INNER JOIN vtiger_crmentity ENT on ENT.crmid = SO.salesorderid " .
@@ -72,6 +73,7 @@ try {
         "WHERE SO.sostatus<>'Closed' " .
         "AND lower(SO.subject)<>'initial push' AND lower(SO.subject)<>'Intial Push' " .
         "ORDER BY ENT.createdtime, SO.salesorder_no";
+
 
     syslog(LOG_INFO, "Executing Query: " . $salesOrdersQuery);
     
@@ -133,21 +135,33 @@ try {
         "SO Status;" .
         "Account Name;" .
         "Product Name;" .
-        "Quantity\n";
-
+        "Quantity;" .
+        "Check Sum\n";
     /*
      * Generate the CSV content
      */    
     while ($salesOrder = $salesOrders->fetch_object()) {
-
+          $dt = date('Y-m-d',strtotime($salesOrder->createdtime));
+          $orderDate = substr($dt,-2);
+          $salesOrderId = substr($salesOrder->salesorderid,-2);
+          if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00') {
+            $deliveryday = date(
+                    "Y-m-d", strtotime($salesOrder->duedate)
+            );
+            } else {
+          $deliveryday = date('Y-m-d');
+          }
+          $deliveryDate = substr($deliveryday,-2);
+          $bnr = substr($salesOrder->productname,-2);  
+          $chkSum = $orderDate+$salesOrderId+$deliveryDate+$salesOrderId+$bnr;  
         $SOData = $SOData . "$salesOrder->createdtime;" .
                 "$salesOrder->salesorder_no;" .
                 "$salesOrder->subject;" .
                 "$salesOrder->sostatus;" .
                 "$salesOrder->accountname;" .
                 "$salesOrder->productname;" .
-                "$salesOrder->quantity\n";
-
+                "$salesOrder->quantity;" .
+                "$chkSum\n";
     }
 
     /*
