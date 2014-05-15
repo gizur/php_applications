@@ -48,6 +48,17 @@ $serviceid = $_REQUEST['servicename'];
 $customer_account_id = $_SESSION['customer_account_id'];
 $projectid = $_REQUEST['projectid'];
 
+$newquantity = $_REQUEST['number'];
+$balancequantity = $_REQUEST['bal'];
+ if ($newquantity > $balancequantity)
+   {
+    echo '<table><tr><td><input class="crmbutton small cancel" type="button" value="'.getTranslatedString('LBL_BACK_BUTTON').'" onclick="window.history.back();"/></td></tr></table>';
+    echo "<font color=red>Error: "
+    .getTranslatedString('The number box should less than balance quantity')
+    ."</font>";
+    exit;            
+   }
+
 $params = Array(Array(
         'id' => "$customerid",
         'sessionid' => "$sessionid",

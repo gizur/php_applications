@@ -63,7 +63,7 @@ try {
      */
 
      $salesOrdersQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject," .
-        "SO.duedate, SO.salesorderid,".
+        "SO.duedate, SO.salesorderid, ENT.modifiedtime, ".
         "SO.sostatus, ACCO.accountname, PRO.productname, IVP.quantity " .
         "FROM vtiger_salesorder SO " .
         "INNER JOIN vtiger_crmentity ENT on ENT.crmid = SO.salesorderid " .
@@ -139,9 +139,11 @@ try {
         "Check Sum\n";
     /*
      * Generate the CSV content
-     */    
+     */
+    $flag=1;    
     while ($salesOrder = $salesOrders->fetch_object()) {
           $dt = date('Y-m-d',strtotime($salesOrder->createdtime));
+          $updatedTime = date('Y-m-d',strtotime($salesOrder->modifiedtime));
           $orderDate = substr($dt,-2);
           $salesOrderId = substr($salesOrder->salesorderid,-2);
           if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00') {
@@ -153,7 +155,18 @@ try {
           }
           $deliveryDate = substr($deliveryday,-2);
           $bnr = substr($salesOrder->productname,-2);  
-          $chkSum = $orderDate+$salesOrderId+$deliveryDate+$salesOrderId+$bnr;  
+          $chkSum = $orderDate+$salesOrderId+$deliveryDate+$salesOrderId+$bnr;
+          if(($chkSum==175) && ($updatedTime==date('Y-m-d'))) {
+          $flag++;
+          $SODataAlert = $SOData . "$salesOrder->createdtime;" .
+                "$salesOrder->salesorder_no;" .
+                "$salesOrder->subject;" .
+                "$salesOrder->sostatus;" .
+                "$salesOrder->accountname;" .
+                "$salesOrder->productname;" .
+                "$salesOrder->quantity;" .
+                "$chkSum\n"; 
+          }  
         $SOData = $SOData . "$salesOrder->createdtime;" .
                 "$salesOrder->salesorder_no;" .
                 "$salesOrder->subject;" .
@@ -163,7 +176,7 @@ try {
                 "$salesOrder->quantity;" .
                 "$chkSum\n";
     }
-
+    
     /*
      * Send the Email as attachment
      */
@@ -203,6 +216,41 @@ try {
     } else {
         $messages['status'] =  "Mail Not Sent";
     }
+    
+     /* Send mail alert if check sum is greater then 175 */
+    if($flag>2) {
+    syslog(
+        LOG_INFO, 
+        "Send Alert Mail"
+    );
+$sesResponseAlert = $email->send_raw_email(
+        array(
+            'Data' => base64_encode(
+                "Subject: Alert! Dublicate sales order found with check sum 175, Find attached sheet!\n".
+                "MIME-Version: 1.0\n".
+                "Content-type: Multipart/Mixed; boundary=\"NextPart\"\n\n".
+                "--NextPart\n".
+                "Content-Type: text/plain\n\n".
+                "PFA\n" .
+                "--NextPart\n" .
+                "Content-Type: text/plain; charset=ISO-8859-15; name=\"sales_order_report_" . date('ymd') . ".csv\"\n" .
+                "Content-Disposition: attachment; filename=\"sales_order_report_" . date('ymd') . ".csv\"\n" .
+                "Content-Transfer-Encoding: base64\n\n" .
+                base64_encode($SODataAlert) .
+                "--NextPart"
+            )
+        ), 
+        array(
+           "Source" => "noreply@gizur.com",
+           "Destinations" => Config::$toEmailReports
+        )
+    );
+    if ($sesResponseAlert->isOK()) {
+        $messages['statusAlert'] =  "Mail Sent";
+    } else {
+        $messages['statusAlert'] =  "Mail Not Sent";
+    }
+  }
 
 } catch (Exception $e) {
     /*
