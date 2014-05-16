@@ -140,25 +140,62 @@ try {
     /*
      * Generate the CSV content
      */
-    $flag=0;
+   $flag=0;
     $arr = array();
     while ($salesOrder = $salesOrders->fetch_object()) {
+    
+     $salesID = preg_replace(
+            '/[A-Z]/', '', $salesOrder->salesorder_no
+        );
+        $originalordernomber = "7777" . $salesID;
+
+        /**
+         * If length of order number is 
+         * greater then 6 then auto remove 
+	 * extra digits from the starting
+         */
+        $orderlength = strlen($originalordernomber);
+
+        if ($orderlength > 6) {
+            $accessorderlength = $orderlength - 6;
+
+            $ordernumber = substr(
+                $originalordernomber, $accessorderlength
+            );
+        }
+        else {
+          $ordernumber = $originalordernomber;
+           }
           $dt = date('Y-m-d',strtotime($salesOrder->createdtime));
           $updatedTime = date('Y-m-d',strtotime($salesOrder->modifiedtime));
-          $orderDate = substr($dt,-2);
-          $salesOrderId = substr($salesOrder->salesorderid,-2);
-          if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00') {
+          
+          $orderDate1 = strtotime(
+            date("Y-m-d", strtotime($updatedTime)) . "+1 day"
+        );
+        $orderDate2 = date('Y-m-d', $orderDate1);
+          $orderDate = substr($orderDate2,-2);
+          $salesOrderId = substr($ordernumber,-2);
+         /* if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00') {
             $deliveryday = date(
                     "Y-m-d", strtotime($salesOrder->duedate)
             );
             } else {
           $deliveryday = date('Y-m-d');
-          }
-          $deliveryDate = substr($deliveryday,-2);
+          } */
+          $futuredeliveryDate = strtotime(
+            date("Y-m-d", strtotime($orderDate2)) . "+2 day"
+        );
+        $futuredeliverydate = date('Y-m-d', $futuredeliveryDate);
+          $deliveryDate = substr($futuredeliverydate,-2);
           $bnr = substr($salesOrder->productname,-2);  
           $chkSum = $orderDate+$salesOrderId+$deliveryDate+$salesOrderId+$bnr;
-          if($updatedTime==date('Y-m-d')) {
-          $arr[$salesOrder->salesorder_no] = $chkSum;
+           $lastDate = strtotime(
+            date("Y-m-d") . "-1 day"
+        );
+          $lastD = date('Y-m-d', $lastDate); 
+          if($updatedTime==$lastD) {
+          $arr[$ordernumber] = $chkSum;
+        // $arr1[]="orderDate:$orderDate+orderNo:$salesOrderId+DeleveryDate:$deliveryDate+orderNo:$salesOrderId+bnr:$bnr";
           }  
         $SOData = $SOData . "$salesOrder->createdtime;" .
                 "$salesOrder->salesorder_no;" .
@@ -175,7 +212,7 @@ try {
          if($value>1) { $flag++; }
       }
      }
-     
+      
      $filtered = array_filter($arr, function($values) use ($orderCount) { 
           return $orderCount[$values] > 1;
      });
