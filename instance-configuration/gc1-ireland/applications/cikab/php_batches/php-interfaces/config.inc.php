@@ -216,7 +216,8 @@ class Config
     public static $lineBreak = "\r\n";
     public static $toEmailReports = array(
         "jonas.colmsjo@gizur.com",
-        "sofia.meijer@coop.se"
+        "sofia.meijer@coop.se",
+        "prakash.joshi@essindia.co.in"
     );
     static function writelog($file_name, $message)
     {
