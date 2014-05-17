@@ -49,7 +49,22 @@ $vTigerConnect = new Connect(
 );
 
 syslog(
+    LOG_INFO, "Try to connect to Integration database"
+);
+$integrationConnect = new Connect(
+    $dbconfigIntegration['db_server'],
+    $dbconfigIntegration['db_username'],
+    $dbconfigIntegration['db_password'],
+    $dbconfigIntegration['db_name']
+);
+
+
+syslog(
     LOG_INFO, "Connected to vTiger database"
+);
+
+syslog(
+    LOG_INFO, "Connected to Integration database"
 );
 
 
@@ -61,6 +76,68 @@ try {
     /*
      * Try to fetch pending sales orders fron vTiger database 
      */
+     
+    $salesOrderIntegrationQuery = "SELECT s1.salesorder_no, s1.accountname,".
+    " s1.created, s1.set_status, s2.productname, s2.productquantity"."
+    FROM sales_orders s1, sales_order_products s2"."
+    WHERE s1.id = s2.sales_order_id";
+    
+    syslog(LOG_INFO, "Executing Query: " . $salesOrderIntegrationQuery);
+
+     $salesOrdersIntegration = $integrationConnect->query($salesOrderIntegrationQuery);
+
+if (!$salesOrdersIntegration){
+        syslog(
+            LOG_WARNING, 
+            "Error executing integration sales order query : ($integrationConnect->errno) - " .
+                "$vTigerConnect->error"
+        );
+        throw new Exception(
+            "Error executing integration sales order query : " . 
+            "($integrationConnect->errno) - $integrationConnect->error"
+        );
+    }
+ while ($salesOrdersIntegrations = $salesOrdersIntegration->fetch_object()) {
+       $salesID = preg_replace(
+            '/[A-Z]/', '', $salesOrdersIntegrations->salesorder_no
+        );
+        $originalordernomber = "7777" . $salesID;
+
+        /**
+         * If length of order number is 
+         * greater then 6 then auto remove 
+	 * extra digits from the starting
+         */
+        $orderlength = strlen($originalordernomber);
+
+        if ($orderlength > 6) {
+            $accessorderlength = $orderlength - 6;
+
+            $ordernumber = substr(
+                $originalordernomber, $accessorderlength
+            );
+        }
+        else {
+          $ordernumber = $originalordernomber;
+           }
+           $futuredeliveryDate = strtotime(
+            date("Y-m-d", strtotime($salesOrdersIntegrations->created)) . "+2 day"
+        );
+        $futuredeliverydate = date('Y-m-d', $futuredeliveryDate);
+           $order = substr($ordernumber,-2);
+           $deliveryDate = substr($futuredeliverydate,-2);
+           $createdDate = date('Y-m-d',strtotime($salesOrdersIntegrations->created));
+           $orderDate =  substr($createdDate,-2);
+           $bnr =  substr($salesOrdersIntegrations->productname,-2); 
+           //$arr[] = "OrderNo:$order+DeleveryDate:$deliveryDate+OrderDate:$orderDate+BNR:$bnr"; 
+           $checkSum = $order+$deliveryDate+$orderDate+$order+$bnr;
+           $ord[$salesOrdersIntegrations->salesorder_no] = $checkSum;
+           $todayDate = date('Y-m-d');
+           if($createdDate==$todayDate) {
+           $todayOrder[$ordernumber] = $checkSum; 
+           }        
+ }
+
 
      $salesOrdersQuery =  "SELECT ENT.createdtime, SO.salesorder_no, SO.subject," .
         "SO.duedate, SO.salesorderid, ENT.modifiedtime, ".
@@ -141,62 +218,12 @@ try {
      * Generate the CSV content
      */
    $flag=0;
-    $arr = array();
     while ($salesOrder = $salesOrders->fetch_object()) {
-    
-     $salesID = preg_replace(
-            '/[A-Z]/', '', $salesOrder->salesorder_no
-        );
-        $originalordernomber = "7777" . $salesID;
-
-        /**
-         * If length of order number is 
-         * greater then 6 then auto remove 
-	 * extra digits from the starting
-         */
-        $orderlength = strlen($originalordernomber);
-
-        if ($orderlength > 6) {
-            $accessorderlength = $orderlength - 6;
-
-            $ordernumber = substr(
-                $originalordernomber, $accessorderlength
-            );
-        }
-        else {
-          $ordernumber = $originalordernomber;
-           }
-          $dt = date('Y-m-d',strtotime($salesOrder->createdtime));
-          $updatedTime = date('Y-m-d',strtotime($salesOrder->modifiedtime));
-          
-          $orderDate1 = strtotime(
-            date("Y-m-d", strtotime($updatedTime)) . "+1 day"
-        );
-        $orderDate2 = date('Y-m-d', $orderDate1);
-          $orderDate = substr($orderDate2,-2);
-          $salesOrderId = substr($ordernumber,-2);
-         /* if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00') {
-            $deliveryday = date(
-                    "Y-m-d", strtotime($salesOrder->duedate)
-            );
-            } else {
-          $deliveryday = date('Y-m-d');
-          } */
-          $futuredeliveryDate = strtotime(
-            date("Y-m-d", strtotime($orderDate2)) . "+2 day"
-        );
-        $futuredeliverydate = date('Y-m-d', $futuredeliveryDate);
-          $deliveryDate = substr($futuredeliverydate,-2);
-          $bnr = substr($salesOrder->productname,-2);  
-          $chkSum = $orderDate+$salesOrderId+$deliveryDate+$salesOrderId+$bnr;
-           $lastDate = strtotime(
-            date("Y-m-d") . "-1 day"
-        );
-          $lastD = date('Y-m-d', $lastDate); 
-          if($updatedTime==$lastD) {
-          $arr[$ordernumber] = $chkSum;
-        // $arr1[]="orderDate:$orderDate+orderNo:$salesOrderId+DeleveryDate:$deliveryDate+orderNo:$salesOrderId+bnr:$bnr";
-          }  
+     if(isset($ord[$salesOrder->salesorder_no])) {
+      $chkSum = $ord[$salesOrder->salesorder_no]; 
+      } else {
+      $chkSum ='';
+      }     
         $SOData = $SOData . "$salesOrder->createdtime;" .
                 "$salesOrder->salesorder_no;" .
                 "$salesOrder->subject;" .
@@ -206,17 +233,22 @@ try {
                 "$salesOrder->quantity;" .
                 "$chkSum\n";
     }
-     $orderCount = array_count_values($arr);
+     $orderCount = array_count_values($todayOrder);
      if(isset($orderCount)) {
     foreach($orderCount as $key=>$value) {
          if($value>1) { $flag++; }
       }
      }
       
-     $filtered = array_filter($arr, function($values) use ($orderCount) { 
+     $filtered = array_filter($todayOrder, function($values) use ($orderCount) { 
           return $orderCount[$values] > 1;
      });
-      $keysString = implode(", ", array_keys($filtered));
+     asort($filtered);
+     $dublicateOrder = "ORDER: CheckSum".PHP_EOL;
+     foreach($filtered as $key => $value) {
+     $dublicateOrder =  $dublicateOrder.$key.": ".$value.PHP_EOL;
+     }
+    
     /*
      * Send the Email as attachment
      */
@@ -272,7 +304,7 @@ $sesResponseAlert = $email->send_email(
             'Subject.Data'=>"Alert! Duplicate sales orders found!",
             'Body.Text.Data'=>"Hi,". PHP_EOL .
             "Duplicate Order List..". PHP_EOL . PHP_EOL .
-            $keysString .PHP_EOL .
+            $dublicateOrder .PHP_EOL .
                                 PHP_EOL .
                                 '--' .
                                 PHP_EOL .
@@ -285,7 +317,7 @@ $sesResponseAlert = $email->send_email(
         $messages['statusAlert'] =  "Mail Not Sent";
     }
   }
-
+  
 } catch (Exception $e) {
     /*
      * Store the message and rollbach the connections.
