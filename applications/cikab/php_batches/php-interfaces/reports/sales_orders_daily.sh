@@ -181,8 +181,10 @@ $csv_filename = "sales_order"."_".date("Y-m-d").".csv";
                  );
         } else {
           syslog(
-                   LOG_INFO, "file successfully copyied in S3!"
+                   LOG_INFO, "file successfully copied in S3!"
                  );
+                 $messages['success']="file successfully copied in S3!";
+
         }        
 } catch (Exception $e) {
     /*
