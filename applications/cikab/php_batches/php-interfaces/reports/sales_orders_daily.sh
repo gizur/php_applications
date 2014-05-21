@@ -169,7 +169,7 @@ $csv_filename = "sales_order"."_".date("Y-m-d").".csv";
       * Store file in s3 bucket
       */
         $s3 = new AmazonS3();
-        $bucket = 'gc3-sales-order-report'; 
+        $bucket = 'sales-order-reports'; 
         $response = $s3->create_object($bucket, $csv_filename, array(
             'body' => $SOData
         ));
