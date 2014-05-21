@@ -169,9 +169,11 @@ $csv_filename = "sales_order"."_".date("Y-m-d").".csv";
       * Store file in s3 bucket
       */
         $s3 = new AmazonS3();
-        $bucket = 'sales-order-reports'; 
-        $response = $s3->create_object($bucket, $csv_filename, array(
-            'body' => $SOData
+        $bucket = $amazonSThree['bucket'];
+        $file = 'seasonportal/sales-order-reports/'.$csv_filename; 
+        $response = $s3->create_object($bucket, $file, array(
+            'body' => $SOData,
+            'contentType' => 'text/csv'
         ));
          
         if($response->status!=200) {
