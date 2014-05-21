@@ -67,6 +67,11 @@ if (isset($_GET['action'])) {
             $output = shell_exec('' . __DIR__ . '/../reports/sales_orders_csv.sh');
             @shell_exec('chmod -x ' . __DIR__ . '/../reports/sales_orders_csv.sh');
             break;
+        case 'mail_report_daily':  
+            @shell_exec('chmod +x ' . __DIR__ . '/../reports/sales_orders_daily.sh');
+            $output = shell_exec('' . __DIR__ . '/../reports/sales_orders_daily.sh');
+            @shell_exec('chmod -x ' . __DIR__ . '/../reports/sales_orders_daily.sh');
+            break;
         case 'phpinfo':
             phpinfo();
             break;
