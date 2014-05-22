@@ -217,7 +217,7 @@ class Config
     public static $toEmailReports = array(
         "jonas.colmsjo@gizur.com",
         "sofia.meijer@coop.se",
-        "Tuija.Hirvasoja@coop.se",
+        "tuija.hirvasoja@coop.se",
         "prakash.joshi@essindia.co.in"
     );
     static function writelog($file_name, $message)
