@@ -66,32 +66,32 @@ int_connection.connect();
 // ==============================
 
 var messagesInQueueBefore = 0, 
-messagesInQueueAfter = 2,
-salesOrderIntegrationBefore = 2,
-salesOrderIntegrationAfter = 0;
+messagesInQueueAfter = 33,
+salesOrderIntegrationBefore = 33,
+salesOrderIntegrationAfter = 0,
+s3FilesBefore = 33,
+s3FilesAfter = 66;
 // Group all Tests
 // ===============
 exports.group = {
-    // **Check sales orders in vtiger before hitting cron job 2**
+    // **Check sales orders in integration database before hitting cron job 2**
     "Checking Sales Order In Integration Database before hitting Cron job 2" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
-            "FROM salesorder_interface " +
-            "WHERE sostatus IN ('created', 'approved') " +
+            "FROM sales_orders " +
+            "WHERE set_status IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
                 if (err){
                     test.ok(false, "Error fetching sales orders : " + err);
-                    test.done();
                 }else{
-                    var result = false;
-                    if(rows.length == salesOrderIntegrationBefore)
-                        result = true;
-                
-                    test.ok(result, salesOrderIntegrationBefore + " sales orders expected, " + rows.length + " found.");
-                    test.done();
+                    test.equal(rows.length, salesOrderIntegrationBefore, 
+                    "sales order integration: " + rows.length + " & sales order integration before: "
+                     + salesOrderIntegrationBefore + " should be equal!");
                 }
+                test.done();
             });
     },
+    
     // **Check Queue before hitting cron job 2**
     "Checking SQS for messages before hitting Cron job 2" : function(test){
         var sqs = new AWS.SQS();
@@ -101,28 +101,50 @@ exports.group = {
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
             if (!err) {
-                var result = false;
                 var cnt = data.Attributes.ApproximateNumberOfMessages;
-                if(cnt == messagesInQueueBefore)
-                    result = true;
-                
-                test.ok(result, messagesInQueueBefore + " messages expected, " + cnt + " found.");
-                test.done();
+                test.equal(cnt, messagesInQueueBefore, 
+                    "messages in sqs: " + cnt + " & messages in sqs before: "
+                     + messagesInQueueBefore + " should be equal!");
+                            
             }else{
                 test.ok(false, "Failed due to error : " + err);
-                test.done();
-            }            
+            }
+            test.done();            
         });
     },
+    
+    // **Check Amazon S3 before hitting cron job 2**
+    "Checking Amazon S3 for SET files before hitting Cron job 2" : function(test){
+        var dt = new Date();
+        var dateFilter = dt.getFullYear()+''+("0" + (dt.getMonth() + 1)).slice(-2)
+        +''+("0" + dt.getDate()).slice(-2); 
+        var s3 = new AWS.S3({params: {Bucket: 'gc3-archive', 
+        Prefix: 'seasonportal/SET-files/SET.GZ.FTP.IN.BST.'+dateFilter}});   
+        s3.listObjects(function(err, data) {
+         if(err) {
+             test.ok(false, "Error fetching SET files from S3 : " + err);
+         } else {
+            var lengthS3 = data.Contents.length;
+            test.equal(lengthS3, s3FilesBefore, 
+                    "SET files in S3 : " + lengthS3 + " & SET files in S3 before: "
+                     + s3FilesBefore + " should be equal!");
+ 
+         } 
+         test.done();
+      });  
+    },
+    
     // **Hit Cron Job 2**
     "Hitting Cron Job 2" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_2, function (error, stdout, stderr) {
             if (error !== null)
-                console.log("Error in chmod +x " + config.PHP_BATCHES_2);
+                console.log("Error to execute file " + config.PHP_BATCHES_2 + 
+                " \n"+error);
             else{
                 exec(config.PHP_BATCHES_2, function (error, stdout, stderr) {
                     if (error !== null){
-                        test.ok(false, "Error executing " + config.PHP_BATCHES_2);
+                        test.ok(false, "Error executing " + config.PHP_BATCHES_2 + 
+                        " \n"+error);
                         test.done();
                     }else{
                         test.ok(true, "Executed " + config.PHP_BATCHES_2 + " : " + stdout);
@@ -136,20 +158,17 @@ exports.group = {
     "Checking Sales Order In Integration Database After hitting Cron job 2" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
-            "FROM salesorder_interface " +
-            "WHERE sostatus IN ('created', 'approved') " +
+            "FROM sales_orders " +
+            "WHERE set_status IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
                 if (err){
                     test.ok(false, "Error fetching sales orders : " + err);
-                    test.done();
                 }else{
-                    var result = false;
-                    if(rows.length == salesOrderIntegrationAfter)
-                        result = true;
-                
-                    test.ok(result, salesOrderIntegrationAfter + " sales orders expected, " + rows.length + " found.");
-                    test.done();
+                test.equal(rows.length, salesOrderIntegrationAfter, 
+                    "sales order integration: " + rows.length + " & sales order integration after: "
+                     + salesOrderIntegrationAfter + " should be equal!");
                 }
+                test.done();
             });
     },
     // **Check SQS messages after hitting cron job 2**
@@ -161,19 +180,38 @@ exports.group = {
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
             if (!err) {                
-                var result = false;
                 var cnt = data.Attributes.ApproximateNumberOfMessages;
-                if(cnt == messagesInQueueAfter)
-                    result = true;
-                
-                test.ok(result, messagesInQueueAfter + " messages expected, " + cnt + " found.");
-                test.done();
+                test.equal(cnt, messagesInQueueAfter, 
+                    "messages in sqs: " + cnt + " & messages in sqs after: "
+                     + messagesInQueueAfter + " should be equal!");   
             }else{
                 test.ok(false, "Failed due to error : " + err);
-                test.done();
-            }            
+            } 
+            test.done();           
         });
     },
+    
+    // **Check Amazon S3 after hitting cron job 2**
+    "Checking Amazon S3 for SET files after hitting Cron job 2" : function(test){
+        var dt = new Date();
+        var dateFilter = dt.getFullYear()+''+("0" + (dt.getMonth() + 1)).slice(-2)
+        +''+("0" + dt.getDate()).slice(-2); 
+        var s3 = new AWS.S3({params: {Bucket: 'gc3-archive', 
+        Prefix: 'seasonportal/SET-files/SET.GZ.FTP.IN.BST.'+dateFilter}});   
+        s3.listObjects(function(err, data) {
+         if(err) {
+             test.ok(false, "Error fetching SET files from S3 : " + err);
+         } else {
+            var lengthS3 = data.Contents.length;
+            test.equal(lengthS3, s3FilesAfter, 
+                    "SET files in S3 : " + lengthS3 + " & SET files in S3 after: "
+                     + s3FilesAfter + " should be equal!");
+ 
+         } 
+         test.done();
+      });  
+    },
+    
     // #### Closing connections
     // 
     // Reason behind putting closing connections in

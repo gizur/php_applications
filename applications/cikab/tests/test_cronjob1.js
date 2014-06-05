@@ -64,10 +64,10 @@ int_connection.connect();
 
 // Expected test results
 // =====================
-var salesOrdervTigerBefore = 2,
+var salesOrdervTigerBefore = 33,
 salesOrderIntegrationBefore = 0,
 salesOrdervTigerAfter = 0,
-salesOrderIntegrationAfter = 2;
+salesOrderIntegrationAfter = 33;
     
 // Group all Tests
 // ===============
@@ -80,18 +80,16 @@ exports.group = {
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
             "WHERE SO.sostatus IN ('Created','Approved') " +
-            "LIMIT 0, 10", function(err, rows, fields) {
+            "", function(err, rows, fields) {
                 if (err){
                     test.ok(false, "Error fetching sales orders : " + err);
-                    test.done();
+                    
                 }else{
-                    var result = false;
-                    if(rows.length == salesOrdervTigerBefore)
-                        result = true;
-                
-                    test.ok(result, salesOrdervTigerBefore + " sales orders expected, " + rows.length + " found.");
-                    test.done();
+                    test.equal(rows.length, salesOrdervTigerBefore, 
+                    "sales order vtiger: " + rows.length + " & sales order vtiger before: "
+                     + salesOrdervTigerBefore + " should be equal!"); 
                 }
+                test.done();
             });
     },
     // #### Check sales orders in integration db before hitting cron job 1
@@ -99,20 +97,17 @@ exports.group = {
     "Checking Sales Order In Integration Database before hitting Cron job 1" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
-            "FROM salesorder_interface " +
-            "WHERE sostatus IN ('created', 'approved') " +
+            "FROM sales_orders " +
+            "WHERE set_status IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
                 if (err){
                     test.ok(false, "Error fetching sales orders : " + err);
-                    test.done();
                 }else{
-                    var result = false;
-                    if(rows.length == salesOrderIntegrationBefore)
-                        result = true;
-                
-                    test.ok(result, salesOrderIntegrationBefore + " sales orders expected, " + rows.length + " found.");
-                    test.done();
+                    test.equal(rows.length, salesOrderIntegrationBefore, 
+                    "sales order integration: " + rows.length + " & sales order integration before: "
+                     + salesOrderIntegrationBefore + " should be equal!");
                 }
+                test.done();
             });
     },
     // #### Hit cron job 1
@@ -120,16 +115,17 @@ exports.group = {
     "Hitting Cron Job 1" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_1, function (error, stdout, stderr) {
             if (error !== null)
-                console.log("Error in chmod +x " + config.PHP_BATCHES_1);
+                console.log("Error to execute file " + config.PHP_BATCHES_1 + 
+                " \n"+error);
             else{
                 exec(config.PHP_BATCHES_1, function (error, stdout, stderr) {
                     if (error !== null){
-                        test.ok(false, "Error executing " + config.PHP_BATCHES_1);
-                        test.done();
+                        test.ok(false, "Error executing " + config.PHP_BATCHES_1 + 
+                        " \n"+error);
                     }else{
                         test.ok(true, "Executed : " + config.PHP_BATCHES_1 + " : " + stdout);
-                        test.done();
                     }
+                    test.done();
                 });
             }
         });
@@ -140,18 +136,15 @@ exports.group = {
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
             "WHERE SO.sostatus IN ('Created','Approved') " +
-            "LIMIT 0, 10", function(err, rows, fields) {
+            "", function(err, rows, fields) {
                 if (err){
                     test.ok(false, "Error fetching sales orders : " + err);
-                    test.done();
                 }else{
-                    var result = false;
-                    if(rows.length == salesOrdervTigerAfter)
-                        result = true;
-                
-                    test.ok(result, salesOrdervTigerAfter + " sales orders expected, " + rows.length + " found.");
-                    test.done();
+                    test.equal(rows.length, salesOrdervTigerAfter, 
+                    "sales order vtiger: " + rows.length + " & sales order vtiger after: "
+                    + salesOrdervTigerAfter + " should be equal!");
                 }
+                test.done();
             });
     },
     // #### Check sales orders in integration db after hitting cron job 1
@@ -159,20 +152,17 @@ exports.group = {
     "Checking Sales Order In Integration Database" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
-            "FROM salesorder_interface " +
-            "WHERE sostatus IN ('created', 'approved') " +
+            "FROM sales_orders " +
+            "WHERE set_status IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
                 if (err){
                     test.ok(false, "Error fetching sales orders : " + err);
-                    test.done();
                 }else{
-                    var result = false;
-                    if(rows.length == salesOrderIntegrationAfter)
-                        result = true;
-                
-                    test.ok(result, salesOrderIntegrationAfter + " sales orders expected, " + rows.length + " found.");
-                    test.done();
+                    test.equal(rows.length, salesOrderIntegrationAfter, 
+                    "sales order integration: " + rows.length + " & sales order integration after: "
+                     + salesOrderIntegrationAfter + " should be equal!");
                 }
+                test.done();
             });
     },
     // #### Closing connections

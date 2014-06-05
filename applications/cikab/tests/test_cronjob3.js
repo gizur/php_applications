@@ -38,10 +38,10 @@ var config  = require('./_secure/config.js').Config;
 // Configure Expected Test Result
 // ==============================
 
-var messagesInQueueBefore = 2, 
+var messagesInQueueBefore = 32, 
 messagesInQueueAfter = 0,
-fileInFTPBefore = 5,
-fileInFTPAfter = 7;
+fileInFTPBefore = 0,
+fileInFTPAfter = 32;
 // Group all Tests
 // ===============
 exports.group = {
@@ -55,17 +55,15 @@ exports.group = {
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
             if (!err) {
-                var result = false;
                 var cnt = data.Attributes.ApproximateNumberOfMessages;
-                if(cnt == messagesInQueueBefore)
-                    result = true;
-                
-                test.ok(result, messagesInQueueBefore + " messages expected, " + cnt + " found.");
-                test.done();
+                test.equal(cnt, messagesInQueueBefore, 
+                    "messages in sqs: " + cnt + " & messages in sqs before: "
+                     + messagesInQueueBefore + " should be equal!");
+                            
             }else{
                 test.ok(false, "Failed due to error : " + err);
-                test.done();
-            }            
+            }
+            test.done();            
         });
     },
     // #### Check files before hitting cron job 3
@@ -74,15 +72,14 @@ exports.group = {
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
             if (err){
                 test.ok(false, "Error reading directory : " + err);
-                test.done();
+               
             }else{
-                var result = false;
-                var cnt = stats.length;
-                if(cnt == fileInFTPBefore)
-                    result = true;
-                test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
-                test.done();
+            var cnt = stats.length;
+            test.equal(cnt, fileInFTPBefore, 
+                    "files in ftp: " + cnt + " & files in ftp before: "
+                     + fileInFTPBefore + " should be equal!");
             }
+             test.done();
         });
     },
     // #### Hit Cron Job 3
@@ -90,11 +87,13 @@ exports.group = {
     "Hitting Cron Job 3" : function(test){
         exec("chmod +x " + config.PHP_BATCHES_3, function (error, stdout, stderr) {
             if (error !== null)
-                console.log("Error in chmod +x " + config.PHP_BATCHES_3);
+                console.log("Error to execute file " + config.PHP_BATCHES_3 + 
+                " \n"+error);
             else{
                 exec(config.PHP_BATCHES_3, function (error, stdout, stderr) {
                     if (error !== null){
-                        test.ok(false, "Error executing " + config.PHP_BATCHES_3);
+                        test.ok(false, "Error executing " + config.PHP_BATCHES_3 + 
+                        " \n"+error);
                         test.done();
                     }else{
                         test.ok(true, "Executed : " + config.PHP_BATCHES_3 + " : " + stdout);
@@ -114,17 +113,14 @@ exports.group = {
         };
         sqs.client.getQueueAttributes(params, function(err, data) {
             if (!err) {                
-                var result = false;
                 var cnt = data.Attributes.ApproximateNumberOfMessages;
-                if(cnt == messagesInQueueAfter)
-                    result = true;
-                
-                test.ok(result, messagesInQueueAfter + " messages expected, " + cnt + " found.");
-                test.done();
+                test.equal(cnt, messagesInQueueAfter, 
+                    "messages in sqs: " + cnt + " & messages in sqs after: "
+                     + messagesInQueueAfter + " should be equal!");
             }else{
                 test.ok(false, "Failed due to error : " + err);
-                test.done();
-            }            
+            }
+             test.done();            
         });
     },
     // #### Check SQS messages after hitting cron job 3
@@ -133,15 +129,13 @@ exports.group = {
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
             if (err){
                 test.ok(false, "Error reading directory : " + err);
-                test.done();
             }else{
-                var result = false;
                 var cnt = stats.length;
-                if(cnt == fileInFTPAfter)
-                    result = true;
-                test.ok(result, fileInFTPAfter + " expected but found " + cnt + " at " + config.LOCAL_FTP_FOLDER);
-                test.done();
+                test.equal(cnt, fileInFTPAfter, 
+                    "files in ftp: " + cnt + " & files in ftp after: "
+                     + fileInFTPAfter + " should be equal!");
             }
+            test.done();
         });
     }
 };
