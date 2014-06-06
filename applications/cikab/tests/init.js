@@ -65,7 +65,7 @@ exports.group = {
         connection.query("SELECT SO.salesorderid, SO.salesorder_no FROM " +
             "vtiger_salesorder SO " + 
             "WHERE SO.sostatus IN ('Created','Approved') " +
-            "LIMIT 0, 10", function(err, rows, fields) {
+            "", function(err, rows, fields) {
                 if (err) throw err;
                 
                 test.ok(true, "OK");
@@ -79,8 +79,8 @@ exports.group = {
     "Checking Sales Order In Integration Database ('created', 'approved')" : function(test){
         int_connection.query("SELECT salesorder_no, " +
             "accountname " +
-            "FROM salesorder_interface " +
-            "WHERE sostatus IN ('created', 'approved') " +
+            "FROM sales_orders " +
+            "WHERE set_status IN ('created', 'approved') " +
             "GROUP BY salesorder_no, accountname", function(err, rows, fields) {
                 if (err) throw err;
                 
@@ -103,14 +103,31 @@ exports.group = {
                 var cnt = data.Attributes.ApproximateNumberOfMessages;
                 
                 test.ok(true + "OK");
-                test.done();
                 
                 console.log('Messages in Queue : ' + cnt);
             }else{
                 test.ok(false, "Failed due to error : " + err);
-                test.done();
-            }            
+            }
+            test.done();            
         });
+    },
+    
+    // **Check Amazon S3 *
+    "Checking Amazon S3 for SET files" : function(test){
+        var dt = new Date();
+        var dateFilter = dt.getFullYear()+''+("0" + (dt.getMonth() + 1)).slice(-2)
+        +''+("0" + dt.getDate()).slice(-2); 
+        var s3 = new AWS.S3({params: {Bucket: 'gc3-archive', 
+        Prefix: 'seasonportal/SET-files/SET.GZ.FTP.IN.BST.'+dateFilter}});   
+        s3.listObjects(function(err, data) {
+         if(err) {
+             test.ok(false, "Error fetching SET files from S3 : " + err);
+         } else {
+            var lengthS3 = data.Contents.length;
+            console.log("Today processed SET files in S3: "+lengthS3);
+         } 
+         test.done();
+      });  
     },
     // #### Check files in FTP server
     // 
@@ -118,12 +135,11 @@ exports.group = {
         fs.readdir(config.LOCAL_FTP_FOLDER, function(err, stats){
             if (err){
                 test.ok(false, "Error reading directory : " + err);
-                test.done();
             }else{
                 test.ok(true, "OK");
-                test.done();
                 console.log('Files available in ' + config.LOCAL_FTP_FOLDER + ' : ' + stats.length);
             }
+             test.done();
         });
     },
     // #### Closing connections
