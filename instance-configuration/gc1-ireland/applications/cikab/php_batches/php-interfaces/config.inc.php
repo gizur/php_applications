@@ -220,6 +220,10 @@ class Config
         "tuija.hirvasoja@coop.se",
         "prakash.joshi@essindia.co.in"
     );
+    public static $toEmailErrorReports = array(
+        "rohit.kumar@essindia.co.in",
+        "prakash.joshi@essindia.co.in"
+    );
     static function writelog($file_name, $message)
     {
         $logfile = __DIR__ . '/log/log_' . date("j.n.Y") . '.txt';

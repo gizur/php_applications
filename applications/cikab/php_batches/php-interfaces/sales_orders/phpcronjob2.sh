@@ -22,21 +22,26 @@
  * Load the required files.
  */
 require_once __DIR__ . '/../config.inc.php';
-require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
 
 class PhpBatchTwo {
 
     private $_integrationConnect;
     private $_sqs;
+    private $_ses;
     private $_messages = array();
     private $_duplicateFile = array();
     private $_sThree;
+    private $_erors = array();
 
     public function __construct() {
         openlog(
                 "phpcronjob2", LOG_PID | LOG_PERROR, LOG_LOCAL0
         );
 
+        /*
+         * Trying to connect to integration database
+         */      
         syslog(
                 LOG_INFO, "Trying to connect to integration database"
         );
@@ -60,6 +65,10 @@ class PhpBatchTwo {
 
         Config::writelog('phpcronjob2', "Connected with integration db");
 
+        /*
+         * Trying to connect to Amamzon SQS
+         */
+
         syslog(
                 LOG_INFO, "Trying connecting with Amazon SQS"
         );
@@ -73,6 +82,23 @@ class PhpBatchTwo {
         );
 
         Config::writelog('phpcronjob2', "Connected with Amazon SQS");
+        
+         syslog(
+                LOG_INFO, "Trying connecting with Amazon SES"
+        );
+
+        Config::writelog('phpcronjob2', "Trying connecting with Amazon SES");
+
+        $this->_ses = new AmazonSES();
+
+        /*
+         * Trying to connect to Amamzon SES
+         */
+        syslog(
+                LOG_INFO, "Connected with Amazon SES"
+        );
+
+        Config::writelog('phpcronjob2', "Connected with Amazon SES");
 
         syslog(
                 LOG_INFO, "Trying connecting with Amazon _sThree"
@@ -89,6 +115,90 @@ class PhpBatchTwo {
         Config::writelog('phpcronjob2', "Connected with Amazon _sThree");
     }
 
+        /*
+         * Fetching total count of sales order with set files
+         */    
+    function getSalesOrdersCountSet() {
+      syslog(LOG_INFO, "In getSalesOrdersCountSet() : Preparing sales order count query");
+      Config::writelog('phpcronjob2', "In getSalesOrdersCountSet() : Preparing sales order count query");
+      $salesOrdersQueryCount = "SELECT SO.id FROM sales_orders SO ".
+                              "WHERE SO.set_status IN ('Created','Approved') AND SO.set = 'Yes'";
+      syslog(
+                LOG_INFO, "In getSalesOrdersCountSet() : Executing Query: " . $salesOrdersQueryCount
+        );
+        Config::writelog('phpcronjob2', "In getSalesOrdersCountSet() : Executing Query: " . $salesOrdersQueryCount);
+
+       $salesOrdersCount = $this->_integrationConnect->query($salesOrdersQueryCount);
+       if (!$salesOrdersCount) {
+            syslog(
+                    LOG_WARNING, "In getSalesOrdersCountSet() : Error executing sales order query :" .
+                    " ({$this->_integrationConnect->errno}) - " .
+                    "{$this->_integrationConnect->error}"
+            );
+                    
+            Config::writelog('phpcronjob2', "In getSalesOrdersCountSet() : Error executing sales order query :" . " ({$this->_integrationConnect->errno}) - " . "{$this->_integrationConnect->error}");
+            
+            throw new Exception(
+            "In getSalesOrdersCount() : Error executing sales order query : " .
+            "({$this->_integrationConnect->errno}) - " .
+            "{$this->_integrationConnect->error}"
+            );
+        }
+
+        if ($salesOrdersCount->num_rows == 0) {
+            syslog(
+                    LOG_WARNING, "In getSalesOrdersCountSet() : No Sales Order Found for SET!"
+            );
+            Config::writelog('phpcronjob2', "In getSalesOrdersCountSet() : No Sales Order Found for SET!");
+            throw new Exception("In getSalesOrdersCountSet() : No Sales Order Found for SET!");
+        }
+
+        return $salesOrdersCount->num_rows;
+    }
+    
+    /*
+     * Fetching total count of sales order with mos files
+     */ 
+    function getSalesOrdersCountMos() {
+      syslog(LOG_INFO, "In getSalesOrdersCountMos() : Preparing sales order count query");
+      Config::writelog('phpcronjob2', "In getSalesOrdersCountMos() : Preparing sales order count query");
+      $salesOrdersQueryCount = "SELECT SO.id FROM sales_orders SO ".
+                              "WHERE SO.set_status IN ('Created','Approved') AND SO.mos = 'Yes'";
+      syslog(
+                LOG_INFO, "In getSalesOrdersCountMos() : Executing Query: " . $salesOrdersQueryCount
+        );
+        Config::writelog('phpcronjob2', "In getSalesOrdersCountMos() : Executing Query: " . $salesOrdersQueryCount);
+
+       $salesOrdersCount = $this->_integrationConnect->query($salesOrdersQueryCount);
+       if (!$salesOrdersCount) {
+            syslog(
+                    LOG_WARNING, "In getSalesOrdersCountMos() : Error executing sales order query :" .
+                    " ({$this->_integrationConnect->errno}) - " .
+                    "{$this->_integrationConnect->error}"
+            );
+                    
+            Config::writelog('phpcronjob2', "In getSalesOrdersCountMos() : Error executing sales order query :" . " ({$this->_integrationConnect->errno}) - " . "{$this->_integrationConnect->error}");
+            
+            throw new Exception(
+            "In getSalesOrdersCountMos() : Error executing sales order query : " .
+            "({$this->_integrationConnect->errno}) - " .
+            "{$this->_integrationConnect->error}"
+            );
+        }
+        if ($salesOrdersCount->num_rows == 0) {
+            syslog(
+                    LOG_WARNING, "In getSalesOrdersCountMos() : No Sales Order Found for MOS!"
+            );
+            Config::writelog('phpcronjob2', "In getSalesOrdersCountMos() : No Sales Order Found for MOS!");
+            throw new Exception("In getSalesOrdersCountMos() : No Sales Order Found for MOS!");
+        }
+
+        return $salesOrdersCount->num_rows;
+    }
+
+    /*
+     * Fetching no of sales order with set files
+     */ 
     protected function getSalesOrdersForSet() {
         syslog(
                 LOG_INFO, "In getSalesOrdersForSet() : Preparing sales order query"
@@ -144,6 +254,9 @@ class PhpBatchTwo {
         return $salesOrders;
     }
 
+    /*
+     * Fetching no of sales order with mos files
+     */ 
     protected function getAccountsForMos() {
         syslog(
                 LOG_INFO, "In getAccountsForMos() : Preparing sales order query"
@@ -194,7 +307,10 @@ class PhpBatchTwo {
 
         return $salesOrders;
     }
-
+    
+    /*
+     * Fetching products details by sales order id
+     */ 
     protected function getProductsBySalesOrderId($salesOrderId) {
         syslog(
                 LOG_INFO, "In getProductsBySalesOrderId($salesOrderId) : Fetching products"
@@ -222,6 +338,10 @@ class PhpBatchTwo {
         return $salesOrderProducts;
     }
 
+    
+    /*
+     * Fetching products details by account name
+     */ 
     protected function getProductsByAccountName($accountname) {
         syslog(
                 LOG_INFO, "In getProductsByAccountName($accountname) : Fetching products"
@@ -254,6 +374,10 @@ class PhpBatchTwo {
         return $products;
     }
 
+    
+    /*
+     * update integration sales order with status delivered
+     */ 
     protected function updateIntegrationSalesOrder(
     $salesOrderID, $column, $status = 'Delivered'
     ) {
@@ -289,6 +413,10 @@ class PhpBatchTwo {
         return $updateSaleOrder;
     }
 
+    
+    /*
+     *  Update integration sales order by account with status delivered
+     */ 
     protected function updateIntegrationSalesOrderByAccountName(
     $accountname, $column, $status = 'Delivered'
     ) {
@@ -329,6 +457,10 @@ class PhpBatchTwo {
         return $updateSaleOrder;
     }
 
+    
+    /*
+     * Creating Set Files
+     */ 
     protected function createSETFile($salesOrder, &$msg) {
         $cnt = 0;
 
@@ -489,6 +621,9 @@ class PhpBatchTwo {
         return $messageQ;
     }
 
+    /*
+     * Creating MOS Files
+     */ 
     protected function createMOSFile($account, &$msg) {
         $soProducts = $this->getProductsByAccountName(
                 $account->accountname
@@ -583,7 +718,10 @@ class PhpBatchTwo {
 
         return $messageQ;
     }
-
+ 
+    /*
+     * Store file SET/MOS files in S3 bucket
+     */    
     protected function storeFileInSThree(
     $bucket, $fileFolder, $fileName, $contentF
     ) {
@@ -616,14 +754,17 @@ class PhpBatchTwo {
 
             syslog(
                     LOG_WARNING, "Unable to save file $fileName in S3 bucket " .
-                    "($bucket)"
+                    "($bucket) Respone json".json_encode($responseSThree)
             );
             Config::writelog(LOG_WARNING, "Unable to save file $fileName in S3 bucket " .
-                    "($bucket)");
+                    "($bucket) Respone json".json_encode($responseSThree));
         }
         return $responseSThree;
     }
 
+    /*
+     * Store file in Amamzon S3
+     */    
     protected function storeFileInMessageQ($qUrl, $messageQ) {
         /*
          * Store file name and file content to message queue.
@@ -644,25 +785,96 @@ class PhpBatchTwo {
          */
         if ($responseQ->status !== 200) {
             syslog(
-                    LOG_WARNING, "Error in sending file to message queue."
+                    LOG_WARNING, "Error in sending file to message queue.".json_encode($responseQ)
             );
 
-            Config::writelog(LOG_WARNING, "Error in sending file to message queue.");
+            Config::writelog(LOG_WARNING, "Error in sending file to message queue.".json_encode($responseQ));
 
-            throw new Exception("Error in sending file to message queue.");
+            throw new Exception("Error in sending file to message queue.".json_encode($responseQ));
         }
 
         return $responseQ;
     }
+    /*
+     * Send alert mail with errors
+     */
+    function sendEmailAlert($errorMessage) {
+       $messages = "";
+       $iCount = 1;
+       foreach($errorMessage as $val) {
+        $messages .="$iCount: ".$val.PHP_EOL.PHP_EOL;
+        $iCount++;
+       }
+       $sesResponseAlert = $this->_ses->send_email(
+        "noreply@gizur.com",
+        array(
+           "ToAddresses" => Config::$toEmailErrorReports
+        ),
+        array(
+            'Subject.Data'=>"Alert! Error arose during sales order processed Cronjon-2",
+            'Body.Text.Data'=>"Hi,". PHP_EOL .
+            "Below errors arised during sales order processed". PHP_EOL . PHP_EOL .
+            $messages .PHP_EOL .
+                                PHP_EOL .
+                                '--' .
+                                PHP_EOL .
+                                'Gizur Admin'               
+        )       
+    );
+        if ($sesResponseAlert->isOK()) {
+            $this->_messages['alertEmail'] =  "Mail sent successfully ";
+        } else {
+            $this->_messages['alertEmail'] =  "Mail Not Sent";
+            syslog(
+                   LOG_INFO, "Some error to sent mail"
+                   );
+                   Config::writelog('phpcronjob2', "Some error to sent mail");
+
+        }
+    }
+    /*
+     * Send success alert mail with no of sales order processed
+     */
+    function sendEmailAlertSuccess($successMessage) {
+       $sesResponseAlert = $this->_ses->send_email(
+        "noreply@gizur.com",
+        array(
+           "ToAddresses" => Config::$toEmailErrorReports
+        ),
+        array(
+            'Subject.Data'=>"Sales order processed from integration: Cronjob-2",
+            'Body.Text.Data'=>"Hi,". PHP_EOL .
+            "Total no of messages pushed in SQS successfully". PHP_EOL . PHP_EOL .
+            "Total: ".$successMessage .PHP_EOL .
+                                PHP_EOL .
+                                '--' .
+                                PHP_EOL .
+                                'Gizur Admin'               
+        )       
+    );
+        if ($sesResponseAlert->isOK()) {
+            $this->_messages['alertEmailSales'] =  "Mail sent successfully ";
+        } else {
+            $this->_messages['alertEmailSales'] =  "Mail Not Sent";
+            syslog(
+                   LOG_INFO, "Some error to sent mail"
+                   );
+                   Config::writelog('phpcronjob1', "Some error to sent mail");
+
+        }
+    }
+
 
     public function init() {
         /*
          * Process SET Files
          */
         try {
+            $numberSalesOrders = $this->getSalesOrdersCountSet(); 
+            $bunchCount = ceil($numberSalesOrders/Config::$batchVariable);
+            for($doLoop=1; $doLoop<=$bunchCount; $doLoop++) {
+            
             $salesOrders = $this->getSalesOrdersForSet();
-            $numberSalesOrders = $salesOrders->num_rows;
-
             /*
              * Update message array with number of sales orders.
              */
@@ -722,17 +934,20 @@ class PhpBatchTwo {
                     $this->_integrationConnect->commit();
                 } catch (Exception $e) {
                     $numberSalesOrders--;
+                    $this->_messages['message'] = $e->getMessage();
+                    $this->_errors[] = $e->getMessage();
                     /*
                      * Rollback the connections
                      */
                     $this->_integrationConnect->rollback();
                 }
             }
-
+          }
             $this->_messages['set']['message'] = "$numberSalesOrders number " .
                     "of sales orders processed for SET files.";
         } catch (Exception $e) {
             $this->_messages['message'] = $e->getMessage();
+            $this->_errors[] = $e->getMessage();
             /*
              * Rollback the connections
              */
@@ -743,9 +958,11 @@ class PhpBatchTwo {
          * Process MOS files
          */
         try {
-            $accounts = $this->getAccountsForMos();
-            $numberAccounts = $accounts->num_rows;
+            $numberAccounts = $this->getSalesOrdersCountMos();
+            $bunchCountMos = ceil($numberAccounts/Config::$batchVariable);
+            for($doLoopMos=1; $doLoopMos<=$bunchCountMos; $doLoopMos++) {
 
+            $accounts = $this->getAccountsForMos();
             /*
              * Update message array with number of sales orders.
              */
@@ -789,17 +1006,23 @@ class PhpBatchTwo {
                     $this->_integrationConnect->commit();
                 } catch (Exception $e) {
                     $numberAccounts--;
+                    $this->_errors[] = $e->getMessage();
                     /*
                      * Rollback the connections
                      */
                     $this->_integrationConnect->rollback();
                 }
             }
-
+           }
             $this->_messages['mos']['message'] = "$numberAccounts number " .
                     "of accounts processed for MOS files.";
+             $successMessage = "Total set file processed:".$numberSalesOrders 
+             .PHP_EOL ."Total mos file processed:".$numberAccounts;       
+            $this->sendEmailAlertSuccess($successMessage);
         } catch (Exception $e) {
             $this->_messages['message'] = $e->getMessage();
+            $this->_errors[] = $e->getMessage();
+            
             /*
              * Rollback the connections
              */
@@ -813,6 +1036,9 @@ class PhpBatchTwo {
         Config::writelog('phpcronjob2', json_encode($this->_messages));
 
         echo json_encode($this->_messages);
+        if(count($this->_errors)>0) {
+          $this->sendEmailAlert($this->_errors);
+        }
     }
 
 }

@@ -210,6 +210,9 @@ class Config
     public static $toEmailReports = array(
         "rohit.kumar@essindia.co.in"
     );
+    public static $toEmailErrorReports = array(
+        "rohit.kumar@essindia.co.in"
+    );
   static function writelog($file_name, $message)
     {
         $logfile = __DIR__ . '/log/log_' . date("j.n.Y") . '.txt';

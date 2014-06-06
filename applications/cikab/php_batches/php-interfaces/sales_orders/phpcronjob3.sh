@@ -23,7 +23,7 @@
  */
 
 require_once __DIR__ . '/../config.inc.php';
-require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
 
 class PhpBatchThree
 {
@@ -34,6 +34,7 @@ class PhpBatchThree
     private $_setFtpConn;
     private $_mosFtpConn;
     private $_sqs;
+    private $_errors = array();
 
     function __construct()
     {
@@ -64,6 +65,9 @@ class PhpBatchThree
             "phpcronjob3", LOG_PID | LOG_PERROR, LOG_LOCAL0
         );
         
+    /*
+     * Trying to connect to SQS
+     */            
          Config::writelog('phpcronjob3', "Trying connecting with Amazon SQS");
 
         syslog(
@@ -77,6 +81,19 @@ class PhpBatchThree
         syslog(
             LOG_INFO, "Connected with Amazon SQS"
         );
+        
+         syslog(
+                LOG_INFO, "Trying connecting with Amazon SES"
+        );
+
+        Config::writelog('phpcronjob3', "Trying connecting with Amazon SES");
+
+        $this->_ses = new AmazonSES();
+
+        syslog(
+                LOG_INFO, "Connected with Amazon SES"
+        );
+        Config::writelog('phpcronjob3', "Connected with Amazon SES");
 
         $this->_setFtpConn = $this->getftpConnection(
             Config::$setFtp['host'], 
@@ -93,6 +110,9 @@ class PhpBatchThree
         );
     }
 
+    /*
+     *  Creating connection with ftp server
+     */    
     protected function getftpConnection(
     $host, $port, $username, $password, $timeout = 10
     )
@@ -158,6 +178,9 @@ class PhpBatchThree
         return $ftpConn;
     }
 
+    /*
+     * Store file in FTP
+     */    
     protected function saveToFtp($ftpConnId, $serverpath, $fileJson)
     {
         $ftpPath = $serverpath . $fileJson->file;
@@ -224,11 +247,14 @@ class PhpBatchThree
 
         return $uploaded;
     }
-    
+
+    /*
+    *Saving successful transfer order in db
+    */
     protected function saveToDbTable($fileJson) {
             $filename= $fileJson->file;
-            $created= date('Y-m-d');
-            $updated= date('Y-m-d');
+            $created= date('Y-m-d h:i:s');
+            $updated= date('Y-m-d h:i:s');
             $st='P';
              $salesOrdersQuery = "INSERT INTO salesorder_message_queue(filename, created, updated, status) values('$filename','$created', '$updated', '$st')";
              $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
@@ -241,10 +267,13 @@ class PhpBatchThree
            }
      }
      
+     /*
+    *Updating successful transfer order in db
+    */
      protected function updateToDbTable($fileJson) {
         $filename= $fileJson->file;
-        $created= date('Y-m-d');
-        $updated= date('Y-m-d');
+        $created= date('Y-m-d h:i:s');
+        $updated= date('Y-m-d h:i:s');
         $st='P';
         // Update salesorder_message_queue table
          $salesOrdersQuery = "UPDATE salesorder_message_queue set status='D', updated='$updated'   WHERE fileName='$filename'";
@@ -257,7 +286,102 @@ class PhpBatchThree
 
        }
      }
+     /*
+     * Fetch successfully delivered sales order from integration db.
+     */
+     function getDeliveredSalesOrder() {
+          $dt= date('Y-m-d');
+          $salesOrdersQueryD = "SELECT id  FROM salesorder_message_queue ".
+          "WHERE updated like'%$dt%' AND status='D'";
+          $salesOrdersD = $this->_integrationConnect->query($salesOrdersQueryD);
+          if(!$salesOrdersD) {
+          Config::writelog('phpcronjob3', "getDeliveredSalesOrder() Error Query to fetch delivered sales order".$salesOrdersD);
+            throw new Exception(
+                        "getDeliveredSalesOrder() Error Query to fetch delivered sales order".$salesOrdersD
+                    );
 
+        }
+          if($salesOrdersD->num_rows==0) {
+            syslog(
+                    LOG_WARNING, "In getDeliveredSalesOrder() : No delivered Sales Order Found!"
+            );
+            Config::writelog('phpcronjob3', "In getDeliveredSalesOrder() : No delivered Sales Order Found!");
+            throw new Exception("In getDeliveredSalesOrder() : No delivered Sales Order Found!");
+          }
+          return $salesOrdersD->num_rows;
+     }
+     
+     /*
+     * Send alert mail with errors
+     */
+     function sendEmailAlert($errorMessage) {
+       $messages = "";
+       $iCount = 1;
+       foreach($errorMessage as $val) {
+        $messages .="$iCount: ".$val.PHP_EOL.PHP_EOL;
+        $iCount++;
+       }
+       $messages = implode(', ',$errorMessage);
+       $sesResponseAlert = $this->_ses->send_email(
+        "noreply@gizur.com",
+        array(
+           "ToAddresses" => Config::$toEmailErrorReports
+        ),
+        array(
+            'Subject.Data'=>"Alert! Error arose during sales order processed Cronjon-3",
+            'Body.Text.Data'=>"Hi,". PHP_EOL .
+            "Below errors arised during sales order processed". PHP_EOL . PHP_EOL .
+            $messages .PHP_EOL .
+                                PHP_EOL .
+                                '--' .
+                                PHP_EOL .
+                                'Gizur Admin'               
+        )       
+    );
+        if ($sesResponseAlert->isOK()) {
+            $this->_messages['alertEmail'] =  "Mail sent successfully ";
+        } else {
+            $this->_messages['alertEmail'] =  "Mail Not Sent";
+            syslog(
+                   LOG_INFO, "Some error to sent mail"
+                   );
+                   Config::writelog('phpcronjob3', "Some error to sent mail");
+
+        }
+    }
+
+    /*
+     * Send success alert mail with no of sales order processed
+     */
+
+  function sendEmailAlertSuccess($successMessage) {
+       $sesResponseAlert = $this->_ses->send_email(
+        "noreply@gizur.com",
+        array(
+           "ToAddresses" => Config::$toEmailErrorReports
+        ),
+        array(
+            'Subject.Data'=>"Sales order processed from SQS Cronjon-3",
+            'Body.Text.Data'=>"Hi,". PHP_EOL .
+            "Total no of sales order successfully processed from SQS". PHP_EOL . PHP_EOL .
+            " ".$successMessage .PHP_EOL .
+                                PHP_EOL .
+                                '--' .
+                                PHP_EOL .
+                                'Gizur Admin'               
+        )       
+    );
+        if ($sesResponseAlert->isOK()) {
+            $this->_messages['alertEmailSales'] =  "Mail sent successfully ";
+        } else {
+            $this->_messages['alertEmailSales'] =  "Mail Not Sent";
+            syslog(
+                   LOG_INFO, "Some error to sent mail"
+                   );
+                   Config::writelog('phpcronjob3', "Some error to sent mail");
+
+        }
+    }
 
     public function init()
     {
@@ -377,7 +501,6 @@ class PhpBatchThree
             // Save Sqs message in database
                      $this->saveToDbTable($fileJson);
             // End save messages database
-
                 if ($fileJson->type == 'SET' || !isset($fileJson->type)) {
                  $st =   $this->saveToFtp(
                         $this->_setFtpConn,
@@ -430,19 +553,37 @@ class PhpBatchThree
                 $this->_messages['files'][$fileJson->file]['status'] = false;
                 $this->_messages['files'][$fileJson->file]['error'] = 
                     $e->getMessage();
+                     $this->_errors[] = $e->getMessage();
             }
             /*
              * Decrease $_messageCount by 1
              */
             $this->_messageCount--;
         }
+        if($this->getDeliveredSalesOrder() != $this->_noOfFiles) {
+          syslog(
+                    LOG_INFO, 
+                    "Error successfully delivered sales: ".$this->getDeliveredSalesOrder(). 
+                    " and total fetched messages from sqs: $this->_noOfFiles are different!  "
+                );
+                 Config::writelog('phpcronjob3', "Error successfully delivered sales: 
+                 ".$this->getDeliveredSalesOrder()." and total fetched messages from sqs:
+                 "." $this->_noOfFiles  are different!  ");
+                 $this->_errors[] = "Error successfully delivered sales: ".$this->getDeliveredSalesOrder(). 
+                    " and total fetched messages from sqs: $this->_noOfFiles  are different!  ";
+        }
         $this->_messages['message'] = "$this->_noOfFiles no " .
             "of files processed.";
+            $this->sendEmailAlertSuccess("$this->_noOfFiles" .
+            " Files");
         syslog(
             LOG_INFO, json_encode($this->_messages)
         );
          Config::writelog('phpcronjob3', json_encode($this->_messages));
         echo json_encode($this->_messages);
+        if(count($this->_errors)>0) {
+          $this->sendEmailAlert($this->_errors);
+        }
     }
 }
 
@@ -453,4 +594,6 @@ try{
     syslog(LOG_WARNING, $e->getMessage());
     Config::writelog('phpcronjob3', $e->getMessage());
     echo $e->getMessage();
+    $this->_errors[] = $e->getMessage();
+    $this->sendEmailAlert($this->_errors);
 }
