@@ -125,7 +125,12 @@ exports.group = {
          if(err) {
              test.ok(false, "Error fetching SET files from S3 : " + err);
          } else {
-            var lengthS3 = data.Contents.length;
+             var lengthS3;
+             if(typeof data.Contents != 'undefined') {
+                lengthS3 = data.Contents.length;
+                } else { 
+                lengthS3=0;
+                }
             test.equal(lengthS3, s3FilesBefore, 
                     "SET files in S3 : " + lengthS3 + " & SET files in S3 before: "
                      + s3FilesBefore + " should be equal!");
@@ -204,7 +209,12 @@ exports.group = {
          if(err) {
              test.ok(false, "Error fetching SET files from S3 : " + err);
          } else {
-            var lengthS3 = data.Contents.length;
+             var lengthS3;
+             if(typeof data.Contents != 'undefined') {
+                lengthS3 = data.Contents.length;
+                } else { 
+                lengthS3=0;
+                }
             test.equal(lengthS3, s3FilesAfter, 
                     "SET files in S3 : " + lengthS3 + " & SET files in S3 after: "
                      + s3FilesAfter + " should be equal!");

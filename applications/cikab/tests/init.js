@@ -124,8 +124,13 @@ exports.group = {
          if(err) {
              test.ok(false, "Error fetching SET files from S3 : " + err);
          } else {
-            var lengthS3 = data.Contents.length;
-            console.log("Today processed SET files in S3: "+lengthS3);
+            var lengthS3;
+             if(typeof data.Contents != 'undefined') {
+                lengthS3 = data.Contents.length;
+                } else { 
+                lengthS3=0;
+                }
+                console.log("Today processed SET files in S3: "+lengthS3); 
          } 
          test.done();
       });  
