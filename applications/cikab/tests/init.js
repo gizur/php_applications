@@ -117,9 +117,10 @@ exports.group = {
         var dt = new Date();
         var dateFilter = dt.getFullYear()+''+("0" + (dt.getMonth() + 1)).slice(-2)
         +''+("0" + dt.getDate()).slice(-2); 
-        var s3 = new AWS.S3({params: {Bucket: 'gc3-archive', 
-        Prefix: 'seasonportal/SET-files/SET.GZ.FTP.IN.BST.'+dateFilter}});   
-        s3.listObjects(function(err, data) {
+        var s3 = new AWS.S3();
+        var params = {Bucket: 'gc3-archive',
+        Prefix: 'seasonportal/SET-files/SET.GZ.FTP.IN.BST.'+dateFilter}
+        s3.client.listObjects(params, function(err, data) {
          if(err) {
              test.ok(false, "Error fetching SET files from S3 : " + err);
          } else {
