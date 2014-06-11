@@ -123,16 +123,36 @@ if (!$salesOrdersIntegration){
            $futuredeliveryDate = strtotime(
             date("Y-m-d", strtotime($salesOrdersIntegrations->created)) . "+2 day"
         );
-        $futuredeliverydate = date('Y-m-d', $futuredeliveryDate);
-           $order = substr($ordernumber,-2);
-           $deliveryDate = substr($futuredeliverydate,-2);
-           $createdDate = date('Y-m-d',strtotime($salesOrdersIntegrations->created));
-           $orderDate =  substr($createdDate,-2);
-           $bnr =  substr($salesOrdersIntegrations->productname,-2); 
-           //$arr[] = "OrderNo:$order+DeleveryDate:$deliveryDate+OrderDate:$orderDate+BNR:$bnr"; 
-           $checkSum = $order+$deliveryDate+$orderDate+$order+$bnr;
+        $futuredeliverydate = date('ymd', $futuredeliveryDate);
+        $createdDate = date('ymd',strtotime($salesOrdersIntegrations->created));
+
+           /// For position 6-7
+           $orderOne = substr($ordernumber, 0, 2);
+           $deliveryDateOne = substr($futuredeliverydate, 0, 2);  
+           $orderDateOne =  substr($createdDate, 0, 2);
+           $bnrOne =  substr($salesOrdersIntegrations->productname, 0, 2); 
+           $checkSumOne = $orderOne+$deliveryDateOne+$orderDateOne+$orderOne+$bnrOne;
+           /// End position 6-7
+        
+           /// For position 8-9
+           $orderTwo = substr($ordernumber, 2, 2);
+           $deliveryDateTwo = substr($futuredeliverydate, 2, 2);  
+           $orderDateTwo =  substr($createdDate, 2, 2);
+           $bnrTwo =  substr($salesOrdersIntegrations->productname, 2, 2); 
+           $checkSumTwo = $orderTwo+$deliveryDateTwo+$orderDateTwo+$orderTwo+$bnrTwo;
+           /// End position 8-9
+        
+           /// For position 10-11
+           $orderThree = substr($ordernumber,-2);
+           $deliveryDateThree = substr($futuredeliverydate,-2);  
+           $orderDateThree =  substr($createdDate,-2);
+           $bnrThree =  substr($salesOrdersIntegrations->productname,-2); 
+           $checkSumThree = $orderThree+$deliveryDateThree+$orderDateThree+$orderThree+$bnrThree;
+           /// End position 10-11
+         
+           $checkSum = $checkSumOne+$checkSumTwo+$checkSumThree;           
            $ord[$salesOrdersIntegrations->salesorder_no] = $checkSum;
-           $todayDate = date('Y-m-d');
+           $todayDate = date('ymd');
            if($createdDate==$todayDate) {
            $todayOrder[$ordernumber] = $checkSum; 
            }        

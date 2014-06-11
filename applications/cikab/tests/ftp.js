@@ -33,7 +33,7 @@ ftpd.fsOptions.root = './files';
 // (you need to be root for ports < 1024)
 ftpd.listen(2121);*/
 
-var ftpd = require('./node_modules/nodeftpd/ftpd.js');
+var ftpd = require('./node_modules/nodeftpd/ftpd.js').listen(2121);
 
 var server = ftpd.createServer("127.0.0.1", "./files");
 

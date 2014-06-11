@@ -594,6 +594,5 @@ try{
     syslog(LOG_WARNING, $e->getMessage());
     Config::writelog('phpcronjob3', $e->getMessage());
     echo $e->getMessage();
-    $this->_errors[] = $e->getMessage();
-    $this->sendEmailAlert($this->_errors);
+    $this->sendEmailAlert($e->getMessage(););
 }
