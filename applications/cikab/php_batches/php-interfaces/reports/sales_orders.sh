@@ -97,6 +97,7 @@ if (!$salesOrdersIntegration){
             "($integrationConnect->errno) - $integrationConnect->error"
         );
     }
+    $todayOrder = array();
  while ($salesOrdersIntegrations = $salesOrdersIntegration->fetch_object()) {
        $salesID = preg_replace(
             '/[A-Z]/', '', $salesOrdersIntegrations->salesorder_no
@@ -309,7 +310,7 @@ if (!$salesOrdersIntegration){
         $messages['status'] =  "Mail Not Sent";
     }
     
-     /* Send mail alert if check sum is greater then 175 */
+     /* Send mail if duplicate checkSum found in a day */
     if($flag>0) {
     syslog(
         LOG_INFO, 
