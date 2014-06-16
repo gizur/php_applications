@@ -208,10 +208,13 @@ class Config
     );
     public static $lineBreak = "\r\n";
     public static $toEmailReports = array(
-        "rohit.kumar@essindia.co.in"
+        "rohit.kumar@essindia.co.in",
+        "prakash.joshi@essindia.co.in"
+        
     );
     public static $toEmailErrorReports = array(
-        "rohit.kumar@essindia.co.in"
+        "rohit.kumar@essindia.co.in",
+        "prakash.joshi@essindia.co.in"
     );
   static function writelog($file_name, $message)
     {

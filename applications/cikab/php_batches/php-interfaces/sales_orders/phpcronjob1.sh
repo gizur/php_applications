@@ -408,7 +408,7 @@ class PhpBatchOne {
         array(
             'Subject.Data'=>"Alert! Error arose during sales order processed Cronjon-1",
             'Body.Text.Data'=>"Hi,". PHP_EOL .
-            "Below errors arised during sales order processed". PHP_EOL . PHP_EOL .
+            "Below errors arose during sales order processed". PHP_EOL . PHP_EOL .
             $messages .PHP_EOL .
                                 PHP_EOL .
                                 '--' .
