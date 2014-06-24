@@ -1937,7 +1937,7 @@ class ApiController extends Controller {
                                     implode(" and ", $whereClause);
 
                         //Terminating the query
-                        $query = $query . " limit 0, ".Yii::app()->params->dataLimit.";";
+                        $query = $query . " orderby id desc limit 0, ".Yii::app()->params->dataLimit.";";
 
                         //urlencode to as its sent over http.
                         $queryParam = urlencode($query);
