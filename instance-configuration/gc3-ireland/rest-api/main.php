@@ -134,6 +134,7 @@ return array(
         'awsSESAdminEmailAddresses' => array(
             'gizur-ess-prabhat@gizur.com'
         ),
+        'dataLimit' => 500,
         'acceptableTimestampError' => 60,
         'awsS3Region' => 'REGION_EU_W1',
         'awsDynamoDBRegion' => 'REGION_EU_W1',

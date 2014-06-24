@@ -33,9 +33,9 @@ ftpd.fsOptions.root = './files';
 // (you need to be root for ports < 1024)
 ftpd.listen(2121);*/
 
-var ftpd = require('./node_modules/nodeftpd/ftpd.js').listen(2121);
+var ftpd = require('./node_modules/nodeftpd/ftpd.js');
 
-var server = ftpd.createServer("127.0.0.1", "./files");
+var server = ftpd.createServer("127.0.0.1", "./files").listen(2121);
 
 // this event passes in the client socket which emits further events
 // but should recommend they don't do socket operations on it
