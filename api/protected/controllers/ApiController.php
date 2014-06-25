@@ -5468,8 +5468,7 @@ class ApiController extends Controller {
                             $sesResponse = $email->send_email(
                                     Yii::app()->params->awsSESFromEmailAddress, array(
                                 'ToAddresses' => array(// Destination (aka To)
-                                    $_SERVER['HTTP_X_USERNAME'],
-                                    Yii::app()->params->awsSESBccEmailAddress
+                                    $_SERVER['HTTP_X_USERNAME']   
                                 )
                                     ), array(// sesMessage (short form)
                                 'Subject.Data' => date("F j, Y") .
