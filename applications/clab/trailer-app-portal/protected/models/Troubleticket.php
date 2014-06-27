@@ -172,7 +172,7 @@ class Troubleticket extends CFormModel {
     }
 
     function findAll($module, $tickettype, $year = '0000', $month = '00', $trailer = '0', 
-        $reportdamage = 'all') {
+        $reportdamage = 'all', $minLimit, $maxLimit) {
         $params = array(
             'Verb' => 'GET',
             'Model' => $module,
@@ -220,7 +220,8 @@ class Troubleticket extends CFormModel {
         $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-        $response = $rest->get(Yii::app()->params->URL . $module . "/" . $tickettype . $extraparameter);
+         $response = $rest->get(Yii::app()->params->URL . $module . "/" .$minLimit."/".$maxLimit."/". $tickettype . $extraparameter);
+
         return $result = json_decode($response, true);
     }
 

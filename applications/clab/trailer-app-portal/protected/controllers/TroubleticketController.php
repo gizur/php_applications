@@ -52,10 +52,62 @@ class TroubleticketController extends Controller
         if ($trailer == "--All Trailers--")
             $trailer = "0";
 
-        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage);
+        //$records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage);
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List, 'session' => Yii::app()->session));
     }
+    
+    
+    public function actionsurveylistdata()
+    {
+        $module = "HelpDesk";
+        $tickettype = "all";
+
+        if (!isset(Yii::app()->session['gizur_table_id_index'])) {
+            Yii::app()->session['gizur_table_id_index'] = 1;
+            setcookie("SpryMedia_DataTables_table_id_index.php", "", time() - 3600);
+            unset($_COOKIE['SpryMedia_DataTables_table_id_index.php']);
+        }
+       $minLimit = $_POST['minLimit'];
+       $maxLimit = $_POST['maxLimit'];
+        $model = new Troubleticket;
+        $this->LoginCheck();
+
+        $currentyear = isset(Yii::app()->session['Search_year']) ? Yii::app()->session['Search_year'] : date('Y');
+        $curr_month = isset(Yii::app()->session['Search_month']) ? Yii::app()->session['Search_month'] : date("m");
+        $trailer = isset(Yii::app()->session['Search_trailer']) ? Yii::app()->session['Search_trailer'] : 0;
+        $reportdamage = isset(Yii::app()->session['Search_reportdamage']) ? Yii::app()->session['Search_reportdamage'] : 'all';
+
+        if ($trailer == "--All Trailers--")
+            $trailer = "0";
+
+        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage, $minLimit, $maxLimit);
+
+$dataArray = array();
+foreach ($records['result'] as $data) { 
+                     $date = date('y-m-d', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime'])));
+                     $time = date('H:i', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime'])));
+                     $viewdteails = '<span id=' . $data['id'] . '></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '")>' . $data['accountname'] . '</a>';
+                      $arrData = array('ticket_no'=>$data['ticket_no'],
+                               'date'=>$date,
+                               'time'=>$time,
+                               'trailerid'=>$data['trailerid'],
+                               'viewdteails' => $viewdteails,
+                               'contactname' => $data['contactname'],
+                               'damagereportlocation' => htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"),
+                               'damagestatus' => $data['damagestatus'],
+                               'reportdamage' => $data['reportdamage'],
+                               'damagetype' => htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"),
+                               'damageposition' => htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"),
+                               'drivercauseddamage' =>  $data['drivercauseddamage']
+                   );
+                   array_push($dataArray,$arrData);
+                 }
+     echo json_encode($dataArray);
+   exit;
+    }
+
+    
 
     /**
      * This Action are create new Trouble Ticket 
@@ -108,18 +160,32 @@ class TroubleticketController extends Controller
             $trailer = "0";
         $model = new Troubleticket;
         $this->LoginCheck();
-        $records = $model->findAll($module, 'all', $year, $month, $trailer, $reportdamage);
-        $Asset_List = $model->findAssets('Assets');
-        $Asset_List = array("0" => "--All Trailers--") + $Asset_List;
+$minLimit = $_POST['minLimit'];
+$maxLimit = $_POST['maxLimit'];
+        $records = $model->findAll($module, 'all', $year, $month, $trailer, $reportdamage, $minLimit, $maxLimit);
+$dataArray = array();
+foreach ($records['result'] as $data) {
+                     $date = date('y-m-d', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime'])));
+                     $time = date('H:i', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime'])));
+                     $viewdteails = '<span id=' . $data['id'] . '></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '")>' . $data['accountname'] . '</a>';
 
-        $assetstatus = '';
-        if ($trailer !== '0') {
-            $assetstatus = $model->findById('Assets', $trailerid);
-        }
-
-        $this->renderPartial('surveylist', array('model' => $model, 'result' => $records,
-            'Assets' => $Asset_List, 'currentasset' => $assetstatus,
-            'TR' => $_POST['trailer'], 'SYear' => $year, 'SMonth' => $month, 'SReportdamage' => $reportdamage, 'session' => Yii::app()->session));
+                   $arrData = array('ticket_no'=>$data['ticket_no'],
+                               'date'=>$date,
+                               'time'=>$time,
+                               'trailerid'=>$data['trailerid'],
+                               'viewdteails' => $viewdteails,
+                               'contactname' => $data['contactname'],
+                               'damagereportlocation' => htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"),
+                               'damagestatus' => $data['damagestatus'],
+                               'reportdamage' => $data['reportdamage'],
+                               'damagetype' => htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"),
+                               'damageposition' => htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"),
+                               'drivercauseddamage' =>  $data['drivercauseddamage']
+                   );
+                   array_push($dataArray,$arrData);
+                 }
+ echo json_encode($dataArray);
+exit;
     }
 
     /**

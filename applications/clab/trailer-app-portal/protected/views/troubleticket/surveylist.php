@@ -119,37 +119,88 @@ foreach ($rm as $key => $val) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($result['result'] as $data) { ?>
-                    <?php $date = date('y-m-d', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime']))); ?>
-                    <?php $time = date('H:i', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime']))); ?>
-                    <?php $viewdteails = '<span id=' . $data['id'] . '></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '")>' . $data['accountname'] . '</a>'; ?>
-                    <?php $ticketNo = '<span id=' . $data['id'] . '-1></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '-1")>' . $data['date'] . '</a>'; ?>
-                    <tr>
-                        <td><?php echo $data['ticket_no']; ?></td>
-                        <td><?php echo $date; ?></td>
-                        <td><?php echo $time; ?></td>
-                        <td><?php echo $data['trailerid']; ?></td>
-                        <td><?php echo $viewdteails; ?></td>
-                        <td><?php echo $data['contactname']; ?></td>
-                        <td><?php echo htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"); ?></td>
-                        <td><?php echo getTranslatedString($data['damagestatus']); ?></td>
-                        <td><?php echo $data['reportdamage']; ?></td>
-                        <td><?php echo htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"); ?></td>
-                        <td><?php echo htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"); ?></td>
-                        <td><?php echo $data['drivercauseddamage']; ?></td>
-                    </tr>
-                <?php } ?>
+              
             </tbody>
         </table>
     </div>
 </div>
 <script type="text/javascript">
+   var maxdataLimit =100;
     jQuery(document).ready(function() {
         jQuery("#assetsmsg").show().delay(5000).fadeOut();
-        jQuery('#table_id').dataTable({
+        window.dt = jQuery('#table_id').dataTable({
             "bStateSave": true
         });
+         addRows(0,maxdataLimit);
+  });
+  
+  var min=0;
+  function addRows(minLimit, maxLimit) {
+    $("#alertMsg").addClass("waitprocess");
+    $('#alertMsg').html('loading....  Please wait');
+      $.post('index.php?r=troubleticket/surveylistdata',
+         {minLimit:minLimit, maxLimit:maxLimit},
+         function(data) {
+          $.each(data,function(index, value) {
+            var fdata = [value.ticket_no,
+            value.date,
+            value.time,
+            value.trailerid,
+            value.viewdteails,
+            value.contactname,
+            value.damagereportlocation,
+            value.damagestatus,
+            value.reportdamage,
+            value.damagetype,
+            value.damageposition,
+            value.drivercauseddamage
+            ];
+        window.dt.fnAddData(fdata);
     });
+    min =min+data.length;
+        if(data.length==0) { 
+           $("#alertMsg").removeClass("waitprocess");
+           $('#alertMsg').html('');
+         } else {   
+            addRows(min, maxdataLimit);
+         }
+       },'json');
+    }
+
+     var minS=0;
+    function searchData(year, month, trailer, reportdamage, trailerid, minLimit, maxLimit) {
+         $.post('index.php?r=troubleticket/surveysearch', 
+              {year: year, month: month, trailer: trailer, 
+              reportdamage: reportdamage, trailerid: trailerid, 
+              minLimit:minLimit, maxLimit:maxLimit},
+                function(data) {
+                   $.each(data,function(index, value) {
+    var fdata = [value.ticket_no,
+                 value.date,
+                 value.time,
+                 value.trailerid,
+                 value.viewdteails,
+                 value.contactname,
+                 value.damagereportlocation,
+                 value.damagestatus,
+                 value.reportdamage,
+                 value.damagetype,
+                 value.damageposition,
+                 value.drivercauseddamage
+               ];
+    window.dt.fnAddData(fdata);
+    });
+      minS =minS+data.length;
+     if(data.length==0) { 
+            $("#alertMsg").removeClass("waitprocess");
+            $('#alertMsg').html('');
+             } else {   
+             searchData(year, month, trailer, reportdamage, trailerid, minS, maxdataLimit);
+              }
+       }, 'json');
+   }
+
+
     function getAjaxBaseAssetRecord(value) {
         if (value == 'damaged') {
             var tickettype = value;
@@ -167,21 +218,19 @@ foreach ($rm as $key => $val) {
         );
     }
     
-    function getAjaxBaseRecord(value) {
+   function getAjaxBaseRecord(value) {
+        minS = 0;
         var year = $('#year').val();
         var month = $('#month').val();
         var reportdamage = $('#reportdamage').val();
         var trailer = $('#trailer option:selected').text();
         var trailerid = $('#trailer option:selected').val();
-        $("#process").addClass("waitprocess");
-        $('#process').html('loading....  Please wait');
-        $.post('index.php?r=troubleticket/surveysearch', {year: year, month: month, trailer: trailer, reportdamage: reportdamage, trailerid: trailerid},
-            function(data) {
-                $("#process").removeClass("waitprocess");
-                $('#wrap').html(data);
-            }
-        );
+        $("#alertMsg").addClass("waitprocess");
+        $('#alertMsg').html('loading....  Please wait');
+        window.dt.fnClearTable();   
+        searchData(year, month, trailer, reportdamage, trailerid, 0, maxdataLimit);     
     }
+
     
     function waitprocess(id) {
         $("#" + id).addClass("waitprocessdetails");
