@@ -99,6 +99,7 @@ foreach ($rm as $key => $val) {
             </tr>
         </table>	
     </div>	
+    <div id="alertMsg"></div>
     <br />
     <div id="process">
         <table id="table_id">
