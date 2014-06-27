@@ -126,7 +126,7 @@ foreach ($rm as $key => $val) {
     </div>
 </div>
 <script type="text/javascript">
-   var maxdataLimit =500;
+   var maxdataLimit =100;
     jQuery(document).ready(function() {
         jQuery("#assetsmsg").show().delay(5000).fadeOut();
         window.dt = jQuery('#table_id').dataTable({
