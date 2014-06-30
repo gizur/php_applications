@@ -142,6 +142,9 @@ foreach ($rm as $key => $val) {
       $.post('index.php?r=troubleticket/surveylistdata',
          {minLimit:minLimit, maxLimit:maxLimit},
          function(data) {
+         if(min==0) {
+                  window.dt.fnClearTable();
+                 }
           $.each(data,function(index, value) {
             var fdata = [value.ticket_no,
             value.date,
@@ -175,7 +178,9 @@ foreach ($rm as $key => $val) {
               reportdamage: reportdamage, trailerid: trailerid, 
               minLimit:minLimit, maxLimit:maxLimit},
                 function(data) {
-                window.dt.fnClearTable();
+                 if(minS==0) {
+                  window.dt.fnClearTable();
+                 }
                    $.each(data,function(index, value) {
     var fdata = [value.ticket_no,
                  value.date,
