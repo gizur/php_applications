@@ -92,14 +92,15 @@ foreach ($records['result'] as $data) {
                                'date'=>$date,
                                'time'=>$time,
                                'trailerid'=>$data['trailerid'],
-                               'viewdteails' => $viewdteails,
+                               'viewdteails' => $data['accountname'],
                                'contactname' => $data['contactname'],
                                'damagereportlocation' => htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"),
                                'damagestatus' => $data['damagestatus'],
                                'reportdamage' => $data['reportdamage'],
                                'damagetype' => htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"),
                                'damageposition' => htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"),
-                               'drivercauseddamage' =>  $data['drivercauseddamage']
+                               'drivercauseddamage' =>  $data['drivercauseddamage'],
+                               'id' => $data['id']
                    );
                    array_push($dataArray,$arrData);
                  }
@@ -173,14 +174,15 @@ foreach ($records['result'] as $data) {
                                'date'=>$date,
                                'time'=>$time,
                                'trailerid'=>$data['trailerid'],
-                               'viewdteails' => $viewdteails,
+                               'viewdteails' => $data['accountname'],
                                'contactname' => $data['contactname'],
                                'damagereportlocation' => htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"),
                                'damagestatus' => $data['damagestatus'],
                                'reportdamage' => $data['reportdamage'],
                                'damagetype' => htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"),
                                'damageposition' => htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"),
-                               'drivercauseddamage' =>  $data['drivercauseddamage']
+                               'drivercauseddamage' =>  $data['drivercauseddamage'],
+                               'id' => $data['id']
                    );
                    array_push($dataArray,$arrData);
                  }

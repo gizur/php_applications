@@ -126,7 +126,7 @@ foreach ($rm as $key => $val) {
     </div>
 </div>
 <script type="text/javascript">
-   var maxdataLimit =50;
+   var maxdataLimit =1000;
     jQuery(document).ready(function() {
         jQuery("#assetsmsg").show().delay(5000).fadeOut();
         window.dt = jQuery('#table_id').dataTable({
@@ -147,7 +147,7 @@ foreach ($rm as $key => $val) {
             value.date,
             value.time,
             value.trailerid,
-            value.viewdteails,
+            '<span id=' +value.id+ '></span><a href="index.php?r=troubleticket/surveydetails/'+value.id +'" onclick=waitprocess("'+value.id+'")>' + value.viewdteails + '</a>',
             value.contactname,
             value.damagereportlocation,
             value.damagestatus,
@@ -180,7 +180,7 @@ foreach ($rm as $key => $val) {
                  value.date,
                  value.time,
                  value.trailerid,
-                 value.viewdteails,
+                 '<span id=' +value.id+ '></span><a href="index.php?r=troubleticket/surveydetails/'+value.id +'" onclick=waitprocess("'+value.id+'")>' + value.viewdteails + '</a>',
                  value.contactname,
                  value.damagereportlocation,
                  value.damagestatus,
