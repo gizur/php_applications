@@ -175,6 +175,7 @@ foreach ($rm as $key => $val) {
               reportdamage: reportdamage, trailerid: trailerid, 
               minLimit:minLimit, maxLimit:maxLimit},
                 function(data) {
+                window.dt.fnClearTable();
                    $.each(data,function(index, value) {
     var fdata = [value.ticket_no,
                  value.date,
