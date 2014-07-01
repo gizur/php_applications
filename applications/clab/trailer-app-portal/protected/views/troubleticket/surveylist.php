@@ -126,7 +126,7 @@ foreach ($rm as $key => $val) {
     </div>
 </div>
 <script type="text/javascript">
-   var maxdataLimit =50;
+   var maxdataLimit =1000;
     jQuery(document).ready(function() {
         jQuery("#assetsmsg").show().delay(5000).fadeOut();
         window.dt = jQuery('#table_id').dataTable({
@@ -136,6 +136,7 @@ foreach ($rm as $key => $val) {
   });
   
   var min=0;
+  var allData = [];
   function addRows(minLimit, maxLimit) {
     $("#alertMsg").addClass("waitprocess");
     $('#alertMsg').html('loading....  Please wait');
@@ -159,8 +160,10 @@ foreach ($rm as $key => $val) {
             value.damageposition,
             value.drivercauseddamage
             ];
-        window.dt.fnAddData(fdata);
+        allData.push(fdata);    
     });
+window.dt.fnAddData(allData);
+allData = [];
     min =min+data.length;
         if(data.length==0) { 
            $("#alertMsg").removeClass("waitprocess");
@@ -172,6 +175,7 @@ foreach ($rm as $key => $val) {
     }
 
      var minS=0;
+     var allSearchData = [];
     function searchData(year, month, trailer, reportdamage, trailerid, minLimit, maxLimit) {
          $.post('index.php?r=troubleticket/surveysearch', 
               {year: year, month: month, trailer: trailer, 
@@ -195,8 +199,10 @@ foreach ($rm as $key => $val) {
                  value.damageposition,
                  value.drivercauseddamage
                ];
-    window.dt.fnAddData(fdata);
+    allSearchData.push(fdata);
     });
+    window.dt.fnAddData(allSearchData);
+    allSearchData = [];
       minS =minS+data.length;
      if(data.length==0) { 
             $("#alertMsg").removeClass("waitprocess");
@@ -234,7 +240,8 @@ foreach ($rm as $key => $val) {
         var trailerid = $('#trailer option:selected').val();
         $("#alertMsg").addClass("waitprocess");
         $('#alertMsg').html('loading....  Please wait');
-        window.dt.fnClearTable();   
+        window.dt.fnClearTable(); 
+        allSearchData = [];  
         searchData(year, month, trailer, reportdamage, trailerid, 0, maxdataLimit);     
     }
 
