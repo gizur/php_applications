@@ -151,6 +151,7 @@ foreach ($rm as $key => $val) {
         window.dt = jQuery('#table_id').dataTable({
             "bStateSave": true
         });
+        window.dt.fnSort( [ [0,'desc'] ] );
          addRows(50,maxdataLimit);
   });
   
@@ -179,6 +180,7 @@ foreach ($rm as $key => $val) {
         allData.push(fdata);    
     });
 window.dt.fnAddData(allData);
+window.dt.fnSort( [ [0,'desc'] ] );
 allData = [];
     min =min+data.length;
         if(data.length==0) { 
@@ -218,6 +220,7 @@ allData = [];
     allSearchData.push(fdata);
     });
     window.dt.fnAddData(allSearchData);
+    window.dt.fnSort( [ [0,'desc'] ] );
     allSearchData = [];
       minS =minS+data.length;
      if(data.length==0) { 
