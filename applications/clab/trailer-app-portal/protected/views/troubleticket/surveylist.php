@@ -120,7 +120,26 @@ foreach ($rm as $key => $val) {
                 </tr>
             </thead>
             <tbody>
-              
+               <?php foreach ($result['result'] as $data) { ?>
+                    <?php $date = date('y-m-d', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime']))); ?>
+                    <?php $time = date('H:i', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime']))); ?>
+                    <?php $viewdteails = '<span id=' . $data['id'] . '></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '")>' . $data['accountname'] . '</a>'; ?>
+                    <?php $ticketNo = '<span id=' . $data['id'] . '-1></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '-1")>' . $data['date'] . '</a>'; ?>
+                    <tr>
+                        <td><?php echo $data['ticket_no']; ?></td>
+                        <td><?php echo $date; ?></td>
+                        <td><?php echo $time; ?></td>
+                        <td><?php echo $data['trailerid']; ?></td>
+                        <td><?php echo $viewdteails; ?></td>
+                        <td><?php echo $data['contactname']; ?></td>
+                        <td><?php echo htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"); ?></td>
+                        <td><?php echo getTranslatedString($data['damagestatus']); ?></td>
+                        <td><?php echo $data['reportdamage']; ?></td>
+                        <td><?php echo htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"); ?></td>
+                        <td><?php echo htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"); ?></td>
+                        <td><?php echo $data['drivercauseddamage']; ?></td>
+                    </tr>
+                <?php } ?> 
             </tbody>
         </table>
     </div>
@@ -132,7 +151,7 @@ foreach ($rm as $key => $val) {
         window.dt = jQuery('#table_id').dataTable({
             "bStateSave": true
         });
-         addRows(0,maxdataLimit);
+         addRows(50,maxdataLimit);
   });
   
   var min=0;
@@ -143,15 +162,12 @@ foreach ($rm as $key => $val) {
       $.post('index.php?r=troubleticket/surveylistdata',
          {minLimit:minLimit, maxLimit:maxLimit},
          function(data) {
-         if(min==0) {
-                  window.dt.fnClearTable();
-                 }
           $.each(data,function(index, value) {
             var fdata = [value.ticket_no,
             value.date,
             value.time,
             value.trailerid,
-            '<span id=' +value.id+ '></span><a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  target="_blank" onclick=waitprocess("'+value.id+'") >' + value.viewdteails + '</a>',
+            '<a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  target="_blank" onclick=waitprocess("'+value.id+'") >' + value.viewdteails + '</a>',
             value.contactname,
             value.damagereportlocation,
             value.damagestatus,
@@ -190,7 +206,7 @@ allData = [];
                  value.date,
                  value.time,
                  value.trailerid,
-                 '<span id=' +value.id+ '></span><a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  target="_blank" onclick=waitprocess("'+value.id+'")>' + value.viewdteails + '</a>',
+                 '<a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  target="_blank" onclick=waitprocess("'+value.id+'")>' + value.viewdteails + '</a>',
                  value.contactname,
                  value.damagereportlocation,
                  value.damagestatus,

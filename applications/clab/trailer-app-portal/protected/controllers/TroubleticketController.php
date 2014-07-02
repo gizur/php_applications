@@ -52,7 +52,7 @@ class TroubleticketController extends Controller
         if ($trailer == "--All Trailers--")
             $trailer = "0";
 
-        //$records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage);
+        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage, 0, 50);
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List, 'session' => Yii::app()->session));
     }
