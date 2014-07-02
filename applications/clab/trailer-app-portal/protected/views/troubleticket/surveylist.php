@@ -133,7 +133,7 @@ foreach ($rm as $key => $val) {
                         <td><?php echo $viewdteails; ?></td>
                         <td><?php echo $data['contactname']; ?></td>
                         <td><?php echo htmlentities($data['damagereportlocation'], ENT_QUOTES, "UTF-8"); ?></td>
-                        <td><?php echo getTranslatedString($data['damagestatus']); ?></td>
+                        <td><?php echo $data['damagestatus']; ?></td>
                         <td><?php echo $data['reportdamage']; ?></td>
                         <td><?php echo htmlentities($data['damagetype'], ENT_QUOTES, "UTF-8"); ?></td>
                         <td><?php echo htmlentities($data['damageposition'], ENT_QUOTES, "UTF-8"); ?></td>
