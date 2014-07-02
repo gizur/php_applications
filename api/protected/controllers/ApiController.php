@@ -1885,9 +1885,7 @@ class ApiController extends Controller {
                     if (isset($_GET['category'])) {
 
                         //Send request to vtiger REST service
-                        $query = "select id, ticket_no, createdtime, 
-                        cf_640, cf_661, cf_665, cf_654, cf_659, cf_658, 
-                        cf_657  from " . $_GET['model'];
+                        $query = "select * from " . $_GET['model'];
 
                         //creating where clause based on parameters
                         $whereClause = Array();
