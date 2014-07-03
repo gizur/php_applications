@@ -1444,7 +1444,7 @@ class ApiController extends Controller {
                         Yii::log(
                                 " TRACE(" . $this->_traceId . "); " .
                                 " FUNCTION(" . __FUNCTION__ . "); " .
-                                " PROCESSING REQUEST : User/login ($clientID)", CLogger::LEVEL_TRACE
+                                " BY MOBILE PROCESSING REQUEST : User/login ($clientID)", CLogger::LEVEL_TRACE
                         );
 
                         // Instantiate the class
@@ -1512,7 +1512,7 @@ class ApiController extends Controller {
                         Yii::log(
                                 " TRACE(" . $this->_traceId . "); " .
                                 " FUNCTION(" . __FUNCTION__ . "); " .
-                                " PROCESSING REQUEST : User/forgotpassword ($clientID)", CLogger::LEVEL_TRACE
+                                " BY MOBILE PROCESSING REQUEST : User/forgotpassword ($clientID)", CLogger::LEVEL_TRACE
                         );
 
                         // Get an item
@@ -2191,7 +2191,7 @@ class ApiController extends Controller {
                         Yii::log(
                                 " TRACE(" . $this->_traceId . "); " .
                                 " FUNCTION(" . __FUNCTION__ . "); " .
-                                " PROCESSING REQUEST (sending GET request to vt url: " .
+                                " PROCESSING REQUEST BY MOBILE (sending GET request to vt url: " .
                                 $this->_vtresturl . "?$params" .
                                 ")", CLogger::LEVEL_TRACE
                         );
@@ -2209,7 +2209,7 @@ class ApiController extends Controller {
                         Yii::log(
                                 " TRACE(" . $this->_traceId . "); " .
                                 " FUNCTION(" . __FUNCTION__ . "); " .
-                                " PROCESSING REQUEST (response received: " .
+                                " PROCESSING REQUEST BY MOBILE(response received: " .
                                 $response .
                                 ")", CLogger::LEVEL_TRACE
                         );
@@ -2235,7 +2235,7 @@ class ApiController extends Controller {
                             Yii::log(
                                     " TRACE(" . $this->_traceId . "); " .
                                     " FUNCTION(" . __FUNCTION__ . "); " .
-                                    " PROCESSING REQUEST (sending GET request to vt url: " .
+                                    " PROCESSING REQUEST BY MOBILE(sending GET request to vt url: " .
                                     $this->_vtresturl . "?$params" .
                                     ")", CLogger::LEVEL_TRACE
                             );
@@ -2252,7 +2252,7 @@ class ApiController extends Controller {
                             Yii::log(
                                     " TRACE(" . $this->_traceId . "); " .
                                     " FUNCTION(" . __FUNCTION__ . "); " .
-                                    " PROCESSING REQUEST (response received: " .
+                                    " PROCESSING REQUEST BY MOBILE(response received: " .
                                     $documentids .
                                     ")", CLogger::LEVEL_TRACE
                             );
@@ -2287,7 +2287,7 @@ class ApiController extends Controller {
                                 Yii::log(
                                         " TRACE(" . $this->_traceId . "); " .
                                         " FUNCTION(" . __FUNCTION__ . "); " .
-                                        " PROCESSING REQUEST (sending GET request to vt url: " .
+                                        " PROCESSING REQUEST BY MOBILE(sending GET request to vt url: " .
                                         $this->_vtresturl . "?$params" .
                                         ")", CLogger::LEVEL_TRACE
                                 );
@@ -2304,7 +2304,7 @@ class ApiController extends Controller {
                                 Yii::log(
                                         " TRACE(" . $this->_traceId . "); " .
                                         " FUNCTION(" . __FUNCTION__ . "); " .
-                                        " PROCESSING REQUEST (response received: " .
+                                        " PROCESSING REQUEST BY MOBILE(response received: " .
                                         $documents .
                                         ")", CLogger::LEVEL_TRACE
                                 );
@@ -2341,7 +2341,7 @@ class ApiController extends Controller {
                                     $respo = json_decode($respo, true);
                                     if ($respo['success']) {
                                         $response['result'][$key]['files'][]['path'] = Yii::app()->params['awsS3BucketUrl'] . '/' . $respo['result']['filename'];
-                                    }
+                                    };
                                 }
                             }
                         } // END FETCHING DOCUMENT
@@ -5103,7 +5103,7 @@ class ApiController extends Controller {
                     Yii::log(
                         " TRACE(" . $this->_traceId . "); " .
                         " FUNCTION(" . __FUNCTION__ . "); " .
-                        " PROCESSING REQUEST (sending POST request to vt url: " .
+                        " PROCESSING REQUEST BY MOBILE (sending POST request to vt url: " .
                         $this->_vtresturl . "  " .
                         json_encode(
                             array(
@@ -5133,7 +5133,7 @@ class ApiController extends Controller {
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
                             " FUNCTION(" . __FUNCTION__ . "); " .
-                            " PROCESSING REQUEST (response received: " .
+                            " PROCESSING REQUEST BY MOBILE (response received: " .
                             $response .
                             ")", CLogger::LEVEL_TRACE
                     );
@@ -5184,7 +5184,7 @@ class ApiController extends Controller {
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
                             " FUNCTION(" . __FUNCTION__ . "); " .
-                            " DOCUMENT CREATE STARTED: " .
+                            " DOCUMENT CREATE STARTED BY MOBILE: " .
                             ")", CLogger::LEVEL_TRACE
                     );
 
@@ -5200,7 +5200,7 @@ class ApiController extends Controller {
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
                             " FUNCTION(" . __FUNCTION__ . "); " .
-                            " DOCUMENT CREATE STARTED (CRMID): " . $crmid .
+                            " DOCUMENT CREATE STARTED (CRMID) BY MOBILE: " . $crmid .
                             ")", CLogger::LEVEL_TRACE
                     );
 
@@ -5218,7 +5218,7 @@ class ApiController extends Controller {
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
                             " FUNCTION(" . __FUNCTION__ . "); " .
-                            " DOCUMENT CREATE STARTED (DATA JSON): " .
+                            " DOCUMENT CREATE STARTED (DATA JSON) BY MOBILE: " .
                             json_encode($dataJson) .
                             ")", CLogger::LEVEL_TRACE
                     );
@@ -5229,7 +5229,7 @@ class ApiController extends Controller {
                         Yii::log(
                                 " TRACE(" . $this->_traceId . "); " .
                                 " FUNCTION(" . __FUNCTION__ . "); " .
-                                " DOCUMENT CREATE STARTED ($ globalresponse->success): " .
+                                " DOCUMENT CREATE STARTED BY MOBILE($ globalresponse->success): " .
                                 $globalresponse->success .
                                 ")", CLogger::LEVEL_TRACE
                         );
@@ -5246,7 +5246,7 @@ class ApiController extends Controller {
                             Yii::log(
                                     " TRACE(" . $this->_traceId . "); " .
                                     " FUNCTION(" . __FUNCTION__ . "); " .
-                                    " DOCUMENT CREATE STARTED (FILE NAME): " .
+                                    " DOCUMENT CREATE STARTED BY MOBILE(FILE NAME): " .
                                     $dataJson['filename'] .
                                     ")", CLogger::LEVEL_TRACE
                             );
@@ -5284,7 +5284,7 @@ class ApiController extends Controller {
                                 Yii::log(
                                         " TRACE(" . $this->_traceId . "); " .
                                         " FUNCTION(" . __FUNCTION__ . "); " .
-                                        " PROCESSING REQUEST (sending POST request" .
+                                        " PROCESSING REQUEST (sending POST request BY MOBILE" .
                                         " to vt url: " .
                                         $this->_vtresturl . "  " .
                                         json_encode(
@@ -5315,7 +5315,7 @@ class ApiController extends Controller {
                                 Yii::log(
                                         " TRACE(" . $this->_traceId . "); " .
                                         " FUNCTION(" . __FUNCTION__ . "); " .
-                                        " PROCESSING REQUEST (response received: " .
+                                        " PROCESSING REQUEST BY MOBILE(response received: " .
                                         $document . ")", CLogger::LEVEL_TRACE
                                 );
 
@@ -5327,7 +5327,7 @@ class ApiController extends Controller {
                                     Yii::log(
                                             " TRACE(" . $this->_traceId . "); " .
                                             " FUNCTION(" . __FUNCTION__ . "); " .
-                                            " PROCESSING REQUEST (sending POST " .
+                                            " PROCESSING REQUEST BY MOBILE(sending POST " .
                                             "request to vt url: " .
                                             $this->_vtresturl . "  " .
                                             json_encode(
@@ -5358,7 +5358,7 @@ class ApiController extends Controller {
                                     Yii::log(
                                             " TRACE(" . $this->_traceId . "); " .
                                             " FUNCTION(" . __FUNCTION__ . "); " .
-                                            " PROCESSING REQUEST (response received: " .
+                                            " PROCESSING REQUEST BY MOBILE(response received: " .
                                             $response . ")", CLogger::LEVEL_TRACE
                                     );
 
@@ -5389,7 +5389,7 @@ class ApiController extends Controller {
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
                             " FUNCTION(" . __FUNCTION__ . "); " .
-                            " DOCUMENT CREATE STARTED (FILE SAVE): " .
+                            " DOCUMENT CREATE STARTED BY MOBILE(FILE SAVE): " .
                             $globalresponse->result->document_stats .
                             ")", CLogger::LEVEL_TRACE
                     );
@@ -5500,7 +5500,7 @@ class ApiController extends Controller {
                     Yii::log(
                             " TRACE(" . $this->_traceId . "); " .
                             " FUNCTION(" . __FUNCTION__ . "); " .
-                            " DOCUMENT CREATE STARTED (UPDATE DYNAMODB SAVE): " .
+                            " DOCUMENT CREATE STARTED BY MOBILE(UPDATE DYNAMODB SAVE): " .
                             ")", CLogger::LEVEL_TRACE
                     );
 
