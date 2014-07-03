@@ -157,10 +157,11 @@ foreach ($rm as $key => $val) {
   
   var min=0;
   var allData = [];
+  var dataLoad = false;
   function addRows(minLimit, maxLimit) {
     $("#alertMsg").addClass("waitprocess");
     $('#alertMsg').html('loading....  Please wait');
-      $.post('index.php?r=troubleticket/surveylistdata',
+      dataLoad = $.post('index.php?r=troubleticket/surveylistdata',
          {minLimit:minLimit, maxLimit:maxLimit},
          function(data) {
           $.each(data,function(index, value) {
@@ -194,8 +195,9 @@ allData = [];
 
      var minS=0;
      var allSearchData = [];
+     var searchDataLoad = false;
     function searchData(year, month, trailer, reportdamage, trailerid, minLimit, maxLimit) {
-         $.post('index.php?r=troubleticket/surveysearch', 
+         searchDataLoad = $.post('index.php?r=troubleticket/surveysearch', 
               {year: year, month: month, trailer: trailer, 
               reportdamage: reportdamage, trailerid: trailerid, 
               minLimit:minLimit, maxLimit:maxLimit},
@@ -260,7 +262,9 @@ allData = [];
         $("#alertMsg").addClass("waitprocess");
         $('#alertMsg').html('loading....  Please wait');
         window.dt.fnClearTable(); 
-        allSearchData = [];  
+        allSearchData = []; 
+        if(dataLoad) { dataLoad.abort(); } 
+        if(searchDataLoad) { searchDataLoad.abort(); }
         searchData(year, month, trailer, reportdamage, trailerid, 0, maxdataLimit);     
     }
 
