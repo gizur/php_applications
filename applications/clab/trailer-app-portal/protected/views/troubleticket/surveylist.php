@@ -162,6 +162,7 @@ foreach ($rm as $key => $val) {
     $("#alertMsg").addClass("waitprocess");
     $('#alertMsg').html('loading....  Please wait');
       dataLoad = $.ajax({url:'index.php?r=troubleticket/surveylistdata',
+         type:'POST',
          data: {minLimit:minLimit, maxLimit:maxLimit},
          success:function(data) {
           $.each(data,function(index, value) {
@@ -205,7 +206,8 @@ allData = [];
      var allSearchData = [];
      var searchDataLoad = false;
     function searchData(year, month, trailer, reportdamage, trailerid, minLimit, maxLimit) {
-         searchDataLoad = $.ajax({url:'index.php?r=troubleticket/surveysearch', 
+         searchDataLoad = $.ajax({url:'index.php?r=troubleticket/surveysearch',
+         type:'POST', 
               data:{year: year, month: month, trailer: trailer, 
               reportdamage: reportdamage, trailerid: trailerid, 
               minLimit:minLimit, maxLimit:maxLimit},
