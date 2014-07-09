@@ -196,7 +196,7 @@ allData = [];
            alert("Error: Request Timeout!");
            window.location.reload();
          }
-       }
+       },
        timeout:60000,
        dataType:'json'});
     }
@@ -245,7 +245,7 @@ allData = [];
            alert("Error: Request Timeout!");
            window.location.reload();
          }
-       }
+       },
        timeout:60000,
        dataType:'json'});
    }
