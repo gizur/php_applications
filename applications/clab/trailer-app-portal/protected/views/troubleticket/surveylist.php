@@ -161,9 +161,9 @@ foreach ($rm as $key => $val) {
   function addRows(minLimit, maxLimit) {
     $("#alertMsg").addClass("waitprocess");
     $('#alertMsg').html('loading....  Please wait');
-      dataLoad = $.post('index.php?r=troubleticket/surveylistdata',
-         {minLimit:minLimit, maxLimit:maxLimit},
-         function(data) {
+      dataLoad = $.ajax({url:'index.php?r=troubleticket/surveylistdata',
+         data: {minLimit:minLimit, maxLimit:maxLimit},
+         success:function(data) {
           $.each(data,function(index, value) {
             var fdata = [value.ticket_no,
             value.date,
@@ -190,18 +190,26 @@ allData = [];
          } else {   
             addRows(min, maxdataLimit);
          }
-       },'json');
+       },
+       error: function(err) {
+         if(err.status==0 && err.statusText=='timeout') {
+           alert("Error: Request Timeout!");
+           window.location.reload();
+         }
+       }
+       timeout:60000,
+       dataType:'json'});
     }
 
      var minS=0;
      var allSearchData = [];
      var searchDataLoad = false;
     function searchData(year, month, trailer, reportdamage, trailerid, minLimit, maxLimit) {
-         searchDataLoad = $.post('index.php?r=troubleticket/surveysearch', 
-              {year: year, month: month, trailer: trailer, 
+         searchDataLoad = $.ajax({url:'index.php?r=troubleticket/surveysearch', 
+              data:{year: year, month: month, trailer: trailer, 
               reportdamage: reportdamage, trailerid: trailerid, 
               minLimit:minLimit, maxLimit:maxLimit},
-                function(data) {
+              success:  function(data) {
                  if(minS==0) {
                   window.dt.fnClearTable();
                  }
@@ -231,7 +239,15 @@ allData = [];
              } else {   
              searchData(year, month, trailer, reportdamage, trailerid, minS, maxdataLimit);
               }
-       }, 'json');
+       }, 
+       error: function(err) {
+         if(err.status==0 && err.statusText=='timeout') {
+           alert("Error: Request Timeout!");
+           window.location.reload();
+         }
+       }
+       timeout:60000,
+       dataType:'json'});
    }
 
 
