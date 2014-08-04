@@ -199,9 +199,9 @@ class Config
         'setBucket' => "gc3-archive",
         'setFolder' => "seasonportal/SET-files/",
         'mosBucket' => "gc3-archive",
-        'mosFolder' => "seasonportal/SET-files/"
+        'mosFolder' => "seasonportal/SET-files/",
         'xmlBucket' => "gc3-archive",
-        'xmlFolder' => "seasonportal/SET-files/"
+        'xmlFolder' => "seasonportal/XML-files/"
     );
     public static $customFields = array(
         'setFiles' => 'cf_650',
