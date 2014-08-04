@@ -1311,10 +1311,10 @@ $cnt = 0;
                     $msg[$account->accountname]['status'] = false;
 
                     //$mosFile = $this->createMOSFile($account, $msg);
-                    $mosFile = $this->createXMLFile($account, $msg);
+                    $xmlFile = $this->createXMLFile($account, $msg);
 
                     $this->storeFileInSThree(
-                            Config::$amazonSThree['mosBucket'], Config::$amazonSThree['mosFolder'], $mosFile['file'], $mosFile['content']
+                            Config::$amazonSThree['xmlBucket'], Config::$amazonSThree['xmlFolder'], $xmlFile['file'], $xmlFile['content']
                     );
 
                     $this->storeFileInMessageQ(
