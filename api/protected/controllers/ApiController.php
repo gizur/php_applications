@@ -744,7 +744,6 @@ class ApiController extends Controller {
                 );
             } else {
 
-
                 $this->_clientid = $_SERVER['HTTP_X_CLIENTID'];
 
                 //Log

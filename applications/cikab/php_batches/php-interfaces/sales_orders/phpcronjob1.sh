@@ -22,7 +22,7 @@
  * Load configuration files
  */
 require_once __DIR__ . '/../config.inc.php';
-require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
 
 class PhpBatchOne {
 
@@ -579,7 +579,7 @@ class PhpBatchOne {
         Config::writelog('phpcronjob1', "Creating sales order: " . json_encode($this->_messages));
         echo json_encode($this->_messages);
         if(count($this->_errors)>0) {
-          $this->sendEmailAlert($this->_errors);
+          //$this->sendEmailAlert($this->_errors);
         }
     }
 
@@ -591,6 +591,6 @@ try {
 } catch (Exception $e) {
     syslog(LOG_WARNING, $e->getMessage());
     $this->_errors[] = $e->getMessage();
-    $this->sendEmailAlert($this->_errors);
+    //$this->sendEmailAlert($this->_errors);
     echo $e->getMessage();
 }

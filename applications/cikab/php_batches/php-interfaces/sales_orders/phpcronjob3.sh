@@ -23,7 +23,7 @@
  */
 
 require_once __DIR__ . '/../config.inc.php';
-require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
 
 class PhpBatchThree
 {
@@ -511,7 +511,7 @@ class PhpBatchThree
                           $this->updateToDbTable($fileJson);
                      }
 
-                } else if ($fileJson->type == 'MOS') {
+                } else if ($fileJson->type == 'XML') {
                     $st = $this->saveToFtp(
                         $this->_mosFtpConn,
                         Config::$mosFtp['serverpath'],
@@ -582,7 +582,7 @@ class PhpBatchThree
          Config::writelog('phpcronjob3', json_encode($this->_messages));
         echo json_encode($this->_messages);
         if(count($this->_errors)>0) {
-          $this->sendEmailAlert($this->_errors);
+         //$this->sendEmailAlert($this->_errors);
         }
     }
 }
@@ -594,5 +594,5 @@ try{
     syslog(LOG_WARNING, $e->getMessage());
     Config::writelog('phpcronjob3', $e->getMessage());
     echo $e->getMessage();
-    $this->sendEmailAlert($e->getMessage());
+   // $this->sendEmailAlert($e->getMessage());
 }

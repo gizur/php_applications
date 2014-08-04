@@ -22,7 +22,7 @@
  * Load the required files.
  */
 require_once __DIR__ . '/../config.inc.php';
-require_once __DIR__ . '/../../../../../lib/aws-php-sdk/sdk.class.php';
+require_once __DIR__ . '/../aws-php-sdk/sdk.class.php';
 
 class PhpBatchTwo {
 
@@ -163,7 +163,7 @@ class PhpBatchTwo {
       syslog(LOG_INFO, "In getSalesOrdersCountMos() : Preparing sales order count query");
       Config::writelog('phpcronjob2', "In getSalesOrdersCountMos() : Preparing sales order count query");
       $salesOrdersQueryCount = "SELECT SO.id FROM sales_orders SO ".
-                              "WHERE SO.set_status IN ('Created','Approved') AND SO.mos = 'Yes'";
+                              "WHERE SO.mos_status IN ('Created','Approved') AND SO.mos = 'Yes'";
       syslog(
                 LOG_INFO, "In getSalesOrdersCountMos() : Executing Query: " . $salesOrdersQueryCount
         );
@@ -253,6 +253,67 @@ class PhpBatchTwo {
 
         return $salesOrders;
     }
+
+
+    /*
+     * Fetching no of sales order with set files
+     */ 
+    protected function getSalesOrdersForXml() {
+        syslog(
+                LOG_INFO, "In getSalesOrdersForXml() : Preparing sales order query"
+        );
+
+        Config::writelog('phpcronjob2', "getSalesOrdersForXml() : Preparing sales order query");
+
+        $salesOrdersQuery = "SELECT * FROM sales_orders SO 
+            WHERE SO.mos_status IN ('Created','Approved') AND SO.mos = 'Yes'
+            LIMIT 0, " . Config::$batchVariable;
+
+        syslog(
+                LOG_INFO, "In getSalesOrdersForXml() : Executing Query: " . $salesOrdersQuery
+        );
+
+        Config::writelog('phpcronjob2', "In getSalesOrdersForXml() : Executing Query: " . $salesOrdersQuery);
+
+        $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
+
+        if (!$salesOrders) {
+            syslog(
+                    LOG_WARNING, "getSalesOrdersForXml() : " .
+                    "Error executing sales order query :" .
+                    " ({$this->_integrationConnect->errno}) - " .
+                    "{$this->_integrationConnect->error}"
+            );
+
+            Config::writelog(LOG_WARNING, "getSalesOrdersForXml() : " .
+                    "Error executing sales order query :" .
+                    " ({$this->_integrationConnect->errno}) - " .
+                    "{$this->_integrationConnect->error}");
+
+            throw new Exception(
+            "In getSalesOrdersForXml() : Error " .
+            "executing sales order query : " .
+            "({$this->_integrationConnect->errno}) - " .
+            "{$this->_integrationConnect->error}"
+            );
+        }
+
+        if ($salesOrders->num_rows == 0) {
+            syslog(
+                    LOG_WARNING, "In getSalesOrdersForXml() : No Sales Order Found!"
+            );
+
+            Config::writelog(LOG_WARNING, "In getSalesOrdersForXml() : No Sales Order Found!");
+
+            throw new Exception(
+            "In getSalesOrdersForXml() : No Sales Order Found!"
+            );
+        }
+
+        return $salesOrders;
+    }
+
+
 
     /*
      * Fetching no of sales order with mos files
@@ -620,6 +681,270 @@ class PhpBatchTwo {
 
         return $messageQ;
     }
+    
+    
+    protected function createXMLFile($salesOrder, &$msg) {
+$cnt = 0;
+
+        $soProducts = $this->getProductsBySalesOrderId(
+                $salesOrder->id
+        );
+
+        $msg[$salesOrder->salesorder_no]['count'] = $soProducts->num_rows;
+
+        if (empty($this->_duplicateFile[$salesOrder->accountname]))
+            $createdDate = date("YmdHi");
+        else {
+            $cnt = count($this->_duplicateFile[$salesOrder->accountname]);
+            $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
+        }
+
+        $this->_duplicateFile[$salesOrder->accountname][] = $createdDate;
+        /*
+         * Generate the file name.
+         */
+        $createdDate = date("YmdHi");
+        $fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
+                "$salesOrder->accountname";
+
+        $msg[$salesOrder->salesorder_no]['file'] = $fileName;
+        /*
+         * Initialize variables used in creating SET file contents.
+         */
+        $leadzero = "";
+        $productnamearray = array();
+        $multiproduct = array();
+        $productlength = "";
+        $leadzeroproduct = "";
+        $productquantitylength = "";
+        $leadzeroproductquantity = "";
+
+
+
+        $accountlenth = strlen($salesOrder->accountname);
+        if ($accountlenth < 6) {
+            $leadzero = Functions::leadingzero(6, $accountlenth);
+        }
+        $finalformataccountname = $leadzero .
+                $salesOrder->accountname;
+
+        $salesID = preg_replace(
+                '/[A-Z]/', '', $salesOrder->salesorder_no
+        );
+        $originalordernomber = "7777" . $salesID;
+
+        /**
+         * If length of order number is 
+         * greater then 6 then auto remove 
+         * extra digits from the starting
+         */
+        $orderlength = strlen($originalordernomber);
+
+        if ($orderlength > 6) {
+            $accessorderlength = $orderlength - 6;
+
+            $ordernumber = substr(
+                    $originalordernomber, $accessorderlength
+            );
+        } else
+            $ordernumber = $originalordernomber;
+
+        if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00')
+            $deliveryday = date(
+                    "ymd", strtotime($salesOrder->duedate)
+            );
+        else
+            $deliveryday = date('ymd');
+
+        $futuredeliveryDate = strtotime(
+                date("Y-m-d", strtotime($deliveryday)) . "+2 day"
+        );
+        $futuredeliverydate = date('Y-m-d', $futuredeliveryDate);
+        $dateNo = new DateTime($futuredeliverydate);
+        $weekNo = $dateNo->format("W");
+        $futuredeliverydateY = date('Y',strtotime($futuredeliverydate)); 
+
+
+        $currentdate = date("YmdHi");
+        $milliSec = Functions::getMilliSecond();
+        /*
+         * Generate the xml file content
+         */
+   
+       
+        $date = new DateTime($futuredeliverydate);
+        $week = $date->format("W");
+        $creationDateTimeData = date('c');
+        $glnData = $finalformataccountname;
+        $entityIdentificationData = $ordernumber;
+        $orderTypeCodeData = '220';
+        $requestedDeliveryDateTimeData = $futuredeliverydate;
+        $additionalOrderInstructionData = $futuredeliverydateY.''.$weekNo;
+        $lineItemNumberText = 1;
+        $materialSpecificationData = '';
+        
+        // Creating XML file using php dom document.
+        $dom = new DOMDocument("1.0","utf-8");
+        header("Content-Type: text/plain");
+
+        $main = $dom->createElement("order:orderMessage");
+        $dom->appendChild($main);
+
+        $orderAttr  = $dom->createAttribute("xmlns:order");
+        $main->appendChild($orderAttr);
+
+        $orderAttrText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3');
+        $orderAttr->appendChild($orderAttrText);
+
+        $shAttr  = $dom->createAttribute("xmlns:sh");
+        $main->appendChild($shAttr);
+
+        $shAttrText = $dom->createTextNode('http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader');
+        $shAttr->appendChild($shAttrText);
+
+        $xsiAttr  = $dom->createAttribute("xmlns:xsi");
+        $main->appendChild($xsiAttr);
+
+        $xsiAttrText = $dom->createTextNode('http://www.w3.org/2001/XMLSchema-instance');
+        $xsiAttr->appendChild($xsiAttrText);
+
+        $schemaLocationAttr  = $dom->createAttribute("xsi:schemaLocation");
+        $main->appendChild($schemaLocationAttr);
+
+        $schemaLocationText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3 ../Schemas/gs1/ecom/Order.xsd');
+        $schemaLocationAttr->appendChild($schemaLocationText);
+
+        $root = $dom->createElement("order");
+        $main->appendChild($root);
+
+        $creationDateTime = $dom->createElement("creationDateTime");
+        $root->appendChild($creationDateTime);
+
+        $creationDateTimeText = $dom->createTextNode($creationDateTimeData);
+        $creationDateTime->appendChild($creationDateTimeText);
+
+        $orderIdentification = $dom->createElement("orderIdentification");
+        $root->appendChild($orderIdentification);
+
+        $entityIdentification = $dom->createElement("entityIdentification");
+        $orderIdentification->appendChild($entityIdentification);
+
+        $entityIdentificationText = $dom->createTextNode($entityIdentificationData);
+        $entityIdentification->appendChild($entityIdentificationText);
+
+        $orderTypeCode = $dom->createElement("orderTypeCode");
+        $root->appendChild($orderTypeCode);
+
+        $orderTypeCodeText = $dom->createTextNode($orderTypeCodeData);
+        $orderTypeCode->appendChild($orderTypeCodeText);
+
+        $buyer = $dom->createElement("buyer");
+        $root->appendChild($buyer);
+
+        $gln = $dom->createElement("gln");
+        $buyer->appendChild($gln);
+
+        $glnText = $dom->createTextNode($glnData);
+        $gln->appendChild($glnText);
+
+        $orderLogisticalInformation = $dom->createElement("orderLogisticalInformation");
+        $root->appendChild($orderLogisticalInformation);
+
+        $orderLogisticalDateInformation = $dom->createElement("orderLogisticalDateInformation");
+        $orderLogisticalInformation->appendChild($orderLogisticalDateInformation);
+
+        $requestedDeliveryDateTime  = $dom->createElement("requestedDeliveryDateTime");
+        $orderLogisticalDateInformation->appendChild($requestedDeliveryDateTime);
+
+        $requestedDeliveryDateTimeText = $dom->createTextNode($requestedDeliveryDateTimeData);
+        $requestedDeliveryDateTime->appendChild($requestedDeliveryDateTimeText);
+
+        $additionalOrderInstruction  = $dom->createElement("additionalOrderInstruction");
+        $root->appendChild($additionalOrderInstruction);
+
+        $additionalOrderInstructionText = $dom->createTextNode($additionalOrderInstructionData);
+        $additionalOrderInstruction->appendChild($additionalOrderInstructionText);
+
+
+                while ($sOWProduct = $soProducts->fetch_object()) {
+
+                    /**
+                     * Check duplicate products and 
+                     * 
+                     */
+                    if (!in_array($sOWProduct->productname, $productnamearray)) {
+                        $productlength = strlen($sOWProduct->productname);
+                        $productquantitylength = strlen(
+                                $sOWProduct->productquantity
+                        );
+
+                        if ($productlength < 6) {
+                            $leadzeroproduct = Functions::leadingzero(
+                                            6, $productlength
+                            );
+                        }
+
+                        if ($productquantitylength < 3) {
+                            $leadzeroproductquantity = Functions::leadingzero(
+                                            3, $productquantitylength
+                            );
+                        }
+
+                      $productName =  $leadzeroproduct .
+                                $sOWProduct->productname;
+                                
+                       $productQty =  $leadzeroproductquantity .
+                                $sOWProduct->productquantity;        
+
+                        
+                    }
+                      $productnamearray[] = $sOWProduct->productname;
+                
+        $orderLineItem  = $dom->createElement("orderLineItem");
+        $root->appendChild($orderLineItem);
+
+        $lineItemNumber  = $dom->createElement("lineItemNumber");
+        $orderLineItem->appendChild($lineItemNumber);
+
+        $lineItemNumberText = $dom->createTextNode($lineItemNumberText);
+        $lineItemNumber->appendChild($lineItemNumberText);
+
+        $transactionalTradeItem  = $dom->createElement("transactionalTradeItem");
+        $orderLineItem->appendChild($transactionalTradeItem);
+
+        $gtin  = $dom->createElement("gtin");
+        $transactionalTradeItem->appendChild($gtin);
+
+        $gtinText = $dom->createTextNode($productName);
+        $gtin->appendChild($gtinText);
+
+        $materialSpecification  = $dom->createElement("materialSpecification");
+        $orderLineItem->appendChild($materialSpecification);
+
+        $materialSpecificationText = $dom->createTextNode('NNN-NNNN-NNNN');
+        $materialSpecification->appendChild($materialSpecificationText);
+
+        $requestedQuantity  = $dom->createElement("requestedQuantity");
+        $orderLineItem->appendChild($requestedQuantity);
+
+        $requestedQuantityText = $dom->createTextNode($productQty);
+        $requestedQuantity->appendChild($requestedQuantityText);
+
+        $requestedQuantityAttr  = $dom->createAttribute("measurementUnitCode");
+        $requestedQuantity->appendChild($requestedQuantityAttr);
+
+        $requestedQuantityAttrText = $dom->createTextNode('CAR');
+        $requestedQuantityAttr->appendChild($requestedQuantityAttrText); 
+        }
+        unset($productnamearray);
+        $contentF = $dom->saveXML();
+                $messageQ = array();
+
+                $messageQ['file'] = $fileName;
+                $messageQ['content'] = $contentF;
+                $messageQ['type'] = 'XML';
+                return $messageQ;
+    }
 
     /*
      * Creating MOS Files
@@ -962,14 +1287,15 @@ class PhpBatchTwo {
             $bunchCountMos = ceil($numberAccounts/Config::$batchVariable);
             for($doLoopMos=1; $doLoopMos<=$bunchCountMos; $doLoopMos++) {
 
-            $accounts = $this->getAccountsForMos();
+            //$accounts = $this->getAccountsForMos();
+            $saleOrderXml = $this->getSalesOrdersForXml();
             /*
              * Update message array with number of sales orders.
              */
             $this->_messages['mos']['count'] = $numberAccounts;
             $msg = &$this->_messages['mos']['accounts'];
 
-            while ($account = $accounts->fetch_object()) {
+            while ($account = $saleOrderXml->fetch_object()) {
                 try {
                     /*
                      * Disable auto commit.
@@ -984,7 +1310,8 @@ class PhpBatchTwo {
 
                     $msg[$account->accountname]['status'] = false;
 
-                    $mosFile = $this->createMOSFile($account, $msg);
+                    //$mosFile = $this->createMOSFile($account, $msg);
+                    $mosFile = $this->createXMLFile($account, $msg);
 
                     $this->storeFileInSThree(
                             Config::$amazonSThree['mosBucket'], Config::$amazonSThree['mosFolder'], $mosFile['file'], $mosFile['content']
@@ -1018,7 +1345,7 @@ class PhpBatchTwo {
                     "of accounts processed for MOS files.";
              $successMessage = "Total set file processed:".$numberSalesOrders 
              .PHP_EOL ."Total mos file processed:".$numberAccounts;       
-            $this->sendEmailAlertSuccess($successMessage);
+            //$this->sendEmailAlertSuccess($successMessage);
         } catch (Exception $e) {
             $this->_messages['message'] = $e->getMessage();
             $this->_errors[] = $e->getMessage();
@@ -1037,7 +1364,7 @@ class PhpBatchTwo {
 
         echo json_encode($this->_messages);
         if(count($this->_errors)>0) {
-          $this->sendEmailAlert($this->_errors);
+          //$this->sendEmailAlert($this->_errors);
         }
     }
 
