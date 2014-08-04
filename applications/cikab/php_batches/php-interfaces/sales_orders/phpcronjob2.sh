@@ -1280,7 +1280,7 @@ $cnt = 0;
         }
 
         /*
-         * Process MOS files
+         * Process XML files
          */
         try {
             $numberAccounts = $this->getSalesOrdersCountMos();
@@ -1318,11 +1318,11 @@ $cnt = 0;
                     );
 
                     $this->storeFileInMessageQ(
-                            Config::$amazonQ['url'], json_encode($mosFile)
+                            Config::$amazonQ['url'], json_encode($xmlFile)
                     );
 
                     $msg[$account->accountname]['status'] = true;
-                    $fileName = $mosFile['file'];
+                    $fileName = $xmlFile['file'];
 
                     $this->updateIntegrationSalesOrderByAccountName(
                             $account->accountname, 'mos_status', 'Delivered'
