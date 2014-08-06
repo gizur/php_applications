@@ -162,8 +162,8 @@ class PhpBatchTwo {
     function getSalesOrdersCountMos() {
       syslog(LOG_INFO, "In getSalesOrdersCountMos() : Preparing sales order count query");
       Config::writelog('phpcronjob2', "In getSalesOrdersCountMos() : Preparing sales order count query");
-      $salesOrdersQueryCount = "SELECT SO.id FROM sales_orders SO ".
-                              "WHERE SO.mos_status IN ('Created','Approved') AND SO.mos = 'Yes'";
+      $salesOrdersQueryCount = "SELECT DISTINCT SO.accountname FROM sales_orders SO
+            WHERE SO.mos_status IN ('Created','Approved') AND SO.mos = 'Yes'";
       syslog(
                 LOG_INFO, "In getSalesOrdersCountMos() : Executing Query: " . $salesOrdersQueryCount
         );
@@ -1347,9 +1347,9 @@ $soOrders = $this->getSalesOrdersForXml(
             }
            }
             $this->_messages['mos']['message'] = "$numberAccounts number " .
-                    "of accounts processed for MOS files.";
+                    "of accounts processed for XML files.";
              $successMessage = "Total set file processed:".$numberSalesOrders 
-             .PHP_EOL ."Total mos file processed:".$numberAccounts;       
+             .PHP_EOL ."Total XML file processed:".$numberAccounts;       
             //$this->sendEmailAlertSuccess($successMessage);
         } catch (Exception $e) {
             $this->_messages['message'] = $e->getMessage();
