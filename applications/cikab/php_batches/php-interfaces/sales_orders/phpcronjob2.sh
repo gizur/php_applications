@@ -258,7 +258,7 @@ class PhpBatchTwo {
     /*
      * Fetching no of sales order with set files
      */ 
-    protected function getSalesOrdersForXml() {
+    protected function getSalesOrdersForXml($accountName) {
         syslog(
                 LOG_INFO, "In getSalesOrdersForXml() : Preparing sales order query"
         );
@@ -267,7 +267,7 @@ class PhpBatchTwo {
 
         $salesOrdersQuery = "SELECT * FROM sales_orders SO 
             WHERE SO.mos_status IN ('Created','Approved') AND SO.mos = 'Yes'
-            LIMIT 0, " . Config::$batchVariable;
+            AND SO.accountname = '$accountName' ";
 
         syslog(
                 LOG_INFO, "In getSalesOrdersForXml() : Executing Query: " . $salesOrdersQuery
@@ -300,7 +300,7 @@ class PhpBatchTwo {
 
         if ($salesOrders->num_rows == 0) {
             syslog(
-                    LOG_WARNING, "In getSalesOrdersForXml() : No Sales Order Found!"
+                    LOG_WARNING, "In getSalesOrdersForXml() : No Sales Order Found! for account".$orderId
             );
 
             Config::writelog(LOG_WARNING, "In getSalesOrdersForXml() : No Sales Order Found!");
@@ -683,8 +683,59 @@ class PhpBatchTwo {
     }
     
     
-    protected function createXMLFile($salesOrder, &$msg) {
+    protected function createXMLFile($accounts, &$msg) {
 $cnt = 0;
+
+// Define xml header
+
+       $dom = new DOMDocument("1.0","utf-8");
+        header("Content-Type: text/plain");
+
+        $main = $dom->createElement("order:orderMessage");
+        $dom->appendChild($main);
+
+        $orderAttr  = $dom->createAttribute("xmlns:order");
+        $main->appendChild($orderAttr);
+
+        $orderAttrText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3');
+        $orderAttr->appendChild($orderAttrText);
+
+        $shAttr  = $dom->createAttribute("xmlns:sh");
+        $main->appendChild($shAttr);
+
+        $shAttrText = $dom->createTextNode('http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader');
+        $shAttr->appendChild($shAttrText);
+
+        $xsiAttr  = $dom->createAttribute("xmlns:xsi");
+        $main->appendChild($xsiAttr);
+
+        $xsiAttrText = $dom->createTextNode('http://www.w3.org/2001/XMLSchema-instance');
+        $xsiAttr->appendChild($xsiAttrText);
+
+        $schemaLocationAttr  = $dom->createAttribute("xsi:schemaLocation");
+        $main->appendChild($schemaLocationAttr);
+
+        $schemaLocationText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3 ../Schemas/gs1/ecom/Order.xsd');
+        $schemaLocationAttr->appendChild($schemaLocationText);
+
+
+        /*
+         * Generate the file name.
+         */
+         $accountName = $accounts->accountname;
+        $createdDate = date("YmdHi");
+        $fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
+                "$accountName";
+
+        $msg[$accountName]['file'] = $fileName;
+
+
+$soOrders = $this->getSalesOrdersForXml(
+            $accountName  
+        );
+        
+         while ($salesOrder = $soOrders->fetch_object()) {
+
 
         $soProducts = $this->getProductsBySalesOrderId(
                 $salesOrder->id
@@ -692,22 +743,7 @@ $cnt = 0;
 
         $msg[$salesOrder->salesorder_no]['count'] = $soProducts->num_rows;
 
-        if (empty($this->_duplicateFile[$salesOrder->accountname]))
-            $createdDate = date("YmdHi");
-        else {
-            $cnt = count($this->_duplicateFile[$salesOrder->accountname]);
-            $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
-        }
-
-        $this->_duplicateFile[$salesOrder->accountname][] = $createdDate;
-        /*
-         * Generate the file name.
-         */
-        $createdDate = date("YmdHi");
-        $fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
-                "$salesOrder->accountname";
-
-        $msg[$salesOrder->salesorder_no]['file'] = $fileName;
+     
         /*
          * Initialize variables used in creating SET file contents.
          */
@@ -719,14 +755,12 @@ $cnt = 0;
         $productquantitylength = "";
         $leadzeroproductquantity = "";
 
-
-
-        $accountlenth = strlen($salesOrder->accountname);
+        $accountlenth = strlen($accountName);
         if ($accountlenth < 6) {
             $leadzero = Functions::leadingzero(6, $accountlenth);
         }
         $finalformataccountname = $leadzero .
-                $salesOrder->accountname;
+                $accountName;
 
         $salesID = preg_replace(
                 '/[A-Z]/', '', $salesOrder->salesorder_no
@@ -770,8 +804,6 @@ $cnt = 0;
         /*
          * Generate the xml file content
          */
-   
-       
         $date = new DateTime($futuredeliverydate);
         $week = $date->format("W");
         $creationDateTimeData = date('c');
@@ -784,36 +816,7 @@ $cnt = 0;
         $materialSpecificationData = '';
         
         // Creating XML file using php dom document.
-        $dom = new DOMDocument("1.0","utf-8");
-        header("Content-Type: text/plain");
-
-        $main = $dom->createElement("order:orderMessage");
-        $dom->appendChild($main);
-
-        $orderAttr  = $dom->createAttribute("xmlns:order");
-        $main->appendChild($orderAttr);
-
-        $orderAttrText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3');
-        $orderAttr->appendChild($orderAttrText);
-
-        $shAttr  = $dom->createAttribute("xmlns:sh");
-        $main->appendChild($shAttr);
-
-        $shAttrText = $dom->createTextNode('http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader');
-        $shAttr->appendChild($shAttrText);
-
-        $xsiAttr  = $dom->createAttribute("xmlns:xsi");
-        $main->appendChild($xsiAttr);
-
-        $xsiAttrText = $dom->createTextNode('http://www.w3.org/2001/XMLSchema-instance');
-        $xsiAttr->appendChild($xsiAttrText);
-
-        $schemaLocationAttr  = $dom->createAttribute("xsi:schemaLocation");
-        $main->appendChild($schemaLocationAttr);
-
-        $schemaLocationText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3 ../Schemas/gs1/ecom/Order.xsd');
-        $schemaLocationAttr->appendChild($schemaLocationText);
-
+        
         $root = $dom->createElement("order");
         $main->appendChild($root);
 
@@ -921,7 +924,7 @@ $cnt = 0;
         $materialSpecification  = $dom->createElement("materialSpecification");
         $orderLineItem->appendChild($materialSpecification);
 
-        $materialSpecificationText = $dom->createTextNode('NNN-NNNN-NNNN');
+        $materialSpecificationText = $dom->createTextNode($sOWProduct->bas_product_id);
         $materialSpecification->appendChild($materialSpecificationText);
 
         $requestedQuantity  = $dom->createElement("requestedQuantity");
@@ -936,8 +939,10 @@ $cnt = 0;
         $requestedQuantityAttrText = $dom->createTextNode('CAR');
         $requestedQuantityAttr->appendChild($requestedQuantityAttrText); 
         }
-        unset($productnamearray);
-        $contentF = $dom->saveXML();
+         unset($productnamearray);
+      }
+       
+               $contentF = $dom->saveXML();
                 $messageQ = array();
 
                 $messageQ['file'] = $fileName;
@@ -1287,15 +1292,15 @@ $cnt = 0;
             $bunchCountMos = ceil($numberAccounts/Config::$batchVariable);
             for($doLoopMos=1; $doLoopMos<=$bunchCountMos; $doLoopMos++) {
 
-            //$accounts = $this->getAccountsForMos();
-            $saleOrderXml = $this->getSalesOrdersForXml();
+            $accounts = $this->getAccountsForMos();
+            //$saleOrderXml = $this->getSalesOrdersForXml();
             /*
              * Update message array with number of sales orders.
              */
             $this->_messages['mos']['count'] = $numberAccounts;
             $msg = &$this->_messages['mos']['accounts'];
 
-            while ($account = $saleOrderXml->fetch_object()) {
+            while ($account = $accounts->fetch_object()) {
                 try {
                     /*
                      * Disable auto commit.
