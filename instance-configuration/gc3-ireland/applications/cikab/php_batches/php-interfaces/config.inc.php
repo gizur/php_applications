@@ -190,7 +190,7 @@ class Config
         'port' => 21,
         'username' => "hypermart@essindia.net",
         'password' => "zmLA_Q#A9EK2",
-        'serverpath' => "/demo-in/"
+        'serverpath' => "/XML-in/"
     );
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
