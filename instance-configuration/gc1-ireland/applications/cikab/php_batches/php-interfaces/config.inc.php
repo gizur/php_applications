@@ -184,7 +184,7 @@ class Config
      * be set to 14 max, otherwise file header duplicate issue may
      * occure. 
      */
-    public static $batchVariable = 99;
+    public static $batchVariable = 50;
     public static $setFtp = array(
         'host' => "ftp.essindia.net",
         'port' => 21,
@@ -206,7 +206,7 @@ class Config
         'setBucket' => "gc3-archive",
         'setFolder' => "seasonportal/SET-files/",
         'mosBucket' => "gc3-archive",
-        'mosFolder' => "seasonportal/MOS-files/",
+        'mosFolder' => "seasonportal/SET-files/",
         'xmlBucket' => "gc3-archive",
         'xmlFolder' => "seasonportal/XML-files/"
     );
