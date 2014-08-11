@@ -206,7 +206,7 @@ class Config
         'setBucket' => "gc3-archive",
         'setFolder' => "seasonportal/SET-files/",
         'mosBucket' => "gc3-archive",
-        'mosFolder' => "seasonportal/SET-files/",
+        'mosFolder' => "seasonportal/MOS-files/",
         'xmlBucket' => "gc3-archive",
         'xmlFolder' => "seasonportal/XML-files/"
     );
