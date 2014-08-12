@@ -202,14 +202,14 @@ class Config
     public static $amazonQ = array(
         'url' => 'https://sqs.eu-west-1.amazonaws.com/791200854364/cikab_queue'
     );
-    public static $amazonSThree = array(
-        'setBucket' => "gc3-archive",
+   public static $amazonSThree = array(
+        'setBucket' => "gc1-archive",
         'setFolder' => "seasonportal/SET-files/",
-        'mosBucket' => "gc3-archive",
-        'mosFolder' => "seasonportal/SET-files/",
-        'xmlBucket' => "gc3-archive",
+        'mosBucket' => "gc1-archive",
+        'mosFolder' => "seasonportal/MOS-files/",
+        'xmlBucket' => "gc1-archive",
         'xmlFolder' => "seasonportal/XML-files/"
-    );
+    );    
     public static $customFields = array(
         'setFiles' => 'cf_650',
         'mosFiles' => 'cf_651',
