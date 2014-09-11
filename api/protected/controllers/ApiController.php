@@ -2177,7 +2177,14 @@ class ApiController extends Controller {
                                     implode(" and ", $whereClause);
 
                         //Terminating the query
-                        $query = $query . ";";
+                                                
+                        if(isset($_GET['minLimit']) && isset($_GET['maxLimit'])) { 
+                            $minLimit = $_GET['minLimit'];
+                            $maxLimit = $_GET['maxLimit'];
+                           $query = $query . " LIMIT $minLimit, $maxLimit ;";       
+                        } else {
+                           $query = $query . ";";    
+                        }
 
                         //urlencode to as its sent over http.
                         $queryParam = urlencode($query);

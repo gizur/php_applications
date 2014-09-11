@@ -123,7 +123,7 @@ foreach ($rm as $key => $val) {
                <?php foreach ($result['result'] as $data) { ?>
                     <?php $date = date('y-m-d', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime']))); ?>
                     <?php $time = date('H:i', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime']))); ?>
-                    <?php $viewdteails = '<a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '"  target="_blank" onclick=waitprocess("' . $data['id'] . '")>' . $data['accountname'] . '</a>'; ?>
+                    <?php $viewdteails = '<a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '"  onclick=waitprocess("' . $data['id'] . '")>' . $data['accountname'] . '</a>'; ?>
                     <?php $ticketNo = '<span id=' . $data['id'] . '-1></span><a href="index.php?r=troubleticket/surveydetails/' . $data['id'] . '" onclick=waitprocess("' . $data['id'] . '-1")>' . $data['date'] . '</a>'; ?>
                     <tr>
                         <td><?php echo $data['ticket_no']; ?></td>
@@ -170,7 +170,7 @@ foreach ($rm as $key => $val) {
             value.date,
             value.time,
             value.trailerid,
-            '<a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  target="_blank" onclick=waitprocess("'+value.id+'") >' + value.viewdteails + '</a>',
+            '<a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  onclick=waitprocess("'+value.id+'") >' + value.viewdteails + '</a>',
             value.contactname,
             value.damagereportlocation,
             value.damagestatus,
@@ -220,7 +220,7 @@ allData = [];
                  value.date,
                  value.time,
                  value.trailerid,
-                 '<a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  target="_blank" onclick=waitprocess("'+value.id+'")>' + value.viewdteails + '</a>',
+                 '<a href="index.php?r=troubleticket/surveydetails/'+value.id +'"  onclick=waitprocess("'+value.id+'")>' + value.viewdteails + '</a>',
                  value.contactname,
                  value.damagereportlocation,
                  value.damagestatus,
