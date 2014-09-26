@@ -166,6 +166,7 @@ foreach ($rm as $key => $val) {
   function addRows(minLimit, maxLimit) {
     $("#alertMsg").addClass("waitprocess");
     $('#alertMsg').html('loading....  Please wait');
+    var ticketst = $("#ticketst:checked").val();
       dataLoad = $.ajax({url:'index.php?r=troubleticket/surveylistdata',
          type:'POST',
          data: {minLimit:minLimit, maxLimit:maxLimit,ticketstatus:ticketst},
