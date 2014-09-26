@@ -48,11 +48,12 @@ class TroubleticketController extends Controller
         $curr_month = isset(Yii::app()->session['Search_month']) ? Yii::app()->session['Search_month'] : date("m");
         $trailer = isset(Yii::app()->session['Search_trailer']) ? Yii::app()->session['Search_trailer'] : 0;
         $reportdamage = isset(Yii::app()->session['Search_reportdamage']) ? Yii::app()->session['Search_reportdamage'] : 'all';
+        $ticketstatus = 'open';
 
         if ($trailer == "--All Trailers--")
             $trailer = "0";
 
-        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage, 0, 50);
+        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage, 0, 50,  $ticketstatus);
         //$assetstatus = $model->findById('Assets', $firstkey);
         $this->render('surveylist', array('model' => $model, 'result' => $records, 'Assets' => $Asset_List, 'session' => Yii::app()->session));
     }
@@ -70,6 +71,8 @@ class TroubleticketController extends Controller
         }
        $minLimit = $_POST['minLimit'];
        $maxLimit = $_POST['maxLimit'];
+       $ticketstatus = $_POST['ticketstatus'];
+
         $model = new Troubleticket;
         $this->LoginCheck();
 
@@ -81,7 +84,8 @@ class TroubleticketController extends Controller
         if ($trailer == "--All Trailers--")
             $trailer = "0";
 
-        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage, $minLimit, $maxLimit);
+        $records = $model->findAll($module, $tickettype, $currentyear, $curr_month, $trailer, $reportdamage, $minLimit, $maxLimit, $ticketstatus);
+
 
 $dataArray = array();
 foreach ($records['result'] as $data) { 
@@ -163,7 +167,8 @@ foreach ($records['result'] as $data) {
         $this->LoginCheck();
 $minLimit = $_POST['minLimit'];
 $maxLimit = $_POST['maxLimit'];
-        $records = $model->findAll($module, 'all', $year, $month, $trailer, $reportdamage, $minLimit, $maxLimit);
+$ticketstatus = $_POST['ticketstatus'];
+        $records = $model->findAll($module, 'all', $year, $month, $trailer, $reportdamage, $minLimit, $maxLimit, $ticketstatus);
 $dataArray = array();
 foreach ($records['result'] as $data) {
                      $date = date('y-m-d', strtotime(Yii::app()->localtime->toLocalDateTime($data['createdtime'])));

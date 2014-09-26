@@ -51,7 +51,7 @@ return array(
                 array('api/list', 'pattern' => '/<model:(HelpDesk|Assets|About|Accounts|Products|Contacts|Users)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(Assets)>/<category:(inoperation|damaged)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(HelpDesk|ExistingDamages)>/<category:(inoperation|damaged|all)>', 'verb' => 'GET'),
-                array('api/list', 'pattern' => '/<model:(HelpDesk)>/<minLimit:\w+>/<maxLimit:\w+>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
+                array('api/list', 'pattern' => '/<model:(HelpDesk)>/<minLimit:\w+>/<maxLimit:\w+>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>/<ticketstatus:\w+>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(ExistingDamages)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>', 'verb' => 'GET'),
                 array('api/list', 'pattern' => '/<model:(ExistingDamages)>/<category:(inoperation|damaged|all)>/<year:\d{4}>/<month:\d{2}>/<trailerid:\w+>/<reportdamage:(yes|no|all)>/<minLimit:\w+>/<maxLimit:\w+>', 'verb' => 'GET'),
                 array('api/view', 'pattern' => '/<model:(HelpDesk|Assets|Contacts)>/<id:[0-9x]+>', 'verb' => 'GET'),

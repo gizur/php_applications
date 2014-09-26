@@ -94,6 +94,11 @@ foreach ($rm as $key => $val) {
                                 <input type="radio" name="optration" <?php echo $damagechecked; ?> value="damaged" id="damaged" onclick="getAjaxBaseAssetRecord(this.value)" value="damaged" style="margin-right:10px; margin-left:30px"><?php echo getTranslatedString('Damaged'); ?>
                             </td>
                         </tr>
+                        <tr>
+                            <td><b>Ticket Status</b></td>
+                            <td><input type="radio" value="open" id="ticketst" name = "ticketst" checked= 'checked' onclick = 'getAjaxBaseRecord(this.value)'>Open</td>
+                            <td><input type="radio" value="closed" id="ticketst" name="ticketst" onclick = 'getAjaxBaseRecord(this.value)'>Close</td>
+                        </tr>
                     </table>
                 </td>
             </tr>
@@ -163,7 +168,7 @@ foreach ($rm as $key => $val) {
     $('#alertMsg').html('loading....  Please wait');
       dataLoad = $.ajax({url:'index.php?r=troubleticket/surveylistdata',
          type:'POST',
-         data: {minLimit:minLimit, maxLimit:maxLimit},
+         data: {minLimit:minLimit, maxLimit:maxLimit,ticketstatus:ticketst},
          success:function(data) {
           $.each(data,function(index, value) {
             var fdata = [value.ticket_no,
@@ -205,12 +210,12 @@ allData = [];
      var minS=0;
      var allSearchData = [];
      var searchDataLoad = false;
-    function searchData(year, month, trailer, reportdamage, trailerid, minLimit, maxLimit) {
+    function searchData(year, month, trailer, reportdamage, trailerid, minLimit, maxLimit, ticketst) {
          searchDataLoad = $.ajax({url:'index.php?r=troubleticket/surveysearch',
          type:'POST', 
               data:{year: year, month: month, trailer: trailer, 
               reportdamage: reportdamage, trailerid: trailerid, 
-              minLimit:minLimit, maxLimit:maxLimit},
+              minLimit:minLimit, maxLimit:maxLimit,ticketstatus:ticketst},
               success:  function(data) {
                  if(minS==0) {
                   window.dt.fnClearTable();
@@ -239,7 +244,7 @@ allData = [];
             $("#alertMsg").removeClass("waitprocess");
             $('#alertMsg').html('');
              } else {   
-             searchData(year, month, trailer, reportdamage, trailerid, minS, maxdataLimit);
+             searchData(year, month, trailer, reportdamage, trailerid, minS, maxdataLimit, ticketst);
               }
        }, 
        error: function(err) {
@@ -270,7 +275,14 @@ allData = [];
         );
     }
     
-   function getAjaxBaseRecord(value) {
+   function getAjaxBaseRecord(ticketst) {
+       
+        if(ticketst == 'closed' || ticketst == 'open') {
+
+} else {   
+   ticketst = $("#ticketst:checked").val();
+  }
+
         minS = 0;
         var year = $('#year').val();
         var month = $('#month').val();
@@ -283,7 +295,7 @@ allData = [];
         allSearchData = []; 
         if(dataLoad) { dataLoad.abort(); } 
         if(searchDataLoad) { searchDataLoad.abort(); }
-        searchData(year, month, trailer, reportdamage, trailerid, 0, maxdataLimit);     
+        searchData(year, month, trailer, reportdamage, trailerid, 0, maxdataLimit, ticketst);     
     }
 
     
