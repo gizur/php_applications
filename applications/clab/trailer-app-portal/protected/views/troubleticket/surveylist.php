@@ -63,15 +63,9 @@ foreach ($rm as $key => $val) {
     <div class="toppanel">
         <table width="100%" border="0" cellspacing="0" cellpadding="1">
             <tr><td colspan='4' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
-            <tr>
-                <td ><select name='year' id="year" onchange="getAjaxBaseRecord(this.value)"><?php echo $options; ?></select></td>
-                <td ><select name='month' id="month" onchange="getAjaxBaseRecord(this.value)"><?php echo $Months; ?></select></select></td>
-                <td >
-                    <select name='reportdamage' id="reportdamage" onchange="getAjaxBaseRecord(this.value)">
-                        <?php echo $reportdamage_opt; ?>
-                    </select>
-                </td>
-                <td valign="top"><table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
+<tr><td colspan='4' align="center"><span id='assetsmsg' style="position:fixed; margin:-15px 0 0 350px; "></span></td></tr>
+<tr>
+                <td valign="top" colspan="4"><table width="100%" border="0" cellspacing="1" cellpadding="1" style="background:#FFF; border:#CCC solid 1px; padding:5px;">
                         <tr>
                             <?php
                             if (!$currentasset) {
@@ -88,20 +82,31 @@ foreach ($rm as $key => $val) {
                             }
                             ?>
                             <td><strong>Trailer</strong></td>
-                            <td><select name='TID' id="trailer" onchange="getAjaxBaseRecord(this.value)"><?php echo $TID; ?></select></td>
+                            <td><select name='TID' id="trailer" class="search" onchange="getAjaxBaseRecord(this.value)"><?php echo $TID; ?></select></td>
                             <td>
-                                <input type="radio" name="optration" <?php echo $inopt; ?> value="inoperation" id="inperation" onclick="getAjaxBaseAssetRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>	
+                                <input type="radio" name="optration" <?php echo $inopt; ?> value="inoperation" id="inperation" onclick="getAjaxBaseAssetRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>
                                 <input type="radio" name="optration" <?php echo $damagechecked; ?> value="damaged" id="damaged" onclick="getAjaxBaseAssetRecord(this.value)" value="damaged" style="margin-right:10px; margin-left:30px"><?php echo getTranslatedString('Damaged'); ?>
                             </td>
                         </tr>
-                        <tr>
-                            <td><b>Ticket Status</b></td>
-                            <td><input type="radio" value="open" id="ticketst" name = "ticketst" checked= 'checked' onclick = 'getAjaxBaseRecord(this.value)'>Open</td>
-                            <td><input type="radio" value="closed" id="ticketst" name="ticketst" onclick = 'getAjaxBaseRecord(this.value)'>Close</td>
-                        </tr>
+
                     </table>
                 </td>
-            </tr>
+</tr>
+ <tr>
+                <td ><select name='year' id="year" ><?php echo $options; ?></select></td>
+                <td ><select name='month' id="month" ><?php echo $Months; ?></select></select></td>
+                <td >
+                    <select name='reportdamage' id="reportdamage" >
+                        <?php echo $reportdamage_opt; ?>
+                    </select>
+                </td>
+
+                            <td><b>Ticket Status</b></td>
+                            <td><input type="radio" value="open" id="ticketst" name = "ticketst" checked= 'checked' >Open</td>
+                            <td><input type="radio" value="closed" id="ticketst" name="ticketst" >Close</td>
+                            <td> <button type="button" class="search" onClick='getAjaxBaseRecord(this.value)'>Search</button> </td>             
+                            </tr>
+
         </table>	
     </div>	
     <div id="alertMsg"></div>
@@ -191,7 +196,7 @@ window.dt.fnAddData(allData);
 window.dt.fnSort( [ [0,'desc'] ] );
 allData = [];
     min =min+data.length;
-        if(data.length==0) { 
+        if(data.length < maxdataLimit) { 
            $("#alertMsg").removeClass("waitprocess");
            $('#alertMsg').html('');
          } else {   
@@ -241,7 +246,9 @@ allData = [];
     window.dt.fnSort( [ [0,'desc'] ] );
     allSearchData = [];
       minS =minS+data.length;
-     if(data.length==0) { 
+     if(data.length < maxdataLimit) { 
+         $(".search").removeAttr('disabled');
+
             $("#alertMsg").removeClass("waitprocess");
             $('#alertMsg').html('');
              } else {   
@@ -277,6 +284,8 @@ allData = [];
     }
     
    function getAjaxBaseRecord(ticketst) {
+       $(".search").attr('disabled','disabled');
+
        
         if(ticketst == 'closed' || ticketst == 'open') {
 
