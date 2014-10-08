@@ -169,6 +169,7 @@ foreach ($rm as $key => $val) {
   var allData = [];
   var dataLoad = false;
   function addRows(minLimit, maxLimit) {
+      disablelink();
     $("#alertMsg").addClass("waitprocess");
     $('#alertMsg').html('loading....  Please wait');
     var ticketst = $("#ticketst:checked").val();
@@ -197,6 +198,7 @@ window.dt.fnSort( [ [0,'desc'] ] );
 allData = [];
     min =min+data.length;
         if(data.length < maxdataLimit) { 
+            enablelink();
            $("#alertMsg").removeClass("waitprocess");
            $('#alertMsg').html('');
          } else {   
@@ -246,7 +248,8 @@ allData = [];
     window.dt.fnSort( [ [0,'desc'] ] );
     allSearchData = [];
       minS =minS+data.length;
-     if(data.length < maxdataLimit) { 
+     if(data.length < maxdataLimit) {
+         enablelink();
          $(".search").removeAttr('disabled');
 
             $("#alertMsg").removeClass("waitprocess");
@@ -284,6 +287,8 @@ allData = [];
     }
     
    function getAjaxBaseRecord(ticketst) {
+        disablelink();
+
        $(".search").attr('disabled','disabled');
 
        
@@ -313,6 +318,31 @@ allData = [];
         $("#" + id).addClass("waitprocessdetails");
         $('#' + id).html('Please wait...');
     }
+    function disablelink(){
+
+trouble=document.getElementById('trouble').href;
+contact=document.getElementById('contacts').href;
+asset=document.getElementById('assets').href;
+pass=document.getElementById('password').href;
+document.getElementById('trouble').removeAttribute("href");
+document.getElementById('contacts').removeAttribute("href");
+document.getElementById('assets').removeAttribute("href");
+document.getElementById('password').removeAttribute("href");
+
+
+}
+
+function enablelink(){
+document.getElementById('trouble').setAttribute("href",trouble);
+document.getElementById('contacts').setAttribute("href",contact);
+document.getElementById('assets').setAttribute("href",asset);
+document.getElementById('password').setAttribute("href",pass);
+
+
+
+
+}
+
     /*$('#year').val('<?php if (!empty($SYear)) { echo $SYear; } else { echo date('Y'); } ?>');
     $('#month').val('<?php if (!empty($SMonth)) { echo $SMonth; } else { echo date('m'); } ?>');
     $('#reportdamage').val('<?php if (!empty($SReportdamage)) { echo $SReportdamage; } else { echo 'all'; } ?>');*/

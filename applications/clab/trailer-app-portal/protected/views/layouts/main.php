@@ -74,14 +74,14 @@ $cs->registerCssFile($baseUrl . '/css/jquery.dataTables.css');
                     <?php
                     $items = array();   
                     
-                    array_push($items, array('label' => getTranslatedString('Survey'), 'url' => array('/troubleticket/surveylist')));
+                    array_push($items, array('label' => getTranslatedString('Survey'),'linkOptions'=>array('id'=>'trouble'), 'url' => array('/troubleticket/surveylist')));
                     if(Yii::app()->params['showContactTab']) {
-                        array_push($items, array('label' => getTranslatedString('Contacts'), 'url' => array('/contacts/list')));
+                        array_push($items, array('label' => getTranslatedString('Contacts'),'linkOptions'=>array('id'=>'contacts'), 'url' => array('/contacts/list')));
                     }
                     if(Yii::app()->params['showAssetTab']) {
-                        array_push($items, array('label' => getTranslatedString('Assets'), 'url' => array('/assets/list')));
+                        array_push($items, array('label' => getTranslatedString('Assets'),'linkOptions'=>array('id'=>'assets'), 'url' => array('/assets/list')));
                     }
-                    array_push($items, array('label' => getTranslatedString('Change Password'), 'url' => array('/site/changepassword')));
+                    array_push($items, array('label' => getTranslatedString('Change Password'),'linkOptions'=>array('id'=>'password'), 'url' => array('/site/changepassword')));
                     array_push($items, array('label' => getTranslatedString('Login'), 'url' => array('/site/login'), 'visible' => $loginstatus));
                     array_push($items, array('label' => getTranslatedString('Logout'), 'url' => array('/site/logout'), 'visible' => !$loginstatus));
                     
