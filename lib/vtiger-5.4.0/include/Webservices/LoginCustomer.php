@@ -52,7 +52,8 @@ function vtws_verifyActiveCustomerPortalUser($username, $password)
 {
     global $adb;
 
-    $sql = "select * from vtiger_portalinfo where user_name=? and user_password=?";
+   $sql = "select * from vtiger_portalinfo where user_name=? and user_password=? and isactive=1";
+
     $result = $adb->pquery($sql, array($username, $password));
 
     if ($result != null && isset($result)) {

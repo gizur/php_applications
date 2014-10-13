@@ -170,6 +170,17 @@ class ContactsController extends Controller {
         $model->resetPassword($username);
     }
     
+    public function actionUP() {
+$model = new Contacts;
+          $id = $_POST['id'];
+            $this->LoginCheck();
+            // call function createAsset to create new asset
+            $model->updateContacts($id, $_POST, 'up') ;
+exit;
+
+}
+
+    
     /*
      * Funcation Name:- actionDelete
      * Description:- with this function we are deleting contacts by id

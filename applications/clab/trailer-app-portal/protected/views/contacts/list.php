@@ -74,9 +74,12 @@ $this->breadcrumbs = array(
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo $data['phone']; ?></td>
                         <td><?php echo $resultUsers[$data['assigned_user_id']]; ?></td>
-                        <td><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/edit&id=<?php echo $data['id'];  ?>" contactId="<?php echo $data['id'];  ?>" id="edit"><?php echo getTranslatedString('edit'); ?></a>  
+                        <td><a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/edit&id=<?php echo $data['id'];  ?>" contactId="<?php echo $data['id'];  ?>" id="edit"><?php echo getTranslatedString('edit'); ?></a>
                             | <a href='javascript:void(0);' contactId="<?php echo $data['id'];  ?>" id="delete">del</a>
-                            | <a href='javascript:void(0);' id="resetPassword" email="<?php echo $data['email'];  ?>"><?php echo getTranslatedString('Reset Password'); ?></a></td>
+                            | <a href='javascript:void(0);' id="resetPassword" email="<?php echo $data['email'];  ?>"><?php echo getTranslatedString('Reset Password'); ?></a>
+| <a href='javascript:void(0);' id="resetUser" email="<?php echo $data['email'];  ?>"uid="<?php echo $data['id'];?>"lastname="<?php echo $data['lastname']; ?>"orgname="<?php echo $data['account_id']; ?>"reportto="<?php echo $data['contact_id'];?>" ><?php if($data['portal']==1){ echo getTranslatedString('Deactivate');}else{ echo getTranslatedString('Activate');} ?></a>
+</td>
+
                     </tr>
                 <?php } ?>
             </tbody>
@@ -140,6 +143,48 @@ $this->breadcrumbs = array(
             }
 
         });
+        
+        $("#resetUser").live('click', function(e) {
+
+if($(this).html()=="<?php echo getTranslatedString('wait..'); ?>"){
+return false;
+}
+            var email = $(this).attr('email');
+
+             var id = $(this).attr('uid');
+             var lastname = $(this).attr('lastname');
+var  account_id= $(this).attr('orgname');
+var contact_id= $(this).attr('reportto');
+if($(this).html()=="<?php echo getTranslatedString('Deactivate'); ?>"){
+var potal=0;
+var mes="<?php echo getTranslatedString('Are you sure to activate user?'); ?>";
+}else{
+var portal=1;
+var mes="<?php echo getTranslatedString('Are you sure to deactivate user?'); ?>";
+
+
+}
+ if (confirm(mes)) {
+                //$("#resetUser").addClass("waitprocess");
+                //$('#resetUser').html('Please wait...');
+                  $(this).html("<?php echo getTranslatedString('wait..'); ?>");
+                var self = this; 
+                $.post('<?php echo Yii::app()->request->baseUrl; ?>/index.php?r=contacts/UP',
+                        {email: email, id: id, lastname: lastname, account_id: account_id, contact_id: contact_id, portal: portal},
+                function(data) {
+                  
+                    if(data['result']['portal']=="0") {
+                 $(self).html("<?php echo getTranslatedString('Activate'); ?>");
+} else {
+$(self).html("<?php echo getTranslatedString('Deactivate'); ?>");
+}
+                }, 'json'
+                        );
+            }
+
+        });
+
+
 
 
     });

@@ -245,7 +245,7 @@ class Contacts extends CFormModel
      * Return Type: Json
      */
 
-    function updateContacts($id, $data)
+    function updateContacts($id, $data, $type)
     {
         $module = 'Contacts';
         $params = array(
@@ -275,6 +275,11 @@ class Contacts extends CFormModel
         $rest->set_header('X_SIGNATURE', $signature);
         $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
         $response = $rest->put(Yii::app()->params->URL . $module . '/' . $id . '/update', $data);
+        if($type=='up') {
+  echo $response;
+exit;
+}  else {
+
         $response = json_decode($response);
         if ($response->success == true) {
             echo Yii::app()->user->setFlash('success', "Contact updated successfully");
@@ -289,5 +294,5 @@ class Contacts extends CFormModel
 
 
 }
-
+}
 ?>
