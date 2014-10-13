@@ -158,10 +158,10 @@ var contact_id= $(this).attr('reportto');
 var portal;
 if($(this).html()=="<?php echo getTranslatedString('Deactivate'); ?>"){
  portal=0;
-var mes="<?php echo getTranslatedString('Are you sure to activate user?'); ?>";
+var mes="<?php echo getTranslatedString('Are you sure to deactivate user?'); ?>";
 }else{
  portal=1;
-var mes="<?php echo getTranslatedString('Are you sure to deactivate user?'); ?>";
+var mes="<?php echo getTranslatedString('Are you sure to activate user?'); ?>";
 
 
 }
