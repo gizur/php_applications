@@ -155,11 +155,12 @@ return false;
              var lastname = $(this).attr('lastname');
 var  account_id= $(this).attr('orgname');
 var contact_id= $(this).attr('reportto');
+var portal;
 if($(this).html()=="<?php echo getTranslatedString('Deactivate'); ?>"){
-var portal=0;
+ portal=0;
 var mes="<?php echo getTranslatedString('Are you sure to activate user?'); ?>";
 }else{
-var portal=1;
+ portal=1;
 var mes="<?php echo getTranslatedString('Are you sure to deactivate user?'); ?>";
 
 
