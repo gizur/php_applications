@@ -156,7 +156,7 @@ return false;
 var  account_id= $(this).attr('orgname');
 var contact_id= $(this).attr('reportto');
 if($(this).html()=="<?php echo getTranslatedString('Deactivate'); ?>"){
-var potal=0;
+var portal=0;
 var mes="<?php echo getTranslatedString('Are you sure to activate user?'); ?>";
 }else{
 var portal=1;
