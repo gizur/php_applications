@@ -1167,7 +1167,7 @@ class ApiController extends Controller {
 
                 //Save userid and session id against customerportal 
                 //credentials
-                Yii::app()->cache->set($this->_cacheKey, $cacheValue, 86000);
+                Yii::app()->cache->set($this->_cacheKey, $cacheValue, 1);
                 Yii::app()->cache->set(
                         $this->_instanceid . "_last_used_" . $this->_cacheKey, time()
                 );
@@ -6634,6 +6634,7 @@ class ApiController extends Controller {
                 case 'Contacts':
                     if (isset($_GET['action'])) {
                         if ($_GET['action'] == 'update') {
+                           
 
                             /**
                              * Validations
