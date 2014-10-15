@@ -169,6 +169,8 @@ foreach ($rm as $key => $val) {
   var allData = [];
   var dataLoad = false;
   function addRows(minLimit, maxLimit) {
+       $(".search").attr('disabled','disabled');
+
       disablelink();
     $("#alertMsg").addClass("waitprocess");
     $('#alertMsg').html('loading....  Please wait');
@@ -198,6 +200,7 @@ window.dt.fnSort( [ [0,'desc'] ] );
 allData = [];
     min =min+data.length;
         if(data.length < maxdataLimit) { 
+             $(".search").removeAttr('disabled');
             enablelink();
            $("#alertMsg").removeClass("waitprocess");
            $('#alertMsg').html('');
