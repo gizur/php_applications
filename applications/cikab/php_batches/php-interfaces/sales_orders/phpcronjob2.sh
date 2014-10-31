@@ -681,8 +681,8 @@ class PhpBatchTwo {
 
         return $messageQ;
     }
+
     
-    /*
     protected function createXMLFile($accounts, &$msg) {
 $cnt = 0;
 
@@ -950,12 +950,12 @@ $soOrders = $this->getSalesOrdersForXml(
                 $messageQ['type'] = 'XML';
                 return $messageQ;
     }
-    */
+    
     /* for single product xml
      * 
      * 
      */
- protected function createXMLFile($accounts, &$msg) {
+ protected function createXMLFile1($accounts, &$msg) {
         $cnt = 0;
  /*
          * Generate the file name.
@@ -1587,7 +1587,7 @@ $soOrders = $this->getSalesOrdersForXml(
                     $msg[$account->accountname]['status'] = false;
 
                     //$mosFile = $this->createMOSFile($account, $msg);
-                    $xmlFile = $this->createXMLFile($account, $msg);
+                    $xmlFile = $this->createXMLFile1($account, $msg);
 
                     $this->storeFileInSThree(
                             Config::$amazonSThree['xmlBucket'], Config::$amazonSThree['xmlFolder'], $xmlFile['file'], $xmlFile['content']
