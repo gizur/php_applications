@@ -683,300 +683,32 @@ class PhpBatchTwo {
     }
 
     
-    protected function createXMLFile($accounts, &$msg) {
-$cnt = 0;
+    protected function createXMLFile($accounts, &$msg){
 
-// Define xml header
-
-       $dom = new DOMDocument("1.0","utf-8");
-        header("Content-Type: text/plain");
-
-        $main = $dom->createElement("order:orderMessage");
-        $dom->appendChild($main);
-
-        $orderAttr  = $dom->createAttribute("xmlns:order");
-        $main->appendChild($orderAttr);
-
-        $orderAttrText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3');
-        $orderAttr->appendChild($orderAttrText);
-
-        $shAttr  = $dom->createAttribute("xmlns:sh");
-        $main->appendChild($shAttr);
-
-        $shAttrText = $dom->createTextNode('http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader');
-        $shAttr->appendChild($shAttrText);
-
-        $xsiAttr  = $dom->createAttribute("xmlns:xsi");
-        $main->appendChild($xsiAttr);
-
-        $xsiAttrText = $dom->createTextNode('http://www.w3.org/2001/XMLSchema-instance');
-        $xsiAttr->appendChild($xsiAttrText);
-
-        $schemaLocationAttr  = $dom->createAttribute("xsi:schemaLocation");
-        $main->appendChild($schemaLocationAttr);
-
-        $schemaLocationText = $dom->createTextNode('urn:gs1:ecom:order:xsd:3 ../Schemas/gs1/ecom/Order.xsd');
-        $schemaLocationAttr->appendChild($schemaLocationText);
-
-
-        /*
-         * Generate the file name.
-         */
-         $accountName = $accounts->accountname;
-        $createdDate = date("YmdHi");
-        $fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
-                "$accountName";
-
-        $msg[$accountName]['file'] = $fileName;
-
-
-$soOrders = $this->getSalesOrdersForXml(
-            $accountName  
-        );
-        
-         while ($salesOrder = $soOrders->fetch_object()) {
-
-
-        $soProducts = $this->getProductsBySalesOrderId(
-                $salesOrder->id
-        );
-
-        $msg[$salesOrder->salesorder_no]['count'] = $soProducts->num_rows;
-
-     
-        /*
-         * Initialize variables used in creating SET file contents.
-         */
-        $leadzero = "";
-        $productnamearray = array();
-        $multiproduct = array();
-        $productlength = "";
-        $leadzeroproduct = "";
-        $productquantitylength = "";
-        $leadzeroproductquantity = "";
-
-        $accountlenth = strlen($accountName);
-        if ($accountlenth < 6) {
-            $leadzero = Functions::leadingzero(6, $accountlenth);
-        }
-        $finalformataccountname = $leadzero .
-                $accountName;
-
-        $salesID = preg_replace(
-                '/[A-Z]/', '', $salesOrder->salesorder_no
-        );
-        $originalordernomber = "7777" . $salesID;
-
-        /**
-         * If length of order number is 
-         * greater then 6 then auto remove 
-         * extra digits from the starting
-         */
-        $orderlength = strlen($originalordernomber);
-
-        if ($orderlength > 6) {
-            $accessorderlength = $orderlength - 6;
-
-            $ordernumber = substr(
-                    $originalordernomber, $accessorderlength
-            );
-        } else
-            $ordernumber = $originalordernomber;
-
-        if (!empty($salesOrder->duedate) && $salesOrder->duedate != '0000-00-00')
-            $deliveryday = date(
-                    "ymd", strtotime($salesOrder->duedate)
-            );
-        else
-            $deliveryday = date('ymd');
-
-        $futuredeliveryDate = strtotime(
-                date("Y-m-d", strtotime($deliveryday)) . "+2 day"
-        );
-        $futuredeliverydate = date('Y-m-d', $futuredeliveryDate);
-        $dateNo = new DateTime($futuredeliverydate);
-        $weekNo = $dateNo->format("W");
-        $futuredeliverydateY = date('Y',strtotime($futuredeliverydate)); 
-
-
-        $currentdate = date("YmdHi");
-        $milliSec = Functions::getMilliSecond();
-        /*
-         * Generate the xml file content
-         */
-        $date = new DateTime($futuredeliverydate);
-        $week = $date->format("W");
-        $creationDateTimeData = date('c');
-        $glnData = $finalformataccountname;
-        $entityIdentificationData = $ordernumber;
-        $orderTypeCodeData = '220';
-        $requestedDeliveryDateTimeData = $futuredeliverydate;
-        $additionalOrderInstructionData = $futuredeliverydateY.''.$weekNo;
-        $lineItemNumberText = 1;
-        $materialSpecificationData = '';
-        
-        // Creating XML file using php dom document.
-        
-        $root = $dom->createElement("order");
-        $main->appendChild($root);
-
-        $creationDateTime = $dom->createElement("creationDateTime");
-        $root->appendChild($creationDateTime);
-
-        $creationDateTimeText = $dom->createTextNode($creationDateTimeData);
-        $creationDateTime->appendChild($creationDateTimeText);
-
-        $orderIdentification = $dom->createElement("orderIdentification");
-        $root->appendChild($orderIdentification);
-
-        $entityIdentification = $dom->createElement("entityIdentification");
-        $orderIdentification->appendChild($entityIdentification);
-
-        $entityIdentificationText = $dom->createTextNode($entityIdentificationData);
-        $entityIdentification->appendChild($entityIdentificationText);
-
-        $orderTypeCode = $dom->createElement("orderTypeCode");
-        $root->appendChild($orderTypeCode);
-
-        $orderTypeCodeText = $dom->createTextNode($orderTypeCodeData);
-        $orderTypeCode->appendChild($orderTypeCodeText);
-
-        $buyer = $dom->createElement("buyer");
-        $root->appendChild($buyer);
-
-        $gln = $dom->createElement("gln");
-        $buyer->appendChild($gln);
-
-        $glnText = $dom->createTextNode($glnData);
-        $gln->appendChild($glnText);
-
-        $orderLogisticalInformation = $dom->createElement("orderLogisticalInformation");
-        $root->appendChild($orderLogisticalInformation);
-
-        $orderLogisticalDateInformation = $dom->createElement("orderLogisticalDateInformation");
-        $orderLogisticalInformation->appendChild($orderLogisticalDateInformation);
-
-        $requestedDeliveryDateTime  = $dom->createElement("requestedDeliveryDateTime");
-        $orderLogisticalDateInformation->appendChild($requestedDeliveryDateTime);
-
-        $requestedDeliveryDateTimeText = $dom->createTextNode($requestedDeliveryDateTimeData);
-        $requestedDeliveryDateTime->appendChild($requestedDeliveryDateTimeText);
-
-        $additionalOrderInstruction  = $dom->createElement("additionalOrderInstruction");
-        $root->appendChild($additionalOrderInstruction);
-
-        $additionalOrderInstructionText = $dom->createTextNode($additionalOrderInstructionData);
-        $additionalOrderInstruction->appendChild($additionalOrderInstructionText);
-
-
-                while ($sOWProduct = $soProducts->fetch_object()) {
-
-                    /**
-                     * Check duplicate products and 
-                     * 
-                     */
-                    if (!in_array($sOWProduct->productname, $productnamearray)) {
-                        $productlength = strlen($sOWProduct->productname);
-                        $productquantitylength = strlen(
-                                $sOWProduct->productquantity
-                        );
-
-                        if ($productlength < 6) {
-                            $leadzeroproduct = Functions::leadingzero(
-                                            6, $productlength
-                            );
-                        }
-
-                        if ($productquantitylength < 3) {
-                            $leadzeroproductquantity = Functions::leadingzero(
-                                            3, $productquantitylength
-                            );
-                        }
-
-                      $productName =  $leadzeroproduct .
-                                $sOWProduct->productname;
-                                
-                       $productQty =  $leadzeroproductquantity .
-                                $sOWProduct->productquantity;        
-
-                        
-                    }
-                      $productnamearray[] = $sOWProduct->productname;
-                
-        $orderLineItem  = $dom->createElement("orderLineItem");
-        $root->appendChild($orderLineItem);
-
-        $lineItemNumber  = $dom->createElement("lineItemNumber");
-        $orderLineItem->appendChild($lineItemNumber);
-
-        $lineItemNumberText = $dom->createTextNode($lineItemNumberText);
-        $lineItemNumber->appendChild($lineItemNumberText);
-
-        $transactionalTradeItem  = $dom->createElement("transactionalTradeItem");
-        $orderLineItem->appendChild($transactionalTradeItem);
-
-        $gtin  = $dom->createElement("gtin");
-        $transactionalTradeItem->appendChild($gtin);
-
-        $gtinText = $dom->createTextNode($productName);
-        $gtin->appendChild($gtinText);
-
-        $materialSpecification  = $dom->createElement("materialSpecification");
-        $orderLineItem->appendChild($materialSpecification);
-
-        $materialSpecificationText = $dom->createTextNode($sOWProduct->bas_product_id);
-        $materialSpecification->appendChild($materialSpecificationText);
-
-        $requestedQuantity  = $dom->createElement("requestedQuantity");
-        $orderLineItem->appendChild($requestedQuantity);
-
-        $requestedQuantityText = $dom->createTextNode($productQty);
-        $requestedQuantity->appendChild($requestedQuantityText);
-
-        $requestedQuantityAttr  = $dom->createAttribute("measurementUnitCode");
-        $requestedQuantity->appendChild($requestedQuantityAttr);
-
-        $requestedQuantityAttrText = $dom->createTextNode('CAR');
-        $requestedQuantityAttr->appendChild($requestedQuantityAttrText); 
-        }
-         unset($productnamearray);
-      }
-       
-               $contentF = $dom->saveXML();
-                $messageQ = array();
-
-                $messageQ['file'] = $fileName;
-                $messageQ['content'] = $contentF;
-                $messageQ['type'] = 'XML';
-                return $messageQ;
-    }
-    
-    /* for single product xml
-     * 
-     * 
-     */
- protected function createXMLFile1($accounts, &$msg) {
         $cnt = 0;
  /*
-         * Generate the file name.
+  *   * Generate the file name.
          */
          $accountName = $accounts->accountname;
          $createdDate = date("YmdHi");
-         $fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
-                "$accountName";
+         //$fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
+           //     "$accountName";
 
-        $msg[$accountName]['file'] = $fileName;
+       // $msg[$accountName]['file'] = $fileName;
         
         
         $soOrders = $this->getSalesOrdersForXml(
             $accountName  
         );
-        
- while ($salesOrder = $soOrders->fetch_object()) {
+        $i=0;
+        while ($salesOrder = $soOrders->fetch_object()){
+            $fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
+           "$accountName".$salesOrder->id;
+            
+            $msg[$accountName]['file'] = $fileName;
+        // Define xml header
 
-// Define xml header
-
-       $dom = new DOMDocument("1.0","utf-8");
+        $dom = new DOMDocument("1.0","utf-8");
         header("Content-Type: text/plain");
 
         $main = $dom->createElement("order:orderMessage");
@@ -1211,18 +943,15 @@ $soOrders = $this->getSalesOrdersForXml(
         }
          unset($productnamearray);
          $contentF = $dom->saveXML();
-                $messageQ = array();
+                $messageQ[$i] = array();
 
-                $messageQ['file'] = $fileName;
-                $messageQ['content'] = $contentF;
-                $messageQ['type'] = 'XML';
-                return $messageQ;
-      }
-       
-               
-    }
-
-    /*
+                $messageQ[$i]['file'] = $fileName;
+                $messageQ[$i]['content'] = $contentF;
+                $messageQ[$i]['type'] = 'XML';
+                $i++;
+}
+        return $messageQ;
+ }/*
      * Creating MOS Files
      */ 
     protected function createMOSFile($account, &$msg) {
@@ -1587,18 +1316,17 @@ $soOrders = $this->getSalesOrdersForXml(
                     $msg[$account->accountname]['status'] = false;
 
                     //$mosFile = $this->createMOSFile($account, $msg);
-                    $xmlFile = $this->createXMLFile1($account, $msg);
-
+                 $xmlFile = $this->createXMLFile($account, $msg);
+                foreach( $xmlFile as $key=>$xmlvalue){
                     $this->storeFileInSThree(
-                            Config::$amazonSThree['xmlBucket'], Config::$amazonSThree['xmlFolder'], $xmlFile['file'], $xmlFile['content']
-                    );
-
+                    Config::$amazonSThree['xmlBucket'], Config::$amazonSThree['xmlFolder'], $xmlvalue['file'], $xmlvalue['content']);
                     $this->storeFileInMessageQ(
-                            Config::$amazonQ['url'], json_encode($xmlFile)
-                    );
-
+                    Config::$amazonQ['url'], json_encode($xmlvalue));
                     $msg[$account->accountname]['status'] = true;
-                    $fileName = $xmlFile['file'];
+                    $fileName = $xmlvalue['file'];
+                    
+}
+
 
                     $this->updateIntegrationSalesOrderByAccountName(
                             $account->accountname, 'mos_status', 'Delivered'

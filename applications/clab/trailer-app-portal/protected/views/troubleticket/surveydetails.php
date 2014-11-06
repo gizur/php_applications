@@ -37,10 +37,10 @@ $this->breadcrumbs = array(
     <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
         <tr>
             <td width="26%" bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Ticket ID'); ?></strong></td>
-            <td width="74%" bgcolor="e3f0f7"> <?php echo $result['result']['ticket_no']; ?></td>
+            <td width="74%" bgcolo3f0f7"> <?php echo $result['result']['ticket_no']; ?></td>
         </tr>
         <tr>
-            <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Trailer ID'); ?></strong></td>
+            <td bgcolor="e"><strong><?php echo getTranslatedString('Trailer ID'); ?></strong></td>
             <td bgcolor="e3f0f7"> <?php echo $result['result']['trailerid']; ?></td>
         </tr>
         <tr>
@@ -61,7 +61,8 @@ $this->breadcrumbs = array(
         </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Contact'); ?></strong></td>
-            <td bgcolor="e3f0f7"><?php echo $result['result']['contactname']['firstname'] . "&nbsp;" . $result['result']['contactname']['lastname']; ?></td>
+             <td bgcolor="e3f0f7"><?php echo $result['result']['contactname']; ?></td>
+
         </tr>
 
         </tr>

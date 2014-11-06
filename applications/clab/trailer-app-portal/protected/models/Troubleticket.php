@@ -171,60 +171,61 @@ class Troubleticket extends CFormModel {
         }
     }
 
-    function findAll($module, $tickettype, $year = '0000', $month = '00', $trailer = '0', 
-        $reportdamage = 'all', $minLimit, $maxLimit, $ticketstatus) {
-        $params = array(
-            'Verb' => 'GET',
-            'Model' => $module,
-            'Version' => Yii::app()->params->API_VERSION,
-            'Timestamp' => date("c"),
-            'KeyID' => Yii::app()->params->GIZURCLOUD_API_KEY,
-            'UniqueSalt' => uniqid()
-        );
+    function findAll($module, $tickettype, $year = '0000', $month = '00',
+$trailer = '0', $reportdamage = 'all', $minLimit, $maxLimit,
+$ticketstatus) {
 
-        // Sorg arguments
-        ksort($params);
+ $SQL = "SELECT ticket.ticketid
+id,ticket.ticket_no,ticketcf.cf_640 trailerid,ticketcf.cf_661
+damagereportlocation,ticketcf.cf_665 damagestatus,
+ticketcf.cf_654 reportdamage,ticketcf.cf_659 damagetype,ticketcf.cf_658
+damageposition,ticketcf.cf_657 drivercauseddamage,concat(con.firstname,'
+',con.lastname) contactname
+,account.accountname,entity.createdtime,entity.modifiedtime
+FROM vtiger_troubletickets AS ticket
+LEFT JOIN vtiger_ticketcf AS ticketcf ON ( ticket.ticketid =
+ticketcf.ticketid )
+LEFT JOIN vtiger_contactdetails AS con ON ( ticket.parent_id = contactid )
+LEFT JOIN vtiger_account AS account ON ( con.accountid = account.accountid )
+LEFT JOIN vtiger_crmentity as entity on (entity.crmid=ticket.ticketid) ";
 
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
 
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
-        //login using each credentials
-        // Check Filter Parameter
-        $FilterParameter = array();
-        if ($year != "") {
-            $FilterParameter[] = $year;
+        $whereClause = Array();
+        $whereClause[] = "ticket.status = '$ticketstatus' ";
+        if ($year != '0000') {
+            if ($month == '00') {
+                $startmonth = '01';
+                $endmonth = '12';
+            } else {
+                $startmonth = $month;
+                $endmonth = $month;
+            }
+            $whereClause[] = "entity.createdtime >= '" .
+                    $year . "-" . $startmonth . "-01'";
+            $whereClause[] = "entity.createdtime <= '" .
+                    $year . "-" . $endmonth . "-31'";
         }
-        if ($month != "") {
-            $FilterParameter[] = $month;
-        }
-        if ($trailer != "") {
-            $FilterParameter[] = $trailer;
-        }
-        if ( $reportdamage != "") {
-            $FilterParameter[] = $reportdamage;
-        }        
-        $extraparameter = implode('/', $FilterParameter);
-        if (!empty($extraparameter)) {
-            $extraparameter = "/" . $extraparameter;
-        }
-        //foreach($this->credentials as $username => $password){            
-        $rest = new RESTClient();
-        $rest->format('json');
-        $rest->set_header('X_USERNAME', Yii::app()->session['username']);
-        $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
-        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-        $rest->set_header('X_SIGNATURE', $signature);
-        $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-         $response = $rest->get(Yii::app()->params->URL . $module . "/" .$minLimit."/".$maxLimit."/". $tickettype . $extraparameter . '/' . $ticketstatus);
 
+        if (isset($trailer)) {
+            if ($trailer != '0')
+                $whereClause[] = "ticketcf.cf_640='" . $trailer . "'";
+        }
+ $query = $SQL . " where " .
+                implode(" and ", $whereClause) . " order by
+ticket.ticketid desc LIMIT $minLimit , $maxLimit;";
 
-        return $result = json_decode($response, true);
+        //echo $query;die;
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($query);
+        $dataReader = $command->query(); // execute a query SQL
+        $response['success'] = 1;
+        $response['result'] = $dataReader->readAll();
+
+        return $response;
     }
+
+
+
 
     /*
      *  This actions use for get Assets list
@@ -284,37 +285,36 @@ class Troubleticket extends CFormModel {
      */
 
     function findById($model, $ID) {
-        $params = array(
-            'Verb' => 'GET',
-            'Model' => $model,
-            'Version' => Yii::app()->params->API_VERSION,
-            'Timestamp' => date("c"),
-            'KeyID' => Yii::app()->params->GIZURCLOUD_API_KEY,
-            'UniqueSalt' => uniqid()
-        );
+        $SQL = "SELECT ticket.title ticket_title,ticket.status
+ticketstatus,ticket.ticketid id,ticket.ticket_no,ticketcf.cf_640
+trailerid,ticketcf.cf_661 damagereportlocation,ticketcf.cf_665 damagestatus,
+ticketcf.cf_654 reportdamage,ticketcf.cf_659 damagetype,ticketcf.cf_658
+damageposition,ticketcf.cf_657 drivercauseddamage,concat(con.firstname,'
+',con.lastname) contactname
+,account.accountname,entity.createdtime,entity.modifiedtime,ticketcf.cf_664
+notes
+FROM vtiger_troubletickets AS ticket
+LEFT JOIN vtiger_ticketcf AS ticketcf ON ( ticket.ticketid =
+ticketcf.ticketid )
+LEFT JOIN vtiger_contactdetails AS con ON ( ticket.parent_id = contactid )
+LEFT JOIN vtiger_account AS account ON ( con.accountid = account.accountid )
+LEFT JOIN vtiger_crmentity as entity on (entity.crmid=ticket.ticketid) ";
+        $query = $SQL . " where ticket.ticketid=" . $ID . " limit 1";
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($query);
+        $dataReader = $command->query(); // execute a query SQL
+        $response['success'] = 1;
+        $result = $dataReader->read();
+         $sqldoc = "select concat('17x',note.notesid) as id from
+vtiger_notes as note where note.notesid in (select notesid from
+vtiger_senotesrel where crmid=$ID)";
+        $command1 = $connection->createCommand($sqldoc);
+        $dataReader1 = $command1->query(); // execute a query SQL
 
-        // Sorg arguments
-        ksort($params);
+        $result['documents'] = $dataReader1->readAll();
 
-        // Generate string for sign
-        $string_to_sign = "";
-        foreach ($params as $k => $v)
-            $string_to_sign .= "{$k}{$v}";
-
-        // Generate signature
-        $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
-        //login using each credentials
-        //foreach($this->credentials as $username => $password){            
-        $rest = new RESTClient();
-        $rest->format('json');
-        $rest->set_header('X_USERNAME', Yii::app()->session['username']);
-        $rest->set_header('X_PASSWORD', Yii::app()->session['password']);
-        $rest->set_header('X_TIMESTAMP', $params['Timestamp']);
-        $rest->set_header('X_UNIQUE_SALT', $params['UniqueSalt']);
-        $rest->set_header('X_SIGNATURE', $signature);
-        $rest->set_header('X_GIZURCLOUD_API_KEY', Yii::app()->params->GIZURCLOUD_API_KEY);
-        $response = $rest->get(Yii::app()->params->URL . $model . "/" . $ID);
-        return $result = json_decode($response, true);
+        $response['result'] = $result;
+        return $response;
     }
 
     function getimage($module, $tid) {
