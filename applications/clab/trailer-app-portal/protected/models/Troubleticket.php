@@ -404,6 +404,7 @@ vtiger_senotesrel where crmid=$ID)";
             'KeyID' => Yii::app()->params->GIZURCLOUD_API_KEY,
             'UniqueSalt' => uniqid()
         );
+         $ticketID='17x'.$ticketID;
 
         // Sorg arguments
         ksort($params);

@@ -91,7 +91,7 @@ $this->breadcrumbs = array(
                 </table>
 
                 <br>
-                <input type="button"  onclick="AjaxMarkDamage('<?php echo $result['result']['id']; ?>')" class="button" value="<?php echo getTranslatedString('Mark damage repaired'); ?>" />
+                <input type="button"  onclick="AjaxMarkDamage('17x<?php echo $result['result']['id']; ?>')" class="button" value="<?php echo getTranslatedString('Mark damage repaired'); ?>" />
 
 
             </td>

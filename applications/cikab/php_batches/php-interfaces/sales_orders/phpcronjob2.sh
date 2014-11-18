@@ -1241,16 +1241,23 @@ class PhpBatchTwo {
                     }
                     
                     if (isset($setFile) && !empty($setFile)) {
-                    $this->storeFileInMessageQ(
-                            Config::$amazonQ['url'], json_encode($setFile)
-                    );
-                                       
-                        Config::writelog('phpcronjob2', "SET files generated successfully and placed SQS");
+                        $filename=$setFile['file'];
+                   $created= date('Y-m-d h:i:s');
+            $updated= date('Y-m-d h:i:s');
+            $st='P';
+             $salesOrdersQuery = "INSERT INTO salesorder_message_queue(filename, created, updated, status) values('$filename','$created', '$updated', '$st')";
+             $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
+            if(!$salesOrders) {
+            Config::writelog('phpcronjob3',"Error Query to save messages in database".$salesOrdersQuery);
+             throw new Exception(
+                            "Error Query to save messages in database".$salesOrdersQuery
+                        );
+
                         
-                    } else {
+                    } }//else {
                           
-                        throw new Exception('SET files could not be sent to SQS, Check cronjob2 at line number:702');  
-                    }
+                      //  throw new Exception('SET files could not be sent to SQS, Check cronjob2 at line number:702');  
+                    //}
                     
                     $msg[$salesOrder->salesorder_no]['status'] = true;
                     $fileName = $setFile['file'];
@@ -1320,8 +1327,19 @@ class PhpBatchTwo {
                 foreach( $xmlFile as $key=>$xmlvalue){
                     $this->storeFileInSThree(
                     Config::$amazonSThree['xmlBucket'], Config::$amazonSThree['xmlFolder'], $xmlvalue['file'], $xmlvalue['content']);
-                    $this->storeFileInMessageQ(
-                    Config::$amazonQ['url'], json_encode($xmlvalue));
+                    //$this->storeFileInMessageQ(
+                   // Config::$amazonQ['url'], json_encode($xmlvalue));
+            $filename=$xmlvalue['file'];
+            $created= date('Y-m-d h:i:s');
+            $updated= date('Y-m-d h:i:s');
+            $st='P';
+             $salesOrdersQuery = "INSERT INTO salesorder_message_queue(filename, created, updated, status) values('$filename','$created', '$updated', '$st')";
+             $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
+            if(!$salesOrders) {
+            Config::writelog('phpcronjob3',"Error Query to save messages in database".$salesOrdersQuery);
+             throw new Exception(
+                            "Error Query to save messages in database".$salesOrdersQuery
+            );}
                     $msg[$account->accountname]['status'] = true;
                     $fileName = $xmlvalue['file'];
                     
