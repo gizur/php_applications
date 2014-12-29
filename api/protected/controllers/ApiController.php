@@ -2119,26 +2119,24 @@ class ApiController extends Controller {
                         $this->_sendResponse(200, json_encode($response));
                     }
                     break;
+                    
+                    
                 case 'ExistingDamages':
-
-                    $model = "HelpDesk";
+                      $model = "HelpDesk";
                     //Is this a request for listing categories
                     if (isset($_GET['category'])) {
 
-                        //Send request to vtiger REST service
-                        $query = "select id, ticket_no, ticket_title, " .
-                                Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['trailerid'] . " ," .
-                                Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['damagetype'] . " ," .
-                                Yii::app()->params[$this->_clientid . '_custom_fields']['HelpDesk']['damageposition'] .
-                                " from $model";
+$query="SELECT concat('17x',ticket.ticketid) as id, ticket.ticket_no, ticket.title ticket_title, ticketcf.cf_640, ticketcf.cf_659, ticketcf.cf_658
+FROM vtiger_troubletickets AS ticket
+LEFT JOIN vtiger_ticketcf AS ticketcf ON ( ticket.ticketid = ticketcf.ticketid )";
 
                         //creating where clause based on parameters
                         $whereClause = Array();
                         if ($_GET['category'] == 'inoperation') {
-                            $whereClause[] = "ticketstatus = 'Closed'";
+                                  $whereClause[] = "ticket.status = 'Closed'";
                         }
                         if ($_GET['category'] == 'damaged') {
-                            $whereClause[] = "ticketstatus = 'Open'";
+                            $whereClause[] = "ticket.status = 'Open'";
                         }
 
                         if (isset($_GET['reportdamage']))
@@ -2155,7 +2153,7 @@ class ApiController extends Controller {
                                     $endmonth = '12';
                                 } else {
                                     $startmonth = $_GET['month'];
-                                    $endmonth = $_GET['month'];
+$endmonth = $_GET['month'];
                                 }
                                 if (!checkdate($startmonth, "01", $_GET['year']))
                                     throw new Exception(
@@ -2190,174 +2188,48 @@ class ApiController extends Controller {
                         } else {
                             $query = $query . ";";
                         }
+ $connection = Yii::app()->db;
+$command = $connection->createCommand($query);
+$dataReader = $command->query();
 
-                        //urlencode to as its sent over http.
-                        $queryParam = urlencode($query);
-
-                        //creating query string
-                        $params = "sessionName={$this->_session->sessionName}" .
-                                "&operation=query&query=$queryParam";
-
-                        //Log
-                        Yii::log(
-                                " TRACE(" . $this->_traceId . "); " .
-                                " FUNCTION(" . __FUNCTION__ . "); " .
-                                " PROCESSING REQUEST BY MOBILE (sending GET request to vt url: " .
-                                $this->_vtresturl . "?$params" .
-                                ")", CLogger::LEVEL_TRACE
-                        );
-
-                        //Receive response from vtiger REST service
-                        //Return response to client  
-                        $rest = new RESTClient();
-
-                        $rest->format('json');
-                        $response = $rest->get(
-                                $this->_vtresturl . "?$params"
-                        );
-
-                        //Log
-                        Yii::log(
-                                " TRACE(" . $this->_traceId . "); " .
-                                " FUNCTION(" . __FUNCTION__ . "); " .
-                                " PROCESSING REQUEST BY MOBILE(response received: " .
-                                $response .
-                                ")", CLogger::LEVEL_TRACE
-                        );
-
-                        //Objectify the response and check its success
-                        $response = json_decode($response, true);
+                      $response['success'] = true;
+                        $response['result'] =$dataReader->readAll();
 
                         if ($response['success'] == false)
                             throw new Exception('Fetching details failed');
 
+                       foreach ($response['result'] as $key => $ticket) {
 
-                        /**
-                         * Fetch the documents
-                         */
-                        foreach ($response['result'] as $key => $ticket) {
-                            //Get Documents Ids
-                            //creating query string
-                            $params = "sessionName={$this->_session->sessionName}" .
-                                    "&operation=getrelatedtroubleticketdocument" .
-                                    "&crmid=" . $ticket['id'];
+                          $exp=explode("x",$ticket['id']);
+                           $id=$exp[1];
+                           $query1="select * from vtiger_senotesrel where crmid='".$id."'" ;
+  $command1 = $connection->createCommand($query1);
+$dataReader1 = $command1->query();
 
-                            //Log
-                            Yii::log(
-                                    " TRACE(" . $this->_traceId . "); " .
-                                    " FUNCTION(" . __FUNCTION__ . "); " .
-                                    " PROCESSING REQUEST BY MOBILE(sending GET request to vt url: " .
-                                    $this->_vtresturl . "?$params" .
-                                    ")", CLogger::LEVEL_TRACE
-                            );
-
-                            //sending request vtiger REST service
-                            $rest = new RESTClient();
-
-                            $rest->format('json');
-                            $documentids = $rest->get(
-                                    $this->_vtresturl . "?$params"
-                            );
-
-                            //Log
-                            Yii::log(
-                                    " TRACE(" . $this->_traceId . "); " .
-                                    " FUNCTION(" . __FUNCTION__ . "); " .
-                                    " PROCESSING REQUEST BY MOBILE(response received: " .
-                                    $documentids .
-                                    ")", CLogger::LEVEL_TRACE
-                            );
-
-                            //Arrayfy the response and check its success 
-                            $documentids = json_decode($documentids, true);
-                            if ($documentids['success'] == false)
-                                throw new Exception('Unable to fetch Documents');
-
-                            $documentids = $documentids['result'];
-
+                        $result['documents'] =$dataReader1->readAll();
                             // Get Document Details 
-                            if (count($documentids) != 0) {
+                            if (count($result['documents']) != 0) {
 
-                                //Building query for fetching documents
-                                $query = "select * from Documents" .
-                                        " where id in (" . $this->_wsEntities['Documents']
-                                        . "x" .
-                                        implode(
-                                                ", " . $this->_wsEntities['Documents']
-                                                . "x", $documentids
-                                        ) . ");";
+                                foreach ($result['documents'] as $k => $doc) {
 
-                                //urlencode to as its sent over http.
-                                $queryParam = urlencode($query);
+                     $query2="select * from vtiger_notes where notesid ='".$doc['notesid']."'" ;
 
-                                //creating query string
-                                $params = "sessionName={$this->_session->sessionName}" .
-                                        "&operation=query&query=$queryParam";
+                        $command2 = $connection->createCommand($query2);
+                        $dataReader2 = $command2->query();
+                        $respo['success'] = true;
+                        $respo['result'] =$dataReader2->readAll();
 
-                                //Log
-                                Yii::log(
-                                        " TRACE(" . $this->_traceId . "); " .
-                                        " FUNCTION(" . __FUNCTION__ . "); " .
-                                        " PROCESSING REQUEST BY MOBILE(sending GET request to vt url: " .
-                                        $this->_vtresturl . "?$params" .
-                                        ")", CLogger::LEVEL_TRACE
-                                );
-
-                                //sending request to vtiger REST Service 
-                                $rest = new RESTClient();
-
-                                $rest->format('json');
-                                $documents = $rest->get(
-                                        $this->_vtresturl . "?$params"
-                                );
-
-                                //Log
-                                Yii::log(
-                                        " TRACE(" . $this->_traceId . "); " .
-                                        " FUNCTION(" . __FUNCTION__ . "); " .
-                                        " PROCESSING REQUEST BY MOBILE(response received: " .
-                                        $documents .
-                                        ")", CLogger::LEVEL_TRACE
-                                );
-
-                                //Objectify the response and check its success
-                                $documents = json_decode($documents, true);
-
-                                if (!$documents['success'])
-                                    throw new Exception($documents['error']['message']);
-
-                                foreach ($documents['result'] as $k => $doc) {
-                                    //creating query string
-                                    $params = "sessionName={$this->_session->sessionName}" .
-                                            "&operation=gettroubleticketdocumentfile" .
-                                            "&notesid=" . $doc['id'];
-
-                                    //Log
-                                    Yii::log(
-                                            " TRACE(" . $this->_traceId . "); " .
-                                            " FUNCTION(" . __FUNCTION__ . "); " .
-                                            " PROCESSING REQUEST (sending GET request to vt url: " .
-                                            $this->_vtresturl . "?$params" .
-                                            ")", CLogger::LEVEL_TRACE
-                                    );
-
-                                    //Receive response from vtiger REST service
-                                    //Return response to client  
-                                    $rest = new RESTClient();
-
-                                    $rest->format('json');
-                                    $respo = $rest->get(
-                                            $this->_vtresturl . "?$params"
-                                    );
-                                    $respo = json_decode($respo, true);
-                                    if ($respo['success']) {
-                                        $response['result'][$key]['files'][]['path'] = Yii::app()->params['awsS3BucketUrl'] . '/' . $respo['result']['filename'];
-                                    };
-                                }
-                            }
-                        } // END FETCHING DOCUMENT
-                        //Before sending response santise custom fields names to 
-                        //human readable field names
+                         if (count($respo['result']) > 0) {
+                                   foreach($respo['result'] as $index => $files){
+                                $response['result'][$key]['files'][]['path'] = Yii::app()->params['awsS3BucketUrl'] . '/' . $files['filename'];
+                                                                               }
+                                                        }
+                                  }
+                             }
+                       }
+// END FETCHING DOCUMENT
+ //Before sending response santise custom fields names to 
+                        //human readable field names 
                         $customFields = Yii::app()->params[$this->_clientid .
                                 '_custom_fields']['HelpDesk'];
 
@@ -2392,7 +2264,9 @@ class ApiController extends Controller {
                         $this->_sendResponse(200, json_encode($response));
                     }
                     break;
-                /*
+
+
+               /*
                  * *****************************************************************
                  * *****************************************************************
                  * * Assets MODEL
@@ -5951,7 +5825,8 @@ class ApiController extends Controller {
                         $response = json_decode($response);
 
                         if ($response->success == false)
-                            throw new Exception("Unable to reset password");
+                            throw new Exception("Please enter a valid username");
+                           // throw new Exception("Unable to reset password");
 
                         //Create a cache key for saving session
                         $keyToDelete = json_encode(

@@ -88,6 +88,14 @@ return array(
           'charset' => 'utf8',
           ),
          */
+         'db'=>array(
+                        'connectionString' =>'mysql:host=gc1-mysql1.cjd3zjo5ldyz.eu-west-1.rds.amazonaws.com;dbname=clabgizurcom',
+                        'emulatePrepare' => true,
+                        'username' => 'clabgizurcom',
+                        'password' => 'il2xiTtjKG30',
+                        'charset' => 'utf8',
+                 ),
+
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',

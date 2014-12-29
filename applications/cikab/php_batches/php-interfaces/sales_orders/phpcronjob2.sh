@@ -690,7 +690,7 @@ class PhpBatchTwo {
   *   * Generate the file name.
          */
          $accountName = $accounts->accountname;
-         $createdDate = date("YmdHi");
+         //$createdDate = date("YmdHi");
          //$fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
            //     "$accountName";
 
@@ -702,8 +702,17 @@ class PhpBatchTwo {
         );
         $i=0;
         while ($salesOrder = $soOrders->fetch_object()){
+             if (empty($this->_duplicateFileXml[$accounts->accountname]))
+            $createdDate = date("YmdHi");
+        else {
+            $cnt = count($this->_duplicateFileXml[$accounts->accountname]);
+            $createdDate = date("YmdHi", strtotime("+$cnt minutes"));
+        }
+
+        $this->_duplicateFileXml[$accounts->accountname][] = $createdDate;
+
             $fileName = "XML.GZ.FTP.IN.BST.$createdDate." .
-           "$accountName".$salesOrder->id;
+           "$accountName";
             
             $msg[$accountName]['file'] = $fileName;
         // Define xml header
@@ -904,6 +913,14 @@ class PhpBatchTwo {
                         
                     }
                       $productnamearray[] = $sOWProduct->productname;
+                      $basid=$sOWProduct->bas_product_id;
+                        $bas=explode( '-', $basid );
+                        $str=$bas[2];
+
+                        $rest = substr($str, 2);
+
+                        $basproductid =$bas[0].'-'.$bas[1].'-'.$rest;
+
                 
         $orderLineItem  = $dom->createElement("orderLineItem");
         $root->appendChild($orderLineItem);
