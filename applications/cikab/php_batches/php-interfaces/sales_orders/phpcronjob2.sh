@@ -1211,24 +1211,36 @@ class PhpBatchTwo {
         }
     }
 
+    
+    function fetch_all($result) {
+        while($row=$result->fetch_object()) {
+                $return[] = $row;
+        }
+        return $return;
+   }
+
 
     public function init() {
-        /*
+         /*
          * Process SET Files
          */
         try {
-            $numberSalesOrders = $this->getSalesOrdersCountSet(); 
+            $numberSalesOrders = $this->getSalesOrdersCountSet();
+            // echo"numberSalesOrders".$numberSalesOrders;die;
             $bunchCount = ceil($numberSalesOrders/Config::$batchVariable);
             for($doLoop=1; $doLoop<=$bunchCount; $doLoop++) {
-            
+
             $salesOrders = $this->getSalesOrdersForSet();
             /*
              * Update message array with number of sales orders.
              */
             $this->_messages['set']['count'] = $numberSalesOrders;
             $msg = &$this->_messages['set']['salesorders'];
+$object=$this->fetch_all($salesOrders);
+//print_r($object);die;
 
-            while ($salesOrder = $salesOrders->fetch_object()) {
+//            while ($salesOrder = $salesOrders->fetch_object()) {
+         foreach($object as $salesOrder) {
                 try {
                     /*
                      * Disable auto commit.
@@ -1244,38 +1256,46 @@ class PhpBatchTwo {
                     $msg[$salesOrder->salesorder_no]['status'] = false;
 
                     $setFile = $this->createSETFile($salesOrder, $msg);
-                    
-                    if (isset($setFile) && !empty($setFile)) {
-                        $this->storeFileInSThree(
-                                Config::$amazonSThree['setBucket'], Config::$amazonSThree['setFolder'], $setFile['file'], $setFile['content']
-                        );
-                    
-                        Config::writelog('phpcronjob2', "SET files generated and placed in S3 bucket successfully");
-                        
-                    } else {
-                          
-                        throw new Exception('No SET file has been created, Check cronjob2 at line number:687');  
-                    }
-                    
-                    if (isset($setFile) && !empty($setFile)) {
-                        $filename=$setFile['file'];
-                   $created= date('Y-m-d h:i:s');
-            $updated= date('Y-m-d h:i:s');
-            $st='P';
-             $salesOrdersQuery = "INSERT INTO salesorder_message_queue(filename, created, updated, status) values('$filename','$created', '$updated', '$st')";
-             $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
-            if(!$salesOrders) {
-            Config::writelog('phpcronjob3',"Error Query to save messages in database".$salesOrdersQuery);
-             throw new Exception(
-                            "Error Query to save messages in database".$salesOrdersQuery
-                        );
+              if (isset($setFile) && !empty($setFile)) {
 
-                        
-                    } }//else {
-                          
-                      //  throw new Exception('SET files could not be sent to SQS, Check cronjob2 at line number:702');  
-                    //}
-                    
+                         $filename=$setFile['file'];
+                        $content=$setFile['content'];
+                        $type=$setFile['type'];
+                        $created= date('Y-m-d h:i:s');
+                        $updated= date('Y-m-d h:i:s');
+                        $st='P';
+                        $salesOrdersQuery = "INSERT INTO salesorder_message_queue1(filename, filecontent, created, updated, status, type) values('$filename', '$content', '$created', '$updated', '$st', '$type')";
+                        $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
+                        if(!$salesOrders) {
+                            syslog(LOG_INFO, "phpcronjob2'Error Query to save set files in messege queue table".$salesOrdersQuery);
+                            throw new Exception(
+                                "Error Query to save set files in database".$salesOrdersQuery
+                            );
+                        }
+                        syslog(LOG_INFO, "phpcronjob2 SET files generated and save in message_queue_detail successfully");
+
+             //           $this->storeFileInSThree(
+               //                 Config::$amazonSThree['setBucket'], Config::$amazonSThree['setFolder'], $setFile['file'], $setFile['content']
+                 //       );
+
+                   //     Config::writelog('phpcronjob2', "SET files generated and placed in S3 bucket successfully");
+
+                    } else {
+
+                        throw new Exception('No SET file has been created, Check cronjob2 at line number:687');
+                    }
+
+                   // if (isset($setFile) && !empty($setFile)) {
+                    //$this->storeFileInMessageQ(
+                      //      Config::$amazonQ['url'], json_encode($setFile)
+                  //  );
+
+                    //    Config::writelog('phpcronjob2', "SET files generated successfully and placed SQS");
+
+                  //  } else {
+                       //    throw new Exception('SET files could not be sent to SQS, Check cronjob2 at line number:702');
+                  //  }
+
                     $msg[$salesOrder->salesorder_no]['status'] = true;
                     $fileName = $setFile['file'];
 
@@ -1307,7 +1327,7 @@ class PhpBatchTwo {
              */
             $this->_integrationConnect->rollback();
         }
-
+      
         /*
          * Process XML files
          */
@@ -1340,28 +1360,34 @@ class PhpBatchTwo {
                     $msg[$account->accountname]['status'] = false;
 
                     //$mosFile = $this->createMOSFile($account, $msg);
-                 $xmlFile = $this->createXMLFile($account, $msg);
-                foreach( $xmlFile as $key=>$xmlvalue){
-                    $this->storeFileInSThree(
-                    Config::$amazonSThree['xmlBucket'], Config::$amazonSThree['xmlFolder'], $xmlvalue['file'], $xmlvalue['content']);
-                    //$this->storeFileInMessageQ(
-                   // Config::$amazonQ['url'], json_encode($xmlvalue));
-            $filename=$xmlvalue['file'];
-            $created= date('Y-m-d h:i:s');
-            $updated= date('Y-m-d h:i:s');
-            $st='P';
-             $salesOrdersQuery = "INSERT INTO salesorder_message_queue(filename, created, updated, status) values('$filename','$created', '$updated', '$st')";
-             $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
-            if(!$salesOrders) {
-            Config::writelog('phpcronjob3',"Error Query to save messages in database".$salesOrdersQuery);
-             throw new Exception(
-                            "Error Query to save messages in database".$salesOrdersQuery
-            );}
-                    $msg[$account->accountname]['status'] = true;
-                    $fileName = $xmlvalue['file'];
-                    
+                      $xmlFile = $this->createXMLFile($account, $msg);
+foreach( $xmlFile as $key=>$xmlvalue){
+//$this->storeFileInSThree(
+//Config::$amazonSThree['xmlBucket'], Config::$amazonSThree['xmlFolder'], $xmlvalue['file'], $xmlvalue['content']);
+  //                  $this->storeFileInMessageQ(
+    //                        Config::$amazonQ['url'], json_encode($xmlvalue)
+  //              );
+
+$filename=$xmlvalue['file'];
+                            $content=$xmlvalue['content'];
+                            $type=$xmlvalue['type'];
+                            $created= date('Y-m-d h:i:s');
+                            $updated= date('Y-m-d h:i:s');
+                            $st='P';
+                            $salesOrdersQuery = "INSERT INTO salesorder_message_queue1(filename, filecontent, created, updated, status, type) values('$filename', '$content', '$created', '$updated', '$st', '$type')";
+                            $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
+                            if(!$salesOrders) {
+                                log0(LOG_INFO, 'phpcronjob2', "Error Query to save set files in messege queue table".$salesOrdersQuery);
+                                throw new Exception(
+                                            "Error Query to save messages in database".$salesOrdersQuery
+                                        );
+
+                            }
+
 }
 
+                    $msg[$account->accountname]['status'] = true;
+          //          $fileName = $xmlFile['file'];
 
                     $this->updateIntegrationSalesOrderByAccountName(
                             $account->accountname, 'mos_status', 'Delivered'
@@ -1377,18 +1403,18 @@ class PhpBatchTwo {
                      * Rollback the connections
                      */
                     $this->_integrationConnect->rollback();
-                }
+                 }
             }
            }
             $this->_messages['mos']['message'] = "$numberAccounts number " .
                     "of accounts processed for XML files.";
-             $successMessage = "Total set file processed:".$numberSalesOrders 
-             .PHP_EOL ."Total XML file processed:".$numberAccounts;       
+             $successMessage = "Total set file processed:".$numberSalesOrders
+             .PHP_EOL ."Total XML file processed:".$numberAccounts;
             //$this->sendEmailAlertSuccess($successMessage);
         } catch (Exception $e) {
             $this->_messages['message'] = $e->getMessage();
             $this->_errors[] = $e->getMessage();
-            
+
             /*
              * Rollback the connections
              */

@@ -183,7 +183,7 @@ class PhpBatchThree
      */    
     protected function saveToFtp($ftpConnId, $serverpath, $fileJson)
     {
-        $ftpPath = $serverpath . $fileJson->file;
+        $ftpPath = $serverpath . $fileJson->filename;
 
         /*
          * If file exists at FTP, raise the Exception.
@@ -191,11 +191,11 @@ class PhpBatchThree
         if (ftp_size($ftpConnId, $ftpPath) != -1) {
             syslog(
                 LOG_WARNING,
-                "$fileJson->file file already exists at FTP server."
+                "$fileJson->filename file already exists at FTP server."
             );
-             Config::writelog('phpcronjob3', "$fileJson->file file already exists at FTP server.");
+             Config::writelog('phpcronjob3', "$fileJson->filename file already exists at FTP server.");
             throw new Exception(
-                "$fileJson->file file already exists at FTP server."
+                "$fileJson->filename file already exists at FTP server."
             );
         }
 
@@ -204,7 +204,7 @@ class PhpBatchThree
          */
         $fp = fopen('php://temp', 'r+') or die("can't open file");
        
-        $fwstatus = fwrite($fp, $fileJson->content);
+        $fwstatus = fwrite($fp, $fileJson->filecontent);
         if(!$fwstatus) {
         syslog(
                 LOG_WARNING, "Error to write file."
@@ -237,11 +237,11 @@ class PhpBatchThree
          */
         if (!$uploaded) {
             syslog(
-                LOG_WARNING, "Error copying file $fileJson->file on FTP server."
+                LOG_WARNING, "Error copying file $fileJson->filename on FTP server."
             );
-             Config::writelog('phpcronjob3', "Error copying file $fileJson->file on FTP server.");
+             Config::writelog('phpcronjob3', "Error copying file $fileJson->filename on FTP server.");
             throw new Exception(
-                "Error copying file $fileJson->file on FTP server."
+                "Error copying file $fileJson->filename on FTP server."
             );
         }
 
@@ -271,12 +271,12 @@ class PhpBatchThree
     *Updating successful transfer order in db
     */
      protected function updateToDbTable($fileJson) {
-        $filename= $fileJson->file;
+       $filename= $fileJson->filename;
         $created= date('Y-m-d h:i:s');
         $updated= date('Y-m-d h:i:s');
         $st='P';
         // Update salesorder_message_queue table
-         $salesOrdersQuery = "UPDATE salesorder_message_queue set status='D', updated='$updated'   WHERE fileName='$filename'";
+         $salesOrdersQuery = "UPDATE salesorder_message_queue1 set status='D', updated='$updated'   WHERE fileName='$filename'";
          $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
         if(!$salesOrders) {
         Config::writelog('phpcronjob3', "Error Query to update messages in database".$salesOrdersQuery);
@@ -285,13 +285,14 @@ class PhpBatchThree
                     );
 
        }
+
      }
      /*
      * Fetch successfully delivered sales order from integration db.
      */
      function getDeliveredSalesOrder() {
-          $dt= date('Y-m-d');
-          $salesOrdersQueryD = "SELECT id  FROM salesorder_message_queue ".
+         $dt= date('Y-m-d');
+          $salesOrdersQueryD = "SELECT id  FROM salesorder_message_queue1 ".
           "WHERE updated like'%$dt%' AND status='D'";
           $salesOrdersD = $this->_integrationConnect->query($salesOrdersQueryD);
           if(!$salesOrdersD) {
@@ -309,6 +310,7 @@ class PhpBatchThree
             throw new Exception("In getDeliveredSalesOrder() : No delivered Sales Order Found!");
           }
           return $salesOrdersD->num_rows;
+
      }
      
      /*
@@ -355,21 +357,21 @@ class PhpBatchThree
      */
 
   function sendEmailAlertSuccess($successMessage) {
-       $sesResponseAlert = $this->_ses->send_email(
+        $sesResponseAlert = $this->_ses->send_email(
         "noreply@gizur.com",
         array(
            "ToAddresses" => Config::$toEmailErrorReports
         ),
         array(
-            'Subject.Data'=>"Sales order processed from SQS Cronjon-3",
+            'Subject.Data'=>"Sales order processed ",
             'Body.Text.Data'=>"Hi,". PHP_EOL .
-            "Total no of sales order successfully processed from SQS". PHP_EOL . PHP_EOL .
+            "Total no of sales order successfully processed from database". PHP_EOL . PHP_EOL .
             " ".$successMessage .PHP_EOL .
                                 PHP_EOL .
                                 '--' .
                                 PHP_EOL .
-                                'Gizur Admin'               
-        )       
+                                'Gizur Admin'
+        )
     );
         if ($sesResponseAlert->isOK()) {
             $this->_messages['alertEmailSales'] =  "Mail sent successfully ";
@@ -381,36 +383,53 @@ class PhpBatchThree
                    Config::writelog('phpcronjob3', "Some error to sent mail");
 
         }
+
     }
+    
+    function findfilesMessegequeue($status) {
+
+        syslog(
+                LOG_INFO,"phpcronjob3 Get files by status($status) : Fetching files"
+        );
+        /*
+         * Fetch files from messege queue1 whose status are P.
+         */
+
+           $messgequery= "SELECT * " .
+                "FROM salesorder_message_queue1 " .
+                "WHERE status = 'P'";
+
+         syslog(
+                LOG_INFO,"phpcronjob3 Fetching Files ($status):  $messgequery"
+        );
+
+          $files = $this->_integrationConnect->query($messgequery);
+
+        syslog(
+                LOG_INFO,"phpcronjob3 Total number of Files ($status): " .
+                $files->num_rows
+        );
+
+        return $files;
+
+}
+
 
     public function init()
     {
-        $this->_messageCount = $this->_sqs->get_queue_size(
-            Config::$amazonQ['url']
-        );
-        $this->_noOfFiles = $this->_messageCount;
-
-
+              $filearray=$this->findfilesMessegequeue('P');
         /*
          * If number of files are 0, throw the exception
          */
-        if ($this->_messageCount <= 0) {
-            syslog(
-                LOG_INFO, "message queue is empty."
-            );
-             Config::writelog('phpcronjob3', "message queue is empty.");
-            throw new Exception("message queue is empty.");
+        if (count($filearray) <= 0) {
+            syslog(LOG_INFO, "phpcronjob3 message queue is empty.");
         }
+
         /*
          * Iterate till $_messageCount becomes 0.
          */
-        syslog(
-            LOG_INFO, 
-            "Number of messages found in message queue : $this->_messageCount."
-        );
-         Config::writelog('phpcronjob3', "Number of messages found in message queue : $this->_messageCount.");
-            
-        while ($this->_messageCount > 0) {
+        syslog(LOG_INFO, "phpcronjob3 Number of messages found in message queue :". count($filearray));
+                while ($files = $filearray->fetch_object()) {
             /*
              * Inner try catch to catch the message specific exceptions.
              */
@@ -418,173 +437,67 @@ class PhpBatchThree
                 /*
                  * Get the single message from the message queue.
                  */
-                syslog(
-                    LOG_INFO,
-                    "Get the single message from the message queue"
-                );
-                
-                 Config::writelog('phpcronjob3', "Get the single message from the message queue");
-                $responseQ = $this->_sqs->receive_message(
-                    Config::$amazonQ['url']
-                );
-                
-                /*
-                 * If response is 200, Throw exception.
-                 */
-                if ($responseQ->status !== 200) {
-                    syslog(
-                        LOG_INFO, 
-                        "Message not received from the message queue server"
-                    );
-                     Config::writelog('phpcronjob3',"Message not received from the message queue server");
-                    throw new Exception(
-                        "Message not received from the message queue server."
-                    );
-                }
-
-                syslog(
-                    LOG_INFO, 
-                    "Message received from the message queue server"
-                );
-                 Config::writelog('phpcronjob3', "Message received from the message queue server");
+               syslog(LOG_INFO, "phpcronjob3 Get the single message from the message queue");
+                $responseQ = $files;
                 /*
                  * Get the message body.
                  */
-                $msgObj = $responseQ->body->ReceiveMessageResult->Message;
-                /*
-                 * If message body is empty, raise the exception.
-                 */
-                if (empty($msgObj)) {
-                    syslog(
-                        LOG_INFO, "Received an empty message from message queue."
-                    );
-                     Config::writelog('phpcronjob3', "Received an empty message from message queue.");
-                    throw new Exception(
-                        "Received an empty message from message queue."
-                    );
-                }
-                $msgBody = (array)$msgObj->Body;
-                $msgBody = $msgBody[0];
-                
-                syslog(
-                    LOG_INFO, "Message Received: " . $msgBody
-                );
-                 Config::writelog('phpcronjob3', "Message Received: " . $msgBody);
-
-                /*
-                 * File name and content were json encoded so decode it.
-                 */
-                
-                $fileJson = json_decode($msgBody);
-                if(!is_object($fileJson))
-                    $fileJson = json_decode($fileJson);
-                //print_r($fileJson); die;
-                /*
-                 * Get the message receipt
-                 */
-                $receiptQ = (array)$msgObj->ReceiptHandle;
-                $receiptQ = (string)$receiptQ[0];
-                
-                /*
-                 * If file content are empty raise the exception.
-                 */
-                if (empty($fileJson->content)) {
-                    syslog(
-                        LOG_WARNING,
-                        "$fileJson->file content is empty in message queue."
-                    );
-                     Config::writelog('phpcronjob3', "$fileJson->file content is empty in message queue.");
-                    throw new Exception(
-                        "$fileJson->file content is empty in message queue."
-                    );
-                }
-            // Save Sqs message in database
-                     $this->saveToDbTable($fileJson);
-            // End save messages database
-                if ($fileJson->type == 'SET' || !isset($fileJson->type)) {
+                $config = new Config();
+                if ($files->type == 'SET' || !isset($files->type)) {
                  $st =   $this->saveToFtp(
                         $this->_setFtpConn,
-                        Config::$setFtp['serverpath'],
-                        $fileJson
+                         Config::$setFtp['serverpath'],
+                        $files
                     );
                     if($st) {
-                          $this->updateToDbTable($fileJson);
+                          $this->updateToDbTable($files);
                      }
-
-                } else if ($fileJson->type == 'XML') {
+                       } else if ($files->type == 'XML') {
                     $st = $this->saveToFtp(
                         $this->_mosFtpConn,
-                        Config::$mosFtp['serverpath'],
-                        $fileJson
+                         Config::$mosFtp['serverpath'],
+                        $files
                     );
                     if($st) {
-                          $this->updateToDbTable($fileJson);
+                          $this->updateToDbTable($files);
                      }
                 }
-                /*
-                 * Delete message from message queue.
-                 */
-                syslog(
-                    LOG_INFO, 
-                    "Deleting message from message queue : $fileJson->file."
-                );
-                 Config::writelog('phpcronjob3', "Deleting message from message queue : $fileJson->file.");
-                $deletedmessage=$this->_sqs->delete_message(
-                    Config::$amazonQ['url'], $receiptQ
-                );
-                $deletedmessages=json_encode($deletedmessage);
-                syslog(
-                    LOG_INFO, 
-                    "Deleted message Response : $deletedmessages"
-                );
-                Config::writelog('phpcronjob3', "Deleted message Response : $deletedmessages");
-                if ($deletedmessage->status !== 200) {
-                    syslog(
-                        LOG_INFO, 
-                        "Message has not deleted successfully."
-                    );
-                     Config::writelog('phpcronjob3',"Message has not deleted successfully.");
-                    throw new Exception(
-                        "Message has not deleted successfully."
-                    );
-                }
-                $this->_messages['files'][$fileJson->file]['status'] = true;
+
+                $this->_messages['files'][$files->filename]['status'] = true;
+
             } catch (Exception $e) {
-                $this->_messages['files'][$fileJson->file]['status'] = false;
-                $this->_messages['files'][$fileJson->file]['error'] = 
+                $this->_messages['files'][$files->filename]['status'] = false;
+                $this->_messages['files'][$files->filename]['error'] =
                     $e->getMessage();
-                     $this->_errors[] = $e->getMessage();
+                    $this->_errors[] = $e->getMessage();
             }
+
             /*
              * Decrease $_messageCount by 1
              */
             $this->_messageCount--;
         }
-        if($this->getDeliveredSalesOrder() != $this->_noOfFiles) {
-          syslog(
-                    LOG_INFO, 
-                    "Error successfully delivered sales: ".$this->getDeliveredSalesOrder(). 
-                    " and total fetched messages from sqs: $this->_noOfFiles are different!  "
-                );
-                 Config::writelog('phpcronjob3', "Error successfully delivered sales: 
-                 ".$this->getDeliveredSalesOrder()." and total fetched messages from sqs:
-                 "." $this->_noOfFiles  are different!  ");
-                 $this->_errors[] = "Error successfully delivered sales: ".$this->getDeliveredSalesOrder(). 
-                    " and total fetched messages from sqs: $this->_noOfFiles  are different!  ";
-        }
-        $this->_messages['message'] = "$this->_noOfFiles no " .
+        $count=0;
+ if ($filearray->num_rows > 0){
+$count=$this->getDeliveredSalesOrder(); }
+//echo"No of files that are processed are".$count;die;
+
+
+        $this->_messages['message'] = $count." no " .
             "of files processed.";
-            $this->sendEmailAlertSuccess("$this->_noOfFiles" .
-            " Files");
-        syslog(
-            LOG_INFO, json_encode($this->_messages)
-        );
-         Config::writelog('phpcronjob3', json_encode($this->_messages));
+
+       $this->sendEmailAlertSuccess($count . " Files");
+
+        //syslog(LOG_INFO, phpcronjob3 json_encode($this->_messages));
         echo json_encode($this->_messages);
+
         if(count($this->_errors)>0) {
-         //$this->sendEmailAlert($this->_errors);
+            $this->sendEmailAlert($this->_errors);
         }
     }
+
+
+
 }
 
 try{
