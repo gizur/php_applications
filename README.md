@@ -69,13 +69,16 @@ print this error message over and over:
 Setup a cronjob that removes the error log and then reboots like this:
 
     # Run job every five minutes - only for testing
-    echo '*/5 * * * *  /bin/bash -c "rm /var/log/httpd/error_log"' > ~/mycron
-    echo '*/5 * * * *  /bin/bash -c "reboot"' >> ~/mycron
+    echo '*/2 * * * *  /bin/bash -c "rm /var/log/httpd/error_log"' > ~/mycron
+    echo '*/2 * * * *  /bin/bash -c "/sbin/reboot"' >> ~/mycron
     sudo crontab ~/mycron
     sudo crontab -l
 
     # Run job 00:00 every day and then reboot
-    echo '0 0 * * * *  /bin/bash -c "rm /var/log/httpd/error_log"' > /mycron
-    echo '1 0 * * * *  /bin/bash -c "reboot"' > ~/mycron
-    sudo crontab /mycron
+    echo '0 0 * * *  /bin/bash -c "rm /var/log/httpd/error_log"' > ~/mycron
+    echo '1 0 * * *  /bin/bash -c "/sbin/reboot"' >> ~/mycron
+    sudo crontab ~/mycron
     sudo crontab -l
+
+
+See `cron` output in `/var/spool/mail/root`
