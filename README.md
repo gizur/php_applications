@@ -61,6 +61,7 @@ Troubleshooting
 
 
 Q: The Elastic Beanstalk application server runs out of disk space and has to be restarted.
+
 A: The file `/var/log/httpd/error_log` grows quickly. The reason is that vtiger
 print this error message ov er and over:
 `[Mon Mar 23 10:20:31 2015] [error] [client 127.0.0.1] PHP Notice:  Undefined index: module in /var/app/current/lib/vtiger-5.4.0/include/utils/utils.php on line 1018`
