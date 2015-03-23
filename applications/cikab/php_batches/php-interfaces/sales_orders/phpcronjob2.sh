@@ -916,10 +916,13 @@ class PhpBatchTwo {
                       $basid=$sOWProduct->bas_product_id;
                         $bas=explode( '-', $basid );
                         $str=$bas[2];
+if(strlen($str)!=4){
+$rest = substr($str, 2);
+} else{
 
-                        $rest = substr($str, 2);
-
-                        $basproductid =$bas[0].'-'.$bas[1].'-'.$rest;
+$rest=$str;
+}
+$basproductidd =$bas[0].'-'.$bas[1].'-'.$rest;
 
                 
         $orderLineItem  = $dom->createElement("orderLineItem");
@@ -943,7 +946,7 @@ class PhpBatchTwo {
         $materialSpecification  = $dom->createElement("materialSpecification");
         $orderLineItem->appendChild($materialSpecification);
 
-        $materialSpecificationText = $dom->createTextNode($sOWProduct->bas_product_id);
+        $materialSpecificationText = $dom->createTextNode($basproductidd);
         $materialSpecification->appendChild($materialSpecificationText);
 
         $requestedQuantity  = $dom->createElement("requestedQuantity");

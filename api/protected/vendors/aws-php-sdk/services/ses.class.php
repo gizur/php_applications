@@ -40,7 +40,8 @@ class AmazonSES extends CFRuntime
 	/**
 	 * Specify the queue URL for the United States East (Northern Virginia) Region.
 	 */
-	const REGION_US_E1 = 'email.us-east-1.amazonaws.com';
+	//const REGION_US_E1 = 'email.us-east-1.amazonaws.com';
+        const REGION_US_E1 = 'email.eu-west-1.amazonaws.com';
 
 	/**
 	 * Specify the queue URL for the United States East (Northern Virginia) Region.

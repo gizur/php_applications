@@ -63,6 +63,8 @@
 		</td>
 
 		<td valign="top" align="center" width="50%">
+                <p><a target="_blank" href="https://gizur.com/applications/cikab/seasonportal/login.php">Click here to login into Seasonportal</a></p>
+
 			<div class="loginForm">
 				<div class="poweredBy">Powered by vtiger CRM - {$VTIGER_VERSION}</div>
 				<form action="index.php" method="post" name="DetailView" id="form">

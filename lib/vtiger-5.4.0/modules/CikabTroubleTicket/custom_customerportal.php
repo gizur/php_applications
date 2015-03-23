@@ -37,6 +37,7 @@ $server->register(
     $NAMESPACE);
 
 /*  For Create Function by Anil Singh */
+/*
 
 function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
 {
@@ -152,7 +153,123 @@ function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
     $log->debug("Exiting customerportal function get_list_preorder");
     $log->debug("OBJECT : " . json_encode($fields_listquotes));
     return $fields_listquotes;
+}*/
+function get_list_preorder($id, $module, $sessionid, $only_mine = 'false')
+{
+
+    global $adb, $log, $current_user;
+    ini_set('display_errors', 'On');
+    $log->debug("Entering customer portal function get_list_preorder");
+    $log->debug("get_list_preorder($id, $module, $sessionid, $only_mine)");
+    $log->debug("require_once start : get_list_preorder");
+
+    if(!@require_once("modules/$module/$module.php"))
+        $log->debug("Failed to include modules/$module/$module.php");
+
+    require_once('include/utils/UserInfoUtil.php');
+    $log->debug("require_once end : get_list_preorder");
+
+    $check = checkModuleActive($module);
+    if ($check == false) {
+        return array("#MODULE INACTIVE#");
+    }
+    $user = new Users();
+    $userid = getPortalUserid();
+    $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
+    $log->debug("END retrieveCurrentUserInfoFromFile");
+    $focus = new $module();
+    $focus->filterInactiveFields($module);
+    foreach ($focus->list_fields as $fieldlabel => $values) {
+        foreach ($values as $table => $fieldname) {
+            $fields_list[$fieldlabel] = $fieldname;
+        }
+    }
+    $log->debug("END foreach");
+    if (!validateSession($id, $sessionid))
+        return null;
+
+    $entity_ids_list = array();
+    $entity_accno_list = array();
+    $show_all = show_all($module);
+    if ($only_mine == 'true' || $show_all == 'false') {
+        $contactquery = "SELECT accountid FROM vtiger_contactdetails 
+            WHERE contactid = ? AND accountid != 0";
+ $contactres = $adb->pquery($contactquery, array($id));
+        $no_of_cont = $adb->num_rows($contactres);
+
+        $acc_id = $adb->query_result($contactres, 0, 'accountid');
+        array_push($entity_ids_list, $acc_id);
+    } else {
+        $contactquery = "SELECT contactid, accountid acctid,
+            (select account_no from vtiger_account v1 
+            where v1.accountid = acctid) as accountno,
+                     (select accountname from vtiger_account v1 
+             where v1.accountid = acctid) as accountname
+                      FROM vtiger_contactdetails " .
+            " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = 
+                vtiger_contactdetails.contactid" .
+            " AND vtiger_crmentity.deleted = 0 " .
+            " WHERE (accountid = (SELECT accountid FROM 
+                vtiger_contactdetails WHERE contactid = ?)  
+                            AND accountid != 0) OR contactid = ?";
+
+        $contactres = $adb->pquery($contactquery, array($id, $id));
+        $no_of_cont = $adb->num_rows($contactres);
+        for ($i = 0; $i < $no_of_cont; $i++) {
+            $cont_id = $adb->query_result($contactres, $i, 'contactid');
+            $acc_id = $adb->query_result($contactres, $i, 'acctid');
+            $acc_no = $adb->query_result($contactres, $i, 'accountno');
+            $accname = $adb->query_result($contactres, $i, 'accountname');
+            if (!in_array($cont_id, $entity_ids_list))
+                $entity_ids_list[] = $cont_id;
+            if (!in_array($acc_id, $entity_ids_list) && $acc_id != '0')
+                $entity_ids_list[] = $acc_id;
+        }
+        $log->debug("ACCOUNTID : " . json_encode($entity_ids_list));
+    }
+    $queryquotesfortroublet = "SELECT DISTINCT i.productid,i.id , i.quantity,
+        p.product_no productno ,p.productname,p.productsheet,
+        sum(i.quantity) as totalquotes
+        FROM vtiger_inventoryproductrel i
+        INNER JOIN vtiger_products p on p.productid=i.productid
+        INNER JOIN vtiger_crmentity CE2 on CE2.crmid=i.id
+ WHERE CE2.deleted = 0 AND i.id IN (SELECT q.quoteid FROM 
+        vtiger_quotes q WHERE (q.quotestage NOT 
+        IN('Rejected','Delivered','Closed') 
+        AND p.discontinued=1 AND  q.accountid IN  
+        ( " . generateQuestionMarks($entity_ids_list) . " ) ))
+            GROUP BY i.productid";
+
+    //$paramsquotes = array($entity_ids_list,$entity_ids_list);
+    $resquotes = $adb->pquery($queryquotesfortroublet, array($entity_ids_list));
+    $rowsquotes = $adb->num_rows($resquotes);
+
+    for ($i = 0; $i < $rowsquotes; $i++) {
+        $productid=$adb->query_result($resquotes, $i, 'productid');
+
+        $querysalesorder="SELECT SUM(i2.quantity) as totalsales FROM vtiger_inventoryproductrel i2
+        left JOIN vtiger_products p1 on p1.productid=i2.productid
+        left JOIN vtiger_crmentity CE on CE.crmid=i2.id
+        WHERE CE.deleted =0 AND i2.id IN(SELECT salesorderid FROM vtiger_salesorder WHERE sostatus NOT IN ('Cancelled','Closed') AND accountid IN ( " . generateQuestionMarks($entity_ids_list) . " ) and p1.productid=?)";
+      $ressalesorder=$adb->pquery($querysalesorder,array($entity_ids_list,$productid));
+     $total= $adb->query_result($ressalesorder,0,"totalsales");
+
+        $fields_listquotes[$i]['quoteid'] = $adb->query_result($resquotes, $i, 'id');
+        $fields_listquotes[$i]['productid'] = $adb->query_result($resquotes, $i, 'productid');
+        $fields_listquotes[$i]['totalquotes'] = $adb->query_result($resquotes, $i, 'totalquotes');
+        $fields_listquotes[$i]['totalsales'] = $total;
+        $fields_listquotes[$i]['productno'] = $adb->query_result($resquotes, $i, 'productno');
+        $fields_listquotes[$i]['productname'] = $adb->query_result($resquotes, $i, 'productname');
+        $fields_listquotes[$i]['productsheet'] = $adb->query_result($resquotes, $i, 'productsheet');
+        $fields_listquotes[$i]['accountno'] = $acc_no;
+        $fields_listquotes[$i]['accountname'] = $accname;
+    }
+    $log->debug("Exiting customerportal function get_list_preorder");
+    $log->debug("OBJECT : " . json_encode($fields_listquotes));
+    return $fields_listquotes;
 }
+
+
 
 /* Check Centeruser by anil Singh */
 

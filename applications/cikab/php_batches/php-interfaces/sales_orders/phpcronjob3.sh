@@ -276,7 +276,7 @@ class PhpBatchThree
         $updated= date('Y-m-d h:i:s');
         $st='P';
         // Update salesorder_message_queue table
-         $salesOrdersQuery = "UPDATE salesorder_message_queue1 set status='D', updated='$updated'   WHERE fileName='$filename'";
+         $salesOrdersQuery = "UPDATE salesorder_message_queue1 set status='D', updated='$updated'   WHERE fileName='$filename' AND status='P'";
          $salesOrders = $this->_integrationConnect->query($salesOrdersQuery);
         if(!$salesOrders) {
         Config::writelog('phpcronjob3', "Error Query to update messages in database".$salesOrdersQuery);
