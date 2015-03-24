@@ -171,7 +171,7 @@ class Troubleticket extends CFormModel {
         }
     }
 
-    function findAll($module, $tickettype, $year = '0000', $month = '00',
+  /*  function findAll($module, $tickettype, $year = '0000', $month = '00',
 $trailer = '0', $reportdamage = 'all', $minLimit, $maxLimit,
 $ticketstatus) {
 
@@ -224,7 +224,110 @@ ticket.ticketid desc LIMIT $minLimit , $maxLimit;";
         return $response;
     }
 
+*/
 
+function findAll($module, $tickettype, $year = '0000', $month = '00',
+$trailer = '0', $reportdamage = 'all', $minLimit, $maxLimit,
+$ticketstatus) {
+
+if($ticketstatus =='all'){
+ $SQL = "SELECT ticket.ticketid
+id,ticket.ticket_no,ticketcf.cf_640 trailerid,ticketcf.cf_661
+damagereportlocation,ticketcf.cf_665 damagestatus,
+ticketcf.cf_654 reportdamage,ticketcf.cf_659 damagetype,ticketcf.cf_658
+damageposition,ticketcf.cf_657 drivercauseddamage,concat(con.firstname,'
+',con.lastname) contactname
+,account.accountname,entity.createdtime,entity.modifiedtime
+FROM vtiger_troubletickets AS ticket
+LEFT JOIN vtiger_ticketcf AS ticketcf ON ( ticket.ticketid =
+ticketcf.ticketid )
+LEFT JOIN vtiger_contactdetails AS con ON ( ticket.parent_id = contactid )
+LEFT JOIN vtiger_account AS account ON ( con.accountid = account.accountid )
+LEFT JOIN vtiger_crmentity as entity on (entity.crmid=ticket.ticketid) ";
+
+
+        $whereClause = Array();
+       // $whereClause[] = "ticket.status = '$ticketstatus' ";
+        if ($year != '0000') {
+            if ($month == '00') {
+                $startmonth = '01';
+                $endmonth = '12';
+            } else {
+                $startmonth = $month;
+                $endmonth = $month;
+            }
+            $whereClause[] = "entity.createdtime >= '" .
+                    $year . "-" . $startmonth . "-01'";
+            $whereClause[] = "entity.createdtime <= '" .
+                    $year . "-" . $endmonth . "-31'";
+        }
+ if (isset($trailer)) {
+            if ($trailer != '0')
+                $whereClause[] = "ticketcf.cf_640='" . $trailer . "'";
+        }
+ $query = $SQL . " where " .
+                implode(" and ", $whereClause) . " order by
+ticket.ticketid desc LIMIT $minLimit , $maxLimit;";
+
+        //echo $query;die;
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($query);
+        $dataReader = $command->query(); // execute a query SQL
+        $response['success'] = 1;
+        $response['result'] = $dataReader->readAll();
+
+        return $response;
+
+}else{
+        $SQL = "SELECT ticket.ticketid
+id,ticket.ticket_no,ticketcf.cf_640 trailerid,ticketcf.cf_661
+damagereportlocation,ticketcf.cf_665 damagestatus,
+ticketcf.cf_654 reportdamage,ticketcf.cf_659 damagetype,ticketcf.cf_658
+damageposition,ticketcf.cf_657 drivercauseddamage,concat(con.firstname,'
+',con.lastname) contactname
+,account.accountname,entity.createdtime,entity.modifiedtime
+FROM vtiger_troubletickets AS ticket
+LEFT JOIN vtiger_ticketcf AS ticketcf ON ( ticket.ticketid =
+ticketcf.ticketid )
+LEFT JOIN vtiger_contactdetails AS con ON ( ticket.parent_id = contactid )
+LEFT JOIN vtiger_account AS account ON ( con.accountid = account.accountid )
+LEFT JOIN vtiger_crmentity as entity on (entity.crmid=ticket.ticketid) ";
+
+
+        $whereClause = Array();
+        $whereClause[] = "ticket.status = '$ticketstatus' ";
+        if ($year != '0000') {
+            if ($month == '00') {
+ $startmonth = '01';
+                $endmonth = '12';
+            } else {
+                $startmonth = $month;
+                $endmonth = $month;
+            }
+            $whereClause[] = "entity.createdtime >= '" .
+                    $year . "-" . $startmonth . "-01'";
+            $whereClause[] = "entity.createdtime <= '" .
+                    $year . "-" . $endmonth . "-31'";
+        }
+
+        if (isset($trailer)) {
+            if ($trailer != '0')
+                $whereClause[] = "ticketcf.cf_640='" . $trailer . "'";
+        }
+
+        $query = $SQL . " where " .
+                implode(" and ", $whereClause) . " order by
+ticket.ticketid desc LIMIT $minLimit , $maxLimit;";
+
+        //echo $query;die;
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($query);
+        $dataReader = $command->query(); // execute a query SQL
+        $response['success'] = 1;
+        $response['result'] = $dataReader->readAll();
+
+        return $response;
+    }}
 
 
     /*
