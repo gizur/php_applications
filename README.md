@@ -1,4 +1,5 @@
-# Introduction
+Introduction
+-----------
 
 This repo contains the bulk of of the Gizur Saas setup. Some parts of managed
 through the nodejs_applications repo.
@@ -17,7 +18,8 @@ NOTE: The old README file has been placed here:
 https://github.com/gizur/gizurcloud/wiki/Development_Guide%23old_php_applications_readme
 
 
-## Setup development environment
+Setup development environment
+------------------------------
 
 Pre-requisites:
 
@@ -25,7 +27,7 @@ Pre-requisites:
  * Vagrant (found at vagrantup.com)
 
 Install and start a development envinment running `vagrant up vb`. Stop the virtual machine with `vagrant halt vb`.
-The machine has docker.io and hipache installed. A sciprt is used for simplfying the management of docker and hipache, 
+The machine has docker.io and hipache installed. A sciprt is used for simplfying the management of docker and hipache,
 see https://github.com/colmsjo/jacc.
 
 
@@ -42,7 +44,7 @@ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.
 # Set this variable to use AWS, it should bot be set to use a local Virtualbox instead
 export VAGRANT_AWS='Yes'
 
-# These environment variables need to be set, put in bashrc/bach_profile env 
+# These environment variables need to be set, put in bashrc/bach_profile env
 # NOTE: Only the region us-east-1 seams to work at the moment.
 export AWS_API_KEY=...
 export AWS_API_SECRET=...
@@ -53,3 +55,34 @@ export AWS_REGION=...
 vagrant up aws
 ```
 
+
+Troubleshooting
+---------------
+
+
+Q: The Elastic Beanstalk application server runs out of disk space and has to be restarted.
+
+A: The file `/var/log/httpd/error_log` grows quickly. The reason is that vtiger
+print this error message over and over:
+`[Mon Mar 23 10:20:31 2015] [error] [client 127.0.0.1] PHP Notice:  Undefined index: module in /var/app/current/lib/vtiger-5.4.0/include/utils/utils.php on line 1018`
+
+One solution is to reduce the level of logging in apache. Change `LogLevel warn`
+and `LogLevel info` entries to `LogLevel emerg` in `/etc/httpd/conf/httpd.conf`
+
+Another is to setup a cronjob that removes the error log and then reboots like
+this:
+
+    # Run job every five minutes - only for testing
+    echo '*/2 * * * *  /bin/bash -c "rm /var/log/httpd/error_log"' > ~/mycron
+    echo '*/2 * * * *  /bin/bash -c "/sbin/reboot"' >> ~/mycron
+    sudo crontab ~/mycron
+    sudo crontab -l
+
+    # Run job 00:00 every day and then reboot
+    echo '0 0 * * *  /bin/bash -c "rm /var/log/httpd/error_log"' > ~/mycron
+    echo '1 0 * * *  /bin/bash -c "/sbin/reboot"' >> ~/mycron
+    sudo crontab ~/mycron
+    sudo crontab -l
+
+
+See `cron` output in `/var/spool/mail/root`
