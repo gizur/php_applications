@@ -10,7 +10,7 @@
  * @category   Controller
  * @package    GizurCloud
  * @subpackage Controller
- * @author     Anshuk Kumar <anshuk.kumar@essindia.co.in>
+ * @author     Anshuk Kumar <anshuinoperationk.kumar@essindia.co.in>
  * 
  * @license    Gizur Private Licence
  * @link       http://api.gizur.com/api/index.php
@@ -2424,10 +2424,10 @@ $dataReader1 = $command1->query();
                             if (isset($_GET['category'])) {
                                 if ($_GET['category'] == 'inoperation') {
                                     $query = "select * from " . $_GET['model'] .
-                                            " where assetstatus = 'In Service';";
+                                            " where assetstatus = 'In Service' order by assetname;";
                                 } else {
                                     $query = "select * from " . $_GET['model'] .
-                                            " where assetstatus = 'Out-of-service';";
+                                            " where assetstatus = 'Out-of-service' order by assetname;";
                                 }
                             } else {
                                 $query = "select * from " . $_GET['model'] . ";";

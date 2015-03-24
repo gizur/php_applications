@@ -83,10 +83,10 @@ foreach ($rm as $key => $val) {
                             ?>
                             <td><strong>Trailer</strong></td>
                             <td><select name='TID' id="trailer" class="search" onchange="getAjaxBaseRecord(this.value)"><?php echo $TID; ?></select></td>
-                            <td>
-                                <input type="radio" name="optration" <?php echo $inopt; ?> value="inoperation" id="inperation" onclick="getAjaxBaseAssetRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>
+                            <!--<td>
+                                 <input type="radio" name="optration" <?php echo $inopt; ?> value="inoperation" id="inperation" onclick="getAjaxBaseAssetRecord(this.value)" value="inperation" style="margin-right:10px"><?php echo getTranslatedString('In operation'); ?>
                                 <input type="radio" name="optration" <?php echo $damagechecked; ?> value="damaged" id="damaged" onclick="getAjaxBaseAssetRecord(this.value)" value="damaged" style="margin-right:10px; margin-left:30px"><?php echo getTranslatedString('Damaged'); ?>
-                            </td>
+                            </td> -->
                         </tr>
 
                     </table>
@@ -104,6 +104,7 @@ foreach ($rm as $key => $val) {
                             <td><b>Ticket Status</b></td>
                             <td><input type="radio" value="open" id="ticketst" name = "ticketst" checked= 'checked' >Open</td>
                             <td><input type="radio" value="closed" id="ticketst" name="ticketst" >Close</td>
+                            <td><input type="radio" value="all" id="ticketst" name="ticketst" >Open/Close</td>
                             <td> <button type="button" class="search" onClick='getAjaxBaseRecord(this.value)'>Search</button> </td>             
                             </tr>
 
