@@ -66,12 +66,11 @@ A: The file `/var/log/httpd/error_log` grows quickly. The reason is that vtiger
 print this error message over and over:
 `[Mon Mar 23 10:20:31 2015] [error] [client 127.0.0.1] PHP Notice:  Undefined index: module in /var/app/current/lib/vtiger-5.4.0/include/utils/utils.php on line 1018`
 
-One solution is to reduce the level of logging in apache.
+One solution is to reduce the level of logging in apache. Change `LogLevel warn`
+and `LogLevel info` entries to `LogLevel emerg` in `/etc/httpd/conf/httpd.conf`
 
-Change `LogLevel warn` and `LogLevel info` entries to `LogLevel emerg` in
-`/etc/httpd/conf/httpd.conf`
-
-Setup a cronjob that removes the error log and then reboots like this:
+Another is to setup a cronjob that removes the error log and then reboots like
+this:
 
     # Run job every five minutes - only for testing
     echo '*/2 * * * *  /bin/bash -c "rm /var/log/httpd/error_log"' > ~/mycron
