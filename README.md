@@ -112,8 +112,7 @@ sleep 5
 tar -xvzf /webmin-1.740.tar.gz
 echo -e "\n\n\n10000\nadmin\nadmin\nadmin\ny\n" | ./webmin-1.740/setup.sh
 ```
-
-1. Make sure that the port `10000` is open in the
+Make sure that the port `10000` is open in the
 firewall. Login at port `10000` and select `Others->System and Server Status` and add
 monitor of type `disk space`. Set `percentage of total` to `20% `etc. The script
 `/server-monitor.sh` will send a mail with extended information.
