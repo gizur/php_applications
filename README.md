@@ -90,31 +90,28 @@ See `cron` output in `/var/spool/mail/root`
 
 Q: Is it possible to install enhanced monitoring?
 
-A: Use webmin. Install by logging in to the EBT server and:
+A: Use webmin. Install by logging in to the EBT server and. Put this in
+`setup.sh` and run the script:
 
-1. Create `install.sh`:
+```
+#!/bin/bash
 
-    #!/bin/bash
-    echo -e "\n\n\n10000\nadmin\nadmin\nadmin\ny\n" | ./webmin-1.740/setup.sh
+cat <<EOF > /server-monitor.sh
+#!/bin/bash
+who -a > /tmp/monitor.txt
+df >> /tmp/monitor.txt
+cat /tmp/monitor.txt|mutt -s "Monitor alert!" admin@example.com
+EOF
 
-1. Then do:
+chmod +x /server-monitor.sh
 
-    sudo yum install -y mutt
-    sudo yum install -y perl-Authen-PAM
-    wget -O webmin-1.740.tar.gz http://downloads.sourceforge.net/project/webadmin/webmin/1.740/webmin-1.740.tar.gz?r=http%3A%2F%2Fwww.webmin.com%2Fdownload.html&ts=1427200686&use_mirror=heanet
-    tar -xvzf webmin-1.740.tar.gz
-    chmod +x install.sh
-    sudo ./install.sh
-
-
-1. Create `/server-monitor.sh`:
-
-    #!/bin/bash
-    who -a > /tmp/monitor.txt
-    df >> /tmp/monitor.txt
-    cat /tmp/monitor.txt|mutt -s "Monitor alert!" admin@example.com
-
-    sudo chmod +x /server-monitor.sh
+yum install -y mutt
+yum install -y perl-Authen-PAM
+wget -O /webmin-1.740.tar.gz "http://downloads.sourceforge.net/project/webadmin/webmin/1.740/webmin-1.740.tar.gz?r=http%3A%2F%2Fwww.webmin.com%2Fdownload.html&ts=1427200686&use_mirror=heanet"
+sleep 5
+tar -xvzf /webmin-1.740.tar.gz
+echo -e "\n\n\n10000\nadmin\nadmin\nadmin\ny\n" | ./webmin-1.740/setup.sh
+```
 
 1. Make sure that the port `10000` is open in the
 firewall. Login at port `10000` and select `Others->System and Server Status` and add
