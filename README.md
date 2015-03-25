@@ -90,7 +90,7 @@ See `cron` output in `/var/spool/mail/root`
 
 Q: Is it possible to install enhanced monitoring?
 
-A: Use webmin. Install by logging in to the EBT server and. Put this in
+A: Use webmin. Install by logging in to the EBT server and put this in
 `setup.sh` and run the script:
 
 ```
