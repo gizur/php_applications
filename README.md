@@ -86,3 +86,36 @@ this:
 
 
 See `cron` output in `/var/spool/mail/root`
+
+
+Q: Is it possible to install enhanced monitoring?
+
+A: Use webmin. Install by logging in to the EBT server and put this in
+`setup.sh` and run the script:
+
+```
+#!/bin/bash
+
+cat <<EOF > /server-monitor.sh
+#!/bin/bash
+who -a > /tmp/monitor.txt
+df >> /tmp/monitor.txt
+cat /tmp/monitor.txt|mutt -s "Monitor alert!" admin@example.com
+EOF
+
+chmod +x /server-monitor.sh
+
+yum install -y mutt
+yum install -y perl-Authen-PAM
+wget -O /webmin-1.740.tar.gz "http://downloads.sourceforge.net/project/webadmin/webmin/1.740/webmin-1.740.tar.gz?r=http%3A%2F%2Fwww.webmin.com%2Fdownload.html&ts=1427200686&use_mirror=heanet"
+sleep 5
+tar -xvzf /webmin-1.740.tar.gz
+echo -e "\n\n\n10000\nadmin\nadmin\nadmin\ny\n" | ./webmin-1.740/setup.sh
+```
+Make sure that the port `10000` is open in the
+firewall. Login at port `10000` and select `Others->System and Server Status` and add
+monitor of type `disk space`. Set `percentage of total` to `20% `etc. The script
+`/server-monitor.sh` will send a mail with extended information.
+Update the script with the mail-address you want to use. Select
+`Scheduled Monitoring` and setup a monitoring schedule. Also set
+`send mail any time service is down` to make sure mails are sent.
