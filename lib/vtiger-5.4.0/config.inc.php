@@ -29,7 +29,7 @@ $CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: http://vtiger.com/portal)
-$PORTAL_URL = 'http://gizurnew-env.elasticbeanstalk.com/cikab/seasonportal';
+$PORTAL_URL = 'https://c2.gizur.com/cikab/seasonportal';
 
 // helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
 $HELPDESK_SUPPORT_EMAIL_ID = 'admin@gizur.com';
@@ -50,7 +50,7 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
  */
 if (isset($_GET['clientid'])) {
     $gizur_client_id = $_GET['clientid'];
-    $memcache_url = 'ec2-79-125-48-43.eu-west-1.compute.amazonaws.com';
+    $memcache_url = 'gc2-memcache.oztphl.cfg.euw1.cache.amazonaws.com';
     $memcache = new Memcache;
     if ($memcache->connect($memcache_url, 11211)) {
         $dbconfig_cache = $memcache->get($gizur_client_id . "_connection_details");
@@ -129,7 +129,7 @@ $host_name = $dbconfig['db_hostname'];
 $site_URL = '/lib/vtiger-5.4.0';
 
 // root directory path
-$root_directory = '/var/app/current/lib/vtiger-5.4.0/';
+$root_directory = '/var/www/html/lib/vtiger-5.4.0/';
 
 // cache direcory path
 $cache_dir = 'cache/';
@@ -154,7 +154,7 @@ $upload_maxsize = 3000000;
 // allow_exports default value = all
 $allow_exports = 'all';
 
-i// files with one of these extensions will have '.txt' appended to their filename on upload
+// files with one of these extensions will have '.txt' appended to their filename on upload
 // upload_badext default value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm
 $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
 
@@ -247,9 +247,4 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 /** minimum cron frequency -- In minutes */
 $MINIMUM_CRON_FREQUENCY = 15;
 
-/** 
- * Custom flag configuration 
- */
-
-$_is_active_dynamodb = true;
 ?>

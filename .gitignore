@@ -20,3 +20,8 @@
 /applications/cikab/tests/node_modules
 /applications/cikab/tests/docs
 /applications/cikab/tests/npm-debug.log
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

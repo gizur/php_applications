@@ -18,13 +18,14 @@
  * PHP version 5
  *
  */
-/* * *************** INTEGRATION DATABASE ******************** */
+/* * ***************** INTEGRATION DATABASE ******************* */
 
 /**
  * DNS of database server to use 
  * @global string $dbconfigIntegration['db_server']
  */
-$dbconfigIntegration['db_server'] = 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
+$dbconfigIntegration['db_server'] = 'gc2-mysql1.cxzjzseongqk.eu-west-1.' . 
+    'rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -57,14 +58,15 @@ $dbconfigIntegration['db_name'] = 'vtiger_integration';
 $dbconfigIntegration['db_type'] = 'mysql';
 
 
-/* * **************** VTIGER DATABASE *************** */
+/* * ******************* VTIGER DATABASE ******************* */
 
 
 /**
  * DNS of database server to use 
  * @global string $dbconfigVtiger['db_server']
  */
-$dbconfigVtiger['db_server'] = 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com';
+$dbconfigVtiger['db_server'] = 'gc2-mysql1.cxzjzseongqk.eu-west-1.' . 
+    'rds.amazonaws.com';
 
 /**
  * The port of the database server
@@ -76,19 +78,19 @@ $dbconfigVtiger['db_port'] = 3306;
  * The usename to use when logging into the database
  * @global string $dbconfigVtiger['db_username']  
  */
-$dbconfigVtiger['db_username'] = 'user_6bd70dc3';
+$dbconfigVtiger['db_username'] = 'user_7aeb7290';
 
 /**
  * The password to use when logging into the database
  * @global string $dbconfigVtiger['db_password']
  */
-$dbconfigVtiger['db_password'] = 'fbd70dc30c05';
+$dbconfigVtiger['db_password'] = 'faeb72908d05';
 
 /**
  * The name of the database
  * @global string $dbconfigVtiger['db_name']
  */
-$dbconfigVtiger['db_name'] = 'vtiger_7cd70dc3';
+$dbconfigVtiger['db_name'] = 'vtiger_6beb7290';
 
 /**
  * The type of database (currently is only mysql supported)
@@ -98,7 +100,7 @@ $dbconfigVtiger['db_type'] = 'mysql';
 
 
 
-/* * ************* BATCH CONFIGURATION ************* */
+/* * ****************** BATCH CONFIGURATION **************** */
 
 /**
  *  Set Batch Variable
@@ -107,12 +109,13 @@ $dbconfigVtiger['db_type'] = 'mysql';
  */
 $dbconfigBatchVariable['batch_variable'] = 10;
 
-/* * *************** FTP CONFIGURATION ************* */
+/* * ****************** FTP CONFIGURATION ****************** */
+
 
 /**
  *  @FTP Host Name 
  */
-$dbconfigFtp['Host'] = "ftp.essindia.net";
+$dbconfigFtp['Host'] = "10.58.226.192";
 
 /**
  *  @FTP Host Port 
@@ -122,13 +125,13 @@ $dbconfigFtp['port'] = 21;
 /**
  *  @FTP User Name 
  */
-$dbconfigFtp['User'] = "hypermart@essindia.net";
+$dbconfigFtp['User'] = "gizur";
 
 
 /**
  *  @FTP Password
  */
-$dbconfigFtp['Password'] = "zmLA_Q#A9EK2";
+$dbconfigFtp['Password'] = "gizur";
 
 /**
  *  @FTP Local files path
@@ -138,26 +141,26 @@ $dbconfigFtp['localpath'] = "cronsetfiles/";
 /**
  *  @FTP Server files path
  */
-$dbconfigFtp['serverpath'] = "/in/";
+$dbconfigFtp['serverpath'] = "files/";
+
 
 /** * ******************* Amazon SQS Configuration ********************** * */
 /**
  * Queue URL
  */
-$amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' .
-    '065717488322/cikab_queue';
+$amazonqueueConfig['_url'] = 'https://sqs.eu-west-1.amazonaws.com/' . 
+    '996313430626/cikab_queue';
 
 /*
  * Amazon S3 Bucket
  */
-$amazonSThree['bucket'] = "gc3-archive";
-$amazonSThree['fileFolder'] = "seasonportal/SET-files/";
+$amazonSThree['bucket'] = "gc2-archive";
 
 class Config
 {
 
     public static $dbIntegration = array(
-        'db_server' => 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com',
+        'db_server' => 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com',
         'db_port' => 3306,
         'db_username' => 'vtiger_integrati',
         'db_password' => 'ALaXEryCwSFyW5jQ',
@@ -165,47 +168,46 @@ class Config
         'db_type' => 'mysql'
     );
     public static $dbVtiger = array(
-        'db_server' => 'aa19ftfteyoq068.c8cwsoads6ye.us-east-1.rds.amazonaws.com',
+        'db_server' => 'gc2-mysql1.cxzjzseongqk.eu-west-1.rds.amazonaws.com',
         'db_port' => 3306,
-        'db_username' => 'user_6bd70dc3',
-        'db_password' => 'fbd70dc30c05',
-        'db_name' => 'vtiger_7cd70dc3',
+        'db_username' => 'user_7aeb7290',
+        'db_password' => 'faeb72908d05',
+        'db_name' => 'vtiger_6beb7290',
         'db_type' => 'mysql'
     );
-    public static $batchVariable = 99;
-   public static $setFtp = array(
-        'host' => "ftp.essindia.net",
+    public static $batchVariable = 10;
+    public static $setFtp = array(
+        'host' => "10.58.226.192",
         'port' => 21,
-        'username' => "hypermart@essindia.net",
-        'password' => "zmLA_Q#A9EK2",
-        'serverpath' => "/in/"
+        'username' => "gizur",
+        'password' => "gizur",
+        'serverpath' => "files/"
     );
     public static $mosFtp = array(
-        'host' => "ftp.essindia.net",
+        'host' => "10.58.226.192",
         'port' => 21,
-        'username' => "hypermart@essindia.net",
-        'password' => "zmLA_Q#A9EK2",
-        'serverpath' => "/in/"
+        'username' => "gizur",
+        'password' => "gizur",
+        'serverpath' => "files/"
     );
     public static $amazonQ = array(
-        'url' => 'https://sqs.eu-west-1.amazonaws.com/065717488322/cikab_queue'
+        'url' => 'https://sqs.eu-west-1.amazonaws.com/996313430626/cikab_queue'
     );
     public static $amazonSThree = array(
-        'setBucket' => "gc3-archive",
+        'setBucket' => "gc2-archive",
         'setFolder' => "seasonportal/SET-files/",
-        'mosBucket' => "gc3-archive",
+        'mosBucket' => "gc2-archive",
         'mosFolder' => "seasonportal/SET-files/"
     );
     public static $customFields = array(
-        'setFiles' => 'cf_650',
-        'mosFiles' => 'cf_651',
-        'basProductId' => 'cf_652'
+        'setFiles' => 'cf_664',
+        'mosFiles' => 'cf_665',
+        'basProductId' => 'cf_666'
     );
     public static $lineBreak = "\r\n";
     public static $toEmailReports = array(
         "prabhat.khera@essindia.co.in"
     );
-    
     static function writelog($file_name, $message)
     {
         $logfile = __DIR__ . '/log/log_' . date("j.n.Y") . '.txt';
@@ -224,5 +226,4 @@ class Config
 //Save string to log, use FILE_APPEND to append.
         file_put_contents($logfile, $log, FILE_APPEND);
     }
-
 }
