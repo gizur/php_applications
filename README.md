@@ -25,6 +25,7 @@ Pre-requisites:
 
  * Virtualbox
  * Vagrant (found at vagrantup.com)
+ 
 
 Install and start a development envinment running `vagrant up vb`. Stop the virtual machine with `vagrant halt vb`.
 The machine has docker.io and hipache installed. A sciprt is used for simplfying the management of docker and hipache,
@@ -119,3 +120,21 @@ monitor of type `disk space`. Set `percentage of total` to `20% `etc. The script
 Update the script with the mail-address you want to use. Select
 `Scheduled Monitoring` and setup a monitoring schedule. Also set
 `send mail any time service is down` to make sure mails are sent.
+----------------------------------------
+create heading manual deployement step
+
+
+
+Step 1: git clone in instances temp folder using https
+
+Step 2: Copy api, application and lib to /var/www/html
+
+Step 3: Assign write and execute permission to api/protected/runtime,
+api/protected/data,
+applications/clab/trailer-app-portal/protected/runtime and
+applications/clab/trailer-app-portal/protected/data
+
+Step 4: Run deploy-configuration script for gc1-ireland
+
+Step 5: Update MemCache IP in  api/protected/config/main.php and
+lib/vtiger-5.4.0/config.inc.php
