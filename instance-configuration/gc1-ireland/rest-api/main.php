@@ -37,7 +37,7 @@ return array(
             'class' => 'CMemCache',
             'servers' => array(
                 array(
-                    'host' => '10.35.9.188', //'memcached.int.gizur.com',
+                    'host' => '54.247.121.175', //'memcached.int.gizur.com',
                     'port' => 11211,
                     'weight' => 100,
                 ),
