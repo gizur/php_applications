@@ -37,7 +37,7 @@ return array(
             'class' => 'CMemCache',
             'servers' => array(
                 array(
-                    'host' => '54.247.121.175',
+                    'host' => 'gc2-memcache.oztphl.cfg.euw1.cache.amazonaws.com',
                     'port' => 11211,
                     'weight' => 100,
                 ),
