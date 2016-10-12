@@ -1,0 +1,37 @@
+[aws:autoscaling:asg]
+MinSize = 1
+Custom Availability Zones = 
+MaxSize = 4
+
+[aws:elasticbeanstalk:sns:topics]
+Notification Endpoint = 
+Notification Protocol = email
+
+[aws:autoscaling:launchconfiguration]
+EC2KeyName = 
+InstanceType = t1.micro
+
+[aws:elasticbeanstalk:application:environment]
+PARAM3 = 
+PARAM4 = 
+PARAM2 = 
+PARAM1 = 
+PARAM5 = 
+
+[aws:elasticbeanstalk:container:php:phpini]
+allow_url_fopen = true
+memory_limit = 128M
+document_root = /
+display_errors = Off
+zlib.output_compression = false
+max_execution_time = 60
+
+[aws:elasticbeanstalk:application]
+Application Healthcheck URL = /
+
+[aws:elasticbeanstalk:hostmanager]
+LogPublicationControl = false
+
+[aws:elasticbeanstalk:monitoring]
+Automatically Terminate Unhealthy Instances = true
+

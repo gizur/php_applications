@@ -1,0 +1,82 @@
+# Disable directory structure view.
+#
+Options -Indexes
+
+# Define error pages, application automatically redirects to the
+# error pages in case of 404 / 500 error.
+#
+ErrorDocument 404 https://gizur.com/lib/error-documents/404.html
+ErrorDocument 500 https://gizur.com/lib/error-documents/500.html
+
+# Enable rewrite engine
+# Prerequisite: mode rewrite should be enabled of the Apache HTTP Server.
+#
+RewriteEngine On
+
+# If forwarded protocol is not https redirect request to 
+# https protocol. Negate it for healthcheck url.
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP_HOST} !^localhost
+RewriteCond %{HTTP_HOST} !^127.0.0.1
+RewriteCond %{REQUEST_URI} !^/healthcheck.php
+RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+
+# If query string is empty, load the GizurSaaS.
+#
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^$ applications/gizursaas/index.html [L]
+
+# Common Conditions for below rules
+# =================================
+#
+# RewriteCond %{REQUEST_FILENAME} !-f : Request should not for an existing file.
+# RewriteCond %{REQUEST_FILENAME} !-d : Request should not for an existing folder.
+# RewriteCond %{REQUEST_URI} !^/api/index.php/.*:  : Request should not for the API.
+#
+
+# If request come for the api/(.*), map it internally to the exact
+# API location.
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^api/(.*)$ api/index.php/api/$1 [L]
+
+# If request if for the older cikab bikeportal,
+# redirect request to the newer virtual location.
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^applications/cikab/bikeportal(.*)$ /cikab/seasonportal$1 [R,L]
+
+# If request if for the older cikab season portal,
+# map it to the exact seasonportal location.
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteRule ^cikab/seasonportal(.*) applications/cikab/seasonportal$1 [QSA,L]
+
+# This rule is handling request for vtiger against client id.
+# This request will nagate all request to the trailer app for 
+# demo and clab.
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
+RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
+RewriteRule ^([^\/]*)/index.php /lib/vtwrapper-index.php?clientid=$1 [QSA,L]
+
+# This rule is handling request for vtiger against client id.
+# This request will nagate all request to the trailer app for 
+# demo and clab.
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/index.php/.*
+RewriteCond %{REQUEST_URI} !^/applications/demo/trailer-app-portal/.*
+RewriteCond %{REQUEST_URI} !^/applications/clab/trailer-app-portal/.*
+RewriteCond %{QUERY_STRING} !^(clientid=.*)
+RewriteRule ^([^\/]*)/([^?]*) /lib/vtiger-5.4.0/$2?clientid=$1 [QSA]
