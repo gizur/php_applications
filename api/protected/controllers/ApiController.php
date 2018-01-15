@@ -2184,9 +2184,9 @@ $endmonth = $_GET['month'];
                         if (isset($_GET['minLimit']) && isset($_GET['maxLimit'])) {
                             $minLimit = $_GET['minLimit'];
                             $maxLimit = $_GET['maxLimit'];
-                            $query = $query . " LIMIT $minLimit, $maxLimit ;";
+                            $query = $query . " ORDER BY id DESC LIMIT $minLimit, $maxLimit ;";
                         } else {
-                            $query = $query . ";";
+                            $query = $query . " ORDER BY id DESC;";
                         }
  $connection = Yii::app()->db;
 $command = $connection->createCommand($query);
