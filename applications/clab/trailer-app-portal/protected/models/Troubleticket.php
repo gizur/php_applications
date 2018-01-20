@@ -59,16 +59,16 @@ class Troubleticket extends CFormModel {
     }
 
     public function index($params) {
-        
+
     }
 
     public function view($params) {
-        
+
     }
 
     function getpickList($fieldname) {
         $model = 'HelpDesk';
-        //echo " Getting Picklist" . PHP_EOL;        
+        //echo " Getting Picklist" . PHP_EOL;
 
         $params = array(
             'Verb' => 'GET',
@@ -109,7 +109,7 @@ class Troubleticket extends CFormModel {
         }
         return $picklistarr;
         //unset($rest);
-        //} 
+        //}
     }
 
     function Save($data) {
@@ -408,7 +408,7 @@ LEFT JOIN vtiger_crmentity as entity on (entity.crmid=ticket.ticketid) ";
         $dataReader = $command->query(); // execute a query SQL
         $response['success'] = 1;
         $result = $dataReader->read();
-         $sqldoc = "select concat('17x',note.notesid) as id from
+         $sqldoc = "select concat('17x',note.notesid) as id, filename from
 vtiger_notes as note where note.notesid in (select notesid from
 vtiger_senotesrel where crmid=$ID)";
         $command1 = $connection->createCommand($sqldoc);
@@ -441,7 +441,7 @@ vtiger_senotesrel where crmid=$ID)";
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        //foreach($this->credentials as $username => $password){            
+        //foreach($this->credentials as $username => $password){
         $rest = new RESTClient();
         $rest->format('json');
         $rest->set_header('X_USERNAME', Yii::app()->session['username']);
@@ -456,7 +456,7 @@ vtiger_senotesrel where crmid=$ID)";
 
     /*
      *  Change Ticket Status click on mark damage required button
-     * 
+     *
      */
 
     function Markdamagerequired($model, $ticketID) {
@@ -480,7 +480,7 @@ vtiger_senotesrel where crmid=$ID)";
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        //foreach($this->credentials as $username => $password){            
+        //foreach($this->credentials as $username => $password){
         $rest = new RESTClient();
         $rest->format('json');
         $rest->set_header('X_USERNAME', Yii::app()->session['username']);
@@ -492,12 +492,12 @@ vtiger_senotesrel where crmid=$ID)";
         $response = $rest->put(Yii::app()->params->URL . $model . "/" . $ticketID);
         return $result = json_decode($response, true);
     }
-    
+
     /*
      *  Change Ticket Status click on mark damage required button
-     * 
+     *
      */
-    
+
     function updateDamageStatusAndNotes($ticketID, $data) {
         $params = array(
             'Verb' => 'PUT',
@@ -520,7 +520,7 @@ vtiger_senotesrel where crmid=$ID)";
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        //foreach($this->credentials as $username => $password){            
+        //foreach($this->credentials as $username => $password){
         $rest = new RESTClient();
         $rest->format('json');
         $rest->set_header('X_USERNAME', Yii::app()->session['username']);
@@ -534,8 +534,8 @@ vtiger_senotesrel where crmid=$ID)";
     }
 
     /*
-     * Change Asset Status  
-     * 
+     * Change Asset Status
+     *
      */
 
     function ChangeAssetStatus($oprations, $cassets) {
@@ -565,7 +565,7 @@ vtiger_senotesrel where crmid=$ID)";
         // Generate signature
         $signature = base64_encode(hash_hmac('SHA256', $string_to_sign, Yii::app()->params->GIZURCLOUD_SECRET_KEY, 1));
         //login using each credentials
-        //foreach($this->credentials as $username => $password){            
+        //foreach($this->credentials as $username => $password){
         $rest = new RESTClient();
         $rest->format('json');
         $rest->set_header('X_USERNAME', Yii::app()->session['username']);

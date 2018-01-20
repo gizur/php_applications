@@ -1,7 +1,7 @@
-<!-- 
+<!--
 /**
-     * 
-     * 
+     *
+     *
      * Created date : 04/07/2012
      * Created By : Anil Singh
      * @author Anil Singh <anil-singh@essindia.co.in>
@@ -30,7 +30,7 @@ $this->breadcrumbs = array(
 <div style="float:right; margin-bottom:10px" class="button">
     <a href="index.php?r=troubleticket/surveylist/"><?php echo getTranslatedString('Trouble ticket List'); ?></a></div>
 
-<div style="background:#E5E5E5; width:550px"><strong>Ticket Information : <?php echo $result['result']['ticket_title']; ?></strong></div>	
+<div style="background:#E5E5E5; width:550px"><strong>Ticket Information : <?php echo $result['result']['ticket_title']; ?></strong></div>
 
 <div class="Survey">
     <h2><?php echo getTranslatedString('Survey'); ?></h2>
@@ -54,7 +54,7 @@ $this->breadcrumbs = array(
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Place'); ?> </strong></td>
             <td bgcolor="e3f0f7"><?php echo $result['result']['damagereportlocation']; ?></td>
-        </tr> 
+        </tr>
         <tr>
             <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Account'); ?></strong></td>
             <td bgcolor="e3f0f7"><?php echo $result['result']['accountname']; ?></td>
@@ -106,7 +106,7 @@ $this->breadcrumbs = array(
                         if (count($result['result']['documents']) > 0) {
                             foreach ($result['result']['documents'] as $image) {
                                 echo '<td width="50%" bgcolor="e3f0f7" align="center">' .
-                                    '<img src="' . Yii::app()->request->baseUrl . '/index.php?r=troubleticket/images/' . $image['id'] . 
+                                    '<img src="https://s3-eu-west-1.amazonaws.com/gizurcloud-clab/' . $image['filename'] . 
                                     '" width="100px" height="100px" style="cursor: pointer;" onclick="openwindow(this.src);">' .
                                     '</td>';
                                 if ($i % 2 == 0) {
@@ -115,9 +115,9 @@ $this->breadcrumbs = array(
                                 $i++;
                             }
                         }
-                        ?> 
+                        ?>
                     </tr>
-                </table>                
+                </table>
             </td>
         </tr>
     </table>
@@ -144,7 +144,7 @@ $this->breadcrumbs = array(
         </tr>
         <tr>
             <td width="50%" valign="top">
-                <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">                                
+                <table width="100%" border="0" bgcolor="#589fc8" cellspacing="1" cellpadding="5">
                     <tr>
                         <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Damage Status'); ?> </strong></td>
                         <td bgcolor="e3f0f7">
@@ -161,19 +161,19 @@ $this->breadcrumbs = array(
                     <tr>
                         <td bgcolor="e3f0f7"><strong><?php echo getTranslatedString('Anteckningar'); ?> </strong></td>
                         <td bgcolor="e3f0f7"><?php $model->notes = $result['result']['notes']; echo $form->textArea($model, 'notes', array('maxlength' => 300, 'rows' => 5, 'cols' => 80)); ?></td>
-                    </tr> 
+                    </tr>
                 </table>
                 <br>
                 <?php echo CHtml::submitButton(getTranslatedString('Submit'), array('id' => 'updatedamagesubmit', 'name' => 'submit', 'class' => "button")); ?>
             </td>
         </tr>
-    </table> 
+    </table>
     <?php echo CHtml::endForm(); ?>
     <?php $this->endWidget(); ?>
 </div>
 
 <script type="text/javascript">
-    
+
     function openwindow(path){
         var myWindow = window.open(path, "_blank", "toolbar=no, location=yes, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=500");
         myWindow.focus();
@@ -190,7 +190,7 @@ $this->breadcrumbs = array(
                             $('#markdamagebutton').html(data);
                         });
                     }
-                    
+
                     $('#updatedamagesubmit').click(function(e){
                         e.preventDefault();
                         if($('#Troubleticket_damagestatus').val() != '' || $('#Troubleticket_notes').val() != ''){
@@ -211,5 +211,3 @@ $this->breadcrumbs = array(
                     });
 
 </script>
-
-
